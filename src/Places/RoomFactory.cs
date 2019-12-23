@@ -4,7 +4,6 @@ namespace StarshipWanderer.Places
 {
     public class RoomFactory
     {
-
         public IPlace Create(IWorld world)
         { 
             var gunBay = new Room(world)
