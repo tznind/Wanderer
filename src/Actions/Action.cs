@@ -1,17 +1,20 @@
-﻿using StarshipWanderer.Behaviours;
+﻿using StarshipWanderer.Actors;
+using StarshipWanderer.Behaviours;
 
 namespace StarshipWanderer.Actions
 {
     public abstract class Action : IAction
     {
         public IWorld World { get; }
+        public IActor PerformedBy { get; }
         public string Name { get; protected set; }
 
         public CancellationStatus Cancelled { get; set; }  = CancellationStatus.NotCancelled;
 
-        protected Action(IWorld world)
+        protected Action(IWorld world, IActor performedBy)
         {
             World = world;
+            PerformedBy = performedBy;
             Name = GetType().Name.Replace("Action", "");
         }
 

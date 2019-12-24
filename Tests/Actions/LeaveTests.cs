@@ -30,7 +30,7 @@ namespace Tests.Actions
             world.RoomFactory = factory.Object;
             world.CurrentLocation = factory.Object.Create(world);
 
-            var leave = new Leave(world);
+            var leave = new Leave(world,world.Player);
             var uiGoSouth = Mock.Of<IUserinterface>(u => u.GetOption<Direction>(It.IsAny<string>()) == Direction.South);
             var uiGoNorth = Mock.Of<IUserinterface>(u => u.GetOption<Direction>(It.IsAny<string>()) == Direction.North);
 
@@ -58,16 +58,20 @@ namespace Tests.Actions
         [Test]
         public void CannotLeave()
         {
-            var world = new World(new You(),null);
+            var world = new World
+            {
+                Player = new You()
+            };
+
             var room1 = world.CurrentLocation = new Room(world){Title = "Hotel California"};
 
             var guard = new Actor("Guard");
 
-            guard.AddBehaviour(new ForbidBehaviour<Leave>((s)=>true));
+            guard.AddBehaviour(new ForbidBehaviour<Leave>((s)=>true,guard));
 
             world.CurrentLocation = room1;
 
-            var leave = new Leave(world);
+            var leave = new Leave(world,world.Player);
             var ui = Mock.Of<IUserinterface>(u => u.GetOption<Direction>(It.IsAny<string>()) == Direction.South);
 
             var stack = new ActionStack();

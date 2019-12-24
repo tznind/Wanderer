@@ -15,7 +15,8 @@ namespace StarshipWanderer
 
         public Room(IWorld world)
         {
-            _actions.Add(new Leave(world));
+            //the player can leave this room
+            _actions.Add(new Leave(world,world.Player));
         }
 
         public void AddAction(IAction action)
@@ -30,7 +31,7 @@ namespace StarshipWanderer
             return toReturn;
         }
 
-        public void AddActor(Actor actor)
+        public void AddActor(IActor actor)
         {
             Occupants.Add(actor);
         }

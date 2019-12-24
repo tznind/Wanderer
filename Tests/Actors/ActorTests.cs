@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using NUnit.Framework;
 using StarshipWanderer;
+using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Places;
 
@@ -12,7 +13,7 @@ namespace Tests.Actors
         public void TestAddOccupant()
         {
             var you = new You();
-            var world = new World(you, new RoomFactory());
+            var world = new World(you, new RoomFactory(new ActorFactory()));
 
             var room1 = world.CurrentLocation;
 

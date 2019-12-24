@@ -10,8 +10,13 @@ namespace StarshipWanderer
     {
         public void RunStack(IUserinterface ui, IAction firstAction, IEnumerable<IBehaviour> responders)
         {
+            //push the action onto stack
             Push(firstAction);
 
+            //and run push event on the action
+            firstAction.Push(ui,this);
+
+            //check all behaviours to see if they want to respond (by pushing actions etc)
             foreach (IBehaviour responder in responders) 
                 responder.OnPush(ui, this);
 
@@ -33,6 +38,7 @@ namespace StarshipWanderer
                         throw new ArgumentOutOfRangeException();
                 }
 
+            //now run any actions we thought were going to be cancelled but weren't after all
             while(pending.TryDequeue(out IAction current))
                 if(current.Cancelled != CancellationStatus.Cancelled)
                     current.Pop(ui,this);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Behaviours;
 using Terminal.Gui;
@@ -125,8 +126,7 @@ namespace StarshipWanderer.UI
                 btn.Clicked = () =>
                 {
                     var stack = new ActionStack();
-                    action.Push(this,stack);
-                    action.Pop(this,stack);
+                    stack.RunStack(this,action,World.CurrentLocation.Occupants.SelectMany(o=>o.GetFinalBehaviours()));
                 };
 
                 _oldButtons.Add(btn);

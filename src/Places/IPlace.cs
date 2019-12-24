@@ -14,7 +14,7 @@ namespace StarshipWanderer.Places
         /// <param name="action"></param>
         void AddAction(IAction action);
 
-        void AddActor(Actor actor);
+        void AddActor(IActor actor);
 
         HashSet<IActor> Occupants { get; }
         IList<IAction> GetActions();

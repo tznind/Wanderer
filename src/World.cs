@@ -24,7 +24,7 @@ namespace StarshipWanderer
         public World(You player, IRoomFactory roomFactory)
         {
             Player = player;
-            RoomFactory = roomFactory ?? new RoomFactory();
+            RoomFactory = roomFactory;
             CurrentLocation = RoomFactory.Create(this);
             CurrentLocation.Occupants.Add(player);
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using StarshipWanderer.Actions;
+using StarshipWanderer.Actors;
 
 namespace StarshipWanderer.Behaviours
 {
@@ -10,7 +11,7 @@ namespace StarshipWanderer.Behaviours
     {
         public Func<T, bool> Condition { get; }
 
-        public ForbidBehaviour(Func<T,bool> condition)
+        public ForbidBehaviour(Func<T,bool> condition, IActor owner):base(owner)
         {
             Condition = condition;
         }
@@ -19,7 +20,7 @@ namespace StarshipWanderer.Behaviours
         {
             foreach (var matchingAction in stack.Where(a => a is T t && Condition(t)).ToArray())
             {
-                stack.Push(new ForbidAction(matchingAction));
+                stack.Push(new ForbidAction(matchingAction,Owner));
                 
                 //elevate it to cancel pending (allows later actions/behaviours to cancel this action)
                 if(matchingAction.Cancelled == CancellationStatus.NotCancelled)

@@ -1,4 +1,5 @@
-﻿using StarshipWanderer.Behaviours;
+﻿using StarshipWanderer.Actors;
+using StarshipWanderer.Behaviours;
 
 namespace StarshipWanderer.Actions
 {
@@ -6,7 +7,7 @@ namespace StarshipWanderer.Actions
     {
         public Direction Direction;
 
-        public Leave(IWorld world):base(world)
+        public Leave(IWorld world,IActor performedBy):base(world,performedBy)
         {
             
         }
