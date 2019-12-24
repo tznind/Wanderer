@@ -18,7 +18,13 @@ namespace StarshipWanderer.Behaviours
         public override void OnPush(IUserinterface ui, ActionStack stack)
         {
             foreach (var matchingAction in stack.Where(a => a is T t && Condition(t)).ToArray())
+            {
                 stack.Push(new ForbidAction(matchingAction));
+                
+                //elevate it to cancel pending (allows later actions/behaviours to cancel this action)
+                if(matchingAction.Cancelled == CancellationStatus.NotCancelled)
+                    matchingAction.Cancelled = CancellationStatus.CancellationPending;
+            }
         }
     }
 }

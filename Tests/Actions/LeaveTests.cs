@@ -78,6 +78,7 @@ namespace Tests.Actions
                 finalBehaviour.OnPush(ui,stack);
             
             while(stack.TryPop(out IAction action))
+                if(action.Cancelled != CancellationStatus.Cancelled)
                 action.Pop(ui, stack);
 
             Assert.AreSame(room1,world.CurrentLocation,"Expected to be in the same room as started in");

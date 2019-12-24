@@ -19,7 +19,7 @@ namespace StarshipWanderer.Behaviours
 
         public override void Pop(IUserinterface ui, ActionStack stack)
         {
-            stack.Remove(_toForbid);
+            _toForbid.Cancelled = CancellationStatus.Cancelled;
         }
     }
 }

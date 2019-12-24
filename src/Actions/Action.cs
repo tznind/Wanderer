@@ -7,6 +7,8 @@ namespace StarshipWanderer.Actions
         public IWorld World { get; }
         public string Name { get; protected set; }
 
+        public CancellationStatus Cancelled { get; set; }  = CancellationStatus.NotCancelled;
+
         protected Action(IWorld world)
         {
             World = world;
