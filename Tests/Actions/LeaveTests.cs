@@ -72,14 +72,7 @@ namespace Tests.Actions
 
             var stack = new ActionStack();
 
-            leave.Push(ui,stack);
-
-            foreach (var finalBehaviour in guard.GetFinalBehaviours()) 
-                finalBehaviour.OnPush(ui,stack);
-            
-            while(stack.TryPop(out IAction action))
-                if(action.Cancelled != CancellationStatus.Cancelled)
-                action.Pop(ui, stack);
+            stack.RunStack(ui, leave, guard.GetFinalBehaviours());
 
             Assert.AreSame(room1,world.CurrentLocation,"Expected to be in the same room as started in");
 

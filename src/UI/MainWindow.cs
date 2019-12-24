@@ -50,25 +50,12 @@ namespace StarshipWanderer.UI
         {
             Button btn;
             var dlg = new Dialog(actor.Name, DLG_WIDTH, DLG_HEIGHT,btn = new Button("Close",true));
-
-            var type = actor.GetType();
-
+            
             int y = 1;
-
-            foreach (var prop in type.GetProperties())
+            
+            foreach (var stat in actor.BaseStats)
             {
-                object val;
-
-                try
-                {
-                    val = prop.GetValue(actor);
-                }
-                catch (Exception)
-                {
-                    val = "unknown";
-                }
-
-                var lbl = new Label(prop.Name + ":" + val);
+                var lbl = new Label(stat.Key + ":" + stat.Value);
                 lbl.Y = y++;
                 dlg.Add(lbl);
             }
