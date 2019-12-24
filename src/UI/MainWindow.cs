@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using StarshipWanderer.Actors;
+using StarshipWanderer.Behaviours;
 using Terminal.Gui;
 
 namespace StarshipWanderer.UI
@@ -103,6 +104,11 @@ namespace StarshipWanderer.UI
             UpdateActions();
         }
 
+        public void ShowMessage(string title, string body)
+        {
+            MessageBox.Query(DLG_WIDTH,DLG_HEIGHT,title,body,"Ok");
+        }
+
         List<Button> _oldButtons = new List<Button>();
         List<Point> _buttonLocations = new List<Point>()
         {
@@ -123,12 +129,19 @@ namespace StarshipWanderer.UI
 
             int buttonLoc = 0;
 
+
             foreach (var action in World.CurrentLocation.GetActions())
             {
                 var btn = new Button(_buttonLocations[buttonLoc].X, _buttonLocations[buttonLoc].Y, action.Name, false);
                 btn.Width = 10;
                 btn.Height = 1;
-                btn.Clicked = ()=>action.Perform(this);
+                btn.Clicked = () =>
+                {
+                    var stack = new ActionStack();
+                    action.Push(this,stack);
+                    action.Pop(this,stack);
+                };
+
                 _oldButtons.Add(btn);
                 this.Add(btn);
                 buttonLoc++;

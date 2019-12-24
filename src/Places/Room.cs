@@ -7,7 +7,7 @@ namespace StarshipWanderer
 {
     public class Room : IPlace
     {
-        public List<IActor> Occupants { get; } =  new List<IActor>();
+        public HashSet<IActor> Occupants { get; } =  new HashSet<IActor>();
         public string Title { get; set; }
 
         private readonly IList<IAction> _actions = new List<IAction>();
@@ -30,5 +30,9 @@ namespace StarshipWanderer
             return toReturn;
         }
 
+        public void AddActor(Actor actor)
+        {
+            Occupants.Add(actor);
+        }
     }
 }

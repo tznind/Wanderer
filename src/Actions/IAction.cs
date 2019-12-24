@@ -1,9 +1,13 @@
-﻿namespace StarshipWanderer.Actions
+﻿using StarshipWanderer.Behaviours;
+
+namespace StarshipWanderer.Actions
 {
     public interface IAction
     {
         string Name { get; }
 
-        void Perform(IUserinterface ui);
+        void Push(IUserinterface ui, ActionStack stack);
+
+        void Pop(IUserinterface ui,ActionStack stack);
     }
 }

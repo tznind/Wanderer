@@ -8,9 +8,15 @@ namespace StarshipWanderer.Places
     {
         string Title { get; }
 
+        /// <summary>
+        /// Adds a new action which can be performed in the room
+        /// </summary>
+        /// <param name="action"></param>
         void AddAction(IAction action);
 
-        List<IActor> Occupants { get; }
+        void AddActor(Actor actor);
+
+        HashSet<IActor> Occupants { get; }
         IList<IAction> GetActions();
 
         Dictionary<Direction,IPlace> Adjoining { get; }

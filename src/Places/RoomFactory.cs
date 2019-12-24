@@ -2,7 +2,7 @@
 
 namespace StarshipWanderer.Places
 {
-    public class RoomFactory
+    public class RoomFactory:IRoomFactory
     {
         public IPlace Create(IWorld world)
         { 

@@ -10,6 +10,6 @@ namespace StarshipWanderer
         You Player { get; }
         IPlace CurrentLocation { get; set; }
 
-        RoomFactory RoomFactory { get; } 
+        IRoomFactory RoomFactory { get; } 
     }
 }

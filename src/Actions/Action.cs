@@ -1,4 +1,6 @@
-﻿namespace StarshipWanderer.Actions
+﻿using StarshipWanderer.Behaviours;
+
+namespace StarshipWanderer.Actions
 {
     public abstract class Action : IAction
     {
@@ -10,6 +12,20 @@
             World = world;
             Name = GetType().Name.Replace("Action", "");
         }
-        public abstract void Perform(IUserinterface ui);
+
+        /// <summary>
+        /// Override to setup your action to run (push it onto the <paramref name="stack"/>)
+        /// </summary>
+        /// <param name="ui"></param>
+        /// <param name="stack"></param>
+        public abstract void Push(IUserinterface ui,ActionStack stack);
+
+        
+        /// <summary>
+        /// Override to your action once it is confirmed
+        /// </summary>
+        /// <param name="ui"></param>
+        /// <param name="stack"></param>
+        public abstract void Pop(IUserinterface ui,ActionStack stack);
     }
 }

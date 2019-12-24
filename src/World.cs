@@ -10,17 +10,23 @@ namespace StarshipWanderer
     {
         public IPlace CurrentLocation { get; set; }
 
-        public RoomFactory RoomFactory { get; } = new RoomFactory();
+        public IRoomFactory RoomFactory { get; set; }
 
         public Random R { get; } = new Random(100);
 
-        public You Player { get;}
+        public You Player { get; set; }
 
-        public World(You player)
+        public World()
         {
-            Player = player;
-            CurrentLocation = RoomFactory.Create(this);
+            
         }
 
+        public World(You player, IRoomFactory roomFactory)
+        {
+            Player = player;
+            RoomFactory = roomFactory ?? new RoomFactory();
+            CurrentLocation = RoomFactory.Create(this);
+            CurrentLocation.Occupants.Add(player);
+        }
     }
 }

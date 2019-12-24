@@ -1,27 +1,39 @@
-﻿namespace StarshipWanderer.Actions
+﻿using StarshipWanderer.Behaviours;
+
+namespace StarshipWanderer.Actions
 {
     public class Leave : Action
     {
+        public Direction Direction;
+
         public Leave(IWorld world):base(world)
         {
             
         }
-
-        public override void Perform(IUserinterface ui)
+        
+        public override void Push(IUserinterface ui, ActionStack stack)
         {
-            var dir = ui.GetOption<Direction>("Leave Direction");
+            Direction = ui.GetOption<Direction>("Leave Direction");
             
-            if(dir == Direction.None)
+            if(Direction == Direction.None)
                 return;
             
+            stack.Push(this);
+        }
+
+        public override void Pop(IUserinterface ui, ActionStack stack)
+        {
+            if(Direction == Direction.None)
+                return;
+
             var oldRoom = World.CurrentLocation;
 
-            if (oldRoom.Adjoining.ContainsKey(dir))
-                World.CurrentLocation = oldRoom.Adjoining[dir];
+            if (oldRoom.Adjoining.ContainsKey(Direction))
+                World.CurrentLocation = oldRoom.Adjoining[Direction];
             else
             {
                 var newRoom = World.RoomFactory.Create(World);
-                newRoom.Adjoining.Add(dir.Opposite(),oldRoom);
+                newRoom.Adjoining.Add(Direction.Opposite(),oldRoom);
                 World.CurrentLocation = newRoom;
             }
             

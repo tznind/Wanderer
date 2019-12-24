@@ -1,4 +1,5 @@
 ﻿using System;
+using StarshipWanderer.Behaviours;
 
 namespace StarshipWanderer.Actions
 {
@@ -8,7 +9,13 @@ namespace StarshipWanderer.Actions
         {
             
         }
-        public override void Perform(IUserinterface ui)
+
+        public override void Push(IUserinterface ui, ActionStack stack)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Pop(IUserinterface ui, ActionStack stack)
         {
             throw new NotImplementedException();
         }

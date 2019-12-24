@@ -9,5 +9,6 @@ namespace StarshipWanderer
 
         T GetOption<T>(string title) where T : Enum;
         void Refresh();
+        void ShowMessage(string title, string body);
     }
 }
