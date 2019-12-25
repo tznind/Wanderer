@@ -1,33 +1,26 @@
 ﻿using System.Collections.Generic;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
-using StarshipWanderer.Places;
 
-namespace StarshipWanderer
+namespace StarshipWanderer.Places
 {
     public class Room : IPlace
     {
-        public HashSet<IActor> Occupants { get; } =  new HashSet<IActor>();
+        public HashSet<IActor> Occupants { get; set; } =  new HashSet<IActor>();
         public string Title { get; set; }
 
-        private readonly IList<IAction> _actions = new List<IAction>();
-        public Dictionary<Direction, IPlace> Adjoining { get; } = new Dictionary<Direction, IPlace>(); 
-
-        public Room(IWorld world)
-        {
-            //the player can leave this room
-            _actions.Add(new Leave(world,world.Player));
-        }
+        public IList<IAction> BaseActions { get; set; } = new List<IAction>();
+        public Dictionary<Direction, IPlace> Adjoining { get; set; } = new Dictionary<Direction, IPlace>();
 
         public void AddAction(IAction action)
         {
-            _actions.Add(action);
+            BaseActions.Add(action);
         }
 
         public IList<IAction> GetActions()
         {
             var toReturn = new List<IAction>();
-            toReturn.AddRange(_actions);
+            toReturn.AddRange(BaseActions);
             return toReturn;
         }
 

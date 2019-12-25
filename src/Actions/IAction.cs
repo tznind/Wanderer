@@ -5,8 +5,8 @@ namespace StarshipWanderer.Actions
 {
     public interface IAction
     {
-        string Name { get; }
-        IActor PerformedBy { get; }
+        string Name { get; set; }
+        IActor PerformedBy { get; set; }
 
         CancellationStatus Cancelled { get; set; }
         

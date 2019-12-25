@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Text;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Behaviours;
+using StarshipWanderer.Conditions;
 
 namespace Tests.Actions
 {
@@ -21,9 +22,9 @@ namespace Tests.Actions
             var world = new World();
 
             factory.SetupSequence(f => f.Create(It.IsAny<IWorld>()))
-                .Returns(new Room(world))
-                .Returns(new Room(world))
-                .Returns(new Room(world))
+                .Returns(new Room())
+                .Returns(new Room())
+                .Returns(new Room())
                 .Throws<Exception>();
             
             world.Player = new You();
@@ -63,11 +64,11 @@ namespace Tests.Actions
                 Player = new You()
             };
 
-            var room1 = world.CurrentLocation = new Room(world){Title = "Hotel California"};
+            var room1 = world.CurrentLocation = new Room {Title = "Hotel California"};
 
             var guard = new Actor("Guard");
 
-            guard.AddBehaviour(new ForbidBehaviour<Leave>((s)=>true,guard));
+            guard.AddBehaviour(new ForbidBehaviour<Leave>(new AlwaysCondition<IAction>(),guard));
 
             world.CurrentLocation = room1;
 
@@ -82,6 +83,4 @@ namespace Tests.Actions
 
         }
     }
-
-    
 }

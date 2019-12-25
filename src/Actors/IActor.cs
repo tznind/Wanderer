@@ -8,11 +8,10 @@ namespace StarshipWanderer.Actors
     public interface IActor
     {
         string Name { get; set; }
-        StatsCollection BaseStats { get; }
+        StatsCollection BaseStats { get; set; }
 
         IEnumerable<IBehaviour> GetFinalBehaviours();
-
-
-
+        
+        StatsCollection GetFinalStats();
     }
 }

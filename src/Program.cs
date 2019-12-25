@@ -1,5 +1,6 @@
 ﻿using System;
 using StarshipWanderer.Actions;
+using StarshipWanderer.Actors;
 using StarshipWanderer.Places;
 using StarshipWanderer.UI;
 using Terminal.Gui;

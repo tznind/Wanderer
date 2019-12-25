@@ -10,7 +10,7 @@ namespace StarshipWanderer.UI
 {
     public class MainWindow : Window, IUserinterface
     {
-        public World World { get; }
+        public World World { get; set; }
         public ListView ListActions { get; set; }
 
         public MainWindow(World world):base(new Rect(0,1,80,21),null)

@@ -12,9 +12,9 @@ namespace StarshipWanderer.Actors
         /// <summary>
         /// Actors stats before applying any modifiers
         /// </summary>
-        public StatsCollection BaseStats { get; } = new StatsCollection();
+        public StatsCollection BaseStats { get; set; } = new StatsCollection();
 
-        public HashSet<IBehaviour> BaseBehaviours { get; } = new HashSet<IBehaviour>();
+        public HashSet<IBehaviour> BaseBehaviours { get; set; } = new HashSet<IBehaviour>();
 
         public Actor(string name)
         {
@@ -29,6 +29,11 @@ namespace StarshipWanderer.Actors
         public IEnumerable<IBehaviour> GetFinalBehaviours()
         {
             return BaseBehaviours;
+        }
+
+        public StatsCollection GetFinalStats()
+        {
+            return BaseStats;
         }
     }
 }

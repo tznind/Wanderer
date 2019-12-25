@@ -14,11 +14,13 @@ namespace StarshipWanderer.Places
 
         public IPlace Create(IWorld world)
         { 
-            var gunBay = new Room(world)
+            var gunBay = new Room()
             {
                 Title = "Gun Bay " + world.R.Next(5000)
             };
-
+            
+            //the player can leave this room
+            gunBay.AddAction(new Leave(world,world.Player));
             //an action the player can perform in this room
             gunBay.AddAction(new LoadGunsAction(world,world.Player));
 

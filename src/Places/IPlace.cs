@@ -6,7 +6,7 @@ namespace StarshipWanderer.Places
 {
     public interface IPlace
     {
-        string Title { get; }
+        string Title { get; set; }
 
         /// <summary>
         /// Adds a new action which can be performed in the room
@@ -16,9 +16,9 @@ namespace StarshipWanderer.Places
 
         void AddActor(IActor actor);
 
-        HashSet<IActor> Occupants { get; }
+        HashSet<IActor> Occupants { get; set; }
         IList<IAction> GetActions();
 
-        Dictionary<Direction,IPlace> Adjoining { get; }
+        Dictionary<Direction,IPlace> Adjoining { get; set; }
     }
 }

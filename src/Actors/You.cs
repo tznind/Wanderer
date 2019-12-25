@@ -1,8 +1,4 @@
-﻿using System;
-using System.Text;
-using StarshipWanderer.Actors;
-
-namespace StarshipWanderer
+﻿namespace StarshipWanderer.Actors
 {
     public class You : Actor
     {

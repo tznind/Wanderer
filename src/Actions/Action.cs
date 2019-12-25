@@ -5,9 +5,9 @@ namespace StarshipWanderer.Actions
 {
     public abstract class Action : IAction
     {
-        public IWorld World { get; }
-        public IActor PerformedBy { get; }
-        public string Name { get; protected set; }
+        public IWorld World { get; set; }
+        public IActor PerformedBy { get; set; }
+        public string Name { get; set; }
 
         public CancellationStatus Cancelled { get; set; }  = CancellationStatus.NotCancelled;
 
