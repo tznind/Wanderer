@@ -1,10 +1,12 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace StarshipWanderer
 {
     /// <summary>
     /// Represents a point in 3d space in which X maps to EAST/WEST, Y maps to NORTH/SOUTH and Z maps to UP/DOWN
     /// </summary>
+    [TypeConverter(typeof(Point3Converter))]
     public class Point3
     {
         /// <summary>
