@@ -19,11 +19,17 @@ namespace StarshipWanderer.Actions
         }
 
         /// <summary>
-        /// Override to setup your action to run (push it onto the <paramref name="stack"/>)
+        /// Resets action state to <see cref="CancellationStatus.NotCancelled"/> and
+        /// pushes onto <paramref name="stack"/>.  Overrides should prompt for any
+        /// additional setup for maybe executing the command (i.e. in <see cref="Pop"/>)
         /// </summary>
         /// <param name="ui"></param>
         /// <param name="stack"></param>
-        public abstract void Push(IUserinterface ui,ActionStack stack);
+        public virtual void Push(IUserinterface ui, ActionStack stack)
+        {
+            Cancelled = CancellationStatus.NotCancelled;
+            stack.Push(this);
+        }
 
         
         /// <summary>

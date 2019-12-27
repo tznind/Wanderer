@@ -1,0 +1,24 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+
+namespace StarshipWanderer.Places
+{
+    /// <summary>
+    /// Map in Z,X,Y order
+    /// </summary>
+    public class Map : Dictionary<Point3,IPlace>
+    {
+        /// <summary>
+        /// Returns the location in 3d space of the room
+        /// </summary>
+        /// <param name="place"></param>
+        /// <returns></returns>
+        public Point3 GetPoint(IPlace place)
+        {
+            return this.First(k => k.Value == place).Key;
+        }
+    }
+}

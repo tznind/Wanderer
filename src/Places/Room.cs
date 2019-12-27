@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
 
@@ -10,7 +11,6 @@ namespace StarshipWanderer.Places
         public string Title { get; set; }
 
         public IList<IAction> BaseActions { get; set; } = new List<IAction>();
-        public Dictionary<Direction, IPlace> Adjoining { get; set; } = new Dictionary<Direction, IPlace>();
 
         public void AddAction(IAction action)
         {
@@ -27,6 +27,11 @@ namespace StarshipWanderer.Places
         public void AddActor(IActor actor)
         {
             Occupants.Add(actor);
+        }
+
+        public override string ToString()
+        {
+            return Title ?? "Unnamed Room";
         }
     }
 }

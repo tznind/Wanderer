@@ -19,6 +19,6 @@ namespace StarshipWanderer.Places
         HashSet<IActor> Occupants { get; set; }
         IList<IAction> GetActions();
 
-        Dictionary<Direction,IPlace> Adjoining { get; set; }
+
     }
 }

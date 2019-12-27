@@ -11,6 +11,7 @@ namespace StarshipWanderer
         You Player { get; set; }
         IPlace CurrentLocation { get; set; }
 
-        IRoomFactory RoomFactory { get; set; } 
+        IRoomFactory RoomFactory { get; set; }
+        Map Map { get; }
     }
 }

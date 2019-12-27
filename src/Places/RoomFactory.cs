@@ -23,6 +23,7 @@ namespace StarshipWanderer.Places
             gunBay.AddAction(new Leave(world,world.Player));
             //an action the player can perform in this room
             gunBay.AddAction(new LoadGunsAction(world,world.Player));
+            gunBay.AddAction(new FightAction(world,world.Player));
 
             foreach (IActor actor in ActorFactory.Create(gunBay))
                 gunBay.AddActor(actor);

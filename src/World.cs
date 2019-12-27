@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Text;
 using Newtonsoft.Json;
@@ -10,6 +11,8 @@ namespace StarshipWanderer
 {
     public class World : IWorld
     {
+        public Map Map { get; set;} = new Map();
+
         public IPlace CurrentLocation { get; set; }
 
         public IRoomFactory RoomFactory { get; set; }
@@ -28,12 +31,8 @@ namespace StarshipWanderer
             Player = player;
             RoomFactory = roomFactory;
             CurrentLocation = RoomFactory.Create(this);
+            Map.Add(new Point3(0,0,0),CurrentLocation);
             CurrentLocation.Occupants.Add(player);
-        }
-
-        public string SaveToString()
-        {
-            return JsonConvert.SerializeObject(this);
         }
 
         /// <summary>

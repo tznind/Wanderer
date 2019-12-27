@@ -19,7 +19,7 @@ namespace StarshipWanderer.Actions
             if(Direction == Direction.None)
                 return;
             
-            stack.Push(this);
+            base.Push(ui,stack);
         }
 
         public override void Pop(IUserinterface ui, ActionStack stack)
@@ -28,13 +28,15 @@ namespace StarshipWanderer.Actions
                 return;
 
             var oldRoom = World.CurrentLocation;
+            var oldPoint = World.Map.GetPoint(oldRoom);
+            var newPoint = oldPoint.Offset(Direction,1);
 
-            if (oldRoom.Adjoining.ContainsKey(Direction))
-                World.CurrentLocation = oldRoom.Adjoining[Direction];
+            if (World.Map.ContainsKey(newPoint))
+                World.CurrentLocation = World.Map[newPoint];
             else
             {
                 var newRoom = World.RoomFactory.Create(World);
-                newRoom.Adjoining.Add(Direction.Opposite(),oldRoom);
+                World.Map.Add(newPoint,newRoom);
                 World.CurrentLocation = newRoom;
             }
             

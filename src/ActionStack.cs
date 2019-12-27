@@ -10,9 +10,6 @@ namespace StarshipWanderer
     {
         public void RunStack(IUserinterface ui, IAction firstAction, IEnumerable<IBehaviour> responders)
         {
-            //push the action onto stack
-            Push(firstAction);
-
             //and run push event on the action
             firstAction.Push(ui,this);
 
