@@ -34,8 +34,8 @@ namespace Tests.Actions
             Assert.AreEqual(new Point3(0,0,0),world.Map.GetPoint(world.CurrentLocation));
 
             var leave = new Leave(world,world.Player);
-            var uiGoSouth = Mock.Of<IUserinterface>(u => u.GetOption<Direction>(It.IsAny<string>()) == Direction.South);
-            var uiGoNorth = Mock.Of<IUserinterface>(u => u.GetOption<Direction>(It.IsAny<string>()) == Direction.North);
+            var uiGoSouth = Mock.Of<IUserinterface>(u => u.GetOption<Direction>(It.IsAny<string>(),It.IsAny<string>()) == Direction.South);
+            var uiGoNorth = Mock.Of<IUserinterface>(u => u.GetOption<Direction>(It.IsAny<string>(),It.IsAny<string>()) == Direction.North);
 
             var room1 = world.CurrentLocation;
             Assert.IsNotNull(room1);
@@ -69,7 +69,7 @@ namespace Tests.Actions
             //from the EastRoom should result in being back in StartingRoom
             
             var ui = new Mock<IUserinterface>();
-            ui.SetupSequence(u => u.GetOption<Direction>(It.IsAny<string>()))
+            ui.SetupSequence(u => u.GetOption<Direction>(It.IsAny<string>(),It.IsAny<string>()))
                 .Returns(Direction.North)
                 .Returns(Direction.East)
                 .Returns(Direction.South)
@@ -119,7 +119,7 @@ namespace Tests.Actions
             world.CurrentLocation = room1;
 
             var leave = new Leave(world,world.Player);
-            var ui = Mock.Of<IUserinterface>(u => u.GetOption<Direction>(It.IsAny<string>()) == Direction.South);
+            var ui = Mock.Of<IUserinterface>(u => u.GetOption<Direction>(It.IsAny<string>(),It.IsAny<string>()) == Direction.South);
 
             var stack = new ActionStack();
 

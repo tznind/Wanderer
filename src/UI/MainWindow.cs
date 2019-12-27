@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using NStack;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Behaviours;
 using Terminal.Gui;
@@ -46,6 +48,62 @@ namespace StarshipWanderer.UI
 
         private const int DLG_WIDTH = 60;
         private const int DLG_HEIGHT = 15;
+        private const int DLG_BOUNDARY = 2;
+
+
+        bool RunDialog<T>(string title, string message,out T chosen, params T[] options)
+        {
+            var result = default(T);
+            bool optionChosen = false;
+
+            var dlg = new Dialog(title, DLG_WIDTH, DLG_HEIGHT);
+            
+            var line = DLG_HEIGHT - (DLG_BOUNDARY)*2 - options.Length;
+
+            if (!string.IsNullOrWhiteSpace(message))
+            {
+                int width = DLG_WIDTH - (DLG_BOUNDARY * 2);
+
+                var text = new Label(0, 0, Wrap(message,width).TrimEnd());
+                text.Height = line - 1;
+                text.Width = width;
+                
+                dlg.Add(text);
+            }
+
+            foreach (var value in options)
+            {
+                T v1 = (T) value;
+                var btn = new Button(0,line++,value.ToString());
+                
+                btn.Clicked = ()=>
+                {
+                    result = v1;
+                    dlg.Running = false;
+                    optionChosen = true;
+                };
+
+                dlg.Add(btn);
+            }
+
+            Application.Run(dlg);
+
+            chosen = result;
+            return optionChosen;
+        }
+
+        private string Wrap(string message, int lineWidth)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < message.Length; i = Math.Min(message.Length, i + lineWidth))
+            {
+                sb.Append(message.Substring(i, Math.Min(message.Length-i,lineWidth)));
+                sb.Append('\n');
+            }
+            
+            return sb.ToString();
+        }
 
         public void ShowActorStats(IActor actor)
         {
@@ -65,26 +123,11 @@ namespace StarshipWanderer.UI
             Application.Run(dlg);
         }
 
-        public T GetOption<T>(string title) where T : Enum
+        public T GetOption<T>(string title,string body) where T : Enum
         {
-            var result = default(T);
-            var dlg = new Dialog(title, DLG_WIDTH, DLG_HEIGHT);
-
-            foreach (var value in Enum.GetValues(typeof(T)))
-            {
-                T v1 = (T) value;
-                var btn = new Button(value.ToString());
-                btn.Clicked = ()=>
-                {
-                    result = v1;
-                    dlg.Running = false;
-                };
-
-                dlg.AddButton(btn);
-            }
-
-            Application.Run(dlg);
-            return result;
+            return RunDialog(title, body, out T chosen, Enum.GetValues(typeof(T)).Cast<T>().ToArray()) 
+                ? chosen
+                : default(T);
         }
 
         public void Refresh()
@@ -94,7 +137,7 @@ namespace StarshipWanderer.UI
 
         public void ShowMessage(string title, string body)
         {
-            MessageBox.Query(DLG_WIDTH,DLG_HEIGHT,title,body,"Ok");
+            RunDialog(title,body,out _,"Ok");
         }
 
         List<Button> _oldButtons = new List<Button>();

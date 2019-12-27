@@ -14,7 +14,7 @@ namespace StarshipWanderer.Actions
         
         public override void Push(IUserinterface ui, ActionStack stack)
         {
-            Direction = ui.GetOption<Direction>("Leave Direction");
+            Direction = ui.GetOption<Direction>("Leave Direction",null);
             
             if(Direction == Direction.None)
                 return;

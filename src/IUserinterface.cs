@@ -7,7 +7,7 @@ namespace StarshipWanderer
     {
         void ShowActorStats(IActor actor);
 
-        T GetOption<T>(string title) where T : Enum;
+        T GetOption<T>(string title,string body) where T : Enum;
         void Refresh();
         void ShowMessage(string title, string body);
     }

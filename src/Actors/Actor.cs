@@ -35,5 +35,10 @@ namespace StarshipWanderer.Actors
         {
             return BaseStats;
         }
+
+        public override string ToString()
+        {
+            return Name ?? "Unnamed Actor";
+        }
     }
 }
