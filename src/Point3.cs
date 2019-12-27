@@ -53,6 +53,11 @@ namespace StarshipWanderer
             }
         }
 
+        public Point3 Offset(Point3 offset)
+        {
+            return new Point3(X + offset.X, Y + offset.Y, Z + offset.Z);
+        }
+
         public Point3 Offset(Direction direction,int offset)
         {
             switch (direction)

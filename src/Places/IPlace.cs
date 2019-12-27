@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
 
@@ -7,6 +8,11 @@ namespace StarshipWanderer.Places
     public interface IPlace
     {
         string Title { get; set; }
+
+        /// <summary>
+        /// The single character to render for this location in maps.
+        /// </summary>
+        char Tile { get; }
 
         /// <summary>
         /// Adds a new action which can be performed in the room

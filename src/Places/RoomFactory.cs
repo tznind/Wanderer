@@ -16,7 +16,8 @@ namespace StarshipWanderer.Places
         { 
             var gunBay = new Room()
             {
-                Title = "Gun Bay " + world.R.Next(5000)
+                Title = "Gun Bay " + world.R.Next(5000),
+                Tile = 'g'
             };
             
             //the player can leave this room

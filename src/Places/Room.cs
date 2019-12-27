@@ -12,6 +12,9 @@ namespace StarshipWanderer.Places
 
         public IList<IAction> BaseActions { get; set; } = new List<IAction>();
 
+        /// <inheritdoc/>
+        public char Tile { get; set; } = '.';
+
         public void AddAction(IAction action)
         {
             BaseActions.Add(action);

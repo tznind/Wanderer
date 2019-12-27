@@ -12,10 +12,23 @@ namespace StarshipWanderer.UI
 {
     public class MainWindow : Window, IUserinterface
     {
+        private const int DLG_WIDTH = 60;
+        private const int DLG_HEIGHT = 15;
+        private const int DLG_BOUNDARY = 2;
+
+        private const int WIN_WIDTH = 80;
+        private const int WIN_HEIGHT = 20;
+
+        private const int MAP_WIDTH = 40;
+        private const int MAP_HEIGHT = WIN_HEIGHT - 5;
+
+
         public World World { get; set; }
         public ListView ListActions { get; set; }
 
-        public MainWindow(World world):base(new Rect(0,1,80,21),null)
+        private Label _lblMap;
+
+        public MainWindow(World world):base(new Rect(0,1,WIN_WIDTH,WIN_HEIGHT + 1),null)
         {
             World = world;
             var top = Application.Top;
@@ -38,19 +51,19 @@ namespace StarshipWanderer.UI
 
             ListActions = new ListView();
 
+            _lblMap = new Label(new Rect(0, 0,MAP_WIDTH,MAP_HEIGHT)," ");
+            _lblMap.LayoutStyle = LayoutStyle.Absolute;
+            
+            Add(_lblMap);
+
             frame.Add(ListActions);
             frame.FocusFirst();
 
             Add(frame);    
             
-            UpdateActions();
+            Refresh();
         }
-
-        private const int DLG_WIDTH = 60;
-        private const int DLG_HEIGHT = 15;
-        private const int DLG_BOUNDARY = 2;
-
-
+        
         bool RunDialog<T>(string title, string message,out T chosen, params T[] options)
         {
             var result = default(T);
@@ -133,6 +146,37 @@ namespace StarshipWanderer.UI
         public void Refresh()
         {
             UpdateActions();
+
+            RedrawMap();
+        }
+
+        private void RedrawMap()
+        {
+            if (World.CurrentLocation == null)
+                return;
+
+            StringBuilder sb = new StringBuilder();
+            
+            var home = World.Map.GetPoint(World.CurrentLocation);
+
+            //start map drawing at the north most (biggest Y value) and count down (towards south)
+            for (int y = (MAP_HEIGHT/2) - 1 ; y >= -MAP_HEIGHT/2 ; y--)
+            {    
+                //start each line ath the west most (smallest x value) and count up (towards east)
+                for (int x = -MAP_WIDTH/2; x < MAP_WIDTH/2; x++)
+                {
+                    var pointToRender = home.Offset(new Point3(x, y, 0));
+
+                    if (World.Map.ContainsKey(pointToRender))
+                        sb.Append(World.Map[pointToRender].Tile);
+                    else
+                        sb.Append(' ');
+                }
+
+                sb.Append('\n');
+            }
+
+            _lblMap.Text = sb.ToString();
         }
 
         public void ShowMessage(string title, string body)
@@ -149,6 +193,8 @@ namespace StarshipWanderer.UI
             new Point(0,19),
             new Point(0,20),
         };
+
+
         public void UpdateActions()
         {
             Title = World.CurrentLocation.Title;
