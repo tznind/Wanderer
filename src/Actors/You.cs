@@ -1,4 +1,5 @@
 ﻿using StarshipWanderer.Places;
+using StarshipWanderer.Stats;
 
 namespace StarshipWanderer.Actors
 {
@@ -6,7 +7,9 @@ namespace StarshipWanderer.Actors
     {
         public You():base( "Wanderer")
         {
-            
+            BaseStats[Stat.Loyalty] = 10;
+            BaseStats[Stat.Fight] = 10;
+            BaseStats[Stat.Coerce] = 10;
         }
 
         public override bool Decide<T>(IUserinterface ui, string title, string body, out T chosen, T[] options, int attitude)

@@ -5,6 +5,9 @@ namespace StarshipWanderer
 {
     public interface IUserinterface
     {
+
+        EventLog Log {get;}
+
         void ShowActorStats(IActor actor);
 
         /// <summary>
