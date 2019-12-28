@@ -12,8 +12,20 @@ using StarshipWanderer.Conditions;
 
 namespace Tests.Actions
 {
+    public class M
+    {
+       public static IUserinterface UI_GetChoice<T>(T choice)
+       {
+            T outvar = choice;
+            return Mock.Of<IUserinterface>(u => u.GetChoice<T>(It.IsAny<string>(),It.IsAny<string>(),out outvar,It.IsAny<T[]>()) == true);
+       }
+    }
+
+
     class LeaveTests
     {
+        
+
         [Test]
         public void LeaveAndComeBack()
         {
@@ -29,26 +41,26 @@ namespace Tests.Actions
             world.Player = new You();
             world.RoomFactory = factory.Object;
             world.CurrentLocation = factory.Object.Create(world);
+            world.CurrentLocation.Occupants.Add(world.Player);
             world.Map.Add(new Point3(0,0,0), world.CurrentLocation);
             
             Assert.AreEqual(new Point3(0,0,0),world.Map.GetPoint(world.CurrentLocation));
 
-            var leave = new Leave(world,world.Player);
-            var uiGoSouth = Mock.Of<IUserinterface>(u => u.GetOption<Direction>(It.IsAny<string>(),It.IsAny<string>()) == Direction.South);
-            var uiGoNorth = Mock.Of<IUserinterface>(u => u.GetOption<Direction>(It.IsAny<string>(),It.IsAny<string>()) == Direction.North);
+
+            var leave = new Leave(world,world.Player,world.CurrentLocation);
 
             var room1 = world.CurrentLocation;
             Assert.IsNotNull(room1);
 
             var stack = new ActionStack();
-            stack.RunStack(uiGoNorth,leave,new IBehaviour[0]);
+            stack.RunStack(M.UI_GetChoice(Direction.North),leave,new IBehaviour[0]);
             
             var room2 = world.CurrentLocation;
             Assert.IsNotNull(room1);
             Assert.IsNotNull(room2);
             Assert.AreNotSame(room1, room2,"Expected room to change after leaving it");
             
-            stack.RunStack(uiGoSouth,leave,new IBehaviour[0]);
+            stack.RunStack(M.UI_GetChoice(Direction.South),leave,new IBehaviour[0]);
 
             Assert.AreSame(room1, world.CurrentLocation,"Should be back in the first room again");
         }
@@ -68,19 +80,13 @@ namespace Tests.Actions
             //next return will be null and should not be invoked.  After all going West
             //from the EastRoom should result in being back in StartingRoom
             
-            var ui = new Mock<IUserinterface>();
-            ui.SetupSequence(u => u.GetOption<Direction>(It.IsAny<string>(),It.IsAny<string>()))
-                .Returns(Direction.North)
-                .Returns(Direction.East)
-                .Returns(Direction.South)
-                .Returns(Direction.West);
-
             world.Player = new You();
             world.RoomFactory = factory.Object;
             world.CurrentLocation = factory.Object.Create(world);
+            world.CurrentLocation.Occupants.Add(world.Player);
             world.Map.Add(new Point3(0,0,0), world.CurrentLocation);
 
-            var leave = new Leave(world,world.Player);
+            var leave = new Leave(world,world.Player,world.CurrentLocation);
 
             var room1 = world.CurrentLocation;
             Assert.IsNotNull(room1);
@@ -88,15 +94,14 @@ namespace Tests.Actions
             var stack = new ActionStack();
 
             //north
-            stack.RunStack(ui.Object,leave,new IBehaviour[0]);
+            stack.RunStack(M.UI_GetChoice(Direction.North),leave,new IBehaviour[0]);
             Assert.AreNotSame(room1, world.CurrentLocation,"After going north we should not be in the same room");
 
             //east,south,west
-            stack.RunStack(ui.Object,leave,new IBehaviour[0]);
-            stack.RunStack(ui.Object,leave,new IBehaviour[0]);
-            stack.RunStack(ui.Object,leave,new IBehaviour[0]);
+            stack.RunStack(M.UI_GetChoice(Direction.East),leave,new IBehaviour[0]);
+            stack.RunStack(M.UI_GetChoice(Direction.South),leave,new IBehaviour[0]);
+            stack.RunStack(M.UI_GetChoice(Direction.West),leave,new IBehaviour[0]);
 
-            ui.Verify();
             factory.Verify();
 
             Assert.AreSame(room1, world.CurrentLocation,"Should be back in the first room again");
@@ -118,12 +123,11 @@ namespace Tests.Actions
 
             world.CurrentLocation = room1;
 
-            var leave = new Leave(world,world.Player);
-            var ui = Mock.Of<IUserinterface>(u => u.GetOption<Direction>(It.IsAny<string>(),It.IsAny<string>()) == Direction.South);
+            var leave = new Leave(world,world.Player,world.CurrentLocation);
 
             var stack = new ActionStack();
 
-            stack.RunStack(ui, leave, guard.GetFinalBehaviours());
+            stack.RunStack(M.UI_GetChoice(Direction.South), leave, guard.GetFinalBehaviours());
 
             Assert.AreSame(room1,world.CurrentLocation,"Expected to be in the same room as started in");
 

@@ -28,9 +28,9 @@ namespace Tests
             var behaviour = omg.GetFinalBehaviours().OfType<ForbidBehaviour<Leave>>().Single();
 
             //we don't forbid going north
-            Assert.IsFalse(behaviour.Condition.IsMet(new Leave(world1,omg){Direction = Direction.North}));
+            Assert.IsFalse(behaviour.Condition.IsMet(new Leave(world1,omg,world1.CurrentLocation){Direction = Direction.North}));
             //we DO forbid going down
-            Assert.IsTrue(behaviour.Condition.IsMet(new Leave(world1,omg){Direction = Direction.Down}));
+            Assert.IsTrue(behaviour.Condition.IsMet(new Leave(world1,omg,world1.CurrentLocation){Direction = Direction.Down}));
             
             world1.CurrentLocation.AddActor(omg);
 
@@ -54,9 +54,9 @@ namespace Tests
             var behaviour2 = omg2.GetFinalBehaviours().OfType<ForbidBehaviour<Leave>>().Single();
 
             //we don't forbid going north
-            Assert.IsFalse(behaviour2.Condition.IsMet(new Leave(world2,omg2){Direction = Direction.North}));
+            Assert.IsFalse(behaviour2.Condition.IsMet(new Leave(world2,omg2,world2.CurrentLocation){Direction = Direction.North}));
             //we DO forbid going down
-            Assert.IsTrue(behaviour2.Condition.IsMet(new Leave(world2,omg2){Direction = Direction.Down}));
+            Assert.IsTrue(behaviour2.Condition.IsMet(new Leave(world2,omg2,world2.CurrentLocation){Direction = Direction.Down}));
             
             Assert.AreEqual(actionsBefore , world2.CurrentLocation.GetActions().Count);
         }
@@ -72,9 +72,9 @@ namespace Tests
             var behaviour = omg.GetFinalBehaviours().OfType<ForbidBehaviour<Leave>>().Single();
 
             //we don't forbid going north
-            Assert.IsFalse(behaviour.Condition.IsMet(new Leave(world1,omg){Direction = Direction.North}));
+            Assert.IsFalse(behaviour.Condition.IsMet(new Leave(world1,omg,world1.CurrentLocation){Direction = Direction.North}));
             //we DO forbid going down
-            Assert.IsTrue(behaviour.Condition.IsMet(new Leave(world1,omg){Direction = Direction.Down}));
+            Assert.IsTrue(behaviour.Condition.IsMet(new Leave(world1,omg,world1.CurrentLocation){Direction = Direction.Down}));
             
             world1.CurrentLocation.AddActor(omg);
 
@@ -87,9 +87,9 @@ namespace Tests
             var behaviour2 = omg2.GetFinalBehaviours().OfType<ForbidBehaviour<Leave>>().Single();
 
             //we don't forbid going north
-            Assert.IsFalse(behaviour2.Condition.IsMet(new Leave(world1,omg2){Direction = Direction.North}));
+            Assert.IsFalse(behaviour2.Condition.IsMet(new Leave(world1,omg2,world1.CurrentLocation){Direction = Direction.North}));
             //we DO forbid going down
-            Assert.IsTrue(behaviour2.Condition.IsMet(new Leave(world1,omg2){Direction = Direction.Down}));
+            Assert.IsTrue(behaviour2.Condition.IsMet(new Leave(world1,omg2,world1.CurrentLocation){Direction = Direction.Down}));
 
         }
     }

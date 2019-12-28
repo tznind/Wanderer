@@ -149,14 +149,6 @@ namespace StarshipWanderer.UI
             Application.Run(dlg);
         }
 
-        public T GetOption<T>(string title,string body) where T : Enum
-        {
-            return RunDialog(title, body, out T chosen,
-                Enum.GetValues(typeof(T)).Cast<T>().Where(e => !Equals(e, default(T))).ToArray()) 
-                ? chosen
-                : default(T);
-        }
-
         public bool GetChoice<T>(string title, string body, out T chosen, params T[] options)
         {
             return RunDialog(title, body, out chosen, options);
@@ -228,8 +220,10 @@ namespace StarshipWanderer.UI
 
             int buttonLoc = 0;
 
+            var allActions = World.CurrentLocation.GetActions()
+                .Union(World.Player.GetFinalActions(World,World.CurrentLocation));
 
-            foreach (var action in World.CurrentLocation.GetActions())
+            foreach (var action in allActions)
             {
                 var btn = new Button(_buttonLocations[buttonLoc].X, _buttonLocations[buttonLoc].Y, action.Name, false);
                 btn.Width = 10;
