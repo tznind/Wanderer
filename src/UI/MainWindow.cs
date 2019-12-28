@@ -12,8 +12,8 @@ namespace StarshipWanderer.UI
 {
     public class MainWindow : Window, IUserinterface
     {
-        private const int DLG_WIDTH = 60;
-        private const int DLG_HEIGHT = 15;
+        private const int DLG_WIDTH = 78;
+        private const int DLG_HEIGHT = 18;
         private const int DLG_BOUNDARY = 2;
 
         private const int WIN_WIDTH = 80;
@@ -24,18 +24,21 @@ namespace StarshipWanderer.UI
 
 
         public World World { get; set; }
+        public EventLog Log { get; }
         public ListView ListActions { get; set; }
 
         private Label _lblMap;
 
-        public MainWindow(World world):base(new Rect(0,1,WIN_WIDTH,WIN_HEIGHT + 1),null)
+        public MainWindow(World world, EventLog log):base(new Rect(0,1,WIN_WIDTH,WIN_HEIGHT + 1),null)
         {
             World = world;
+            Log = log;
             var top = Application.Top;
 
             var menu = new MenuBar (new MenuBarItem [] {
                 new MenuBarItem ("_Game (F9)", new MenuItem [] {
-
+                    
+                    new MenuItem ("View _Log", "", () => { ViewLog(); }),
                     new MenuItem ("_Character", "", () => { ShowActorStats(World.Player); }),
                     new MenuItem ("_Quit", "", () => { top.Running = false; })
                 })
@@ -63,7 +66,13 @@ namespace StarshipWanderer.UI
             
             Refresh();
         }
-        
+
+        private void ViewLog()
+        {
+            RunDialog("Log",
+                string.Join('\n',Log.Target.Logs),out _,"Ok");
+        }
+
         bool RunDialog<T>(string title, string message,out T chosen, params T[] options)
         {
             var result = default(T);
@@ -111,8 +120,12 @@ namespace StarshipWanderer.UI
 
             for (int i = 0; i < message.Length; i = Math.Min(message.Length, i + lineWidth))
             {
-                sb.Append(message.Substring(i, Math.Min(message.Length-i,lineWidth)));
-                sb.Append('\n');
+                string nextChunk = message.Substring(i, Math.Min(message.Length - i, lineWidth));
+
+                sb.Append(nextChunk);
+
+                if(!nextChunk.Contains('\n'))
+                    sb.Append('\n');
             }
             
             return sb.ToString();
@@ -138,9 +151,15 @@ namespace StarshipWanderer.UI
 
         public T GetOption<T>(string title,string body) where T : Enum
         {
-            return RunDialog(title, body, out T chosen, Enum.GetValues(typeof(T)).Cast<T>().ToArray()) 
+            return RunDialog(title, body, out T chosen,
+                Enum.GetValues(typeof(T)).Cast<T>().Where(e => !Equals(e, default(T))).ToArray()) 
                 ? chosen
                 : default(T);
+        }
+
+        public bool GetChoice<T>(string title, string body, out T chosen, params T[] options)
+        {
+            return RunDialog(title, body, out chosen, options);
         }
 
         public void Refresh()
@@ -179,8 +198,11 @@ namespace StarshipWanderer.UI
             _lblMap.Text = sb.ToString();
         }
 
-        public void ShowMessage(string title, string body)
+        public void ShowMessage(string title, string body, bool log)
         {
+            if(log)
+                Log.Info(body);
+
             RunDialog(title,body,out _,"Ok");
         }
 

@@ -14,7 +14,10 @@ namespace StarshipWanderer
         static void Main(string[] args)
         {
             Application.Init();
-            var mainWindow = new MainWindow(new World(new You(),new RoomFactory(new ActorFactory())));
+            var log = new EventLog();
+            log.Register();
+
+            var mainWindow = new MainWindow(new World(new You(),new RoomFactory(new ActorFactory())),log);
             Application.Top.Add(mainWindow);
             Application.Run();
         }

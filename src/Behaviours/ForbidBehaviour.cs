@@ -21,7 +21,7 @@ namespace StarshipWanderer.Behaviours
                 stack.Push(new ForbidAction(matchingAction,Owner));
                 
                 //elevate it to cancel pending (allows later actions/behaviours to cancel this action)
-                if(matchingAction.Cancelled == CancellationStatus.NotCancelled)
+                if (matchingAction.Cancelled == CancellationStatus.NotCancelled)
                     matchingAction.Cancelled = CancellationStatus.CancellationPending;
             }
         }
