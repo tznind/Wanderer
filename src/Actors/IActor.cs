@@ -12,6 +12,8 @@ namespace StarshipWanderer.Actors
     {
         string Name { get; set; }
 
+        IWorld World { get; set; }
+
         HashSet<IAction> BaseActions { get; set; }
 
         HashSet<IAdjective> Adjectives { get; set; }

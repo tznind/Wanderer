@@ -5,7 +5,7 @@ namespace StarshipWanderer.Actors
 {
     public class You : Actor
     {
-        public You():base( "Wanderer")
+        public You(IWorld world):base( world,"Wanderer")
         {
             BaseStats[Stat.Loyalty] = 10;
             BaseStats[Stat.Fight] = 10;

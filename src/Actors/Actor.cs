@@ -11,6 +11,7 @@ namespace StarshipWanderer.Actors
 {
     public class Actor : IActor
     {
+        public IWorld World { get; set; }
         public string Name { get; set; }
         
         public HashSet<IAction> BaseActions { get; set; } = new HashSet<IAction>();
@@ -24,8 +25,9 @@ namespace StarshipWanderer.Actors
 
         public HashSet<IBehaviour> BaseBehaviours { get; set; } = new HashSet<IBehaviour>();
 
-        public Actor(string name)
+        public Actor(IWorld world,string name)
         {
+            World = world;
             Name = name;
         }
 
@@ -45,8 +47,18 @@ namespace StarshipWanderer.Actors
 
         public virtual bool Decide<T>(IUserinterface ui, string title, string body,out T chosen, T[] options, int attitude)
         {
-            chosen = default(T);
-            return false;
+            //If there are no options pick null return false
+            if (!options.Any())
+            {
+                chosen = default(T);
+                return false;
+            }
+
+            //pick random option
+            chosen = options[World.R.Next(0, options.Length)];
+
+            //if picked option was default (e.g. None Enums) return false
+            return !chosen.Equals(default(T));
         }
 
         public virtual void Move(IWorld world, IPlace currentLocation, IPlace newLocation)

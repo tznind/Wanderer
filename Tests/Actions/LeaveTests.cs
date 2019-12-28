@@ -38,7 +38,7 @@ namespace Tests.Actions
                 .Returns(new Room{Title = "North Room"})
                 .Throws<Exception>();
             
-            world.Player = new You();
+            world.Player = new You(world);
             world.RoomFactory = factory.Object;
             world.CurrentLocation = factory.Object.Create(world);
             world.CurrentLocation.Occupants.Add(world.Player);
@@ -80,7 +80,7 @@ namespace Tests.Actions
             //next return will be null and should not be invoked.  After all going West
             //from the EastRoom should result in being back in StartingRoom
             
-            world.Player = new You();
+            world.Player = new You(world);
             world.RoomFactory = factory.Object;
             world.CurrentLocation = factory.Object.Create(world);
             world.CurrentLocation.Occupants.Add(world.Player);
@@ -110,14 +110,12 @@ namespace Tests.Actions
         [Test]
         public void CannotLeave()
         {
-            var world = new World
-            {
-                Player = new You()
-            };
+            var world = new World();
+            world.Player = new You(world);
 
             var room1 = world.CurrentLocation = new Room {Title = "Hotel California"};
 
-            var guard = new Actor("Guard");
+            var guard = new Actor(world,"Guard");
 
             guard.AddBehaviour(new ForbidBehaviour<Leave>(new AlwaysCondition<IAction>(),guard));
 

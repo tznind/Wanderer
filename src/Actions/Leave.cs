@@ -47,10 +47,13 @@ namespace StarshipWanderer.Actions
             }
 
             PerformedBy.Move(World,_leavingFrom, goingTo);
-            
+
+            ui.Log.Info($"{PerformedBy} left {_leavingFrom} in Direction {Direction}");
+
             //since they should now be in the new location we should prep the command for reuse
             _leavingFrom = goingTo;
             ui.Refresh();
+
         }
     }
 }

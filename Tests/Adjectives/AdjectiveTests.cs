@@ -10,7 +10,7 @@ namespace Tests.Adjectives
         [Test]
         public void TestAttractive()
         {
-            var d  = new Actor("Dave");
+            var d  = new Actor(null,"Dave");
             
             d.BaseStats[Stat.Fight] = 20;
             d.BaseStats[Stat.Coerce] = 20;

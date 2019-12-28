@@ -26,7 +26,7 @@ namespace StarshipWanderer.Actions
                 return;
             }
 
-            if (ui.GetChoice("Fight", null, out IActor toFight, targets))
+            if (PerformedBy.Decide(ui,"Fight", null, out IActor toFight, targets,-20))
             {
                 Target = toFight;
                 base.Push(ui, stack);

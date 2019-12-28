@@ -25,7 +25,7 @@ namespace StarshipWanderer.Actions
 
             if (PerformedBy.BaseStats[Stat.Fight] > 20)
             {
-                PerformedBy.BaseStats[Stat.Fight]--;   
+                PerformedBy.BaseStats[Stat.Fight]--;
                 narrative.Changed("Aches and pains sap your strength",Stat.Fight, -1);
             }
 

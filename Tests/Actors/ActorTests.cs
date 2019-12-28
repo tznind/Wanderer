@@ -12,14 +12,14 @@ namespace Tests.Actors
         [Test]
         public void TestAddOccupant()
         {
-            var you = new You();
+            var you = new You(null);
             var world = new World(you, new RoomFactory(new ActorFactory()));
 
             var room1 = world.CurrentLocation;
 
             Assert.Contains(you,room1.Occupants.ToArray());
 
-            var frank = new Actor("Frank");
+            var frank = new Actor(world,"Frank");
             room1.AddActor(frank);
 
             Assert.Contains(you,room1.Occupants.ToArray());

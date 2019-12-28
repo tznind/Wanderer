@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
+using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Places;
+using StarshipWanderer.UI;
 
 namespace StarshipWanderer
 {
@@ -29,6 +32,7 @@ namespace StarshipWanderer
         public World(You player, IRoomFactory roomFactory)
         {
             Player = player;
+            Player.World = this;
             RoomFactory = roomFactory;
             CurrentLocation = RoomFactory.Create(this);
             Map.Add(new Point3(0,0,0),CurrentLocation);
@@ -46,6 +50,23 @@ namespace StarshipWanderer
             config.PreserveReferencesHandling = PreserveReferencesHandling.Objects;
             config.TypeNameHandling = TypeNameHandling.All;
             return config;
+        }
+
+        public void RunNpcActions(IUserinterface ui)
+        {
+            var stack = new ActionStack();
+
+            //use ToArray because people might blow up rooms or kill one another
+            foreach (var room in Map.Select(v=>v.Value).ToArray())
+                foreach (var occupant in room.Occupants.ToArray())
+                {
+                    if(occupant is You)
+                        continue;
+
+                    if(occupant.Decide(ui, "Pick Action", null, out IAction chosen,
+                        occupant.GetFinalActions(this, room).ToArray(), 0))
+                        stack.RunStack(ui,chosen,room);
+                }
         }
     }
 }

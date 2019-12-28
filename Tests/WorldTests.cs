@@ -20,9 +20,9 @@ namespace Tests
         {
             var config =  World.GetJsonSerializerSettings();
 
-            var world1 = new World(new You(), new RoomFactory(new ActorFactory()));
-
-            var omg = new Actor("omgz");
+            var world1 = new World(new You(null), new RoomFactory(new ActorFactory()));
+            
+            var omg = new Actor(world1,"omgz");
             omg.AddBehaviour(new ForbidBehaviour<Leave>(new LeaveDirectionCondition(Direction.Down), omg));
             
             var behaviour = omg.GetFinalBehaviours().OfType<ForbidBehaviour<Leave>>().Single();
@@ -64,9 +64,9 @@ namespace Tests
         [Test]
         public void Test_Serialization_OfActor()
         {
-            var world1 = new World(new You(), new RoomFactory(new ActorFactory()));
+            var world1 = new World(new You(null), new RoomFactory(new ActorFactory()));
 
-            var omg = new Actor("omgz");
+            var omg = new Actor(world1,"omgz");
             omg.AddBehaviour(new ForbidBehaviour<Leave>(new LeaveDirectionCondition(Direction.Down), omg));
             
             var behaviour = omg.GetFinalBehaviours().OfType<ForbidBehaviour<Leave>>().Single();

@@ -13,15 +13,15 @@ namespace StarshipWanderer.Actions
     {
         public IEnumerable<IActor> Create(IWorld world, IPlace place)
         {
-            yield return NewGuard("Guard 1");
-            yield return NewGuard("Guard 2");
+            yield return NewGuard(world,"Guard 1");
+            yield return NewGuard(world,"Guard 2");
             yield return NewWorker(world,"Worker 1");
             yield return NewWorker(world,"Worker 2");
         }
 
         private IActor NewWorker(IWorld world, string name)
         {
-            var g = new Actor(name);
+            var g = new Actor(world,name);
             
             g.BaseStats[Stat.Loyalty] = 30;
             g.BaseStats[Stat.Fight] = 10;
@@ -31,9 +31,9 @@ namespace StarshipWanderer.Actions
             return g;
         }
 
-        private IActor NewGuard(string name)
+        private IActor NewGuard(IWorld world, string name)
         {
-            var g = new Actor(name);
+            var g = new Actor(world,name);
             g.BaseStats[Stat.Loyalty] = 30;
             g.BaseStats[Stat.Fight] = 20;
 
@@ -42,5 +42,6 @@ namespace StarshipWanderer.Actions
 
             return g;
         }
+
     }
 }
