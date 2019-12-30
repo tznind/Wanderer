@@ -7,7 +7,7 @@ namespace StarshipWanderer.Places
 {
     public class Room : IPlace
     {
-        public HashSet<IActor> Occupants { get; set; } =  new HashSet<IActor>();
+        public IWorld World { get; set; }
         public string Title { get; set; }
 
         public IList<IAction> BaseActions { get; set; } = new List<IAction>();
@@ -15,21 +15,31 @@ namespace StarshipWanderer.Places
         /// <inheritdoc/>
         public char Tile { get; set; } = '.';
 
+        public Room(string title,IWorld world)
+        {
+            Title = title;
+            World = world;
+        }
+
         public void AddAction(IAction action)
         {
             BaseActions.Add(action);
         }
 
-        public IList<IAction> GetActions()
+        public IList<IAction> GetActions(IActor actor)
         {
+            //todo clone and reassign
+            foreach (var action in BaseActions)
+                action.PerformedBy = actor;
+
             var toReturn = new List<IAction>();
             toReturn.AddRange(BaseActions);
             return toReturn;
         }
 
-        public void AddActor(IActor actor)
+        public Point3 GetPoint()
         {
-            Occupants.Add(actor);
+            return World.Map.GetPoint(this);
         }
 
         public override string ToString()

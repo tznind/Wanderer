@@ -7,6 +7,8 @@ namespace StarshipWanderer.Places
 {
     public interface IPlace
     {
+        IWorld World { get; set; }
+
         string Title { get; set; }
 
         /// <summary>
@@ -19,12 +21,8 @@ namespace StarshipWanderer.Places
         /// </summary>
         /// <param name="action"></param>
         void AddAction(IAction action);
-
-        void AddActor(IActor actor);
-
-        HashSet<IActor> Occupants { get; set; }
-        IList<IAction> GetActions();
-
-
+        
+        IList<IAction> GetActions(IActor actor);
+        Point3 GetPoint();
     }
 }

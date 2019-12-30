@@ -5,15 +5,13 @@ namespace StarshipWanderer.Actions
 {
     public abstract class Action : IAction
     {
-        public IWorld World { get; set; }
         public IActor PerformedBy { get; set; }
         public string Name { get; set; }
 
         public CancellationStatus Cancelled { get; set; }  = CancellationStatus.NotCancelled;
 
-        protected Action(IWorld world, IActor performedBy)
+        protected Action(IActor performedBy)
         {
-            World = world;
             PerformedBy = performedBy;
             Name = GetType().Name.Replace("Action", "");
         }

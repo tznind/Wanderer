@@ -1,4 +1,5 @@
-﻿using StarshipWanderer.Actions;
+﻿using System.Linq;
+using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
 
 namespace StarshipWanderer.Places
@@ -14,17 +15,15 @@ namespace StarshipWanderer.Places
 
         public IPlace Create(IWorld world)
         { 
-            var gunBay = new Room()
+            var gunBay = new Room("Gun Bay " + world.R.Next(5000),world)
             {
-                Title = "Gun Bay " + world.R.Next(5000),
                 Tile = 'g'
             };
             
             //an action the player can perform in this room
-            gunBay.AddAction(new LoadGunsAction(world,world.Player));
+            gunBay.AddAction(new LoadGunsAction(null));
 
-            foreach (IActor actor in ActorFactory.Create(world,gunBay))
-                gunBay.AddActor(actor);
+            ActorFactory.Create(world, gunBay);
 
             return gunBay;
         }

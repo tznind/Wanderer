@@ -20,64 +20,60 @@ namespace Tests
         {
             var config =  World.GetJsonSerializerSettings();
 
-            var world1 = new World(new You(null), new RoomFactory(new ActorFactory()));
+            var world1 = new WorldFactory().Create();
             
-            var omg = new Actor(world1,"omgz");
+            var omg = new Npc("omgz",world1.Player.CurrentLocation);
             omg.AddBehaviour(new ForbidBehaviour<Leave>(new LeaveDirectionCondition(Direction.Down), omg));
             
             var behaviour = omg.GetFinalBehaviours().OfType<ForbidBehaviour<Leave>>().Single();
 
             //we don't forbid going north
-            Assert.IsFalse(behaviour.Condition.IsMet(new Leave(world1,omg,world1.CurrentLocation){Direction = Direction.North}));
+            Assert.IsFalse(behaviour.Condition.IsMet(new Leave(omg){Direction = Direction.North}));
             //we DO forbid going down
-            Assert.IsTrue(behaviour.Condition.IsMet(new Leave(world1,omg,world1.CurrentLocation){Direction = Direction.Down}));
+            Assert.IsTrue(behaviour.Condition.IsMet(new Leave(omg){Direction = Direction.Down}));
             
-            world1.CurrentLocation.AddActor(omg);
-
-            var actionsBefore = world1.CurrentLocation.GetActions().Count;
+            var actionsBefore = world1.Player.CurrentLocation.GetActions(world1.Player).Count;
 
             var json = JsonConvert.SerializeObject(world1,config);
 
             var world2 = (World) JsonConvert.DeserializeObject(json,typeof(World),config);
 
             Assert.AreEqual(
-                world1.CurrentLocation.Title,
-                world2.CurrentLocation.Title);
+                world1.Player.CurrentLocation.Title,
+                world2.Player.CurrentLocation.Title);
 
             
             Assert.AreEqual(
-                world1.CurrentLocation.Occupants.Count,
-                world2.CurrentLocation.Occupants.Count);
+                world1.Population.Count,
+                world2.Population.Count);
 
-            var omg2 = world2.CurrentLocation.Occupants.Single(o => o.Name.Equals("omgz"));
+            var omg2 = world2.Population.Single(o => o.Name.Equals("omgz"));
 
             var behaviour2 = omg2.GetFinalBehaviours().OfType<ForbidBehaviour<Leave>>().Single();
 
             //we don't forbid going north
-            Assert.IsFalse(behaviour2.Condition.IsMet(new Leave(world2,omg2,world2.CurrentLocation){Direction = Direction.North}));
+            Assert.IsFalse(behaviour2.Condition.IsMet(new Leave(omg2){Direction = Direction.North}));
             //we DO forbid going down
-            Assert.IsTrue(behaviour2.Condition.IsMet(new Leave(world2,omg2,world2.CurrentLocation){Direction = Direction.Down}));
+            Assert.IsTrue(behaviour2.Condition.IsMet(new Leave(omg2){Direction = Direction.Down}));
             
-            Assert.AreEqual(actionsBefore , world2.CurrentLocation.GetActions().Count);
+            Assert.AreEqual(actionsBefore , world2.Player.CurrentLocation.GetActions(world2.Player).Count);
         }
 
         [Test]
         public void Test_Serialization_OfActor()
         {
-            var world1 = new World(new You(null), new RoomFactory(new ActorFactory()));
+            var world1 = new WorldFactory().Create();
 
-            var omg = new Actor(world1,"omgz");
+            var omg = new Npc("omgz",world1.Player.CurrentLocation);
             omg.AddBehaviour(new ForbidBehaviour<Leave>(new LeaveDirectionCondition(Direction.Down), omg));
             
             var behaviour = omg.GetFinalBehaviours().OfType<ForbidBehaviour<Leave>>().Single();
 
             //we don't forbid going north
-            Assert.IsFalse(behaviour.Condition.IsMet(new Leave(world1,omg,world1.CurrentLocation){Direction = Direction.North}));
+            Assert.IsFalse(behaviour.Condition.IsMet(new Leave(omg){Direction = Direction.North}));
             //we DO forbid going down
-            Assert.IsTrue(behaviour.Condition.IsMet(new Leave(world1,omg,world1.CurrentLocation){Direction = Direction.Down}));
+            Assert.IsTrue(behaviour.Condition.IsMet(new Leave(omg){Direction = Direction.Down}));
             
-            world1.CurrentLocation.AddActor(omg);
-
             var config = World.GetJsonSerializerSettings();
 
             var json = JsonConvert.SerializeObject(omg,config);
@@ -87,9 +83,9 @@ namespace Tests
             var behaviour2 = omg2.GetFinalBehaviours().OfType<ForbidBehaviour<Leave>>().Single();
 
             //we don't forbid going north
-            Assert.IsFalse(behaviour2.Condition.IsMet(new Leave(world1,omg2,world1.CurrentLocation){Direction = Direction.North}));
+            Assert.IsFalse(behaviour2.Condition.IsMet(new Leave(omg2){Direction = Direction.North}));
             //we DO forbid going down
-            Assert.IsTrue(behaviour2.Condition.IsMet(new Leave(world1,omg2,world1.CurrentLocation){Direction = Direction.Down}));
+            Assert.IsTrue(behaviour2.Condition.IsMet(new Leave(omg2){Direction = Direction.Down}));
 
         }
     }

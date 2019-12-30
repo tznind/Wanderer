@@ -11,29 +11,29 @@ namespace StarshipWanderer.Actions
 {
     public class ActorFactory : IActorFactory
     {
-        public IEnumerable<IActor> Create(IWorld world, IPlace place)
+        public void Create(IWorld world, IPlace place)
         {
-            yield return NewGuard(world,"Guard 1");
-            yield return NewGuard(world,"Guard 2");
-            yield return NewWorker(world,"Worker 1");
-            yield return NewWorker(world,"Worker 2");
+            NewGuard(place,"Guard 1");
+            NewGuard(place,"Guard 2");
+            NewWorker(place,"Worker 1");
+            NewWorker(place,"Worker 2");
         }
 
-        private IActor NewWorker(IWorld world, string name)
+        private IActor NewWorker(IPlace place, string name)
         {
-            var g = new Actor(world,name);
+            var g = new Npc(name,place);
             
             g.BaseStats[Stat.Loyalty] = 30;
             g.BaseStats[Stat.Fight] = 10;
 
-            g.BaseActions.Add(new LoadGunsAction(world,g));
+            g.BaseActions.Add(new LoadGunsAction(g));
 
             return g;
         }
 
-        private IActor NewGuard(IWorld world, string name)
+        private IActor NewGuard(IPlace place, string name)
         {
-            var g = new Actor(world,name);
+            var g = new Npc(name,place);
             g.BaseStats[Stat.Loyalty] = 30;
             g.BaseStats[Stat.Fight] = 20;
 

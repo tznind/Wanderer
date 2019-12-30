@@ -17,7 +17,9 @@ namespace Tests.Places
 
             Assert.AreEqual("0,1,2",p.ToString());
 
-            var room = new Room() {Title = "someroom"};
+            var world = new World();
+
+            var room = new Room("someroom",world);
 
             var m = new Map();
             m.Add(p,room);
@@ -29,8 +31,6 @@ namespace Tests.Places
             var m2 = JsonConvert.DeserializeObject<Map>(json, World.GetJsonSerializerSettings());
 
             Assert.AreEqual("someroom",m2[new Point3(0,1,2)].Title);
-
-
         }
     }
 }

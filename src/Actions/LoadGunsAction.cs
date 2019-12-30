@@ -8,7 +8,7 @@ namespace StarshipWanderer.Actions
 {
     internal class LoadGunsAction : Action
     {
-        public LoadGunsAction(IWorld world,IActor performedBy):base(world,performedBy)
+        public LoadGunsAction(IActor performedBy):base(performedBy)
         {
             
         }

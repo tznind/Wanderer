@@ -12,7 +12,7 @@ namespace StarshipWanderer.Actors
     {
         string Name { get; set; }
 
-        IWorld World { get; set; }
+        IPlace CurrentLocation { get; set; }
 
         HashSet<IAction> BaseActions { get; set; }
 
@@ -24,7 +24,7 @@ namespace StarshipWanderer.Actors
         
         StatsCollection GetFinalStats();
 
-        IEnumerable<IAction> GetFinalActions(IWorld world, IPlace actorsPlace);
+        IEnumerable<IAction> GetFinalActions();
 
         /// <summary>
         /// Asks the actor to pick a target for T.  This could be direction to move
@@ -45,11 +45,11 @@ namespace StarshipWanderer.Actors
         bool Decide<T>(IUserinterface ui, string title, string body, out T chosen, T[] options, int attitude);
 
         /// <summary>
-        /// Move the actor from it's <paramref name="currentLocation"/> to a <paramref name="newLocation"/>
+        /// Move the actor from it's <see cref="CurrentLocation"/> to a <paramref name="newLocation"/>
         /// </summary>
-        /// <param name="world"></param>
-        /// <param name="currentLocation"></param>
         /// <param name="newLocation"></param>
-        void Move(IWorld world, IPlace currentLocation, IPlace newLocation);
+        void Move(IPlace newLocation);
+
+        void Kill(IUserinterface ui);
     }
 }

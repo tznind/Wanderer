@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using StarshipWanderer.Actions;
-using StarshipWanderer.Actors;
 using StarshipWanderer.Behaviours;
-using StarshipWanderer.Places;
-using StarshipWanderer.UI;
 
 namespace StarshipWanderer
 {
@@ -44,11 +40,6 @@ namespace StarshipWanderer
                     current.Pop(ui,this);
 
             Clear();
-        }
-
-        public void RunStack(IUserinterface ui, IAction firstAction, IPlace place)
-        {
-            RunStack(ui,firstAction,place.Occupants.SelectMany(o=>o.GetFinalBehaviours()));
         }
     }
 }

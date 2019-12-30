@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Places;
+using StarshipWanderer.UI;
 
 namespace StarshipWanderer
 {
@@ -9,9 +11,12 @@ namespace StarshipWanderer
         Random R { get; set; }
 
         You Player { get; set; }
-        IPlace CurrentLocation { get; set; }
 
         IRoomFactory RoomFactory { get; set; }
+
         Map Map { get; }
+
+        HashSet<IActor> Population { get; }
+        void RunNpcActions(IUserinterface ui);
     }
 }

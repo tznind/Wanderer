@@ -7,7 +7,7 @@ namespace StarshipWanderer.Behaviours
     {
         private readonly IAction _toForbid;
 
-        public ForbidAction(IAction toForbid, IActor performedBy):base(null,performedBy)
+        public ForbidAction(IAction toForbid, IActor performedBy):base(performedBy)
         {
             _toForbid = toForbid;
         }

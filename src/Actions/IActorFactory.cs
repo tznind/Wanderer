@@ -6,6 +6,6 @@ namespace StarshipWanderer.Actions
 {
     public interface IActorFactory
     {
-        IEnumerable<IActor> Create(IWorld world, IPlace place);
+        void Create(IWorld world, IPlace place);
     }
 }

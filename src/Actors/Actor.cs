@@ -9,9 +9,9 @@ using StarshipWanderer.Stats;
 
 namespace StarshipWanderer.Actors
 {
-    public class Actor : IActor
+    public abstract class Actor : IActor
     {
-        public IWorld World { get; set; }
+        public IPlace CurrentLocation { get; set; }
         public string Name { get; set; }
         
         public HashSet<IAction> BaseActions { get; set; } = new HashSet<IAction>();
@@ -25,10 +25,11 @@ namespace StarshipWanderer.Actors
 
         public HashSet<IBehaviour> BaseBehaviours { get; set; } = new HashSet<IBehaviour>();
 
-        public Actor(IWorld world,string name)
+        public Actor(string name,IPlace currentLocation)
         {
-            World = world;
             Name = name;
+            CurrentLocation = currentLocation;
+            CurrentLocation?.World.Population.Add(this);
         }
 
         public void AddBehaviour(IBehaviour b)
@@ -36,36 +37,24 @@ namespace StarshipWanderer.Actors
             BaseBehaviours.Add(b);
         }
 
-        public IEnumerable<IAction> GetFinalActions(IWorld world,IPlace actorsPlace)
+        public IEnumerable<IAction> GetFinalActions()
         {
-            yield return new Leave(world, this, actorsPlace);
-            yield return new FightAction(world,this);
+            yield return new Leave(this);
+            yield return new FightAction(this);
 
             foreach (var a in BaseActions.Union(Adjectives.SelectMany(a=>a.Actions)).Distinct()) 
                 yield return a;
         }
 
-        public virtual bool Decide<T>(IUserinterface ui, string title, string body,out T chosen, T[] options, int attitude)
+        public abstract bool Decide<T>(IUserinterface ui, string title, string body, out T chosen, T[] options,
+            int attitude);
+
+        public virtual void Move(IPlace newLocation)
         {
-            //If there are no options pick null return false
-            if (!options.Any())
-            {
-                chosen = default(T);
-                return false;
-            }
-
-            //pick random option
-            chosen = options[World.R.Next(0, options.Length)];
-
-            //if picked option was default (e.g. None Enums) return false
-            return !chosen.Equals(default(T));
+            CurrentLocation = newLocation;
         }
 
-        public virtual void Move(IWorld world, IPlace currentLocation, IPlace newLocation)
-        {
-            currentLocation.Occupants.Remove(this);
-            newLocation.Occupants.Add(this);
-        }
+        public abstract void Kill(IUserinterface ui);
 
         public IEnumerable<IBehaviour> GetFinalBehaviours()
         {

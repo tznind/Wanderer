@@ -24,13 +24,13 @@ namespace StarshipWanderer.UI
         private const int MAP_HEIGHT = WIN_HEIGHT - 5;
 
 
-        public World World { get; set; }
+        public IWorld World { get; set; }
         public EventLog Log { get; }
         public ListView ListActions { get; set; }
 
         private Label _lblMap;
 
-        public MainWindow(World world, EventLog log):base(new Rect(0,1,WIN_WIDTH,WIN_HEIGHT + 1),null)
+        public MainWindow(IWorld world, EventLog log):base(new Rect(0,1,WIN_WIDTH,WIN_HEIGHT + 1),null)
         {
             World = world;
             Log = log;
@@ -164,12 +164,12 @@ namespace StarshipWanderer.UI
 
         private void RedrawMap()
         {
-            if (World.CurrentLocation == null)
+            if (World.Player == null)
                 return;
 
             StringBuilder sb = new StringBuilder();
             
-            var home = World.Map.GetPoint(World.CurrentLocation);
+            var home = World.Map.GetPoint(World.Player.CurrentLocation);
 
             //start map drawing at the north most (biggest Y value) and count down (towards south)
             for (int y = (MAP_HEIGHT/2) - 1 ; y >= -MAP_HEIGHT/2 ; y--)
@@ -212,7 +212,7 @@ namespace StarshipWanderer.UI
 
         public void UpdateActions()
         {
-            Title = World.CurrentLocation.Title;
+            Title = World.Player.CurrentLocation.Title;
 
             foreach(Button b in _oldButtons)
                 Remove(b);
@@ -221,8 +221,8 @@ namespace StarshipWanderer.UI
 
             int buttonLoc = 0;
 
-            var allActions = World.CurrentLocation.GetActions()
-                .Union(World.Player.GetFinalActions(World,World.CurrentLocation));
+            var allActions = World.Player.CurrentLocation.GetActions(World.Player)
+                .Union(World.Player.GetFinalActions());
 
             foreach (var action in allActions)
             {
@@ -232,7 +232,7 @@ namespace StarshipWanderer.UI
                 btn.Clicked = () =>
                 {
                     var stack = new ActionStack();
-                    stack.RunStack(this,action,World.CurrentLocation);
+                    stack.RunStack(this,action,World.Population.SelectMany(a=>a.GetFinalBehaviours()));
 
                     World.RunNpcActions(this);
                 };

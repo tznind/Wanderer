@@ -8,12 +8,10 @@ namespace StarshipWanderer.Actions
 {
     public class Leave : Action
     {
-        private IPlace _leavingFrom;
         public Direction Direction;
 
-        public Leave(IWorld world,IActor performedBy,IPlace leavingFrom):base(world,performedBy)
+        public Leave(IActor performedBy):base(performedBy)
         {
-            _leavingFrom = leavingFrom;
         }
         
         public override void Push(IUserinterface ui, ActionStack stack)
@@ -28,30 +26,28 @@ namespace StarshipWanderer.Actions
         {
             if(Direction == Direction.None)
                 return;
-
-            if(!_leavingFrom.Occupants.Contains(PerformedBy))
-                throw new Exception("Actor was not in the room they were trying to leave");
             
-            var oldPoint = World.Map.GetPoint(_leavingFrom);
+            var oldPoint = PerformedBy.CurrentLocation.GetPoint();
             var newPoint = oldPoint.Offset(Direction,1);
             
             IPlace goingTo;
 
-            if (World.Map.ContainsKey(newPoint))
-                goingTo = World.Map[newPoint];
+            var world = PerformedBy.CurrentLocation.World;
+
+            if (world.Map.ContainsKey(newPoint))
+                goingTo = world.Map[newPoint];
             else
             {
-                var newRoom = World.RoomFactory.Create(World);
-                World.Map.Add(newPoint,newRoom);
+                var newRoom = world.RoomFactory.Create(world);
+                world.Map.Add(newPoint,newRoom);
                 goingTo = newRoom;
             }
 
-            PerformedBy.Move(World,_leavingFrom, goingTo);
+            PerformedBy.Move(goingTo);
 
-            ui.Log.Info($"{PerformedBy} left {_leavingFrom} in Direction {Direction}");
+            ui.Log.Info($"{PerformedBy} moved to {goingTo}");
 
             //since they should now be in the new location we should prep the command for reuse
-            _leavingFrom = goingTo;
             ui.Refresh();
 
         }

@@ -5,7 +5,7 @@ namespace StarshipWanderer.Actors
 {
     public class You : Actor
     {
-        public You(IWorld world):base( world,"Wanderer")
+        public You(IPlace currentLocation):base( "Wanderer",currentLocation)
         {
             BaseStats[Stat.Loyalty] = 10;
             BaseStats[Stat.Fight] = 10;
@@ -17,11 +17,10 @@ namespace StarshipWanderer.Actors
             //ask user through UI
             return ui.GetChoice(title,body,out chosen,options);
         }
-
-        public override void Move(IWorld world, IPlace currentLocation, IPlace newLocation)
+        
+        public override void Kill(IUserinterface ui)
         {
-            world.CurrentLocation = newLocation;
-            base.Move(world, currentLocation, newLocation);
+            ui.ShowMessage("Dead","You have tragically met your end.  Don't worry, many of your comrades will benefit from you sacrifice (at breakfast tomorrow).",false);
         }
     }
 }

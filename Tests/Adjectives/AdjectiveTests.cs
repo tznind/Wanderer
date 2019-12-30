@@ -1,6 +1,8 @@
 ﻿using NUnit.Framework;
+using StarshipWanderer;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives;
+using StarshipWanderer.Places;
 using StarshipWanderer.Stats;
 
 namespace Tests.Adjectives
@@ -10,7 +12,9 @@ namespace Tests.Adjectives
         [Test]
         public void TestAttractive()
         {
-            var d  = new Actor(null,"Dave");
+            var w = new World();
+
+            var d  = new Npc("Dave",new Room("Nowhere",w));
             
             d.BaseStats[Stat.Fight] = 20;
             d.BaseStats[Stat.Coerce] = 20;

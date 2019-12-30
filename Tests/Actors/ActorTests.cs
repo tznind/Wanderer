@@ -12,18 +12,24 @@ namespace Tests.Actors
         [Test]
         public void TestAddOccupant()
         {
-            var you = new You(null);
-            var world = new World(you, new RoomFactory(new ActorFactory()));
 
-            var room1 = world.CurrentLocation;
+            var world = new World();
+            var roomFactory = new RoomFactory(new ActorFactory());
+            var you = new You(roomFactory.Create(world));
+            world.Player = you;
 
-            Assert.Contains(you,room1.Occupants.ToArray());
+            var room1 = world.Player.CurrentLocation;
 
-            var frank = new Actor(world,"Frank");
-            room1.AddActor(frank);
+            Assert.Contains(you,world.Population.ToArray());
 
-            Assert.Contains(you,room1.Occupants.ToArray());
-            Assert.Contains(frank,room1.Occupants.ToArray());
+            var frank = new Npc("Frank",room1);
+
+            
+            Assert.AreEqual(room1,you.CurrentLocation);
+            Assert.AreEqual(room1,frank.CurrentLocation);
+
+            Assert.Contains(you,world.Population.ToArray());
+            Assert.Contains(frank,world.Population.ToArray());
         }
     }
 }

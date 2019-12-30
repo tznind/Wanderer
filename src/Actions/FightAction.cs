@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using NLog.Targets;
 using StarshipWanderer.Actors;
+using StarshipWanderer.Stats;
 
 namespace StarshipWanderer.Actions
 {
@@ -11,14 +12,15 @@ namespace StarshipWanderer.Actions
     {
         public IActor Target { get; set; }
 
-        public FightAction(IWorld world, IActor performedBy) : base(world, performedBy)
+        public FightAction(IActor performedBy) : base(performedBy)
         {
         }
 
 
         public override void Push(IUserinterface ui, ActionStack stack)
         {
-            var targets = World.CurrentLocation.Occupants.Where(a => !(a is You)).ToArray();
+            var targets = PerformedBy.CurrentLocation.World.Population
+                .Where(a => a.CurrentLocation == PerformedBy.CurrentLocation && !(a is You)).ToArray();
 
             if (!targets.Any())
             {
@@ -35,8 +37,17 @@ namespace StarshipWanderer.Actions
 
         public override void Pop(IUserinterface ui, ActionStack stack)
         {
-            ui.ShowMessage("Fight Results",$"{PerformedBy} fought and killed {Target}",true);
-            World.CurrentLocation.Occupants.Remove(Target);
+
+            if (Target.GetFinalStats()[Stat.Fight] > PerformedBy.GetFinalStats()[Stat.Fight])
+            {
+                ui.ShowMessage("Fight Results",$"{PerformedBy} fought {Target} but was killed",true);
+                PerformedBy.Kill(ui);
+            }
+            else
+            {
+                ui.ShowMessage("Fight Results",$"{PerformedBy} fought and killed {Target}",true);
+                Target.Kill(ui);
+            }
 
         }
     }

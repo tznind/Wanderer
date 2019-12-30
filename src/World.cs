@@ -16,29 +16,14 @@ namespace StarshipWanderer
     {
         public Map Map { get; set;} = new Map();
 
-        public IPlace CurrentLocation { get; set; }
-
+        public HashSet<IActor> Population { get; set; } =  new HashSet<IActor>();
+        
         public IRoomFactory RoomFactory { get; set; }
 
         public Random R { get; set; } = new Random(100);
 
         public You Player { get; set; }
-
-        public World()
-        {
-            
-        }
-
-        public World(You player, IRoomFactory roomFactory)
-        {
-            Player = player;
-            Player.World = this;
-            RoomFactory = roomFactory;
-            CurrentLocation = RoomFactory.Create(this);
-            Map.Add(new Point3(0,0,0),CurrentLocation);
-            CurrentLocation.Occupants.Add(player);
-        }
-
+        
         /// <summary>
         /// Returns settings suitable for loading/saving worlds
         /// </summary>
@@ -57,16 +42,19 @@ namespace StarshipWanderer
             var stack = new ActionStack();
 
             //use ToArray because people might blow up rooms or kill one another
-            foreach (var room in Map.Select(v=>v.Value).ToArray())
-                foreach (var occupant in room.Occupants.ToArray())
-                {
-                    if(occupant is You)
-                        continue;
+            foreach (var npc in Population.ToArray())
+            {
+                if(npc is You)
+                    continue;
 
-                    if(occupant.Decide(ui, "Pick Action", null, out IAction chosen,
-                        occupant.GetFinalActions(this, room).ToArray(), 0))
-                        stack.RunStack(ui,chosen,room);
-                }
+                //if occupant was killed by a previous action
+                if(!Population.Contains(npc))
+                    continue;
+
+                if(npc.Decide(ui, "Pick Action", null, out IAction chosen,
+                    npc.GetFinalActions().ToArray(), 0))
+                    stack.RunStack(ui,chosen,Population.SelectMany(p=>p.GetFinalBehaviours()));
+            }
         }
     }
 }

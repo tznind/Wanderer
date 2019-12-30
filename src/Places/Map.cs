@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using StarshipWanderer.Actors;
 
 namespace StarshipWanderer.Places
 {
@@ -20,5 +21,6 @@ namespace StarshipWanderer.Places
         {
             return this.First(k => k.Value == place).Key;
         }
+
     }
 }
