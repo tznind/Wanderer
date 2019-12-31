@@ -73,6 +73,9 @@ namespace StarshipWanderer.Actors
 
             foreach (var a in BaseActions.Union(Adjectives.SelectMany(a=>a.Actions)).Distinct()) 
                 yield return a;
+
+            foreach (IAction a in CurrentLocation.GetActions(this))
+                yield return a;
         }
 
         public abstract bool Decide<T>(IUserinterface ui, string title, string body, out T chosen, T[] options,
@@ -84,6 +87,12 @@ namespace StarshipWanderer.Actors
         }
 
         public abstract void Kill(IUserinterface ui);
+
+        /// <inheritdoc/>
+        public IActor[] GetCurrentLocationSiblings()
+        {
+            return CurrentLocation.World.Population.Where(o => o.CurrentLocation == CurrentLocation && o != this).ToArray();
+        }
 
         public IEnumerable<IBehaviour> GetFinalBehaviours()
         {

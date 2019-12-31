@@ -1,5 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
+using StarshipWanderer.Actions;
 using StarshipWanderer.Places;
 using StarshipWanderer.Stats;
 
@@ -30,6 +31,9 @@ namespace StarshipWanderer.Actors
             BaseStats[Stat.Loyalty] = 10;
             BaseStats[Stat.Fight] = 10;
             BaseStats[Stat.Coerce] = 10;
+
+            //player can coerce Npc
+            BaseActions.Add(new Coerce());
         }
 
         public override bool Decide<T>(IUserinterface ui, string title, string body, out T chosen, T[] options, int attitude)

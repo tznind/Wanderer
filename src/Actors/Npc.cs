@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using StarshipWanderer.Actions;
 using StarshipWanderer.Places;
 
 namespace StarshipWanderer.Actors
@@ -22,8 +23,34 @@ namespace StarshipWanderer.Actors
         {
         }
 
+        /// <summary>
+        /// Forces the next action decided by <see cref="Npc"/> to be this.  After which it will be cleared
+        /// </summary>
+        public CoerceFrame NextAction { get; set; }
+
         public override bool Decide<T>(IUserinterface ui, string title, string body, out T chosen, T[] options, int attitude)
         {
+            //if we are being forced to perform an action
+            if(typeof(IAction).IsAssignableFrom(typeof(T)))
+                if (NextAction != null )
+                {
+                    //if it is the first time we are being asked what to do (action) after coercion
+                    if (!NextAction.Chosen)
+                    {
+                        //pick the coerced act
+                        chosen = (T) NextAction.CoerceAction;
+                        NextAction.Chosen = true; //and mark that we are not going to pick it again
+                        return true;
+                    }
+                    
+                    //we have already attempted the coerced action, clear it
+                    NextAction = null;
+                }
+
+            //if we are mid coercion we must let user pick targets
+            if (NextAction != null)
+                return NextAction.UserInterface.GetChoice(title, body, out chosen, options);
+
             List<T> narrowOptions = new List<T>(options);
             
             //if it's something bad

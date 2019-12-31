@@ -18,7 +18,7 @@ namespace StarshipWanderer.UI
         private const int DLG_BOUNDARY = 2;
 
         private const int WIN_WIDTH = 80;
-        private const int WIN_HEIGHT = 20;
+        private const int WIN_HEIGHT = 21;
 
         private const int MAP_WIDTH = 40;
         private const int MAP_HEIGHT = WIN_HEIGHT - 5;
@@ -49,9 +49,9 @@ namespace StarshipWanderer.UI
             /****** Menu ***********/
             // 15 x 80
             // ******** Actions *****
-            // 5 x 80
+            // 6 x 80
             //***********************
-            var frame = new FrameView(new Rect(-1, 15, 80, 5),"Actions");
+            var frame = new FrameView(new Rect(-1, 15, 80, 6),"Actions");
 
             ListActions = new ListView();
 
@@ -245,8 +245,7 @@ namespace StarshipWanderer.UI
 
             int buttonLoc = 0;
 
-            var allActions = World.Player.CurrentLocation.GetActions(World.Player)
-                .Union(World.Player.GetFinalActions());
+            var allActions = World.Player.GetFinalActions();
 
             foreach (var action in allActions)
             {
