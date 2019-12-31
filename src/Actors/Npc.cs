@@ -8,7 +8,10 @@ namespace StarshipWanderer.Actors
 {
     public class Npc : Actor
     {
-        
+
+        /// <summary>
+        /// Do not use, internal constructor for JSON serialization
+        /// </summary>
         [JsonConstructor]
         protected Npc()
         {

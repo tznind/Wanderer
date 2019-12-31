@@ -5,6 +5,9 @@ namespace StarshipWanderer.Actions
 {
     public interface IAction
     {
+        /// <summary>
+        /// The human readable name of the action which can be undertaken
+        /// </summary>
         string Name { get; set; }
 
         /// <summary>

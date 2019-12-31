@@ -8,24 +8,58 @@ using StarshipWanderer.Stats;
 
 namespace StarshipWanderer.Actors
 {
+    /// <summary>
+    /// An entity in a single location (at once) capable of performing actions (this includes the human player)
+    /// </summary>
     public interface IActor
     {
+        /// <summary>
+        /// Human readable name for the <see cref="Actor"/>
+        /// </summary>
         string Name { get; set; }
 
+        /// <summary>
+        /// Where the <see cref="Actor"/> currently is
+        /// </summary>
         IPlace CurrentLocation { get; set; }
 
+        /// <summary>
+        /// The <see cref="IAction"/> that the <see cref="Actor"/> can undertake regardless of gear, location etc.
+        /// </summary>
         HashSet<IAction> BaseActions { get; set; }
 
+
+        /// <summary>
+        /// Human readable words that describe the current state of the <see cref="IActor"/>
+        /// </summary>
         HashSet<IAdjective> Adjectives { get; set; }
 
+        /// <summary>
+        /// Actors stats before applying any modifiers
+        /// </summary>
         StatsCollection BaseStats { get; set; }
 
+        /// <summary>
+        /// Determines how the <see cref="Actor"/> responds to events (regardless of location or gear etc)
+        /// </summary>
         HashSet<IBehaviour> BaseBehaviours { get; set; }
 
+        /// <summary>
+        /// Returns all behaviours the <see cref="Actor"/> is currently exhibiting (super set of <see cref="BaseBehaviours"/> and any from gear, <see cref="IAdjective"/> etc)
+        /// </summary>
+        /// <returns></returns>
         IEnumerable<IBehaviour> GetFinalBehaviours();
         
+        /// <summary>
+        /// Returns the <see cref="BaseStats"/> adjusted for current gear, <see cref="Adjectives"/> etc
+        /// </summary>
+        /// <returns></returns>
         StatsCollection GetFinalStats();
 
+        /// <summary>
+        /// Returns the <see cref="BaseActions"/> plus any allowed by the <see cref="CurrentLocation"/>, gear, <see cref="Adjectives"/> etc
+        /// </summary>
+        /// <returns></returns>
         IEnumerable<IAction> GetFinalActions();
 
         /// <summary>
@@ -52,6 +86,10 @@ namespace StarshipWanderer.Actors
         /// <param name="newLocation"></param>
         void Move(IPlace newLocation);
 
+        /// <summary>
+        /// Ends the life of the <see cref="Actor"/>
+        /// </summary>
+        /// <param name="ui"></param>
         void Kill(IUserinterface ui);
     }
 }

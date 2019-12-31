@@ -3,11 +3,15 @@ using StarshipWanderer.Behaviours;
 
 namespace StarshipWanderer.Actions
 {
+    /// <inheritdoc/>
     public abstract class Action : IAction
     {
+        /// <inheritdoc/>
         public string Name { get; set; }
 
-
+        /// <summary>
+        /// Initializes action with a default <see cref="Name"/> based on the class name
+        /// </summary>
         protected Action()
         {
             Name = GetType().Name.Replace("Action", "");

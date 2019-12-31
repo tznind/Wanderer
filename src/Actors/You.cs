@@ -4,15 +4,26 @@ using StarshipWanderer.Stats;
 
 namespace StarshipWanderer.Actors
 {
+    /// <summary>
+    /// The human player character.  All decisions triggered use the <see cref="IUserinterface"/>
+    /// </summary>
     public class You : Actor
     {
-        
+
+        /// <summary>
+        /// Do not use, internal constructor for JSON serialization
+        /// </summary>
         [JsonConstructor]
         protected You()
         {
 
         }
 
+        /// <summary>
+        /// Creates a new instance of the player in the given <see cref="IPlace"/> (this includes adding them to the world population)
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="currentLocation"></param>
         public You(string name, IPlace currentLocation):base( name,currentLocation)
         {
             BaseStats[Stat.Loyalty] = 10;
