@@ -23,6 +23,10 @@ namespace StarshipWanderer
             //and run push event on the action
             firstAction.Push(ui,this,performer);
 
+            //If the action decided not to push after all (e.g. UI cancel or decision not to push)
+            if (this.Count == 0)
+                return;
+
             //check all behaviours to see if they want to respond (by pushing actions etc)
             foreach (IBehaviour responder in responders) 
                 responder.OnPush(ui, this,Peek());

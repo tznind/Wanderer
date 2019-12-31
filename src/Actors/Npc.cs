@@ -41,7 +41,7 @@ namespace StarshipWanderer.Actors
             }
             
             //pick random option
-            chosen = narrowOptions[CurrentLocation.World.R.Next(0, options.Length)];
+            chosen = narrowOptions[CurrentLocation.World.R.Next(0, narrowOptions.Count)];
 
             //if picked option was default (e.g. None Enums) return false
             return !chosen.Equals(default(T));
