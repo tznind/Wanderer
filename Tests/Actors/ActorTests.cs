@@ -15,8 +15,8 @@ namespace Tests.Actors
 
             var world = new World();
             var roomFactory = new RoomFactory(new ActorFactory());
-            var you = new You(roomFactory.Create(world));
-            world.Player = you;
+            var you = new You("TestPlayer",roomFactory.Create(world));
+            world.Population.Add(you);
 
             var room1 = world.Player.CurrentLocation;
 

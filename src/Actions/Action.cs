@@ -5,14 +5,11 @@ namespace StarshipWanderer.Actions
 {
     public abstract class Action : IAction
     {
-        public IActor PerformedBy { get; set; }
         public string Name { get; set; }
 
-        public CancellationStatus Cancelled { get; set; }  = CancellationStatus.NotCancelled;
 
-        protected Action(IActor performedBy)
+        protected Action()
         {
-            PerformedBy = performedBy;
             Name = GetType().Name.Replace("Action", "");
         }
 
@@ -23,18 +20,19 @@ namespace StarshipWanderer.Actions
         /// </summary>
         /// <param name="ui"></param>
         /// <param name="stack"></param>
-        public virtual void Push(IUserinterface ui, ActionStack stack)
+        /// <param name="actor"></param>
+        public virtual void Push(IUserinterface ui, ActionStack stack,IActor actor)
         {
-            Cancelled = CancellationStatus.NotCancelled;
-            stack.Push(this);
+            stack.Push(new Frame(actor,this));
         }
 
-        
+
         /// <summary>
         /// Override to your action once it is confirmed
         /// </summary>
         /// <param name="ui"></param>
         /// <param name="stack"></param>
-        public abstract void Pop(IUserinterface ui,ActionStack stack);
+        /// <param name="frame"></param>
+        public abstract void Pop(IUserinterface ui, ActionStack stack, Frame frame);
     }
 }

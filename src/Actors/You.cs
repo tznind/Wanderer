@@ -1,11 +1,19 @@
-﻿using StarshipWanderer.Places;
+﻿using Newtonsoft.Json;
+using StarshipWanderer.Places;
 using StarshipWanderer.Stats;
 
 namespace StarshipWanderer.Actors
 {
     public class You : Actor
     {
-        public You(IPlace currentLocation):base( "Wanderer",currentLocation)
+        
+        [JsonConstructor]
+        protected You()
+        {
+
+        }
+
+        public You(string name, IPlace currentLocation):base( name,currentLocation)
         {
             BaseStats[Stat.Loyalty] = 10;
             BaseStats[Stat.Fight] = 10;

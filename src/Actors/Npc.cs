@@ -1,12 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 using StarshipWanderer.Places;
 
 namespace StarshipWanderer.Actors
 {
     public class Npc : Actor
     {
+        
+        [JsonConstructor]
+        protected Npc()
+        {
+
+        }
+
         public Npc(string name,IPlace currentLocation) : base( name,currentLocation)
         {
         }
@@ -25,7 +33,7 @@ namespace StarshipWanderer.Actors
             //If there are no options pick null return false
             if (!narrowOptions.Any())
             {
-                chosen = default(T);
+                chosen = default;
                 return false;
             }
             

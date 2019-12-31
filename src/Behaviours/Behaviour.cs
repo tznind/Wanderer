@@ -3,7 +3,7 @@ using StarshipWanderer.Actors;
 
 namespace StarshipWanderer.Behaviours
 {
-    public abstract class Behaviour<T> : IBehaviour where T : IAction
+    public abstract class Behaviour : IBehaviour
     {
         public IActor Owner { get; set; }
 
@@ -12,6 +12,6 @@ namespace StarshipWanderer.Behaviours
             Owner = owner;
         }
 
-        public abstract void OnPush(IUserinterface ui, ActionStack stack);
+        public abstract void OnPush(IUserinterface ui, ActionStack stack,Frame frame);
     }
 }

@@ -28,7 +28,7 @@ namespace StarshipWanderer.UI
         public EventLog Log { get; }
         public ListView ListActions { get; set; }
 
-        private Label _lblMap;
+        private readonly Label _lblMap;
 
         public MainWindow(IWorld world, EventLog log):base(new Rect(0,1,WIN_WIDTH,WIN_HEIGHT + 1),null)
         {
@@ -55,9 +55,8 @@ namespace StarshipWanderer.UI
 
             ListActions = new ListView();
 
-            _lblMap = new Label(new Rect(0, 0,MAP_WIDTH,MAP_HEIGHT)," ");
-            _lblMap.LayoutStyle = LayoutStyle.Absolute;
-            
+            _lblMap = new Label(new Rect(0, 0, MAP_WIDTH, MAP_HEIGHT), " ") {LayoutStyle = LayoutStyle.Absolute};
+
             Add(_lblMap);
 
             frame.Add(ListActions);
@@ -66,6 +65,11 @@ namespace StarshipWanderer.UI
             Add(frame);    
             
             Refresh();
+        }
+
+        public sealed override void Add(View view)
+        {
+            base.Add(view);
         }
 
         private void ViewLog()
@@ -87,24 +91,27 @@ namespace StarshipWanderer.UI
             {
                 int width = DLG_WIDTH - (DLG_BOUNDARY * 2);
 
-                var text = new Label(0, 0, Wrap(message,width).TrimEnd());
-                text.Height = line - 1;
-                text.Width = width;
-                
+                var text = new Label(0, 0, Wrap(message, width).TrimEnd())
+                {
+                    Height = line - 1, Width = width
+                };
+
                 dlg.Add(text);
             }
 
             foreach (var value in options)
             {
                 T v1 = (T) value;
-                var btn = new Button(0,line++,value.ToString());
-                
-                btn.Clicked = ()=>
+                var btn = new Button(0, line++, value.ToString())
                 {
-                    result = v1;
-                    dlg.Running = false;
-                    optionChosen = true;
+                    Clicked = () =>
+                    {
+                        result = v1;
+                        dlg.Running = false;
+                        optionChosen = true;
+                    }
                 };
+
 
                 dlg.Add(btn);
             }
@@ -141,8 +148,7 @@ namespace StarshipWanderer.UI
             
             foreach (var stat in actor.BaseStats)
             {
-                var lbl = new Label(stat.Key + ":" + stat.Value);
-                lbl.Y = y++;
+                var lbl = new Label(stat.Key + ":" + stat.Value) {Y = y++};
                 dlg.Add(lbl);
             }
 
@@ -199,8 +205,9 @@ namespace StarshipWanderer.UI
             RunDialog(title,body,out _,"Ok");
         }
 
-        List<Button> _oldButtons = new List<Button>();
-        List<Point> _buttonLocations = new List<Point>()
+        readonly List<Button> _oldButtons = new List<Button>();
+
+        readonly List<Point> _buttonLocations = new List<Point>()
         {
             new Point(0,16),
             new Point(0,17),
@@ -226,15 +233,18 @@ namespace StarshipWanderer.UI
 
             foreach (var action in allActions)
             {
-                var btn = new Button(_buttonLocations[buttonLoc].X, _buttonLocations[buttonLoc].Y, action.Name, false);
-                btn.Width = 10;
-                btn.Height = 1;
-                btn.Clicked = () =>
+                var btn = new Button(_buttonLocations[buttonLoc].X, _buttonLocations[buttonLoc].Y, action.Name, false)
                 {
-                    var stack = new ActionStack();
-                    stack.RunStack(this,action,World.Population.SelectMany(a=>a.GetFinalBehaviours()));
+                    Width = 10,
+                    Height = 1,
+                    Clicked = () =>
+                    {
+                        var stack = new ActionStack();
+                        stack.RunStack(this, action, World.Player,
+                            World.Population.SelectMany(a => a.GetFinalBehaviours()));
 
-                    World.RunNpcActions(this);
+                        World.RunNpcActions(this);
+                    }
                 };
 
                 _oldButtons.Add(btn);

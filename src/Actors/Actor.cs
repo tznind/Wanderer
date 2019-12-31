@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Adjectives;
 using StarshipWanderer.Behaviours;
@@ -25,11 +26,17 @@ namespace StarshipWanderer.Actors
 
         public HashSet<IBehaviour> BaseBehaviours { get; set; } = new HashSet<IBehaviour>();
 
+        [JsonConstructor]
+        protected Actor()
+        {
+
+        }
+
         public Actor(string name,IPlace currentLocation)
         {
             Name = name;
             CurrentLocation = currentLocation;
-            CurrentLocation?.World.Population.Add(this);
+            CurrentLocation.World.Population.Add(this);
         }
 
         public void AddBehaviour(IBehaviour b)
@@ -39,8 +46,8 @@ namespace StarshipWanderer.Actors
 
         public IEnumerable<IAction> GetFinalActions()
         {
-            yield return new Leave(this);
-            yield return new FightAction(this);
+            yield return new Leave();
+            yield return new FightAction();
 
             foreach (var a in BaseActions.Union(Adjectives.SelectMany(a=>a.Actions)).Distinct()) 
                 yield return a;

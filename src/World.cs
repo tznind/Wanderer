@@ -22,7 +22,11 @@ namespace StarshipWanderer
 
         public Random R { get; set; } = new Random(100);
 
-        public You Player { get; set; }
+        [JsonIgnore]
+        public You Player
+        {
+            get { return (You) Population.FirstOrDefault(p => p is You); }
+        } 
         
         /// <summary>
         /// Returns settings suitable for loading/saving worlds
@@ -30,10 +34,14 @@ namespace StarshipWanderer
         /// <returns></returns>
         public static JsonSerializerSettings GetJsonSerializerSettings()
         {
-            var config = new JsonSerializerSettings();
-            config.ReferenceLoopHandling = ReferenceLoopHandling.Serialize;     
-            config.PreserveReferencesHandling = PreserveReferencesHandling.Objects;
-            config.TypeNameHandling = TypeNameHandling.All;
+            var config = new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
+                PreserveReferencesHandling = PreserveReferencesHandling.Objects,
+                TypeNameHandling = TypeNameHandling.All,
+                ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
+            };
+
             return config;
         }
 
@@ -53,7 +61,7 @@ namespace StarshipWanderer
 
                 if(npc.Decide(ui, "Pick Action", null, out IAction chosen,
                     npc.GetFinalActions().ToArray(), 0))
-                    stack.RunStack(ui,chosen,Population.SelectMany(p=>p.GetFinalBehaviours()));
+                    stack.RunStack(ui,chosen,npc,Population.SelectMany(p=>p.GetFinalBehaviours()));
             }
         }
     }

@@ -5,6 +5,6 @@ namespace StarshipWanderer.Behaviours
 {
     public interface IBehaviour
     {
-        void OnPush(IUserinterface ui, ActionStack stack);
+        void OnPush(IUserinterface ui, ActionStack stack,Frame frame);
     }
 }

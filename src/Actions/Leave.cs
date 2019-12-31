@@ -8,31 +8,27 @@ namespace StarshipWanderer.Actions
 {
     public class Leave : Action
     {
-        public Direction Direction;
-
-        public Leave(IActor performedBy):base(performedBy)
-        {
-        }
-        
-        public override void Push(IUserinterface ui, ActionStack stack)
+        public override void Push(IUserinterface ui, ActionStack stack, IActor actor)
         {
             //ask actor to pick a direction
-            if (PerformedBy.Decide<Direction>(ui, "Leave Direction", null, out Direction,
+            if (actor.Decide<Direction>(ui, "Leave Direction", null, out var direction,
                 Enum.GetValues(typeof(Direction)).Cast<Direction>().Where(d=>d!=Direction.None).ToArray(), 0))
-                base.Push(ui,stack);
+                stack.Push(new LeaveFrame(actor,this,direction));
         }
 
-        public override void Pop(IUserinterface ui, ActionStack stack)
+        public override void Pop(IUserinterface ui, ActionStack stack, Frame frame)
         {
-            if(Direction == Direction.None)
+            var f = (LeaveFrame) frame;
+
+            if(f.Direction == Direction.None)
                 return;
             
-            var oldPoint = PerformedBy.CurrentLocation.GetPoint();
-            var newPoint = oldPoint.Offset(Direction,1);
+            var oldPoint = frame.PerformedBy.CurrentLocation.GetPoint();
+            var newPoint = oldPoint.Offset(f.Direction,1);
             
             IPlace goingTo;
 
-            var world = PerformedBy.CurrentLocation.World;
+            var world = frame.PerformedBy.CurrentLocation.World;
 
             if (world.Map.ContainsKey(newPoint))
                 goingTo = world.Map[newPoint];
@@ -43,13 +39,12 @@ namespace StarshipWanderer.Actions
                 goingTo = newRoom;
             }
 
-            PerformedBy.Move(goingTo);
+            frame.PerformedBy.Move(goingTo);
 
-            ui.Log.Info($"{PerformedBy} moved to {goingTo}");
+            ui.Log.Info($"{frame.PerformedBy} moved to {goingTo}");
 
             //since they should now be in the new location we should prep the command for reuse
             ui.Refresh();
-
         }
     }
 }

@@ -21,8 +21,7 @@ namespace Tests.Places
 
             var room = new Room("someroom",world);
 
-            var m = new Map();
-            m.Add(p,room);
+            var m = new Map {{p, room}};
 
             var json = JsonConvert.SerializeObject(m,World.GetJsonSerializerSettings());
             

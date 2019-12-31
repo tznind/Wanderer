@@ -5,23 +5,17 @@ namespace StarshipWanderer.Behaviours
 {
     internal class ForbidAction : Action
     {
-        private readonly IAction _toForbid;
+        private readonly Frame _toForbid;
 
-        public ForbidAction(IAction toForbid, IActor performedBy):base(performedBy)
+        public ForbidAction(Frame toForbid)
         {
             _toForbid = toForbid;
         }
 
-
-        public override void Push(IUserinterface ui, ActionStack stack)
-        {
-            
-        }
-
-        public override void Pop(IUserinterface ui, ActionStack stack)
+        public override void Pop(IUserinterface ui, ActionStack stack, Frame frame)
         {
             _toForbid.Cancelled = CancellationStatus.Cancelled;
-            ui.ShowMessage("Forbidden",$"{PerformedBy} prevented {_toForbid.PerformedBy} from performing action {_toForbid.Name}",true);
+            ui.ShowMessage("Forbidden",$"{frame.PerformedBy} prevented {_toForbid.PerformedBy} from performing action {_toForbid.Action.Name}",true);
         }
     }
 }

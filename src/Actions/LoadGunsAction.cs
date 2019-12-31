@@ -8,24 +8,20 @@ namespace StarshipWanderer.Actions
 {
     internal class LoadGunsAction : Action
     {
-        public LoadGunsAction(IActor performedBy):base(performedBy)
-        {
-            
-        }
         
-        public override void Pop(IUserinterface ui, ActionStack stack)
+        public override void Pop(IUserinterface ui, ActionStack stack, Frame frame)
         {
-            var narrative = new Narrative(PerformedBy,"Load Guns","You spend several hours pushing overloaded gun carriages in the sweat and smoke filled confines of the loading bay.");
+            var narrative = new Narrative(frame.PerformedBy,"Load Guns","You spend several hours pushing overloaded gun carriages in the sweat and smoke filled confines of the loading bay.");
 
-            if (PerformedBy.BaseStats[Stat.Loyalty] > 0 && PerformedBy.BaseStats[Stat.Loyalty] < 30)
+            if (frame.PerformedBy.BaseStats[Stat.Loyalty] > 0 && frame.PerformedBy.BaseStats[Stat.Loyalty] < 30)
             {
-                PerformedBy.BaseStats[Stat.Loyalty]++;
+                frame.PerformedBy.BaseStats[Stat.Loyalty]++;
                 narrative.Changed("The Emperor's grace fills your heart",Stat.Loyalty, 1);
             }
 
-            if (PerformedBy.BaseStats[Stat.Fight] > 20)
+            if (frame.PerformedBy.BaseStats[Stat.Fight] > 20)
             {
-                PerformedBy.BaseStats[Stat.Fight]--;
+                frame.PerformedBy.BaseStats[Stat.Fight]--;
                 narrative.Changed("Aches and pains sap your strength",Stat.Fight, -1);
             }
 

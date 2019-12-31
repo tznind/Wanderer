@@ -28,13 +28,7 @@ namespace StarshipWanderer.Places
 
         public IList<IAction> GetActions(IActor actor)
         {
-            //todo clone and reassign
-            foreach (var action in BaseActions)
-                action.PerformedBy = actor;
-
-            var toReturn = new List<IAction>();
-            toReturn.AddRange(BaseActions);
-            return toReturn;
+            return BaseActions;
         }
 
         public Point3 GetPoint()

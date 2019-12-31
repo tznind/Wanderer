@@ -6,10 +6,6 @@ namespace StarshipWanderer.Actions
     public interface IAction
     {
         string Name { get; set; }
-        IActor PerformedBy { get; set; }
-
-        CancellationStatus Cancelled { get; set; }
-        
 
         /// <summary>
         /// When implemented results in pushing the current command onto the <paramref name="stack"/>
@@ -18,7 +14,8 @@ namespace StarshipWanderer.Actions
         /// </summary>
         /// <param name="ui"></param>
         /// <param name="stack"></param>
-        void Push(IUserinterface ui, ActionStack stack);
+        /// <param name="performer"></param>
+        void Push(IUserinterface ui, ActionStack stack,IActor performer);
 
         /// <summary>
         /// When implemented executes the action after it has been confirmed by the full
@@ -26,6 +23,7 @@ namespace StarshipWanderer.Actions
         /// </summary>
         /// <param name="ui"></param>
         /// <param name="stack"></param>
-        void Pop(IUserinterface ui,ActionStack stack);
+        /// <param name="frame"></param>
+        void Pop(IUserinterface ui,ActionStack stack,Frame frame);
     }
 }

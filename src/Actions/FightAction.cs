@@ -10,17 +10,10 @@ namespace StarshipWanderer.Actions
 {
     class FightAction : Action
     {
-        public IActor Target { get; set; }
-
-        public FightAction(IActor performedBy) : base(performedBy)
+        public override void Push(IUserinterface ui, ActionStack stack,IActor actor)
         {
-        }
-
-
-        public override void Push(IUserinterface ui, ActionStack stack)
-        {
-            var targets = PerformedBy.CurrentLocation.World.Population
-                .Where(a => a.CurrentLocation == PerformedBy.CurrentLocation && !(a is You)).ToArray();
+            var targets = actor.CurrentLocation.World.Population
+                .Where(a => a.CurrentLocation == actor.CurrentLocation && !(a is You)).ToArray();
 
             if (!targets.Any())
             {
@@ -28,25 +21,25 @@ namespace StarshipWanderer.Actions
                 return;
             }
 
-            if (PerformedBy.Decide(ui,"Fight", null, out IActor toFight, targets,-20))
+            if (actor.Decide(ui,"Fight", null, out IActor toFight, targets,-20))
             {
-                Target = toFight;
-                base.Push(ui, stack);
+                stack.Push(new FightFrame(actor,toFight,this));
             }
         }
 
-        public override void Pop(IUserinterface ui, ActionStack stack)
+        public override void Pop(IUserinterface ui, ActionStack stack, Frame frame)
         {
+            var f = (FightFrame) frame;
 
-            if (Target.GetFinalStats()[Stat.Fight] > PerformedBy.GetFinalStats()[Stat.Fight])
+            if (f.FightTarget.GetFinalStats()[Stat.Fight] > f.PerformedBy.GetFinalStats()[Stat.Fight])
             {
-                ui.ShowMessage("Fight Results",$"{PerformedBy} fought {Target} but was killed",true);
-                PerformedBy.Kill(ui);
+                ui.ShowMessage("Fight Results",$"{f.PerformedBy} fought {f.FightTarget} but was killed",true);
+                f.PerformedBy.Kill(ui);
             }
             else
             {
-                ui.ShowMessage("Fight Results",$"{PerformedBy} fought and killed {Target}",true);
-                Target.Kill(ui);
+                ui.ShowMessage("Fight Results",$"{f.PerformedBy} fought and killed {f.FightTarget}",true);
+                f.FightTarget.Kill(ui);
             }
 
         }

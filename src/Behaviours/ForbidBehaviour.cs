@@ -5,24 +5,24 @@ using StarshipWanderer.Conditions;
 
 namespace StarshipWanderer.Behaviours
 {
-    public class ForbidBehaviour<T> : Behaviour<T> where T:IAction
+    public class ForbidBehaviour<T> : Behaviour where T:Action
     {
-        public ICondition<T> Condition { get; set; }
+        public ICondition<Frame> Condition { get; set; }
 
-        public ForbidBehaviour(ICondition<T> condition, IActor owner):base(owner)
+        public ForbidBehaviour(ICondition<Frame> condition, IActor owner):base(owner)
         {
             Condition = condition;
         }
 
-        public override void OnPush(IUserinterface ui, ActionStack stack)
+        public override void OnPush(IUserinterface ui, ActionStack stack, Frame frame)
         {
-            foreach (var matchingAction in stack.Where(a => a is T t && Condition.IsMet(t)).ToArray())
+            foreach (var matchingFrame in stack.Where(a => a.Action is T && Condition.IsMet(frame)).ToArray())
             {
-                stack.Push(new ForbidAction(matchingAction,Owner));
+                stack.Push(new Frame(Owner,new ForbidAction(matchingFrame)));
                 
                 //elevate it to cancel pending (allows later actions/behaviours to cancel this action)
-                if (matchingAction.Cancelled == CancellationStatus.NotCancelled)
-                    matchingAction.Cancelled = CancellationStatus.CancellationPending;
+                if (matchingFrame.Cancelled == CancellationStatus.NotCancelled)
+                    matchingFrame.Cancelled = CancellationStatus.CancellationPending;
             }
         }
     }

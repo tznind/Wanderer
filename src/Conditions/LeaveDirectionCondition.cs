@@ -3,7 +3,7 @@ using StarshipWanderer.Actions;
 
 namespace StarshipWanderer.Conditions
 {
-    public class LeaveDirectionCondition : ICondition<Leave>
+    public class LeaveDirectionCondition : ICondition<Frame>
     {
         public Direction[] ConditionalDirections { get; set; }
 
@@ -12,9 +12,9 @@ namespace StarshipWanderer.Conditions
             ConditionalDirections = conditionalDirections;
         }
 
-        public bool IsMet(Leave forTarget)
+        public bool IsMet(Frame forTarget)
         {
-            return ConditionalDirections.Contains(forTarget.Direction);
+            return forTarget is LeaveFrame f && ConditionalDirections.Contains(f.Direction);
         }
     }
 }

@@ -43,26 +43,26 @@ namespace Tests.Actions
                 .Returns(new Room("North Room",world))
                 .Throws<Exception>();
             
-            world.Player = new You(factory.Object.Create(world));
+            world.Population.Add(new You("TestPlayer",factory.Object.Create(world)));
             world.RoomFactory = factory.Object;
             world.Map.Add(new Point3(0,0,0), world.Player.CurrentLocation);
             
             Assert.AreEqual(new Point3(0,0,0),world.Map.GetPoint(world.Player.CurrentLocation));
             
-            var leave = new Leave(world.Player);
+            var leave = new Leave();
 
             var room1 = world.Player.CurrentLocation;
             Assert.IsNotNull(room1);
 
             var stack = new ActionStack();
-            stack.RunStack(M.UI_GetChoice(Direction.North),leave,new IBehaviour[0]);
+            stack.RunStack(M.UI_GetChoice(Direction.North),leave,world.Player,new IBehaviour[0]);
             
             var room2 = world.Player.CurrentLocation;
             Assert.IsNotNull(room1);
             Assert.IsNotNull(room2);
             Assert.AreNotSame(room1, room2,"Expected room to change after leaving it");
             
-            stack.RunStack(M.UI_GetChoice(Direction.South),leave,new IBehaviour[0]);
+            stack.RunStack(M.UI_GetChoice(Direction.South),leave,world.Player,new IBehaviour[0]);
 
             Assert.AreSame(room1, world.Player.CurrentLocation,"Should be back in the first room again");
         }
@@ -82,11 +82,11 @@ namespace Tests.Actions
             //next return will be null and should not be invoked.  After all going West
             //from the EastRoom should result in being back in StartingRoom
             
-            world.Player = new You(factory.Object.Create(world));
+            world.Population.Add(new You("TestPlayer",factory.Object.Create(world)));
             world.RoomFactory = factory.Object;
             world.Map.Add(new Point3(0,0,0), world.Player.CurrentLocation);
 
-            var leave = new Leave(world.Player);
+            var leave = new Leave();
 
             var room1 = world.Player.CurrentLocation;
             Assert.IsNotNull(room1);
@@ -94,13 +94,13 @@ namespace Tests.Actions
             var stack = new ActionStack();
 
             //north
-            stack.RunStack(M.UI_GetChoice(Direction.North),leave,new IBehaviour[0]);
+            stack.RunStack(M.UI_GetChoice(Direction.North),leave,world.Player,new IBehaviour[0]);
             Assert.AreNotSame(room1, world.Player.CurrentLocation,"After going north we should not be in the same room");
 
             //east,south,west
-            stack.RunStack(M.UI_GetChoice(Direction.East),leave,new IBehaviour[0]);
-            stack.RunStack(M.UI_GetChoice(Direction.South),leave,new IBehaviour[0]);
-            stack.RunStack(M.UI_GetChoice(Direction.West),leave,new IBehaviour[0]);
+            stack.RunStack(M.UI_GetChoice(Direction.East),leave,world.Player,new IBehaviour[0]);
+            stack.RunStack(M.UI_GetChoice(Direction.South),leave,world.Player,new IBehaviour[0]);
+            stack.RunStack(M.UI_GetChoice(Direction.West),leave,world.Player,new IBehaviour[0]);
 
             factory.Verify();
 
@@ -112,17 +112,17 @@ namespace Tests.Actions
         {
             var world = new World();
             var room = new Room("Hotel California",world);
-            world.Player = new You(room);
+            world.Population.Add(new You("TestPlayer",room));
             
             var guard = new Npc("Guard",room);
 
-            guard.AddBehaviour(new ForbidBehaviour<Leave>(new AlwaysCondition<IAction>(),guard));
+            guard.AddBehaviour(new ForbidBehaviour<Leave>(new AlwaysCondition<Frame>(),guard));
             
-            var leave = new Leave(world.Player);
+            var leave = new Leave();
 
             var stack = new ActionStack();
 
-            stack.RunStack(M.UI_GetChoice(Direction.South), leave, guard.GetFinalBehaviours());
+            stack.RunStack(M.UI_GetChoice(Direction.South), leave,world.Player ,guard.GetFinalBehaviours());
 
             Assert.AreSame(room,world.Player.CurrentLocation,"Expected to be in the same room as started in");
 

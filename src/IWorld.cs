@@ -10,7 +10,7 @@ namespace StarshipWanderer
     {
         Random R { get; set; }
 
-        You Player { get; set; }
+        You Player { get; }
 
         IRoomFactory RoomFactory { get; set; }
 
