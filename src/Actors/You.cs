@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using StarshipWanderer.Places;
 using StarshipWanderer.Stats;
 
@@ -39,7 +40,7 @@ namespace StarshipWanderer.Actors
         
         public override void Kill(IUserinterface ui)
         {
-            ui.ShowMessage("Dead","You have tragically met your end.  Don't worry, many of your comrades will benefit from you sacrifice (at breakfast tomorrow).",false);
+            ui.ShowMessage("Dead","You have tragically met your end.  Don't worry, many of your comrades will benefit from you sacrifice (at breakfast tomorrow).",false,Guid.Empty);
         }
     }
 }

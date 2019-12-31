@@ -11,7 +11,7 @@ namespace StarshipWanderer.Actions
         
         public override void Pop(IUserinterface ui, ActionStack stack, Frame frame)
         {
-            var narrative = new Narrative(frame.PerformedBy,"Load Guns","You spend several hours pushing overloaded gun carriages in the sweat and smoke filled confines of the loading bay.");
+            var narrative = new Narrative(frame.PerformedBy,"Load Guns","You spend several hours pushing overloaded gun carriages in the sweat and smoke filled confines of the loading bay.",stack.Round);
 
             if (frame.PerformedBy.BaseStats[Stat.Loyalty] > 0 && frame.PerformedBy.BaseStats[Stat.Loyalty] < 30)
             {

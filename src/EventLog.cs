@@ -19,8 +19,22 @@ namespace StarshipWanderer
             _log = NLog.LogManager.GetCurrentClassLogger();
         }
 
-        public void Info(string s)
+        /// <summary>
+        /// All activities that happened since the last round began
+        /// </summary>
+        public List<string> RoundResults { get; } = new List<string>();
+        private Guid _currentRound;
+
+        public void Info(string s,Guid round)
         {
+            //if a new round has begun clear last rounds log and start again
+            if (round != Guid.Empty && round != _currentRound)
+            {
+                RoundResults.Clear();
+                _currentRound = round;
+            }
+
+            RoundResults.Add(s);
             _log.Info(s);
         }
     }

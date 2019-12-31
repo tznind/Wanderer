@@ -15,9 +15,10 @@ namespace StarshipWanderer.Actions
             var targets = actor.CurrentLocation.World.Population
                 .Where(a => a.CurrentLocation == actor.CurrentLocation && !(a is You)).ToArray();
 
-            if (!targets.Any())
+            if (!targets.Any() && actor is You)
             {
-                ui.ShowMessage("No Targets","There is nobody else to Fight", false);
+                //only complain about lack of targets if the player is attempting the action
+                ui.ShowMessage("No Targets","There is nobody else to Fight", false,stack.Round);
                 return;
             }
 
@@ -33,12 +34,12 @@ namespace StarshipWanderer.Actions
 
             if (f.FightTarget.GetFinalStats()[Stat.Fight] > f.PerformedBy.GetFinalStats()[Stat.Fight])
             {
-                ui.ShowMessage("Fight Results",$"{f.PerformedBy} fought {f.FightTarget} but was killed",true);
+                ui.Log.Info($"{f.PerformedBy} fought {f.FightTarget} but was killed",stack.Round);
                 f.PerformedBy.Kill(ui);
             }
             else
             {
-                ui.ShowMessage("Fight Results",$"{f.PerformedBy} fought and killed {f.FightTarget}",true);
+                ui.Log.Info($"{f.PerformedBy} fought and killed {f.FightTarget}",stack.Round);
                 f.FightTarget.Kill(ui);
             }
 

@@ -41,7 +41,7 @@ namespace StarshipWanderer.Actions
 
             frame.PerformedBy.Move(goingTo);
 
-            ui.Log.Info($"{frame.PerformedBy} moved to {goingTo}");
+            ui.Log.Info($"{frame.PerformedBy} moved to {goingTo}",stack.Round);
 
             //since they should now be in the new location we should prep the command for reuse
             ui.Refresh();

@@ -26,6 +26,14 @@ namespace StarshipWanderer
         bool GetChoice<T>(string title, string body, out T chosen, params T[] options);
 
         void Refresh();
-        void ShowMessage(string title, string body,bool log);
+
+        /// <summary>
+        /// Explicitly brings the message to the users attention (do not use for spammed messages, use <see cref="Log"/> instead
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="body"></param>
+        /// <param name="log">True to also record in <see cref="Log"/></param>
+        /// <param name="round">Pass in the <see cref="ActionStack.Round"/> otherwise pass empty</param>
+        void ShowMessage(string title, string body, bool log, Guid round);
     }
 }

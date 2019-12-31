@@ -12,6 +12,7 @@ namespace StarshipWanderer
     public class Narrative
     {
         public IActor Actor { get; }
+        public Guid Round { get; }
         private readonly string _title;
 
         private readonly List<Tuple<string, bool>> _text = new List<Tuple<string, bool>>();
@@ -22,9 +23,11 @@ namespace StarshipWanderer
         /// <param name="actor"></param>
         /// <param name="title"></param>
         /// <param name="fluff"></param>
-        public Narrative(IActor actor,string title, string fluff)
+        /// <param name="round">The current round (see <see cref="ActionStack.Round"/>) or empty</param>
+        public Narrative(IActor actor,string title, string fluff, Guid round)
         {
             Actor = actor;
+            Round = round;
             _title = title;
 
             Add(fluff);
@@ -51,10 +54,10 @@ namespace StarshipWanderer
         {
             //output the fluff to the ui if you are the actor
             if(forceShowMessage || Actor is You)
-                ui.ShowMessage(_title,string.Join('\n',_text.Where(t=>t.Item2).Select(t=>t.Item1)),false);
+                ui.ShowMessage(_title,string.Join('\n',_text.Where(t=>t.Item2).Select(t=>t.Item1)),false,Round);
 
             //log the technical stuff
-            ui.Log.Info(string.Join('\n',_text.Where(t=>!t.Item2).Select(t=>t.Item1)));
+            ui.Log.Info(string.Join('\n',_text.Where(t=>!t.Item2).Select(t=>t.Item1)),Round);
         }
 
         public void Changed(string fluff, Stat stat, int change)

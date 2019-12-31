@@ -91,14 +91,31 @@ namespace StarshipWanderer.UI
             {
                 int width = DLG_WIDTH - (DLG_BOUNDARY * 2);
 
-                var text = new Label(0, 0, Wrap(message, width).TrimEnd())
+                var msg = Wrap(message, width).TrimEnd();
+
+                var text = new Label(0, 0, msg)
                 {
                     Height = line - 1, Width = width
                 };
 
-                dlg.Add(text);
+                //if it is too long a message
+                int newlines = msg.Count(c => c == '\n');
+                if (newlines > line - 1)
+                {
+                    var view = new ScrollView(new Rect(0, 0, width, line - 1))
+                    {
+                        ContentSize = new Size(width, newlines + 1),
+                        ContentOffset = new Point(0, 0),
+                        ShowVerticalScrollIndicator = true,
+                        ShowHorizontalScrollIndicator = false
+                    };
+                    view.Add(text);
+                    dlg.Add(view);
+                }
+                else
+                    dlg.Add(text);
             }
-
+            
             foreach (var value in options)
             {
                 T v1 = (T) value;
@@ -197,10 +214,10 @@ namespace StarshipWanderer.UI
             _lblMap.Text = sb.ToString();
         }
 
-        public void ShowMessage(string title, string body, bool log)
+        public void ShowMessage(string title, string body, bool log, Guid round)
         {
             if(log)
-                Log.Info(body);
+                Log.Info(body,round);
 
             RunDialog(title,body,out _,"Ok");
         }
@@ -240,10 +257,14 @@ namespace StarshipWanderer.UI
                     Clicked = () =>
                     {
                         var stack = new ActionStack();
-                        stack.RunStack(this, action, World.Player,
+                        var actionRun = stack.RunStack(this, action, World.Player,
                             World.Population.SelectMany(a => a.GetFinalBehaviours()));
 
-                        World.RunNpcActions(this);
+                        if(actionRun)
+                            World.RunNpcActions(this);
+
+                        if(Log.RoundResults.Any())
+                            ShowMessage("Round Results",string.Join('\n',Log.RoundResults),false,Guid.Empty);
                     }
                 };
 
