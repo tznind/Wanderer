@@ -17,6 +17,11 @@ namespace StarshipWanderer.Places
         char Tile { get; }
 
         /// <summary>
+        /// The actions people can do because they are in this room
+        /// </summary>
+        IList<IAction> BaseActions { get; set; }
+
+        /// <summary>
         /// Adds a new action which can be performed in the room
         /// </summary>
         /// <param name="action"></param>

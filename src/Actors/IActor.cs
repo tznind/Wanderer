@@ -20,6 +20,8 @@ namespace StarshipWanderer.Actors
 
         StatsCollection BaseStats { get; set; }
 
+        HashSet<IBehaviour> BaseBehaviours { get; set; }
+
         IEnumerable<IBehaviour> GetFinalBehaviours();
         
         StatsCollection GetFinalStats();
