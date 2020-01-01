@@ -36,7 +36,7 @@ namespace StarshipWanderer.Actions
             g.BaseStats[Stat.Fight] = 20;
 
             //prevents anyone leaving the room unless loyalty is 10
-            g.AddBehaviour(new ForbidBehaviour<Leave>(new FrameStatCondition(Stat.Loyalty,Comparison.LessThan, 10),g));
+            g.BaseBehaviours.Add(new ForbidBehaviour<Leave>(new FrameStatCondition(Stat.Loyalty,Comparison.LessThan, 10),g));
 
             return g;
         }

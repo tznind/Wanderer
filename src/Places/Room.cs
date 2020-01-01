@@ -5,6 +5,7 @@ using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives;
 using StarshipWanderer.Behaviours;
+using StarshipWanderer.Items;
 using StarshipWanderer.Stats;
 
 namespace StarshipWanderer.Places
@@ -21,6 +22,8 @@ namespace StarshipWanderer.Places
 
         /// <inheritdoc/>
         public char Tile { get; set; } = '.';
+
+        public HashSet<IItem> Items { get;set; } = new HashSet<IItem>();
 
         public Room(string name,IWorld world)
         {

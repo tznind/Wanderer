@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Adjectives;
 using StarshipWanderer.Behaviours;
+using StarshipWanderer.Items;
 using StarshipWanderer.Places;
 using StarshipWanderer.Stats;
 
@@ -15,6 +16,8 @@ namespace StarshipWanderer.Actors
     {
         /// <inheritdoc/>
         public IPlace CurrentLocation { get; set; }
+
+        public HashSet<IItem> Items { get; set; } = new HashSet<IItem>();
 
         /// <inheritdoc/>
         public string Name { get; set; }
@@ -55,16 +58,7 @@ namespace StarshipWanderer.Actors
             BaseActions.Add(new Leave());
             BaseActions.Add(new FightAction());
         }
-
-        /// <summary>
-        /// Registers a new way of responding to events
-        /// </summary>
-        /// <param name="b"></param>
-        public virtual void AddBehaviour(IBehaviour b)
-        {
-            BaseBehaviours.Add(b);
-        }
-
+        
         /// <summary>
         /// Returns all <see cref="IAction"/> which the <see cref="Actor"/> can undertake in it's <see cref="CurrentLocation"/> (this includes 
         /// <see cref="BaseActions"/> but also any location or item specific actions.
@@ -74,7 +68,8 @@ namespace StarshipWanderer.Actors
         {
             return BaseActions
                 .Union(Adjectives.SelectMany(a => a.GetFinalActions()))
-                .Union(CurrentLocation.GetFinalActions());
+                .Union(CurrentLocation.GetFinalActions())
+                .Union(Items.SelectMany(i => i.GetFinalActions()));
         }
 
         public abstract bool Decide<T>(IUserinterface ui, string title, string body, out T chosen, T[] options,
@@ -95,7 +90,10 @@ namespace StarshipWanderer.Actors
 
         public IEnumerable<IBehaviour> GetFinalBehaviours()
         {
-            return BaseBehaviours.Union(Adjectives.SelectMany(a=>a.GetFinalBehaviours())).Distinct();
+            return BaseBehaviours
+                .Union(Adjectives.SelectMany(a=>a.GetFinalBehaviours()))
+                .Union(CurrentLocation.GetFinalBehaviours())
+                .Union(Items.SelectMany(i=>i.GetFinalBehaviours()));
         }
 
         public StatsCollection GetFinalStats()
@@ -104,6 +102,11 @@ namespace StarshipWanderer.Actors
 
             foreach (var adjective in Adjectives.Where(a=>a.IsActive())) 
                 clone.Add(adjective.GetFinalStats());
+
+            clone.Add(CurrentLocation.GetFinalStats());
+
+            foreach (var item in Items) 
+                clone.Add(item.GetFinalStats());
 
             return clone;
         }

@@ -160,8 +160,7 @@ namespace Tests.Actions
             world.Population.Add(new You("TestPlayer",room));
             
             var guard = new Npc("Guard",room);
-
-            guard.AddBehaviour(new ForbidBehaviour<Leave>(new AlwaysCondition<Frame>(),guard));
+            guard.BaseBehaviours.Add(new ForbidBehaviour<Leave>(new AlwaysCondition<Frame>(),guard));
             
             var leave = new Leave();
 

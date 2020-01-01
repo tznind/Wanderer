@@ -23,7 +23,7 @@ namespace Tests
             var world1 = new WorldFactory().Create();
             
             var omg = new Npc("omgz",world1.Player.CurrentLocation);
-            omg.AddBehaviour(new ForbidBehaviour<Leave>(new LeaveDirectionCondition(Direction.Down), omg));
+            omg.BaseBehaviours.Add(new ForbidBehaviour<Leave>(new LeaveDirectionCondition(Direction.Down), omg));
             
             var behaviour = omg.GetFinalBehaviours().OfType<ForbidBehaviour<Leave>>().Single();
 
@@ -70,7 +70,7 @@ namespace Tests
             var world1 = new WorldFactory().Create();
 
             var omg = new Npc("omgz",world1.Player.CurrentLocation);
-            omg.AddBehaviour(new ForbidBehaviour<Leave>(new LeaveDirectionCondition(Direction.Down), omg));
+            omg.BaseBehaviours.Add(new ForbidBehaviour<Leave>(new LeaveDirectionCondition(Direction.Down), omg));
             
             var behaviour = omg.GetFinalBehaviours().OfType<ForbidBehaviour<Leave>>().Single();
 

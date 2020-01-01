@@ -3,6 +3,7 @@ using NStack;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Adjectives;
 using StarshipWanderer.Behaviours;
+using StarshipWanderer.Items;
 using StarshipWanderer.Places;
 using StarshipWanderer.Stats;
 
@@ -18,6 +19,10 @@ namespace StarshipWanderer.Actors
         /// </summary>
         IPlace CurrentLocation { get; set; }
 
+        /// <summary>
+        /// Items that the actor owns
+        /// </summary>
+        HashSet<IItem> Items { get;set; }
         
         /// <summary>
         /// Asks the actor to pick a target for T.  This could be direction to move
