@@ -260,7 +260,7 @@ namespace StarshipWanderer.UI
                             World.Population.SelectMany(a => a.GetFinalBehaviours()));
 
                         if(actionRun)
-                            World.RunNpcActions(this);
+                            World.RunNpcActions(stack,this);
 
                         if(Log.RoundResults.Any())
                             ShowMessage("Round Results",string.Join('\n',Log.RoundResults),false,Guid.Empty);

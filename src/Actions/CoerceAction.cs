@@ -6,7 +6,7 @@ using StarshipWanderer.Actors;
 
 namespace StarshipWanderer.Actions
 {
-    public class Coerce : Action
+    public class CoerceAction : Action
     {
         public override void Push(IUserinterface ui, ActionStack stack, IActor actor)
         {
@@ -22,27 +22,7 @@ namespace StarshipWanderer.Actions
             var f = frame as CoerceFrame;
             f.ToCoerce.NextAction = f;
 
-
-
-        }
-    }
-
-    public class CoerceFrame : Frame
-    {
-        public Npc ToCoerce { get; }
-        public IAction CoerceAction { get; }
-        public IUserinterface UserInterface { get; }
-
-        /// <summary>
-        /// This frame is passed to the <see cref="Npc.NextAction"/> once they have chosen the action this becomes true
-        /// </summary>
-        public bool Chosen { get; set; }
-
-        public CoerceFrame(IActor performedBy, Coerce action, Npc toCoerce, IAction coerceAction, IUserinterface ui):base(performedBy,action)
-        {
-            ToCoerce = toCoerce;
-            CoerceAction = coerceAction;
-            UserInterface = ui;
+            ui.Log.Info($"{f.PerformedBy} coerced {f.ToCoerce} to perform {f.CoerceAction.Name}", stack.Round);
         }
     }
 }

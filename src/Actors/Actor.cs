@@ -50,6 +50,10 @@ namespace StarshipWanderer.Actors
             Name = name;
             CurrentLocation = currentLocation;
             CurrentLocation.World.Population.Add(this);
+
+            //basic actions everyone can do (by default)
+            BaseActions.Add(new Leave());
+            BaseActions.Add(new FightAction());
         }
 
         /// <summary>
@@ -68,9 +72,6 @@ namespace StarshipWanderer.Actors
         /// <returns></returns>
         public IEnumerable<IAction> GetFinalActions()
         {
-            yield return new Leave();
-            yield return new FightAction();
-
             foreach (var a in BaseActions.Union(Adjectives.SelectMany(a=>a.Actions)).Distinct()) 
                 yield return a;
 

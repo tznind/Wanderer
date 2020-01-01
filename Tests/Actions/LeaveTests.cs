@@ -5,6 +5,7 @@ using StarshipWanderer.Actions;
 using StarshipWanderer.Places;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Behaviours;
@@ -26,6 +27,50 @@ namespace Tests.Actions
        }
     }
 
+    /// <summary>
+    /// Test helper class which handles calls to <see cref="IUserinterface.GetChoice{T}"/> by returning fixed values in order
+    /// (uses out parameter so cannot easily use SetupSequence)
+    /// </summary>
+    class GetChoiceTestUI : IUserinterface
+    {
+        private readonly object[] _getChoiceReturns;
+        private int _index;
+        public EventLog Log { get; } = new EventLog();
+
+        public GetChoiceTestUI(params object[] getChoiceReturns)
+        {
+            _getChoiceReturns = getChoiceReturns;
+            _index = 0;
+            Log.Register();
+        }
+
+        public void ShowActorStats(IActor actor)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool GetChoice<T>(string title, string body, out T chosen, params T[] options)
+        {
+            if(_index >= _getChoiceReturns.Length)
+                throw new Exception($"Did not have an answer for GetChoice of:{title} ({body})");
+
+            chosen = (T) _getChoiceReturns[_index++];
+
+            if(!options.Contains(chosen))
+                throw new Exception($"Chosen test answer was not one of the listed options for GetChoice of:{title} ({body})");
+            return true;
+        }
+
+        public void Refresh()
+        {
+        }
+
+        public void ShowMessage(string title, string body, bool log, Guid round)
+        {
+            if(log)
+                Log.Info(body,round);
+        }
+    }
 
     class LeaveTests
     {

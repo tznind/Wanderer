@@ -17,6 +17,6 @@ namespace StarshipWanderer
         Map Map { get; }
 
         HashSet<IActor> Population { get; }
-        void RunNpcActions(IUserinterface ui);
+        void RunNpcActions(ActionStack stack, IUserinterface ui);
     }
 }

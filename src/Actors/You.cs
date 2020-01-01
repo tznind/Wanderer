@@ -33,7 +33,7 @@ namespace StarshipWanderer.Actors
             BaseStats[Stat.Coerce] = 10;
 
             //player can coerce Npc
-            BaseActions.Add(new Coerce());
+            BaseActions.Add(new CoerceAction());
         }
 
         public override bool Decide<T>(IUserinterface ui, string title, string body, out T chosen, T[] options, int attitude)

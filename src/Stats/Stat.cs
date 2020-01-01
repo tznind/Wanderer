@@ -6,6 +6,7 @@
         Corruption,
         Fight,
         Coerce,
+        Initiative,
 
     }
 }

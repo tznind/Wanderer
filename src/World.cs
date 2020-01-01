@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Places;
+using StarshipWanderer.Stats;
 using StarshipWanderer.UI;
 
 namespace StarshipWanderer
@@ -45,12 +46,10 @@ namespace StarshipWanderer
             return config;
         }
 
-        public void RunNpcActions(IUserinterface ui)
+        public void RunNpcActions(ActionStack stack,IUserinterface ui)
         {
-            var stack = new ActionStack();
-
             //use ToArray because people might blow up rooms or kill one another
-            foreach (var npc in Population.ToArray())
+            foreach (var npc in Population.OrderByDescending(a=>a.GetFinalStats()[Stat.Initiative]).ToArray())
             {
                 if(npc is You)
                     continue;

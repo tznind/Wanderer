@@ -8,7 +8,7 @@ using StarshipWanderer.Stats;
 
 namespace StarshipWanderer.Actions
 {
-    class FightAction : Action
+    public class FightAction : Action
     {
         public override void Push(IUserinterface ui, ActionStack stack,IActor actor)
         {
