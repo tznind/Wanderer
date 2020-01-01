@@ -9,14 +9,35 @@ namespace StarshipWanderer.Adjectives
     public abstract class Adjective : IAdjective
     {
         public IActor Owner { get; set; }
-        
-        public StatsCollection Modifiers { get; } = new StatsCollection();
-        public List<IBehaviour> Behaviours { get; } = new List<IBehaviour>();
-        public List<IAction> Actions { get; set; } = new List<IAction>();
 
+        public string Name { get; set; }
+
+        public HashSet<IAction> BaseActions { get; set; } = new HashSet<IAction>();
+
+        public StatsCollection BaseStats { get; set; } = new StatsCollection();
+        public HashSet<IBehaviour> BaseBehaviours { get; set; } = new HashSet<IBehaviour>();
+        
+        /// <summary>
+        /// Creates a new adjective with name based on Type name
+        /// </summary>
         protected Adjective(IActor owner)
         {
             Owner = owner;
+            Name = GetType().Name;
+        }
+        
+        public virtual IEnumerable<IAction> GetFinalActions()
+        {
+            return BaseActions;
+        }
+
+        public virtual StatsCollection GetFinalStats()
+        {
+            return BaseStats;
+        }
+        public virtual IEnumerable<IBehaviour> GetFinalBehaviours()
+        {
+            return BaseBehaviours;
         }
 
         public override string ToString()

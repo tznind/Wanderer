@@ -7,13 +7,8 @@ using StarshipWanderer.Stats;
 
 namespace StarshipWanderer.Adjectives
 {
-    public interface IAdjective
+    public interface IAdjective : IHasStats
     {
-        IActor Owner { get; set; }
-
-        StatsCollection Modifiers { get; }
-        List<IBehaviour> Behaviours { get; }
-        List<IAction> Actions { get; set; }
         bool IsActive();
     }
 }

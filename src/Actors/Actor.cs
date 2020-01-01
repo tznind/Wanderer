@@ -72,11 +72,9 @@ namespace StarshipWanderer.Actors
         /// <returns></returns>
         public IEnumerable<IAction> GetFinalActions()
         {
-            foreach (var a in BaseActions.Union(Adjectives.SelectMany(a=>a.Actions)).Distinct()) 
-                yield return a;
-
-            foreach (IAction a in CurrentLocation.GetActions(this))
-                yield return a;
+            return BaseActions
+                .Union(Adjectives.SelectMany(a => a.GetFinalActions()))
+                .Union(CurrentLocation.GetFinalActions());
         }
 
         public abstract bool Decide<T>(IUserinterface ui, string title, string body, out T chosen, T[] options,
@@ -97,7 +95,7 @@ namespace StarshipWanderer.Actors
 
         public IEnumerable<IBehaviour> GetFinalBehaviours()
         {
-            return BaseBehaviours.Union(Adjectives.SelectMany(a=>a.Behaviours)).Distinct();
+            return BaseBehaviours.Union(Adjectives.SelectMany(a=>a.GetFinalBehaviours())).Distinct();
         }
 
         public StatsCollection GetFinalStats()
@@ -105,7 +103,7 @@ namespace StarshipWanderer.Actors
             var clone = BaseStats.Clone();
 
             foreach (var adjective in Adjectives.Where(a=>a.IsActive())) 
-                clone.Add(adjective.Modifiers);
+                clone.Add(adjective.GetFinalStats());
 
             return clone;
         }

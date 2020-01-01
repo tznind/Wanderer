@@ -29,7 +29,7 @@ namespace Tests.Places
 
             var m2 = JsonConvert.DeserializeObject<Map>(json, World.GetJsonSerializerSettings());
 
-            Assert.AreEqual("someroom",m2[new Point3(0,1,2)].Title);
+            Assert.AreEqual("someroom",m2[new Point3(0,1,2)].Name);
         }
     }
 }

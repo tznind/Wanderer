@@ -2,33 +2,40 @@
 using System.Collections.Generic;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
+using StarshipWanderer.Behaviours;
+using StarshipWanderer.Stats;
 
 namespace StarshipWanderer.Places
 {
     public class Room : IPlace
     {
         public IWorld World { get; set; }
-        public string Title { get; set; }
+        public string Name { get; set; }
 
-        public IList<IAction> BaseActions { get; set; } = new List<IAction>();
+        public HashSet<IAction> BaseActions { get; set; } = new HashSet<IAction>();
+        public StatsCollection BaseStats { get; set; } = new StatsCollection();
+        public HashSet<IBehaviour> BaseBehaviours { get; set; } = new HashSet<IBehaviour>();
 
         /// <inheritdoc/>
         public char Tile { get; set; } = '.';
 
-        public Room(string title,IWorld world)
+        public Room(string name,IWorld world)
         {
-            Title = title;
+            Name = name;
             World = world;
         }
 
-        public void AddAction(IAction action)
-        {
-            BaseActions.Add(action);
-        }
-
-        public IList<IAction> GetActions(IActor actor)
+        public virtual IEnumerable<IAction> GetFinalActions()
         {
             return BaseActions;
+        }
+        public virtual StatsCollection GetFinalStats()
+        {
+            return BaseStats;
+        }
+        public virtual IEnumerable<IBehaviour> GetFinalBehaviours()
+        {
+            return BaseBehaviours;
         }
 
         public Point3 GetPoint()
@@ -38,7 +45,7 @@ namespace StarshipWanderer.Places
 
         public override string ToString()
         {
-            return Title ?? "Unnamed Room";
+            return Name ?? "Unnamed Room";
         }
     }
 }

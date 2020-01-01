@@ -34,7 +34,7 @@ namespace Tests
             //we DO forbid going down
             Assert.IsTrue(behaviour.Condition.IsMet(new LeaveFrame(omg,new Leave(),Direction.Down)));
             
-            var actionsBefore = world1.Player.CurrentLocation.GetActions(world1.Player).Count;
+            var actionsBefore = world1.Player.CurrentLocation.GetFinalActions().Count();
 
             var json = JsonConvert.SerializeObject(world1,config);
 
@@ -45,8 +45,8 @@ namespace Tests
             Assert.IsNotNull(world2.Player.CurrentLocation);
 
             Assert.AreEqual(
-                world1.Player.CurrentLocation.Title,
-                world2.Player.CurrentLocation.Title);
+                world1.Player.CurrentLocation.Name,
+                world2.Player.CurrentLocation.Name);
             
             Assert.AreEqual(
                 world1.Population.Count,
@@ -61,7 +61,7 @@ namespace Tests
             //we DO forbid going down
             Assert.IsTrue(behaviour2.Condition.IsMet(new LeaveFrame(omg2,new Leave(),Direction.Down)));
             
-            Assert.AreEqual(actionsBefore , world2.Player.CurrentLocation.GetActions(world2.Player).Count);
+            Assert.AreEqual(actionsBefore , world2.Player.CurrentLocation.GetFinalActions().Count());
         }
 
         [Test]

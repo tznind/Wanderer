@@ -236,7 +236,7 @@ namespace StarshipWanderer.UI
 
         public void UpdateActions()
         {
-            Title = World.Player.CurrentLocation.Title;
+            Title = World.Player.CurrentLocation.Name;
 
             foreach(Button b in _oldButtons)
                 Remove(b);

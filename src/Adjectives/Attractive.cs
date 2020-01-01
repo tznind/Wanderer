@@ -8,7 +8,7 @@ namespace StarshipWanderer.Adjectives
     {
         public Attractive(IActor actor) : base(actor)
         {
-            Modifiers[Stat.Coerce] = 15;
+            BaseStats[Stat.Coerce] = 15;
         }
 
         public override bool IsActive()

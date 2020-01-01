@@ -7,7 +7,7 @@ namespace StarshipWanderer.Adjectives
     {
         public Injured(IActor actor):base(actor)
         {
-            Modifiers[Stat.Fight] = -10;
+            BaseStats[Stat.Fight] = -10;
         }
 
     }
