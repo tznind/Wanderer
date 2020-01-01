@@ -8,9 +8,14 @@ namespace StarshipWanderer.Adjectives
 {
     public abstract class Adjective : IAdjective
     {
-        public IActor Owner { get; set; }
+        public IHasStats Owner { get; set; }
 
         public string Name { get; set; }
+
+        /// <summary>
+        /// Interface member, do not use. Sub adjectives seem like a really bad idea
+        /// </summary>
+        public HashSet<IAdjective> Adjectives { get; set; }
 
         public HashSet<IAction> BaseActions { get; set; } = new HashSet<IAction>();
 
@@ -20,7 +25,7 @@ namespace StarshipWanderer.Adjectives
         /// <summary>
         /// Creates a new adjective with name based on Type name
         /// </summary>
-        protected Adjective(IActor owner)
+        protected Adjective(IHasStats owner)
         {
             Owner = owner;
             Name = GetType().Name;

@@ -5,9 +5,9 @@ namespace StarshipWanderer.Behaviours
 {
     public abstract class Behaviour : IBehaviour
     {
-        public IActor Owner { get; set; }
+        public IHasStats Owner { get; set; }
 
-        protected Behaviour(IActor owner)
+        protected Behaviour(IHasStats owner)
         {
             Owner = owner;
         }

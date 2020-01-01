@@ -9,6 +9,8 @@ namespace StarshipWanderer.Adjectives
 {
     public interface IAdjective : IHasStats
     {
+        IHasStats Owner { get; set; }
+
         bool IsActive();
     }
 }

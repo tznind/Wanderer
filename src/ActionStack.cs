@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Behaviours;
@@ -30,7 +31,7 @@ namespace StarshipWanderer
                 return false; //initial action was aborted
 
             //check all behaviours to see if they want to respond (by pushing actions etc)
-            foreach (IBehaviour responder in responders) 
+            foreach (IBehaviour responder in responders.ToArray())  //ToArray needed because they can self destruct at this time!
                 responder.OnPush(ui, this,Peek());
 
             var pending = new Queue<Frame>();

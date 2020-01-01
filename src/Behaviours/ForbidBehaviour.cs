@@ -18,7 +18,7 @@ namespace StarshipWanderer.Behaviours
         {
             foreach (var matchingFrame in stack.Where(a => a.Action is T && Condition.IsMet(frame)).ToArray())
             {
-                stack.Push(new Frame(Owner,new ForbidAction(matchingFrame)));
+                stack.Push(new Frame((IActor)Owner,new ForbidAction(matchingFrame)));
                 
                 //elevate it to cancel pending (allows later actions/behaviours to cancel this action)
                 if (matchingFrame.Cancelled == CancellationStatus.NotCancelled)

@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Text;
 using StarshipWanderer.Actors;
+using StarshipWanderer.Adjectives;
 
 namespace StarshipWanderer.Actions
 {
@@ -21,6 +20,7 @@ namespace StarshipWanderer.Actions
         {
             var f = frame as CoerceFrame;
             f.ToCoerce.NextAction = f;
+            f.ToCoerce.Adjectives.Add(new Coerced(f.ToCoerce));
 
             ui.Log.Info($"{f.PerformedBy} coerced {f.ToCoerce} to perform {f.CoerceAction.Name}", stack.Round);
         }

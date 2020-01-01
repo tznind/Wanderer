@@ -18,11 +18,6 @@ namespace StarshipWanderer.Actors
         /// </summary>
         IPlace CurrentLocation { get; set; }
 
-
-        /// <summary>
-        /// Human readable words that describe the current state of the <see cref="IActor"/>
-        /// </summary>
-        HashSet<IAdjective> Adjectives { get; set; }
         
         /// <summary>
         /// Asks the actor to pick a target for T.  This could be direction to move
