@@ -12,6 +12,9 @@ namespace StarshipWanderer.Behaviours
             Owner = owner;
         }
 
-        public abstract void OnPush(IUserinterface ui, ActionStack stack,Frame frame);
+        public virtual void OnPush(IUserinterface ui, ActionStack stack, Frame frame)
+        {
+
+        }
     }
 }

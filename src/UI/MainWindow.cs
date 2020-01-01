@@ -230,7 +230,11 @@ namespace StarshipWanderer.UI
             new Point(0,17),
             new Point(0,18),
             new Point(0,19),
-            new Point(0,20),
+            new Point(15,16),
+            new Point(15,17),
+            new Point(15,18),
+            new Point(15,19),
+
         };
 
 

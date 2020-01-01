@@ -57,6 +57,7 @@ namespace StarshipWanderer.Actors
             //basic actions everyone can do (by default)
             BaseActions.Add(new Leave());
             BaseActions.Add(new FightAction());
+            BaseActions.Add(new PickUpAction());
         }
         
         /// <summary>
