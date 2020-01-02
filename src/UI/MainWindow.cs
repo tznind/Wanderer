@@ -54,7 +54,7 @@ namespace StarshipWanderer.UI
                 }),
                 new MenuBarItem("_View",new MenuItem[]{
                     new MenuItem ("_Log", null, ViewLog),
-                    new MenuItem ("_Character", null, () => { ShowActorStats(World.Player); })
+                    new MenuItem ("_Character", null, () => { ShowActorStats(World?.Player); })
                 })
             });
             top.Add (menu);
@@ -80,14 +80,15 @@ namespace StarshipWanderer.UI
         }
         public void NewGame()
         {
-            var adjectiveFactory = new AdjectiveFactory();
-
             var newWorld = _worldFactory.Create();
 
-            if(!RunDialog("Select Adjective","Choose an adjective for your character",out IAdjective chosen, adjectiveFactory.GetAvailableAdjectives(newWorld.Player).ToArray()))
+            var dlg = new NewPlayerDialog(newWorld.Player,new AdjectiveFactory());
+
+            Application.Run(dlg);
+
+            if(!dlg.Ok)
                 return;
 
-            newWorld.Player.Adjectives.Add(chosen);
             World = newWorld;
             Log.Clear();
             
@@ -250,6 +251,12 @@ namespace StarshipWanderer.UI
 
         public void ShowActorStats(IActor actor)
         {
+            if (actor == null)
+            {
+                ShowMessage("No World","No game is currently loaded",false,Guid.Empty);
+                return;
+            }
+
             var dlg = new ActorDialog(actor);
             Application.Run(dlg);
         }

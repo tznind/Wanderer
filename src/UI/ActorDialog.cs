@@ -11,6 +11,15 @@ namespace StarshipWanderer.UI
             Button btn = new Button("Close",true);
             AddButton(btn);
             
+            
+            var lblName = new Label("Adjectives:" + string.Join(',',actor.Adjectives))
+            {
+                X = 0,
+                Y = 0
+            };
+            
+            Add(lblName);
+
             int y = 1;
 
             var finalStats = actor.GetFinalStats();
