@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using StarshipWanderer.Actions;
 
 namespace StarshipWanderer.Behaviours
@@ -6,5 +7,7 @@ namespace StarshipWanderer.Behaviours
     public interface IBehaviour
     {
         void OnPush(IUserinterface ui, ActionStack stack,Frame frame);
+
+        void OnRoundEnding(IUserinterface ui,Guid round);
     }
 }

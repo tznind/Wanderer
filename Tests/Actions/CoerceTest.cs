@@ -36,14 +36,9 @@ namespace Tests.Actions
             world.Population.Add(a);
             world.Population.Add(b);
 
-            var stack = new ActionStack();
-
             var ui = new GetChoiceTestUI(a,a.GetFinalActions().OfType<FightAction>().Single(),b);
-
-            stack.RunStack(ui, world.Player.BaseActions.OfType<CoerceAction>().Single(), you, new IBehaviour[0]);
-            world.RunNpcActions(stack,ui);
-
-
+            world.RunRound(ui,world.Player.BaseActions.OfType<CoerceAction>().Single());
+            
             //a should have killed b
             Assert.Contains(a,world.Population.ToArray());
             Assert.IsFalse(world.Population.Contains(b));
@@ -52,6 +47,8 @@ namespace Tests.Actions
             Assert.Contains("A fought and killed B", ui.Log.RoundResults);
             Assert.AreEqual(2,ui.Log.RoundResults.Count);
 
+            //initiative should have been boosted to do the coerce then reset at end of round
+            Assert.AreEqual(10,a.GetFinalStats()[Stat.Initiative]);
         }
     }
 }

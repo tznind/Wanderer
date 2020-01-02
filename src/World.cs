@@ -7,6 +7,7 @@ using System.Text;
 using Newtonsoft.Json;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
+using StarshipWanderer.Behaviours;
 using StarshipWanderer.Places;
 using StarshipWanderer.Stats;
 using StarshipWanderer.UI;
@@ -46,7 +47,7 @@ namespace StarshipWanderer
             return config;
         }
 
-        public void RunNpcActions(ActionStack stack,IUserinterface ui)
+        private void RunNpcActions(ActionStack stack,IUserinterface ui)
         {
             //use ToArray because people might blow up rooms or kill one another
             foreach (var npc in Population.OrderByDescending(a=>a.GetFinalStats()[Stat.Initiative]).ToArray())
@@ -62,6 +63,33 @@ namespace StarshipWanderer
                     npc.GetFinalActions().ToArray(), 0))
                     stack.RunStack(ui,chosen,npc,Population.SelectMany(p=>p.GetFinalBehaviours()));
             }
+        }
+
+        /// <summary>
+        /// Returns all behaviours as a new array (to allow modification in foreach)
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<IBehaviour> GetAllBehaviours()
+        {
+            return Population.SelectMany(a => a.GetFinalBehaviours()).ToArray();
+        }
+
+        /// <inheritdoc/>
+        public void RunRound(IUserinterface ui, IAction playerAction)
+        {
+            var stack = new ActionStack();
+            var actionRun = stack.RunStack(ui, playerAction, Player,GetAllBehaviours());
+
+            if (actionRun)
+            {
+                RunNpcActions(stack,ui);
+
+                foreach (IBehaviour b in GetAllBehaviours()) 
+                    b.OnRoundEnding(ui, stack.Round);
+            }
+
+            if(ui.Log.RoundResults.Any())
+                ui.ShowMessage("Round Results",string.Join('\n',ui.Log.RoundResults),false,Guid.Empty);
         }
     }
 }

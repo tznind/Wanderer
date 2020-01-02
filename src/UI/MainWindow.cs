@@ -259,15 +259,7 @@ namespace StarshipWanderer.UI
                     Height = 1,
                     Clicked = () =>
                     {
-                        var stack = new ActionStack();
-                        var actionRun = stack.RunStack(this, action, World.Player,
-                            World.Population.SelectMany(a => a.GetFinalBehaviours()));
-
-                        if(actionRun)
-                            World.RunNpcActions(stack,this);
-
-                        if(Log.RoundResults.Any())
-                            ShowMessage("Round Results",string.Join('\n',Log.RoundResults),false,Guid.Empty);
+                        World.RunRound(this, action);
                     }
                 };
 

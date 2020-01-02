@@ -1,4 +1,5 @@
-﻿using StarshipWanderer.Actions;
+﻿using System;
+using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
 
 namespace StarshipWanderer.Behaviours
@@ -15,6 +16,10 @@ namespace StarshipWanderer.Behaviours
         public virtual void OnPush(IUserinterface ui, ActionStack stack, Frame frame)
         {
 
+        }
+
+        public virtual void OnRoundEnding(IUserinterface ui, Guid round)
+        {
         }
     }
 }

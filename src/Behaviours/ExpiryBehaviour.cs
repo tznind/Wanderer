@@ -9,7 +9,7 @@ namespace StarshipWanderer.Behaviours
     {
         private readonly IAdjective _adjective;
         private readonly int _roundsBeforeRemoval;
-        HashSet<Guid> _roundsSeen = new HashSet<Guid>();
+        readonly HashSet<Guid> _roundsSeen = new HashSet<Guid>();
 
         /// <summary>
         /// Add to <see cref="IHasStats.BaseBehaviours"/> in order to expire the given <paramref name="adjective"/> after <paramref name="roundsBeforeRemoval"/>
@@ -22,11 +22,11 @@ namespace StarshipWanderer.Behaviours
             _roundsBeforeRemoval = roundsBeforeRemoval;
         }
 
-        public override void OnPush(IUserinterface ui, ActionStack stack, Frame frame)
+        public override void OnRoundEnding(IUserinterface ui, Guid round)
         {
-            _roundsSeen.Add(stack.Round);
+            _roundsSeen.Add(round);
 
-            if (_roundsSeen.Count > _roundsBeforeRemoval)
+            if (_roundsSeen.Count >= _roundsBeforeRemoval)
             {
                 _adjective.Owner.Adjectives.Remove(_adjective);
                 _adjective.BaseBehaviours.Remove(this);
