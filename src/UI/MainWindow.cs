@@ -23,7 +23,7 @@ namespace StarshipWanderer.UI
         private const int WIN_HEIGHT = 21;
 
         private const int MAP_WIDTH = 40;
-        private const int MAP_HEIGHT = WIN_HEIGHT - 5;
+        private const int MAP_HEIGHT = WIN_HEIGHT - 7;
 
 
         public IWorld World { get; set; }
@@ -31,11 +31,13 @@ namespace StarshipWanderer.UI
         public ListView ListActions { get; set; }
 
         private readonly Label _lblMap;
+        private readonly SplashScreen _splash;
+
 
         public MainWindow(WorldFactory worldFactory):base(new Rect(0,1,WIN_WIDTH,WIN_HEIGHT + 1),null)
         {
             _worldFactory = worldFactory;
-            World = _worldFactory.Create();
+
             Log = new EventLog();
             Log.Register();
 
@@ -63,17 +65,16 @@ namespace StarshipWanderer.UI
             var frame = new FrameView(new Rect(-1, 15, 80, 6),"Actions");
 
             ListActions = new ListView();
+            
+            _splash = new SplashScreen(){X = 4,Y=4};
+            Add(_splash);
 
             _lblMap = new Label(new Rect(0, 0, MAP_WIDTH, MAP_HEIGHT), " ") {LayoutStyle = LayoutStyle.Absolute};
-
-            Add(_lblMap);
 
             frame.Add(ListActions);
             frame.FocusFirst();
 
-            Add(frame);    
-            
-            Refresh();
+            Add(frame);
         }
         public void NewGame()
         {
@@ -87,7 +88,10 @@ namespace StarshipWanderer.UI
             newWorld.Player.Adjectives.Add(chosen);
             World = newWorld;
             Log.Clear();
-
+            
+            Remove(_splash);
+            Add(_lblMap);
+            
             Refresh();
         }
 
@@ -260,6 +264,7 @@ namespace StarshipWanderer.UI
             new Point(15,19),
 
         };
+
 
 
         public void UpdateActions()
