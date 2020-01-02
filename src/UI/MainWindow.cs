@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 using NStack;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
@@ -97,12 +99,63 @@ namespace StarshipWanderer.UI
 
         private void LoadGame()
         {
-            throw new NotImplementedException();
+            var ofd = new OpenDialog("Load Game", "Enter file path to load");
+            ofd.AllowedFileTypes = new[] {".json"};
+
+            ofd.CanChooseDirectories = false;
+            ofd.AllowsMultipleSelection = false;
+
+            Application.Run(ofd);
+
+            var f = ofd.FilePaths.SingleOrDefault();
+            if ( f != null)
+            {
+                try
+                {
+                    
+                    var json = File.ReadAllText(f);
+                    
+                    World = JsonConvert.DeserializeObject<IWorld>(json, StarshipWanderer.World.GetJsonSerializerSettings());
+
+                    Refresh();
+                }
+                catch (Exception e)
+                {
+                    ShowMessage("Failed to Load",e.ToString(),false,Guid.Empty);
+                }
+            }
         }
+
+        private string _previousSavePath = null;
 
         private void SaveGame()
         {
-            throw new NotImplementedException();
+            if(World == null)
+            {
+                ShowMessage("No World","No game is currently loaded",false,Guid.Empty);
+                return;
+            }
+
+            var sf = new SaveDialog("Save Game", "Enter save file path");
+            sf.AllowedFileTypes = new[] {".json"};
+            
+            Application.Run(sf);
+
+            if (sf.FileName != null)
+            {
+                var f =
+                    sf.FileName.EndsWith(".json") ? sf.FileName : sf.FileName + ".json";
+                
+                try
+                {
+                    var json = JsonConvert.SerializeObject(World, StarshipWanderer.World.GetJsonSerializerSettings());
+                    File.WriteAllText(f.ToString(),json);
+                }
+                catch (Exception e)
+                {
+                    ShowMessage("Failed to Save",e.ToString(),false,Guid.Empty);
+                }
+            }
         }
 
 
