@@ -6,6 +6,7 @@ using System.Text;
 using NStack;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
+using StarshipWanderer.Adjectives;
 using StarshipWanderer.Behaviours;
 using Terminal.Gui;
 
@@ -13,9 +14,10 @@ namespace StarshipWanderer.UI
 {
     public class MainWindow : Window, IUserinterface
     {
-        private const int DLG_WIDTH = 78;
-        private const int DLG_HEIGHT = 18;
-        private const int DLG_BOUNDARY = 2;
+        private readonly WorldFactory _worldFactory;
+        public const int DLG_WIDTH = 78;
+        public const int DLG_HEIGHT = 18;
+        public const int DLG_BOUNDARY = 2;
 
         private const int WIN_WIDTH = 80;
         private const int WIN_HEIGHT = 21;
@@ -30,18 +32,25 @@ namespace StarshipWanderer.UI
 
         private readonly Label _lblMap;
 
-        public MainWindow(IWorld world, EventLog log):base(new Rect(0,1,WIN_WIDTH,WIN_HEIGHT + 1),null)
+        public MainWindow(WorldFactory worldFactory):base(new Rect(0,1,WIN_WIDTH,WIN_HEIGHT + 1),null)
         {
-            World = world;
-            Log = log;
+            _worldFactory = worldFactory;
+            World = _worldFactory.Create();
+            Log = new EventLog();
+            Log.Register();
+
             var top = Application.Top;
 
             var menu = new MenuBar (new MenuBarItem [] {
                 new MenuBarItem ("_Game (F9)", new MenuItem [] {
-                    
-                    new MenuItem ("View _Log", "", () => { ViewLog(); }),
-                    new MenuItem ("_Character", "", () => { ShowActorStats(World.Player); }),
-                    new MenuItem ("_Quit", "", () => { top.Running = false; })
+                    new MenuItem("_New",null, NewGame), 
+                    new MenuItem("_Save",null,SaveGame), 
+                    new MenuItem("_Load",null,LoadGame),
+                    new MenuItem ("_Quit", null, () => { top.Running = false; })
+                }),
+                new MenuBarItem("_View",new MenuItem[]{
+                    new MenuItem ("_Log", null, ViewLog),
+                    new MenuItem ("_Character", null, () => { ShowActorStats(World.Player); })
                 })
             });
             top.Add (menu);
@@ -66,6 +75,32 @@ namespace StarshipWanderer.UI
             
             Refresh();
         }
+        public void NewGame()
+        {
+            var adjectiveFactory = new AdjectiveFactory();
+
+            var newWorld = _worldFactory.Create();
+
+            if(!RunDialog("Select Adjective","Choose an adjective for your character",out IAdjective chosen, adjectiveFactory.GetAvailableAdjectives(newWorld.Player).ToArray()))
+                return;
+
+            newWorld.Player.Adjectives.Add(chosen);
+            World = newWorld;
+            Log.Clear();
+
+            Refresh();
+        }
+
+        private void LoadGame()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void SaveGame()
+        {
+            throw new NotImplementedException();
+        }
+
 
         public sealed override void Add(View view)
         {
@@ -158,18 +193,7 @@ namespace StarshipWanderer.UI
 
         public void ShowActorStats(IActor actor)
         {
-            Button btn;
-            var dlg = new Dialog(actor.Name, DLG_WIDTH, DLG_HEIGHT,btn = new Button("Close",true));
-            
-            int y = 1;
-            
-            foreach (var stat in actor.BaseStats)
-            {
-                var lbl = new Label(stat.Key + ":" + stat.Value) {Y = y++};
-                dlg.Add(lbl);
-            }
-
-            btn.Clicked = () => { dlg.Running = false;};
+            var dlg = new ActorDialog(actor);
             Application.Run(dlg);
         }
 

@@ -14,12 +14,8 @@ namespace StarshipWanderer
         static void Main(string[] args)
         {
             Application.Init();
-            var log = new EventLog();
-            log.Register();
             
-            var f = new WorldFactory();
-
-            var mainWindow = new MainWindow(f.Create(),log);
+            var mainWindow = new MainWindow(new WorldFactory());
             Application.Top.Add(mainWindow);
             Application.Run();
         }

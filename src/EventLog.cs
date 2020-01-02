@@ -37,5 +37,14 @@ namespace StarshipWanderer
             RoundResults.Add(s);
             _log.Info(s);
         }
+
+        /// <summary>
+        /// Removes all in memory log entries
+        /// </summary>
+        public void Clear()
+        {
+            Target.Logs.Clear();
+            RoundResults.Clear();
+        }
     }
 }

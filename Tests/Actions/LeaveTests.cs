@@ -35,6 +35,11 @@ namespace Tests.Actions
     {
         private readonly object[] _getChoiceReturns;
         private int _index;
+        public void NewGame()
+        {
+            throw new NotImplementedException();
+        }
+
         public EventLog Log { get; } = new EventLog();
 
         public GetChoiceTestUI(params object[] getChoiceReturns)
