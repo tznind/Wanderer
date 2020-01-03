@@ -38,5 +38,14 @@ namespace StarshipWanderer.Actions
         /// <param name="stack"></param>
         /// <param name="frame"></param>
         public abstract void Pop(IUserinterface ui, ActionStack stack, Frame frame);
+
+        /// <summary>
+        /// Returns <see cref="Name"/>
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

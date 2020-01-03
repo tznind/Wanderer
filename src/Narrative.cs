@@ -57,7 +57,10 @@ namespace StarshipWanderer
                 ui.ShowMessage(_title,string.Join('\n',_text.Where(t=>t.Item2).Select(t=>t.Item1)),false,Round);
 
             //log the technical stuff
-            ui.Log.Info(string.Join('\n',_text.Where(t=>!t.Item2).Select(t=>t.Item1)),Round);
+            var technical = string.Join('\n', _text.Where(t => !t.Item2).Select(t => t.Item1));
+
+            if(!string.IsNullOrWhiteSpace(technical))
+                ui.Log.Info(technical,Round);
         }
 
         public void Changed(string fluff, Stat stat, int change)
