@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Newtonsoft.Json;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Places;
@@ -38,6 +39,13 @@ namespace StarshipWanderer.Actors
 
         public override bool Decide<T>(IUserinterface ui, string title, string body, out T chosen, T[] options, int attitude)
         {
+            if (!options.Any())
+            {
+                ui.ShowMessage("No Targets","There are no valid targets for that action",false,Guid.Empty);
+                chosen = default;
+                return false;
+            }
+
             //ask user through UI
             return ui.GetChoice(title,body,out chosen,options);
         }

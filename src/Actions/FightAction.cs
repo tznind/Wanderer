@@ -12,17 +12,9 @@ namespace StarshipWanderer.Actions
     {
         public override void Push(IUserinterface ui, ActionStack stack,IActor actor)
         {
-            var targets = actor.CurrentLocation.World.Population
-                .Where(a => a.CurrentLocation == actor.CurrentLocation && !(a is You)).ToArray();
-
-            if (!targets.Any() && actor is You)
-            {
-                //only complain about lack of targets if the player is attempting the action
-                ui.ShowMessage("No Targets","There is nobody else to Fight", false,stack.Round);
-                return;
-            }
-
-            if (actor.Decide(ui,"Fight", null, out IActor toFight, targets,-20))
+            if (actor.Decide(ui,"Fight", null, out IActor toFight, 
+                actor.CurrentLocation.World.Population
+                .Where(a => a.CurrentLocation == actor.CurrentLocation && a != actor).ToArray(),-20))
             {
                 stack.Push(new FightFrame(actor,toFight,this));
             }
