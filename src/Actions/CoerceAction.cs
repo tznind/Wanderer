@@ -7,12 +7,17 @@ namespace StarshipWanderer.Actions
 {
     public class CoerceAction : Action
     {
+        public CoerceAction()
+        {
+            Attitude = -10;
+        }
+
         public override void Push(IUserinterface ui, ActionStack stack, IActor actor)
         {
             //pick a target 
-            if(ui.GetChoice("Coerce Target", null, out Npc toCoerce, actor.GetCurrentLocationSiblings().OfType<Npc>().ToArray()))
+            if(actor.Decide(ui,"Coerce Target", null, out Npc toCoerce, actor.GetCurrentLocationSiblings().OfType<Npc>().ToArray(),Attitude))
                 //pick an action to perform
-                if (ui.GetChoice("Coerce Action", null, out IAction actionToCoerce,toCoerce.GetFinalActions().ToArray()))
+                if (actor.Decide(ui,"Coerce Action", $"Pick an action you want {toCoerce} to perform", out IAction actionToCoerce,toCoerce.GetFinalActions().ToArray(),0))
                     stack.Push(new CoerceFrame(actor, this, toCoerce, actionToCoerce,ui));
         }
 

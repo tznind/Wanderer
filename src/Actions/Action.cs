@@ -9,6 +9,9 @@ namespace StarshipWanderer.Actions
         /// <inheritdoc/>
         public string Name { get; set; }
 
+        /// <inheritdoc/>
+        public int Attitude { get; set; }
+
         /// <summary>
         /// Initializes action with a default <see cref="Name"/> based on the class name
         /// </summary>

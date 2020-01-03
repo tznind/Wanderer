@@ -47,9 +47,12 @@ namespace StarshipWanderer.Actors
                     NextAction = null;
                 }
 
-            //if we are mid coercion we must let user pick targets
+            //if we are mid coercion we must let the coercer pick targets.
+            //when picking targets the coercer should know the Attitude (how kind)
+            //the action they are forcing is (in order to pick a good target)
             if (NextAction != null)
-                return NextAction.UserInterface.GetChoice(title, body, out chosen, options);
+                return NextAction.PerformedBy.Decide(ui,title, body, out chosen, 
+                    options,NextAction.CoerceAction.Attitude); 
 
             List<T> narrowOptions = new List<T>(options);
             

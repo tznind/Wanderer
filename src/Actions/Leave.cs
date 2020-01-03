@@ -12,7 +12,7 @@ namespace StarshipWanderer.Actions
         {
             //ask actor to pick a direction
             if (actor.Decide<Direction>(ui, "Leave Direction", null, out var direction,
-                Enum.GetValues(typeof(Direction)).Cast<Direction>().Where(d=>d!=Direction.None).ToArray(), 0))
+                Enum.GetValues(typeof(Direction)).Cast<Direction>().Where(d=>d!=Direction.None).ToArray(), Attitude))
                 stack.Push(new LeaveFrame(actor,this,direction));
         }
 

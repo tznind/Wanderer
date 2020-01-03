@@ -35,7 +35,7 @@ namespace StarshipWanderer.Actors
         public You(string name, IPlace currentLocation):base( name,currentLocation)
         {
             BaseStats[Stat.Loyalty] = 10;
-            BaseStats[Stat.Fight] = 10;
+            BaseStats[Stat.Fight] = 20;
             BaseStats[Stat.Coerce] = 10;
 
             //player can coerce Npc

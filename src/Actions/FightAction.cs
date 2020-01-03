@@ -10,11 +10,16 @@ namespace StarshipWanderer.Actions
 {
     public class FightAction : Action
     {
+        public FightAction()
+        {
+            Attitude = -20;
+        }
+
         public override void Push(IUserinterface ui, ActionStack stack,IActor actor)
         {
             if (actor.Decide(ui,"Fight", null, out IActor toFight, 
                 actor.CurrentLocation.World.Population
-                .Where(a => a.CurrentLocation == actor.CurrentLocation && a != actor).ToArray(),-20))
+                .Where(a => a.CurrentLocation == actor.CurrentLocation && a != actor).ToArray(),Attitude))
             {
                 stack.Push(new FightFrame(actor,toFight,this));
             }
