@@ -77,6 +77,12 @@ namespace StarshipWanderer
         /// <inheritdoc/>
         public void RunRound(IUserinterface ui, IAction playerAction)
         {
+            if (Player.Dead)
+            {
+                ui.ShowMessage("Dead","Alas you are too dead to do that",false,Guid.Empty);
+                return;
+            }
+
             var stack = new ActionStack();
             var actionRun = stack.RunStack(ui, playerAction, Player,GetAllBehaviours());
 

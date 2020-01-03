@@ -14,6 +14,11 @@ namespace StarshipWanderer.Actors
     {
 
         /// <summary>
+        /// True if player is dead
+        /// </summary>
+        public bool Dead { get; set; }
+
+        /// <summary>
         /// Do not use, internal constructor for JSON serialization
         /// </summary>
         [JsonConstructor]
@@ -52,7 +57,12 @@ namespace StarshipWanderer.Actors
         
         public override void Kill(IUserinterface ui)
         {
-            ui.ShowMessage("Dead","You have tragically met your end.  Don't worry, many of your comrades will benefit from you sacrifice (at breakfast tomorrow).",false,Guid.Empty);
+            //although you might get double dead in a round.  Only show the message once
+            if(!Dead)
+                ui.ShowMessage("Dead","You have tragically met your end.  Don't worry, many of your comrades will benefit from you sacrifice (at breakfast tomorrow).",false,Guid.Empty);
+
+            Dead = true;
         }
+
     }
 }
