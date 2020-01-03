@@ -86,10 +86,10 @@ namespace StarshipWanderer
 
                 foreach (IBehaviour b in GetAllBehaviours()) 
                     b.OnRoundEnding(ui, stack.Round);
-            }
 
-            if(ui.Log.RoundResults.Any())
-                ui.ShowMessage("Round Results",string.Join('\n',ui.Log.RoundResults),false,Guid.Empty);
+                if(ui.Log.RoundResults.Any())
+                    ui.ShowMessage("Round Results",string.Join('\n',ui.Log.RoundResults),false,Guid.Empty);
+            }
         }
     }
 }
