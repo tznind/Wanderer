@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NStack;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Adjectives;
@@ -52,7 +53,8 @@ namespace StarshipWanderer.Actors
         /// Ends the life of the <see cref="Actor"/>
         /// </summary>
         /// <param name="ui"></param>
-        void Kill(IUserinterface ui);
+        /// <param name="round"></param>
+        void Kill(IUserinterface ui, Guid round);
 
         /// <summary>
         /// Returns all other people in the <see cref="CurrentLocation"/>

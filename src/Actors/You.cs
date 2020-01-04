@@ -61,7 +61,7 @@ namespace StarshipWanderer.Actors
             newLocation.IsExplored = true;
         }
 
-        public override void Kill(IUserinterface ui)
+        public override void Kill(IUserinterface ui, Guid round)
         {
             //although you might get double dead in a round.  Only show the message once
             if(!Dead)

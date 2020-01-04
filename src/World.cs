@@ -110,6 +110,8 @@ namespace StarshipWanderer
 
                 if(ui.Log.RoundResults.Any())
                     ui.ShowMessage("Round Results",string.Join('\n',ui.Log.RoundResults),false,Guid.Empty);
+
+                ui.Refresh();
             }
         }
     }

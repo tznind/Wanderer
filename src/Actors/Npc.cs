@@ -78,13 +78,16 @@ namespace StarshipWanderer.Actors
             return !chosen.Equals(default(T));
         }
 
-        public override void Kill(IUserinterface ui)
+        public override void Kill(IUserinterface ui,Guid round)
         {
             CurrentLocation.World.Population.Remove(this);
 
             foreach (IItem item in Items)
+            {
                 CurrentLocation.Items.Add(item);
-
+                ui.Log.Info($"{this} dropped {item.Name}",round);
+            }
+                
             //just in case dead actors somehow go somewhere
             Items.Clear();
 

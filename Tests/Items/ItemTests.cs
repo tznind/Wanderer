@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Moq;
+using NLog.Fluent;
 using NUnit.Framework;
 using StarshipWanderer;
 using StarshipWanderer.Actions;
@@ -65,7 +67,7 @@ namespace Tests.Items
             Assert.Contains(npc,room.Actors.ToArray());
             Assert.IsEmpty(room.Items);
 
-            npc.Kill(Mock.Of<IUserinterface>());
+            npc.Kill(M.UI_GetChoice(new object()), Guid.Empty);
 
             //your gone!
             Assert.IsFalse(world.Population.Contains(npc));

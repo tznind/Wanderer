@@ -377,7 +377,7 @@ namespace StarshipWanderer.UI
 
             contents.AddRange(World.Player.CurrentLocation.Actors.Where(a => !(a is You)).Select(a => a.Name));
 
-            contents.AddRange(World.Player.CurrentLocation.Items.Select(a => "[I]" + a.Name));
+            contents.AddRange(World.Player.CurrentLocation.Items.Select(a => a.Name));
 
             View addLabelsTo;
 

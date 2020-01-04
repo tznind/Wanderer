@@ -42,5 +42,9 @@ namespace StarshipWanderer.Items
             return BaseBehaviours.Union(Adjectives.SelectMany(a => a.GetFinalBehaviours()));
         }
 
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

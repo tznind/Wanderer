@@ -32,12 +32,12 @@ namespace StarshipWanderer.Actions
             if (f.FightTarget.GetFinalStats()[Stat.Fight] > f.PerformedBy.GetFinalStats()[Stat.Fight])
             {
                 ui.Log.Info($"{f.PerformedBy} fought {f.FightTarget} but was killed",stack.Round);
-                f.PerformedBy.Kill(ui);
+                f.PerformedBy.Kill(ui, stack.Round);
             }
             else
             {
                 ui.Log.Info($"{f.PerformedBy} fought and killed {f.FightTarget}",stack.Round);
-                f.FightTarget.Kill(ui);
+                f.FightTarget.Kill(ui, stack.Round);
             }
 
         }
