@@ -11,6 +11,11 @@ namespace StarshipWanderer.Adjectives
     {
         IHasStats Owner { get; set; }
 
+        /// <summary>
+        /// True if the world should form part of the name of the object (e.g. "Dark Room")
+        /// </summary>
+        bool IsPrefix { get; set; }
+
         bool IsActive();
     }
 }

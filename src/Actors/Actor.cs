@@ -12,28 +12,13 @@ using StarshipWanderer.Stats;
 
 namespace StarshipWanderer.Actors
 {
-    /// <inheritdoc/>
-    public abstract class Actor : IActor
+    /// <inheritdoc cref="IActor"/>
+    public abstract class Actor : HasStats,IActor
     {
         /// <inheritdoc/>
         public IPlace CurrentLocation { get; set; }
 
         public HashSet<IItem> Items { get; set; } = new HashSet<IItem>();
-
-        /// <inheritdoc/>
-        public string Name { get; set; }
-
-        /// <inheritdoc/>
-        public HashSet<IAction> BaseActions { get; set; } = new HashSet<IAction>();
-
-        /// <inheritdoc/>
-        public HashSet<IAdjective> Adjectives { get; set; } = new HashSet<IAdjective>();
-
-        /// <inheritdoc/>
-        public StatsCollection BaseStats { get; set; } = new StatsCollection();
-
-        /// <inheritdoc/>
-        public HashSet<IBehaviour> BaseBehaviours { get; set; } = new HashSet<IBehaviour>();
 
         /// <summary>
         /// Do not use, internal constructor for JSON serialization
@@ -63,10 +48,10 @@ namespace StarshipWanderer.Actors
         
         /// <summary>
         /// Returns all <see cref="IAction"/> which the <see cref="Actor"/> can undertake in it's <see cref="CurrentLocation"/> (this includes 
-        /// <see cref="BaseActions"/> but also any location or item specific actions.
+        /// <see cref="HasStats.BaseActions"/> but also any location or item specific actions.
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<IAction> GetFinalActions()
+        public override IEnumerable<IAction> GetFinalActions()
         {
             return BaseActions
                 .Union(Adjectives.SelectMany(a => a.GetFinalActions()))
@@ -90,7 +75,7 @@ namespace StarshipWanderer.Actors
             return CurrentLocation.World.Population.Where(o => o.CurrentLocation == CurrentLocation && o != this).ToArray();
         }
 
-        public IEnumerable<IBehaviour> GetFinalBehaviours()
+        public override IEnumerable<IBehaviour> GetFinalBehaviours()
         {
             return BaseBehaviours
                 .Union(Adjectives.SelectMany(a=>a.GetFinalBehaviours()))
@@ -98,7 +83,7 @@ namespace StarshipWanderer.Actors
                 .Union(Items.SelectMany(i=>i.GetFinalBehaviours()));
         }
 
-        public StatsCollection GetFinalStats()
+        public override StatsCollection GetFinalStats()
         {
             var clone = BaseStats.Clone();
 
@@ -111,11 +96,6 @@ namespace StarshipWanderer.Actors
                 clone.Add(item.GetFinalStats());
 
             return clone;
-        }
-
-        public override string ToString()
-        {
-            return Name ?? "Unnamed Actor";
         }
     }
 }

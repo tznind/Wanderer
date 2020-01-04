@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using StarshipWanderer.Adjectives.RoomOnly;
 using StarshipWanderer.Items;
 using StarshipWanderer.Stats;
 

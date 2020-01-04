@@ -2,6 +2,7 @@
 using StarshipWanderer;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives;
+using StarshipWanderer.Adjectives.ActorOnly;
 using StarshipWanderer.Places;
 using StarshipWanderer.Stats;
 

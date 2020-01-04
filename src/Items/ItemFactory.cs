@@ -6,6 +6,13 @@ namespace StarshipWanderer.Items
 {
     public class ItemFactory : IItemFactory
     {
+        public AdjectiveFactory AdjectiveFactory { get; }
+
+        public ItemFactory(AdjectiveFactory adjectiveFactory)
+        {
+            AdjectiveFactory = adjectiveFactory;
+        }
+
         public IItem Create(IPlace inPlace)
         {
             return GloGlobe();
@@ -17,7 +24,7 @@ namespace StarshipWanderer.Items
 
         private IItem GloGlobe()
         {
-            var item = new Item("Glo-Globe");
+            var item = new Item("Globe");
             item.Adjectives.Add(new Light(item));
 
             return item;

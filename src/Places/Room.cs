@@ -10,18 +10,12 @@ using StarshipWanderer.Stats;
 
 namespace StarshipWanderer.Places
 {
-    public class Room : IPlace
+    public class Room : HasStats, IPlace
     {
         /// <inheritdoc/>
         public bool IsExplored { get; set; }
 
         public IWorld World { get; set; }
-        public string Name { get; set; }
-        public HashSet<IAdjective> Adjectives { get; set; } = new HashSet<IAdjective>();
-
-        public HashSet<IAction> BaseActions { get; set; } = new HashSet<IAction>();
-        public StatsCollection BaseStats { get; set; } = new StatsCollection();
-        public HashSet<IBehaviour> BaseBehaviours { get; set; } = new HashSet<IBehaviour>();
 
         /// <inheritdoc/>
         public char Tile { get; set; } = '.';
@@ -34,11 +28,11 @@ namespace StarshipWanderer.Places
             World = world;
         }
 
-        public virtual IEnumerable<IAction> GetFinalActions()
+        public override IEnumerable<IAction> GetFinalActions()
         {
             return BaseActions.Union(Adjectives.SelectMany(a=>a.GetFinalActions()));
         }
-        public virtual StatsCollection GetFinalStats()
+        public override StatsCollection GetFinalStats()
         {
             var stats = BaseStats.Clone();
 
@@ -47,7 +41,7 @@ namespace StarshipWanderer.Places
 
             return stats;
         }
-        public virtual IEnumerable<IBehaviour> GetFinalBehaviours()
+        public override IEnumerable<IBehaviour> GetFinalBehaviours()
         {
             return BaseBehaviours.Union(Adjectives.SelectMany(a => a.GetFinalBehaviours()));
         }
@@ -59,9 +53,5 @@ namespace StarshipWanderer.Places
             return World.Map.GetPoint(this);
         }
 
-        public override string ToString()
-        {
-            return Name ?? "Unnamed Room";
-        }
     }
 }

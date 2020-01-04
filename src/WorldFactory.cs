@@ -1,5 +1,6 @@
 ﻿using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
+using StarshipWanderer.Adjectives;
 using StarshipWanderer.Items;
 using StarshipWanderer.Places;
 
@@ -11,9 +12,10 @@ namespace StarshipWanderer
         {
             var world = new World();
 
-            var itemFactory = new ItemFactory();
+            var adjectiveFactory = new AdjectiveFactory();
+            var itemFactory = new ItemFactory(adjectiveFactory);
 
-            var roomFactory = new RoomFactory(new ActorFactory(itemFactory), itemFactory);
+            var roomFactory = new RoomFactory(actorFactory: new ActorFactory(itemFactory, adjectiveFactory), itemFactory,adjectiveFactory);
             var startingRoom = roomFactory.Create(world);
             startingRoom.IsExplored = true;
 

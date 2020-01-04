@@ -370,11 +370,11 @@ namespace Game.UI
 
             int row = 0;
 
-            List<string> contents = new List<string>();
+            List<IHasStats> contents = new List<IHasStats>();
 
-            contents.AddRange(World.Player.CurrentLocation.Actors.Where(a => !(a is You)).Select(a => a.Name));
+            contents.AddRange(World.Player.CurrentLocation.Actors.Where(a => !(a is You)));
 
-            contents.AddRange(World.Player.CurrentLocation.Items.Select(a => a.Name));
+            contents.AddRange(World.Player.CurrentLocation.Items);
 
             View addLabelsTo;
 
@@ -397,7 +397,7 @@ namespace Game.UI
                 addLabelsTo = _roomFrame; //otherwise just labels
 
             for (int i = 0; i < contents.Count; i++)
-                addLabelsTo.Add(new Label(0, i, contents[i]));
+                addLabelsTo.Add(new Label(0, i, contents[i].ToString()));
 
             
 

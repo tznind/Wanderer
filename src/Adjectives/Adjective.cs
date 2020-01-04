@@ -10,6 +10,8 @@ namespace StarshipWanderer.Adjectives
     {
         public IHasStats Owner { get; set; }
 
+        public bool IsPrefix { get; set; } = true;
+
         public string Name { get; set; }
 
         /// <summary>
@@ -45,9 +47,10 @@ namespace StarshipWanderer.Adjectives
             return BaseBehaviours;
         }
 
+
         public override string ToString()
         {
-            return GetType().Name;
+            return Name;
         }
 
         public virtual bool IsActive()

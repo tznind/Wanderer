@@ -8,13 +8,8 @@ using StarshipWanderer.Stats;
 
 namespace StarshipWanderer.Items
 {
-    public class Item : IItem
+    public class Item : HasStats,IItem
     {
-        public string Name { get; set; }
-        public HashSet<IAdjective> Adjectives { get; set; } = new HashSet<IAdjective>();
-        public HashSet<IAction> BaseActions { get; set; } = new HashSet<IAction>();
-        public StatsCollection BaseStats { get; set; } = new StatsCollection();
-        public HashSet<IBehaviour> BaseBehaviours { get; set; } = new HashSet<IBehaviour>();
         public IActor OwnerIfAny { get; set; }
 
         public Item(string name)
@@ -22,7 +17,7 @@ namespace StarshipWanderer.Items
             Name = name;
         }
         
-        public StatsCollection GetFinalStats()
+        public override StatsCollection GetFinalStats()
         {
             var clone = BaseStats.Clone();
 
@@ -32,12 +27,12 @@ namespace StarshipWanderer.Items
             return clone;
         }
 
-        public IEnumerable<IAction> GetFinalActions()
+        public override IEnumerable<IAction> GetFinalActions()
         {
             return BaseActions.Union(Adjectives.SelectMany(a => a.GetFinalActions()));
         }
 
-        public IEnumerable<IBehaviour> GetFinalBehaviours()
+        public override IEnumerable<IBehaviour> GetFinalBehaviours()
         {
             return BaseBehaviours.Union(Adjectives.SelectMany(a => a.GetFinalBehaviours()));
         }

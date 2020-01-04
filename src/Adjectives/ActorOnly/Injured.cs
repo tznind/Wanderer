@@ -1,7 +1,7 @@
 ﻿using StarshipWanderer.Actors;
 using StarshipWanderer.Stats;
 
-namespace StarshipWanderer.Adjectives
+namespace StarshipWanderer.Adjectives.ActorOnly
 {
     public class Injured : Adjective
     {

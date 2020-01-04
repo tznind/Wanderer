@@ -1,12 +1,13 @@
 ﻿using System.Linq;
 using StarshipWanderer.Actors;
+using StarshipWanderer.Adjectives.ActorOnly;
 using StarshipWanderer.Stats;
 
 namespace StarshipWanderer.Adjectives
 {
     public class Attractive : Adjective
     {
-        public Attractive(IActor actor) : base(actor)
+        public Attractive(IHasStats actor) : base(actor)
         {
             BaseStats[Stat.Coerce] = 15;
         }
