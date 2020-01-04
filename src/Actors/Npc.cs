@@ -82,15 +82,8 @@ namespace StarshipWanderer.Actors
         {
             CurrentLocation.World.Population.Remove(this);
 
-            foreach (IItem item in Items)
-            {
-                CurrentLocation.Items.Add(item);
-                ui.Log.Info($"{this} dropped {item.Name}",round);
-            }
-                
-            //just in case dead actors somehow go somewhere
-            Items.Clear();
-
+            foreach (IItem item in Items.ToArray())
+                item.Drop(ui, CurrentLocation, round);
         }
     }
 }

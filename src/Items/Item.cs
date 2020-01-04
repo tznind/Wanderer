@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives;
 using StarshipWanderer.Behaviours;
+using StarshipWanderer.Places;
 using StarshipWanderer.Stats;
 
 namespace StarshipWanderer.Items
@@ -11,6 +13,25 @@ namespace StarshipWanderer.Items
     public class Item : HasStats,IItem
     {
         public IActor OwnerIfAny { get; set; }
+        public void Drop(IUserinterface ui, IPlace dropLocation, Guid round)
+        {
+            if(OwnerIfAny == null)
+                throw new NoOwnerException("Item has no owner so cannot be dropped");
+
+            if (dropLocation == null)
+                dropLocation = OwnerIfAny.CurrentLocation;
+
+            //remove us from the owner
+            OwnerIfAny.Items.Remove(this);
+            //add us to the room
+            dropLocation.Items.Add(this);
+
+            //log it
+            ui.Log.Info($"{OwnerIfAny} dropped {this}", round);
+            
+            //clear owner status
+            OwnerIfAny = null;
+        }
 
         public Item(string name)
         {
@@ -35,11 +56,6 @@ namespace StarshipWanderer.Items
         public override IEnumerable<IBehaviour> GetFinalBehaviours()
         {
             return BaseBehaviours.Union(Adjectives.SelectMany(a => a.GetFinalBehaviours()));
-        }
-
-        public override string ToString()
-        {
-            return Name;
         }
     }
 }

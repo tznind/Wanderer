@@ -62,6 +62,7 @@ namespace Tests.Items
 
             var teddy = new Item("Teddy");
             npc.Items.Add(teddy);
+            teddy.OwnerIfAny = npc;
 
             world.Population.Add(npc);
 

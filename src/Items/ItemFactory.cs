@@ -19,7 +19,11 @@ namespace StarshipWanderer.Items
         }
         public IItem Create(IActor forActor)
         {
-            return GloGlobe();
+            var i = GloGlobe();
+
+            i.OwnerIfAny = forActor;
+
+            return i;
         }
 
         private IItem GloGlobe()

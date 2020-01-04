@@ -1,4 +1,7 @@
-﻿using StarshipWanderer.Actors;
+﻿using System.Collections.Generic;
+using System.Linq;
+using StarshipWanderer;
+using StarshipWanderer.Actors;
 using Terminal.Gui;
 
 namespace Game.UI
@@ -10,18 +13,13 @@ namespace Game.UI
         {
             Button btn = new Button("Close",true);
             AddButton(btn);
-            
-            
-            var lblName = new Label("Adjectives:" + string.Join(',',actor.Adjectives))
-            {
-                X = 0,
-                Y = 0
-            };
-            
-            Add(lblName);
 
-            int y = 1;
+            List<string> lines = new List<string>();
+            
+            if(actor.Adjectives.Any())
+                lines.Add("Adjectives:" + string.Join(',', actor.Adjectives));
 
+            //output stats
             var finalStats = actor.GetFinalStats();
 
             foreach (var baseStat in actor.BaseStats)
@@ -31,11 +29,42 @@ namespace Game.UI
                 if (baseStat.Value != finalStats[baseStat.Key])
                     line += " (" + finalStats[baseStat.Key] + ")";
 
-                var lbl = new Label(line) {Y = y++};
-                Add(lbl);
+                lines.Add(line);
             }
 
+            lines.Add("Items:");
+
+            if(!actor.Items.Any())
+                lines.Add("None");
+            else
+                //output items
+                lines.AddRange(actor.Items.Select(i => i.ToString()));
+            
+            View addLabelsTo;
+
+            //if it is too many items
+            if (lines.Count > MainWindow.DLG_HEIGHT - 6)
+            {
+                //use a scroll view
+                var view = new ScrollView(new Rect(0, 0, MainWindow.DLG_WIDTH-3, MainWindow.DLG_HEIGHT- 6))
+                {
+                    ContentSize = new Size(MainWindow.DLG_WIDTH, lines.Count + 1),
+                    ContentOffset = new Point(0, 0),
+                    ShowVerticalScrollIndicator = true,
+                    ShowHorizontalScrollIndicator = false
+                };
+
+                addLabelsTo = view;
+                Add(view);
+            }
+            else
+                addLabelsTo = this; //otherwise just labels
+
+            for (int i = 0; i < lines.Count; i++)
+                addLabelsTo.Add(new Label(0, i, lines[i]));
+            
             btn.Clicked = () => { Running = false;};
+            btn.FocusFirst();
         }
     }
 }

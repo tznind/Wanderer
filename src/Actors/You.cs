@@ -40,6 +40,8 @@ namespace StarshipWanderer.Actors
 
             //player can coerce Npc
             BaseActions.Add(new CoerceAction());
+            //player can inspect Npc
+            BaseActions.Add(new InspectAction());
         }
 
         public override bool Decide<T>(IUserinterface ui, string title, string body, out T chosen, T[] options, int attitude)

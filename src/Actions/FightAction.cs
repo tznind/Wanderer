@@ -17,12 +17,8 @@ namespace StarshipWanderer.Actions
 
         public override void Push(IUserinterface ui, ActionStack stack,IActor actor)
         {
-            if (actor.Decide(ui,"Fight", null, out IActor toFight, 
-                actor.CurrentLocation.World.Population
-                .Where(a => a.CurrentLocation == actor.CurrentLocation && a != actor).ToArray(),Attitude))
-            {
-                stack.Push(new FightFrame(actor,toFight,this));
-            }
+            if (actor.Decide(ui,"Fight", null, out IActor toFight, actor.GetCurrentLocationSiblings(),Attitude))
+                stack.Push(new FightFrame(actor, toFight, this));
         }
 
         public override void Pop(IUserinterface ui, ActionStack stack, Frame frame)

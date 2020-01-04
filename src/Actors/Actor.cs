@@ -44,6 +44,7 @@ namespace StarshipWanderer.Actors
             BaseActions.Add(new Leave());
             BaseActions.Add(new FightAction());
             BaseActions.Add(new PickUpAction());
+            BaseActions.Add(new DropAction());
         }
         
         /// <summary>

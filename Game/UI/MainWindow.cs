@@ -225,6 +225,9 @@ namespace Game.UI
 
 
                 dlg.Add(btn);
+
+                if(options.Length == 1)
+                    dlg.FocusFirst();
             }
 
             Application.Run(dlg);
@@ -365,7 +368,7 @@ namespace Game.UI
         private void UpdateRoomFrame()
         {
 
-            _roomFrame.Title = World.Player.CurrentLocation.Name;
+            _roomFrame.Title = World.Player.CurrentLocation.ToString();
             _roomFrame.RemoveAll();
 
             int row = 0;
