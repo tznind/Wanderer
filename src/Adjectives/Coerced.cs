@@ -10,6 +10,8 @@ namespace StarshipWanderer.Adjectives
     {
         public Coerced(IActor owner) : base(owner)
         {
+            //don't show this Adjective in it's name
+            IsPrefix = false;
             BaseStats[Stat.Initiative] = 10000;
             BaseBehaviours.Add(new ExpiryBehaviour(this, 1));
         }
