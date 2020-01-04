@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using StarshipWanderer.Actions;
+using StarshipWanderer.Items;
 using StarshipWanderer.Places;
 
 namespace StarshipWanderer.Actors
@@ -80,6 +81,13 @@ namespace StarshipWanderer.Actors
         public override void Kill(IUserinterface ui)
         {
             CurrentLocation.World.Population.Remove(this);
+
+            foreach (IItem item in Items)
+                CurrentLocation.Items.Add(item);
+
+            //just in case dead actors somehow go somewhere
+            Items.Clear();
+
         }
     }
 }

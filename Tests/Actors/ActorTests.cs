@@ -3,6 +3,7 @@ using NUnit.Framework;
 using StarshipWanderer;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
+using StarshipWanderer.Items;
 using StarshipWanderer.Places;
 
 namespace Tests.Actors
@@ -14,7 +15,9 @@ namespace Tests.Actors
         {
 
             var world = new World();
-            var roomFactory = new RoomFactory(new ActorFactory());
+            var itemFactory = new ItemFactory();
+
+            var roomFactory = new RoomFactory(new ActorFactory(itemFactory),itemFactory);
             var you = new You("TestPlayer",roomFactory.Create(world));
             world.Population.Add(you);
 

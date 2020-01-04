@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using StarshipWanderer.Actions;
-using StarshipWanderer.Actors;
+using StarshipWanderer.Items;
 
 namespace StarshipWanderer.Places
 {
@@ -8,7 +8,7 @@ namespace StarshipWanderer.Places
     {
         public IActorFactory ActorFactory { get; set; }
 
-        public RoomFactory(IActorFactory actorFactory)
+        public RoomFactory(IActorFactory actorFactory,IItemFactory itemFactory)
         {
             ActorFactory = actorFactory;
         }

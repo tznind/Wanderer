@@ -19,7 +19,14 @@ namespace StarshipWanderer.Places
         /// <returns></returns>
         public Point3 GetPoint(IPlace place)
         {
-            return this.First(k => k.Value == place).Key;
+            try
+            {
+                return this.First(k => k.Value == place).Key;
+            }
+            catch (InvalidOperationException ex)
+            {
+                throw new Exception($"Supplied Place '{place}' was not in the current Map",ex);
+            }
         }
 
     }

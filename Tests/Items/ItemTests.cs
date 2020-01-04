@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System.Linq;
+using Moq;
+using NUnit.Framework;
 using StarshipWanderer;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
@@ -46,6 +48,32 @@ namespace Tests.Items
             you.Items.Clear();
             Assert.AreEqual(20,you.GetFinalStats()[Stat.Fight],"Now that it is light the torch doesn't matter");
 
+        }
+        
+        [Test]
+        public void Test_DeadActorDropsItems()
+        {
+            var world = new World();
+            var room = new Room("SomeRoom", world);
+            var npc = new Npc("Handyman", room);
+
+            var teddy = new Item("Teddy");
+            npc.Items.Add(teddy);
+
+            world.Population.Add(npc);
+
+            Assert.Contains(npc,room.Actors.ToArray());
+            Assert.IsEmpty(room.Items);
+
+            npc.Kill(Mock.Of<IUserinterface>());
+
+            //your gone!
+            Assert.IsFalse(world.Population.Contains(npc));
+
+            //but teddy lives on, to be picked up by someone else
+            Assert.Contains(teddy, room.Items.ToArray(),"Expected teddy to be in the room after the npc died");
+
+            Assert.IsEmpty(npc.Items);
         }
     }
 

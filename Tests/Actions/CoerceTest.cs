@@ -21,6 +21,7 @@ namespace Tests.Actions
             var world = new World();
 
             var room = new Room("TestRoom", world);
+            world.Map.Add(new Point3(0,0,0),room );
             var you = new You("Test player",room);
 
             //create two npcs that can both fight
