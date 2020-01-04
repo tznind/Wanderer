@@ -12,6 +12,7 @@ namespace StarshipWanderer
 
             var roomFactory = new RoomFactory(new ActorFactory());
             var startingRoom = roomFactory.Create(world);
+            startingRoom.IsExplored = true;
 
             world.Population.Add(new You("Wanderer",startingRoom));
             world.RoomFactory = roomFactory;

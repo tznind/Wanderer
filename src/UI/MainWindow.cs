@@ -297,7 +297,7 @@ namespace StarshipWanderer.UI
                 {
                     var pointToRender = home.Offset(new Point3(x, y, 0));
 
-                    if (World.Map.ContainsKey(pointToRender))
+                    if (World.Map.ContainsKey(pointToRender) && World.Map[pointToRender].IsExplored)
                         sb.Append(World.Map[pointToRender].Tile);
                     else
                         sb.Append(' ');

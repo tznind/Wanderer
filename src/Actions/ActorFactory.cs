@@ -13,10 +13,10 @@ namespace StarshipWanderer.Actions
     {
         public void Create(IWorld world, IPlace place)
         {
-            NewGuard(place,"Guard 1");
-            NewGuard(place,"Guard 2");
-            NewWorker(place,"Worker 1");
-            NewWorker(place,"Worker 2");
+            NewGuard(place,"Guard " + world.R.Next(999));
+            NewGuard(place,"Guard " + world.R.Next(999));
+            NewWorker(place,"Worker " + world.R.Next(999));
+            NewWorker(place,"Worker " + world.R.Next(999));
         }
 
         private IActor NewWorker(IPlace place, string name)

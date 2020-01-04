@@ -54,7 +54,13 @@ namespace StarshipWanderer.Actors
             //ask user through UI
             return ui.GetChoice(title,body,out chosen,options);
         }
-        
+
+        public override void Move(IPlace newLocation)
+        {
+            base.Move(newLocation);
+            newLocation.IsExplored = true;
+        }
+
         public override void Kill(IUserinterface ui)
         {
             //although you might get double dead in a round.  Only show the message once

@@ -87,5 +87,10 @@ namespace StarshipWanderer
         {
             return X + "," + Y + "," + Z;
         }
+
+        public double Distance(Point3 other)
+        {
+            return Math.Pow(Math.Pow(other.X - X, 2) + Math.Pow(other.Y - Y, 2) + Math.Pow(other.Z - Z, 2), 0.5); 
+        }
     }
 }

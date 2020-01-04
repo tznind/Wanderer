@@ -12,6 +12,9 @@ namespace StarshipWanderer.Places
 {
     public class Room : IPlace
     {
+        /// <inheritdoc/>
+        public bool IsExplored { get; set; }
+
         public IWorld World { get; set; }
         public string Name { get; set; }
         public HashSet<IAdjective> Adjectives { get; set; } = new HashSet<IAdjective>();

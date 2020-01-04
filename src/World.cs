@@ -52,6 +52,7 @@ namespace StarshipWanderer
             //use ToArray because people might blow up rooms or kill one another
             foreach (var npc in Population.OrderByDescending(a=>a.GetFinalStats()[Stat.Initiative]).ToArray())
             {
+                //player always acts first in any round (e.g. in order to coerce people, cancel actions etc)
                 if(npc is You)
                     continue;
 
@@ -59,10 +60,24 @@ namespace StarshipWanderer
                 if(!Population.Contains(npc))
                     continue;
 
-                if(npc.Decide(ui, "Pick Action", null, out IAction chosen,
+                //if npc is in an explored location and decides to do an action
+                if(ShouldRunActionsIn(npc.CurrentLocation)
+                   && npc.Decide(ui, "Pick Action", null, out IAction chosen,
                     npc.GetFinalActions().ToArray(), 0))
                     stack.RunStack(ui,chosen,npc,Population.SelectMany(p=>p.GetFinalBehaviours()));
             }
+        }
+
+        /// <summary>
+        /// Returns true if events in the <paramref name="place"/> should be run (this could be useful to prevent exponential
+        /// map scaling as npc move to new locations and discover friends who also wander off).
+        /// </summary>
+        /// <param name="place"></param>
+        /// <returns></returns>
+        private bool ShouldRunActionsIn(IPlace place)
+        {
+            return
+                place.IsExplored || place.GetPoint().Distance(Player.CurrentLocation.GetPoint()) <= 2;
         }
 
         /// <summary>

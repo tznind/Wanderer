@@ -9,6 +9,11 @@ namespace StarshipWanderer.Places
 {
     public interface IPlace : IHasStats
     {
+        /// <summary>
+        /// True if the player has uncovered this location yet
+        /// </summary>
+        bool IsExplored { get; set; }
+
         IWorld World { get; set; }
         
         /// <summary>
