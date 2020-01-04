@@ -49,6 +49,8 @@ namespace StarshipWanderer.Places
             return BaseBehaviours.Union(Adjectives.SelectMany(a => a.GetFinalBehaviours()));
         }
 
+        public IEnumerable<IActor> Actors => World.Population.Where(p => p.CurrentLocation == this);
+
         public Point3 GetPoint()
         {
             return World.Map.GetPoint(this);

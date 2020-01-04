@@ -27,14 +27,21 @@ namespace StarshipWanderer.UI
         private const int MAP_WIDTH = 40;
         private const int MAP_HEIGHT = WIN_HEIGHT - 7;
 
+        private const int ROOM_FRAME_X = MAP_WIDTH;
+        private const int ROOM_FRAME_Y = -1;
+        private const int ROOM_FRAME_WIDTH = WIN_WIDTH - (MAP_WIDTH + 1);
+        private const int ROOM_FRAME_HEIGHT = MAP_HEIGHT + 3;
+
 
         public IWorld World { get; set; }
         public EventLog Log { get; }
-        public ListView ListActions { get; set; }
 
         private readonly Label _lblMap;
         private readonly SplashScreen _splash;
 
+
+        private FrameView _roomFrame;
+        private FrameView _actionFrame;
 
         public MainWindow(WorldFactory worldFactory):base(new Rect(0,1,WIN_WIDTH,WIN_HEIGHT + 1),null)
         {
@@ -58,25 +65,22 @@ namespace StarshipWanderer.UI
                 })
             });
             top.Add (menu);
-            
-            /****** Menu ***********/
-            // 15 x 80
-            // ******** Actions *****
-            // 6 x 80
-            //***********************
-            var frame = new FrameView(new Rect(-1, 15, 80, 6),"Actions");
 
-            ListActions = new ListView();
+            /****** Menu ***********/
+            // 15 x 80      |  rightFrame
+            // ******** Actions *****
+            // 6 x 80  actionFrame
+            //***********************
+            
+            _roomFrame = new FrameView(new Rect(ROOM_FRAME_X,ROOM_FRAME_Y ,ROOM_FRAME_WIDTH,ROOM_FRAME_HEIGHT), "Contents");
+            _actionFrame = new FrameView(new Rect(-1, 15, 80, 6),"Actions");
             
             _splash = new SplashScreen(){X = 4,Y=4};
             Add(_splash);
 
             _lblMap = new Label(new Rect(0, 0, MAP_WIDTH, MAP_HEIGHT), " ") {LayoutStyle = LayoutStyle.Absolute};
 
-            frame.Add(ListActions);
-            frame.FocusFirst();
-
-            Add(frame);
+            _actionFrame.FocusFirst();
         }
         public void NewGame()
         {
@@ -94,7 +98,9 @@ namespace StarshipWanderer.UI
             
             Remove(_splash);
             Add(_lblMap);
-            
+            Add(_actionFrame);
+            Add(_roomFrame);
+
             Refresh();
         }
 
@@ -126,9 +132,7 @@ namespace StarshipWanderer.UI
                 }
             }
         }
-
-        private string _previousSavePath = null;
-
+        
         private void SaveGame()
         {
             if(World == null)
@@ -270,8 +274,11 @@ namespace StarshipWanderer.UI
         {
             UpdateActions();
 
+            UpdateRoomFrame();
+
             RedrawMap();
         }
+
 
         private void RedrawMap()
         {
@@ -325,11 +332,12 @@ namespace StarshipWanderer.UI
 
         };
 
+        
 
 
         public void UpdateActions()
         {
-            Title = World.Player.CurrentLocation.Name;
+            Title = $"Map ({World.Player.CurrentLocation.GetPoint()})";
 
             foreach(Button b in _oldButtons)
                 Remove(b);
@@ -356,6 +364,46 @@ namespace StarshipWanderer.UI
                 this.Add(btn);
                 buttonLoc++;
             }
+        }
+        private void UpdateRoomFrame()
+        {
+
+            _roomFrame.Title = World.Player.CurrentLocation.Name;
+            _roomFrame.RemoveAll();
+
+            int row = 0;
+
+            List<string> contents = new List<string>();
+
+            contents.AddRange(World.Player.CurrentLocation.Actors.Where(a => !(a is You)).Select(a => a.Name));
+
+            contents.AddRange(World.Player.CurrentLocation.Items.Select(a => "[I]" + a.Name));
+
+            View addLabelsTo;
+
+            //if it is too many items
+            if (contents.Count > ROOM_FRAME_HEIGHT - 3)
+            {
+                //use a scroll view
+                var view = new ScrollView(new Rect(0, 0, ROOM_FRAME_WIDTH, ROOM_FRAME_HEIGHT-2))
+                {
+                    ContentSize = new Size(ROOM_FRAME_WIDTH, contents.Count + 1),
+                    ContentOffset = new Point(0, 0),
+                    ShowVerticalScrollIndicator = true,
+                    ShowHorizontalScrollIndicator = false
+                };
+
+                addLabelsTo = view;
+                _roomFrame.Add(view);
+            }
+            else
+                addLabelsTo = _roomFrame; //otherwise just labels
+
+            for (int i = 0; i < contents.Count; i++)
+                addLabelsTo.Add(new Label(0, i, contents[i]));
+
+            
+
         }
     }
 }

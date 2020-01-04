@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Items;
@@ -19,6 +20,9 @@ namespace StarshipWanderer.Places
         /// Items that are not owned by anyone yet
         /// </summary>
         HashSet<IItem> Items { get;set; }
+
+        [JsonIgnore]
+        IEnumerable<IActor> Actors { get; }
 
         Point3 GetPoint();
     }
