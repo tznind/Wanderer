@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
-using NStack;
-using StarshipWanderer.Actions;
+using StarshipWanderer;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives;
-using StarshipWanderer.Behaviours;
 using Terminal.Gui;
 
-namespace StarshipWanderer.UI
+namespace Game.UI
 {
     public class MainWindow : Window, IUserinterface
     {

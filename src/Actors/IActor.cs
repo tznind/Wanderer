@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using NStack;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Adjectives;
 using StarshipWanderer.Behaviours;

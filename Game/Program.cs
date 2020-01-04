@@ -1,11 +1,8 @@
-﻿using System;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Places;
-using StarshipWanderer.UI;
+﻿using Game.UI;
+using StarshipWanderer;
 using Terminal.Gui;
 
-namespace StarshipWanderer
+namespace Game
 {
     class Program
     {

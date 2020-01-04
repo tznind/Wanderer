@@ -10,7 +10,6 @@ using StarshipWanderer.Actors;
 using StarshipWanderer.Behaviours;
 using StarshipWanderer.Places;
 using StarshipWanderer.Stats;
-using StarshipWanderer.UI;
 
 namespace StarshipWanderer
 {

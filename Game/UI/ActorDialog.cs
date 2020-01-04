@@ -1,7 +1,7 @@
 ﻿using StarshipWanderer.Actors;
 using Terminal.Gui;
 
-namespace StarshipWanderer.UI
+namespace Game.UI
 {
     public class ActorDialog : Dialog
     {

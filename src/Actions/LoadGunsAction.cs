@@ -2,7 +2,6 @@
 using StarshipWanderer.Actors;
 using StarshipWanderer.Behaviours;
 using StarshipWanderer.Stats;
-using Terminal.Gui;
 
 namespace StarshipWanderer.Actions
 {

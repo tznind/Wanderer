@@ -1,7 +1,6 @@
-﻿using System.Runtime.InteropServices.ComTypes;
-using Terminal.Gui;
+﻿using Terminal.Gui;
 
-namespace StarshipWanderer.UI
+namespace Game.UI
 {
     public class SplashScreen: Label
     {

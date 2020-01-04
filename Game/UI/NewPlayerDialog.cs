@@ -2,7 +2,7 @@
 using StarshipWanderer.Adjectives;
 using Terminal.Gui;
 
-namespace StarshipWanderer.UI
+namespace Game.UI
 {
     public class NewPlayerDialog : Dialog
     {
