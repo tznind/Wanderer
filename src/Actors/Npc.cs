@@ -84,6 +84,9 @@ namespace StarshipWanderer.Actors
 
             foreach (IItem item in Items.ToArray())
                 item.Drop(ui, CurrentLocation, round);
+
+            foreach (var r in CurrentLocation.World.Relationships.ToArray())
+                r.HandleActorDeath(this);
         }
     }
 }

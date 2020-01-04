@@ -4,6 +4,7 @@ using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Behaviours;
 using StarshipWanderer.Places;
+using StarshipWanderer.Relationships;
 
 namespace StarshipWanderer
 {
@@ -19,6 +20,11 @@ namespace StarshipWanderer
 
         HashSet<IActor> Population { get; }
         
+        /// <summary>
+        /// All known relationships in the <see cref="Population"/>
+        /// </summary>
+        HashSet<IRelationship> Relationships { get; set; }
+
         /// <summary>
         /// Returns all the behaviours that should respond to events in the world
         /// </summary>

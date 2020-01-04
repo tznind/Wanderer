@@ -9,6 +9,7 @@ using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Behaviours;
 using StarshipWanderer.Places;
+using StarshipWanderer.Relationships;
 using StarshipWanderer.Stats;
 
 namespace StarshipWanderer
@@ -18,7 +19,8 @@ namespace StarshipWanderer
         public Map Map { get; set;} = new Map();
 
         public HashSet<IActor> Population { get; set; } =  new HashSet<IActor>();
-        
+        public HashSet<IRelationship> Relationships { get; set; } = new HashSet<IRelationship>();
+
         public IRoomFactory RoomFactory { get; set; }
 
         public Random R { get; set; } = new Random(100);
