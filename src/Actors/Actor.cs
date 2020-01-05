@@ -46,18 +46,19 @@ namespace StarshipWanderer.Actors
             BaseActions.Add(new PickUpAction());
             BaseActions.Add(new DropAction());
         }
-        
+
         /// <summary>
         /// Returns all <see cref="IAction"/> which the <see cref="Actor"/> can undertake in it's <see cref="CurrentLocation"/> (this includes 
         /// <see cref="HasStats.BaseActions"/> but also any location or item specific actions.
         /// </summary>
+        /// <param name="forActor"></param>
         /// <returns></returns>
-        public override IEnumerable<IAction> GetFinalActions()
+        public override IEnumerable<IAction> GetFinalActions(IActor forActor)
         {
             return BaseActions
-                .Union(Adjectives.SelectMany(a => a.GetFinalActions()))
-                .Union(CurrentLocation.GetFinalActions())
-                .Union(Items.SelectMany(i => i.GetFinalActions()));
+                .Union(Adjectives.SelectMany(a => a.GetFinalActions(forActor)))
+                .Union(CurrentLocation.GetFinalActions(forActor))
+                .Union(Items.SelectMany(i => i.GetFinalActions(forActor)));
         }
 
         public abstract bool Decide<T>(IUserinterface ui, string title, string body, out T chosen, T[] options,
@@ -76,27 +77,50 @@ namespace StarshipWanderer.Actors
             return CurrentLocation.World.Population.Where(o => o.CurrentLocation == CurrentLocation && o != this).ToArray();
         }
 
-        public override IEnumerable<IBehaviour> GetFinalBehaviours()
+        public bool Has<T>(bool includeItems) where T : IAdjective
         {
-            return BaseBehaviours
-                .Union(Adjectives.SelectMany(a=>a.GetFinalBehaviours()))
-                .Union(CurrentLocation.GetFinalBehaviours())
-                .Union(Items.SelectMany(i=>i.GetFinalBehaviours()));
+            return Adjectives.Any(a => a is T)
+                || (includeItems && Items.Any(i=> i.Has<T>(this)));
         }
 
-        public override StatsCollection GetFinalStats()
+        public override IEnumerable<IBehaviour> GetFinalBehaviours(IActor forActor)
+        {
+            return BaseBehaviours
+                .Union(Adjectives.SelectMany(a=>a.GetFinalBehaviours(forActor)))
+                .Union(CurrentLocation.GetFinalBehaviours(forActor))
+                .Union(Items.SelectMany(i=>i.GetFinalBehaviours(forActor)));
+        }
+
+        public override StatsCollection GetFinalStats(IActor forActor)
         {
             var clone = BaseStats.Clone();
 
-            foreach (var adjective in Adjectives.Where(a=>a.IsActive())) 
-                clone.Add(adjective.GetFinalStats());
+            foreach (var adjective in Adjectives) 
+                clone.Add(adjective.GetFinalStats(forActor));
 
-            clone.Add(CurrentLocation.GetFinalStats());
+            clone.Add(CurrentLocation.GetFinalStats(forActor));
 
             foreach (var item in Items) 
-                clone.Add(item.GetFinalStats());
+                clone.Add(item.GetFinalStats(forActor));
 
             return clone;
+        }
+        
+        public StatsCollection GetFinalStats()
+        {
+            return GetFinalStats(this);
+        }
+
+        
+        public IEnumerable<IAction> GetFinalActions()
+        {
+            return GetFinalActions(this);
+        }
+
+        
+        public IEnumerable<IBehaviour> GetFinalBehaviours()
+        {
+            return GetFinalBehaviours(this);
         }
     }
 }

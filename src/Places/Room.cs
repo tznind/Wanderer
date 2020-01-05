@@ -28,22 +28,22 @@ namespace StarshipWanderer.Places
             World = world;
         }
 
-        public override IEnumerable<IAction> GetFinalActions()
+        public override IEnumerable<IAction> GetFinalActions(IActor forActor)
         {
-            return BaseActions.Union(Adjectives.SelectMany(a=>a.GetFinalActions()));
+            return BaseActions.Union(Adjectives.SelectMany(a=>a.GetFinalActions(forActor)));
         }
-        public override StatsCollection GetFinalStats()
+        public override StatsCollection GetFinalStats(IActor forActor)
         {
             var stats = BaseStats.Clone();
 
-            foreach (var statsCollection in Adjectives.Select(a => a.GetFinalStats())) 
+            foreach (var statsCollection in Adjectives.Select(a => a.GetFinalStats(forActor))) 
                 stats.Add(statsCollection);
 
             return stats;
         }
-        public override IEnumerable<IBehaviour> GetFinalBehaviours()
+        public override IEnumerable<IBehaviour> GetFinalBehaviours(IActor forActor)
         {
-            return BaseBehaviours.Union(Adjectives.SelectMany(a => a.GetFinalBehaviours()));
+            return BaseBehaviours.Union(Adjectives.SelectMany(a => a.GetFinalBehaviours(forActor)));
         }
 
         public IEnumerable<IActor> Actors => World.Population.Where(p => p.CurrentLocation == this);

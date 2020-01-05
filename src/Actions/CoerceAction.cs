@@ -17,7 +17,7 @@ namespace StarshipWanderer.Actions
             //pick a target 
             if(actor.Decide(ui,"Coerce Target", null, out Npc toCoerce, actor.GetCurrentLocationSiblings().OfType<Npc>().ToArray(),Attitude))
                 //pick an action to perform
-                if (actor.Decide(ui,"Coerce Action", $"Pick an action you want {toCoerce} to perform", out IAction actionToCoerce,toCoerce.GetFinalActions().ToArray(),0))
+                if (actor.Decide(ui,"Coerce Action", $"Pick an action you want {toCoerce} to perform", out IAction actionToCoerce,toCoerce.GetFinalActions(toCoerce).ToArray(),0))
                     stack.Push(new CoerceFrame(actor, this, toCoerce, actionToCoerce,ui));
         }
 

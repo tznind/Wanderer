@@ -33,16 +33,16 @@ namespace StarshipWanderer.Adjectives
             Name = GetType().Name;
         }
         
-        public virtual IEnumerable<IAction> GetFinalActions()
+        public virtual IEnumerable<IAction> GetFinalActions(IActor forActor)
         {
             return BaseActions;
         }
 
-        public virtual StatsCollection GetFinalStats()
+        public virtual StatsCollection GetFinalStats(IActor forActor)
         {
             return BaseStats;
         }
-        public virtual IEnumerable<IBehaviour> GetFinalBehaviours()
+        public virtual IEnumerable<IBehaviour> GetFinalBehaviours(IActor forActor)
         {
             return BaseBehaviours;
         }
@@ -53,9 +53,5 @@ namespace StarshipWanderer.Adjectives
             return Name;
         }
 
-        public virtual bool IsActive()
-        {
-            return true;
-        }
     }
 }

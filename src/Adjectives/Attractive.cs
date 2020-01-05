@@ -12,10 +12,14 @@ namespace StarshipWanderer.Adjectives
             BaseStats[Stat.Coerce] = 15;
         }
 
-        public override bool IsActive()
+        public override StatsCollection GetFinalStats(IActor forActor)
         {
+            
             //Being attractive makes you better at coercion as long as you do not have an active injury
-            return !Owner.Adjectives.Any(a => a is Injured i && i.IsActive());
+            if(forActor.Has<Injured>(false))
+                return new StatsCollection();
+
+            return base.GetFinalStats(forActor);
         }
     }
 }

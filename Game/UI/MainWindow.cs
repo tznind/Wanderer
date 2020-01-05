@@ -37,8 +37,8 @@ namespace Game.UI
         private readonly SplashScreen _splash;
 
 
-        private FrameView _roomFrame;
-        private FrameView _actionFrame;
+        private readonly FrameView _roomFrame;
+        private readonly FrameView _actionFrame;
 
         public MainWindow(WorldFactory worldFactory):base(new Rect(0,1,WIN_WIDTH,WIN_HEIGHT + 1),null)
         {
@@ -103,11 +103,13 @@ namespace Game.UI
 
         private void LoadGame()
         {
-            var ofd = new OpenDialog("Load Game", "Enter file path to load");
-            ofd.AllowedFileTypes = new[] {".json"};
+            var ofd = new OpenDialog("Load Game", "Enter file path to load")
+            {
+                AllowedFileTypes = new[] {".json"}, 
+                CanChooseDirectories = false,
+                AllowsMultipleSelection = false
+            };
 
-            ofd.CanChooseDirectories = false;
-            ofd.AllowsMultipleSelection = false;
 
             Application.Run(ofd);
 
@@ -138,9 +140,8 @@ namespace Game.UI
                 return;
             }
 
-            var sf = new SaveDialog("Save Game", "Enter save file path");
-            sf.AllowedFileTypes = new[] {".json"};
-            
+            var sf = new SaveDialog("Save Game", "Enter save file path") {AllowedFileTypes = new[] {".json"}};
+
             Application.Run(sf);
 
             if (sf.FileName != null)
@@ -370,9 +371,7 @@ namespace Game.UI
 
             _roomFrame.Title = World.Player.CurrentLocation.ToString();
             _roomFrame.RemoveAll();
-
-            int row = 0;
-
+            
             List<IHasStats> contents = new List<IHasStats>();
 
             contents.AddRange(World.Player.CurrentLocation.Actors.Where(a => !(a is You)));

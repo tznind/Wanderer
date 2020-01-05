@@ -44,6 +44,18 @@ namespace Tests.Items
             Assert.AreEqual(0,you.CurrentLocation.Items.Count);
             Assert.AreEqual(20,you.GetFinalStats()[Stat.Fight],"Expect fight to be back to normal now that you ignore dark");
 
+            //2+ light globes shouldn't boost your fight above the baseline
+            var globe2 = new Item("Glo Globe");
+            globe2.Adjectives.Add(new Light(globe));
+
+            you.Items.Add(globe2);
+
+            Assert.AreEqual(2,you.Items.Count);
+            Assert.AreEqual(0,you.CurrentLocation.Items.Count);
+            Assert.AreEqual(20,you.GetFinalStats()[Stat.Fight],"Expect fight to be back to normal now since multiple globes shouldn't stack");
+
+
+
             darkRoom.Adjectives.Clear();
 
             Assert.AreEqual(20,you.GetFinalStats()[Stat.Fight],"Expect fight to stay 20 because lights don't help when it's not dark");
@@ -62,7 +74,6 @@ namespace Tests.Items
 
             var teddy = new Item("Teddy");
             npc.Items.Add(teddy);
-            teddy.OwnerIfAny = npc;
 
             world.Population.Add(npc);
 

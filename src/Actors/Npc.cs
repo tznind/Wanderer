@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Items;
 using StarshipWanderer.Places;
+using StarshipWanderer.Stats;
 
 namespace StarshipWanderer.Actors
 {
@@ -83,10 +84,11 @@ namespace StarshipWanderer.Actors
             CurrentLocation.World.Population.Remove(this);
 
             foreach (IItem item in Items.ToArray())
-                item.Drop(ui, CurrentLocation, round);
+                item.Drop(ui, this, round);
 
             foreach (var r in CurrentLocation.World.Relationships.ToArray())
                 r.HandleActorDeath(this);
         }
+
     }
 }

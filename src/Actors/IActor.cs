@@ -60,5 +60,23 @@ namespace StarshipWanderer.Actors
         /// </summary>
         /// <returns></returns>
         IActor[] GetCurrentLocationSiblings();
+
+        
+        /// <summary>
+        /// Returns true if the <see cref="IActor"/> has the supplied adjective (or optionally
+        /// an item).
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="includeItems"></param>
+        /// <returns></returns>
+        bool Has<T>( bool includeItems) where T:IAdjective;
+
+        
+        StatsCollection GetFinalStats();
+
+        IEnumerable<IAction> GetFinalActions();
+
+
+        IEnumerable<IBehaviour> GetFinalBehaviours();
     }
 }

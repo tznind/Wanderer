@@ -12,25 +12,20 @@ namespace StarshipWanderer.Items
 {
     public class Item : HasStats,IItem
     {
-        public IActor OwnerIfAny { get; set; }
-        public void Drop(IUserinterface ui, IPlace dropLocation, Guid round)
+        public void Drop(IUserinterface ui, IActor owner, Guid round)
         {
-            if(OwnerIfAny == null)
-                throw new NoOwnerException("Item has no owner so cannot be dropped");
-
-            if (dropLocation == null)
-                dropLocation = OwnerIfAny.CurrentLocation;
-
             //remove us from the owner
-            OwnerIfAny.Items.Remove(this);
+            owner.Items.Remove(this);
             //add us to the room
-            dropLocation.Items.Add(this);
+            owner.CurrentLocation.Items.Add(this);
 
             //log it
-            ui.Log.Info($"{OwnerIfAny} dropped {this}", round);
-            
-            //clear owner status
-            OwnerIfAny = null;
+            ui.Log.Info($"{owner} dropped {this}", round);
+        }
+
+        public bool Has<T>(IActor owner) where T : IAdjective
+        {
+            return Adjectives.Any(a => a is T);
         }
 
         public Item(string name)
@@ -38,24 +33,24 @@ namespace StarshipWanderer.Items
             Name = name;
         }
         
-        public override StatsCollection GetFinalStats()
+        public override StatsCollection GetFinalStats(IActor forActor)
         {
             var clone = BaseStats.Clone();
 
-            foreach (var adjective in Adjectives.Where(a=>a.IsActive())) 
-                clone.Add(adjective.GetFinalStats());
+            foreach (var adjective in Adjectives) 
+                clone.Add(adjective.GetFinalStats(forActor));
 
             return clone;
         }
 
-        public override IEnumerable<IAction> GetFinalActions()
+        public override IEnumerable<IAction> GetFinalActions(IActor forActor)
         {
-            return BaseActions.Union(Adjectives.SelectMany(a => a.GetFinalActions()));
+            return BaseActions.Union(Adjectives.SelectMany(a => a.GetFinalActions(forActor)));
         }
 
-        public override IEnumerable<IBehaviour> GetFinalBehaviours()
+        public override IEnumerable<IBehaviour> GetFinalBehaviours(IActor forActor)
         {
-            return BaseBehaviours.Union(Adjectives.SelectMany(a => a.GetFinalBehaviours()));
+            return BaseBehaviours.Union(Adjectives.SelectMany(a => a.GetFinalBehaviours(forActor)));
         }
     }
 }

@@ -21,7 +21,6 @@ namespace StarshipWanderer.Actions
                 //remove it from the location and give to player
                 f.FromPlace.Items.Remove(f.Item);
                 f.PerformedBy.Items.Add(f.Item);
-                f.Item.OwnerIfAny = f.PerformedBy;
 
                 ui.Log.Info($"{f.PerformedBy} picked up {f.Item}",stack.Round);
             }

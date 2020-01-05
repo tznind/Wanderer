@@ -3,12 +3,16 @@ using System.Text;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Behaviours;
+using StarshipWanderer.Items;
 using StarshipWanderer.Stats;
 
 namespace StarshipWanderer.Adjectives
 {
     public interface IAdjective : IHasStats
     {
+        /// <summary>
+        /// The object to which the adjective is attached
+        /// </summary>
         IHasStats Owner { get; set; }
 
         /// <summary>
@@ -16,6 +20,9 @@ namespace StarshipWanderer.Adjectives
         /// </summary>
         bool IsPrefix { get; set; }
 
-        bool IsActive();
+
+
+
+
     }
 }

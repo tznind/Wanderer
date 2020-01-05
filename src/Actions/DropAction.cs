@@ -21,7 +21,7 @@ namespace StarshipWanderer.Actions
 
             //if we still have the item we should drop it
             if(f.PerformedBy.Items.Contains(f.ToDrop))
-                f.ToDrop.Drop(ui,null,stack.Round);
+                f.ToDrop.Drop(ui, f.PerformedBy,stack.Round);
         }
     }
 }
