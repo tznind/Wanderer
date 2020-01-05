@@ -7,6 +7,7 @@ namespace StarshipWanderer.Adjectives.ActorOnly
     {
         public Injured(IActor actor):base(actor)
         {
+            IsPrefix = false;
             BaseStats[Stat.Fight] = -10;
         }
 

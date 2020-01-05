@@ -5,6 +5,7 @@ using System.Text;
 using NLog.Targets;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Stats;
+using StarshipWanderer.Systems;
 
 namespace StarshipWanderer.Actions
 {
@@ -18,24 +19,28 @@ namespace StarshipWanderer.Actions
         public override void Push(IUserinterface ui, ActionStack stack,IActor actor)
         {
             if (actor.Decide(ui,"Fight", null, out IActor toFight, actor.GetCurrentLocationSiblings(),Attitude))
-                stack.Push(new FightFrame(actor, toFight, this));
+                stack.Push(new FightFrame(actor, toFight, this,new InjurySystem()));
         }
 
         public override void Pop(IUserinterface ui, ActionStack stack, Frame frame)
         {
             var f = (FightFrame) frame;
 
-            if (f.FightTarget.GetFinalStats()[Stat.Fight] > f.PerformedBy.GetFinalStats()[Stat.Fight])
-            {
-                ui.Log.Info($"{f.PerformedBy} fought {f.FightTarget} but was killed",stack.Round);
-                f.PerformedBy.Kill(ui, stack.Round);
-            }
-            else
-            {
-                ui.Log.Info($"{f.PerformedBy} fought and killed {f.FightTarget}",stack.Round);
-                f.FightTarget.Kill(ui, stack.Round);
-            }
+            //inflict damage on the target
+            f.InjurySystem.Apply(new SystemArgs(ui,
+                f.PerformedBy.GetFinalStats()[Stat.Fight] - f.FightTarget.GetFinalStats()[Stat.Fight],
+                f.PerformedBy,
+                f.FightTarget,
+                stack.Round));
 
+            //inflict damage back again
+            f.InjurySystem.Apply(new SystemArgs(ui,
+                f.FightTarget.GetFinalStats()[Stat.Fight] - f.PerformedBy.GetFinalStats()[Stat.Fight],
+                f.FightTarget,
+                f.PerformedBy,
+                stack.Round));
+            
+            ui.Log.Info($"{f.PerformedBy} fought {f.FightTarget}",stack.Round);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using StarshipWanderer.Actors;
+using StarshipWanderer.Systems;
 
 namespace StarshipWanderer.Actions
 {
@@ -6,9 +7,12 @@ namespace StarshipWanderer.Actions
     {
         public IActor FightTarget { get; }
 
-        public FightFrame(IActor performedBy,IActor fightTarget, IAction action) : base(performedBy, action)
+        public IInjurySystem InjurySystem { get; }
+
+        public FightFrame(IActor performedBy,IActor fightTarget, IAction action, IInjurySystem injurySystem) : base(performedBy, action)
         {
             FightTarget = fightTarget;
+            InjurySystem = injurySystem;
         }
     }
 }
