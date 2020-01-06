@@ -10,13 +10,4 @@ namespace StarshipWanderer.Systems
         void Apply(SystemArgs args, InjuryRegion region);
         IEnumerable<Injured> GetAvailableInjuries(IActor actor);
     }
-
-    public enum InjuryRegion
-    {
-        None,
-        Head,
-        Torso,
-        Arm,
-        Leg
-    }
 }

@@ -25,17 +25,20 @@ namespace StarshipWanderer.Actions
         public override void Pop(IUserinterface ui, ActionStack stack, Frame frame)
         {
             var f = (FightFrame) frame;
+            
+            var attackerAdvantage = f.PerformedBy.GetFinalStats()[Stat.Fight] - f.FightTarget.GetFinalStats()[Stat.Fight];
 
             //inflict damage on the target
             f.InjurySystem.Apply(new SystemArgs(ui,
-                f.PerformedBy.GetFinalStats()[Stat.Fight] - f.FightTarget.GetFinalStats()[Stat.Fight],
+                attackerAdvantage + 20, //Even fighting someone of lower Fight results in injury so add 20
+
                 f.PerformedBy,
                 f.FightTarget,
                 stack.Round));
 
             //inflict damage back again
             f.InjurySystem.Apply(new SystemArgs(ui,
-                f.FightTarget.GetFinalStats()[Stat.Fight] - f.PerformedBy.GetFinalStats()[Stat.Fight],
+                -attackerAdvantage + 20,
                 f.FightTarget,
                 f.PerformedBy,
                 stack.Round));

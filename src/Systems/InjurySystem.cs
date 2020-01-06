@@ -10,29 +10,36 @@ namespace StarshipWanderer.Systems
     {
         public void Apply(SystemArgs args, InjuryRegion region)
         {
-            if (args.Recipient.Adjectives.OfType<Injured>().Count() > 2)
-            {
-                args.Recipient.Kill(args.UserInterface,args.Round);
-                args.UserInterface.Log.Info($"{args.Recipient} died from their injuries",args.Round);
-            }
-            else
-            {
-                var newInjury = new Injured(args.Recipient);   
-                args.Recipient.Adjectives.Add(newInjury);
-                args.UserInterface.Log.Info($"{args.Recipient} gained {newInjury}",args.Round);
-            }
+            if(args.Intensity < 0 || region == InjuryRegion.None)
+                return;
+            
+            var available = GetAvailableInjuries(args.Recipient).ToArray();
+
+            var worst = available.Max(i => i.Severity);
+
+            var newInjury = available.FirstOrDefault(a =>
+                a.Severity == Math.Min(worst, args.Intensity / 10) && a.Region == region);
+
+            args.Recipient.Adjectives.Add(newInjury);
+            args.UserInterface.Log.Info($"{args.Recipient} gained {newInjury}", args.Round);
         }
 
         public void Apply(SystemArgs args)
         {
             var regions = Enum.GetValues(typeof(InjuryRegion)).Cast<InjuryRegion>().ToArray();
 
-            Apply(args,regions[args.Intensity % regions.Length]);
+            //Generate a random region excluding None
+            Apply(args,regions[(args.Intensity % (regions.Length-1)+1)]);
         }
 
-        public IEnumerable<Injured> GetAvailableInjuries(IActor actor)
+        public virtual IEnumerable<Injured> GetAvailableInjuries(IActor actor)
         {
-            yield return new Injured(actor);
+            foreach (InjuryRegion region in Enum.GetValues(typeof(InjuryRegion)))
+            {
+                int severity = 0;
+                foreach (var s in new string[]{"Bruised","Cut","Lacerated","Fractured","Broken","Detached"})
+                    yield return new Injured(s + " " + region, actor, severity++, region);
+            }
         }
     }
 }
