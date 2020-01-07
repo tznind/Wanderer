@@ -36,8 +36,10 @@ namespace StarshipWanderer.Actions
             
             g.BaseStats[Stat.Loyalty] = 30;
             g.BaseStats[Stat.Fight] = 10;
-
             AddRandomAdjective(place, g);
+
+            if(g.Has<Medic>(true))
+                g.BaseStats[Stat.Savvy] = 20;
 
             return g;
         }
@@ -47,10 +49,13 @@ namespace StarshipWanderer.Actions
             var g = new Npc(name,place);
             g.BaseStats[Stat.Loyalty] = 30;
             g.BaseStats[Stat.Fight] = 20;
-
+            
             g.Items.Add(ItemFactory.Create(g));
 
             AddRandomAdjective(place, g);
+            
+            if(g.Has<Medic>(true))
+                g.BaseStats[Stat.Savvy] = 20;
 
             //prevents anyone leaving the room unless loyalty is 10
             g.BaseBehaviours.Add(new ForbidBehaviour<Leave>(new FrameStatCondition(Stat.Loyalty,Comparison.LessThan, 10),g));

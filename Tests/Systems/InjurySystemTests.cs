@@ -10,6 +10,7 @@ using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives;
 using StarshipWanderer.Adjectives.ActorOnly;
 using StarshipWanderer.Behaviours;
+using StarshipWanderer.Places;
 using StarshipWanderer.Stats;
 using StarshipWanderer.Systems;
 using Tests.Actions;
@@ -116,6 +117,38 @@ namespace Tests.Systems
                     Assert.AreEqual(8,injury.Severity);
                 }
             }
+        }
+
+        [Test]
+        public void Test_HealingAnInjury()
+        {
+            HashSet<IAdjective> adjectives = new HashSet<IAdjective>();
+
+            var you = new You("You", new Room("someRoom", new World()));
+
+            //you are a medic
+            you.Adjectives.Add(new Medic(you));
+
+            //you cannot heal even though you are a medic
+            Assert.IsFalse(you.GetFinalActions().OfType<HealAction>().Any());
+
+            //until you have good Savvy
+            you.BaseStats[Stat.Savvy] = 50;
+            
+            //now you can heal stuff
+            Assert.IsTrue(you.GetFinalActions().OfType<HealAction>().Any());
+
+            //give them an injury
+            var injury = new Injured("Cut Lip", you, 2, InjuryRegion.Leg);
+            you.Adjectives.Add(injury);
+
+            var stack = new ActionStack();
+
+            Assert.Contains(injury,you.Adjectives.ToArray());
+            stack.RunStack(new GetChoiceTestUI(you,injury), new HealAction(), you, you.GetFinalBehaviours());
+            Assert.IsFalse(you.Adjectives.Contains(injury));
+        
+
         }
     }
 }

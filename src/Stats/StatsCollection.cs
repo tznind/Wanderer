@@ -8,7 +8,8 @@ namespace StarshipWanderer.Stats
         public StatsCollection()
         {
             foreach (Stat stat in Enum.GetValues(typeof(Stat))) 
-                Add(stat, 0);
+                if(stat != Stat.None)
+                    Add(stat, 0);
         }
 
         /// <summary>
@@ -19,7 +20,8 @@ namespace StarshipWanderer.Stats
         {
             var clone = new StatsCollection();
             foreach (Stat s in Enum.GetValues(typeof(Stat)))
-                clone[s] = this[s];
+                if(s != Stat.None)
+                    clone[s] = this[s];
 
             return clone;
         }
@@ -32,8 +34,8 @@ namespace StarshipWanderer.Stats
         public void Add(StatsCollection other)
         {
             foreach (Stat s in Enum.GetValues(typeof(Stat)))
-                this[s] += other[s];
-
+                if(s != Stat.None)
+                    this[s] += other[s];
         }
     }
 }

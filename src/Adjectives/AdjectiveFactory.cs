@@ -19,6 +19,7 @@ namespace StarshipWanderer.Adjectives
             yield return new Attractive(actor);
             yield return new Strong(actor);
             yield return new Tough(actor);
+            yield return new Medic(actor);
         }
 
         
