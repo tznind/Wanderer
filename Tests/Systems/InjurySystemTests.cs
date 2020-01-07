@@ -4,9 +4,13 @@ using System.Linq;
 using System.Text;
 using Moq;
 using NUnit.Framework;
+using StarshipWanderer;
+using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives;
 using StarshipWanderer.Adjectives.ActorOnly;
+using StarshipWanderer.Behaviours;
+using StarshipWanderer.Stats;
 using StarshipWanderer.Systems;
 using Tests.Actions;
 using Enumerable = System.Linq.Enumerable;
@@ -40,6 +44,77 @@ namespace Tests.Systems
                 var newInjury = injury.Name;
                 Assert.IsFalse(seenSoFar.Contains(newInjury),$"Saw duplicate injury '{newInjury}' for i={i}");
                 seenSoFar.Add(newInjury);
+            }
+        }
+
+        [Test]
+        public void Test_LightInjuriesHealOverTime()
+        {
+            HashSet<IAdjective> adjectives = new HashSet<IAdjective>();
+
+            var a = Mock.Of<IActor>(b=>b.Adjectives == adjectives
+                                       && b.GetFinalBehaviours() == b.Adjectives.SelectMany(a=>a.GetFinalBehaviours(b))
+                                       && b.BaseStats == new StatsCollection());
+
+            //give them an injury
+            var injury = new Injured("Bruised Shin", a, 1, InjuryRegion.Leg);
+            a.Adjectives.Add(injury);
+            
+            for (int i = 0; i < 10; i++)
+            {
+                var stack = new ActionStack();
+                stack.RunStack(M.UI_GetChoice(typeof(object)), new LoadGunsAction(), a, a.GetFinalBehaviours());
+
+                //after 9 round you should still be injured                
+                if(i <9)
+                    Assert.Contains(injury,a.Adjectives.ToArray());
+                else
+                    //on 10th round it should be gone
+                    Assert.IsFalse(a.Adjectives.Contains(injury));
+            }
+        }
+        [Test]
+        public void Test_HeavyInjuriesGetWorseOverTime()
+        {
+            HashSet<IAdjective> adjectives = new HashSet<IAdjective>();
+
+            var a = Mock.Of<IActor>(b=>b.Adjectives == adjectives
+                                       && b.GetFinalBehaviours() == b.Adjectives.SelectMany(a=>a.GetFinalBehaviours(b))
+                                       && b.BaseStats == new StatsCollection());
+
+            //give them an injury
+            var injury = new Injured("Cut Lip", a, 2, InjuryRegion.Leg);
+            a.Adjectives.Add(injury);
+            
+            for (int i = 0; i < 10; i++)
+            {
+                var stack = new ActionStack();
+                stack.RunStack(M.UI_GetChoice(typeof(object)), new LoadGunsAction(), a, a.GetFinalBehaviours());
+
+                //after 2 rounds (0 and 1) you should still be injured                
+                if(i == 0 )
+                    StringAssert.AreEqualIgnoringCase("Cut Lip",injury.Name);
+                if (i == 1)
+                {
+                    StringAssert.AreEqualIgnoringCase("Infected Cut Lip",injury.Name);
+                    Assert.AreEqual(3,injury.Severity);
+                    Assert.Contains(injury,a.Adjectives.ToArray());
+                }
+
+                //2 + 3 + 4 + 5 + 5
+                if (i == 20)
+                {
+                    StringAssert.AreEqualIgnoringCase("Infected Cut Lip",injury.Name);
+                    Assert.AreEqual(7,injury.Severity);
+                }
+
+                
+                //2 + 3 + 4 + 5 + 6
+                if (i == 21)
+                {
+                    StringAssert.AreEqualIgnoringCase("Infected Cut Lip",injury.Name);
+                    Assert.AreEqual(8,injury.Severity);
+                }
             }
         }
     }

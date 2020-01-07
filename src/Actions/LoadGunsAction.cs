@@ -5,7 +5,7 @@ using StarshipWanderer.Stats;
 
 namespace StarshipWanderer.Actions
 {
-    internal class LoadGunsAction : Action
+    public class LoadGunsAction : Action
     {
         
         public override void Pop(IUserinterface ui, ActionStack stack, Frame frame)
