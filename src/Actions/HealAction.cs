@@ -17,8 +17,8 @@ namespace StarshipWanderer.Actions
         {
             var f = (HealFrame)frame;
 
-            if(f.ToBeHealed.Adjectives.Contains(f.Injury))
-                f.Injury.Heal(ui,stack.Round);
+            if (f.ToBeHealed.Adjectives.Contains(f.Injury)) 
+                f.Injury.Heal(ui, stack.Round);
         }
     }
 }

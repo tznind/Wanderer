@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Behaviours;
+using StarshipWanderer.Items;
 using StarshipWanderer.Places;
 using StarshipWanderer.Relationships;
 using StarshipWanderer.Stats;
@@ -114,6 +115,17 @@ namespace StarshipWanderer
 
                 ui.Refresh();
             }
+        }
+
+        public void Erase(IItem item)
+        {
+            foreach (var actor in Population)
+                if (actor.Items.Contains(item))
+                    actor.Items.Remove(item);
+            
+            foreach (var room in Map.Values)
+                if (room.Items.Contains(item))
+                    room.Items.Remove(item);
         }
     }
 }

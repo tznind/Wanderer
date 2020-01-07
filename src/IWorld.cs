@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Behaviours;
+using StarshipWanderer.Items;
 using StarshipWanderer.Places;
 using StarshipWanderer.Relationships;
 
@@ -38,5 +39,11 @@ namespace StarshipWanderer
         /// <param name="ui"></param>
         /// <param name="playerAction"></param>
         void RunRound(IUserinterface ui, IAction playerAction);
+
+
+        /// <summary>
+        /// Attempts to completely erase the item from existence
+        /// </summary>
+        void Erase(IItem item);
     }
 }

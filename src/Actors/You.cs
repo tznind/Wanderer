@@ -38,6 +38,7 @@ namespace StarshipWanderer.Actors
             BaseStats[Stat.Loyalty] = 10;
             BaseStats[Stat.Fight] = 20;
             BaseStats[Stat.Coerce] = 10;
+            BaseStats[Stat.Savvy] = 20;
 
             //player can coerce Npc
             BaseActions.Add(new CoerceAction());

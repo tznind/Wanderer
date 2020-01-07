@@ -10,14 +10,15 @@ namespace StarshipWanderer.Adjectives
     {
         public Medic(IHasStats owner):base(owner)
         {
+            BaseActions.Add(new HealAction());
         }
 
         public override IEnumerable<IAction> GetFinalActions(IActor forActor)
         {
             if (forActor.GetFinalStats()[Stat.Savvy] >= 10)
-                return base.GetFinalActions(forActor).Union(new[] {new HealAction()});
-            
-            return base.GetFinalActions(forActor);
+                return base.GetFinalActions(forActor);
+
+            return new IAction[0];
         }
 
         public override IEnumerable<string> GetDescription()

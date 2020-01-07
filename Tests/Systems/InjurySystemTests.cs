@@ -11,6 +11,7 @@ using StarshipWanderer.Adjectives;
 using StarshipWanderer.Adjectives.ActorOnly;
 using StarshipWanderer.Adjectives.RoomOnly;
 using StarshipWanderer.Behaviours;
+using StarshipWanderer.Items;
 using StarshipWanderer.Places;
 using StarshipWanderer.Stats;
 using StarshipWanderer.Systems;
@@ -160,9 +161,47 @@ namespace Tests.Systems
             var stack = new ActionStack();
 
             Assert.Contains(injury,you.Adjectives.ToArray());
-            stack.RunStack(new GetChoiceTestUI(you,injury), new HealAction(), you, you.GetFinalBehaviours());
+            stack.RunStack(new GetChoiceTestUI(you,injury), you.GetFinalActions().OfType<HealAction>().Single(), you, you.GetFinalBehaviours());
             Assert.IsFalse(you.Adjectives.Contains(injury));
         
+
+        }
+
+        [Test]
+        public void Test_HealingAnInjury_WithSingleUseItem()
+        {
+            var itemFactory = new ItemFactory(new AdjectiveFactory());
+
+            var world = new World();
+            var room = new Room("someRoom", world);
+            world.Map.Add(new Point3(0,0,0), room);
+            var you = new You("You", room);
+            you.BaseStats[Stat.Savvy] = 50;
+            
+
+            //you cannot heal as a base action
+            Assert.IsFalse(you.GetFinalActions().OfType<HealAction>().Any());
+
+            //give you a kit
+            var kit = itemFactory.Create<SingleUse, Medic>("Kit");
+            you.Items.Add(kit);
+
+            //now you can heal stuff
+            Assert.IsTrue(you.GetFinalActions().OfType<HealAction>().Any());
+
+            //give them an injury
+            var injury = new Injured("Cut Lip", you, 2, InjuryRegion.Leg);
+            you.Adjectives.Add(injury);
+
+            var stack = new ActionStack();
+
+            Assert.Contains(injury, you.Adjectives.ToArray());
+            stack.RunStack(new GetChoiceTestUI(you, injury), you.GetFinalActions().OfType<HealAction>().Single(), you, you.GetFinalBehaviours());
+            
+            //injury is gone
+            Assert.IsFalse(you.Adjectives.Contains(injury));
+            Assert.IsFalse(you.Items.Contains(kit));
+
 
         }
     }

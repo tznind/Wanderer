@@ -28,6 +28,9 @@ namespace StarshipWanderer.Adjectives
         {
             yield return new Light(item);
             yield return new Strong(item);
+            yield return new SingleUse(item);
+            yield return new Medic(item);
+            yield return new Tough(item);
         }
     }
 }
