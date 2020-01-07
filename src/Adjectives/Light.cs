@@ -1,4 +1,5 @@
-﻿using StarshipWanderer.Items;
+﻿using System.Collections.Generic;
+using StarshipWanderer.Items;
 
 namespace StarshipWanderer.Adjectives
 {
@@ -10,6 +11,11 @@ namespace StarshipWanderer.Adjectives
         {
             Item = item;
 
+        }
+
+        public override IEnumerable<string> GetDescription()
+        {
+            yield return "Cancels Dark";
         }
     }
 }

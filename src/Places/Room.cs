@@ -53,5 +53,14 @@ namespace StarshipWanderer.Places
             return World.Map.GetPoint(this);
         }
 
+        public bool Has<T>() where T : IAdjective
+        {
+            return Adjectives.Any(a => a is T);
+        }
+
+        public bool Has<T>(Func<T, bool> condition) where T : IAdjective
+        {
+            return Adjectives.Any(a => a is T t && condition(t));
+        }
     }
 }

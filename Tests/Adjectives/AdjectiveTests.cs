@@ -29,7 +29,7 @@ namespace Tests.Adjectives
             Assert.AreEqual(35,d.GetFinalStats()[Stat.Coerce]);
             Assert.AreEqual(20,d.GetFinalStats()[Stat.Fight]);
 
-            var injury = new Injured("Broken Ribs",d,2,InjuryRegion.Ribs);
+            var injury = new Injured("Broken Ribs",d,2,InjuryRegion.Head);
             d.Adjectives.Add(injury);
 
             //now injured

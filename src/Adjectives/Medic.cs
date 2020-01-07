@@ -19,5 +19,10 @@ namespace StarshipWanderer.Adjectives
             
             return base.GetFinalActions(forActor);
         }
+
+        public override IEnumerable<string> GetDescription()
+        {
+            yield return "Allows healing injuries";
+        }
     }
 }

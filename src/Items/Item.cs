@@ -28,6 +28,11 @@ namespace StarshipWanderer.Items
             return Adjectives.Any(a => a is T);
         }
 
+        public bool Has<T>(IActor owner, Func<T, bool> condition) where T : IAdjective
+        {
+            return Adjectives.Any(a => a is T t && condition(t));
+        }
+
         public Item(string name)
         {
             Name = name;

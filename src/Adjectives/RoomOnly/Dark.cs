@@ -1,4 +1,5 @@
-﻿using StarshipWanderer.Actors;
+﻿using System.Collections.Generic;
+using StarshipWanderer.Actors;
 using StarshipWanderer.Places;
 using StarshipWanderer.Stats;
 
@@ -18,6 +19,11 @@ namespace StarshipWanderer.Adjectives.RoomOnly
                 return new StatsCollection();
 
             return base.GetFinalStats(forActor);
+        }
+
+        public override IEnumerable<string> GetDescription()
+        {
+            yield return "Reduces Fight";
         }
     }
 }

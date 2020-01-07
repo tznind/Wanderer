@@ -52,6 +52,7 @@ namespace StarshipWanderer.Adjectives
         {
             return Name;
         }
-
+        
+        public abstract IEnumerable<string> GetDescription();
     }
 }

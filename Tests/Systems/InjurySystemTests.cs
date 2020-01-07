@@ -9,6 +9,7 @@ using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives;
 using StarshipWanderer.Adjectives.ActorOnly;
+using StarshipWanderer.Adjectives.RoomOnly;
 using StarshipWanderer.Behaviours;
 using StarshipWanderer.Places;
 using StarshipWanderer.Stats;
@@ -74,19 +75,27 @@ namespace Tests.Systems
                     Assert.IsFalse(a.Adjectives.Contains(injury));
             }
         }
-        [Test]
-        public void Test_HeavyInjuriesGetWorseOverTime()
-        {
-            HashSet<IAdjective> adjectives = new HashSet<IAdjective>();
 
-            var a = Mock.Of<IActor>(b=>b.Adjectives == adjectives
-                                       && b.GetFinalBehaviours() == b.Adjectives.SelectMany(a=>a.GetFinalBehaviours(b))
-                                       && b.BaseStats == new StatsCollection());
+        [TestCase(true,true)]
+        [TestCase(true, false)]
+        [TestCase(false,true)]
+        [TestCase(false,false)]
+        public void Test_HeavyInjuriesGetWorseOverTime(bool isTough, bool roomIsStale)
+        {
+            var room = new Room("someRoom", new World());
+            
+            if (roomIsStale)
+                room.Adjectives.Add(new Stale(room));
+
+            var a = new You("You", room);
 
             //give them an injury
             var injury = new Injured("Cut Lip", a, 2, InjuryRegion.Leg);
             a.Adjectives.Add(injury);
-            
+
+            if (isTough)
+                a.Adjectives.Add(new Tough(a));
+
             for (int i = 0; i < 10; i++)
             {
                 var stack = new ActionStack();
@@ -95,26 +104,34 @@ namespace Tests.Systems
                 //after 2 rounds (0 and 1) you should still be injured                
                 if(i == 0 )
                     StringAssert.AreEqualIgnoringCase("Cut Lip",injury.Name);
-                if (i == 1)
-                {
-                    StringAssert.AreEqualIgnoringCase("Infected Cut Lip",injury.Name);
-                    Assert.AreEqual(3,injury.Severity);
-                    Assert.Contains(injury,a.Adjectives.ToArray());
-                }
-
-                //2 + 3 + 4 + 5 + 5
-                if (i == 20)
-                {
-                    StringAssert.AreEqualIgnoringCase("Infected Cut Lip",injury.Name);
-                    Assert.AreEqual(7,injury.Severity);
-                }
-
                 
-                //2 + 3 + 4 + 5 + 6
                 if (i == 21)
                 {
-                    StringAssert.AreEqualIgnoringCase("Infected Cut Lip",injury.Name);
-                    Assert.AreEqual(8,injury.Severity);
+                    if (isTough && !roomIsStale)
+                    {
+                        //never gets worse
+                        Assert.AreEqual(2, injury.Severity);
+                    }
+                    else
+                    if (!roomIsStale || isTough)
+                    {
+                        //normal rate or tough in stale room 
+                        
+                        //From 2 it gets worse on the following rounds
+                        //4+6+8
+                        StringAssert.AreEqualIgnoringCase("Infected Cut Lip", injury.Name);
+                        Assert.AreEqual(5, injury.Severity);
+                    }
+                    else
+                    {
+                        //stale room and not tough
+
+                        //From 2 it gets worse on the following rounds
+                        //2+3+4+5+6
+                        StringAssert.AreEqualIgnoringCase("I" +
+                            "nfected Cut Lip", injury.Name);
+                        Assert.AreEqual(7, injury.Severity);
+                    }
                 }
             }
         }
@@ -122,8 +139,6 @@ namespace Tests.Systems
         [Test]
         public void Test_HealingAnInjury()
         {
-            HashSet<IAdjective> adjectives = new HashSet<IAdjective>();
-
             var you = new You("You", new Room("someRoom", new World()));
 
             //you are a medic

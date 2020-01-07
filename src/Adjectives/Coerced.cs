@@ -1,4 +1,5 @@
-﻿using StarshipWanderer.Actions;
+﻿using System.Collections.Generic;
+using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives;
 using StarshipWanderer.Behaviours;
@@ -14,6 +15,11 @@ namespace StarshipWanderer.Adjectives
             IsPrefix = false;
             BaseStats[Stat.Initiative] = 10000;
             BaseBehaviours.Add(new ExpiryBehaviour(this, 1));
+        }
+
+        public override IEnumerable<string> GetDescription()
+        {
+            yield return "Forced to perform a specific action";
         }
     }
 }

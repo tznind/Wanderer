@@ -12,6 +12,7 @@ namespace StarshipWanderer.Adjectives
         public IEnumerable<IAdjective> GetAvailableAdjectives(IPlace place)
         {
             yield return new Dark(place);
+            yield return new Stale(place);
         }
 
         public IEnumerable<IAdjective> GetAvailableAdjectives(IActor actor)

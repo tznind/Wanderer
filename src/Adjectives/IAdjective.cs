@@ -21,8 +21,11 @@ namespace StarshipWanderer.Adjectives
         bool IsPrefix { get; set; }
 
 
-
-
-
+        /// <summary>
+        /// Describes the effects (positive and negative) of the <see cref="IAdjective"/>
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<string> GetDescription();
+        
     }
 }

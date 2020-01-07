@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives.ActorOnly;
 using StarshipWanderer.Stats;
@@ -15,11 +16,17 @@ namespace StarshipWanderer.Adjectives
         public override StatsCollection GetFinalStats(IActor forActor)
         {
             
-            //Being attractive makes you better at coercion as long as you do not have an active injury
-            if(forActor.Has<Injured>(false))
+            //Being attractive makes you better at coercion as long as you do not have a head injury
+            if(forActor.Has<Injured>(false,i=>i.Region == InjuryRegion.Head))
                 return new StatsCollection();
 
             return base.GetFinalStats(forActor);
+        }
+
+        public override IEnumerable<string> GetDescription()
+        {
+            yield return "Improves Coercion";
+            yield return "Cancelled by Head Injuries";
         }
     }
 }

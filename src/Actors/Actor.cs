@@ -80,7 +80,13 @@ namespace StarshipWanderer.Actors
         public bool Has<T>(bool includeItems) where T : IAdjective
         {
             return Adjectives.Any(a => a is T)
-                || (includeItems && Items.Any(i=> i.Has<T>(this)));
+                || includeItems && Items.Any(i=> i.Has<T>(this));
+        }
+
+        public bool Has<T>(bool includeItems, Func<T, bool> condition) where T : IAdjective
+        {
+            return Adjectives.Any(a => a is T t  && condition(t))
+                || includeItems && Items.Any(i => i.Has<T>(this,condition));
         }
 
         public override IEnumerable<IBehaviour> GetFinalBehaviours(IActor forActor)

@@ -22,5 +22,15 @@ namespace StarshipWanderer.Items
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         bool Has<T>(IActor owner) where T : IAdjective;
+
+
+        /// <summary>
+        /// True if there is an active adjective matching the <paramref name="condition"/>
+        /// </summary>
+        /// <param name="owner"></param>
+        /// <param name="condition"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        bool Has<T>(IActor owner,Func<T,bool> condition) where T : IAdjective;
     }
 }

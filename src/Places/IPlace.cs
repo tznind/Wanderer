@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
+using StarshipWanderer.Adjectives;
 using StarshipWanderer.Items;
 
 namespace StarshipWanderer.Places
@@ -30,5 +31,9 @@ namespace StarshipWanderer.Places
         IEnumerable<IActor> Actors { get; }
 
         Point3 GetPoint();
+
+        bool Has<T>() where T:IAdjective;
+
+        bool Has<T>(Func<T,bool> condition) where T : IAdjective;
     }
 }

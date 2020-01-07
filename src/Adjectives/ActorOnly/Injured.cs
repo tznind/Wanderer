@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using StarshipWanderer.Actors;
+using StarshipWanderer.Adjectives.RoomOnly;
 using StarshipWanderer.Behaviours;
 using StarshipWanderer.Stats;
 using StarshipWanderer.Systems;
@@ -18,6 +19,8 @@ namespace StarshipWanderer.Adjectives.ActorOnly
         /// Tracks how many rounds have gone by
         /// </summary>
         readonly HashSet<Guid> _roundsSeen = new HashSet<Guid>();
+
+        public IActor OwnerActor { get; set; }
 
         public void Worsen(IUserinterface ui,  Guid round)
         {
@@ -47,9 +50,12 @@ namespace StarshipWanderer.Adjectives.ActorOnly
             IsPrefix = false;
             BaseStats[Stat.Fight] = -5 * severity;
             Name = name;
+            OwnerActor = actor;
 
             BaseBehaviours.Add(this);
         }
+
+        
 
 
         public void OnPush(IUserinterface ui, ActionStack stack, Frame frame)
@@ -65,21 +71,40 @@ namespace StarshipWanderer.Adjectives.ActorOnly
             else
             {
                 //heavy wounds
-                if(_roundsSeen.Count % Severity == 0)
+                if(ShouldWorsen())
                     Worsen(ui,stack.Round);
             }
+        }
+
+        private bool ShouldWorsen()
+        {
+            int worsenRate = 1;
+
+            if (OwnerActor.Has<Tough>(true))
+                worsenRate--;
+
+            if (OwnerActor.CurrentLocation.Has<Stale>())
+                worsenRate++;
+
+            return worsenRate != 0 && _roundsSeen.Count % (Severity*2 / worsenRate) == 0;
         }
 
         public void OnRoundEnding(IUserinterface ui, Guid round)
         {
             if(HasReachedFatalThreshold())
-                ((IActor)Owner).Kill(ui,round);
+                OwnerActor.Kill(ui,round);
         }
 
         public virtual bool HasReachedFatalThreshold()
         {
             //Combined total of serious wounds (2 or higher) severity is 10
             return Owner.Adjectives.OfType<Injured>().Where(i => i.Severity > 1).Sum(i => i.Severity) >= 10;
+        }
+
+        public override IEnumerable<string> GetDescription()
+        {
+            yield return "Reduces Stats";
+            yield return "Leads to Death";
         }
     }
 }

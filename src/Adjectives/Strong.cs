@@ -1,4 +1,5 @@
-﻿using StarshipWanderer.Stats;
+﻿using System.Collections.Generic;
+using StarshipWanderer.Stats;
 
 namespace StarshipWanderer.Adjectives
 {
@@ -7,6 +8,11 @@ namespace StarshipWanderer.Adjectives
         public Strong(IHasStats owner):base(owner)
         {
             BaseStats[Stat.Fight] = 10;
+        }
+
+        public override IEnumerable<string> GetDescription()
+        {
+            yield return "Improves Fight";
         }
     }
 }
