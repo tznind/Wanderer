@@ -144,8 +144,9 @@ namespace Tests.Systems
 
             //you are a medic
             you.Adjectives.Add(new Medic(you));
+            you.BaseStats[Stat.Savvy] = 0;
 
-            //you cannot heal even though you are a medic
+            //you cannot heal even though you are a medic (because Savvy is 0)
             Assert.IsFalse(you.GetFinalActions().OfType<HealAction>().Any());
 
             //until you have good Savvy
