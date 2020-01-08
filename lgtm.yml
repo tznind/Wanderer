@@ -1,8 +1,5 @@
 extraction:
   csharp:
     index:
-      solution: "StarshipWanderer.sln"
-      vstools_version: "15"
-      msbuild:
-        configuration: "release"
-        platform: "Any CPU"
+      dotnet:
+        version: 3.0.101
