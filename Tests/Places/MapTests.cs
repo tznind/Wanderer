@@ -19,7 +19,7 @@ namespace Tests.Places
 
             var world = new World();
 
-            var room = new Room("someroom",world);
+            var room = new Room("someroom",world,'-');
 
             var m = new Map {{p, room}};
 

@@ -89,8 +89,8 @@ namespace Tests.Actions
             var world = new World();
 
             factory.SetupSequence(f => f.Create(It.IsAny<IWorld>()))
-                .Returns(new Room("Starting Room",world))
-                .Returns(new Room("North Room",world))
+                .Returns(new Room("Starting Room",world,'-'))
+                .Returns(new Room("North Room",world,'-'))
                 .Throws<Exception>();
             
             world.Population.Add(new You("TestPlayer",factory.Object.Create(world)));
@@ -125,10 +125,10 @@ namespace Tests.Actions
             var world = new World();
 
             factory.SetupSequence(f => f.Create(It.IsAny<IWorld>()))
-                .Returns(new Room ( "StartingRoom",world))
-                .Returns(new Room("NorthRoom",world)) 
-                .Returns(new Room("NorthEastRoom",world))
-                .Returns(new Room( "EastRoom",world));
+                .Returns(new Room ( "StartingRoom",world,'-'))
+                .Returns(new Room("NorthRoom",world,'-')) 
+                .Returns(new Room("NorthEastRoom",world,'-'))
+                .Returns(new Room( "EastRoom",world,'-'));
             //next return will be null and should not be invoked.  After all going West
             //from the EastRoom should result in being back in StartingRoom
             
@@ -161,7 +161,7 @@ namespace Tests.Actions
         public void CannotLeave()
         {
             var world = new World();
-            var room = new Room("Hotel California",world);
+            var room = new Room("Hotel California",world,'-');
             world.Population.Add(new You("TestPlayer",room));
             
             var guard = new Npc("Guard",room);

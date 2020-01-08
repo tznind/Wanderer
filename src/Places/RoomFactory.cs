@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Adjectives;
 using StarshipWanderer.Items;
@@ -19,21 +20,28 @@ namespace StarshipWanderer.Places
         }
 
         public IPlace Create(IWorld world)
-        { 
-            var gunBay = new Room("Gun Bay " + world.R.Next(5000),world)
-            {
-                Tile = 'g'
-            };
+        {
+            var rooms = GetAvailableRooms(world).ToArray();
+
+            var room = rooms[world.R.Next(rooms.Length)];
 
             //give the room a random adjective
-            var availableAdjectives = AdjectiveFactory.GetAvailableAdjectives(gunBay).ToArray();
-            gunBay.Adjectives.Add(availableAdjectives[world.R.Next(0, availableAdjectives.Length)]);
+            var availableAdjectives = AdjectiveFactory.GetAvailableAdjectives(room).ToArray();
+            room.Adjectives.Add(availableAdjectives[world.R.Next(0, availableAdjectives.Length)]);
             
-            //an action the player can perform in this room
-            gunBay.BaseActions.Add(new LoadGunsAction());
-            ActorFactory.Create(world, gunBay);
+            //some friends in the room with you
+            ActorFactory.Create(world, room);
 
-            return gunBay;
+            return room;
+        }
+
+        private IEnumerable<IPlace> GetAvailableRooms(IWorld world)
+        {
+            yield return new Room("Gun Bay " + world.R.Next(5000), world, 'g')
+                .WithAction(new LoadGunsAction());
+
+            yield return new Room("Stair" + world.R.Next(5000), world, 's')
+                .AllowUpDown(true);
         }
     }
 }

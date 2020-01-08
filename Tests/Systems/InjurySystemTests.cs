@@ -83,7 +83,7 @@ namespace Tests.Systems
         [TestCase(false,false)]
         public void Test_HeavyInjuriesGetWorseOverTime(bool isTough, bool roomIsStale)
         {
-            var room = new Room("someRoom", new World());
+            var room = new Room("someRoom", new World(),'-');
             
             if (roomIsStale)
                 room.Adjectives.Add(new Stale(room));
@@ -140,7 +140,7 @@ namespace Tests.Systems
         [Test]
         public void Test_HealingAnInjury()
         {
-            var you = new You("You", new Room("someRoom", new World()));
+            var you = new You("You", new Room("someRoom", new World(),'-'));
 
             //you are a medic
             you.Adjectives.Add(new Medic(you));
@@ -174,7 +174,7 @@ namespace Tests.Systems
             var itemFactory = new ItemFactory(new AdjectiveFactory());
 
             var world = new World();
-            var room = new Room("someRoom", world);
+            var room = new Room("someRoom", world,'-');
             world.Map.Add(new Point3(0,0,0), room);
             var you = new You("You", room);
             you.BaseStats[Stat.Savvy] = 50;

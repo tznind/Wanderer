@@ -29,7 +29,7 @@ namespace StarshipWanderer.Systems
             var regions = Enum.GetValues(typeof(InjuryRegion)).Cast<InjuryRegion>().ToArray();
 
             //Generate a random region excluding None
-            Apply(args,regions[(args.Intensity % (regions.Length-1)+1)]);
+            Apply(args,regions[Math.Abs(args.Intensity % (regions.Length-1)+1)]);
         }
 
         public virtual IEnumerable<Injured> GetAvailableInjuries(IActor actor)

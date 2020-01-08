@@ -15,7 +15,7 @@ namespace Tests.Adjectives
         {
             var w = new World();
 
-            var d  = new Npc("Dave",new Room("Nowhere",w));
+            var d  = new Npc("Dave",new Room("Nowhere",w,'-'));
             
             d.BaseStats[Stat.Fight] = 20;
             d.BaseStats[Stat.Coerce] = 20;

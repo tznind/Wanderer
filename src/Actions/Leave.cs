@@ -11,8 +11,7 @@ namespace StarshipWanderer.Actions
         public override void Push(IUserinterface ui, ActionStack stack, IActor actor)
         {
             //ask actor to pick a direction
-            if (actor.Decide<Direction>(ui, "Leave Direction", null, out var direction,
-                Enum.GetValues(typeof(Direction)).Cast<Direction>().Where(d=>d!=Direction.None).ToArray(), Attitude))
+            if (actor.Decide<Direction>(ui, "Leave Direction", null, out var direction,actor.CurrentLocation.LeaveDirections.ToArray(), Attitude))
                 stack.Push(new LeaveFrame(actor,this,direction));
         }
 

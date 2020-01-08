@@ -21,11 +21,15 @@ namespace StarshipWanderer.Places
         public char Tile { get; set; } = '.';
 
         public HashSet<IItem> Items { get;set; } = new HashSet<IItem>();
+        
+        public HashSet<Direction> LeaveDirections { get; set; } = new HashSet<Direction>(new []{Direction.North,Direction.South,Direction.East,Direction.West});
 
-        public Room(string name,IWorld world)
+        public Room(string name, IWorld world, char tile)
         {
             Name = name;
             World = world;
+
+            Tile = tile;
         }
 
         public override IEnumerable<IAction> GetFinalActions(IActor forActor)
@@ -61,6 +65,28 @@ namespace StarshipWanderer.Places
         public bool Has<T>(Func<T, bool> condition) where T : IAdjective
         {
             return Adjectives.Any(a => a is T t && condition(t));
+        }
+
+        public Room AllowUpDown(bool allow)
+        {
+            if (allow)
+            {
+                LeaveDirections.Add(Direction.Up);
+                LeaveDirections.Add(Direction.Down);
+            }
+            else
+            {
+                LeaveDirections.Remove(Direction.Up);
+                LeaveDirections.Remove(Direction.Down);
+            }
+
+            return this;
+        }
+
+        public Room WithAction(IAction action)
+        {
+            BaseActions.Add(action);
+            return this;
         }
     }
 }

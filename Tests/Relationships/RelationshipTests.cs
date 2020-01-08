@@ -18,7 +18,7 @@ namespace Tests.Relationships
         public void Test_RelationshipEndsOnDeath()
         {
             IWorld world = new World();
-            var room = new Room("Test Room", world);
+            var room = new Room("Test Room", world,'-');
 
             var bob = new Npc("Bob", room);
             var frank = new Npc("Frank", room);

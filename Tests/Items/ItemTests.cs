@@ -22,7 +22,7 @@ namespace Tests.Items
         public void Test_DarkRoom()
         {
             var world = new World();
-            var darkRoom = new Room("Dark Room", world);
+            var darkRoom = new Room("Dark Room", world,'-');
             darkRoom.Adjectives.Add(new Dark(darkRoom));
 
             var globe = new Item("Glo Globe");
@@ -69,7 +69,7 @@ namespace Tests.Items
         public void Test_DeadActorDropsItems()
         {
             var world = new World();
-            var room = new Room("SomeRoom", world);
+            var room = new Room("SomeRoom", world,'-');
             var npc = new Npc("Handyman", room);
 
             var teddy = new Item("Teddy");

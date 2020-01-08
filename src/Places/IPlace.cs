@@ -35,5 +35,10 @@ namespace StarshipWanderer.Places
         bool Has<T>() where T:IAdjective;
 
         bool Has<T>(Func<T,bool> condition) where T : IAdjective;
+
+        /// <summary>
+        /// Determines which directions you can leave the room in
+        /// </summary>
+        HashSet<Direction> LeaveDirections { get; set; }
     }
 }
