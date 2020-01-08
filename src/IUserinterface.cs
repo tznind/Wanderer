@@ -36,8 +36,13 @@ namespace StarshipWanderer
         /// </summary>
         /// <param name="title"></param>
         /// <param name="body"></param>
-        /// <param name="log">True to also record in <see cref="Log"/></param>
-        /// <param name="round">Pass in the <see cref="ActionStack.Round"/> otherwise pass empty</param>
-        void ShowMessage(string title, string body, bool log, Guid round);
+        void ShowMessage(string title, string body);
+
+        /// <summary>
+        /// Explicitly brings the message to the users attention the logs it in the event log
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="showThenLog"></param>
+        void ShowMessage(string title, LogEntry showThenLog);
     }
 }

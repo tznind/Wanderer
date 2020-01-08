@@ -27,7 +27,7 @@ namespace StarshipWanderer.Actions
             f.ToCoerce.NextAction = f;
             f.ToCoerce.Adjectives.Add(new Coerced(f.ToCoerce));
 
-            ui.Log.Info($"{f.PerformedBy} coerced {f.ToCoerce} to perform {f.CoerceAction.Name}", stack.Round);
+            ui.Log.Info(new LogEntry($"{f.PerformedBy} coerced {f.ToCoerce} to perform {f.CoerceAction.Name}", stack.Round,frame.PerformedBy));
         }
     }
 }

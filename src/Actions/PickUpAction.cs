@@ -22,11 +22,11 @@ namespace StarshipWanderer.Actions
                 f.FromPlace.Items.Remove(f.Item);
                 f.PerformedBy.Items.Add(f.Item);
 
-                ui.Log.Info($"{f.PerformedBy} picked up {f.Item}",stack.Round);
+                ui.Log.Info(new LogEntry($"{f.PerformedBy} picked up {f.Item}",stack.Round,f.PerformedBy));
             }
             else
             {
-                ui.Log.Info($"{f.PerformedBy} attempted to pick up {f.Item} but was too slow",stack.Round);
+                ui.Log.Info(new LogEntry($"{f.PerformedBy} attempted to pick up {f.Item} but was too slow",stack.Round,f.PerformedBy));
             }
         }
     }

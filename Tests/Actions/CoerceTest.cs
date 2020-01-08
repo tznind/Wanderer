@@ -47,7 +47,7 @@ namespace Tests.Actions
             Assert.Contains(a,world.Population.ToArray());
             Assert.IsTrue(b.Has<Injured>(false));
 
-            Assert.Contains("Test player coerced A to perform Fight", ui.Log.RoundResults);
+            Assert.Contains("Test player coerced A to perform Fight", ui.Log.RoundResults.Select(r=>r.Message).ToArray());
             
             //initiative should have been boosted to do the coerce then reset at end of round
             Assert.AreEqual(10,a.GetFinalStats()[Stat.Initiative]);

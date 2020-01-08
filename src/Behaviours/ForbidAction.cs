@@ -15,7 +15,9 @@ namespace StarshipWanderer.Behaviours
         public override void Pop(IUserinterface ui, ActionStack stack, Frame frame)
         {
             _toForbid.Cancelled = CancellationStatus.Cancelled;
-            ui.ShowMessage("Forbidden",$"{frame.PerformedBy} prevented {_toForbid.PerformedBy} from performing action {_toForbid.Action.Name}",true,stack.Round);
+            ui.Log.Info(new LogEntry(
+                $"{frame.PerformedBy} prevented {_toForbid.PerformedBy} from performing action {_toForbid.Action.Name}",
+                stack.Round, _toForbid.PerformedBy));
         }
     }
 }

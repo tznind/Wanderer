@@ -22,20 +22,20 @@ namespace StarshipWanderer
         /// <summary>
         /// All activities that happened since the last round began
         /// </summary>
-        public List<string> RoundResults { get; } = new List<string>();
+        public List<LogEntry> RoundResults { get; } = new List<LogEntry>();
         private Guid _currentRound;
-
-        public void Info(string s,Guid round)
+        
+        public void Info(LogEntry toLog)
         {
             //if a new round has begun clear last rounds log and start again
-            if (round != Guid.Empty && round != _currentRound)
+            if (toLog.Round != Guid.Empty && toLog.Round != _currentRound)
             {
                 RoundResults.Clear();
-                _currentRound = round;
+                _currentRound = toLog.Round;
             }
 
-            RoundResults.Add(s);
-            _log.Info(s);
+            RoundResults.Add(toLog);
+            _log.Info(toLog.Message);
         }
 
         /// <summary>
@@ -46,5 +46,6 @@ namespace StarshipWanderer
             Target.Logs.Clear();
             RoundResults.Clear();
         }
+
     }
 }

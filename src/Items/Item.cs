@@ -20,7 +20,7 @@ namespace StarshipWanderer.Items
             owner.CurrentLocation.Items.Add(this);
 
             //log it
-            ui.Log.Info($"{owner} dropped {this}", round);
+            ui.Log.Info(new LogEntry($"{owner} dropped {this}", round,owner));
         }
 
         public bool Has<T>(IActor owner) where T : IAdjective

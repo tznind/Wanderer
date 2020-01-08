@@ -27,11 +27,11 @@ namespace StarshipWanderer.Adjectives.ActorOnly
             if (!IsInfected)
             {
                 IsInfected = true;
-                ui.Log.Info($"{Name} became infected",round);
+                ui.Log.Info(new LogEntry($"{Name} became infected",round,OwnerActor));
                 Name = "Infected " + Name;
             }
             else
-                ui.Log.Info($"{Name} got worse", round);
+                ui.Log.Info(new LogEntry($"{Name} got worse", round,OwnerActor));
 
             Severity++;
         }
@@ -40,7 +40,7 @@ namespace StarshipWanderer.Adjectives.ActorOnly
         public void Heal(IUserinterface ui, Guid round)
         {
             Owner.Adjectives.Remove(this);
-            ui.Log.Info($"{Name} was healed",round);
+            ui.Log.Info(new LogEntry($"{Name} was healed",round,OwnerActor));
         }
 
         public Injured(string name,IActor actor, int severity,InjuryRegion region):base(actor)

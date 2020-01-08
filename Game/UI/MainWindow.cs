@@ -127,7 +127,7 @@ namespace Game.UI
                 }
                 catch (Exception e)
                 {
-                    ShowMessage("Failed to Load",e.ToString(),false,Guid.Empty);
+                    ShowMessage("Failed to Load",e.ToString());
                 }
             }
         }
@@ -136,7 +136,7 @@ namespace Game.UI
         {
             if(World == null)
             {
-                ShowMessage("No World","No game is currently loaded",false,Guid.Empty);
+                ShowMessage("No World","No game is currently loaded");
                 return;
             }
 
@@ -156,7 +156,7 @@ namespace Game.UI
                 }
                 catch (Exception e)
                 {
-                    ShowMessage("Failed to Save",e.ToString(),false,Guid.Empty);
+                    ShowMessage("Failed to Save",e.ToString());
                 }
             }
         }
@@ -258,7 +258,7 @@ namespace Game.UI
         {
             if (actor == null)
             {
-                ShowMessage("No World","No game is currently loaded",false,Guid.Empty);
+                ShowMessage("No World","No game is currently loaded");
                 return;
             }
 
@@ -278,6 +278,12 @@ namespace Game.UI
             UpdateRoomFrame();
 
             RedrawMap();
+        }
+
+        public void ShowMessage(string title, LogEntry showThenLog)
+        {
+            ShowMessage(title,showThenLog.Message);
+            Log.Info(showThenLog);
         }
 
 
@@ -310,11 +316,8 @@ namespace Game.UI
             _lblMap.Text = sb.ToString();
         }
 
-        public void ShowMessage(string title, string body, bool log, Guid round)
+        public void ShowMessage(string title, string body)
         {
-            if(log)
-                Log.Info(body,round);
-
             RunDialog(title,body,out _,"Ok");
         }
 

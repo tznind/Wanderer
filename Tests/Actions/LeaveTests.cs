@@ -70,10 +70,13 @@ namespace Tests.Actions
         {
         }
 
-        public void ShowMessage(string title, string body, bool log, Guid round)
+        public void ShowMessage(string title, string body)
         {
-            if(log)
-                Log.Info(body,round);
+        }
+
+        public void ShowMessage(string title, LogEntry showThenLog)
+        {
+            Log.Info(showThenLog);
         }
     }
 
@@ -163,6 +166,7 @@ namespace Tests.Actions
             var world = new World();
             var room = new Room("Hotel California",world,'-');
             world.Population.Add(new You("TestPlayer",room));
+            world.Map.Add(new Point3(0,0,0),room);
             
             var guard = new Npc("Guard",room);
             guard.BaseBehaviours.Add(new ForbidBehaviour<Leave>(new AlwaysCondition<Frame>(),guard));

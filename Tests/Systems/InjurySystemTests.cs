@@ -29,18 +29,21 @@ namespace Tests.Systems
 
             var sys = new InjurySystem();
 
-            HashSet<IAdjective> adjectives = new HashSet<IAdjective>();
+            var world = new World();
+            var room = new Room("someRoom", world,'-');
+            world.Map.Add(new Point3(0,0,0), room);
 
-            var a = Mock.Of<IActor>(b=>b.Adjectives == adjectives);
+            var a = new You("You", room);
 
+            
             for (int i = 0; i < 60; i++)
             {
-                adjectives.Clear();
+                a.Adjectives.Clear();
                 sys.Apply(new SystemArgs(M.UI_GetChoice(new object()),i,null,a,Guid.Empty));
 
                 //it should have applied 1 injury
-                Assert.AreEqual(1,adjectives.Count);
-                var injury = (Injured)adjectives.Single();
+                Assert.AreEqual(1,a.Adjectives.Count);
+                var injury = (Injured)a.Adjectives.Single();
 
                 Assert.AreNotEqual(InjuryRegion.None,injury);
 
@@ -53,12 +56,12 @@ namespace Tests.Systems
         [Test]
         public void Test_LightInjuriesHealOverTime()
         {
-            HashSet<IAdjective> adjectives = new HashSet<IAdjective>();
+            var world = new World();
+            var room = new Room("someRoom", world,'-');
+            world.Map.Add(new Point3(0,0,0), room);
 
-            var a = Mock.Of<IActor>(b=>b.Adjectives == adjectives
-                                       && b.GetFinalBehaviours() == b.Adjectives.SelectMany(a=>a.GetFinalBehaviours(b))
-                                       && b.BaseStats == new StatsCollection());
-
+            var a = new You("You", room);
+            
             //give them an injury
             var injury = new Injured("Bruised Shin", a, 1, InjuryRegion.Leg);
             a.Adjectives.Add(injury);
@@ -83,7 +86,9 @@ namespace Tests.Systems
         [TestCase(false,false)]
         public void Test_HeavyInjuriesGetWorseOverTime(bool isTough, bool roomIsStale)
         {
-            var room = new Room("someRoom", new World(),'-');
+            var world = new World();
+            var room = new Room("someRoom", world,'-');
+            world.Map.Add(new Point3(0,0,0), room);
             
             if (roomIsStale)
                 room.Adjectives.Add(new Stale(room));
@@ -140,7 +145,11 @@ namespace Tests.Systems
         [Test]
         public void Test_HealingAnInjury()
         {
-            var you = new You("You", new Room("someRoom", new World(),'-'));
+            var world = new World();
+            var room = new Room("someRoom", world,'-');
+            world.Map.Add(new Point3(0,0,0), room);
+
+            var you = new You("You", room);
 
             //you are a medic
             you.Adjectives.Add(new Medic(you));

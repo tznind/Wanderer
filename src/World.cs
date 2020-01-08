@@ -96,7 +96,7 @@ namespace StarshipWanderer
         {
             if (Player.Dead)
             {
-                ui.ShowMessage("Dead","Alas you are too dead to do that",false,Guid.Empty);
+                ui.ShowMessage("Dead","Alas you are too dead to do that");
                 return;
             }
 
@@ -111,10 +111,21 @@ namespace StarshipWanderer
                     b.OnRoundEnding(ui, stack.Round);
 
                 if(ui.Log.RoundResults.Any())
-                    ui.ShowMessage("Round Results",string.Join('\n',ui.Log.RoundResults),false,Guid.Empty);
+                    ui.ShowMessage("Round Results",string.Join('\n',GetPlayerVisibleLogResults(ui)));
 
                 ui.Refresh();
             }
+        }
+
+        /// <summary>
+        /// Returns log entries near the Player
+        /// </summary>
+        /// <param name="ui"></param>
+        /// <returns></returns>
+        private IEnumerable<string> GetPlayerVisibleLogResults(IUserinterface ui)
+        {
+            var playerLocation = Player.CurrentLocation.GetPoint();
+            return ui.Log.RoundResults.Where(r => r.Location == null || Math.Abs(r.Location.Distance(playerLocation)) < 0.01).Select(e=>e.Message);
         }
 
         public void Erase(IItem item)

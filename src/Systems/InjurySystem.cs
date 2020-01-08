@@ -21,7 +21,7 @@ namespace StarshipWanderer.Systems
                 a.Severity == Math.Min(worst, args.Intensity / 10) && a.Region == region);
 
             args.Recipient.Adjectives.Add(newInjury);
-            args.UserInterface.Log.Info($"{args.Recipient} gained {newInjury}", args.Round);
+            args.UserInterface.Log.Info(new LogEntry($"{args.Recipient} gained {newInjury}", args.Round,args.Recipient));
         }
 
         public void Apply(SystemArgs args)

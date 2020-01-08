@@ -43,7 +43,7 @@ namespace StarshipWanderer.Actions
                 f.PerformedBy,
                 stack.Round));
             
-            ui.Log.Info($"{f.PerformedBy} fought {f.FightTarget}",stack.Round);
+            ui.Log.Info(new LogEntry($"{f.PerformedBy} fought {f.FightTarget}",stack.Round,f.PerformedBy));
         }
     }
 }

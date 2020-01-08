@@ -24,6 +24,7 @@ namespace Tests.Items
             var world = new World();
             var darkRoom = new Room("Dark Room", world,'-');
             darkRoom.Adjectives.Add(new Dark(darkRoom));
+            world.Map.Add(new Point3(0,0,0),darkRoom);
 
             var globe = new Item("Glo Globe");
             globe.Adjectives.Add(new Light(globe));
@@ -71,6 +72,7 @@ namespace Tests.Items
             var world = new World();
             var room = new Room("SomeRoom", world,'-');
             var npc = new Npc("Handyman", room);
+            world.Map.Add(new Point3(0,0,0),room);
 
             var teddy = new Item("Teddy");
             npc.Items.Add(teddy);

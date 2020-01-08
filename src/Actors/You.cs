@@ -50,7 +50,7 @@ namespace StarshipWanderer.Actors
         {
             if (!options.Any())
             {
-                ui.ShowMessage("No Targets","There are no valid targets for that action",false,Guid.Empty);
+                ui.ShowMessage("No Targets","There are no valid targets for that action");
                 chosen = default;
                 return false;
             }
@@ -69,7 +69,7 @@ namespace StarshipWanderer.Actors
         {
             //although you might get double dead in a round.  Only show the message once
             if(!Dead)
-                ui.ShowMessage("Dead","You have tragically met your end.  Don't worry, many of your comrades will benefit from you sacrifice (at breakfast tomorrow).",false,Guid.Empty);
+                ui.ShowMessage("Dead","You have tragically met your end.  Don't worry, many of your comrades will benefit from you sacrifice (at breakfast tomorrow).");
 
             Dead = true;
         }
