@@ -14,10 +14,6 @@ namespace StarshipWanderer.Actors
     public class You : Actor
     {
 
-        /// <summary>
-        /// True if player is dead
-        /// </summary>
-        public bool Dead { get; set; }
 
         /// <summary>
         /// Do not use, internal constructor for JSON serialization

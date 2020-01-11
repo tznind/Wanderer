@@ -6,6 +6,7 @@ using StarshipWanderer.Behaviours;
 using StarshipWanderer.Items;
 using StarshipWanderer.Places;
 using StarshipWanderer.Relationships;
+using StarshipWanderer.Systems;
 
 namespace StarshipWanderer
 {
@@ -26,7 +27,7 @@ namespace StarshipWanderer
         /// <summary>
         /// All known relationships in the <see cref="Population"/>
         /// </summary>
-        HashSet<IRelationship> Relationships { get; set; }
+        IRelationshipSystem Relationships { get; set; }
 
         /// <summary>
         /// Returns all the behaviours that should respond to events in the world

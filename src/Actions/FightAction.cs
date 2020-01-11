@@ -26,24 +26,24 @@ namespace StarshipWanderer.Actions
         {
             var f = (FightFrame) frame;
             
-            var attackerAdvantage = f.PerformedBy.GetFinalStats()[Stat.Fight] - f.FightTarget.GetFinalStats()[Stat.Fight];
+            var attackerAdvantage = f.PerformedBy.GetFinalStats()[Stat.Fight] - f.TargetIfAny.GetFinalStats()[Stat.Fight];
 
             //inflict damage on the target
             f.InjurySystem.Apply(new SystemArgs(ui,
                 attackerAdvantage + 20, //Even fighting someone of lower Fight results in injury so add 20
 
                 f.PerformedBy,
-                f.FightTarget,
+                f.TargetIfAny,
                 stack.Round));
 
             //inflict damage back again
             f.InjurySystem.Apply(new SystemArgs(ui,
                 -attackerAdvantage + 20,
-                f.FightTarget,
+                f.TargetIfAny,
                 f.PerformedBy,
                 stack.Round));
             
-            ui.Log.Info(new LogEntry($"{f.PerformedBy} fought {f.FightTarget}",stack.Round,f.PerformedBy));
+            ui.Log.Info(new LogEntry($"{f.PerformedBy} fought {f.TargetIfAny}",stack.Round,f.PerformedBy));
         }
     }
 }

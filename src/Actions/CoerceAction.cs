@@ -24,10 +24,10 @@ namespace StarshipWanderer.Actions
         public override void Pop(IUserinterface ui, ActionStack stack, Frame frame)
         {
             var f = frame as CoerceFrame;
-            f.ToCoerce.NextAction = f;
-            f.ToCoerce.Adjectives.Add(new Coerced(f.ToCoerce));
+            ((Npc)f.TargetIfAny).NextAction = f;
+            f.TargetIfAny.Adjectives.Add(new Coerced(f.TargetIfAny));
 
-            ui.Log.Info(new LogEntry($"{f.PerformedBy} coerced {f.ToCoerce} to perform {f.CoerceAction.Name}", stack.Round,frame.PerformedBy));
+            ui.Log.Info(new LogEntry($"{f.PerformedBy} coerced {f.TargetIfAny} to perform {f.CoerceAction.Name}", stack.Round,frame.PerformedBy));
         }
     }
 }

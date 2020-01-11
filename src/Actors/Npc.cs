@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using StarshipWanderer.Actions;
+using StarshipWanderer.Behaviours;
 using StarshipWanderer.Items;
 using StarshipWanderer.Places;
 using StarshipWanderer.Stats;
@@ -23,6 +24,7 @@ namespace StarshipWanderer.Actors
 
         public Npc(string name,IPlace currentLocation) : base( name,currentLocation)
         {
+            BaseBehaviours.Add(new RelationshipFormingBehaviour(this));
         }
 
         /// <summary>
@@ -99,6 +101,8 @@ namespace StarshipWanderer.Actors
 
         public override void Kill(IUserinterface ui,Guid round)
         {
+            Dead = true;
+
             CurrentLocation.World.Population.Remove(this);
 
             foreach (IItem item in Items.ToArray())

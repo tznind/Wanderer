@@ -6,6 +6,9 @@ namespace StarshipWanderer
     public class Frame
     {
         public IActor PerformedBy { get; set; }
+
+        public IActor TargetIfAny { get; set; }
+
         public IAction Action { get; set; }
         public CancellationStatus Cancelled { get; set; } = CancellationStatus.NotCancelled;
 

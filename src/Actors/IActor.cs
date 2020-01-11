@@ -15,6 +15,12 @@ namespace StarshipWanderer.Actors
     /// </summary>
     public interface IActor : IHasStats
     {
+        
+        /// <summary>
+        /// True if actor is dead
+        /// </summary>
+        bool Dead { get; set; }
+
         /// <summary>
         /// Where the <see cref="Actor"/> currently is
         /// </summary>

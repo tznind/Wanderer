@@ -16,6 +16,8 @@ namespace StarshipWanderer.Actors
     /// <inheritdoc cref="IActor"/>
     public abstract class Actor : HasStats,IActor
     {
+        public bool Dead { get; set; }
+
         /// <inheritdoc/>
         public IPlace CurrentLocation { get; set; }
 

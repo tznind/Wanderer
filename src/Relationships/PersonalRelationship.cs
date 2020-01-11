@@ -2,13 +2,13 @@
 
 namespace StarshipWanderer.Relationships
 {
-    public class Relationship : IRelationship
+    public class PersonalRelationship : IRelationship
     {
         public IActor Observer { get; set; }
         public IActor Observed { get; set; }
         public int Attitude { get; set; }
 
-        public Relationship(IActor observer, IActor observed)
+        public PersonalRelationship(IActor observer, IActor observed)
         {
             Observer = observer;
             Observed = observed;
@@ -26,6 +26,11 @@ namespace StarshipWanderer.Relationships
         public bool AppliesTo(IActor observer, IActor observed)
         {
             return observer == Observer && observed == Observed;
+        }
+
+        public override string ToString()
+        {
+            return $"{Observer} to {Observed} of {Attitude}";
         }
     }
 }

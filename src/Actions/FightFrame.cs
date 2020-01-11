@@ -5,13 +5,11 @@ namespace StarshipWanderer.Actions
 {
     internal class FightFrame : Frame
     {
-        public IActor FightTarget { get; }
-
         public IInjurySystem InjurySystem { get; }
 
         public FightFrame(IActor performedBy,IActor fightTarget, IAction action, IInjurySystem injurySystem) : base(performedBy, action)
         {
-            FightTarget = fightTarget;
+            TargetIfAny = fightTarget;
             InjurySystem = injurySystem;
         }
     }

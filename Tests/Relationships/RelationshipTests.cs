@@ -25,9 +25,9 @@ namespace Tests.Relationships
             var frank = new Npc("Frank", room);
             var dave = new Npc("Dave", room);
 
-            world.Relationships.Add(new Relationship(bob, frank)); //goes
-            world.Relationships.Add(new Relationship(frank, bob)); //goes
-            world.Relationships.Add(new Relationship(dave, frank)); //stays
+            world.Relationships.Add(new PersonalRelationship(bob, frank)); //goes
+            world.Relationships.Add(new PersonalRelationship(frank, bob)); //goes
+            world.Relationships.Add(new PersonalRelationship(dave, frank)); //stays
 
             Assert.AreEqual(3,world.Relationships.Count);
 
@@ -53,12 +53,45 @@ namespace Tests.Relationships
             //the only thing bob does is fight
             Assert.AreEqual(1,bob.BaseActions.Count);
 
-            world.Relationships.Add(new Relationship(bob, you){Attitude = 500});
+            world.Relationships.Add(new PersonalRelationship(bob, you){Attitude = 500});
 
             var ui = M.UI_GetChoice(new object());
             world.RunRound(ui, new LoadGunsAction());
 
             Assert.IsNull(ui.Log.RoundResults.FirstOrDefault(r => r.Message.Contains("fought")),"Did not expect bob to fight you because they have a good relationship");
+        }
+
+        [Test]
+        public void Test_FightingMakesYouEnemies()
+        {
+            IWorld world = new World();
+            var room = new Room("Test Room", world,'-');
+            world.Map.Add(new Point3(0,0,0), room);
+
+            var you = new You("wanderer", room);
+            var bob = new Npc("Bob", room); 
+            
+            //don't do anything bob like wander off!
+            bob.BaseActions.Clear();
+            
+            Assert.IsEmpty(world.Relationships.Where(r=>r.AppliesTo(bob,you) && r.Attitude <0),"bob should not have a negative opinion of you starting out");
+
+            var ui = new GetChoiceTestUI(bob,bob);
+
+            //fight each other
+            world.RunRound(ui, new FightAction());
+
+            var youAndBob = world.Relationships.OfType<PersonalRelationship>()
+                .SingleOrDefault(r => r.AppliesTo(bob, you) && r.Attitude < 0);
+            
+            Assert.IsNotNull(youAndBob,"bob should now be angry at you");
+            
+            var attitudeBefore = youAndBob.Attitude;
+
+            //fight again
+            world.RunRound(ui, new FightAction());
+
+            Assert.Greater(attitudeBefore,youAndBob.Attitude,"Expected continuing to fight to make matters worse");
         }
     }
 }

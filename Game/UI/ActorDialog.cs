@@ -2,6 +2,7 @@
 using System.Linq;
 using StarshipWanderer;
 using StarshipWanderer.Actors;
+using StarshipWanderer.Relationships;
 using Terminal.Gui;
 
 namespace Game.UI
@@ -18,6 +19,8 @@ namespace Game.UI
             
             if(actor.Adjectives.Any())
                 lines.Add("Adjectives:" + string.Join(',', actor.Adjectives));
+
+            lines.Add("Factions:" + string.Join(',',actor.FactionMembership));
 
             //output stats
             var finalStats = actor.GetFinalStats();
@@ -40,6 +43,11 @@ namespace Game.UI
                 //output items
                 lines.AddRange(actor.Items.Select(i => i.ToString()));
             
+            lines.Add("Relationships:");
+
+            lines.AddRange(actor.CurrentLocation.World.Relationships.OfType<PersonalRelationship>().Where(r => r.Observer == actor).Select(personalRelationship => personalRelationship.ToString()));
+
+
             View addLabelsTo;
 
             //if it is too many items

@@ -12,6 +12,7 @@ using StarshipWanderer.Items;
 using StarshipWanderer.Places;
 using StarshipWanderer.Relationships;
 using StarshipWanderer.Stats;
+using StarshipWanderer.Systems;
 
 namespace StarshipWanderer
 {
@@ -20,7 +21,7 @@ namespace StarshipWanderer
         public Map Map { get; set;} = new Map();
 
         public HashSet<IActor> Population { get; set; } =  new HashSet<IActor>();
-        public HashSet<IRelationship> Relationships { get; set; } = new HashSet<IRelationship>();
+        public IRelationshipSystem Relationships { get; set; } = new RelationshipSystem();
 
         public IRoomFactory RoomFactory { get; set; }
 
