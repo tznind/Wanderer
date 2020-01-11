@@ -3,6 +3,7 @@ using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives;
 using StarshipWanderer.Items;
 using StarshipWanderer.Places;
+using StarshipWanderer.Relationships;
 
 namespace StarshipWanderer
 {
@@ -11,7 +12,12 @@ namespace StarshipWanderer
         public IWorld Create()
         {
             var world = new World();
+            world.Factions = new FactionCollection();
 
+            var mainFaction = new Faction("Crew");
+            world.Factions.Add(mainFaction);
+            world.Relationships.Add(new FactionRelationship(mainFaction){Attitude = 5});
+            
             var adjectiveFactory = new AdjectiveFactory();
             var itemFactory = new ItemFactory(adjectiveFactory);
 

@@ -8,6 +8,7 @@ using StarshipWanderer.Behaviours;
 using StarshipWanderer.Conditions;
 using StarshipWanderer.Items;
 using StarshipWanderer.Places;
+using StarshipWanderer.Relationships;
 using StarshipWanderer.Stats;
 
 namespace StarshipWanderer.Actions
@@ -40,6 +41,8 @@ namespace StarshipWanderer.Actions
 
             if(g.Has<Medic>(true))
                 g.BaseStats[Stat.Savvy] = 20;
+            
+            place.World.Factions.AssignFactions(g);
 
             return g;
         }
@@ -59,6 +62,8 @@ namespace StarshipWanderer.Actions
 
             //prevents anyone leaving the room unless loyalty is 10
             g.BaseBehaviours.Add(new ForbidBehaviour<Leave>(new FrameStatCondition(Stat.Loyalty,Comparison.LessThan, 10),g));
+
+            place.World.Factions.AssignFactions(g);
 
             return g;
         }

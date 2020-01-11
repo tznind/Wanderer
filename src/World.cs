@@ -30,8 +30,10 @@ namespace StarshipWanderer
         public You Player
         {
             get { return (You) Population.FirstOrDefault(p => p is You); }
-        } 
-        
+        }
+
+        public IFactionCollection Factions { get; set; }
+
         /// <summary>
         /// Returns settings suitable for loading/saving worlds
         /// </summary>

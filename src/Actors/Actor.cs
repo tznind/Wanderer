@@ -8,6 +8,7 @@ using StarshipWanderer.Adjectives;
 using StarshipWanderer.Behaviours;
 using StarshipWanderer.Items;
 using StarshipWanderer.Places;
+using StarshipWanderer.Relationships;
 using StarshipWanderer.Stats;
 
 namespace StarshipWanderer.Actors
@@ -19,6 +20,7 @@ namespace StarshipWanderer.Actors
         public IPlace CurrentLocation { get; set; }
 
         public HashSet<IItem> Items { get; set; } = new HashSet<IItem>();
+        public HashSet<IFaction> FactionMembership { get; set; } = new HashSet<IFaction>();
 
         /// <summary>
         /// Do not use, internal constructor for JSON serialization

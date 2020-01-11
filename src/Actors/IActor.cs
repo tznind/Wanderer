@@ -5,6 +5,7 @@ using StarshipWanderer.Adjectives;
 using StarshipWanderer.Behaviours;
 using StarshipWanderer.Items;
 using StarshipWanderer.Places;
+using StarshipWanderer.Relationships;
 using StarshipWanderer.Stats;
 
 namespace StarshipWanderer.Actors
@@ -23,7 +24,12 @@ namespace StarshipWanderer.Actors
         /// Items that the actor owns
         /// </summary>
         HashSet<IItem> Items { get;set; }
-        
+
+        /// <summary>
+        /// All factions which you belong to
+        /// </summary>
+        HashSet<IFaction> FactionMembership { get; set; }
+
         /// <summary>
         /// Asks the actor to pick a target for T.  This could be direction to move
         /// someone to attack etc. <paramref name="attitude"/> indicates how naughty

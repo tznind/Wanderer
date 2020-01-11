@@ -6,6 +6,7 @@ using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives;
 using StarshipWanderer.Items;
 using StarshipWanderer.Places;
+using StarshipWanderer.Relationships;
 
 namespace Tests.Actors
 {
@@ -16,6 +17,8 @@ namespace Tests.Actors
         {
 
             var world = new World();
+            world.Factions = new FactionCollection();
+
             var adjectiveFactory = new AdjectiveFactory();
             var itemFactory = new ItemFactory(adjectiveFactory);
 

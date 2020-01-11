@@ -21,6 +21,8 @@ namespace StarshipWanderer
 
         HashSet<IActor> Population { get; }
         
+        IFactionCollection Factions { get; set; }
+
         /// <summary>
         /// All known relationships in the <see cref="Population"/>
         /// </summary>
