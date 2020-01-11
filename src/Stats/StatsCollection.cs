@@ -31,11 +31,41 @@ namespace StarshipWanderer.Stats
         /// this class)
         /// </summary>
         /// <param name="other"></param>
-        public void Add(StatsCollection other)
+        public StatsCollection Add(StatsCollection other)
         {
             foreach (Stat s in Enum.GetValues(typeof(Stat)))
                 if(s != Stat.None)
                     this[s] += other[s];
+
+            return this;
         }
+        
+        /// <summary>
+        /// Subtracts the stats of the <paramref name="other"/> to this (changes permanently
+        /// this class)
+        /// </summary>
+        /// <param name="other"></param>
+        public StatsCollection Subtract(StatsCollection other)
+        {
+            foreach (Stat s in Enum.GetValues(typeof(Stat)))
+                if(s != Stat.None)
+                    this[s] -= other[s];
+
+            return this;
+        }
+        /// <summary>
+        /// Performs the <paramref name="modify"/> function on all stats in the collection.
+        ///  (changes permanently this class)
+        /// </summary>
+        /// <returns></returns>
+        public StatsCollection SetAll(Func<int,int> modify)
+        {   
+            foreach (Stat s in Enum.GetValues(typeof(Stat)))
+                if(s != Stat.None)
+                    this[s] = modify(this[s]);
+
+            return this;
+        }
+
     }
 }

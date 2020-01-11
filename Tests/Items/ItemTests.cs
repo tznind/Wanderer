@@ -92,6 +92,19 @@ namespace Tests.Items
 
             Assert.IsEmpty(npc.Items);
         }
+        
+        [Test]
+        public void Test_RustyMakesNegativeModifiersWorse()
+        {
+            var itemFactory = new ItemFactory(new AdjectiveFactory());
+
+            var you = new You("Dave", new Room("SomeRoom",new World(), 'f'));
+            
+            //This mask makes you less convincing.  When its rusty it should be even less convincing!
+            Assert.Less(
+                itemFactory.Create<Rusty>("Mask").With(Stat.Coerce,-10).GetFinalStats(you)[Stat.Coerce],
+                new Item("Mask").With(Stat.Coerce,-10).GetFinalStats(you)[Stat.Coerce]);
+        }
     }
 
 }

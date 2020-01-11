@@ -13,6 +13,7 @@ namespace StarshipWanderer.Adjectives
         {
             yield return new Dark(place);
             yield return new Stale(place);
+            yield return new Rusty(place);
         }
 
         public IEnumerable<IAdjective> GetAvailableAdjectives(IActor actor)
@@ -31,6 +32,7 @@ namespace StarshipWanderer.Adjectives
             yield return new SingleUse(item);
             yield return new Medic(item);
             yield return new Tough(item);
+            yield return new Rusty(item);
         }
     }
 }
