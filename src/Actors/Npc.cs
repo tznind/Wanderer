@@ -58,11 +58,9 @@ namespace StarshipWanderer.Actors
 
             List<T> narrowOptions = new List<T>(options);
             
-            //if it's something bad
-            if (attitude < 0 && this is T npcAsT)
+            if (typeof(T) == typeof(IActor))
             {
-                //don't pick yourself
-                narrowOptions.Remove(npcAsT);
+                narrowOptions = DecideActor(narrowOptions.OfType<IActor>(), attitude).Cast<T>().ToList();
             }
 
             //If there are no options pick null return false
@@ -77,6 +75,26 @@ namespace StarshipWanderer.Actors
 
             //if picked option was default (e.g. None Enums) return false
             return !chosen.Equals(default(T));
+        }
+
+        public virtual IEnumerable<IActor> DecideActor(IEnumerable<IActor> input, int attitude)
+        {
+            foreach (var actor in input)
+            {
+                //don't pick yourself for bad actions
+                if(attitude < 0 && actor == this)
+                    continue;
+                
+                //or anyone you have a relationship with
+                int attitudeTowardsActor = 
+                    CurrentLocation.World.Relationships.Where(o => o.AppliesTo(this, actor)).Sum(a => a.Attitude);
+                
+                //if you like them more than the actions attitude don't pick them
+                if(attitudeTowardsActor > attitude)
+                    continue;
+
+                yield return actor;
+            }
         }
 
         public override void Kill(IUserinterface ui,Guid round)

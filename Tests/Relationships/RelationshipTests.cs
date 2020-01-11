@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using StarshipWanderer;
@@ -35,6 +36,29 @@ namespace Tests.Relationships
 
             //his relationship to frank should not exist
             Assert.AreEqual(1, world.Relationships.Count);
+        }
+
+        [Test]
+        public void Test_NpcDontFightFriends()
+        {
+            IWorld world = new World();
+            var room = new Room("Test Room", world,'-');
+            world.Map.Add(new Point3(0,0,0), room);
+
+            var you = new You("wanderer", room);
+            var bob = new Npc("Bob", room); 
+            bob.BaseActions.Clear();
+            bob.BaseActions.Add(new FightAction());
+            
+            //the only thing bob does is fight
+            Assert.AreEqual(1,bob.BaseActions.Count);
+
+            world.Relationships.Add(new Relationship(bob, you){Attitude = 500});
+
+            var ui = M.UI_GetChoice(new object());
+            world.RunRound(ui, new LoadGunsAction());
+
+            Assert.IsNull(ui.Log.RoundResults.FirstOrDefault(r => r.Message.Contains("fought")),"Did not expect bob to fight you because they have a good relationship");
         }
     }
 }

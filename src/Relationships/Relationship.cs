@@ -22,5 +22,10 @@ namespace StarshipWanderer.Relationships
             if (Observer == npc || Observed == npc) 
                 Observer.CurrentLocation.World.Relationships.Remove(this);
         }
+
+        public bool AppliesTo(IActor observer, IActor observed)
+        {
+            return observer == Observer && observed == Observed;
+        }
     }
 }
