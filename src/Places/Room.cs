@@ -82,11 +82,5 @@ namespace StarshipWanderer.Places
 
             return this;
         }
-
-        public Room WithAction(IAction action)
-        {
-            BaseActions.Add(action);
-            return this;
-        }
     }
 }

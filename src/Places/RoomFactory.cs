@@ -38,7 +38,7 @@ namespace StarshipWanderer.Places
         private IEnumerable<IPlace> GetAvailableRooms(IWorld world)
         {
             yield return new Room("Gun Bay " + world.R.Next(5000), world, 'g')
-                .WithAction(new LoadGunsAction());
+                .With(new LoadGunsAction());
 
             yield return new Room("Stair" + world.R.Next(5000), world, 's')
                 .AllowUpDown(true);
