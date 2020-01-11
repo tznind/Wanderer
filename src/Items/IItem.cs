@@ -8,7 +8,7 @@ namespace StarshipWanderer.Items
     public interface IItem : IHasStats
     {
         /// <summary>
-        /// Forces the owner to drops the item in the supplied <paramref name="dropLocation"/>
+        /// Forces the owner to drops the item in the supplied <paramref name="owner"/> location
         /// </summary>
         /// <param name="ui"></param>
         /// <param name="owner"></param>
