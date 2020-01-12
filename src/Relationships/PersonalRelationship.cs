@@ -6,7 +6,7 @@ namespace StarshipWanderer.Relationships
     {
         public IActor Observer { get; set; }
         public IActor Observed { get; set; }
-        public int Attitude { get; set; }
+        public double Attitude { get; set; }
 
         public PersonalRelationship(IActor observer, IActor observed)
         {

@@ -7,7 +7,7 @@ namespace StarshipWanderer.Relationships
         /// <summary>
         /// How strong the relationship is, positive is good relationship, negative is hate
         /// </summary>
-        int Attitude { get; set; }
+        double Attitude { get; set; }
 
         /// <summary>
         /// Adjusts or deletes the current relationship based on the fact that

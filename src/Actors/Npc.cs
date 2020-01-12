@@ -32,7 +32,7 @@ namespace StarshipWanderer.Actors
         /// </summary>
         public CoerceFrame NextAction { get; set; }
 
-        public override bool Decide<T>(IUserinterface ui, string title, string body, out T chosen, T[] options, int attitude)
+        public override bool Decide<T>(IUserinterface ui, string title, string body, out T chosen, T[] options, double attitude)
         {
             //if we are being forced to perform an action
             if(typeof(IAction).IsAssignableFrom(typeof(T)))
@@ -79,7 +79,7 @@ namespace StarshipWanderer.Actors
             return !chosen.Equals(default(T));
         }
 
-        public virtual IEnumerable<IActor> DecideActor(IEnumerable<IActor> input, int attitude)
+        public virtual IEnumerable<IActor> DecideActor(IEnumerable<IActor> input, double attitude)
         {
             foreach (var actor in input)
             {
@@ -88,7 +88,7 @@ namespace StarshipWanderer.Actors
                     continue;
                 
                 //or anyone you have a relationship with
-                int attitudeTowardsActor = 
+                var attitudeTowardsActor = 
                     CurrentLocation.World.Relationships.Where(o => o.AppliesTo(this, actor)).Sum(a => a.Attitude);
                 
                 //if you like them more than the actions attitude don't pick them

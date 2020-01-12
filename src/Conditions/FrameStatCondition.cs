@@ -10,7 +10,7 @@ namespace StarshipWanderer.Conditions
     public class FrameStatCondition : StatCondition, ICondition<Frame> 
     {
         
-        public FrameStatCondition(Stat toCheck,Comparison comparison, int value):base(toCheck,comparison,value)
+        public FrameStatCondition(Stat toCheck,Comparison comparison, double value):base(toCheck,comparison,value)
         {
         }
 

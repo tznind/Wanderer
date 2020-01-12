@@ -18,7 +18,10 @@ namespace StarshipWanderer.Systems
             var worst = available.Max(i => i.Severity);
 
             var newInjury = available.FirstOrDefault(a =>
-                a.Severity == Math.Min(worst, args.Intensity / 10) && a.Region == region);
+                (int)a.Severity == (int)Math.Min(worst, args.Intensity / 10) && a.Region == region);
+
+            if(newInjury == null)
+                throw new Exception("No Injury  found for severity " + args.Intensity);
 
             args.Recipient.Adjectives.Add(newInjury);
             args.UserInterface.Log.Info(new LogEntry($"{args.Recipient} gained {newInjury}", args.Round,args.Recipient));
@@ -29,14 +32,14 @@ namespace StarshipWanderer.Systems
             var regions = Enum.GetValues(typeof(InjuryRegion)).Cast<InjuryRegion>().ToArray();
 
             //Generate a random region excluding None
-            Apply(args,regions[Math.Abs(args.Intensity % (regions.Length-1)+1)]);
+            Apply(args,regions[(int) Math.Abs(args.Intensity % (regions.Length-1)+1)]);
         }
 
         public virtual IEnumerable<Injured> GetAvailableInjuries(IActor actor)
         {
             foreach (InjuryRegion region in Enum.GetValues(typeof(InjuryRegion)))
             {
-                int severity = 0;
+                double severity = 0;
                 foreach (var s in new string[]{"Bruised","Cut","Lacerated","Fractured","Broken","Detached"})
                     yield return new Injured(s + " " + region, actor, severity++, region);
             }

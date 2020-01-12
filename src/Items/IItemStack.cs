@@ -1,6 +1,6 @@
 ﻿namespace StarshipWanderer.Items
 {
-    public interface IItemStack
+    public interface IItemStack : IItem
     {
         int StackSize { get; set; }
     }

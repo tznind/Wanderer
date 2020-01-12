@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace StarshipWanderer.Stats
 {
-    public class StatsCollection: Dictionary<Stat,int>
+    public class StatsCollection: Dictionary<Stat,double>
     {
         public StatsCollection()
         {
@@ -58,7 +58,7 @@ namespace StarshipWanderer.Stats
         ///  (changes permanently this class)
         /// </summary>
         /// <returns></returns>
-        public StatsCollection SetAll(Func<int,int> modify)
+        public StatsCollection SetAll(Func<double,double> modify)
         {   
             foreach (Stat s in Enum.GetValues(typeof(Stat)))
                 if(s != Stat.None)

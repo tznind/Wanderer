@@ -9,7 +9,7 @@ namespace StarshipWanderer.Relationships
     {
         public IFaction Faction { get; set; }
         
-        public int Attitude { get; set; }
+        public double Attitude { get; set; }
 
         public FactionRelationship(IFaction faction)
         {

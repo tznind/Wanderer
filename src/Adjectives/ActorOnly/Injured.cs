@@ -12,7 +12,7 @@ namespace StarshipWanderer.Adjectives.ActorOnly
     public class Injured : Adjective, IBehaviour, IInjured
     {
         public InjuryRegion Region { get; set; }
-        public int Severity { get; set; }
+        public double Severity { get; set; }
         public bool IsInfected { get; set; }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace StarshipWanderer.Adjectives.ActorOnly
             ui.Log.Info(new LogEntry($"{Name} was healed",round,OwnerActor));
         }
 
-        public Injured(string name,IActor actor, int severity,InjuryRegion region):base(actor)
+        public Injured(string name,IActor actor, double severity,InjuryRegion region):base(actor)
         {
             Severity = severity;
             Region = region;
@@ -78,7 +78,7 @@ namespace StarshipWanderer.Adjectives.ActorOnly
 
         private bool ShouldWorsen()
         {
-            int worsenRate = 1;
+            double worsenRate = 1;
 
             if (OwnerActor.Has<Tough>(true))
                 worsenRate--;
@@ -86,7 +86,7 @@ namespace StarshipWanderer.Adjectives.ActorOnly
             if (OwnerActor.CurrentLocation.Has<Stale>())
                 worsenRate++;
 
-            return worsenRate != 0 && _roundsSeen.Count % (Severity*2 / worsenRate) == 0;
+            return Math.Abs(worsenRate) > 0.0001 && Math.Abs(_roundsSeen.Count % (Severity*2 / worsenRate)) < 0.0001;
         }
 
         public void OnRoundEnding(IUserinterface ui, Guid round)

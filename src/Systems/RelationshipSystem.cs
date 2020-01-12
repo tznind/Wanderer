@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using StarshipWanderer.Relationships;
 
@@ -13,7 +14,7 @@ namespace StarshipWanderer.Systems
                 return;
             
             //if someone is doing something to you
-            if (args.Intensity != 0)
+            if (Math.Abs(args.Intensity) > 0.0001)
             {
                 //don't form relationships with the dead
                 if(args.AggressorIfAny.Dead || args.Recipient.Dead)

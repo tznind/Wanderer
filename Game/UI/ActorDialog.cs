@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using StarshipWanderer;
 using StarshipWanderer.Actors;
@@ -29,7 +30,7 @@ namespace Game.UI
             {
                 string line = baseStat.Key + ":" + baseStat.Value;
 
-                if (baseStat.Value != finalStats[baseStat.Key])
+                if (Math.Abs(baseStat.Value - finalStats[baseStat.Key]) > 0.0001)
                     line += " (" + finalStats[baseStat.Key] + ")";
 
                 lines.Add(line);

@@ -40,6 +40,14 @@ namespace StarshipWanderer.Items
             yield return Create<SingleUse,Medic>("Kit");
         }
 
+        
+        public IItemStack CreateStack<T>(string name, int size) where T : IAdjective
+        {
+            var item = new ItemStack(name,size);
+            Add<T>(item);
+            return item;
+        }
+
         public IItem Create<T>(string name) where T : IAdjective
         {
             var item = new Item(name);
@@ -68,5 +76,6 @@ namespace StarshipWanderer.Items
 
             item.Adjectives.Add(match);
         }
+
     }
 }

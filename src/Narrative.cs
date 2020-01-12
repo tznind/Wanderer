@@ -63,7 +63,7 @@ namespace StarshipWanderer
                 ui.Log.Info(new LogEntry(technical,Round,Actor));
         }
 
-        public void Changed(string fluff, Stat stat, int change)
+        public void Changed(string fluff, Stat stat, double change)
         {
             Add(fluff, stat + (change < 0 ? "Decreased" : "Increased") + " by " + Math.Abs(change));
         }

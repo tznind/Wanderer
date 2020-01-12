@@ -67,7 +67,7 @@ namespace StarshipWanderer.Actors
         }
 
         public abstract bool Decide<T>(IUserinterface ui, string title, string body, out T chosen, T[] options,
-            int attitude);
+            double attitude);
 
         public virtual void Move(IPlace newLocation)
         {

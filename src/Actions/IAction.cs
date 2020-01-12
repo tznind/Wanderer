@@ -14,7 +14,7 @@ namespace StarshipWanderer.Actions
         /// <summary>
         /// How hostile/friendly the action is.  Positive for kind things, negative for hostile
         /// </summary>
-        int Attitude { get; set; }
+        double Attitude { get; set; }
 
         /// <summary>
         /// When implemented results in pushing the current command onto the <paramref name="stack"/>

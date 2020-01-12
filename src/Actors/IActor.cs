@@ -52,7 +52,7 @@ namespace StarshipWanderer.Actors
         /// <param name="options"></param>
         /// <param name="attitude">0 for neutral actions, positive for actions that are helpful (to <paramref name="chosen"/>), negative for actions that are hostile to <paramref name="chosen"/> </param>
         /// <returns>True if the actor wants to go ahead</returns>
-        bool Decide<T>(IUserinterface ui, string title, string body, out T chosen, T[] options, int attitude);
+        bool Decide<T>(IUserinterface ui, string title, string body, out T chosen, T[] options, double attitude);
 
         /// <summary>
         /// Move the actor from it's <see cref="CurrentLocation"/> to a <paramref name="newLocation"/>

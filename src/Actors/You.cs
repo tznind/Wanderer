@@ -42,7 +42,7 @@ namespace StarshipWanderer.Actors
             BaseActions.Add(new InspectAction());
         }
 
-        public override bool Decide<T>(IUserinterface ui, string title, string body, out T chosen, T[] options, int attitude)
+        public override bool Decide<T>(IUserinterface ui, string title, string body, out T chosen, T[] options, double attitude)
         {
             if (!options.Any())
             {

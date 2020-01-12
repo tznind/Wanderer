@@ -37,6 +37,18 @@ namespace Tests.Items
             Assert.AreEqual(10,money.GetFinalStats(you)[Stat.Value],"Money has worth depending on stack size");
             Assert.AreEqual(0,money.GetFinalStats(you)[Stat.Fight],"Money doesn't help you fight");
         }
+
+        [Test]
+        public void Test_RustyMoney()
+        {
+            var world = new World();
+            var you = new You("Dave", new Room("SomeRoom",world, 'f'));
+
+            var factory = new ItemFactory(new AdjectiveFactory());
+            var money = factory.CreateStack<Rusty>("Money",10).With(Stat.Value, 1);
+            
+            Assert.AreEqual(5,money.GetFinalStats(you)[Stat.Value],"Money has worth depending on stack size");
+        }
     }
 
 }

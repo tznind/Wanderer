@@ -6,7 +6,7 @@ namespace StarshipWanderer.Adjectives.ActorOnly
     public interface IInjured : IAdjective
     {
         InjuryRegion Region { get; set; }
-        int Severity { get; set; }
+        double Severity { get; set; }
         
         bool IsInfected { get; set; }
 

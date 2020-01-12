@@ -17,7 +17,7 @@ namespace StarshipWanderer.Systems
         /// <summary>
         /// How strongly to apply the given system
         /// </summary>
-        public int Intensity { get; set; } 
+        public double Intensity { get; set; } 
 
         /// <summary>
         /// The actor responsible for the application (can be null)
@@ -34,7 +34,7 @@ namespace StarshipWanderer.Systems
         /// </summary>
         public Guid Round { get; set; }
 
-        public SystemArgs(IUserinterface ui,int intensity,IActor aggressorIfAny,IActor recipient,Guid round)
+        public SystemArgs(IUserinterface ui,double intensity,IActor aggressorIfAny,IActor recipient,Guid round)
         {
             Intensity = intensity;
             AggressorIfAny = aggressorIfAny;

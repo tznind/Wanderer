@@ -9,7 +9,7 @@ namespace StarshipWanderer.Conditions
     /// </summary>
     public class ActorStatCondition : StatCondition, ICondition<IActor>
     {
-        public ActorStatCondition(Stat toCheck,Comparison comparison, int value):base(toCheck,comparison,value)
+        public ActorStatCondition(Stat toCheck,Comparison comparison, double value):base(toCheck,comparison,value)
         {
         }
 

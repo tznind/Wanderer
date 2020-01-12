@@ -11,7 +11,7 @@ namespace StarshipWanderer.Items
             return i;
         }
 
-        public static T With<T>(this T i, Stat stat, int value) where T:IHasStats
+        public static T With<T>(this T i, Stat stat, double value) where T:IHasStats
         {
             i.BaseStats[stat] = value;
             return i;

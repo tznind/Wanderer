@@ -8,9 +8,9 @@ namespace StarshipWanderer.Conditions
     {
         public Stat ToCheck { get; set; }
         public Comparison Comparison { get; set; }
-        public int Value { get; set; }
+        public double Value { get; set; }
 
-        public StatCondition(Stat toCheck,Comparison comparison, int value)
+        public StatCondition(Stat toCheck,Comparison comparison, double value)
         {
             ToCheck = toCheck;
             Comparison = comparison;
