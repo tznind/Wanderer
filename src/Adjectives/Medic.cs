@@ -13,12 +13,12 @@ namespace StarshipWanderer.Adjectives
             BaseActions.Add(new HealAction());
         }
 
-        public override IEnumerable<IAction> GetFinalActions(IActor forActor)
+        public override IActionCollection GetFinalActions(IActor forActor)
         {
             if (forActor.GetFinalStats()[Stat.Savvy] >= 10)
                 return base.GetFinalActions(forActor);
 
-            return new IAction[0];
+            return new ActionCollection();
         }
 
         public override IEnumerable<string> GetDescription()

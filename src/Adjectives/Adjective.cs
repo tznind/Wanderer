@@ -17,12 +17,12 @@ namespace StarshipWanderer.Adjectives
         /// <summary>
         /// Interface member, do not use. Sub adjectives seem like a really bad idea
         /// </summary>
-        public HashSet<IAdjective> Adjectives { get; set; }
+        public IAdjectiveCollection Adjectives { get; set; }
 
-        public HashSet<IAction> BaseActions { get; set; } = new HashSet<IAction>();
+        public IActionCollection BaseActions { get; set; } = new ActionCollection();
 
         public StatsCollection BaseStats { get; set; } = new StatsCollection();
-        public HashSet<IBehaviour> BaseBehaviours { get; set; } = new HashSet<IBehaviour>();
+        public IBehaviourCollection BaseBehaviours { get; set; } = new BehaviourCollection();
         
         /// <summary>
         /// Creates a new adjective with name based on Type name
@@ -33,7 +33,7 @@ namespace StarshipWanderer.Adjectives
             Name = GetType().Name;
         }
         
-        public virtual IEnumerable<IAction> GetFinalActions(IActor forActor)
+        public virtual IActionCollection GetFinalActions(IActor forActor)
         {
             return BaseActions;
         }
@@ -42,7 +42,7 @@ namespace StarshipWanderer.Adjectives
         {
             return BaseStats;
         }
-        public virtual IEnumerable<IBehaviour> GetFinalBehaviours(IActor forActor)
+        public virtual IBehaviourCollection GetFinalBehaviours(IActor forActor)
         {
             return BaseBehaviours;
         }
@@ -54,5 +54,7 @@ namespace StarshipWanderer.Adjectives
         }
         
         public abstract IEnumerable<string> GetDescription();
+
+        
     }
 }

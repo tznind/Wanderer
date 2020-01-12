@@ -12,16 +12,16 @@ namespace StarshipWanderer
     {
         public string Name { get; set; }
 
-        public HashSet<IAdjective> Adjectives { get; set; } = new HashSet<IAdjective>();
-        public HashSet<IAction> BaseActions { get; set; } = new HashSet<IAction>();
+        public IAdjectiveCollection Adjectives { get; set; } = new AdjectiveCollection();
+        public IActionCollection BaseActions { get; set; } = new ActionCollection();
         public StatsCollection BaseStats { get; set; } = new StatsCollection();
-        public HashSet<IBehaviour> BaseBehaviours { get; set; } = new HashSet<IBehaviour>();
+        public IBehaviourCollection BaseBehaviours { get; set; } = new BehaviourCollection();
         
         public abstract StatsCollection GetFinalStats(IActor forActor);
 
-        public abstract IEnumerable<IAction> GetFinalActions(IActor forActor);
+        public abstract IActionCollection GetFinalActions(IActor forActor);
 
-        public abstract IEnumerable<IBehaviour> GetFinalBehaviours(IActor forActor);
+        public abstract IBehaviourCollection GetFinalBehaviours(IActor forActor);
         
         public override string ToString()
         {

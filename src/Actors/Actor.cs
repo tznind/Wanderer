@@ -58,12 +58,12 @@ namespace StarshipWanderer.Actors
         /// </summary>
         /// <param name="forActor"></param>
         /// <returns></returns>
-        public override IEnumerable<IAction> GetFinalActions(IActor forActor)
+        public override IActionCollection GetFinalActions(IActor forActor)
         {
-            return BaseActions
+            return new ActionCollection(BaseActions
                 .Union(Adjectives.SelectMany(a => a.GetFinalActions(forActor)))
                 .Union(CurrentLocation.GetFinalActions(forActor))
-                .Union(Items.SelectMany(i => i.GetFinalActions(forActor)));
+                .Union(Items.SelectMany(i => i.GetFinalActions(forActor))));
         }
 
         public abstract bool Decide<T>(IUserinterface ui, string title, string body, out T chosen, T[] options,
@@ -94,12 +94,12 @@ namespace StarshipWanderer.Actors
                 || includeItems && Items.Any(i => i.Has<T>(this,condition));
         }
 
-        public override IEnumerable<IBehaviour> GetFinalBehaviours(IActor forActor)
+        public override IBehaviourCollection GetFinalBehaviours(IActor forActor)
         {
-            return BaseBehaviours
+            return new BehaviourCollection(BaseBehaviours
                 .Union(Adjectives.SelectMany(a=>a.GetFinalBehaviours(forActor)))
                 .Union(CurrentLocation.GetFinalBehaviours(forActor))
-                .Union(Items.SelectMany(i=>i.GetFinalBehaviours(forActor)));
+                .Union(Items.SelectMany(i=>i.GetFinalBehaviours(forActor))));
         }
 
         public override StatsCollection GetFinalStats(IActor forActor)

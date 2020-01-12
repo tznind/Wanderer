@@ -20,12 +20,12 @@ namespace StarshipWanderer
         /// <summary>
         /// Human readable words that describe the current state of the object
         /// </summary>
-        HashSet<IAdjective> Adjectives { get; set; }
+        IAdjectiveCollection Adjectives { get; set; }
 
         /// <summary>
         /// The <see cref="IAction"/> that the object can undertake regardless of any child objects (gear, location etc.)
         /// </summary>
-        HashSet<IAction> BaseActions { get; set; }
+        IActionCollection BaseActions { get; set; }
 
         /// <summary>
         /// Stats (or modifiers) before applying any external child objects (gear, location etc.)
@@ -35,7 +35,7 @@ namespace StarshipWanderer
         /// <summary>
         /// Determines how the object responds  before applying any external child objects (gear, location etc.)
         /// </summary>
-        HashSet<IBehaviour> BaseBehaviours { get; set; }
+        IBehaviourCollection BaseBehaviours { get; set; }
 
         /// <summary>
         /// Returns the <see cref="BaseStats"/> plus any modifiers for child objects (e.g. gear, <see cref="Adjectives"/> etc)
@@ -49,13 +49,13 @@ namespace StarshipWanderer
         /// </summary>
         /// <param name="forActor"></param>
         /// <returns></returns>
-        IEnumerable<IAction> GetFinalActions(IActor forActor);
+        IActionCollection GetFinalActions(IActor forActor);
 
         /// <summary>
         /// Returns all behaviours the object including those granted by child objects (e.g. gear, adjectives etc) (super set of <see cref="BaseBehaviours"/> and any from gear, <see cref="IAdjective"/> etc)
         /// </summary>
         /// <param name="forActor"></param>
         /// <returns></returns>
-        IEnumerable<IBehaviour> GetFinalBehaviours(IActor forActor);
+        IBehaviourCollection GetFinalBehaviours(IActor forActor);
     }
 }

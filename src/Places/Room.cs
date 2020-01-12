@@ -32,9 +32,9 @@ namespace StarshipWanderer.Places
             Tile = tile;
         }
 
-        public override IEnumerable<IAction> GetFinalActions(IActor forActor)
+        public override IActionCollection GetFinalActions(IActor forActor)
         {
-            return BaseActions.Union(Adjectives.SelectMany(a=>a.GetFinalActions(forActor)));
+            return new ActionCollection(BaseActions.Union(Adjectives.SelectMany(a=>a.GetFinalActions(forActor))));
         }
         public override StatsCollection GetFinalStats(IActor forActor)
         {
@@ -45,9 +45,9 @@ namespace StarshipWanderer.Places
 
             return stats;
         }
-        public override IEnumerable<IBehaviour> GetFinalBehaviours(IActor forActor)
+        public override IBehaviourCollection GetFinalBehaviours(IActor forActor)
         {
-            return BaseBehaviours.Union(Adjectives.SelectMany(a => a.GetFinalBehaviours(forActor)));
+            return new BehaviourCollection(BaseBehaviours.Union(Adjectives.SelectMany(a => a.GetFinalBehaviours(forActor))));
         }
 
         public IEnumerable<IActor> Actors => World.Population.Where(p => p.CurrentLocation == this);
