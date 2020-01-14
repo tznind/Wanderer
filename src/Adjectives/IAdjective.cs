@@ -26,6 +26,7 @@ namespace StarshipWanderer.Adjectives
         /// </summary>
         /// <returns></returns>
         IEnumerable<string> GetDescription();
-        
+
+
     }
 }

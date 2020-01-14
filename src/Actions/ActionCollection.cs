@@ -3,7 +3,7 @@ using StarshipWanderer.Adjectives;
 
 namespace StarshipWanderer.Actions
 {
-    public class ActionCollection : Collection<IAction>, IActionCollection
+    public class ActionCollection : SwCollection<IAction>, IActionCollection
     {
         public ActionCollection()
         {
@@ -13,5 +13,6 @@ namespace StarshipWanderer.Actions
         {
             AddRange(actions);
         }
+
     }
 }

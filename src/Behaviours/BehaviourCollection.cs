@@ -3,7 +3,7 @@ using StarshipWanderer.Adjectives;
 
 namespace StarshipWanderer.Behaviours
 {
-    class BehaviourCollection : Collection<IBehaviour>,IBehaviourCollection
+    class BehaviourCollection : SwCollection<IBehaviour>,IBehaviourCollection
     {
         public BehaviourCollection()
         {

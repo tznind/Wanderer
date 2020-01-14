@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using StarshipWanderer;
+using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives;
 using StarshipWanderer.Adjectives.RoomOnly;
 using StarshipWanderer.Items;
 using StarshipWanderer.Places;
 using StarshipWanderer.Stats;
+using Tests.Actions;
 
 namespace Tests.Items
 {
@@ -30,12 +33,29 @@ namespace Tests.Items
         public void Test_MoneyStacking()
         {
             var world = new World();
-            var you = new You("Dave", new Room("SomeRoom",world, 'f'));
+            var room = new Room("SomeRoom", world, 'f');
+            var you = new You("Dave", room);
+            world.Map.Add(new Point3(0,0,0),room);
 
             var money = new ItemStack("Money", 10).With(Stat.Value, 1);
-            
+            room.Items.Add(money);
+
             Assert.AreEqual(10,money.GetFinalStats(you)[Stat.Value],"Money has worth depending on stack size");
             Assert.AreEqual(0,money.GetFinalStats(you)[Stat.Fight],"Money doesn't help you fight");
+
+            var money2 = new ItemStack("Money", 10).With(Stat.Value, 1);
+            room.Items.Add(money2);
+
+            //pick both up
+            world.RunRound(new GetChoiceTestUI((IItem)money),you.GetFinalActions().OfType<PickUpAction>().Single());
+            world.RunRound(new GetChoiceTestUI((IItem)money2),you.GetFinalActions().OfType<PickUpAction>().Single());
+
+            // you only have 1 item which has all the Money
+            Assert.AreSame(money,you.Items.Single());
+            Assert.AreEqual(20,money.StackSize);
+            Assert.AreEqual(20,money.GetFinalStats(you)[Stat.Value]);
+
+
         }
 
         [Test]

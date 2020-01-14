@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Moq;
+using NUnit.Framework;
 using StarshipWanderer;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives;
@@ -41,6 +42,23 @@ namespace Tests.Adjectives
             Assert.AreEqual(35,d.GetFinalStats()[Stat.Coerce]);
             Assert.AreEqual(20,d.GetFinalStats()[Stat.Fight]);
 
+        }
+
+        [Test]
+        public void Test_AdjectiveEquality()
+        {
+            var a1 = new Attractive(Mock.Of<IActor>());
+
+            var a2 = new Attractive(Mock.Of<IActor>());
+            Assert.AreNotEqual(a1,a2);
+
+            var ac1 = new AdjectiveCollection {a1};
+
+            var ac2 = new AdjectiveCollection {a2};
+
+            //they are not equal but the user would consider them identical collections
+            Assert.IsTrue(ac1.AreIdentical(ac2));
+            Assert.AreNotEqual(ac1,ac2);
         }
     }
 }

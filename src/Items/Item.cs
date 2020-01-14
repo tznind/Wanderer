@@ -12,6 +12,13 @@ namespace StarshipWanderer.Items
 {
     public class Item : HasStats,IItem
     {
+        /// <summary>
+        /// Set on items that should have been removed from the game to prevent
+        /// later reprocessing e.g. when one behaviour deletes another behaviours
+        /// owner before that behaviour has itself resolved
+        /// </summary>
+        public bool IsErased { get; set; } = false;
+
         public void Drop(IUserinterface ui, IActor owner, Guid round)
         {
             //remove us from the owner
@@ -32,6 +39,7 @@ namespace StarshipWanderer.Items
         {
             return Adjectives.Any(a => a is T t && condition(t));
         }
+
 
         public Item(string name)
         {

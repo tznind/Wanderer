@@ -57,5 +57,12 @@ namespace StarshipWanderer
         /// <param name="forActor"></param>
         /// <returns></returns>
         IBehaviourCollection GetFinalBehaviours(IActor forActor);
+
+        /// <summary>
+        /// Returns true if the user would consider 2 objects the same e.g. 2 "Rusty Broken Gun"
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        bool AreIdentical(IHasStats other);
     }
 }

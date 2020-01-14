@@ -140,6 +140,8 @@ namespace StarshipWanderer
             foreach (var room in Map.Values)
                 if (room.Items.Contains(item))
                     room.Items.Remove(item);
+
+            item.IsErased = true;
         }
     }
 }

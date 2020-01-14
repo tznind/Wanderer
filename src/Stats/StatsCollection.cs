@@ -67,5 +67,21 @@ namespace StarshipWanderer.Stats
             return this;
         }
 
+        public bool AreIdentical(StatsCollection other)
+        {
+            if (other == null)
+                return false;
+
+            if (other.Count != Count)
+                return false;
+
+            foreach (Stat s in Enum.GetValues(typeof(Stat)))
+                if (s != Stat.None)
+                    if (Math.Abs(this[s] - other[s]) > 0.001)
+                        return false;
+
+            return true;
+
+        }
     }
 }

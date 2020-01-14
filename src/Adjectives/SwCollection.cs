@@ -2,10 +2,13 @@
 
 namespace StarshipWanderer.Adjectives
 {
-    public class Collection<T> : List<T>
+    public class SwCollection<T> : List<T>, ISwCollection<T>
     {
-        public bool AreEqual(Collection<T> other)
+        public virtual bool AreIdentical(ISwCollection<T> other)
         {
+            if (other == null)
+                return false;
+
             if (this == other)
                 return true;
 

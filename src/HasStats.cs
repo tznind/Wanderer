@@ -27,5 +27,19 @@ namespace StarshipWanderer
         {
             return (string.Join(" ", Adjectives.Where(a=>a.IsPrefix)) + " " + (Name ?? "Unnamed Object")).Trim();
         }
+        public bool AreIdentical(IHasStats other)
+        {
+            //if they are different Types
+            if (other.GetType() != GetType())
+                return false;
+            
+            if (!Equals(other.Name,Name))
+                return false;
+
+            return other.BaseStats.AreIdentical(BaseStats)
+                   && other.BaseActions.AreIdentical(BaseActions)
+                   && other.BaseBehaviours.AreIdentical(BaseBehaviours)
+                   && other.Adjectives.AreIdentical(Adjectives);
+        }
     }
 }

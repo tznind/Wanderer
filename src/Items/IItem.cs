@@ -7,6 +7,8 @@ namespace StarshipWanderer.Items
 {
     public interface IItem : IHasStats
     {
+        bool IsErased { get; set; }
+
         /// <summary>
         /// Forces the owner to drops the item in the supplied <paramref name="owner"/> location
         /// </summary>
@@ -32,5 +34,6 @@ namespace StarshipWanderer.Items
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         bool Has<T>(IActor owner,Func<T,bool> condition) where T : IAdjective;
+
     }
 }

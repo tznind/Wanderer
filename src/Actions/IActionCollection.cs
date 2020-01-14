@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using StarshipWanderer.Adjectives;
 
 namespace StarshipWanderer.Actions
 {
-    public interface IActionCollection : IList<IAction>
+    public interface IActionCollection : ISwCollection<IAction>
     {
     }
 }

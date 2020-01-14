@@ -1,4 +1,7 @@
-﻿using StarshipWanderer.Actors;
+﻿using System;
+using System.Linq;
+using StarshipWanderer.Actors;
+using StarshipWanderer.Behaviours;
 using StarshipWanderer.Stats;
 
 namespace StarshipWanderer.Items
@@ -12,6 +15,28 @@ namespace StarshipWanderer.Items
         /// The number copies of the item you have
         /// </summary>
         public int StackSize { get; set; }
+
+        public bool CanCombine(IItemStack other)
+        {
+            //don't combine with yourself!
+            if (other == this)
+                return false;
+
+            //don't combine erased stuff!
+            if (this.IsErased || other.IsErased)
+                return false;
+
+            return other.AreIdentical(this);
+        }
+
+        public void Combine(IItemStack s2, IWorld world)
+        {
+            if(!CanCombine(s2))
+                throw new ArgumentException("Unable to combine objects because they were were not compatible");
+
+            StackSize += s2.StackSize;
+            world.Erase(s2);
+        }
 
         public ItemStack(string name,int stackSize) : base(name)
         {

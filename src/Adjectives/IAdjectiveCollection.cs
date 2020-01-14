@@ -2,7 +2,8 @@
 
 namespace StarshipWanderer.Adjectives
 {
-    public interface IAdjectiveCollection : IList<IAdjective>
+    public interface IAdjectiveCollection : ISwCollection<IAdjective>
     {
     }
+
 }
