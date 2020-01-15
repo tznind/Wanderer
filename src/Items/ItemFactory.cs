@@ -18,8 +18,10 @@ namespace StarshipWanderer.Items
 
         public IItem Create(IPlace inPlace)
         {
-            
-            return GetRandomItem(inPlace.World.R);
+            IItem i;
+            inPlace.Items.Add(i = GetRandomItem(inPlace.World.R));
+
+            return i;
         }
 
         public IItem Create(IActor forActor)
@@ -30,7 +32,11 @@ namespace StarshipWanderer.Items
         {
             var available = GetAvailableItems().ToArray();
 
-            return available[r.Next(available.Length)];
+            var choose = available[r.Next(available.Length)];
+            if (choose is IItemStack s)
+                s.StackSize = r.Next(10);
+
+            return choose;
         }
 
         private IEnumerable<IItem> GetAvailableItems()
@@ -38,6 +44,7 @@ namespace StarshipWanderer.Items
             yield return Create<Light>("Globe");
             yield return Create<Tough>("Environment Suit");
             yield return Create<SingleUse,Medic>("Kit");
+            yield return new ItemStack("Creds",1);
         }
 
         

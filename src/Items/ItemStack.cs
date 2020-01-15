@@ -52,5 +52,10 @@ namespace StarshipWanderer.Items
         {
             return base.GetFinalStats(forActor).Clone().SetAll(v => v * StackSize);
         }
+
+        public override string ToString()
+        {
+            return base.ToString() + "(" + StackSize +")";
+        }
     }
 }

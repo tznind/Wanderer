@@ -32,6 +32,9 @@ namespace StarshipWanderer.Places
             //some friends in the room with you
             ActorFactory.Create(world, room);
 
+            //some free items
+            ItemFactory.Create(room);
+
             return room;
         }
 
