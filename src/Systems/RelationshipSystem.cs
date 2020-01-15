@@ -21,7 +21,13 @@ namespace StarshipWanderer.Systems
                     return;
 
                 var world = args.Recipient.CurrentLocation.World;
-            
+
+                //log the change
+                if(args.Intensity > 0.001)
+                    args.UserInterface.Log.Info(new LogEntry($"{args.Recipient} expressed approval towards {args.AggressorIfAny}",args.Round,args.Recipient));
+                else if (args.Intensity < 0.001)
+                    args.UserInterface.Log.Info(new LogEntry($"{args.Recipient} became angry at {args.AggressorIfAny}",args.Round,args.Recipient));
+
                 //then you need to be angry about that! (or happy)
                 var existingRelationship = world.Relationships.OfType<PersonalRelationship>()
                     .SingleOrDefault(r => r.AppliesTo(args.Recipient, args.AggressorIfAny));

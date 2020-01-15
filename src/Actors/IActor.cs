@@ -100,5 +100,13 @@ namespace StarshipWanderer.Actors
 
 
         IEnumerable<IBehaviour> GetFinalBehaviours();
+
+        /// <summary>
+        /// Returns true if the current actor is able to observe freely the
+        /// actions of <paramref name="other"/>
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        bool IsAwareOf(IActor other);
     }
 }

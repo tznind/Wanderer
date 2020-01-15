@@ -135,6 +135,11 @@ namespace StarshipWanderer.Actors
         {
             return GetFinalBehaviours(this);
         }
+
+        public bool IsAwareOf(IActor other)
+        {
+            return CurrentLocation.GetPoint() == other.CurrentLocation.GetPoint();
+        }
     }
 
     public class MergeStacksBehaviour : Behaviour
