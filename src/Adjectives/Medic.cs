@@ -2,6 +2,8 @@
 using System.Linq;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
+using StarshipWanderer.Behaviours;
+using StarshipWanderer.Conditions;
 using StarshipWanderer.Stats;
 
 namespace StarshipWanderer.Adjectives
@@ -11,13 +13,17 @@ namespace StarshipWanderer.Adjectives
         public Medic(IHasStats owner):base(owner)
         {
             BaseActions.Add(new HealAction());
+
+            Condition = new ActorStatCondition(Stat.Savvy, Comparison.GreaterThanOrEqual, 10);
         }
+
+        public ActorStatCondition Condition { get; set; }
 
         public override IActionCollection GetFinalActions(IActor forActor)
         {
-            if (forActor.GetFinalStats()[Stat.Savvy] >= 10)
+            if (Condition.IsMet(forActor))
                 return base.GetFinalActions(forActor);
-
+            
             return new ActionCollection();
         }
 
