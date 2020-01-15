@@ -4,6 +4,7 @@ using System.Linq;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives;
 using StarshipWanderer.Places;
+using StarshipWanderer.Stats;
 
 namespace StarshipWanderer.Items
 {
@@ -44,7 +45,7 @@ namespace StarshipWanderer.Items
             yield return Create<Light>("Globe");
             yield return Create<Tough>("Environment Suit");
             yield return Create<SingleUse,Medic>("Kit");
-            yield return new ItemStack("Creds",1);
+            yield return new ItemStack("Creds",1).With(Stat.Value,1);
         }
 
         
