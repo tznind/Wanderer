@@ -94,8 +94,9 @@ namespace Tests.Relationships
             Assert.Greater(attitudeBefore,youAndBob.Attitude,"Expected continuing to fight to make matters worse");
         }
 
-        [Test]
-        public void FightingIsFrownedUponByOthers()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void FightingIsFrownedUponByOthers(bool areFriends)
         {
             //when I'm in a room with 2 people
             IWorld world = new World();
@@ -112,8 +113,9 @@ namespace Tests.Relationships
             
             Assert.IsEmpty(world.Relationships.Where(r=>r.AppliesTo(bob,you) && r.Attitude <0),"bob should not have a negative opinion of you starting out");
             
-            //bobs friend likes bob (but bob is indifferent back)
-            world.Relationships.Add(new PersonalRelationship(bobsFriend,bob){Attitude = 10});
+            //if bobs friend likes him create a relationship
+            if(areFriends)
+                world.Relationships.Add(new PersonalRelationship(bobsFriend,bob){Attitude = 10});
 
             var ui = new GetChoiceTestUI(bob);
 
@@ -126,8 +128,11 @@ namespace Tests.Relationships
                 .SingleOrDefault(r => r.AppliesTo(bobsFriend, you) && r.Attitude < 0);
             
             Assert.IsNotNull(youAndBob,"bob should now be angry at you");
-            Assert.IsNotNull(youAndBobsFriend,"bobs friend should also be angry at you");
-            
+
+            if(areFriends)
+                Assert.IsNotNull(youAndBobsFriend,"bobs friend should also be angry at you");
+            else
+                Assert.IsNull(youAndBobsFriend,"bobs friend should not care that you hit bob because they aren't really friends");
             
 
         }
