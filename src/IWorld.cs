@@ -30,6 +30,11 @@ namespace StarshipWanderer
         IRelationshipSystem Relationships { get; set; }
 
         /// <summary>
+        /// System for handling communication including who can talk to who
+        /// </summary>
+        IDialogueSystem Dialogue { get; set; }
+
+        /// <summary>
         /// Returns all the behaviours that should respond to events in the world
         /// </summary>
         /// <returns></returns>

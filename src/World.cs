@@ -22,6 +22,7 @@ namespace StarshipWanderer
 
         public HashSet<IActor> Population { get; set; } =  new HashSet<IActor>();
         public IRelationshipSystem Relationships { get; set; } = new RelationshipSystem();
+        public IDialogueSystem Dialogue { get; set; } = new DialogueSystem();
 
         public IRoomFactory RoomFactory { get; set; }
 

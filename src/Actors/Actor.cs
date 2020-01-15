@@ -50,7 +50,7 @@ namespace StarshipWanderer.Actors
             BaseActions.Add(new PickUpAction());
             BaseActions.Add(new DropAction());
             BaseActions.Add(new GiveAction());
-
+            BaseActions.Add(new TalkAction());
             BaseBehaviours.Add(new MergeStacksBehaviour(this));
         }
 
