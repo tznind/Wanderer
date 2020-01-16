@@ -2,29 +2,28 @@ language: csharp
 mono: none
 dist: xenial
 dotnet: 3.1
-
 install:
-  - dotnet restore
-
+- dotnet restore
 script:
-  - dotnet build
-  - dotnet test
-  - dotnet publish -r win-x64
-  - dotnet publish -r linux-x64
-
+- dotnet build
+- dotnet test
+- dotnet publish -r win-x64
+- dotnet publish -r linux-x64
 after_success:
-    - if [ -z "$TRAVIS_TAG" ]; then travis_terminate 0; fi
-    - |
-      for platform in linux win
-      do
-        dotnet publish -c Release -r $platform-x64 -o $(pwd)/dist/$platform-x64 --self-contained true -nologo -v q
-      done
-    - ( cd dist && zip -r wanderer-win-x64-$TRAVIS_TAG.zip ./win-x64 && tar czf wanderer-linux-x64-$TRAVIS_TAG.tar.gz ./linux-x64 && cd - )
-
+- if [ -z "$TRAVIS_TAG" ]; then travis_terminate 0; fi
+- |
+  for platform in linux win
+  do
+    dotnet publish -c Release -r $platform-x64 -o $(pwd)/dist/$platform-x64 --self-contained true -nologo -v q
+  done
+- "( cd dist && zip -r wanderer-win-x64-$TRAVIS_TAG.zip ./win-x64 && tar czf wanderer-linux-x64-$TRAVIS_TAG.tar.gz
+  ./linux-x64 && cd - )"
 deploy:
-    provider: releases
-    api_key: "GITHUB OAUTH TOKEN"
-    file: "FILE TO UPLOAD"
-    skip_cleanup: true
-    on:
-        tags: true
+  provider: releases
+  api_key:
+    secure: AodDNlJ9414NaxMShWrIVLeUMPOV/T3qG72lGJBzym5U4OM6xbJfd7JDpJpTggeQNA20BwctYg98X+t+3nNpmvSvlqjBMs+6If6+j22TnjgEXVQ0ybiV/54jsw1RT5ewVhswz2up1+0Cndg/KGqkq0ZRpUpgfRSiK73r7+CWxFcYWrq+IkbCVTjECyjV88vOL44TtZhdheDSfR6dzkhiLbPQRAjz7Y1t6hzn7kXJTIZMXhpxzsTlt+gZeIuvaHtV1octT6UV4zi9wfc4OFg7PYuIGa9uS3xlqADTSuAPaACrTCcXLN+9FalE9O/dsHT8snCNGksfyiAXq5RljH6WgqHvQCSSLVGgZcs910PgFNeQ7Fpg5W9YYmgH73Zw+C3pSeUquQ05wuuuqpbYaWiLgBvhnP1qAywFGjVkEQGNoUpdUsEDZqkKGegDVagOg3Ie6qVPeBwoPzZLClcfzjgW6dojKBqJxE4xbnsAoHfeloctr2f2uDGYBrMRPK80gsRzhCh7ww1oiE4xJz8RxTmmujtKvwFSmnq9Gy12ZdeF/VqOx1tvk63gqRjMkJrsdEryF38PhOeIhfOfYIH99DPSms7Pn9WGvipsjM2Pu2sFCYOtPF/5YE6c6UqmK55teiLzrSC5R9DPPapsvNTC4sPkf3S4EvUrGn2v/LsO7FUGhO0=
+  file_glob: true
+  file: dist/*.*
+  skip-cleanup: true
+  on:
+    repo: tznind/StarshipWanderer
