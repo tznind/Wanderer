@@ -34,6 +34,10 @@ namespace StarshipWanderer.Actions
             else
             {
                 var newRoom = world.RoomFactory.Create(world);
+                
+                //however you got into this room you should be able to get back again
+                newRoom.LeaveDirections.Add(f.Direction.Opposite());
+
                 world.Map.Add(newPoint,newRoom);
                 goingTo = newRoom;
             }
