@@ -6,7 +6,7 @@ using StarshipWanderer;
 
 namespace Tests
 {
-    class DirectionTests
+    class DirectionTests: UnitTest
     {
         [Test]
         public void TestOpposites()

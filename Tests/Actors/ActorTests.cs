@@ -7,23 +7,16 @@ using StarshipWanderer.Adjectives;
 using StarshipWanderer.Items;
 using StarshipWanderer.Places;
 using StarshipWanderer.Relationships;
+using Tests.Actions;
 
 namespace Tests.Actors
 {
-    class ActorTests
+    class ActorTests : UnitTest
     {
         [Test]
         public void TestAddOccupant()
         {
-
-            var world = new World();
-            world.Factions = new FactionCollection();
-
-            var adjectiveFactory = new AdjectiveFactory();
-            var itemFactory = new ItemFactory(adjectiveFactory);
-
-            var roomFactory = new RoomFactory(new ActorFactory(itemFactory, adjectiveFactory),itemFactory, adjectiveFactory);
-            var you = new You("TestPlayer",roomFactory.Create(world));
+            var you = YouInARoom(out IWorld world);
             world.Population.Add(you);
 
             var room1 = world.Player.CurrentLocation;

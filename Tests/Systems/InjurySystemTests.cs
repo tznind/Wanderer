@@ -20,7 +20,7 @@ using Enumerable = System.Linq.Enumerable;
 
 namespace Tests.Systems
 {
-    class InjurySystemTests
+    class InjurySystemTests : UnitTest
     {
         [Test]
         public void Test_AllInjuriesUnique()
@@ -39,7 +39,7 @@ namespace Tests.Systems
             for (int i = 0; i < 60; i++)
             {
                 a.Adjectives.Clear();
-                sys.Apply(new SystemArgs(M.UI_GetChoice(new object()),i,null,a,Guid.Empty));
+                sys.Apply(new SystemArgs(GetUI(),i,null,a,Guid.Empty));
 
                 //it should have applied 1 injury
                 Assert.AreEqual(1,a.Adjectives.Count);
@@ -69,7 +69,7 @@ namespace Tests.Systems
             for (int i = 0; i < 10; i++)
             {
                 var stack = new ActionStack();
-                stack.RunStack(M.UI_GetChoice(typeof(object)), new LoadGunsAction(), a, a.GetFinalBehaviours());
+                stack.RunStack(GetUI(typeof(object)), new LoadGunsAction(), a, a.GetFinalBehaviours());
 
                 //after 9 round you should still be injured                
                 if(i <9)
@@ -105,7 +105,7 @@ namespace Tests.Systems
             for (int i = 0; i < 10; i++)
             {
                 var stack = new ActionStack();
-                stack.RunStack(M.UI_GetChoice(typeof(object)), new LoadGunsAction(), a, a.GetFinalBehaviours());
+                stack.RunStack(GetUI(typeof(object)), new LoadGunsAction(), a, a.GetFinalBehaviours());
 
                 //after 2 rounds (0 and 1) you should still be injured                
                 if(i == 0 )
@@ -171,7 +171,7 @@ namespace Tests.Systems
             var stack = new ActionStack();
 
             Assert.Contains(injury,you.Adjectives.ToArray());
-            stack.RunStack(new GetChoiceTestUI(you,injury), you.GetFinalActions().OfType<HealAction>().Single(), you, you.GetFinalBehaviours());
+            stack.RunStack(new FixedChoiceUI(you,injury), you.GetFinalActions().OfType<HealAction>().Single(), you, you.GetFinalBehaviours());
             Assert.IsFalse(you.Adjectives.Contains(injury));
         
 
@@ -206,7 +206,7 @@ namespace Tests.Systems
             var stack = new ActionStack();
 
             Assert.Contains(injury, you.Adjectives.ToArray());
-            stack.RunStack(new GetChoiceTestUI(you, injury), you.GetFinalActions().OfType<HealAction>().Single(), you, you.GetFinalBehaviours());
+            stack.RunStack(new FixedChoiceUI(you, injury), you.GetFinalActions().OfType<HealAction>().Single(), you, you.GetFinalBehaviours());
             
             //injury is gone
             Assert.IsFalse(you.Adjectives.Contains(injury));

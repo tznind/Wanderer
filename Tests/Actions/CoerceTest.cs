@@ -9,45 +9,32 @@ using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives.ActorOnly;
 using StarshipWanderer.Behaviours;
-using StarshipWanderer.Places;
+using StarshipWanderer.Items;
 using StarshipWanderer.Stats;
 
 namespace Tests.Actions
 {
-    class CoerceTest
+    class CoerceTest : UnitTest
     {
         [Test]
         public void Test_CoerceSuccess_PerformsAction()
         {
-            var world = new World();
-
-            var room = new Room("TestRoom", world,'-');
-            world.Map.Add(new Point3(0,0,0),room );
-            var you = new You("Test player",room);
+            var you = YouInARoom(out IWorld world);
 
             //create two npcs that can both fight
-            //a acts before b so coercion allows him to kill b before he can act
-            var a = new Npc("A", room);
-            a.BaseStats[Stat.Initiative] = 10;
-
-            var b = new Npc("B", room);
-            b.BaseStats[Stat.Initiative] = 0;
-
-            //put everyone in a room together
-            world.Population.Add(you);
-            world.Population.Add(a);
-            world.Population.Add(b);
+            var a = new Npc("A",you.CurrentLocation).With(Stat.Initiative,10);
+            var b = new Npc("B",you.CurrentLocation).With(Stat.Initiative,0);
             
             Assert.IsFalse(b.Has<Injured>(false));
 
-            var ui = new GetChoiceTestUI(a,a.GetFinalActions().OfType<FightAction>().Single(),b);
+            var ui = GetUI(a, a.GetFinalActions().OfType<FightAction>().Single(), b);
             world.RunRound(ui,world.Player.BaseActions.OfType<CoerceAction>().Single());
             
             //a should have been injured
             Assert.Contains(a,world.Population.ToArray());
             Assert.IsTrue(b.Has<Injured>(false));
 
-            Assert.Contains("Test player coerced A to perform Fight", ui.Log.RoundResults.Select(r=>r.Message).ToArray());
+            Assert.Contains("Test Wanderer coerced A to perform Fight", ui.Log.RoundResults.Select(r=>r.Message).ToArray());
             
             //initiative should have been boosted to do the coerce then reset at end of round
             Assert.AreEqual(10,a.GetFinalStats()[Stat.Initiative]);

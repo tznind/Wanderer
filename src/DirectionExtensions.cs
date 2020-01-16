@@ -6,25 +6,17 @@ namespace StarshipWanderer
     {
         public static Direction Opposite(this Direction dir)
         {
-            switch (dir)
+            return dir switch
             {
-                case Direction.None:
-                    return Direction.None;
-                case Direction.Up:
-                    return Direction.Down;
-                case Direction.Down:
-                    return Direction.Up;
-                case Direction.North:
-                    return Direction.South;
-                case Direction.South:
-                    return Direction.North;
-                case Direction.East:
-                    return Direction.West;
-                case Direction.West:
-                    return Direction.East;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(dir), dir, null);
-            }
+                Direction.None => Direction.None,
+                Direction.Up => Direction.Down,
+                Direction.Down => Direction.Up,
+                Direction.North => Direction.South,
+                Direction.South => Direction.North,
+                Direction.East => Direction.West,
+                Direction.West => Direction.East,
+                _ => throw new ArgumentOutOfRangeException(nameof(dir), dir, null)
+            };
         }
     }
 }

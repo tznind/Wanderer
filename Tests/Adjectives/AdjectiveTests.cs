@@ -4,23 +4,20 @@ using StarshipWanderer;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives;
 using StarshipWanderer.Adjectives.ActorOnly;
+using StarshipWanderer.Items;
 using StarshipWanderer.Places;
 using StarshipWanderer.Stats;
 
 namespace Tests.Adjectives
 {
-    class AdjectiveTests
+    class AdjectiveTests : UnitTest
     {
         [Test]
         public void TestAttractive()
         {
-            var w = new World();
-
-            var d  = new Npc("Dave",new Room("Nowhere",w,'-'));
+            var room = InARoom(out IWorld w);
+            var d  = new Npc("Dave",room).With(Stat.Fight,20).With(Stat.Coerce,20);
             
-            d.BaseStats[Stat.Fight] = 20;
-            d.BaseStats[Stat.Coerce] = 20;
-
             Assert.AreEqual(20,d.GetFinalStats()[Stat.Coerce]);
             Assert.AreEqual(20,d.GetFinalStats()[Stat.Fight]);
 

@@ -15,7 +15,7 @@ using Tests.Actions;
 
 namespace Tests.Items
 {
-    class MoneyTests
+    class MoneyTests : UnitTest
     {
         [Test]
         public void Test_RustyReducesValue()
@@ -47,8 +47,8 @@ namespace Tests.Items
             room.Items.Add(money2);
 
             //pick both up
-            world.RunRound(new GetChoiceTestUI((IItem)money),you.GetFinalActions().OfType<PickUpAction>().Single());
-            world.RunRound(new GetChoiceTestUI((IItem)money2),you.GetFinalActions().OfType<PickUpAction>().Single());
+            world.RunRound(new FixedChoiceUI((IItem)money),you.GetFinalActions().OfType<PickUpAction>().Single());
+            world.RunRound(new FixedChoiceUI((IItem)money2),you.GetFinalActions().OfType<PickUpAction>().Single());
 
             // you only have 1 item which has all the Money
             Assert.AreSame(money,you.Items.Single());

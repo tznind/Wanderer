@@ -8,7 +8,7 @@ using StarshipWanderer.Places;
 
 namespace Tests.Places
 {
-    class MapTests
+    class MapTests : UnitTest
     {
         [Test]
         public void TestMapSerialization()

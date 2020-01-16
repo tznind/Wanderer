@@ -13,7 +13,7 @@ using StarshipWanderer.Places;
 
 namespace Tests
 {
-    class WorldTests
+    class WorldTests: UnitTest
     {
         [Test]
         public void Test_Serialization_OfWorld()

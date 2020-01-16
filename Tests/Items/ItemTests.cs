@@ -16,7 +16,7 @@ using Tests.Actions;
 
 namespace Tests.Items
 {
-    class ItemTests
+    class ItemTests : UnitTest
     {
         [Test]
         public void Test_DarkRoom()
@@ -39,7 +39,7 @@ namespace Tests.Items
             Assert.AreEqual(1,you.CurrentLocation.Items.Count);
 
             var stack = new ActionStack();
-            stack.RunStack(new GetChoiceTestUI(globe), new PickUpAction(), you,new IBehaviour[0]);
+            stack.RunStack(new FixedChoiceUI(globe), new PickUpAction(), you,new IBehaviour[0]);
 
             Assert.AreEqual(1,you.Items.Count);
             Assert.AreEqual(0,you.CurrentLocation.Items.Count);
@@ -82,7 +82,7 @@ namespace Tests.Items
             Assert.Contains(npc,room.Actors.ToArray());
             Assert.IsEmpty(room.Items);
 
-            npc.Kill(M.UI_GetChoice(new object()), Guid.Empty);
+            npc.Kill(GetUI(), Guid.Empty);
 
             //your gone!
             Assert.IsFalse(world.Population.Contains(npc));

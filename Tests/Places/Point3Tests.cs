@@ -6,7 +6,7 @@ using StarshipWanderer;
 
 namespace Tests.Places
 {
-    class Point3Tests
+    class Point3Tests : UnitTest
     {
         [Test]
         public void Test_Distance()

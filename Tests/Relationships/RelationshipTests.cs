@@ -13,7 +13,7 @@ using Tests.Actions;
 
 namespace Tests.Relationships
 {
-    class RelationshipTests
+    class RelationshipTests : UnitTest
     {
         [Test]
         public void Test_RelationshipEndsOnDeath()
@@ -32,7 +32,7 @@ namespace Tests.Relationships
             Assert.AreEqual(3,world.Relationships.Count);
 
             //when bob dies
-            bob.Kill(new GetChoiceTestUI(new object()),Guid.Empty);
+            bob.Kill(GetUI(),Guid.Empty);
 
             //his relationship to frank should not exist
             Assert.AreEqual(1, world.Relationships.Count);
@@ -55,7 +55,7 @@ namespace Tests.Relationships
 
             world.Relationships.Add(new PersonalRelationship(bob, you){Attitude = 500});
 
-            var ui = M.UI_GetChoice(new object());
+            var ui = GetUI();
             world.RunRound(ui, new LoadGunsAction());
 
             Assert.IsNull(ui.Log.RoundResults.FirstOrDefault(r => r.Message.Contains("fought")),"Did not expect bob to fight you because they have a good relationship");
@@ -76,7 +76,7 @@ namespace Tests.Relationships
             
             Assert.IsEmpty(world.Relationships.Where(r=>r.AppliesTo(bob,you) && r.Attitude <0),"bob should not have a negative opinion of you starting out");
 
-            var ui = new GetChoiceTestUI(bob,bob);
+            var ui = new FixedChoiceUI(bob,bob);
 
             //fight each other
             world.RunRound(ui, new FightAction());
@@ -117,7 +117,7 @@ namespace Tests.Relationships
             if(areFriends)
                 world.Relationships.Add(new PersonalRelationship(bobsFriend,bob){Attitude = 10});
 
-            var ui = new GetChoiceTestUI(bob);
+            var ui = new FixedChoiceUI(bob);
 
             //fight each other
             world.RunRound(ui, new FightAction());
