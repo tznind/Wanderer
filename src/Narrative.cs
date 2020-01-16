@@ -40,8 +40,11 @@ namespace StarshipWanderer
 
         public void Add(string fluff, string technical)
         {
-            _text.Add(Tuple.Create(fluff,true));
-            _text.Add(Tuple.Create(technical,false));
+            if(!string.IsNullOrWhiteSpace(fluff))
+                _text.Add(Tuple.Create(fluff,true));
+            
+            if(!string.IsNullOrWhiteSpace(technical))
+                _text.Add(Tuple.Create(technical,false));
         }
 
         /// <summary>
@@ -50,7 +53,7 @@ namespace StarshipWanderer
         /// </summary>
         /// <param name="ui"></param>
         /// <param name="forceShowMessage"></param>
-        public void Show(IUserinterface ui, bool forceShowMessage)
+        public void Show(IUserinterface ui, bool forceShowMessage=false)
         {
             //output the fluff to the ui if you are the actor
             if(forceShowMessage || Actor is You)

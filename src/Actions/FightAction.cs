@@ -27,6 +27,8 @@ namespace StarshipWanderer.Actions
             var f = (FightFrame) frame;
             
             var attackerAdvantage = f.PerformedBy.GetFinalStats()[Stat.Fight] - f.TargetIfAny.GetFinalStats()[Stat.Fight];
+            
+            ui.Log.Info(new LogEntry($"{f.PerformedBy} fought {f.TargetIfAny}",stack.Round,f.PerformedBy));
 
             //inflict damage on the target
             f.InjurySystem.Apply(new SystemArgs(ui,
@@ -43,7 +45,6 @@ namespace StarshipWanderer.Actions
                 f.PerformedBy,
                 stack.Round));
             
-            ui.Log.Info(new LogEntry($"{f.PerformedBy} fought {f.TargetIfAny}",stack.Round,f.PerformedBy));
         }
     }
 }

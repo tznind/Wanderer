@@ -63,9 +63,16 @@ namespace StarshipWanderer.Actors
 
         public override void Kill(IUserinterface ui, Guid round, string reason)
         {
+
             //although you might get double dead in a round.  Only show the message once
-            if(!Dead)
-                ui.ShowMessage("Dead",$"You have tragically met your end.  Don't worry, many of your comrades will benefit from you sacrifice (at breakfast tomorrow).  You were killed by {reason}");
+            if (!Dead)
+            {
+                var narrative = new Narrative(this, "Dead",
+                    $"You have tragically met your end.  Don't worry, many of your comrades will benefit from you sacrifice (at breakfast tomorrow).",round);
+
+                narrative.Add("",$"You died of {reason}");
+                narrative.Show(ui,true);
+            }
 
             Dead = true;
         }

@@ -22,6 +22,7 @@ namespace StarshipWanderer.Actions
             {
                 f.PerformedBy.Items.Remove(f.ItemToGive);
                 f.TargetIfAny.Items.Add(f.ItemToGive);
+                ui.Log.Info(new LogEntry($"{f.PerformedBy} gave {f.ItemToGive} to {f.TargetIfAny}",stack.Round,f.PerformedBy));
             }
         }
     }

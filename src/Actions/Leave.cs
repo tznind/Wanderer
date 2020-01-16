@@ -44,7 +44,7 @@ namespace StarshipWanderer.Actions
 
             frame.PerformedBy.Move(goingTo);
 
-            ui.Log.Info(new LogEntry($"{frame.PerformedBy} moved to {goingTo}",stack.Round,oldPoint));
+            ui.Log.Info(new LogEntry($"{frame.PerformedBy} moved {f.Direction} to {goingTo}",stack.Round,oldPoint));
         }
     }
 }
