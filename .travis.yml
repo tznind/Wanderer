@@ -9,4 +9,22 @@ install:
 script:
   - dotnet build
   - dotnet test
+  - dotnet publish -r win-x64
   - dotnet publish -r linux-x64
+
+after_success:
+    - if [ -z "$TRAVIS_TAG" ]; then travis_terminate 0; fi
+    - |
+      for platform in linux win
+      do
+        dotnet publish -c Release -r $platform-x64 -o $(pwd)/dist/$platform-x64 --self-contained true -nologo -v q
+      done
+    - ( cd dist && zip -r wanderer-win-x64-$TRAVIS_TAG.zip ./win-x64 && tar czf wanderer-linux-x64-$TRAVIS_TAG.tar.gz ./linux-x64 && cd - )
+
+deploy:
+    provider: releases
+    api_key: "GITHUB OAUTH TOKEN"
+    file: "FILE TO UPLOAD"
+    skip_cleanup: true
+    on:
+        tags: true
