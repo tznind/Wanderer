@@ -63,7 +63,7 @@ namespace Tests.Systems
             var a = new You("You", room);
             
             //give them an injury
-            var injury = new Injured("Bruised Shin", a, 1, InjuryRegion.Leg);
+            var injury = new Injured("Bruised Shin", a, 1, InjuryRegion.Leg,world.InjurySystems.First());
             a.Adjectives.Add(injury);
             
             for (int i = 0; i < 10; i++)
@@ -96,7 +96,7 @@ namespace Tests.Systems
             var a = new You("You", room);
 
             //give them an injury
-            var injury = new Injured("Cut Lip", a, 2, InjuryRegion.Leg);
+            var injury = new Injured("Cut Lip", a, 2, InjuryRegion.Leg,world.InjurySystems.First());
             a.Adjectives.Add(injury);
 
             if (isTough)
@@ -134,8 +134,7 @@ namespace Tests.Systems
 
                         //From 2 it gets worse on the following rounds
                         //2+3+4+5+6
-                        StringAssert.AreEqualIgnoringCase("I" +
-                            "nfected Cut Lip", injury.Name);
+                        StringAssert.AreEqualIgnoringCase("Infected Cut Lip", injury.Name);
                         Assert.AreEqual(7, injury.Severity);
                     }
                 }
@@ -165,7 +164,7 @@ namespace Tests.Systems
             Assert.IsTrue(you.GetFinalActions().OfType<HealAction>().Any());
 
             //give them an injury
-            var injury = new Injured("Cut Lip", you, 2, InjuryRegion.Leg);
+            var injury = new Injured("Cut Lip", you, 2, InjuryRegion.Leg,world.InjurySystems.First());
             you.Adjectives.Add(injury);
 
             var stack = new ActionStack();
@@ -200,7 +199,7 @@ namespace Tests.Systems
             Assert.IsTrue(you.GetFinalActions().OfType<HealAction>().Any());
 
             //give them an injury
-            var injury = new Injured("Cut Lip", you, 2, InjuryRegion.Leg);
+            var injury = new Injured("Cut Lip", you, 2, InjuryRegion.Leg,world.InjurySystems.First());
             you.Adjectives.Add(injury);
 
             var stack = new ActionStack();

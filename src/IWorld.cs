@@ -35,6 +35,11 @@ namespace StarshipWanderer
         IDialogueSystem Dialogue { get; set; }
 
         /// <summary>
+        /// All available injury systems for applying damage to people
+        /// </summary>
+        IList<IInjurySystem> InjurySystems { get; set; }
+
+        /// <summary>
         /// Returns all the behaviours that should respond to events in the world
         /// </summary>
         /// <returns></returns>

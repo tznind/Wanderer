@@ -61,11 +61,11 @@ namespace StarshipWanderer.Actors
             newLocation.IsExplored = true;
         }
 
-        public override void Kill(IUserinterface ui, Guid round)
+        public override void Kill(IUserinterface ui, Guid round, string reason)
         {
             //although you might get double dead in a round.  Only show the message once
             if(!Dead)
-                ui.ShowMessage("Dead","You have tragically met your end.  Don't worry, many of your comrades will benefit from you sacrifice (at breakfast tomorrow).");
+                ui.ShowMessage("Dead",$"You have tragically met your end.  Don't worry, many of your comrades will benefit from you sacrifice (at breakfast tomorrow).  You were killed by {reason}");
 
             Dead = true;
         }

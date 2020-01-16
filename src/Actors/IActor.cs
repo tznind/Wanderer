@@ -65,7 +65,8 @@ namespace StarshipWanderer.Actors
         /// </summary>
         /// <param name="ui"></param>
         /// <param name="round"></param>
-        void Kill(IUserinterface ui, Guid round);
+        /// <param name="reason"></param>
+        void Kill(IUserinterface ui, Guid round, string reason);
 
         /// <summary>
         /// Returns all other people in the <see cref="CurrentLocation"/>

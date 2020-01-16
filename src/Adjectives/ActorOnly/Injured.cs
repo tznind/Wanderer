@@ -11,6 +11,7 @@ namespace StarshipWanderer.Adjectives.ActorOnly
 {
     public class Injured : Adjective, IBehaviour, IInjured
     {
+        public IInjurySystem InjurySystem { get; set; }
         public InjuryRegion Region { get; set; }
         public double Severity { get; set; }
         public bool IsInfected { get; set; }
@@ -43,11 +44,13 @@ namespace StarshipWanderer.Adjectives.ActorOnly
             ui.Log.Info(new LogEntry($"{Name} was healed",round,OwnerActor));
         }
 
-        public Injured(string name,IActor actor, double severity,InjuryRegion region):base(actor)
+        public Injured(string name,IActor actor, double severity,InjuryRegion region,IInjurySystem system):base(actor)
         {
             Severity = severity;
             Region = region;
             IsPrefix = false;
+            InjurySystem = system;
+
             BaseStats[Stat.Fight] = -5 * severity;
             Name = name;
             OwnerActor = actor;
@@ -91,16 +94,10 @@ namespace StarshipWanderer.Adjectives.ActorOnly
 
         public void OnRoundEnding(IUserinterface ui, Guid round)
         {
-            if(HasReachedFatalThreshold())
-                OwnerActor.Kill(ui,round);
+            if(InjurySystem.HasFatalInjuries((IActor) Owner,out string reason))
+                OwnerActor.Kill(ui,round, reason);
         }
-
-        public virtual bool HasReachedFatalThreshold()
-        {
-            //Combined total of serious wounds (2 or higher) severity is 10
-            return Owner.Adjectives.OfType<Injured>().Where(i => i.Severity > 1).Sum(i => i.Severity) >= 10;
-        }
-
+        
         public override IEnumerable<string> GetDescription()
         {
             yield return "Reduces Stats";

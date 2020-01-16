@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using System.Linq;
+using Moq;
 using NUnit.Framework;
 using StarshipWanderer;
 using StarshipWanderer.Actors;
@@ -27,7 +28,7 @@ namespace Tests.Adjectives
             Assert.AreEqual(35,d.GetFinalStats()[Stat.Coerce]);
             Assert.AreEqual(20,d.GetFinalStats()[Stat.Fight]);
 
-            var injury = new Injured("Broken Ribs",d,2,InjuryRegion.Head);
+            var injury = new Injured("Broken Ribs",d,2,InjuryRegion.Head,w.InjurySystems.First());
             d.Adjectives.Add(injury);
 
             //now injured

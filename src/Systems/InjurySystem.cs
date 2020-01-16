@@ -41,8 +41,21 @@ namespace StarshipWanderer.Systems
             {
                 double severity = 0;
                 foreach (var s in new string[]{"Bruised","Cut","Lacerated","Fractured","Broken","Detached"})
-                    yield return new Injured(s + " " + region, actor, severity++, region);
+                    yield return new Injured(s + " " + region, actor, severity++, region,this);
             }
+        }
+
+        public bool HasFatalInjuries(IActor owner, out string diedOf)
+        {
+            //Combined total of serious wounds (2 or higher) severity is 10
+            if (owner.Adjectives.OfType<Injured>().Where(i => i.Severity > 1).Sum(i => i.Severity) >= 10)
+            {
+                diedOf = "your wounds";
+                return true;
+            }
+
+            diedOf = null;
+            return false;
         }
     }
 }

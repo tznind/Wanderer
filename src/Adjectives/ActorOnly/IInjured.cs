@@ -23,13 +23,5 @@ namespace StarshipWanderer.Adjectives.ActorOnly
         /// <param name="ui"></param>
         /// <param name="round"></param>
         void Heal(IUserinterface ui,  Guid round);
-
-        
-        /// <summary>
-        /// Return true if the <see cref="IAdjective.Owner"/> has a passed a critical threshold
-        /// of injuries and should die from the wounds.
-        /// </summary>
-        /// <returns></returns>
-        bool HasReachedFatalThreshold();
     }
 }

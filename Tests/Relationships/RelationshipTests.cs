@@ -18,8 +18,7 @@ namespace Tests.Relationships
         [Test]
         public void Test_RelationshipEndsOnDeath()
         {
-            IWorld world = new World();
-            var room = new Room("Test Room", world,'-');
+            var room = InARoom(out IWorld world);
 
             var bob = new Npc("Bob", room);
             var frank = new Npc("Frank", room);
@@ -32,7 +31,7 @@ namespace Tests.Relationships
             Assert.AreEqual(3,world.Relationships.Count);
 
             //when bob dies
-            bob.Kill(GetUI(),Guid.Empty);
+            bob.Kill(GetUI(),Guid.Empty, "space hamsters");
 
             //his relationship to frank should not exist
             Assert.AreEqual(1, world.Relationships.Count);

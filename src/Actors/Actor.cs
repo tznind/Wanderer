@@ -76,7 +76,7 @@ namespace StarshipWanderer.Actors
             CurrentLocation = newLocation;
         }
 
-        public abstract void Kill(IUserinterface ui, Guid round);
+        public abstract void Kill(IUserinterface ui, Guid round, string reason);
 
         /// <inheritdoc/>
         public IActor[] GetCurrentLocationSiblings()

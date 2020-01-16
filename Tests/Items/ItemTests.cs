@@ -82,7 +82,7 @@ namespace Tests.Items
             Assert.Contains(npc,room.Actors.ToArray());
             Assert.IsEmpty(room.Items);
 
-            npc.Kill(GetUI(), Guid.Empty);
+            npc.Kill(GetUI(), Guid.Empty, "nukes");
 
             //your gone!
             Assert.IsFalse(world.Population.Contains(npc));

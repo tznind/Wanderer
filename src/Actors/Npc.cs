@@ -99,9 +99,10 @@ namespace StarshipWanderer.Actors
             }
         }
 
-        public override void Kill(IUserinterface ui,Guid round)
+        public override void Kill(IUserinterface ui, Guid round, string reason)
         {
             Dead = true;
+            ui.Log.Info(new LogEntry($"{this} died of {reason}",round,this));
 
             CurrentLocation.World.Population.Remove(this);
 
