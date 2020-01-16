@@ -5,6 +5,8 @@
     <IsPackable>false</IsPackable>
 	  <LangVersion>latest</LangVersion>
     <IsTestProject>true</IsTestProject>
+    <IsPackable>false</IsPackable>
+    <IsPublishable>false</IsPublishable>
   </PropertyGroup>
 
   <ItemGroup>
