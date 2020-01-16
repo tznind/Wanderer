@@ -12,6 +12,8 @@ Imagine pulling a grenade pin and persuading an npc to pick it up only for him t
 
 ![Screenshot of gameplay][screenshot]
 
+You can [download the compiled binaries in the Releases Section](https://github.com/tznind/StarshipWanderer/releases) for both windows and linux console.
+
 **The game is in very early development and not really ready for playing.  Open issues for suggestions or if you like the idea and what to get involved.**
 
 ## Building
