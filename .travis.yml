@@ -9,4 +9,4 @@ install:
 script:
   - dotnet build
   - dotnet test
-  - dotnet publish linux-x64
+  - dotnet publish -r linux-x64
