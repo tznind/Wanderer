@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using StarshipWanderer.Actors;
+using StarshipWanderer.Adjectives;
 using StarshipWanderer.Adjectives.ActorOnly;
+using StarshipWanderer.Adjectives.RoomOnly;
 
 namespace StarshipWanderer.Systems
 {
@@ -56,6 +58,20 @@ namespace StarshipWanderer.Systems
 
             diedOf = null;
             return false;
+        }
+
+        public bool ShouldWorsen(Injured injury, int roundsSeen)
+        {
+            double worsenRate = 1;
+
+            if (injury.OwnerActor.Has<Tough>(true))
+                worsenRate--;
+
+            if (injury.OwnerActor.CurrentLocation.Has<Stale>())
+                worsenRate++;
+
+            return Math.Abs(worsenRate) > 0.0001 && Math.Abs(roundsSeen % (injury.Severity*2 / worsenRate)) < 0.0001;
+        
         }
     }
 }

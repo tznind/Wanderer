@@ -5,6 +5,8 @@ namespace StarshipWanderer.Adjectives.ActorOnly
 {
     public interface IInjured : IAdjective
     {
+        IActor OwnerActor { get; set; }
+
         InjuryRegion Region { get; set; }
         double Severity { get; set; }
         

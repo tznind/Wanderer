@@ -74,27 +74,17 @@ namespace StarshipWanderer.Adjectives.ActorOnly
             else
             {
                 //heavy wounds
-                if(ShouldWorsen())
-                    Worsen(ui,stack.Round);
+                if (InjurySystem.ShouldWorsen(this, _roundsSeen.Count))
+                {
+                    Worsen(ui,stack.Round); //make injury worse
+                    _roundsSeen.Clear(); //and start counting again from 0
+                }
             }
-        }
-
-        private bool ShouldWorsen()
-        {
-            double worsenRate = 1;
-
-            if (OwnerActor.Has<Tough>(true))
-                worsenRate--;
-
-            if (OwnerActor.CurrentLocation.Has<Stale>())
-                worsenRate++;
-
-            return Math.Abs(worsenRate) > 0.0001 && Math.Abs(_roundsSeen.Count % (Severity*2 / worsenRate)) < 0.0001;
         }
 
         public void OnRoundEnding(IUserinterface ui, Guid round)
         {
-            if(InjurySystem.HasFatalInjuries((IActor) Owner,out string reason))
+            if(InjurySystem.HasFatalInjuries(OwnerActor,out string reason))
                 OwnerActor.Kill(ui,round, reason);
         }
         

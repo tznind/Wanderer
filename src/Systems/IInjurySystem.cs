@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives.ActorOnly;
 
@@ -18,5 +19,13 @@ namespace StarshipWanderer.Systems
         /// <param name="diedOf"></param>
         /// <returns></returns>
         bool HasFatalInjuries(IActor owner, out string diedOf);
+
+        /// <summary>
+        /// Returns true if the injury should worsen
+        /// </summary>
+        /// <param name="injured"></param>
+        /// <param name="roundsSeen">Number of rounds since it last got worse</param>
+        /// <returns></returns>
+        bool ShouldWorsen(Injured injured, int roundsSeen);
     }
 }
