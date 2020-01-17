@@ -7,6 +7,7 @@ using StarshipWanderer.Items;
 using StarshipWanderer.Places;
 using StarshipWanderer.Relationships;
 using StarshipWanderer.Stats;
+using StarshipWanderer.Systems;
 
 namespace StarshipWanderer.Actors
 {
@@ -30,6 +31,12 @@ namespace StarshipWanderer.Actors
         /// Items that the actor owns
         /// </summary>
         HashSet<IItem> Items { get;set; }
+
+        /// <summary>
+        /// The next thing they will say if talked to (or nothing at all).
+        /// See <see cref="IDialogueSystem"/> for more details
+        /// </summary>
+        Guid? NextDialog { get; set; }
 
         /// <summary>
         /// All factions which you belong to

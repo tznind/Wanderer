@@ -36,8 +36,14 @@ namespace Tests
         {
             if(_index >= _getChoiceReturns.Length)
                 throw new Exception($"Did not have an answer for GetChoice of:{title} ({body})");
-
-            chosen = (T) _getChoiceReturns[_index++];
+            try
+            {
+                chosen = (T) _getChoiceReturns[_index++];
+            }
+            catch (InvalidCastException)
+            {
+                throw new Exception($"Chosen answer for Test did not match Type requested for GetChoice of:{title} ({body}).  Required Type was {typeof(T)}");
+            }
 
             if(!options.Contains(chosen))
                 throw new Exception($"Chosen test answer was not one of the listed options for GetChoice of:{title} ({body})");

@@ -7,6 +7,7 @@ using StarshipWanderer.Behaviours;
 using StarshipWanderer.Items;
 using StarshipWanderer.Places;
 using StarshipWanderer.Stats;
+using StarshipWanderer.Systems;
 
 namespace StarshipWanderer.Actors
 {
@@ -31,7 +32,7 @@ namespace StarshipWanderer.Actors
         /// Forces the next action decided by <see cref="Npc"/> to be this.  After which it will be cleared
         /// </summary>
         public CoerceFrame NextAction { get; set; }
-
+        
         public override bool Decide<T>(IUserinterface ui, string title, string body, out T chosen, T[] options, double attitude)
         {
             if (Dead)

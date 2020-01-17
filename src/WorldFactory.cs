@@ -7,7 +7,7 @@ using StarshipWanderer.Relationships;
 
 namespace StarshipWanderer
 {
-    public class WorldFactory
+    public class WorldFactory : IWorldFactory
     {
         public IWorld Create()
         {
