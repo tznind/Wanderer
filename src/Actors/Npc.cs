@@ -34,6 +34,12 @@ namespace StarshipWanderer.Actors
 
         public override bool Decide<T>(IUserinterface ui, string title, string body, out T chosen, T[] options, double attitude)
         {
+            if (Dead)
+            {
+                chosen = default;
+                return false;
+            }
+
             //if we are being forced to perform an action
             if(typeof(IAction).IsAssignableFrom(typeof(T)))
                 if (NextAction != null )
@@ -101,16 +107,18 @@ namespace StarshipWanderer.Actors
 
         public override void Kill(IUserinterface ui, Guid round, string reason)
         {
+            if (!Dead)
+            {
+                ui.Log.Info(new LogEntry($"{this} died of {reason}", round, this));
+                
+                foreach (IItem item in Items.ToArray())
+                    item.Drop(ui, this, round);
+
+                foreach (var r in CurrentLocation.World.Relationships.ToArray())
+                    r.HandleActorDeath(this);
+            }
+            
             Dead = true;
-            ui.Log.Info(new LogEntry($"{this} died of {reason}",round,this));
-
-            CurrentLocation.World.Population.Remove(this);
-
-            foreach (IItem item in Items.ToArray())
-                item.Drop(ui, this, round);
-
-            foreach (var r in CurrentLocation.World.Relationships.ToArray())
-                r.HandleActorDeath(this);
         }
 
     }

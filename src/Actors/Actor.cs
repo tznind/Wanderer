@@ -81,7 +81,7 @@ namespace StarshipWanderer.Actors
         /// <inheritdoc/>
         public IActor[] GetCurrentLocationSiblings()
         {
-            return CurrentLocation.World.Population.Where(o => o.CurrentLocation == CurrentLocation && o != this).ToArray();
+            return CurrentLocation.World.Population.Where(o => o.CurrentLocation == CurrentLocation && o != this && !o.Dead).ToArray();
         }
 
         public bool Has<T>(bool includeItems) where T : IAdjective
@@ -98,6 +98,10 @@ namespace StarshipWanderer.Actors
 
         public override IBehaviourCollection GetFinalBehaviours(IActor forActor)
         {
+            //the dead have no behaviours
+            if(Dead)
+                return new BehaviourCollection();
+
             return new BehaviourCollection(BaseBehaviours
                 .Union(Adjectives.SelectMany(a=>a.GetFinalBehaviours(forActor)))
                 .Union(CurrentLocation.GetFinalBehaviours(forActor))
@@ -139,6 +143,11 @@ namespace StarshipWanderer.Actors
         public bool IsAwareOf(IActor other)
         {
             return CurrentLocation.GetPoint() == other.CurrentLocation.GetPoint();
+        }
+
+        public override string ToString()
+        {
+            return (Dead ? "Dead ":"") + base.ToString();
         }
     }
 }

@@ -52,7 +52,7 @@ namespace StarshipWanderer.Systems
             //Combined total of serious wounds (2 or higher) severity is 10
             if (owner.Adjectives.OfType<Injured>().Where(i => i.Severity > 1).Sum(i => i.Severity) >= 10)
             {
-                diedOf = "your wounds";
+                diedOf = "injuries";
                 return true;
             }
 

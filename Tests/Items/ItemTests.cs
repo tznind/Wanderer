@@ -84,8 +84,10 @@ namespace Tests.Items
 
             npc.Kill(GetUI(), Guid.Empty, "nukes");
 
-            //your gone!
-            Assert.IsFalse(world.Population.Contains(npc));
+            //your gone but stay in room just dead
+            Assert.IsTrue(world.Population.Contains(npc));
+            Assert.IsTrue(npc.Dead);
+            Assert.AreEqual("Dead Handyman",npc.ToString());
 
             //but teddy lives on, to be picked up by someone else
             Assert.Contains(teddy, room.Items.ToArray(),"Expected teddy to be in the room after the npc died");
