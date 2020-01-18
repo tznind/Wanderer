@@ -19,5 +19,11 @@ namespace StarshipWanderer.Systems
         /// <param name="actor"></param>
         /// <returns></returns>
         IEnumerable<IActor> GetAvailableTalkTargets(IActor actor);
+
+        /// <summary>
+        /// Return a conversation suitable for the <paramref name="actor"/> or null
+        /// </summary>
+        /// <returns></returns>
+        DialogueNode GetBanter(IActor actor);
     }
 }

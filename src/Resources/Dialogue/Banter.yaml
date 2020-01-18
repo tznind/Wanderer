@@ -1,0 +1,9 @@
+﻿- Identifier: 4ac218f4-1f7a-4d97-b65f-4b0b71deaca8
+  Body: Hello World
+  Options:
+  - Destination: 
+    Attitude: 10
+    Text: Hello to you friend
+  - Destination: 
+    Attitude: -10
+    Text: Go to hell

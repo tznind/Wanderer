@@ -4,12 +4,31 @@ using System.Linq;
 using StarshipWanderer;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Systems;
+using YamlDotNet.Serialization;
 
 namespace StarshipWanderer.Systems
 {
     public class DialogueSystem : IDialogueSystem
     {
         public IList<DialogueNode> AllDialogues { get; set; } = new List<DialogueNode>();
+
+        public DialogueSystem(params string[] dialogueYaml)
+        {
+            var de = new Deserializer();
+
+            foreach (string yaml in dialogueYaml)
+            {
+                try
+                {
+                    foreach (var dialogueNode in de.Deserialize<DialogueNode[]>(yaml)) 
+                        AllDialogues.Add(dialogueNode);
+                }
+                catch (Exception e)
+                {
+                    throw new ArgumentException("Error in dialogue yaml:" + e.Message);
+                }
+            }
+        }
 
         public void Apply(SystemArgs args)
         {
@@ -76,6 +95,11 @@ namespace StarshipWanderer.Systems
         public IEnumerable<IActor> GetAvailableTalkTargets(IActor actor)
         {
             return actor.GetCurrentLocationSiblings().Where(o => CanTalk(actor, o));
+        }
+
+        public DialogueNode GetBanter(IActor actor)
+        {
+            return AllDialogues.FirstOrDefault();
         }
     }
 }

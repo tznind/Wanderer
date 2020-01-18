@@ -9,5 +9,10 @@ namespace StarshipWanderer.Systems
         public int? Attitude { get; set; }
 
         public string Text { get; set; }
+
+        public override string ToString()
+        {
+            return Text;
+        }
     }
 }

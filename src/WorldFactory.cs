@@ -1,9 +1,11 @@
-﻿using StarshipWanderer.Actions;
+﻿using System.IO;
+using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives;
 using StarshipWanderer.Items;
 using StarshipWanderer.Places;
 using StarshipWanderer.Relationships;
+using StarshipWanderer.Systems;
 
 namespace StarshipWanderer
 {
@@ -16,6 +18,8 @@ namespace StarshipWanderer
             var securityFaction = new Faction("Security", FactionRole.Establishment);
             var animalFaction = new Faction("Wildlife", FactionRole.Wildlife);
             var corruptedFaction = new Faction("Order of the Twisted Sigil", FactionRole.Opposition);
+            
+            world.Dialogue = new DialogueSystem(File.ReadAllText("./Resources/Dialogue/Banter.yaml"));
 
             world.Factions.Add(securityFaction);
             world.Relationships.Add(new IntraFactionRelationship(lowFaction,5));

@@ -26,6 +26,7 @@ namespace StarshipWanderer.Actors
         public Npc(string name,IPlace currentLocation) : base( name,currentLocation)
         {
             BaseBehaviours.Add(new RelationshipFormingBehaviour(this));
+            NextDialogue = currentLocation.World.Dialogue.GetBanter(this)?.Identifier;
         }
 
         /// <summary>

@@ -9,6 +9,7 @@ using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Relationships;
 using StarshipWanderer.Systems;
+using YamlDotNet.Serialization;
 
 namespace Tests.Systems
 {
@@ -44,6 +45,9 @@ namespace Tests.Systems
 
             sam.NextDialogue = tree.Identifier;
             w.Dialogue.AllDialogues.Add(tree);
+
+            var yaml = new Serializer().Serialize(new DialogueNode[]{tree});
+            TestContext.Out.Write(yaml);
 
             var ui = GetUI(sam,pickFriendly ? o1 : o2);
 
