@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives;
@@ -11,6 +13,7 @@ namespace StarshipWanderer
 {
     public class WorldFactory : IWorldFactory
     {
+        public const string DialogueDirectory = "./Resources/Dialogue/";
         public virtual IWorld Create()
         {
             var world = new World();
@@ -19,7 +22,7 @@ namespace StarshipWanderer
             var animalFaction = new Faction("Wildlife", FactionRole.Wildlife);
             var corruptedFaction = new Faction("Order of the Twisted Sigil", FactionRole.Opposition);
             
-            world.Dialogue = new DialogueSystem(File.ReadAllText("./Resources/Dialogue/Banter.yaml"));
+            world.Dialogue = new DialogueSystem(GetAllDialogueYaml().ToArray());
 
             world.Factions.Add(securityFaction);
             world.Relationships.Add(new IntraFactionRelationship(lowFaction,5));
@@ -50,6 +53,11 @@ namespace StarshipWanderer
             world.Map.Add(new Point3(0,0,0),startingRoom);
 
             return world;
+        }
+
+        public virtual IEnumerable<string> GetAllDialogueYaml()
+        {
+            return Directory.EnumerateFiles(DialogueDirectory,"*.yaml",SearchOption.AllDirectories).Select(f => File.ReadAllText(f));
         }
     }
 }
