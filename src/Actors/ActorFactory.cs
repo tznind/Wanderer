@@ -1,39 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using StarshipWanderer.Actors;
+﻿using System.Linq;
+using StarshipWanderer.Actions;
 using StarshipWanderer.Adjectives;
 using StarshipWanderer.Behaviours;
 using StarshipWanderer.Conditions;
 using StarshipWanderer.Items;
 using StarshipWanderer.Places;
-using StarshipWanderer.Relationships;
 using StarshipWanderer.Stats;
 
-namespace StarshipWanderer.Actions
+namespace StarshipWanderer.Actors
 {
     public class ActorFactory : IActorFactory
     {
         public IItemFactory ItemFactory { get; set; }
-        public AdjectiveFactory AdjectiveFactory { get; set; }
+        public IAdjectiveFactory AdjectiveFactory { get; set; }
+        public INameFactory NameFactory { get; }
 
-        public ActorFactory(IItemFactory itemFactory, AdjectiveFactory adjectiveFactory)
+        public ActorFactory(IItemFactory itemFactory, IAdjectiveFactory adjectiveFactory, INameFactory nameFactory)
         {
             ItemFactory = itemFactory;
             AdjectiveFactory = adjectiveFactory;
+            NameFactory = nameFactory;
         }
         public void Create(IWorld world, IPlace place)
         {
-            NewGuard(place,"Guard " + world.R.Next(999));
-            NewGuard(place,"Guard " + world.R.Next(999));
-            NewWorker(place,"Worker " + world.R.Next(999));
-            NewWorker(place,"Worker " + world.R.Next(999));
+            NewGuard(place,"Guard");
+            NewGuard(place,"Guard");
+            NewWorker(place,"Worker");
+            NewWorker(place,"Worker");
         }
 
-        private IActor NewWorker(IPlace place, string name)
+        private IActor NewWorker(IPlace place, string role)
         {
-            var g = new Npc(name,place);
+            var g = new Npc(role,place);
+            g.Name = NameFactory.GenerateName(g) + $"({role})";
             
             g.BaseStats[Stat.Loyalty] = 30;
             g.BaseStats[Stat.Fight] = 10;
@@ -47,9 +46,12 @@ namespace StarshipWanderer.Actions
             return g;
         }
 
-        private IActor NewGuard(IPlace place, string name)
+        private IActor NewGuard(IPlace place,string role)
         {
-            var g = new Npc(name,place);
+            var g = new Npc(role,place);
+            
+            g.Name = NameFactory.GenerateName(g) + $"({role})";
+
             g.BaseStats[Stat.Loyalty] = 30;
             g.BaseStats[Stat.Fight] = 20;
             

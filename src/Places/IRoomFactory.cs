@@ -1,4 +1,5 @@
 ﻿using StarshipWanderer.Actions;
+using StarshipWanderer.Actors;
 
 namespace StarshipWanderer.Places
 {

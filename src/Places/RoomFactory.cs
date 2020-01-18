@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using StarshipWanderer.Actions;
+using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives;
 using StarshipWanderer.Items;
 
@@ -10,9 +11,9 @@ namespace StarshipWanderer.Places
     {
         public IActorFactory ActorFactory { get; set; }
         public IItemFactory ItemFactory { get; }
-        public AdjectiveFactory AdjectiveFactory { get; set; }
+        public IAdjectiveFactory AdjectiveFactory { get; set; }
 
-        public RoomFactory(IActorFactory actorFactory,IItemFactory itemFactory, AdjectiveFactory adjectiveFactory)
+        public RoomFactory(IActorFactory actorFactory,IItemFactory itemFactory, IAdjectiveFactory adjectiveFactory)
         {
             ActorFactory = actorFactory;
             ItemFactory = itemFactory;

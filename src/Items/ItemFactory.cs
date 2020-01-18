@@ -10,9 +10,9 @@ namespace StarshipWanderer.Items
 {
     public class ItemFactory : IItemFactory
     {
-        public AdjectiveFactory AdjectiveFactory { get; }
+        public IAdjectiveFactory AdjectiveFactory { get; }
 
-        public ItemFactory(AdjectiveFactory adjectiveFactory)
+        public ItemFactory(IAdjectiveFactory adjectiveFactory)
         {
             AdjectiveFactory = adjectiveFactory;
         }

@@ -149,7 +149,7 @@ namespace StarshipWanderer.Actors
 
         public override string ToString()
         {
-            return (Dead ? "Dead ":"") + base.ToString();
+            return (Dead ? "Dead ":"") + Name;
         }
     }
 }

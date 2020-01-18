@@ -389,8 +389,7 @@ namespace Game.UI
             
             List<IHasStats> contents = new List<IHasStats>();
 
-            contents.AddRange(World.Player.CurrentLocation.Actors.Where(a => !(a is You)));
-
+            contents.AddRange(World.Player.GetCurrentLocationSiblings());
             contents.AddRange(World.Player.CurrentLocation.Items);
 
             View addLabelsTo;
