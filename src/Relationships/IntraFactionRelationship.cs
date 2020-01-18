@@ -14,7 +14,7 @@ namespace StarshipWanderer.Relationships
         
         public override bool AppliesTo(IActor observer, IActor observed)
         {
-            return observed.FactionMembership.Contains(HostFaction) && observed.FactionMembership.Contains(HostFaction);
+            return observer.FactionMembership.Contains(HostFaction) && observed.FactionMembership.Contains(HostFaction);
         }
     }
 }

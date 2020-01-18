@@ -52,6 +52,7 @@ namespace Tests.Relationships
         [Test]
         public void TestRelationshipStrength_WithinFaction()
         {
+            //cops are friends with one another
             _world.Relationships.Add(new IntraFactionRelationship(_cops, 10));
 
             Assert.AreEqual(0,GetTotalFor(_robber1, _robber2));
@@ -59,10 +60,9 @@ namespace Tests.Relationships
 
             Assert.AreEqual(10,GetTotalFor(_turncoat, _cop2));
             Assert.AreEqual(0,GetTotalFor(_turncoat, _robber1));
-
+            
             Assert.AreEqual(10,GetTotalFor(_cop2,_turncoat));
-            //todo : think about this one, why do they hate you just because your a cop eh?
-            Assert.AreEqual(10,GetTotalFor(_robber1,_turncoat));
+            Assert.AreEqual(0,GetTotalFor(_robber1,_turncoat));
 
             Assert.AreEqual(0,GetTotalFor(_robber1, _facelessMan));
             Assert.AreEqual(0,GetTotalFor(_cop1, _facelessMan));
@@ -72,52 +72,53 @@ namespace Tests.Relationships
         public void TestRelationshipStrength_AgainstOutsiders()
         {
             //robbers hate non robbers
-            _world.Relationships.Add(new ExtraFactionRelationship(_robbers, 5));
+            _world.Relationships.Add(new ExtraFactionRelationship(_robbers, -5));
 
             //but cops hate non cops more
-            _world.Relationships.Add(new ExtraFactionRelationship(_cops, 7));
+            _world.Relationships.Add(new ExtraFactionRelationship(_cops, -7));
 
             //cops and robbers are all ok with their friends
             Assert.AreEqual(0,GetTotalFor(_robber1, _robber2));
             Assert.AreEqual(0,GetTotalFor(_cop1, _cop2));
        
             //todo: have to think about this one
-            Assert.AreEqual(5,GetTotalFor(_turncoat, _cop2));
-            Assert.AreEqual(7,GetTotalFor(_turncoat, _robber1));
+            Assert.AreEqual(-5,GetTotalFor(_turncoat, _cop2));
+            Assert.AreEqual(-7,GetTotalFor(_turncoat, _robber1));
             
             Assert.AreEqual(0,GetTotalFor(_cop2,_turncoat ));
             Assert.AreEqual(0,GetTotalFor(_robber1,_turncoat));
 
-            Assert.AreEqual(5,GetTotalFor(_robber1, _cop1));
-            Assert.AreEqual(7,GetTotalFor(_cop1,_robber2 ));
+            Assert.AreEqual(-5,GetTotalFor(_robber1, _cop1));
+            Assert.AreEqual(-7,GetTotalFor(_cop1,_robber2 ));
 
             //everyone hates the faceless man because he is in nobodies faction :(
-            Assert.AreEqual(5,GetTotalFor(_robber1, _facelessMan));
-            Assert.AreEqual(7,GetTotalFor(_cop1, _facelessMan));
+            Assert.AreEqual(-5,GetTotalFor(_robber1, _facelessMan));
+            Assert.AreEqual(-7,GetTotalFor(_cop1, _facelessMan));
         }
         
         [Test]
         public void TestRelationshipStrength_BetweenFactions()
         {
             //robbers hate cops
-            _world.Relationships.Add(new InterFactionRelationship(_robbers,_cops, 5));
+            _world.Relationships.Add(new InterFactionRelationship(_robbers,_cops, -5));
 
             //but cops hate robbers more
-            _world.Relationships.Add(new InterFactionRelationship(_cops,_robbers, 7));
+            _world.Relationships.Add(new InterFactionRelationship(_cops,_robbers, -7));
 
             //cops and robbers are all ok with their friends
             Assert.AreEqual(0,GetTotalFor(_robber1, _robber2));
             Assert.AreEqual(0,GetTotalFor(_cop1, _cop2));
        
             //todo: have to think about this one
-            Assert.AreEqual(5,GetTotalFor(_turncoat, _cop2));
-            Assert.AreEqual(7,GetTotalFor(_turncoat, _robber1));
+            Assert.AreEqual(-5,GetTotalFor(_turncoat, _cop2));
+            Assert.AreEqual(-7,GetTotalFor(_turncoat, _robber1));
             
-            Assert.AreEqual(7,GetTotalFor(_cop2,_turncoat ));
-            Assert.AreEqual(5,GetTotalFor(_robber1,_turncoat));
+            //probably makes sense, nobody likes a flip flopper
+            Assert.AreEqual(-7,GetTotalFor(_cop2,_turncoat ));
+            Assert.AreEqual(-5,GetTotalFor(_robber1,_turncoat));
 
-            Assert.AreEqual(5,GetTotalFor(_robber1, _cop1));
-            Assert.AreEqual(7,GetTotalFor(_cop1,_robber2 ));
+            Assert.AreEqual(-5,GetTotalFor(_robber1, _cop1));
+            Assert.AreEqual(-7,GetTotalFor(_cop1,_robber2 ));
 
             Assert.AreEqual(0,GetTotalFor(_robber1, _facelessMan));
             Assert.AreEqual(0,GetTotalFor(_cop1, _facelessMan));
