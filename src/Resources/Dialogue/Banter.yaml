@@ -1,5 +1,5 @@
 ﻿- Identifier: 4ac218f4-1f7a-4d97-b65f-4b0b71deaca8
-  Body: Hello World
+  Body: "Greetings {initiator}, may the emperor shine on your presence"
   Options:
   - Destination: 
     Attitude: 10

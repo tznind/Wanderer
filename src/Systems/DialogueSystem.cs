@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using Newtonsoft.Json;
 using StarshipWanderer;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Systems;
@@ -11,6 +13,12 @@ namespace StarshipWanderer.Systems
     public class DialogueSystem : IDialogueSystem
     {
         public IList<DialogueNode> AllDialogues { get; set; } = new List<DialogueNode>();
+        
+        [JsonIgnore]
+        protected Dictionary<string,Func<SystemArgs,string>> Substitutions = new Dictionary<string, Func<SystemArgs, string>>()
+        {
+            {"{AggressorIfAny}", a=>a.AggressorIfAny?.Name }
+        };
 
         public DialogueSystem(params string[] dialogueYaml)
         {
@@ -59,7 +67,7 @@ namespace StarshipWanderer.Systems
         {
             if(node.Options.Any())
             {
-                if (args.UserInterface.GetChoice("Dialogue", node.Body, out DialogueOption chosen, node.Options.ToArray()))
+                if (args.UserInterface.GetChoice("Dialogue", FormatString(args,node.Body), out DialogueOption chosen, node.Options.ToArray()))
                     Run(args, chosen);
                 else
                 {
@@ -70,6 +78,15 @@ namespace StarshipWanderer.Systems
             }
             else
                 args.UserInterface.ShowMessage("Dialogue",node.Body);
+        }
+
+        protected virtual string FormatString(SystemArgs args,string body)
+        {
+            StringBuilder sb = new StringBuilder(body);
+            foreach (var sub in Substitutions) 
+                sb = sb.Replace(sub.Key, sub.Value(args));
+
+            return sb.ToString();
         }
 
         private void Run(SystemArgs args, DialogueOption option)
