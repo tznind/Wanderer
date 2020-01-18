@@ -31,7 +31,7 @@ namespace Tests
             return new You("Test Wanderer", room);
         }
         
-        protected IUserinterface GetUI(params object[] choiceSelection)
+        protected FixedChoiceUI GetUI(params object[] choiceSelection)
         {
             return new FixedChoiceUI(choiceSelection);
         }

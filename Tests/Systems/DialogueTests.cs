@@ -58,5 +58,36 @@ namespace Tests.Systems
             Assert.AreEqual(pickFriendly ? 10 : -10,r.Attitude);
 
         }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Test_Banter(bool areFriends)
+        {
+            var you = YouInARoom(out IWorld w);
+            var sam = new Npc("Chaos Sam", you.CurrentLocation);
+
+            var friend = new DialogueNode()
+            {
+                Body = "Hello Friend",
+                Suits = Banter.Friend
+            };
+            var foe = new DialogueNode()
+            {
+                Body = "Hello Foe",
+                Suits = Banter.Foe
+            };
+
+            w.Dialogue.AllDialogues.Add(friend);
+            w.Dialogue.AllDialogues.Add(foe);
+
+            //how does sam feel about you? how will he respond
+            w.Relationships.Add(new PersonalRelationship(sam,you){Attitude = areFriends ? 10 : -10});
+
+            var ui = GetUI(sam);
+            w.RunRound(ui,new TalkAction());
+
+            Assert.Contains(areFriends ? "Hello Friend" : "Hello Foe",ui.MessagesShown);
+
+        }
     }
 }

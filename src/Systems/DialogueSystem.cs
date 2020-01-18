@@ -5,6 +5,7 @@ using System.Text;
 using Newtonsoft.Json;
 using StarshipWanderer;
 using StarshipWanderer.Actors;
+using StarshipWanderer.Extensions;
 using StarshipWanderer.Systems;
 using YamlDotNet.Serialization;
 
@@ -45,7 +46,7 @@ namespace StarshipWanderer.Systems
 
             if (args.AggressorIfAny is You)
             {
-                var d = GetDialogue(args.Recipient.NextDialogue);
+                var d = GetDialogue(args.Recipient.NextDialogue) ?? GetBanter(args);
                 
                 if (d != null)
                     Run(args,d);
@@ -114,9 +115,17 @@ namespace StarshipWanderer.Systems
             return actor.GetCurrentLocationSiblings().Where(o => CanTalk(actor, o));
         }
 
-        public DialogueNode GetBanter(IActor actor)
+        public DialogueNode GetBanter(SystemArgs args)
         {
-            return AllDialogues.FirstOrDefault();
+            var world = args.AggressorIfAny.CurrentLocation.World;
+
+            var relationship = world.Relationships.SumBetween(args.Recipient,args.AggressorIfAny);
+
+            var suitable = AllDialogues.Where(a => a.Suits == Banter.Neutral
+                                    || a.Suits == Banter.Friend && relationship >= 0
+                                    || a.Suits == Banter.Foe && relationship < 0);
+            
+            return suitable.ToList().Shuffle(world.R).FirstOrDefault();
         }
     }
 }

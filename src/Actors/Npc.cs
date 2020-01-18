@@ -26,7 +26,6 @@ namespace StarshipWanderer.Actors
         public Npc(string name,IPlace currentLocation) : base( name,currentLocation)
         {
             BaseBehaviours.Add(new RelationshipFormingBehaviour(this));
-            NextDialogue = currentLocation.World.Dialogue.GetBanter(this)?.Identifier;
         }
 
         /// <summary>
@@ -96,8 +95,8 @@ namespace StarshipWanderer.Actors
                     continue;
                 
                 //or anyone you have a relationship with
-                var attitudeTowardsActor = 
-                    CurrentLocation.World.Relationships.Where(o => o.AppliesTo(this, actor)).Sum(a => a.Attitude);
+                var attitudeTowardsActor =
+                    CurrentLocation.World.Relationships.SumBetween(this, actor);
                 
                 //if you like them more than the actions attitude don't pick them
                 if(attitudeTowardsActor > attitude)

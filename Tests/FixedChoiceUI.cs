@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using StarshipWanderer;
 using StarshipWanderer.Actors;
@@ -9,10 +10,13 @@ namespace Tests
     /// Test helper class which handles calls to <see cref="IUserinterface.GetChoice{T}"/> by returning fixed values in order
     /// (uses out parameter so cannot easily use SetupSequence)
     /// </summary>
-    class FixedChoiceUI : IUserinterface
+    public class FixedChoiceUI : IUserinterface
     {
         private readonly object[] _getChoiceReturns;
         private int _index;
+        
+        public List<string> MessagesShown = new List<string>();
+
         public void NewGame()
         {
             throw new NotImplementedException();
@@ -56,6 +60,7 @@ namespace Tests
 
         public void ShowMessage(string title, string body)
         {
+            MessagesShown.Add(body);
         }
 
         public void ShowMessage(string title, LogEntry showThenLog)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using StarshipWanderer.Actors;
 using StarshipWanderer.Relationships;
 
 namespace StarshipWanderer.Systems
@@ -38,6 +39,11 @@ namespace StarshipWanderer.Systems
                     world.Relationships.Add(new PersonalRelationship(args.Recipient, args.AggressorIfAny)
                         {Attitude = args.Intensity});
             }
+        }
+
+        public double SumBetween(IActor observer, IActor observed)
+        {
+            return this.Where(o => o.AppliesTo(observer, observed)).Sum(a => a.Attitude);
         }
     }
 }
