@@ -81,7 +81,11 @@ namespace Tests.Relationships
             Assert.AreEqual(0,GetTotalFor(_robber1, _robber2));
             Assert.AreEqual(0,GetTotalFor(_cop1, _cop2));
        
-            //todo: have to think about this one
+            //being in multiple factions means you hate who any any of them hate
+            //and you love who any of them love.
+
+            //So this means an Attack Dog (Establishment + Animal) might not attract
+            //attacks from an animal but would potentially be angry back... probably ok
             Assert.AreEqual(-5,GetTotalFor(_turncoat, _cop2));
             Assert.AreEqual(-7,GetTotalFor(_turncoat, _robber1));
             
@@ -109,7 +113,8 @@ namespace Tests.Relationships
             Assert.AreEqual(0,GetTotalFor(_robber1, _robber2));
             Assert.AreEqual(0,GetTotalFor(_cop1, _cop2));
        
-            //todo: have to think about this one
+            //being in multiple factions means you hate who any any of them hate
+            //and you love who any of them love.
             Assert.AreEqual(-5,GetTotalFor(_turncoat, _cop2));
             Assert.AreEqual(-7,GetTotalFor(_turncoat, _robber1));
             
