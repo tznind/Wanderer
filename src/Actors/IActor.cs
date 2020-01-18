@@ -36,7 +36,7 @@ namespace StarshipWanderer.Actors
         /// The next thing they will say if talked to (or nothing at all).
         /// See <see cref="IDialogueSystem"/> for more details
         /// </summary>
-        Guid? NextDialog { get; set; }
+        Guid? NextDialogue { get; set; }
 
         /// <summary>
         /// All factions which you belong to

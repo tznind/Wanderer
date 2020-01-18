@@ -12,9 +12,6 @@ namespace StarshipWanderer.Relationships
         {
             Observer = observer;
             Observed = observed;
-            var observerStats = observer.GetFinalStats();
-            var observedStats = observed.GetFinalStats();
-
         }
 
         public void HandleActorDeath(Npc npc)

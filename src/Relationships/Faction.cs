@@ -4,9 +4,12 @@
     {
         public string Name { get; set; }
 
-        public Faction(string name)
+        public FactionRole Role { get; set; }
+
+        public Faction(string name, FactionRole role)
         {
             Name = name;
+            Role = role;
         }
 
         public override string ToString()

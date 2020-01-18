@@ -2,28 +2,30 @@
 
 namespace StarshipWanderer.Relationships
 {
-    /// <summary>
-    /// Models a relationship between members of the same <see cref="IFaction"/>
-    /// </summary>
-    public class FactionRelationship : IRelationship
+    public abstract class FactionRelationship : IFactionRelationship
     {
-        public IFaction Faction { get; set; }
+        public IFaction HostFaction { get; set; }
         
         public double Attitude { get; set; }
 
-        public FactionRelationship(IFaction faction)
+
+        /// <summary>
+        /// Normally the death of members does not affect <see cref="FactionRelationship"/>.
+        /// Override if it should.
+        /// </summary>
+        /// <param name="npc"></param>
+        public virtual void HandleActorDeath(Npc npc)
         {
-            Faction = faction;
+
         }
 
-        public void HandleActorDeath(Npc npc)
+        public abstract bool AppliesTo(IActor observer, IActor observed);
+
+        protected FactionRelationship(IFaction hostFaction,double attitude)
         {
-            
+            HostFaction = hostFaction;
+            Attitude = attitude;
         }
 
-        public bool AppliesTo(IActor observer, IActor observed)
-        {
-            return observed.FactionMembership.Contains(Faction) && observed.FactionMembership.Contains(Faction);
-        }
     }
 }

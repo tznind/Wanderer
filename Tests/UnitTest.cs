@@ -4,7 +4,7 @@ using StarshipWanderer.Places;
 
 namespace Tests
 {
-    internal class UnitTest
+    public class UnitTest
     {
         protected IPlace InARoom(out IWorld world)
         { 

@@ -9,15 +9,30 @@ namespace StarshipWanderer
 {
     public class WorldFactory : IWorldFactory
     {
-        public IWorld Create()
+        public virtual IWorld Create()
         {
             var world = new World();
-            world.Factions = new FactionCollection();
+            var lowFaction = new Faction("Sub-levels Crew", FactionRole.Civilian);
+            var securityFaction = new Faction("Security", FactionRole.Establishment);
+            var animalFaction = new Faction("Wildlife", FactionRole.Wildlife);
+            var corruptedFaction = new Faction("Order of the Twisted Sigil", FactionRole.Opposition);
 
-            var mainFaction = new Faction("Crew");
-            world.Factions.Add(mainFaction);
-            world.Relationships.Add(new FactionRelationship(mainFaction){Attitude = 5});
+            world.Factions.Add(securityFaction);
+            world.Relationships.Add(new IntraFactionRelationship(lowFaction,5));
+            world.Relationships.Add(new IntraFactionRelationship(securityFaction,5));
+            world.Relationships.Add(new IntraFactionRelationship(corruptedFaction, 5));
             
+            world.Relationships.Add(new IntraFactionRelationship(animalFaction, 5));
+            world.Relationships.Add(new ExtraFactionRelationship(animalFaction, -20));
+
+            //general respect for the security (but they don't care back).
+            world.Relationships.Add(new InterFactionRelationship(lowFaction,securityFaction,2));
+
+            //They are opposed to everyone
+            world.Relationships.Add(new ExtraFactionRelationship(corruptedFaction,-5));
+            //But really hate these guys
+            world.Relationships.Add(new InterFactionRelationship(corruptedFaction,securityFaction,-20));
+
             var adjectiveFactory = new AdjectiveFactory();
             var itemFactory = new ItemFactory(adjectiveFactory);
 

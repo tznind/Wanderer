@@ -35,7 +35,7 @@ namespace StarshipWanderer
             get { return (You) Population.FirstOrDefault(p => p is You); }
         }
 
-        public IFactionCollection Factions { get; set; }
+        public IFactionCollection Factions { get; set; } = new FactionCollection();
 
         /// <summary>
         /// Returns settings suitable for loading/saving worlds
@@ -48,7 +48,8 @@ namespace StarshipWanderer
                 ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
                 PreserveReferencesHandling = PreserveReferencesHandling.Objects,
                 TypeNameHandling = TypeNameHandling.All,
-                ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
+                ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
+                Formatting = Formatting.Indented
             };
 
             return config;

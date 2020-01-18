@@ -18,7 +18,7 @@ namespace StarshipWanderer.Systems
 
             if (args.AggressorIfAny is You)
             {
-                var d = GetDialogue(args.Recipient.NextDialog);
+                var d = GetDialogue(args.Recipient.NextDialogue);
                 
                 if (d != null)
                     Run(args,d);

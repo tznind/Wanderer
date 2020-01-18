@@ -42,7 +42,7 @@ namespace Tests.Systems
 
             tree.Options = new List<DialogueOption> {o1, o2};
 
-            sam.NextDialog = tree.Identifier;
+            sam.NextDialogue = tree.Identifier;
             w.Dialogue.AllDialogues.Add(tree);
 
             var ui = GetUI(sam,pickFriendly ? o1 : o2);

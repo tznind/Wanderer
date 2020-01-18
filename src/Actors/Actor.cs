@@ -21,7 +21,7 @@ namespace StarshipWanderer.Actors
         /// <inheritdoc/>
         public IPlace CurrentLocation { get; set; }
         
-        public Guid? NextDialog { get; set; }
+        public Guid? NextDialogue { get; set; }
 
         public HashSet<IItem> Items { get; set; } = new HashSet<IItem>();
         public HashSet<IFaction> FactionMembership { get; set; } = new HashSet<IFaction>();
