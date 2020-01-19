@@ -1,7 +1,9 @@
-﻿namespace StarshipWanderer.Actors
+﻿using System;
+
+namespace StarshipWanderer.Actors
 {
     public interface INameFactory
     {
-        string GenerateName(IActor suitableFor);
+        string GenerateName(Random r);
     }
 }

@@ -9,14 +9,14 @@ using StarshipWanderer.Items;
 using StarshipWanderer.Places;
 using StarshipWanderer.Relationships;
 using StarshipWanderer.Systems;
+using YamlDotNet.Serialization;
 
 namespace StarshipWanderer
 {
     public class WorldFactory : IWorldFactory
     {
         public const string DialogueDirectory = "Dialogue/";
-        public const string Forenames = "Names/Forenames.txt";
-        public const string Surnames = "Names/Surnames.txt";
+        public const string FactionsDirectory = "Factions/";
 
         public string ResourcesDirectory { get; set; }
 
@@ -32,9 +32,6 @@ namespace StarshipWanderer
             var world = new World();
 
             GenerateFactions(world);
-
-            foreach (IFaction faction in world.Factions) 
-                faction.NameFactory = GetNameFactory(faction);
 
             world.Dialogue = new DialogueSystem(GetAllDialogueYaml().ToArray());
 
@@ -52,11 +49,6 @@ namespace StarshipWanderer
             world.RoomFactory = roomFactory;
             
             return world;
-        }
-
-        protected virtual INameFactory GetNameFactory(IFaction f)
-        {
-            return new NameFactory(File.ReadAllLines(Path.Combine(ResourcesDirectory,Forenames)),  File.ReadAllLines(Path.Combine(ResourcesDirectory,Surnames)));
         }
 
         protected virtual IAdjectiveFactory GetAdjectiveFactory()
@@ -90,30 +82,55 @@ namespace StarshipWanderer
         /// <param name="world"></param>
         protected virtual void GenerateFactions(World world)
         {
-            var lowFaction = new Faction("Sub-levels Crew", FactionRole.Civilian);
-            var securityFaction = new Faction("Security", FactionRole.Establishment);
-            var animalFaction = new Faction("Wildlife", FactionRole.Wildlife);
-            var corruptedFaction = new Faction("Order of the Twisted Sigil", FactionRole.Opposition);
+            var dirs = Directory.GetDirectories(Path.Combine(ResourcesDirectory, FactionsDirectory));
 
-            world.Factions.Add(lowFaction);
-            world.Factions.Add(securityFaction);
-            world.Factions.Add(animalFaction);
-            world.Factions.Add(corruptedFaction);
-            
-            world.Relationships.Add(new IntraFactionRelationship(lowFaction,5));
-            world.Relationships.Add(new IntraFactionRelationship(securityFaction,5));
-            world.Relationships.Add(new IntraFactionRelationship(corruptedFaction, 5));
-            
-            world.Relationships.Add(new IntraFactionRelationship(animalFaction, 5));
-            world.Relationships.Add(new ExtraFactionRelationship(animalFaction, -20));
+            var deserializer = new Deserializer();
 
-            //general respect for the security (but they don't care back).
-            world.Relationships.Add(new InterFactionRelationship(lowFaction,securityFaction,2));
+            foreach (var directory in dirs)
+            {
+                
+                Faction f;
+                var factionFile = Path.Combine(directory, "Faction.yaml");
 
-            //They are opposed to everyone
-            world.Relationships.Add(new ExtraFactionRelationship(corruptedFaction,-5));
-            //But really hate these guys
-            world.Relationships.Add(new InterFactionRelationship(corruptedFaction,securityFaction,-20));
+                try
+                {
+                    f = deserializer.Deserialize<Faction>(File.ReadAllText(factionFile));
+                }
+                catch (Exception e)
+                {
+                    throw new Exception($"Error Deserializing file {factionFile}",e);
+                }
+
+                var forenames = new FileInfo(Path.Combine(directory,"Forenames.txt"));
+                var surnames = new FileInfo(Path.Combine(directory, "Surnames.txt"));
+
+                f.NameFactory = new NameFactory(forenames.Exists ? File.ReadAllLines(forenames.FullName) : new string[0],
+                    surnames.Exists ? File.ReadAllLines(surnames.FullName) : new string[0]);
+
+                world.Relationships.Add(new IntraFactionRelationship(f,5));
+
+                world.Factions.Add(f);
+            }
+
+            foreach (IFaction f in world.Factions)
+            {
+                //wildlife hates everyone
+                if(f.Role == FactionRole.Wildlife)
+                    world.Relationships.Add(new ExtraFactionRelationship(f, -20));
+
+                if (f.Role == FactionRole.Opposition)
+                {
+                    world.Relationships.Add(new ExtraFactionRelationship(f, -5));
+                    foreach (IFaction establishment in world.Factions.Where(f=>f.Role == FactionRole.Establishment))
+                        //hate cops especially
+                        world.Relationships.Add(new InterFactionRelationship(f,establishment,-10));
+                }
+
+                if(f.Role == FactionRole.Civilian)
+                    foreach (IFaction establishment in world.Factions.Where(f=>f.Role == FactionRole.Establishment))
+                        //general respect for the security (but they don't care back).
+                        world.Relationships.Add(new InterFactionRelationship(f,establishment,2));
+            }
         }
 
         public virtual IEnumerable<string> GetAllDialogueYaml()

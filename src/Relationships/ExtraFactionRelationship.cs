@@ -8,7 +8,7 @@ namespace StarshipWanderer.Relationships
     /// </summary>
     public class ExtraFactionRelationship : FactionRelationship
     {
-        public ExtraFactionRelationship(Faction hostFaction, double attitude) : base(hostFaction, attitude)
+        public ExtraFactionRelationship(IFaction hostFaction, double attitude) : base(hostFaction, attitude)
         {
         }
 

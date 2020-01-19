@@ -1,9 +1,12 @@
-﻿using StarshipWanderer.Actors;
+﻿using System;
+using StarshipWanderer.Actors;
 
 namespace StarshipWanderer.Relationships
 {
     public interface IFaction
     {
+        Guid Identifier { get; set; }
+
         string Name { get; set; }
 
         FactionRole Role { get; set; }

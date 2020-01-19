@@ -34,7 +34,7 @@ namespace StarshipWanderer.Actors
             var world = place.World;
 
             var g = new Npc("Unnamed Npc",place);
-            g.Name = place.ControllingFaction?.NameFactory?.GenerateName(g) ?? "Unnamed Npc";
+            g.Name = place.ControllingFaction?.NameFactory?.GenerateName(world.R) ?? "Unnamed Npc";
             
             g.BaseStats[Stat.Loyalty] = 30;
             g.BaseStats[Stat.Fight] = 10;

@@ -7,15 +7,31 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Resources\Names\**" />
+    <EmbeddedResource Remove="Resources\Names\**" />
+    <None Remove="Resources\Names\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="README.md" />
     <None Remove="Resources\Dialogue\Banter.yaml" />
-    <None Remove="Resources\Names\Forenames.txt" />
-    <None Remove="Resources\Names\Surnames.txt" />
+    <None Remove="Resources\Factions\Guncrew\Faction.yaml" />
+    <None Remove="Resources\Factions\OrderOfTheSigil\Faction.yaml" />
+    <None Remove="Resources\Factions\OrderOfTheSigil\Forenames.txt" />
+    <None Remove="Resources\Factions\OrderOfTheSigil\Surnames.txt" />
+    <None Remove="Resources\Factions\Security\Faction.yaml" />
+    <None Remove="Resources\Factions\Security\Forenames.txt" />
+    <None Remove="Resources\Factions\Security\Surnames.txt" />
+    <None Remove="Resources\Factions\Wildlife\Faction.yaml" />
+    <None Remove="Resources\Factions\Wildlife\Forenames.txt" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Include="..\SharedAssemblyInfo.cs" Link="SharedAssemblyInfo.cs" />
-    <Content Include="Resources\Names\Forenames.txt">
+    <Content Include="Resources\Factions\Guncrew\Faction.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Factions\Guncrew\Forenames.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -24,7 +40,31 @@
     <Content Include="Resources\Dialogue\Banter.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Names\Surnames.txt">
+    <Content Include="Resources\Factions\Guncrew\Surnames.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Factions\OrderOfTheSigil\Faction.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Factions\OrderOfTheSigil\Forenames.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Factions\OrderOfTheSigil\Surnames.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Factions\Security\Faction.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Factions\Security\Forenames.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Factions\Security\Surnames.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Factions\Wildlife\Faction.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Factions\Wildlife\Forenames.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
