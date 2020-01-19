@@ -8,7 +8,8 @@ namespace StarshipWanderer.Actions
     {
         public override void Push(IUserinterface ui, ActionStack stack, IActor actor)
         {
-            if(actor.Decide(ui,"Heal","Choose who to heal",out IActor target, actor.CurrentLocation.Actors.Where(a => a.Has<Injured>(false)).ToArray(),10))
+            if (actor.Decide(ui, "Heal", "Choose who to heal", out IActor target,
+                actor.CurrentLocation.Actors.Where(a => a.Has<Injured>(false) && !a.Dead).ToArray(), 10))
                 if(actor.Decide(ui,"Injury", "Choose an Injury",out Injured toHeal, target.Adjectives.OfType<Injured>().ToArray(),10))
                     stack.Push(new HealFrame(actor,this,target,toHeal,10));
         }

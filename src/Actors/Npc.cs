@@ -98,8 +98,12 @@ namespace StarshipWanderer.Actors
                 var attitudeTowardsActor =
                     CurrentLocation.World.Relationships.SumBetween(this, actor);
                 
-                //if you like them more than the actions attitude don't pick them
-                if(attitudeTowardsActor > attitude)
+                //if it is hostile and do you hate them enough?
+                if(attitude < 0 && attitudeTowardsActor > attitude)
+                        continue;
+
+                //if it is kind action but you don't like them enough to do it
+                if(attitude > 0 && attitudeTowardsActor < attitude)
                     continue;
 
                 yield return actor;
