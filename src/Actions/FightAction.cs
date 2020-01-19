@@ -13,13 +13,14 @@ namespace StarshipWanderer.Actions
     {
         public FightAction()
         {
-            Attitude = -20;
         }
 
         public override void Push(IUserinterface ui, ActionStack stack,IActor actor)
         {
-            if (actor.Decide(ui,"Fight", null, out IActor toFight, actor.GetCurrentLocationSiblings(),Attitude))
-                stack.Push(new FightFrame(actor, toFight, this,actor.CurrentLocation.World.InjurySystems.First()));
+            const int fightAttitude = -20;
+
+            if (actor.Decide(ui,"Fight", null, out IActor toFight, actor.GetCurrentLocationSiblings(),fightAttitude)) 
+                stack.Push(new FightFrame(actor, toFight, this,actor.CurrentLocation.World.InjurySystems.First(),fightAttitude));
         }
 
         public override void Pop(IUserinterface ui, ActionStack stack, Frame frame)

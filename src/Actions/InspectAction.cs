@@ -9,7 +9,7 @@ namespace StarshipWanderer.Actions
     {
         public override void Push(IUserinterface ui, ActionStack stack, IActor actor)
         {
-            if (actor.Decide(ui, "Inspect", null, out IActor toInspect, actor.GetCurrentLocationSiblings(), Attitude))
+            if (actor.Decide(ui, "Inspect", null, out IActor toInspect, actor.GetCurrentLocationSiblings(),0))
                 ui.ShowActorStats(toInspect);
         }
 

@@ -13,7 +13,7 @@ namespace StarshipWanderer.Actions
         {           
             if(actor.Decide(ui,"Talk To","Pick target",out IActor chosen,
             actor.CurrentLocation.World.Dialogue.GetAvailableTalkTargets(actor).ToArray(),0))
-                stack.Push(new Frame(actor,this){TargetIfAny = chosen});
+                stack.Push(new Frame(actor,this,0){TargetIfAny = chosen});
         }
 
         public override void Pop(IUserinterface ui, ActionStack stack, Frame frame)

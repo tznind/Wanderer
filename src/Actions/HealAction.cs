@@ -10,7 +10,7 @@ namespace StarshipWanderer.Actions
         {
             if(actor.Decide(ui,"Heal","Choose who to heal",out IActor target, actor.CurrentLocation.Actors.Where(a => a.Has<Injured>(false)).ToArray(),10))
                 if(actor.Decide(ui,"Injury", "Choose an Injury",out Injured toHeal, target.Adjectives.OfType<Injured>().ToArray(),10))
-                    stack.Push(new HealFrame(actor,this,target,toHeal));
+                    stack.Push(new HealFrame(actor,this,target,toHeal,10));
         }
 
         public override void Pop(IUserinterface ui, ActionStack stack, Frame frame)

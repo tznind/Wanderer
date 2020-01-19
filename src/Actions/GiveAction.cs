@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Items;
+using StarshipWanderer.Stats;
 
 namespace StarshipWanderer.Actions
 {
@@ -10,7 +11,13 @@ namespace StarshipWanderer.Actions
         {
             if(actor.Decide(ui,"Give","Select an item to give",out IItem toGive, actor.Items.ToArray(),-10))
                 if(actor.Decide(ui,"To whom",$"Select who to give {toGive}",out IActor toGiveTo, actor.GetCurrentLocationSiblings(),10))
-                    stack.Push(new GiveFrame(actor,this,toGive,toGiveTo));
+                    stack.Push(new GiveFrame(actor,this,toGive,toGiveTo,GetItemWorthInAttitude(actor,toGive,toGiveTo)));
+        }
+
+        private double GetItemWorthInAttitude(IActor giver, IItem toGive, IActor toGiveTo)
+        {
+            //value of item is total value of the item if the recipient was holding it
+            return toGive.GetFinalStats(toGiveTo)[Stat.Value];
         }
 
         public override void Pop(IUserinterface ui, ActionStack stack, Frame frame)

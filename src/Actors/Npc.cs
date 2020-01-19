@@ -63,7 +63,7 @@ namespace StarshipWanderer.Actors
             //the action they are forcing is (in order to pick a good target)
             if (NextAction != null)
                 return NextAction.PerformedBy.Decide(ui,title, body, out chosen, 
-                    options,NextAction.CoerceAction.Attitude); 
+                    options,NextAction.Attitude); 
 
             List<T> narrowOptions = new List<T>(options);
             

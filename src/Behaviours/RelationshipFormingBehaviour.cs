@@ -24,7 +24,7 @@ namespace StarshipWanderer.Behaviours
 
             //if the target is me then I might get angry
             if (frame.TargetIfAny == Owner)
-                IDoCare(ui,world,frame,stack,frame.Action.Attitude);
+                IDoCare(ui,world,frame,stack,frame.Attitude);
             else
             {
                 //is the target one of my friends?
@@ -33,11 +33,11 @@ namespace StarshipWanderer.Behaviours
 
                 //Your hurting one of my friends, im unhappy
                 if (howMuchICare > 0.0001)
-                    IDoCare(ui,world,frame,stack,frame.Action.Attitude);
+                    IDoCare(ui,world,frame,stack,frame.Attitude);
 
                 //your hurting my enemies, I'm happy!
                 if(howMuchICare < 0.001)
-                    IDoCare(ui,world,frame,stack,-0.5 * frame.Action.Attitude);
+                    IDoCare(ui,world,frame,stack,-0.5 * frame.Attitude);
             }
         }
 

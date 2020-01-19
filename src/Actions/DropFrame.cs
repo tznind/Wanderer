@@ -7,7 +7,7 @@ namespace StarshipWanderer.Actions
     {
         public IItem ToDrop { get; set; }
 
-        public DropFrame(IActor actor, IAction action, IItem toDrop):base(actor,action)
+        public DropFrame(IActor actor, IAction action, IItem toDrop,double attitude):base(actor,action,attitude)
         {
             ToDrop = toDrop;
         }

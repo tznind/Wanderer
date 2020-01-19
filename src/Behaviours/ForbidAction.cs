@@ -12,6 +12,11 @@ namespace StarshipWanderer.Behaviours
             _toForbid = toForbid;
         }
 
+        public override void Push(IUserinterface ui, ActionStack stack, IActor actor)
+        {
+            stack.Push(new Frame(actor,this,0));
+        }
+
         public override void Pop(IUserinterface ui, ActionStack stack, Frame frame)
         {
             _toForbid.Cancelled = CancellationStatus.Cancelled;

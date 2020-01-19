@@ -12,7 +12,7 @@ namespace StarshipWanderer.Actions
         /// </summary>
         public bool Chosen { get; set; }
 
-        public CoerceFrame(IActor performedBy, CoerceAction action, Npc toCoerce, IAction coerceAction, IUserinterface ui):base(performedBy,action)
+        public CoerceFrame(IActor performedBy, CoerceAction action, Npc toCoerce, IAction coerceAction, IUserinterface ui,double attitude):base(performedBy,action,attitude)
         {
             TargetIfAny = toCoerce;
             CoerceAction = coerceAction;

@@ -7,7 +7,11 @@ namespace StarshipWanderer.Actions
 {
     public class LoadGunsAction : Action
     {
-        
+        public override void Push(IUserinterface ui, ActionStack stack, IActor actor)
+        {
+            stack.Push(new Frame(actor,this,0));
+        }
+
         public override void Pop(IUserinterface ui, ActionStack stack, Frame frame)
         {
             var narrative = new Narrative(frame.PerformedBy,"Load Guns","You spend several hours pushing overloaded gun carriages in the sweat and smoke filled confines of the loading bay.",stack.Round);

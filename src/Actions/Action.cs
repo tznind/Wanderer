@@ -9,9 +9,6 @@ namespace StarshipWanderer.Actions
         /// <inheritdoc/>
         public string Name { get; set; }
 
-        /// <inheritdoc/>
-        public double Attitude { get; set; }
-
         /// <summary>
         /// Initializes action with a default <see cref="Name"/> based on the class name
         /// </summary>
@@ -28,10 +25,7 @@ namespace StarshipWanderer.Actions
         /// <param name="ui"></param>
         /// <param name="stack"></param>
         /// <param name="actor"></param>
-        public virtual void Push(IUserinterface ui, ActionStack stack,IActor actor)
-        {
-            stack.Push(new Frame(actor,this));
-        }
+        public abstract void Push(IUserinterface ui, ActionStack stack, IActor actor);
 
 
         /// <summary>

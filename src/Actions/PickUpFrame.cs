@@ -9,7 +9,7 @@ namespace StarshipWanderer.Actions
         public IItem Item { get; }
         public IPlace FromPlace { get; }
 
-        public PickUpFrame(IActor performedBy,IAction action,IItem item,IPlace fromPlace):base(performedBy,action)
+        public PickUpFrame(IActor performedBy,IAction action,IItem item,IPlace fromPlace,double attitude):base(performedBy,action,attitude)
         {
             Item = item;
             FromPlace = fromPlace;

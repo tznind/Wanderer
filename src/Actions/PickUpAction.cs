@@ -9,7 +9,7 @@ namespace StarshipWanderer.Actions
         public override void Push(IUserinterface ui, ActionStack stack, IActor actor)
         {            
             if(actor.Decide(ui,"Pick Up", null, out IItem chosen, actor.CurrentLocation.Items.ToArray(),0))
-                stack.Push(new PickUpFrame(actor,this,chosen,actor.CurrentLocation));
+                stack.Push(new PickUpFrame(actor,this,chosen,actor.CurrentLocation,0));
         }
 
         public override void Pop(IUserinterface ui, ActionStack stack, Frame frame)

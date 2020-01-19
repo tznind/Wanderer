@@ -7,7 +7,7 @@ namespace StarshipWanderer.Actions
     {
         public Injured Injury { get; }
 
-        public HealFrame(IActor healer, IAction action, IActor toBeHealed, Injured injury) : base(healer,action)
+        public HealFrame(IActor healer, IAction action, IActor toBeHealed, Injured injury,double attitude) : base(healer,action,attitude)
         {
             TargetIfAny = toBeHealed;
             Injury = injury;

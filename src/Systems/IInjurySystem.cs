@@ -8,6 +8,8 @@ namespace StarshipWanderer.Systems
     /// <inheritdoc />
     public interface IInjurySystem: ISystem
     {
+        
+
         void Apply(SystemArgs args, InjuryRegion region);
         IEnumerable<Injured> GetAvailableInjuries(IActor actor);
 
