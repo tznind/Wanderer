@@ -5,11 +5,17 @@ using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives;
 using StarshipWanderer.Items;
+using StarshipWanderer.Relationships;
 
 namespace StarshipWanderer.Places
 {
     public interface IPlace : IHasStats
     {
+        /// <summary>
+        /// Who currently controls this place (can be null)
+        /// </summary>
+        IFaction ControllingFaction { get; set; }
+
         /// <summary>
         /// True if the player has uncovered this location yet
         /// </summary>

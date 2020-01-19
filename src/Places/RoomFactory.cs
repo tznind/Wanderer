@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives;
 using StarshipWanderer.Items;
+using StarshipWanderer.Relationships;
 
 namespace StarshipWanderer.Places
 {
@@ -22,9 +25,7 @@ namespace StarshipWanderer.Places
 
         public IPlace Create(IWorld world)
         {
-            var rooms = GetAvailableRooms(world).ToArray();
-
-            var room = rooms[world.R.Next(rooms.Length)];
+            var room = _buildersList[world.R.Next(_buildersList.Count)](world);
 
             //give the room a random adjective
             var availableAdjectives = AdjectiveFactory.GetAvailableAdjectives(room).ToArray();
@@ -39,13 +40,18 @@ namespace StarshipWanderer.Places
             return room;
         }
 
-        private IEnumerable<IPlace> GetAvailableRooms(IWorld world)
-        {
-            yield return new Room("Gun Bay " + world.R.Next(5000), world, 'g')
-                .With(new LoadGunsAction());
-
-            yield return new Room("Stair" + world.R.Next(5000), world, 's')
-                .AllowUpDown(true);
-        }
+        private IReadOnlyList<Func<IWorld, IPlace>> _buildersList = new ReadOnlyCollection<Func<IWorld, IPlace>>(
+            new List<Func<IWorld, IPlace>>
+            {
+                w =>
+                    new Room("Gun Bay " + w.R.Next(5000), w, 'g')
+                        {
+                            ControllingFaction = w.Factions.GetRandomFaction(w.R)
+                        }
+                        .With(new LoadGunsAction()),
+                w =>
+                    new Room("Stair" + w.R.Next(5000), w, 's')
+                        .AllowUpDown(true)
+            });
     }
 }

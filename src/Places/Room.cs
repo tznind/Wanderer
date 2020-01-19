@@ -6,12 +6,16 @@ using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives;
 using StarshipWanderer.Behaviours;
 using StarshipWanderer.Items;
+using StarshipWanderer.Relationships;
 using StarshipWanderer.Stats;
 
 namespace StarshipWanderer.Places
 {
     public class Room : HasStats, IPlace
     {
+        /// <inheritdoc/>
+        public IFaction ControllingFaction { get; set; }
+
         /// <inheritdoc/>
         public bool IsExplored { get; set; }
 

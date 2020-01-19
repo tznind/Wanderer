@@ -23,50 +23,45 @@ namespace StarshipWanderer.Actors
         }
         public void Create(IWorld world, IPlace place)
         {
-            NewGuard(place,"Guard");
-            NewGuard(place,"Guard");
-            NewWorker(place,"Worker");
-            NewWorker(place,"Worker");
+            Guard(NewNpc(place,"Guard"));
+            Guard(NewNpc(place,"Guard"));
+            NewNpc(place,"Worker");
+            NewNpc(place,"Worker");
         }
-
-        private IActor NewWorker(IPlace place, string role)
+        
+        private IActor NewNpc(IPlace place, string role)
         {
+            var world = place.World;
+
             var g = new Npc(role,place);
             g.Name = NameFactory.GenerateName(g) + $"({role})";
             
             g.BaseStats[Stat.Loyalty] = 30;
             g.BaseStats[Stat.Fight] = 10;
+
+            if (place.ControllingFaction != null)
+                world.Factions.GetRandomFaction(world.R, place.ControllingFaction.Role);
+
             AddRandomAdjective(place, g);
 
             if(g.Has<Medic>(true))
                 g.BaseStats[Stat.Savvy] = 20;
             
-            place.World.Factions.AssignFactions(g);
-
+            //everyone in the location follows that faction
+            if(place.ControllingFaction != null)
+                g.FactionMembership.Add(place.ControllingFaction);
+            
             return g;
         }
 
-        private IActor NewGuard(IPlace place,string role)
+        private IActor Guard(IActor g)
         {
-            var g = new Npc(role,place);
-            
-            g.Name = NameFactory.GenerateName(g) + $"({role})";
-
-            g.BaseStats[Stat.Loyalty] = 30;
-            g.BaseStats[Stat.Fight] = 20;
-            
+            g.BaseStats[Stat.Fight] += 10;
             g.Items.Add(ItemFactory.Create(g));
-
-            AddRandomAdjective(place, g);
             
-            if(g.Has<Medic>(true))
-                g.BaseStats[Stat.Savvy] = 20;
-
             //prevents anyone leaving the room unless loyalty is 10
             g.BaseBehaviours.Add(new ForbidBehaviour<Leave>(new FrameStatCondition(Stat.Loyalty,Comparison.LessThan, 10),g));
-
-            place.World.Factions.AssignFactions(g);
-
+            
             return g;
         }
 
