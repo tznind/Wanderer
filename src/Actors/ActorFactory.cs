@@ -1,10 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Adjectives;
 using StarshipWanderer.Behaviours;
 using StarshipWanderer.Conditions;
 using StarshipWanderer.Items;
 using StarshipWanderer.Places;
+using StarshipWanderer.Relationships;
 using StarshipWanderer.Stats;
 
 namespace StarshipWanderer.Actors
@@ -13,28 +15,26 @@ namespace StarshipWanderer.Actors
     {
         public IItemFactory ItemFactory { get; set; }
         public IAdjectiveFactory AdjectiveFactory { get; set; }
-        public INameFactory NameFactory { get; }
 
-        public ActorFactory(IItemFactory itemFactory, IAdjectiveFactory adjectiveFactory, INameFactory nameFactory)
+        public ActorFactory(IItemFactory itemFactory, IAdjectiveFactory adjectiveFactory)
         {
             ItemFactory = itemFactory;
             AdjectiveFactory = adjectiveFactory;
-            NameFactory = nameFactory;
         }
         public void Create(IWorld world, IPlace place)
         {
-            Guard(NewNpc(place,"Guard"));
-            Guard(NewNpc(place,"Guard"));
-            NewNpc(place,"Worker");
-            NewNpc(place,"Worker");
+            Guard(NewNpc(place));
+            Guard(NewNpc(place));
+            NewNpc(place);
+            NewNpc(place);
         }
         
-        private IActor NewNpc(IPlace place, string role)
+        private IActor NewNpc(IPlace place)
         {
             var world = place.World;
 
-            var g = new Npc(role,place);
-            g.Name = NameFactory.GenerateName(g) + $"({role})";
+            var g = new Npc("Unnamed Npc",place);
+            g.Name = place.ControllingFaction?.NameFactory?.GenerateName(g) ?? "Unnamed Npc";
             
             g.BaseStats[Stat.Loyalty] = 30;
             g.BaseStats[Stat.Fight] = 10;

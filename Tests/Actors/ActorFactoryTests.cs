@@ -21,7 +21,7 @@ namespace Tests.Actors
             var adj = new AdjectiveFactory();
             var items = new ItemFactory(adj);
 
-            var actors = new ActorFactory(items, adj,Mock.Of<INameFactory>());
+            var actors = new ActorFactory(items, adj);
 
             var world = new World();
             var faction = new Faction("Fish overloards",FactionRole.Wildlife);

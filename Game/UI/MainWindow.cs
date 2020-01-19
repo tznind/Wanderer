@@ -387,10 +387,12 @@ namespace Game.UI
             _roomFrame.Title = World.Player.CurrentLocation.ToString();
             _roomFrame.RemoveAll();
             
-            List<IHasStats> contents = new List<IHasStats>();
+            List<string> contents = new List<string>();
 
-            contents.AddRange(World.Player.GetCurrentLocationSiblings());
-            contents.AddRange(World.Player.CurrentLocation.Items);
+            contents.Add("Faction:" + (World.Player.CurrentLocation.ControllingFaction?.Name ?? "None"));
+
+            contents.AddRange(World.Player.GetCurrentLocationSiblings().Select(s=>s.ToString()));
+            contents.AddRange(World.Player.CurrentLocation.Items.Select(s=>s.ToString()));
 
             View addLabelsTo;
 
@@ -413,7 +415,7 @@ namespace Game.UI
                 addLabelsTo = _roomFrame; //otherwise just labels
 
             for (int i = 0; i < contents.Count; i++)
-                addLabelsTo.Add(new Label(0, i, contents[i].ToString()));
+                addLabelsTo.Add(new Label(0, i, contents[i]));
 
             
 

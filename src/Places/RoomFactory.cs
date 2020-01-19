@@ -51,6 +51,9 @@ namespace StarshipWanderer.Places
                         .With(new LoadGunsAction()),
                 w =>
                     new Room("Stair" + w.R.Next(5000), w, 's')
+                        {
+                            ControllingFaction = w.Factions.GetRandomFaction(w.R)
+                        }
                         .AllowUpDown(true)
             });
     }

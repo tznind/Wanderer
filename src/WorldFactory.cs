@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using StarshipWanderer.Actions;
@@ -13,23 +14,34 @@ namespace StarshipWanderer
 {
     public class WorldFactory : IWorldFactory
     {
-        public const string DialogueDirectory = "./Resources/Dialogue/";
-        public const string Forenames = "./Resources/Names/Forenames.txt";
-        public const string Surnames = "./Resources/Names/Surnames.txt";
+        public const string DialogueDirectory = "Dialogue/";
+        public const string Forenames = "Names/Forenames.txt";
+        public const string Surnames = "Names/Surnames.txt";
+
+        public string ResourcesDirectory { get; set; }
+
+        public WorldFactory()
+        {
+            string entry = System.Reflection.Assembly.GetEntryAssembly()?.Location;
+            ResourcesDirectory = Path.Combine(entry == null ? Environment.CurrentDirectory : Path.GetDirectoryName(entry) ?? ".","Resources");
+        }
+
 
         public virtual IWorld Create()
         {
             var world = new World();
 
             GenerateFactions(world);
-            
+
+            foreach (IFaction faction in world.Factions) 
+                faction.NameFactory = GetNameFactory(faction);
+
             world.Dialogue = new DialogueSystem(GetAllDialogueYaml().ToArray());
 
             var adjectiveFactory = GetAdjectiveFactory();
             var itemFactory = GetItemFactory(adjectiveFactory);
 
-            var nameFactory = GetNameFactory();
-            var actorFactory = GetActorFactory(itemFactory, adjectiveFactory,nameFactory);
+            var actorFactory = GetActorFactory(itemFactory, adjectiveFactory);
             var roomFactory = GetRoomFactory(actorFactory,itemFactory,adjectiveFactory);
 
             var startingRoom = GetStartingRoom(roomFactory,world);
@@ -42,9 +54,9 @@ namespace StarshipWanderer
             return world;
         }
 
-        protected virtual INameFactory GetNameFactory()
+        protected virtual INameFactory GetNameFactory(IFaction f)
         {
-            return new NameFactory(File.ReadAllLines(Forenames),  File.ReadAllLines(Surnames));
+            return new NameFactory(File.ReadAllLines(Path.Combine(ResourcesDirectory,Forenames)),  File.ReadAllLines(Path.Combine(ResourcesDirectory,Surnames)));
         }
 
         protected virtual IAdjectiveFactory GetAdjectiveFactory()
@@ -55,9 +67,9 @@ namespace StarshipWanderer
         {
             return new ItemFactory(adjectiveFactory);
         }
-        protected virtual IActorFactory GetActorFactory(IItemFactory itemFactory, IAdjectiveFactory adjectiveFactory, INameFactory nameFactory)
+        protected virtual IActorFactory GetActorFactory(IItemFactory itemFactory, IAdjectiveFactory adjectiveFactory)
         {
-            return new ActorFactory(itemFactory, adjectiveFactory,nameFactory);
+            return new ActorFactory(itemFactory, adjectiveFactory);
         }
         protected virtual IRoomFactory GetRoomFactory(IActorFactory actorFactory, IItemFactory itemFactory, IAdjectiveFactory adjectiveFactory)
         {
@@ -83,7 +95,11 @@ namespace StarshipWanderer
             var animalFaction = new Faction("Wildlife", FactionRole.Wildlife);
             var corruptedFaction = new Faction("Order of the Twisted Sigil", FactionRole.Opposition);
 
+            world.Factions.Add(lowFaction);
             world.Factions.Add(securityFaction);
+            world.Factions.Add(animalFaction);
+            world.Factions.Add(corruptedFaction);
+            
             world.Relationships.Add(new IntraFactionRelationship(lowFaction,5));
             world.Relationships.Add(new IntraFactionRelationship(securityFaction,5));
             world.Relationships.Add(new IntraFactionRelationship(corruptedFaction, 5));
@@ -102,7 +118,7 @@ namespace StarshipWanderer
 
         public virtual IEnumerable<string> GetAllDialogueYaml()
         {
-            return Directory.EnumerateFiles(DialogueDirectory,"*.yaml",SearchOption.AllDirectories).Select(f => File.ReadAllText(f));
+            return Directory.EnumerateFiles(Path.Combine(ResourcesDirectory,DialogueDirectory),"*.yaml",SearchOption.AllDirectories).Select(File.ReadAllText);
         }
     }
 }
