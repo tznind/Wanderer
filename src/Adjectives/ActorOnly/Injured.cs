@@ -93,5 +93,10 @@ namespace StarshipWanderer.Adjectives.ActorOnly
             yield return "Reduces Stats";
             yield return "Leads to Death";
         }
+
+        public bool IsHealableBy(IActor actor, out string reason)
+        {
+            return InjurySystem.IsHealableBy(actor, this, out reason);
+        }
     }
 }

@@ -5,6 +5,7 @@ using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives;
 using StarshipWanderer.Adjectives.ActorOnly;
 using StarshipWanderer.Adjectives.RoomOnly;
+using StarshipWanderer.Stats;
 
 namespace StarshipWanderer.Systems
 {
@@ -72,6 +73,20 @@ namespace StarshipWanderer.Systems
 
             return Math.Abs(worsenRate) > 0.0001 && Math.Abs(roundsSeen % (injury.Severity*2 / worsenRate)) < 0.0001;
         
+        }
+
+        public bool IsHealableBy(IActor actor, Injured injured, out string reason)
+        {
+            var requiredSavvy = injured.Severity * 5;
+
+            if (actor.GetFinalStats()[Stat.Savvy] > requiredSavvy)
+            {
+                reason = null;
+                return true;
+            }
+
+            reason = $"Savvy was too low (required {requiredSavvy})";
+            return false;
         }
     }
 }

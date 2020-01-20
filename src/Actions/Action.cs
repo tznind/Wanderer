@@ -1,4 +1,5 @@
-﻿using StarshipWanderer.Actors;
+﻿using System;
+using StarshipWanderer.Actors;
 using StarshipWanderer.Behaviours;
 
 namespace StarshipWanderer.Actions
@@ -43,6 +44,13 @@ namespace StarshipWanderer.Actions
         public override string ToString()
         {
             return Name;
+        }
+
+        
+        protected void ShowNarrative(IUserinterface ui,IActor actor,string title, string fluff, string technical,Guid round)
+        {
+            var narrative = new Narrative(actor, title, fluff, technical,round);
+            narrative.Show(ui);
         }
     }
 }

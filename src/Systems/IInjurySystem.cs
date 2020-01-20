@@ -29,5 +29,7 @@ namespace StarshipWanderer.Systems
         /// <param name="roundsSeen">Number of rounds since it last got worse</param>
         /// <returns></returns>
         bool ShouldWorsen(Injured injured, int roundsSeen);
+
+        bool IsHealableBy(IActor actor, Injured injured, out string reason);
     }
 }

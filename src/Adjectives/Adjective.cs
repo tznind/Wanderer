@@ -39,4 +39,17 @@ namespace StarshipWanderer.Adjectives
 
         
     }
+
+    class Giant : Adjective
+    {
+        public Giant(IHasStats owner) : base(owner)
+        {
+            BaseStats[Stat.Fight] = 20;
+        }
+
+        public override IEnumerable<string> GetDescription()
+        {
+            yield return "Fight better";
+        }
+    }
 }

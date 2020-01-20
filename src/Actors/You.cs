@@ -68,9 +68,7 @@ namespace StarshipWanderer.Actors
             if (!Dead)
             {
                 var narrative = new Narrative(this, "Dead",
-                    $"You have tragically met your end.  Don't worry, many of your comrades will benefit from you sacrifice (at breakfast tomorrow).",round);
-
-                narrative.Add("",$"You died of {reason}");
+                    $"You have tragically met your end.  Don't worry, many of your comrades will benefit from you sacrifice (at breakfast tomorrow).",$"You died of {reason}",round);
                 narrative.Show(ui,true);
             }
 

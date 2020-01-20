@@ -23,14 +23,15 @@ namespace StarshipWanderer
         /// <param name="actor"></param>
         /// <param name="title"></param>
         /// <param name="fluff"></param>
+        /// <param name="technical"></param>
         /// <param name="round">The current round (see <see cref="ActionStack.Round"/>) or empty</param>
-        public Narrative(IActor actor,string title, string fluff, Guid round)
+        public Narrative(IActor actor,string title, string fluff,string technical, Guid round)
         {
             Actor = actor;
             Round = round;
             _title = title;
 
-            Add(fluff);
+            Add(fluff,technical);
         }
 
         public void Add(string fluff)

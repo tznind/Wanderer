@@ -50,7 +50,7 @@ namespace Tests
             }
 
             if(!options.Contains(chosen))
-                throw new Exception($"Chosen test answer was not one of the listed options for GetChoice of:{title} ({body})");
+                throw new OptionNotAvailableException($"Chosen test answer was not one of the listed options for GetChoice of:{title} ({body})");
             return true;
         }
 

@@ -25,5 +25,13 @@ namespace StarshipWanderer.Adjectives.ActorOnly
         /// <param name="ui"></param>
         /// <param name="round"></param>
         void Heal(IUserinterface ui,  Guid round);
+
+        /// <summary>
+        /// Return true if the wound is healable by the skills of the given
+        /// <paramref name="actor"/>
+        /// </summary>
+        /// <param name="actor"></param>
+        /// <returns></returns>
+        bool IsHealableBy(IActor actor, out string reason);
     }
 }

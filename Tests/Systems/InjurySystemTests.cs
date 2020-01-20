@@ -172,7 +172,45 @@ namespace Tests.Systems
             Assert.Contains(injury,you.Adjectives.ToArray());
             stack.RunStack(new FixedChoiceUI(you,injury), you.GetFinalActions().OfType<HealAction>().Single(), you, you.GetFinalBehaviours());
             Assert.IsFalse(you.Adjectives.Contains(injury));
-        
+        }
+
+
+        [Test]
+        public void Test_SevereInjuriesAreHarderToHeal()
+        {
+            var you = YouInARoom(out IWorld w);
+
+            //you are a medic
+            you.Adjectives.Add(new Medic(you));
+            you.BaseStats[Stat.Savvy] = 20;
+
+            //give them an injury
+            var injury = new Injured("Cut Lip", you, 2, InjuryRegion.Leg,w.InjurySystems.First());
+            you.Adjectives.Add(injury);
+            
+            var stack = new ActionStack();
+
+            Assert.Contains(injury,you.Adjectives.ToArray());
+            Assert.IsTrue(stack.RunStack(new FixedChoiceUI(you,injury), you.GetFinalActions().OfType<HealAction>().Single(), you, you.GetFinalBehaviours()));
+
+            var badInjury = new Injured("Cut Lip", you, 8, InjuryRegion.Leg,w.InjurySystems.First());
+            you.Adjectives.Add(badInjury);
+
+            stack = new ActionStack();
+
+            var ui = new FixedChoiceUI(you, badInjury);
+
+            Assert.IsFalse(stack.RunStack(ui,
+                you.GetFinalActions().OfType<HealAction>().Single(), you, you.GetFinalBehaviours()));
+            
+            Assert.Contains("Test Wanderer was unable to heal Test Wanderer's Cut Lip because Savvy was too low (required 40)",
+                ui.Log.RoundResults.Select(l=>l.ToString()).ToArray());
+
+            you.BaseStats[Stat.Savvy] = 100;
+
+            Assert.IsTrue(stack.RunStack(new FixedChoiceUI(you, badInjury),
+                you.GetFinalActions().OfType<HealAction>().Single(), you, you.GetFinalBehaviours()));
+
 
         }
 
