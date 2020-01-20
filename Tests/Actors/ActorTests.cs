@@ -1,8 +1,11 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using NUnit.Framework;
 using NUnit.Framework.Constraints;
 using StarshipWanderer;
 using StarshipWanderer.Actors;
+using StarshipWanderer.Behaviours;
+using StarshipWanderer.Items;
 using StarshipWanderer.Relationships;
 
 namespace Tests.Actors
@@ -49,6 +52,30 @@ namespace Tests.Actors
             
             //You wouldn't want to give him your house though
             Assert.That(()=>them.DecideActor(new[] {you}, 500),Is.Empty);
+        }
+
+
+        [Test]
+        public void TestDeadPeople_DoNotFeelEmotions()
+        {
+            var room = InARoom(out IWorld w);
+            var dave = new Npc("Tragic Dave", room);
+
+            var cares = new RelationshipFormingBehaviour(dave);
+            dave.BaseBehaviours.Add(cares);
+
+            //dave cares
+            Assert.Contains(cares,dave.GetFinalBehaviours().ToArray());
+
+            dave.Kill(new FixedChoiceUI(),Guid.Empty,"Nukes");
+            
+            Assert.Contains(cares,dave.BaseBehaviours.ToArray(),"Expected behaviour to still be there in case he is resurrected");
+            Assert.IsFalse(dave.GetFinalBehaviours().Contains(cares), "But expected it not to be manifest in the world");
+
+            //boom you are back to life!
+            dave.Dead = false;
+
+            Assert.Contains(cares,dave.GetFinalBehaviours().ToArray(),"Expected behaviour be back on again now you are alive");
         }
     }
 

@@ -280,7 +280,31 @@ namespace Tests.Systems
             //injury is gone
             Assert.IsFalse(you.Adjectives.Contains(injury));
             Assert.IsFalse(you.Items.Contains(kit));
+        }
 
+        
+        [Test]
+        public void TestTooManyInjuries_IsFatal()
+        {
+            var you = YouInARoom(out IWorld w);
+            you.BaseActions.Add(new LoadGunsAction());
+
+            //give them an injury
+            var injury = new Injured("Cut Lip", you, 2, InjuryRegion.Leg,w.InjurySystems.First());
+            you.Adjectives.Add(injury);
+
+            w.RunRound(new FixedChoiceUI(),you.GetFinalActions().OfType<LoadGunsAction>().Single());
+
+            Assert.IsFalse(you.Dead,"Did not expect you to die from light injuries");
+            
+            var badInjury = new Injured("Decapitated Head", you, 10, InjuryRegion.Head,w.InjurySystems.First());
+            you.Adjectives.Add(badInjury);
+
+            Assert.IsFalse(you.Dead,"Expected death check to be at the end of the round");
+
+            w.RunRound(new FixedChoiceUI(),you.GetFinalActions().OfType<LoadGunsAction>().Single());
+
+            Assert.IsTrue(you.Dead,"Expected you to die at the end of the round");
 
         }
     }
