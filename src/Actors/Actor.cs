@@ -26,6 +26,8 @@ namespace StarshipWanderer.Actors
         public HashSet<IItem> Items { get; set; } = new HashSet<IItem>();
         public HashSet<IFaction> FactionMembership { get; set; } = new HashSet<IFaction>();
 
+        public Dictionary<string,int> AvailableSlots { get; set; }  = new Dictionary<string, int>();
+
         /// <summary>
         /// Do not use, internal constructor for JSON serialization
         /// </summary>
@@ -53,7 +55,10 @@ namespace StarshipWanderer.Actors
             BaseActions.Add(new DropAction());
             BaseActions.Add(new GiveAction());
             BaseActions.Add(new TalkAction());
+            BaseActions.Add(new EquipmentAction());
             BaseBehaviours.Add(new MergeStacksBehaviour(this));
+
+            AvailableSlots.Add("Hand",2);
         }
 
         /// <summary>
@@ -145,6 +150,40 @@ namespace StarshipWanderer.Actors
         public bool IsAwareOf(IActor other)
         {
             return CurrentLocation.GetPoint() == other.CurrentLocation.GetPoint();
+        }
+
+        public virtual bool CanEquip(IItem item,out string reason)
+        {
+            //already equipped, dead etc
+            if (item.IsEquipped)
+            {
+                reason = "Already equipped";
+                return false;
+            }
+
+            if (item.Slot == null)
+            {
+                reason = "Item cannot be equipped";
+                return false;
+            }
+
+            if (!AvailableSlots.ContainsKey(item.Slot.Name))
+            {
+                reason = $"You do not have a {item.Slot.Name} slot";
+                return false;
+            }
+
+            var alreadyWearing = Items.Where(i => i.IsEquipped && i.Slot != null && i.Slot.Name == item.Slot.Name);
+            var alreadyWearingCount = alreadyWearing.Sum(i => i.Slot.NumberRequired);
+
+            if (AvailableSlots[item.Slot.Name] < item.Slot.NumberRequired + alreadyWearingCount)
+            {
+                reason = $"You do not have enough free {item.Slot.Name} slots";
+                return false;
+            }
+
+            reason = null;
+            return true;
         }
 
         public override string ToString()

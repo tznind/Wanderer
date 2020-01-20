@@ -25,8 +25,9 @@ namespace StarshipWanderer.Actions
             var f = (GiveFrame) frame;
 
             //if we still have the item we should drop it
-            if (f.PerformedBy.Items.Contains(f.ItemToGive))
+            if (f.PerformedBy.Items.Contains(f.ItemToGive) && ! f.ItemToGive.IsErased)
             {
+                f.ItemToGive.IsEquipped = false;
                 f.PerformedBy.Items.Remove(f.ItemToGive);
                 f.TargetIfAny.Items.Add(f.ItemToGive);
                 ui.Log.Info(new LogEntry($"{f.PerformedBy} gave {f.ItemToGive} to {f.TargetIfAny}",stack.Round,f.PerformedBy));

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives;
+using StarshipWanderer.Adjectives.ActorOnly;
+using StarshipWanderer.Adjectives.RoomOnly;
 using StarshipWanderer.Places;
 using StarshipWanderer.Stats;
 
@@ -11,9 +13,8 @@ namespace StarshipWanderer.Items
     public class ItemFactory : HasStatsFactory<IItem>,IItemFactory
     {
 
-        public ItemFactory(IAdjectiveFactory adjectiveFactory)
+        public ItemFactory(IAdjectiveFactory adjectiveFactory):base(adjectiveFactory)
         {
-            AdjectiveFactory = adjectiveFactory;
         }
 
         public IItem Create(IPlace inPlace)
@@ -44,6 +45,8 @@ namespace StarshipWanderer.Items
             yield return Create<Light>("Globe");
             yield return Create<Tough>("Environment Suit");
             yield return Create<SingleUse,Medic>("Kit");
+            yield return Create<Giant>("Hammer").With(new ItemSlot("Hand",2,InjuryRegion.Arm,InjuryRegion.Hand));
+            yield return Create<Rusty>("Pistol").With(Stat.Fight,20).With(new ItemSlot("Hand",1,InjuryRegion.Hand));
             yield return new ItemStack("Creds",1).With(Stat.Value,1);
         }
 

@@ -15,10 +15,9 @@ namespace StarshipWanderer.Actors
     {
         public IItemFactory ItemFactory { get; set; }
 
-        public ActorFactory(IItemFactory itemFactory, IAdjectiveFactory adjectiveFactory)
+        public ActorFactory(IItemFactory itemFactory, IAdjectiveFactory adjectiveFactory):base(adjectiveFactory)
         {
             ItemFactory = itemFactory;
-            AdjectiveFactory = adjectiveFactory;
         }
         public void Create(IWorld world, IPlace place)
         {

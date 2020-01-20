@@ -5,8 +5,20 @@ using StarshipWanderer.Places;
 
 namespace StarshipWanderer.Items
 {
+
     public interface IItem : IHasStats
     {
+        /// <summary>
+        /// If the item must be equipped to use then this indicates what slot it fills
+        /// otherwise it will be null
+        /// </summary>
+        IItemSlot Slot { get; set; }
+
+        /// <summary>
+        /// True if the item has been equipped by someone
+        /// </summary>
+        bool IsEquipped { get; set; }
+
         bool IsErased { get; set; }
 
         /// <summary>

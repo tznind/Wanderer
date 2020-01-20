@@ -23,6 +23,9 @@ namespace StarshipWanderer
         /// <param name="responders">All valid responders</param>
         public bool RunStack(IUserinterface ui, IAction firstAction,IActor performer, IEnumerable<IBehaviour> responders)
         {
+            if(responders == null)
+                responders = new IBehaviour[0];
+
             //and run push event on the action
             firstAction.Push(ui,this,performer);
 

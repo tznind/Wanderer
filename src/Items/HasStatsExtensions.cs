@@ -16,5 +16,11 @@ namespace StarshipWanderer.Items
             i.BaseStats[stat] = value;
             return i;
         }
+
+        public static T With <T>(this T i, IItemSlot slot) where T:IItem
+        {
+            i.Slot = slot;
+            return i;
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Behaviours;
 
@@ -51,6 +52,17 @@ namespace StarshipWanderer.Actions
         {
             var narrative = new Narrative(actor, title, fluff, technical,round);
             narrative.Show(ui);
+        }
+
+        /// <summary>
+        /// Returns all values of the Enum T except for "None"
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        protected T[] GetValues<T>() where T:Enum
+        {
+            return Enum.GetValues(typeof(T)).Cast<T>()
+                .Where(t => !string.Equals(t.ToString(), "None", StringComparison.CurrentCultureIgnoreCase)).ToArray();
         }
     }
 }

@@ -8,6 +8,10 @@ namespace StarshipWanderer.Actors
     {
         public IAdjectiveFactory AdjectiveFactory { get; set; }
 
+        protected HasStatsFactory(IAdjectiveFactory adjectiveFactory)
+        {
+            AdjectiveFactory = adjectiveFactory;
+        }
         
         public void Add<T2>(T o) where T2 : IAdjective
         {

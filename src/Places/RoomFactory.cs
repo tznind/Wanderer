@@ -10,17 +10,15 @@ using StarshipWanderer.Relationships;
 
 namespace StarshipWanderer.Places
 {
-    public class RoomFactory:IRoomFactory
+    public class RoomFactory: HasStatsFactory<IPlace>, IRoomFactory
     {
         public IActorFactory ActorFactory { get; set; }
         public IItemFactory ItemFactory { get; }
-        public IAdjectiveFactory AdjectiveFactory { get; set; }
 
-        public RoomFactory(IActorFactory actorFactory,IItemFactory itemFactory, IAdjectiveFactory adjectiveFactory)
+        public RoomFactory(IActorFactory actorFactory,IItemFactory itemFactory, IAdjectiveFactory adjectiveFactory):base(adjectiveFactory)
         {
             ActorFactory = actorFactory;
             ItemFactory = itemFactory;
-            AdjectiveFactory = adjectiveFactory;
         }
 
         public IPlace Create(IWorld world)

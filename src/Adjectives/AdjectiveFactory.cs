@@ -35,6 +35,7 @@ namespace StarshipWanderer.Adjectives
                 yield return new Medic(item);
                 yield return new Tough(item);
                 yield return new Rusty(item);
+                yield return new Giant(item);
             }
         }
     }

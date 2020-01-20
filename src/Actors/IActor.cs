@@ -33,6 +33,11 @@ namespace StarshipWanderer.Actors
         HashSet<IItem> Items { get;set; }
 
         /// <summary>
+        /// How many of each body part does the actor have in which he can equip stuff
+        /// </summary>
+        Dictionary<string,int> AvailableSlots { get; set; }
+
+        /// <summary>
         /// The next thing they will say if talked to (or nothing at all).
         /// See <see cref="IDialogueSystem"/> for more details
         /// </summary>
@@ -116,5 +121,14 @@ namespace StarshipWanderer.Actors
         /// <param name="other"></param>
         /// <returns></returns>
         bool IsAwareOf(IActor other);
+
+        /// <summary>
+        /// Return true if the item is one you can equip (have enough slots, are not
+        /// already equipping!)
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="reason">Reason that you cannot equip it</param>
+        /// <returns></returns>
+        bool CanEquip(IItem item, out string reason);
     }
 }

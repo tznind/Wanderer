@@ -17,7 +17,7 @@ namespace StarshipWanderer.Adjectives.RoomOnly
             var clone = Owner.BaseStats.Clone();
             clone.SetAll(v=> (Math.Abs(v)/2));
 
-            return base.GetFinalStats(forActor).Subtract(clone);
+            return base.GetFinalStats(forActor).Clone().Subtract(clone);
         }
 
 
