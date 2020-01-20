@@ -11,10 +11,9 @@ using StarshipWanderer.Stats;
 
 namespace StarshipWanderer.Actors
 {
-    public class ActorFactory : IActorFactory
+    public class ActorFactory : HasStatsFactory<IActor> ,IActorFactory
     {
         public IItemFactory ItemFactory { get; set; }
-        public IAdjectiveFactory AdjectiveFactory { get; set; }
 
         public ActorFactory(IItemFactory itemFactory, IAdjectiveFactory adjectiveFactory)
         {

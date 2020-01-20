@@ -8,9 +8,8 @@ using StarshipWanderer.Stats;
 
 namespace StarshipWanderer.Items
 {
-    public class ItemFactory : IItemFactory
+    public class ItemFactory : HasStatsFactory<IItem>,IItemFactory
     {
-        public IAdjectiveFactory AdjectiveFactory { get; }
 
         public ItemFactory(IAdjectiveFactory adjectiveFactory)
         {
@@ -73,16 +72,6 @@ namespace StarshipWanderer.Items
             Add<T2>(item);
 
             return item;
-        }
-
-        private void Add<T>(Item item) where T : IAdjective
-        {
-            var match = AdjectiveFactory.GetAvailableAdjectives(item).OfType<T>().FirstOrDefault();
-
-            if (match == null)
-                throw new ArgumentException($"AdjectiveFactory did not know how to make an item {typeof(T)}.  Try adding it to AdjectiveFactory.GetAvailableAdjectives(IItem)");
-
-            item.Adjectives.Add(match);
         }
 
     }

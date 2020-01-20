@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
@@ -19,8 +20,11 @@ namespace Tests
         public void Test_Serialization_OfWorld()
         {
             var config =  World.GetJsonSerializerSettings();
-
-            var world1 = new WorldFactory().Create();
+            
+            var world1 = new WorldFactory()
+            {
+                ResourcesDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory,"Resources")
+            }.Create();
             
             var omg = new Npc("omgz",world1.Player.CurrentLocation);
             omg.BaseBehaviours.Add(new ForbidBehaviour<Leave>(new LeaveDirectionCondition(Direction.Down), omg));
@@ -67,7 +71,10 @@ namespace Tests
         [Test]
         public void Test_Serialization_OfActor()
         {
-            var world1 = new WorldFactory().Create();
+            var world1 = new WorldFactory()
+            {
+                ResourcesDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory,"Resources")
+            }.Create();
 
             var omg = new Npc("omgz",world1.Player.CurrentLocation);
             omg.BaseBehaviours.Add(new ForbidBehaviour<Leave>(new LeaveDirectionCondition(Direction.Down), omg));

@@ -14,8 +14,10 @@ namespace Tests
         [Test]
         public void TestYaml_DialogueFiles()
         {
-            var f = new WorldFactory();
-            
+            var f = new WorldFactory(){
+                ResourcesDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory,"Resources")
+            };
+
             Assert.IsNotEmpty(f.GetAllDialogueYaml());
 
             var dialogue = new DialogueSystem(f.GetAllDialogueYaml().ToArray());

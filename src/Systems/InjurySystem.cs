@@ -79,6 +79,10 @@ namespace StarshipWanderer.Systems
         {
             var requiredSavvy = injured.Severity * 5;
 
+            //harder to heal giant things
+            if (injured.OwnerActor.Has<Giant>(false))
+                requiredSavvy *= 1.5;
+
             if (actor.GetFinalStats()[Stat.Savvy] > requiredSavvy)
             {
                 reason = null;

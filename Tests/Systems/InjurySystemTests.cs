@@ -210,7 +210,39 @@ namespace Tests.Systems
 
             Assert.IsTrue(stack.RunStack(new FixedChoiceUI(you, badInjury),
                 you.GetFinalActions().OfType<HealAction>().Single(), you, you.GetFinalBehaviours()));
+        }
 
+        [Test]
+        public void Test_GiantsAreHarderToHeal()
+        {
+            var you = YouInARoom(out IWorld w);
+
+            //you are a medic
+            you.Adjectives.Add(new Medic(you));
+            you.BaseStats[Stat.Savvy] = 50;
+
+            var adj = new AdjectiveFactory();
+            var them = new ActorFactory(new ItemFactory(adj),adj);
+            them.Add<Giant>(you);
+
+            var badInjury = new Injured("Cut Lip", you, 8, InjuryRegion.Leg,w.InjurySystems.First());
+            you.Adjectives.Add(badInjury);
+
+            var stack = new ActionStack();
+
+            var ui = new FixedChoiceUI(you, badInjury);
+            
+            Assert.IsFalse(stack.RunStack(ui,
+                you.GetFinalActions().OfType<HealAction>().Single(), you, you.GetFinalBehaviours()));
+            
+            Assert.Contains("Test Wanderer was unable to heal Test Wanderer's Cut Lip because Savvy was too low (required 60)",
+                ui.Log.RoundResults.Select(l=>l.ToString()).ToArray());
+
+            //shrink you back down again and presto you are healed!
+            you.Adjectives.Remove(you.Adjectives.OfType<Giant>().Single());
+
+            Assert.IsTrue(stack.RunStack(new FixedChoiceUI(you, badInjury),
+                you.GetFinalActions().OfType<HealAction>().Single(), you, you.GetFinalBehaviours()));
 
         }
 

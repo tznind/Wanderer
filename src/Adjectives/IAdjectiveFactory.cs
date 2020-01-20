@@ -7,8 +7,6 @@ namespace StarshipWanderer.Adjectives
 {
     public interface IAdjectiveFactory
     {
-        IEnumerable<IAdjective> GetAvailableAdjectives(IPlace place);
-        IEnumerable<IAdjective> GetAvailableAdjectives(IActor actor);
-        IEnumerable<IAdjective> GetAvailableAdjectives(IItem item);
+        IEnumerable<IAdjective> GetAvailableAdjectives<T>(T place) where T: IHasStats;
     }
 }

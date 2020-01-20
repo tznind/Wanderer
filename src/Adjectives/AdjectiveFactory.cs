@@ -9,30 +9,33 @@ namespace StarshipWanderer.Adjectives
 {
     public class AdjectiveFactory : IAdjectiveFactory
     {
-        public IEnumerable<IAdjective> GetAvailableAdjectives(IPlace place)
+        public IEnumerable<IAdjective> GetAvailableAdjectives<T>(T o) where T : IHasStats
         {
-            yield return new Dark(place);
-            yield return new Stale(place);
-            yield return new Rusty(place);
-        }
+            if (o is IPlace place)
+            {
+                yield return new Dark(place);
+                yield return new Stale(place);
+                yield return new Rusty(place);
+            }
 
-        public IEnumerable<IAdjective> GetAvailableAdjectives(IActor actor)
-        {
-            yield return new Attractive(actor);
-            yield return new Strong(actor);
-            yield return new Tough(actor);
-            yield return new Medic(actor);
-        }
+            if (o is IActor actor)
+            {
+                yield return new Attractive(actor);
+                yield return new Strong(actor);
+                yield return new Tough(actor);
+                yield return new Medic(actor);
+                yield return new Giant(actor);
+            }
 
-        
-        public IEnumerable<IAdjective> GetAvailableAdjectives(IItem item)
-        {
-            yield return new Light(item);
-            yield return new Strong(item);
-            yield return new SingleUse(item);
-            yield return new Medic(item);
-            yield return new Tough(item);
-            yield return new Rusty(item);
+            if (o is IItem item)
+            {
+                yield return new Light(item);
+                yield return new Strong(item);
+                yield return new SingleUse(item);
+                yield return new Medic(item);
+                yield return new Tough(item);
+                yield return new Rusty(item);
+            }
         }
     }
 }
