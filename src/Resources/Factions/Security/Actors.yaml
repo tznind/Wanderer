@@ -2,7 +2,14 @@
   Adjectives:
     - Type: Strong
     - Type: Tough
+  Stats:
+    Fight: 30
+    Loyalty: 20
 - Name: Overseer
   Adjectives:
     - Type: Strong
     - Type: Medic
+  Stats:
+    Fight: 10
+    Loyalty: 30
+    Coerce: 30

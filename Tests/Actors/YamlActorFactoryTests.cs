@@ -6,6 +6,7 @@ using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives;
 using StarshipWanderer.Factories;
 using StarshipWanderer.Items;
+using StarshipWanderer.Stats;
 
 namespace Tests.Actors
 {
@@ -25,9 +26,13 @@ namespace Tests.Actors
     - Type: Rusty
     - Type: Strong
     - Type: Tough
+  Stats:
+    Fight: 30
 - Name: Crab
   Adjectives:
     - Type: Strong
+  Stats:
+    Fight: 40
 ";
          
             var actorFactory = new YamlActorFactory(yaml, null,new ItemFactory(adj), adj);
@@ -39,6 +44,8 @@ namespace Tests.Actors
 
             Assert.AreEqual("Crab",actor.Name);
             Assert.AreEqual("Strong",actor.Adjectives.Single().Name);    
+            
+            Assert.AreEqual(40,actor.BaseStats[Stat.Fight]);    
         }
     }
 }

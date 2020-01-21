@@ -38,6 +38,9 @@ namespace StarshipWanderer.Factories
             var adjective = AdjectiveFactory.Create(npc,blueprint.Adjectives.GetRandom(world.R));
             npc.Adjectives.Add(adjective);
 
+            if (blueprint.Stats != null)
+                npc.BaseStats.Add(blueprint.Stats);
+
             if (FactionIfAny != null)
                 npc.FactionMembership.Add(FactionIfAny);
 

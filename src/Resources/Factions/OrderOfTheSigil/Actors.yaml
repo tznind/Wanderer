@@ -5,3 +5,7 @@
 - Name: 
   Adjectives:
     - Type: Strong
+  Stats:
+    Fight: 20
+    Loyalty: -10
+    Coerce: 15

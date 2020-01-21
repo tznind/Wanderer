@@ -4,6 +4,10 @@
     - Type: Rusty
     - Type: Strong
     - Type: Tough
+  Stats:
+    Fight: 20
 - Name: Crab
   Adjectives:
     - Type: Strong
+  Stats:
+    Fight: 15

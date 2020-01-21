@@ -1,4 +1,5 @@
 ﻿using StarshipWanderer.Adjectives;
+using StarshipWanderer.Stats;
 
 namespace StarshipWanderer.Factories.Blueprints
 {
@@ -16,6 +17,11 @@ namespace StarshipWanderer.Factories.Blueprints
         /// this Npc
         /// </summary>
         public AdjectiveBlueprint[] Adjectives { get;set; }
+
+        /// <summary>
+        /// The BaseStats to give the actor
+        /// </summary>
+        public StatsCollection Stats { get; set; }
 
     }
 }

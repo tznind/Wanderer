@@ -3,8 +3,14 @@
     - Type: Rusty
     - Type: Strong
     - Type: Tough
+  Stats:
+    Fight: 30
+    Loyalty: 20
 - Name: 
   Adjectives:
     - Type: Strong
     - Type: Medic
     - Type: Tough
+  Stats:
+    Fight: 10
+    Loyalty: 10
