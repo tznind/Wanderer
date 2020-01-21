@@ -10,12 +10,12 @@ namespace StarshipWanderer.Factories
 {
     public class RoomFactory: HasStatsFactory<IPlace>, IRoomFactory
     {
-        public IActorFactory ActorFactory { get; set; }
+        public IActorFactory GenericActorFactory { get; set; }
         public IItemFactory ItemFactory { get; }
 
-        public RoomFactory(IActorFactory actorFactory,IItemFactory itemFactory, IAdjectiveFactory adjectiveFactory):base(adjectiveFactory)
+        public RoomFactory(IActorFactory genericActorFactory,IItemFactory itemFactory, IAdjectiveFactory adjectiveFactory):base(adjectiveFactory)
         {
-            ActorFactory = actorFactory;
+            GenericActorFactory = genericActorFactory;
             ItemFactory = itemFactory;
         }
 
@@ -26,9 +26,15 @@ namespace StarshipWanderer.Factories
             //give the room a random adjective
             var availableAdjectives = AdjectiveFactory.GetAvailableAdjectives(room).ToArray();
             room.Adjectives.Add(availableAdjectives[world.R.Next(0, availableAdjectives.Length)]);
-            
-            //some friends in the room with you
-            ActorFactory.Create(world, room);
+
+            if (room.ControllingFaction?.ActorFactory != null)
+            {
+                //if we can create faction specific actors
+                room.ControllingFaction.ActorFactory.Create(world, room);
+            }
+            else
+                //some friends in the room with you
+                GenericActorFactory.Create(world, room);
 
             //some free items
             ItemFactory.Create(room);

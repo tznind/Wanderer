@@ -1,10 +1,8 @@
-﻿- Name: Servitor
+﻿- Name: Guard
   Adjectives:
-    - Type: Rusty
     - Type: Strong
     - Type: Tough
-- Name: 
+- Name: Overseer
   Adjectives:
     - Type: Strong
     - Type: Medic
-    - Type: Tough

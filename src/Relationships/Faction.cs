@@ -16,6 +16,8 @@ namespace StarshipWanderer.Relationships
         [YamlIgnore]
         public INameFactory NameFactory { get; set; }
 
+        public IActorFactory ActorFactory { get; set; }
+
 
         public Faction()
         {

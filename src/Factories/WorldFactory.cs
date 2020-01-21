@@ -35,7 +35,7 @@ namespace StarshipWanderer.Factories
             var adjectiveFactory = GetAdjectiveFactory();
             var itemFactory = GetItemFactory(adjectiveFactory);
 
-            var actorFactory = GetActorFactory(itemFactory, adjectiveFactory);
+            var actorFactory = GetGenericActorFactory(itemFactory, adjectiveFactory);
             var roomFactory = GetRoomFactory(actorFactory,itemFactory,adjectiveFactory);
 
             var startingRoom = GetStartingRoom(roomFactory,world);
@@ -56,7 +56,15 @@ namespace StarshipWanderer.Factories
         {
             return new ItemFactory(adjectiveFactory);
         }
-        protected virtual IActorFactory GetActorFactory(IItemFactory itemFactory, IAdjectiveFactory adjectiveFactory)
+
+        /// <summary>
+        /// Return the actor factory when no faction specific one is available (e.g. when
+        /// a room is discovered that is not controlled by any)
+        /// </summary>
+        /// <param name="itemFactory"></param>
+        /// <param name="adjectiveFactory"></param>
+        /// <returns></returns>
+        protected virtual IActorFactory GetGenericActorFactory(IItemFactory itemFactory, IAdjectiveFactory adjectiveFactory)
         {
             return new ActorFactory(itemFactory, adjectiveFactory);
         }
@@ -97,6 +105,21 @@ namespace StarshipWanderer.Factories
                 {
                     throw new Exception($"Error Deserializing file {factionFile}",e);
                 }
+
+                var factionActorsFile = Path.Combine(directory, "Actors.yaml");
+                
+                try
+                {
+                    var adjectiveFactory = new AdjectiveFactory();
+                    var actorFactory = new YamlActorFactory(File.ReadAllText(factionActorsFile),f,new ItemFactory(adjectiveFactory),adjectiveFactory);
+
+                    f.ActorFactory = actorFactory;
+                }
+                catch (Exception e)
+                {
+                    throw new Exception($"Error Deserializing file {factionActorsFile}",e);
+                }
+
 
                 var forenames = new FileInfo(Path.Combine(directory,"Forenames.txt"));
                 var surnames = new FileInfo(Path.Combine(directory, "Surnames.txt"));

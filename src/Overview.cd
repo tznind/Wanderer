@@ -198,11 +198,11 @@
       <FileName>Systems\IInjurySystem.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="StarshipWanderer.Actors.IActorFactory" Collapsed="true">
+  <Interface Name="StarshipWanderer.Actors.IGenericActorFactory" Collapsed="true">
     <Position X="7.5" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
-      <FileName>Actors\IActorFactory.cs</FileName>
+      <FileName>Actors\IGenericActorFactory.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="StarshipWanderer.Actors.INameFactory" Collapsed="true">

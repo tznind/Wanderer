@@ -1,9 +1,9 @@
-﻿using NLog.LayoutRenderers;
+﻿using Newtonsoft.Json;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Extensions;
 using StarshipWanderer.Factories.Blueprints;
-using StarshipWanderer.Items;
 using StarshipWanderer.Places;
+using StarshipWanderer.Relationships;
 using YamlDotNet.Serialization;
 
 namespace StarshipWanderer.Factories
@@ -12,8 +12,15 @@ namespace StarshipWanderer.Factories
     {
         public ActorBlueprint[] Blueprints { get; set; }
 
-        public YamlActorFactory(string yaml,IItemFactory itemFactory, IAdjectiveFactory adjectiveFactory) : base(itemFactory, adjectiveFactory)
+        [JsonConstructor]
+        private YamlActorFactory(IItemFactory itemFactory, IAdjectiveFactory adjectiveFactory):base(itemFactory,adjectiveFactory)
         {
+
+        }
+
+        public YamlActorFactory(string yaml,IFaction faction,IItemFactory itemFactory, IAdjectiveFactory adjectiveFactory) : base(itemFactory, adjectiveFactory)
+        {
+            FactionIfAny = faction;
             var deserializer = new Deserializer();
             Blueprints = deserializer.Deserialize<ActorBlueprint[]>(yaml);
         }
@@ -30,6 +37,12 @@ namespace StarshipWanderer.Factories
             //pick 1 random adjective
             var adjective = AdjectiveFactory.Create(npc,blueprint.Adjectives.GetRandom(world.R));
             npc.Adjectives.Add(adjective);
+
+            if (FactionIfAny != null)
+                npc.FactionMembership.Add(FactionIfAny);
+
+            if(string.IsNullOrWhiteSpace(npc.Name))
+                npc.Name = FactionIfAny?.NameFactory?.GenerateName(world.R) ?? "Unnamed Npc";
 
             return npc;
         }

@@ -15,7 +15,7 @@ namespace Tests
             var adjectiveFactory = new AdjectiveFactory();
             var itemFactory = new ItemFactory(adjectiveFactory);
 
-            var roomFactory = new RoomFactory(new ActorFactory(itemFactory, adjectiveFactory),itemFactory, adjectiveFactory);
+            var roomFactory = new RoomFactory(new GenericActorFactory(itemFactory, adjectiveFactory),itemFactory, adjectiveFactory);
             */
 
 

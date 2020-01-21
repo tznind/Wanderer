@@ -30,7 +30,7 @@ namespace Tests.Actors
     - Type: Strong
 ";
          
-            var actorFactory = new YamlActorFactory(yaml, new ItemFactory(adj), adj);
+            var actorFactory = new YamlActorFactory(yaml, null,new ItemFactory(adj), adj);
             Assert.GreaterOrEqual(actorFactory.Blueprints.Length , 2);
 
             var room = InARoom(out IWorld w);

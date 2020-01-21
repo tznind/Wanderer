@@ -5,12 +5,15 @@ using StarshipWanderer.Adjectives;
 using StarshipWanderer.Behaviours;
 using StarshipWanderer.Conditions;
 using StarshipWanderer.Places;
+using StarshipWanderer.Relationships;
 using StarshipWanderer.Stats;
 
 namespace StarshipWanderer.Factories
 {
     public class ActorFactory : HasStatsFactory<IActor> ,IActorFactory
     {
+        public IFaction FactionIfAny { get; set; }
+
         public IItemFactory ItemFactory { get; set; }
 
         public ActorFactory(IItemFactory itemFactory, IAdjectiveFactory adjectiveFactory):base(adjectiveFactory)

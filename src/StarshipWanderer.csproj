@@ -17,12 +17,15 @@
     <None Remove="Resources\Dialogue\Banter.yaml" />
     <None Remove="Resources\Factions\Guncrew\Actors.yaml" />
     <None Remove="Resources\Factions\Guncrew\Faction.yaml" />
+    <None Remove="Resources\Factions\OrderOfTheSigil\Actors.yaml" />
     <None Remove="Resources\Factions\OrderOfTheSigil\Faction.yaml" />
     <None Remove="Resources\Factions\OrderOfTheSigil\Forenames.txt" />
     <None Remove="Resources\Factions\OrderOfTheSigil\Surnames.txt" />
+    <None Remove="Resources\Factions\Security\Actors.yaml" />
     <None Remove="Resources\Factions\Security\Faction.yaml" />
     <None Remove="Resources\Factions\Security\Forenames.txt" />
     <None Remove="Resources\Factions\Security\Surnames.txt" />
+    <None Remove="Resources\Factions\Wildlife\Actors.yaml" />
     <None Remove="Resources\Factions\Wildlife\Faction.yaml" />
     <None Remove="Resources\Factions\Wildlife\Forenames.txt" />
   </ItemGroup>
@@ -44,6 +47,9 @@
     <Content Include="Resources\Factions\Guncrew\Surnames.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Factions\OrderOfTheSigil\Actors.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Factions\OrderOfTheSigil\Faction.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -53,6 +59,9 @@
     <Content Include="Resources\Factions\OrderOfTheSigil\Surnames.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Factions\Security\Actors.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Factions\Security\Faction.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -60,6 +69,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Factions\Security\Surnames.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Factions\Wildlife\Actors.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Factions\Wildlife\Faction.yaml">

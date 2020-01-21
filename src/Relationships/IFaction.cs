@@ -16,5 +16,10 @@ namespace StarshipWanderer.Relationships
         /// Creates names for people in this faction
         /// </summary>
         public INameFactory NameFactory { get; set; }
+
+        /// <summary>
+        /// Create actors that fit thematically with this faction
+        /// </summary>
+        IActorFactory ActorFactory { get; set; }
     }
 }

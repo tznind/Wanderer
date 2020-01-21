@@ -1,10 +1,9 @@
-﻿- Name: Servitor
+﻿- Name: Centipede
   Adjectives:
+    - Type: Giant
     - Type: Rusty
     - Type: Strong
     - Type: Tough
-- Name: 
+- Name: Crab
   Adjectives:
     - Type: Strong
-    - Type: Medic
-    - Type: Tough
