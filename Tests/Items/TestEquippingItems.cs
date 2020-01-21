@@ -7,6 +7,7 @@ using StarshipWanderer.Actions;
 using StarshipWanderer.Adjectives;
 using StarshipWanderer.Adjectives.ActorOnly;
 using StarshipWanderer.Adjectives.RoomOnly;
+using StarshipWanderer.Factories;
 using StarshipWanderer.Items;
 using StarshipWanderer.Stats;
 

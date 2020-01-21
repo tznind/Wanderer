@@ -10,6 +10,7 @@ using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Behaviours;
 using StarshipWanderer.Conditions;
+using StarshipWanderer.Factories;
 using StarshipWanderer.Places;
 
 namespace Tests

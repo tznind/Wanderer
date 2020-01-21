@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using StarshipWanderer.Actions;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Adjectives;
 using StarshipWanderer.Items;
-using StarshipWanderer.Relationships;
+using StarshipWanderer.Places;
 
-namespace StarshipWanderer.Places
+namespace StarshipWanderer.Factories
 {
     public class RoomFactory: HasStatsFactory<IPlace>, IRoomFactory
     {

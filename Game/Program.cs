@@ -1,5 +1,6 @@
 ﻿using Game.UI;
 using StarshipWanderer;
+using StarshipWanderer.Factories;
 using Terminal.Gui;
 
 namespace Game

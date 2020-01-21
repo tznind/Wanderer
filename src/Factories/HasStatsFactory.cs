@@ -2,7 +2,7 @@
 using System.Linq;
 using StarshipWanderer.Adjectives;
 
-namespace StarshipWanderer.Actors
+namespace StarshipWanderer.Factories
 {
     public abstract class HasStatsFactory<T> where T : IHasStats
     {

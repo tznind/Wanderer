@@ -5,10 +5,11 @@ using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives;
 using StarshipWanderer.Adjectives.ActorOnly;
 using StarshipWanderer.Adjectives.RoomOnly;
+using StarshipWanderer.Items;
 using StarshipWanderer.Places;
 using StarshipWanderer.Stats;
 
-namespace StarshipWanderer.Items
+namespace StarshipWanderer.Factories
 {
     public class ItemFactory : HasStatsFactory<IItem>,IItemFactory
     {

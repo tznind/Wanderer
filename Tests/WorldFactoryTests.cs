@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using StarshipWanderer;
+using StarshipWanderer.Factories;
 using StarshipWanderer.Systems;
 
 namespace Tests

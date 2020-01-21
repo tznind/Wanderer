@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace StarshipWanderer.Actors
+namespace StarshipWanderer.Factories
 {
     public class NameFactory : INameFactory
     {

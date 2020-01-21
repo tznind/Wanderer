@@ -10,6 +10,7 @@ using System.Text;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Behaviours;
 using StarshipWanderer.Conditions;
+using StarshipWanderer.Factories;
 using StarshipWanderer.Items;
 
 namespace Tests.Actions

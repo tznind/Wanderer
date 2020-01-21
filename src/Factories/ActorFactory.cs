@@ -1,15 +1,13 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using StarshipWanderer.Actions;
+using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives;
 using StarshipWanderer.Behaviours;
 using StarshipWanderer.Conditions;
-using StarshipWanderer.Items;
 using StarshipWanderer.Places;
-using StarshipWanderer.Relationships;
 using StarshipWanderer.Stats;
 
-namespace StarshipWanderer.Actors
+namespace StarshipWanderer.Factories
 {
     public class ActorFactory : HasStatsFactory<IActor> ,IActorFactory
     {
@@ -19,7 +17,7 @@ namespace StarshipWanderer.Actors
         {
             ItemFactory = itemFactory;
         }
-        public void Create(IWorld world, IPlace place)
+        public virtual void Create(IWorld world, IPlace place)
         {
             Guard(NewNpc(place));
             Guard(NewNpc(place));

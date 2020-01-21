@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Behaviours;
+using StarshipWanderer.Factories;
 using StarshipWanderer.Items;
 using StarshipWanderer.Places;
 using StarshipWanderer.Relationships;

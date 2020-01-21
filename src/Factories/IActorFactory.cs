@@ -1,6 +1,6 @@
 ﻿using StarshipWanderer.Places;
 
-namespace StarshipWanderer.Actors
+namespace StarshipWanderer.Factories
 {
     public interface IActorFactory
     {

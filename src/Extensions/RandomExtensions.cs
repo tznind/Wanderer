@@ -18,5 +18,10 @@ namespace StarshipWanderer.Extensions
 
             return list;
         }
+
+        public static T GetRandom<T>(this IList<T> arr, Random r)
+        {
+            return arr[r.Next(arr.Count)];
+        }
     }
 }

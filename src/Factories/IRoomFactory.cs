@@ -1,7 +1,6 @@
-﻿using StarshipWanderer.Actions;
-using StarshipWanderer.Actors;
+﻿using StarshipWanderer.Places;
 
-namespace StarshipWanderer.Places
+namespace StarshipWanderer.Factories
 {
     public interface IRoomFactory
     {

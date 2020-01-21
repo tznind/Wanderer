@@ -1,5 +1,6 @@
 ﻿using System;
 using StarshipWanderer.Actors;
+using StarshipWanderer.Factories;
 using YamlDotNet.Serialization;
 
 namespace StarshipWanderer.Relationships

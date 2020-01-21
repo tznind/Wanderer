@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace StarshipWanderer.Actors
+namespace StarshipWanderer.Factories
 {
     public interface INameFactory
     {

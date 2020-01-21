@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using StarshipWanderer.Actors;
+﻿using StarshipWanderer.Actors;
+using StarshipWanderer.Items;
 using StarshipWanderer.Places;
 
-namespace StarshipWanderer.Items
+namespace StarshipWanderer.Factories
 {
     public interface IItemFactory
     {

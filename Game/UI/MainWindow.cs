@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using StarshipWanderer;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives;
+using StarshipWanderer.Factories;
 using Terminal.Gui;
 
 namespace Game.UI
