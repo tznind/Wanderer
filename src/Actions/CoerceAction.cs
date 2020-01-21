@@ -18,7 +18,7 @@ namespace StarshipWanderer.Actions
 
         public override void Pop(IUserinterface ui, ActionStack stack, Frame frame)
         {
-            var f = frame as CoerceFrame;
+            var f = (CoerceFrame)frame ;
             ((Npc)f.TargetIfAny).NextAction = f;
             f.TargetIfAny.Adjectives.Add(new Coerced(f.TargetIfAny));
 

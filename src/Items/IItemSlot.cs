@@ -24,6 +24,6 @@ namespace StarshipWanderer.Items
         /// your item might not work so well.  E.g. Arm injury may inhibit
         /// your ability to shoot a gun
         /// </summary>
-        HashSet<InjuryRegion> SensitiveTo { get; set; }
+        InjuryRegion[] SensitiveTo { get; set; }
     }
 }

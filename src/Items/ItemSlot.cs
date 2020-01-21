@@ -10,13 +10,13 @@ namespace StarshipWanderer.Items
         public string Name { get; set; }
         
         public int NumberRequired { get; set; }
-        public HashSet<InjuryRegion> SensitiveTo { get; set; }
+        public InjuryRegion[] SensitiveTo { get; set; }
 
         public ItemSlot(string name,int numberRequired, params InjuryRegion[] sensitiveTo)
         {
             NumberRequired = numberRequired;
             Name = name;
-            SensitiveTo = new HashSet<InjuryRegion>(sensitiveTo);
+            SensitiveTo = sensitiveTo;
         }
     }
 }
