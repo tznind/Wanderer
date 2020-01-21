@@ -1,0 +1,9 @@
+﻿- Name: Centipede
+  Adjectives:
+    - Type: Giant
+    - Type: Rusty
+    - Type: Strong
+    - Type: Tough
+- Name: Crab
+  Adjectives:
+    - Type: Strong
