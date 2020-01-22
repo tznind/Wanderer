@@ -73,6 +73,7 @@ namespace StarshipWanderer.Factories
             var dirs = Directory.GetDirectories(Path.Combine(ResourcesDirectory, FactionsDirectory));
 
             var deserializer = new Deserializer();
+            var adjectiveFactory = new AdjectiveFactory();
 
             foreach (var directory in dirs)
             {
@@ -90,11 +91,24 @@ namespace StarshipWanderer.Factories
                 }
 
                 var factionActorsFile = Path.Combine(directory, "Actors.yaml");
+                var factionItemsFile = Path.Combine(directory, "Items.yaml");
+                IItemFactory itemFactory;
+
+                try
+                {
+                    if(File.Exists(factionItemsFile))
+                        itemFactory = new YamlItemFactory(File.ReadAllText(factionItemsFile),adjectiveFactory);
+                    else
+                        itemFactory = new ItemFactory(adjectiveFactory);
+                }
+                catch (Exception e)
+                {
+                    throw new Exception($"Error Deserializing file {factionItemsFile}",e);
+                }
                 
                 try
                 {
-                    var adjectiveFactory = new AdjectiveFactory();
-                    var actorFactory = new YamlActorFactory(File.ReadAllText(factionActorsFile),new ItemFactory(adjectiveFactory),adjectiveFactory);
+                    var actorFactory = new YamlActorFactory(File.ReadAllText(factionActorsFile),itemFactory,adjectiveFactory);
 
                     f.ActorFactory = actorFactory;
                 }
