@@ -12,6 +12,14 @@ namespace StarshipWanderer.Factories
 {
     public class AdjectiveFactory : IAdjectiveFactory
     {
+        private Type[] _knownAdjectives;
+
+        public AdjectiveFactory()
+        {
+            _knownAdjectives = typeof(IAdjective).Assembly.GetTypes().Where(t =>
+                typeof(IAdjective).IsAssignableFrom(t) && !t.IsAbstract && !t.IsInterface).ToArray();
+        }
+
         public IEnumerable<IAdjective> GetAvailableAdjectives<T>(T o) where T : IHasStats
         {
             if (o is IPlace place)
@@ -44,10 +52,7 @@ namespace StarshipWanderer.Factories
 
         public IAdjective Create(IHasStats s, AdjectiveBlueprint blueprint)
         {
-            if (!blueprint.Type.Contains('.'))
-                blueprint.Type = typeof(IAdjective).Namespace + '.' + blueprint.Type;
-
-            var type = Type.GetType(blueprint.Type) ?? throw new ArgumentException($"Could not find IAdjective of Type '{blueprint.Type}'");
+            var type = _knownAdjectives.SingleOrDefault(t=>t.Name.Equals(blueprint.Type)) ?? throw new ArgumentException($"Could not find IAdjective of Type '{blueprint.Type}'");
 
             var adjective = Create(s, type);
 
@@ -62,7 +67,6 @@ namespace StarshipWanderer.Factories
 
         public IAdjective Create(IHasStats s, Type adjectiveType)
         {
-            
             if(!typeof(IAdjective).IsAssignableFrom(adjectiveType))
                 throw new ArgumentException($"Expected an IAdjective but was a {adjectiveType}");
 
