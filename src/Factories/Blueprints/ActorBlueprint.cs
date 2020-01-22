@@ -1,5 +1,7 @@
-﻿using StarshipWanderer.Adjectives;
+﻿using System;
+using StarshipWanderer.Adjectives;
 using StarshipWanderer.Stats;
+using StarshipWanderer.Systems;
 
 namespace StarshipWanderer.Factories.Blueprints
 {
@@ -10,6 +12,12 @@ namespace StarshipWanderer.Factories.Blueprints
         /// a random name from the faction <see cref="NameFactory"/>
         /// </summary>
         public string Name { get; set; }
+        
+        /// <summary>
+        /// Things the npc has to say, if multiple then one is picked at random.
+        /// These guids map to <see cref="DialogueNode"/>
+        /// </summary>
+        public Guid[] Dialogue { get; set; }
 
         /// <summary>
         /// List of <see cref="IAdjective"/> type names (which must be supported by

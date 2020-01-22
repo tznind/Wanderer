@@ -1,4 +1,10 @@
 ﻿- Name: Centipede
+  Dialogue: 
+    - 339271e0-7b11-4aba-a9e2-2776f6c5a197
+    - c11ae5d2-a1ab-44b9-a88a-e58f116b2ab7
+    - 43d0073f-e3d9-4d4c-84b9-482bbb402546
+    - 0f85cde2-0283-4f11-99c0-7cb2b0675845
+    - 446e84e6-e884-42e2-915e-1982b07aa853
   Adjectives:
     - Type: Giant
     - Type: Rusty
@@ -7,6 +13,12 @@
   Stats:
     Fight: 20
 - Name: Crab
+  Dialogue: 
+    - 339271e0-7b11-4aba-a9e2-2776f6c5a197
+    - c11ae5d2-a1ab-44b9-a88a-e58f116b2ab7
+    - 43d0073f-e3d9-4d4c-84b9-482bbb402546
+    - 0f85cde2-0283-4f11-99c0-7cb2b0675845
+    - 446e84e6-e884-42e2-915e-1982b07aa853
   Adjectives:
     - Type: Strong
   Stats:

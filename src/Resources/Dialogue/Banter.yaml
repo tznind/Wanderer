@@ -11,3 +11,16 @@
 - Identifier: 9a3c04b7-8f5a-498a-a0d3-00d6f66ba0e8
   Body: "Listen buddy, we aint friends.  I got nothing to say to you"
   Suits: Friend
+
+
+# Wildlife banter  
+- Identifier: 339271e0-7b11-4aba-a9e2-2776f6c5a197
+  Body: "Screeeee (this creature seems {DescribeRelationship})"
+- Identifier: c11ae5d2-a1ab-44b9-a88a-e58f116b2ab7
+  Body: "Brrruprrrr (this creature seems {DescribeRelationship})"
+- Identifier: 43d0073f-e3d9-4d4c-84b9-482bbb402546
+  Body: "Clickety Clack (this creature seems {DescribeRelationship})"
+- Identifier: 0f85cde2-0283-4f11-99c0-7cb2b0675845
+  Body: "Reeeeeeee (this creature seems {DescribeRelationship})"
+- Identifier: 446e84e6-e884-42e2-915e-1982b07aa853
+  Body: "SSSSSkkk (this creature seems {DescribeRelationship})"

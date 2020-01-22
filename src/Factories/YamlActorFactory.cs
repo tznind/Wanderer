@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Linq;
+using Newtonsoft.Json;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Extensions;
 using StarshipWanderer.Factories.Blueprints;
@@ -43,6 +44,8 @@ namespace StarshipWanderer.Factories
 
             if (FactionIfAny != null)
                 npc.FactionMembership.Add(FactionIfAny);
+
+            npc.NextDialogue = blueprint.Dialogue.GetRandom(world.R);
 
             if(string.IsNullOrWhiteSpace(npc.Name))
                 npc.Name = FactionIfAny?.NameFactory?.GenerateName(world.R) ?? "Unnamed Npc";

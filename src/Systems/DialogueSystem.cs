@@ -18,8 +18,21 @@ namespace StarshipWanderer.Systems
         [JsonIgnore]
         protected Dictionary<string,Func<SystemArgs,string>> Substitutions = new Dictionary<string, Func<SystemArgs, string>>()
         {
-            {"{AggressorIfAny}", a=>a.AggressorIfAny?.Name }
+            {"{AggressorIfAny}", a=>a.AggressorIfAny?.Name },
         };
+
+        protected virtual string DescribeRelationship(SystemArgs arg)
+        {
+            var result = arg.Recipient.CurrentLocation.World.Relationships.SumBetween(arg.Recipient, arg.AggressorIfAny);
+
+            if (Math.Abs(result) < 0.01)
+                return "indifferent";
+            
+            if (result < 0)
+                return "hostile";
+            
+            return "friendly";
+        }
 
         public DialogueSystem(params string[] dialogueYaml)
         {
@@ -37,6 +50,8 @@ namespace StarshipWanderer.Systems
                     throw new ArgumentException("Error in dialogue yaml:" + e.Message);
                 }
             }
+
+            Substitutions.Add("{DescribeRelationship}", DescribeRelationship);
         }
 
         public void Apply(SystemArgs args)
@@ -78,7 +93,7 @@ namespace StarshipWanderer.Systems
 
             }
             else
-                args.UserInterface.ShowMessage("Dialogue",node.Body);
+                args.UserInterface.ShowMessage("Dialogue",FormatString(args,node.Body));
         }
 
         protected virtual string FormatString(SystemArgs args,string body)

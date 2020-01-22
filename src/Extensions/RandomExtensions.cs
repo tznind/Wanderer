@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace StarshipWanderer.Extensions
 {
@@ -21,6 +22,9 @@ namespace StarshipWanderer.Extensions
 
         public static T GetRandom<T>(this IList<T> arr, Random r)
         {
+            if (arr == null || !arr.Any())
+                return default;
+
             return arr[r.Next(arr.Count)];
         }
     }
