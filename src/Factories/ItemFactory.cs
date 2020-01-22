@@ -1,54 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using StarshipWanderer.Actors;
+﻿using StarshipWanderer.Actions;
 using StarshipWanderer.Adjectives;
-using StarshipWanderer.Adjectives.ActorOnly;
-using StarshipWanderer.Adjectives.RoomOnly;
 using StarshipWanderer.Items;
-using StarshipWanderer.Places;
-using StarshipWanderer.Stats;
 
 namespace StarshipWanderer.Factories
 {
     public class ItemFactory : HasStatsFactory<IItem>,IItemFactory
     {
+        public ItemBlueprint[] Blueprints { get; set; } = new ItemBlueprint[0];
 
         public ItemFactory(IAdjectiveFactory adjectiveFactory):base(adjectiveFactory)
         {
         }
 
-        public IItem Create(IPlace inPlace)
+        public IItem Create(ItemBlueprint blueprint)
         {
-            IItem i;
-            inPlace.Items.Add(i = GetRandomItem(inPlace.World.R));
+            var item = new Item(blueprint.Name);
 
-            return i;
-        }
+            if (blueprint.Dialogue != null)
+            {
+                item.BaseActions.Add(new ReadAction());
+                item.NextDialogue = blueprint.Dialogue;
+            }
 
-        public IItem Create(IActor forActor)
-        {
-            return GetRandomItem(forActor.CurrentLocation.World.R);
-        }
-        protected virtual IItem GetRandomItem(Random r)
-        {
-            var available = GetAvailableItems().ToArray();
-
-            var choose = available[r.Next(available.Length)];
-            if (choose is IItemStack s)
-                s.StackSize = r.Next(10);
-
-            return choose;
-        }
-
-        private IEnumerable<IItem> GetAvailableItems()
-        {
-            yield return Create<Light>("Globe");
-            yield return Create<Tough>("Environment Suit");
-            yield return Create<SingleUse,Medic>("Kit");
-            yield return Create<Giant>("Hammer").With(new ItemSlot("Hand",2,InjuryRegion.Arm,InjuryRegion.Hand));
-            yield return Create<Rusty>("Pistol").With(Stat.Fight,20).With(new ItemSlot("Hand",1,InjuryRegion.Hand));
-            yield return new ItemStack("Creds",1).With(Stat.Value,1);
+            return item;
         }
 
         

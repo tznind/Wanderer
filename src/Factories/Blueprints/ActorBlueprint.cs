@@ -17,19 +17,19 @@ namespace StarshipWanderer.Factories.Blueprints
         /// Things the npc has to say, if multiple then one is picked at random.
         /// These guids map to <see cref="DialogueNode"/>
         /// </summary>
-        public Guid[] Dialogue { get; set; }
+        public Guid[] Dialogue { get; set; } = new Guid[0];
 
         /// <summary>
         /// List of <see cref="IAdjective"/> type names (which must be supported by
         /// <see cref="IAdjectiveFactory"/>) from which to pick at random when creating
         /// this Npc
         /// </summary>
-        public AdjectiveBlueprint[] Adjectives { get;set; }
+        public AdjectiveBlueprint[] Adjectives { get;set; } = new AdjectiveBlueprint[0];
 
         /// <summary>
         /// The BaseStats to give the actor
         /// </summary>
-        public StatsCollection Stats { get; set; }
+        public StatsCollection Stats { get; set; } = new StatsCollection();
 
     }
 }

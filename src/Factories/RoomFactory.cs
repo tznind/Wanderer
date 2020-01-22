@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using StarshipWanderer.Actions;
+using StarshipWanderer.Extensions;
 using StarshipWanderer.Items;
 using StarshipWanderer.Places;
 
@@ -10,13 +11,8 @@ namespace StarshipWanderer.Factories
 {
     public class RoomFactory: HasStatsFactory<IPlace>, IRoomFactory
     {
-        public IActorFactory GenericActorFactory { get; set; }
-        public IItemFactory ItemFactory { get; }
-
-        public RoomFactory(IActorFactory genericActorFactory,IItemFactory itemFactory, IAdjectiveFactory adjectiveFactory):base(adjectiveFactory)
+        public RoomFactory(IAdjectiveFactory adjectiveFactory):base(adjectiveFactory)
         {
-            GenericActorFactory = genericActorFactory;
-            ItemFactory = itemFactory;
         }
 
         public IPlace Create(IWorld world)
@@ -27,18 +23,16 @@ namespace StarshipWanderer.Factories
             var availableAdjectives = AdjectiveFactory.GetAvailableAdjectives(room).ToArray();
             room.Adjectives.Add(availableAdjectives[world.R.Next(0, availableAdjectives.Length)]);
 
-            if (room.ControllingFaction?.ActorFactory != null)
+            if (world.Factions.Any())
             {
-                //if we can create faction specific actors
-                room.ControllingFaction.ActorFactory.Create(world, room);
+                var faction = room.ControllingFaction ?? world.Factions.GetRandomFaction(world.R);
+                faction.ActorFactory?.Create(world, room,faction);
+
+                var itemFactory = faction.ActorFactory?.ItemFactory;
+                if(itemFactory!=null && itemFactory.Blueprints.Any())
+                    room.Items.Add(itemFactory.Create(itemFactory.Blueprints.GetRandom(world.R)));
             }
-            else
-                //some friends in the room with you
-                GenericActorFactory.Create(world, room);
-
-            //some free items
-            ItemFactory.Create(room);
-
+            
             return room;
         }
 

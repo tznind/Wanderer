@@ -33,10 +33,8 @@ namespace StarshipWanderer.Factories
             world.Dialogue = new DialogueSystem(GetAllDialogueYaml().ToArray());
 
             var adjectiveFactory = GetAdjectiveFactory();
-            var itemFactory = GetItemFactory(adjectiveFactory);
 
-            var actorFactory = GetGenericActorFactory(itemFactory, adjectiveFactory);
-            var roomFactory = GetRoomFactory(actorFactory,itemFactory,adjectiveFactory);
+            var roomFactory = GetRoomFactory(adjectiveFactory);
 
             var startingRoom = GetStartingRoom(roomFactory,world);
             startingRoom.IsExplored = true;
@@ -52,25 +50,10 @@ namespace StarshipWanderer.Factories
         {
             return new AdjectiveFactory();
         }
-        protected virtual IItemFactory GetItemFactory(IAdjectiveFactory adjectiveFactory)
-        {
-            return new ItemFactory(adjectiveFactory);
-        }
 
-        /// <summary>
-        /// Return the actor factory when no faction specific one is available (e.g. when
-        /// a room is discovered that is not controlled by any)
-        /// </summary>
-        /// <param name="itemFactory"></param>
-        /// <param name="adjectiveFactory"></param>
-        /// <returns></returns>
-        protected virtual IActorFactory GetGenericActorFactory(IItemFactory itemFactory, IAdjectiveFactory adjectiveFactory)
+        protected virtual IRoomFactory GetRoomFactory(IAdjectiveFactory adjectiveFactory)
         {
-            return new ActorFactory(itemFactory, adjectiveFactory);
-        }
-        protected virtual IRoomFactory GetRoomFactory(IActorFactory actorFactory, IItemFactory itemFactory, IAdjectiveFactory adjectiveFactory)
-        {
-            return new RoomFactory(actorFactory, itemFactory,adjectiveFactory);
+            return new RoomFactory(adjectiveFactory);
         }
         protected virtual IPlace GetStartingRoom(IRoomFactory roomFactory, World world)
         {
@@ -111,7 +94,7 @@ namespace StarshipWanderer.Factories
                 try
                 {
                     var adjectiveFactory = new AdjectiveFactory();
-                    var actorFactory = new YamlActorFactory(File.ReadAllText(factionActorsFile),f,new ItemFactory(adjectiveFactory),adjectiveFactory);
+                    var actorFactory = new YamlActorFactory(File.ReadAllText(factionActorsFile),new ItemFactory(adjectiveFactory),adjectiveFactory);
 
                     f.ActorFactory = actorFactory;
                 }

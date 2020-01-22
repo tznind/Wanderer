@@ -18,8 +18,6 @@ namespace Tests.Actors
         {
             var adj = new AdjectiveFactory();
 
-         //   var path = Path.Combine(TestContext.CurrentContext.TestDirectory, "./Resources/Factions/Guncrew/Actors.yaml");
-
          var yaml = @"
 - Name: Centipede
   Adjectives:
@@ -38,12 +36,12 @@ namespace Tests.Actors
     Fight: 40
 ";
          
-            var actorFactory = new YamlActorFactory(yaml, null,new ItemFactory(adj), adj);
+            var actorFactory = new YamlActorFactory(yaml, new ItemFactory(adj), adj);
             Assert.GreaterOrEqual(actorFactory.Blueprints.Length , 2);
 
             var room = InARoom(out IWorld w);
 
-            var actor = actorFactory.Create(w,room,actorFactory.Blueprints[1]);
+            var actor = actorFactory.Create(w,room,null,actorFactory.Blueprints[1]);
 
             Assert.AreEqual("Crab",actor.Name);
             Assert.AreEqual("Strong",actor.Adjectives.Single().Name);    

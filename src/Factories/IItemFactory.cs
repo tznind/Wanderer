@@ -6,8 +6,8 @@ namespace StarshipWanderer.Factories
 {
     public interface IItemFactory
     {
-        IItem Create(IPlace inPlace);
-        IItem Create(IActor forActor);
+        ItemBlueprint[] Blueprints { get; set; }
+        IItem Create(ItemBlueprint blueprint);
 
     }
 }
