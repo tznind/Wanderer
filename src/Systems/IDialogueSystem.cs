@@ -19,5 +19,20 @@ namespace StarshipWanderer.Systems
         /// <param name="actor"></param>
         /// <returns></returns>
         IEnumerable<IActor> GetAvailableTalkTargets(IActor actor);
+
+        /// <summary>
+        /// Run an explicit piece of dialogue out of the blue.  Use <see cref="CanTalk"/>
+        /// and <see cref="ISystem.Apply"/> instead for normal talking e.g. to an <see cref="IActor"/>
+        /// </summary>
+        /// <param name="args"></param>
+        /// <param name="node"></param>
+        void Run(SystemArgs args, DialogueNode node);
+
+        /// <summary>
+        /// Lookup an explicit piece of dialogue
+        /// </summary>
+        /// <param name="g"></param>
+        /// <returns>The dialogue found or null</returns>
+        DialogueNode GetDialogue(Guid? g);
     }
 }

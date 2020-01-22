@@ -74,12 +74,12 @@ namespace StarshipWanderer.Systems
 
         }
 
-        private DialogueNode GetDialogue(Guid? g)
+        public DialogueNode GetDialogue(Guid? g)
         {
             return g.HasValue ? AllDialogues.SingleOrDefault(d => d.Identifier == g) : null;
         }
 
-        private void Run(SystemArgs args, DialogueNode node)
+        public void Run(SystemArgs args, DialogueNode node)
         {
             if(node.Options.Any())
             {

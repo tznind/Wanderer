@@ -1,4 +1,5 @@
 ﻿using StarshipWanderer.Actions;
+using StarshipWanderer.Places;
 using StarshipWanderer.Stats;
 
 namespace StarshipWanderer.Items

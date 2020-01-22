@@ -19,7 +19,17 @@ namespace StarshipWanderer.Items
         /// </summary>
         bool IsEquipped { get; set; }
 
+        /// <summary>
+        /// Set on items that should have been removed from the game to prevent
+        /// later reprocessing e.g. when one behaviour deletes another behaviours
+        /// owner before that behaviour has itself resolved
+        /// </summary>
         bool IsErased { get; set; }
+        
+        /// <summary>
+        /// If you can read the item this should be populated
+        /// </summary>
+        Guid? NextDialogue { get; set; }
 
         /// <summary>
         /// Forces the owner to drops the item in the supplied <paramref name="owner"/> location

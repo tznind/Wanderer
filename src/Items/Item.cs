@@ -24,6 +24,12 @@ namespace StarshipWanderer.Items
         /// </summary>
         public bool IsErased { get; set; } = false;
 
+
+        /// <summary>
+        /// If you can read the item this should be populated
+        /// </summary>
+        public Guid? NextDialogue { get; set; }
+        
         public void Drop(IUserinterface ui, IActor owner, Guid round)
         {
             //remove us from the owner
