@@ -20,8 +20,11 @@ namespace StarshipWanderer.Factories
         
         public virtual void Create(IWorld world, IPlace place,IFaction faction)
         {
+            int numberOfNpc = world.R.Next(5);
+
             if(Blueprints.Any())
-                Create(world, place,faction,Blueprints.GetRandom(world.R));
+                for (int i = 0; i < numberOfNpc; i++)
+                    Create(world, place, faction, Blueprints.GetRandom(world.R));
         }
 
         public IActor Create(IWorld world, IPlace place,IFaction faction, ActorBlueprint blueprint)
