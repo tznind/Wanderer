@@ -1,0 +1,15 @@
+image: Visual Studio 2019
+
+before_build:
+- nuget restore
+- choco install opencover.portable
+- choco install codecov
+
+build:
+  project: StarshipWanderer.sln
+  verbosity: minimal
+
+test_script:
+- OpenCover.Console.exe -target:"dotnet" 
+  -targetargs:"test" -filter:"+[*]* -[Tests*]*" -register:user
+- codecov -f "coverage.xml"
