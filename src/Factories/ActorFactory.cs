@@ -45,7 +45,8 @@ namespace StarshipWanderer.Factories
             if (faction != null)
                 npc.FactionMembership.Add(faction);
 
-            npc.Dialogue = blueprint.Dialogue;
+            if(blueprint.Dialogue != null)
+                npc.Dialogue = blueprint.Dialogue;
 
             if(string.IsNullOrWhiteSpace(npc.Name))
                 npc.Name = faction?.NameFactory?.GenerateName(world.R) ?? "Unnamed Npc";

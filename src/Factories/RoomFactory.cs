@@ -43,7 +43,7 @@ namespace StarshipWanderer.Factories
 
                 if (itemFactory != null && itemFactory.Blueprints.Any())
                 {
-                    var items = world.R.Next(2);
+                    var items = world.R.Next(3);
                     for (int i = 0; i < items; i++) 
                         room.Items.Add(itemFactory.Create(itemFactory.Blueprints.GetRandom(world.R)));
                 }
