@@ -53,6 +53,11 @@ namespace StarshipWanderer.Factories
 
         protected virtual IRoomFactory GetRoomFactory(IAdjectiveFactory adjectiveFactory)
         {
+            var fi = new FileInfo(Path.Combine(ResourcesDirectory, "Rooms.yaml"));
+            
+            if(fi.Exists)
+                return new YamlRoomFactory(File.ReadAllText(fi.FullName),adjectiveFactory);
+
             return new RoomFactory(adjectiveFactory);
         }
         protected virtual IPlace GetStartingRoom(IRoomFactory roomFactory, World world)

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Extensions;
 using StarshipWanderer.Factories.Blueprints;
@@ -20,7 +21,7 @@ namespace StarshipWanderer.Factories
         
         public virtual void Create(IWorld world, IPlace place,IFaction faction)
         {
-            int numberOfNpc = world.R.Next(5);
+            int numberOfNpc = Math.Max(1,world.R.Next(5));
 
             if(Blueprints.Any())
                 for (int i = 0; i < numberOfNpc; i++)

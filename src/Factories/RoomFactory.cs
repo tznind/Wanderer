@@ -4,19 +4,58 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Extensions;
+using StarshipWanderer.Factories.Blueprints;
 using StarshipWanderer.Items;
 using StarshipWanderer.Places;
+using StarshipWanderer.Relationships;
 
 namespace StarshipWanderer.Factories
 {
     public class RoomFactory: HasStatsFactory<IPlace>, IRoomFactory
     {
+        public RoomBlueprint[] Blueprints { get; set; } = new RoomBlueprint[0];
+
         public RoomFactory(IAdjectiveFactory adjectiveFactory):base(adjectiveFactory)
         {
         }
 
         public IPlace Create(IWorld world)
         {
+            return Create(world,Blueprints.GetRandom(world.R));
+        }
+
+        public IPlace Create(IWorld world, RoomBlueprint blueprint)
+        {
+            if (blueprint == null)
+                return new Room("Empty Room",world,'e');
+            
+
+            //pick blueprint faction (or random one if it isn't themed to a specific faction)
+            var faction = blueprint.Faction != null
+                ? world.Factions.Single(f => f.Identifier == blueprint.Faction)
+                : world.Factions.GetRandomFaction(world.R);
+
+            var room = new Room(blueprint.Name, world, blueprint.Tile) {ControllingFaction = faction};
+            
+            if (faction != null)
+            {
+                //create some random NPCs
+                faction.ActorFactory?.Create(world, room, faction);
+
+                var itemFactory = faction.ActorFactory?.ItemFactory;
+
+                if (itemFactory != null && itemFactory.Blueprints.Any())
+                {
+                    var items = world.R.Next(2);
+                    for (int i = 0; i < items; i++) 
+                        room.Items.Add(itemFactory.Create(itemFactory.Blueprints.GetRandom(world.R)));
+                }
+            }
+
+            return room;
+        }
+        /*
+
             var room = _buildersList[world.R.Next(_buildersList.Count)](world);
 
             //give the room a random adjective
@@ -33,24 +72,6 @@ namespace StarshipWanderer.Factories
                     room.Items.Add(itemFactory.Create(itemFactory.Blueprints.GetRandom(world.R)));
             }
             
-            return room;
-        }
-
-        private IReadOnlyList<Func<IWorld, IPlace>> _buildersList = new ReadOnlyCollection<Func<IWorld, IPlace>>(
-            new List<Func<IWorld, IPlace>>
-            {
-                w =>
-                    new Room("Gun Bay " + w.R.Next(5000), w, 'g')
-                        {
-                            ControllingFaction = w.Factions.GetRandomFaction(w.R)
-                        }
-                        .With(new LoadGunsAction()),
-                w =>
-                    new Room("Stair" + w.R.Next(5000), w, 's')
-                        {
-                            ControllingFaction = w.Factions.GetRandomFaction(w.R)
-                        }
-                        .AllowUpDown(true)
-            });
+            return room;*/
     }
 }
