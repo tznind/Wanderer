@@ -1,5 +1,6 @@
 ﻿using StarshipWanderer.Actions;
 using StarshipWanderer.Adjectives;
+using StarshipWanderer.Dialogues;
 using StarshipWanderer.Items;
 
 namespace StarshipWanderer.Factories
@@ -18,8 +19,8 @@ namespace StarshipWanderer.Factories
 
             if (blueprint.Dialogue != null)
             {
-                item.BaseActions.Add(new ReadAction());
-                item.NextDialogue = blueprint.Dialogue;
+                item.BaseActions.Add(new DialogueAction());
+                item.Dialogue = blueprint.Dialogue;
             }
 
             return item;

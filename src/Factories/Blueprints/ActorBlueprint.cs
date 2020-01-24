@@ -1,5 +1,6 @@
 ﻿using System;
 using StarshipWanderer.Adjectives;
+using StarshipWanderer.Dialogues;
 using StarshipWanderer.Stats;
 using StarshipWanderer.Systems;
 
@@ -17,7 +18,7 @@ namespace StarshipWanderer.Factories.Blueprints
         /// Things the npc has to say, if multiple then one is picked at random.
         /// These guids map to <see cref="DialogueNode"/>
         /// </summary>
-        public Guid[] Dialogue { get; set; } = new Guid[0];
+        public DialogueInitiation Dialogue { get; set; }
 
         /// <summary>
         /// List of <see cref="IAdjective"/> type names (which must be supported by

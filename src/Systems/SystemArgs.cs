@@ -25,16 +25,16 @@ namespace StarshipWanderer.Systems
         public IActor AggressorIfAny { get; set; }
 
         /// <summary>
-        /// The actor upon which to inflict the system
+        /// The thing upon which to inflict the system
         /// </summary>
-        public IActor Recipient { get; set; }
+        public IHasStats Recipient { get; set; }
 
         /// <summary>
         /// The current round in which the system application is happening
         /// </summary>
         public Guid Round { get; set; }
 
-        public SystemArgs(IUserinterface ui,double intensity,IActor aggressorIfAny,IActor recipient,Guid round)
+        public SystemArgs(IUserinterface ui,double intensity,IActor aggressorIfAny,IHasStats recipient,Guid round)
         {
             Intensity = intensity;
             AggressorIfAny = aggressorIfAny;

@@ -44,15 +44,16 @@ namespace Tests.Systems
 
             tree.Options = new List<DialogueOption> {o1, o2};
 
-            sam.NextDialogue = tree.Identifier;
+            sam.Dialogue.Verb = "talk";
+            sam.Dialogue.Next = tree.Identifier;
             w.Dialogue.AllDialogues.Add(tree);
 
             var yaml = new Serializer().Serialize(new DialogueNode[]{tree});
             TestContext.Out.Write(yaml);
 
-            var ui = GetUI(sam,pickFriendly ? o1 : o2);
+            var ui = GetUI("talk:Chaos Sam",pickFriendly ? o1 : o2);
 
-            w.RunRound(ui,new TalkAction());
+            w.RunRound(ui,new DialogueAction());
 
             var r = w.Relationships.OfType<PersonalRelationship>().Single(r => r.AppliesTo(sam, you));
 
@@ -69,13 +70,22 @@ namespace Tests.Systems
 
             var friend = new DialogueNode()
             {
+                Identifier = new Guid("4abbc8e5-880c-44d3-ba0e-a9f13a0522d0"),
                 Body = "Hello Friend",
                 Suits = Banter.Friend
             };
             var foe = new DialogueNode()
             {
+                Identifier = new Guid("00d77067-da1c-4c34-96ee-8a74353e4839"),
                 Body = "Hello Foe",
                 Suits = Banter.Foe
+            };
+
+            sam.Dialogue.Verb = "talk";
+            sam.Dialogue.Banter = new[]
+            {
+                new Guid("4abbc8e5-880c-44d3-ba0e-a9f13a0522d0"),
+                new Guid("00d77067-da1c-4c34-96ee-8a74353e4839")
             };
 
             w.Dialogue.AllDialogues.Add(friend);
@@ -84,8 +94,8 @@ namespace Tests.Systems
             //how does sam feel about you? how will he respond
             w.Relationships.Add(new PersonalRelationship(sam,you){Attitude = areFriends ? 10 : -10});
 
-            var ui = GetUI(sam);
-            w.RunRound(ui,new TalkAction());
+            var ui = GetUI("talk:Chaos Sam");
+            w.RunRound(ui,new DialogueAction());
 
             Assert.Contains(areFriends ? "Hello Friend" : "Hello Foe",ui.MessagesShown);
 
@@ -97,7 +107,7 @@ namespace Tests.Systems
         {
             var you = YouInARoom(out IWorld w);
             var npc = new Npc("Space Crab",you.CurrentLocation);
-            npc.NextDialogue = new Guid("339271e0-7b11-4aba-a9e2-2776f6c5a197");
+            npc.Dialogue.Next = new Guid("339271e0-7b11-4aba-a9e2-2776f6c5a197");
 
             var yaml = @"- Identifier: 339271e0-7b11-4aba-a9e2-2776f6c5a197
   Body: ""Screeeee (this creature seems {DescribeRelationship})""";

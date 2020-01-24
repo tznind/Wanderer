@@ -21,8 +21,6 @@ namespace StarshipWanderer.Actors
         /// <inheritdoc/>
         public IPlace CurrentLocation { get; set; }
         
-        public Guid? NextDialogue { get; set; }
-
         public HashSet<IItem> Items { get; set; } = new HashSet<IItem>();
         public HashSet<IFaction> FactionMembership { get; set; } = new HashSet<IFaction>();
 
@@ -54,7 +52,7 @@ namespace StarshipWanderer.Actors
             BaseActions.Add(new PickUpAction());
             BaseActions.Add(new DropAction());
             BaseActions.Add(new GiveAction());
-            BaseActions.Add(new TalkAction());
+            BaseActions.Add(new DialogueAction());
             BaseActions.Add(new EquipmentAction());
             BaseBehaviours.Add(new MergeStacksBehaviour(this));
 

@@ -15,8 +15,14 @@ namespace StarshipWanderer.Systems
         {
             if(args.Intensity < 0 || region == InjuryRegion.None)
                 return;
-            
-            var available = GetAvailableInjuries(args.Recipient).ToArray();
+
+            var a = (IActor) args.Recipient;
+
+            //currently you can't damage rooms or burn books
+            if (a == null)
+                return;
+
+            var available = GetAvailableInjuries(a).ToArray();
 
             var worst = available.Max(i => i.Severity);
 
@@ -27,7 +33,7 @@ namespace StarshipWanderer.Systems
                 throw new Exception("No Injury  found for severity " + args.Intensity);
 
             args.Recipient.Adjectives.Add(newInjury);
-            args.UserInterface.Log.Info(new LogEntry($"{args.Recipient} gained {newInjury}", args.Round,args.Recipient));
+            args.UserInterface.Log.Info(new LogEntry($"{args.Recipient} gained {newInjury}", args.Round,a));
         }
 
         public void Apply(SystemArgs args)

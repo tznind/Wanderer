@@ -23,7 +23,12 @@ namespace StarshipWanderer.Systems
 
         protected virtual string DescribeRelationship(SystemArgs arg)
         {
-            var result = arg.Recipient.CurrentLocation.World.Relationships.SumBetween(arg.Recipient, arg.AggressorIfAny);
+            var a = arg.Recipient as IActor;
+
+            if (a == null)
+                return string.Empty;
+
+            var result = a.CurrentLocation.World.Relationships.SumBetween(a, arg.AggressorIfAny);
 
             if (Math.Abs(result) < 0.01)
                 return "indifferent";
@@ -61,7 +66,7 @@ namespace StarshipWanderer.Systems
 
             if (args.AggressorIfAny is You)
             {
-                var d = GetDialogue(args.Recipient.NextDialogue) ?? GetBanter(args);
+                var d = GetDialogue(args.Recipient.Dialogue.Next) ?? GetBanter(args);
                 
                 if (d != null)
                     Run(args,d);
@@ -134,7 +139,12 @@ namespace StarshipWanderer.Systems
         {
             var world = args.AggressorIfAny.CurrentLocation.World;
 
-            var relationship = world.Relationships.SumBetween(args.Recipient,args.AggressorIfAny);
+            var a = args.Recipient as IActor;
+
+            if (a == null)
+                return null;
+
+            var relationship = world.Relationships.SumBetween(a,args.AggressorIfAny);
 
             var suitable = AllDialogues.Where(a => a.Suits == Banter.Neutral
                                     || a.Suits == Banter.Friend && relationship >= 0

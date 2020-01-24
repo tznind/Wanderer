@@ -4,6 +4,7 @@ using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives;
 using StarshipWanderer.Behaviours;
+using StarshipWanderer.Dialogues;
 using StarshipWanderer.Stats;
 
 namespace StarshipWanderer
@@ -11,6 +12,7 @@ namespace StarshipWanderer
     public abstract class HasStats : IHasStats
     {
         public string Name { get; set; }
+        public DialogueInitiation Dialogue { get; set; } = new DialogueInitiation();
 
         public IAdjectiveCollection Adjectives { get; set; } = new AdjectiveCollection();
         public IActionCollection BaseActions { get; set; } = new ActionCollection();

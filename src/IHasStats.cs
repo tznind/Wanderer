@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives;
 using StarshipWanderer.Behaviours;
+using StarshipWanderer.Dialogues;
 using StarshipWanderer.Stats;
 
 namespace StarshipWanderer
@@ -16,6 +16,10 @@ namespace StarshipWanderer
         /// </summary>
         string Name { get; set; }
 
+        /// <summary>
+        /// What the thing does when you try to interact with it in a narrative manner e.g. talk, read
+        /// </summary>
+        DialogueInitiation Dialogue { get; set; }
 
         /// <summary>
         /// Human readable words that describe the current state of the object

@@ -1,5 +1,7 @@
 ﻿- Name: Centipede
   Dialogue: 
+    Verb: talk
+    Banter: 
     - 339271e0-7b11-4aba-a9e2-2776f6c5a197
     - c11ae5d2-a1ab-44b9-a88a-e58f116b2ab7
     - 43d0073f-e3d9-4d4c-84b9-482bbb402546
@@ -14,6 +16,8 @@
     Fight: 20
 - Name: Crab
   Dialogue: 
+    Verb: talk
+    Banter: 
     - 339271e0-7b11-4aba-a9e2-2776f6c5a197
     - c11ae5d2-a1ab-44b9-a88a-e58f116b2ab7
     - 43d0073f-e3d9-4d4c-84b9-482bbb402546

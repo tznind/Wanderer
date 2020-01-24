@@ -36,13 +36,7 @@ namespace StarshipWanderer.Actors
         /// How many of each body part does the actor have in which he can equip stuff
         /// </summary>
         Dictionary<string,int> AvailableSlots { get; set; }
-
-        /// <summary>
-        /// The next thing they will say if talked to (or nothing at all).
-        /// See <see cref="IDialogueSystem"/> for more details
-        /// </summary>
-        Guid? NextDialogue { get; set; }
-
+        
         /// <summary>
         /// All factions which you belong to
         /// </summary>

@@ -14,29 +14,31 @@ namespace StarshipWanderer.Systems
             if(args.AggressorIfAny == args.Recipient || args.AggressorIfAny == null)
                 return;
             
+            var actorRecipient = (IActor)args.Recipient;
+
             //if someone is doing something to you
             if (Math.Abs(args.Intensity) > 0.0001)
             {
                 //don't form relationships with the dead
-                if(args.AggressorIfAny.Dead || args.Recipient.Dead)
+                if(args.AggressorIfAny.Dead || actorRecipient.Dead)
                     return;
 
-                var world = args.Recipient.CurrentLocation.World;
+                var world = actorRecipient.CurrentLocation.World;
 
                 //log the change
                 if(args.Intensity > 0.001)
-                    args.UserInterface.Log.Info(new LogEntry($"{args.Recipient} expressed approval towards {args.AggressorIfAny}",args.Round,args.Recipient));
+                    args.UserInterface.Log.Info(new LogEntry($"{args.Recipient} expressed approval towards {args.AggressorIfAny}",args.Round,actorRecipient));
                 else if (args.Intensity < 0.001)
-                    args.UserInterface.Log.Info(new LogEntry($"{args.Recipient} became angry at {args.AggressorIfAny}",args.Round,args.Recipient));
+                    args.UserInterface.Log.Info(new LogEntry($"{args.Recipient} became angry at {args.AggressorIfAny}",args.Round,actorRecipient));
 
                 //then you need to be angry about that! (or happy)
                 var existingRelationship = world.Relationships.OfType<PersonalRelationship>()
-                    .SingleOrDefault(r => r.AppliesTo(args.Recipient, args.AggressorIfAny));
+                    .SingleOrDefault(r => r.AppliesTo(actorRecipient, args.AggressorIfAny));
 
                 if (existingRelationship != null)
                     existingRelationship.Attitude += args.Intensity;
                 else
-                    world.Relationships.Add(new PersonalRelationship(args.Recipient, args.AggressorIfAny)
+                    world.Relationships.Add(new PersonalRelationship(actorRecipient, args.AggressorIfAny)
                         {Attitude = args.Intensity});
             }
         }
