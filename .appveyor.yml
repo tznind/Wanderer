@@ -10,6 +10,5 @@ build:
   verbosity: minimal
 
 test_script:
-- OpenCover.Console.exe -target:"dotnet" 
-  -targetargs:"test" -filter:"+[*]* -[Tests*]*" -register:user
+- OpenCover.Console.Exe -target:"c:\program files\dotnet\dotnet.exe" -targetargs:"test"
 - codecov -f "coverage.xml"
