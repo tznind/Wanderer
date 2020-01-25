@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
-using Moq;
 using NUnit.Framework;
 using StarshipWanderer;
 using StarshipWanderer.Actions;
@@ -19,10 +16,9 @@ namespace Tests.Systems
     {
         [TestCase(true)]
         [TestCase(false)]
-        public void TestDialogue_HelloWorld(bool pickFriendly)
+        public void TestDialogue_ChoicesAffectRelationships(bool pickFriendly)
         {
-            var you = YouInARoom(out IWorld w);
-            var sam = new Npc("Chaos Sam", you.CurrentLocation);
+            TwoInARoom(out You you, out IActor them, out IWorld w);
 
             var g = Guid.NewGuid();
 
@@ -45,8 +41,8 @@ namespace Tests.Systems
 
             tree.Options = new List<DialogueOption> {o1, o2};
 
-            sam.Dialogue.Verb = "talk";
-            sam.Dialogue.Next = tree.Identifier;
+            them.Dialogue.Verb = "talk";
+            them.Dialogue.Next = tree.Identifier;
             w.Dialogue.AllDialogues.Add(tree);
 
             var yaml = new Serializer().Serialize(new DialogueNode[]{tree});
@@ -56,7 +52,7 @@ namespace Tests.Systems
 
             w.RunRound(ui,new DialogueAction());
 
-            var r = w.Relationships.OfType<PersonalRelationship>().Single(r => r.AppliesTo(sam, you));
+            var r = w.Relationships.OfType<PersonalRelationship>().Single(r => r.AppliesTo(them, you));
 
             Assert.AreEqual(pickFriendly ? 10 : -10,r.Attitude);
 
@@ -66,8 +62,7 @@ namespace Tests.Systems
         [TestCase(false)]
         public void Test_Banter(bool areFriends)
         {
-            var you = YouInARoom(out IWorld w);
-            var sam = new Npc("Chaos Sam", you.CurrentLocation);
+            TwoInARoomWithRelationship(areFriends ? 10 : -10,false, out You you, out IActor them, out IWorld w);
 
             var friend = new DialogueNode()
             {
@@ -82,8 +77,8 @@ namespace Tests.Systems
                 Suits = Banter.Foe
             };
 
-            sam.Dialogue.Verb = "talk";
-            sam.Dialogue.Banter = new[]
+            them.Dialogue.Verb = "talk";
+            them.Dialogue.Banter = new[]
             {
                 new Guid("4abbc8e5-880c-44d3-ba0e-a9f13a0522d0"),
                 new Guid("00d77067-da1c-4c34-96ee-8a74353e4839")
@@ -91,10 +86,7 @@ namespace Tests.Systems
 
             w.Dialogue.AllDialogues.Add(friend);
             w.Dialogue.AllDialogues.Add(foe);
-
-            //how does sam feel about you? how will he respond
-            w.Relationships.Add(new PersonalRelationship(sam,you){Attitude = areFriends ? 10 : -10});
-
+            
             var ui = GetUI("talk:Chaos Sam");
             w.RunRound(ui,new DialogueAction());
 
@@ -125,19 +117,18 @@ namespace Tests.Systems
         [TestCase(false)]
         public void Test_Substitutions(bool areFriends)
         {
-            var you = YouInARoom(out IWorld w);
-            var npc = new Npc("Space Crab",you.CurrentLocation);
-            npc.Dialogue.Next = new Guid("339271e0-7b11-4aba-a9e2-2776f6c5a197");
+            TwoInARoomWithRelationship(areFriends ? 10:-10,false,out You you, out IActor them,out IWorld w);
+            
+            them.Name = "Space Crab";
+            them.Dialogue.Next = new Guid("339271e0-7b11-4aba-a9e2-2776f6c5a197");
 
             var yaml = @"- Identifier: 339271e0-7b11-4aba-a9e2-2776f6c5a197
   Body: ""Screeeee (this creature seems {DescribeRelationship})""";
-
-            w.Relationships.Add(new PersonalRelationship(npc,you){Attitude = areFriends ? 10 : -10});
-
+            
             var dlg = new YamlDialogueSystem(yaml);
 
             var ui = GetUI();
-            dlg.Apply(new SystemArgs(ui,0,you,npc,Guid.Empty));
+            dlg.Apply(new SystemArgs(ui,0,you,them,Guid.Empty));
 
             if(areFriends)
                 Assert.Contains("Screeeee (this creature seems friendly)",ui.MessagesShown);
