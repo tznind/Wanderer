@@ -113,7 +113,7 @@ namespace Tests.Systems
             var yaml = @"- Identifier: 339271e0-7b11-4aba-a9e2-2776f6c5a197
   Body: ""Greetings {aggressor} I am {this}""";
          
-            var dlg = new DialogueSystem(yaml);
+            var dlg = new YamlDialogueSystem(yaml);
 
             var ui = GetUI();
             dlg.Apply(new SystemArgs(ui,0,you,npc,Guid.Empty));
@@ -134,7 +134,7 @@ namespace Tests.Systems
 
             w.Relationships.Add(new PersonalRelationship(npc,you){Attitude = areFriends ? 10 : -10});
 
-            var dlg = new DialogueSystem(yaml);
+            var dlg = new YamlDialogueSystem(yaml);
 
             var ui = GetUI();
             dlg.Apply(new SystemArgs(ui,0,you,npc,Guid.Empty));

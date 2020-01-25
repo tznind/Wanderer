@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +7,6 @@ using StarshipWanderer.Actors;
 using StarshipWanderer.Dialogues;
 using StarshipWanderer.Dialogues.Tokens;
 using StarshipWanderer.Extensions;
-using YamlDotNet.Serialization;
 
 namespace StarshipWanderer.Systems
 {
@@ -19,23 +17,8 @@ namespace StarshipWanderer.Systems
         [JsonIgnore] 
         protected DialogueTokenCollection Substitutions = new DialogueTokenCollection();
 
-        public DialogueSystem(params string[] dialogueYaml)
+        public DialogueSystem()
         {
-            var de = new Deserializer();
-
-            foreach (string yaml in dialogueYaml)
-            {
-                try
-                {
-                    foreach (var dialogueNode in de.Deserialize<DialogueNode[]>(yaml)) 
-                        AllDialogues.Add(dialogueNode);
-                }
-                catch (Exception e)
-                {
-                    throw new ArgumentException("Error in dialogue yaml:" + e.Message);
-                }
-            }
-            
             Substitutions.Add(a=>a.AggressorIfAny?.ToString(), "aggressor");
             Substitutions.Add(a=>a.Recipient.ToString(), "this");
             Substitutions.Add(new DescribeRelationshipToken());

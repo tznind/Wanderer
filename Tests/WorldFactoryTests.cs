@@ -21,7 +21,7 @@ namespace Tests
 
             Assert.IsNotEmpty(f.GetAllDialogueYaml());
 
-            var dialogue = new DialogueSystem(f.GetAllDialogueYaml().ToArray());
+            var dialogue = new YamlDialogueSystem(f.GetAllDialogueYaml().ToArray());
             Assert.Greater(dialogue.AllDialogues.Count,0);
         }
     }

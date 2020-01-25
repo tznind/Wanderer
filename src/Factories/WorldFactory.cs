@@ -30,7 +30,7 @@ namespace StarshipWanderer.Factories
 
             GenerateFactions(world);
 
-            world.Dialogue = new DialogueSystem(GetAllDialogueYaml().ToArray());
+            world.Dialogue = new YamlDialogueSystem(GetAllDialogueYaml().ToArray());
 
             var adjectiveFactory = GetAdjectiveFactory();
 
