@@ -62,7 +62,7 @@ namespace Tests.Systems
 
         [TestCase(true)]
         [TestCase(false)]
-        public void Test_Banter(bool areFriends)
+        public void TestBanterDialogueCondition_AreFriends(bool areFriends)
         {
             TwoInARoomWithRelationship(areFriends ? 10 : -10,false, out You you, out IActor them, out IWorld w);
 

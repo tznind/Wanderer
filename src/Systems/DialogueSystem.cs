@@ -31,7 +31,11 @@ namespace StarshipWanderer.Systems
 
             if (args.AggressorIfAny is You)
             {
-                var d = GetDialogue(args.Recipient.Dialogue.Next) ?? GetBanter(args);
+                var d = GetDialogue(args.Recipient.Dialogue.Next);
+                    
+                //if there is no main dialogue set or its conditions are not yet met, fall back on banter
+                if(d == null || !d.Conditions.All(c=>c.IsMet(args)))
+                    d =  GetBanter(args);
                 
                 if (d != null)
                     Run(args,d);
