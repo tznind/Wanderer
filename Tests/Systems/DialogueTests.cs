@@ -8,6 +8,7 @@ using NUnit.Framework;
 using StarshipWanderer;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
+using StarshipWanderer.Dialogues;
 using StarshipWanderer.Relationships;
 using StarshipWanderer.Systems;
 using YamlDotNet.Serialization;
@@ -101,6 +102,25 @@ namespace Tests.Systems
 
         }
 
+        [Test]
+        public void Test_SimpleSubstitution()
+        {
+            var you = YouInARoom(out IWorld w);
+            you.Name = "Flash";
+            var npc = new Npc("Space Crab",you.CurrentLocation);
+            npc.Dialogue.Next = new Guid("339271e0-7b11-4aba-a9e2-2776f6c5a197");
+
+            var yaml = @"- Identifier: 339271e0-7b11-4aba-a9e2-2776f6c5a197
+  Body: ""Greetings {aggressor} I am {this}""";
+         
+            var dlg = new DialogueSystem(yaml);
+
+            var ui = GetUI();
+            dlg.Apply(new SystemArgs(ui,0,you,npc,Guid.Empty));
+            Assert.Contains("Greetings Flash I am Space Crab",ui.MessagesShown);
+            
+        }
+
         [TestCase(true)]
         [TestCase(false)]
         public void Test_Substitutions(bool areFriends)
@@ -124,5 +144,7 @@ namespace Tests.Systems
             else
                 Assert.Contains("Screeeee (this creature seems hostile)",ui.MessagesShown);
         }
+
+
     }
 }

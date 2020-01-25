@@ -4,6 +4,7 @@ using NUnit.Framework;
 using NUnit.Framework.Constraints;
 using StarshipWanderer;
 using StarshipWanderer.Actions;
+using StarshipWanderer.Dialogues;
 using StarshipWanderer.Factories;
 using StarshipWanderer.Systems;
 

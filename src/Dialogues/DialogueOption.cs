@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace StarshipWanderer.Systems
+namespace StarshipWanderer.Dialogues
 {
     public class DialogueOption
     {

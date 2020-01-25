@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using StarshipWanderer.Actors;
+using StarshipWanderer.Dialogues;
 
 namespace StarshipWanderer.Systems
 {

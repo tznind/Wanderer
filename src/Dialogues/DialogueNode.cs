@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using StarshipWanderer.Systems;
 
-namespace StarshipWanderer.Systems
+namespace StarshipWanderer.Dialogues
 {
     public class DialogueNode
     {

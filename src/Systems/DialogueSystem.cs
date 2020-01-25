@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
-using StarshipWanderer;
 using StarshipWanderer.Actors;
+using StarshipWanderer.Dialogues;
+using StarshipWanderer.Dialogues.Tokens;
 using StarshipWanderer.Extensions;
-using StarshipWanderer.Systems;
 using YamlDotNet.Serialization;
 
 namespace StarshipWanderer.Systems
@@ -14,30 +15,9 @@ namespace StarshipWanderer.Systems
     public class DialogueSystem : IDialogueSystem
     {
         public IList<DialogueNode> AllDialogues { get; set; } = new List<DialogueNode>();
-        
-        [JsonIgnore]
-        protected Dictionary<string,Func<SystemArgs,string>> Substitutions = new Dictionary<string, Func<SystemArgs, string>>()
-        {
-            {"{AggressorIfAny}", a=>a.AggressorIfAny?.Name },
-        };
 
-        protected virtual string DescribeRelationship(SystemArgs arg)
-        {
-            var a = arg.Recipient as IActor;
-
-            if (a == null)
-                return string.Empty;
-
-            var result = a.CurrentLocation.World.Relationships.SumBetween(a, arg.AggressorIfAny);
-
-            if (Math.Abs(result) < 0.01)
-                return "indifferent";
-            
-            if (result < 0)
-                return "hostile";
-            
-            return "friendly";
-        }
+        [JsonIgnore] 
+        protected DialogueTokenCollection Substitutions = new DialogueTokenCollection();
 
         public DialogueSystem(params string[] dialogueYaml)
         {
@@ -55,8 +35,10 @@ namespace StarshipWanderer.Systems
                     throw new ArgumentException("Error in dialogue yaml:" + e.Message);
                 }
             }
-
-            Substitutions.Add("{DescribeRelationship}", DescribeRelationship);
+            
+            Substitutions.Add(a=>a.AggressorIfAny?.ToString(), "aggressor");
+            Substitutions.Add(a=>a.Recipient.ToString(), "this");
+            Substitutions.Add(new DescribeRelationshipToken());
         }
 
         public void Apply(SystemArgs args)
@@ -105,7 +87,9 @@ namespace StarshipWanderer.Systems
         {
             StringBuilder sb = new StringBuilder(body);
             foreach (var sub in Substitutions) 
-                sb = sb.Replace(sub.Key, sub.Value(args));
+                sb = sb.Replace(
+                    '{' + string.Join(' ',sub.Tokens) + '}'
+                    , sub.GetReplacement(args));
 
             return sb.ToString();
         }
