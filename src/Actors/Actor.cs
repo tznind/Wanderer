@@ -46,6 +46,8 @@ namespace StarshipWanderer.Actors
             CurrentLocation = currentLocation;
             CurrentLocation.World.Population.Add(this);
 
+            Dialogue.Verb = "talk";
+
             //basic actions everyone can do (by default)
             BaseActions.Add(new Leave());
             BaseActions.Add(new FightAction());

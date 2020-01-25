@@ -1,6 +1,5 @@
 ﻿- Identifier: 4ac218f4-1f7a-4d97-b65f-4b0b71deaca8
   Body: "Greetings {aggessor}, may the emperor shine on your presence"
-  Suits: Friend
   Options:
   - Destination: 
     Attitude: 10
@@ -10,7 +9,6 @@
     Text: Go to hell
 - Identifier: 9a3c04b7-8f5a-498a-a0d3-00d6f66ba0e8
   Body: "Listen buddy, we aint friends.  I got nothing to say to you"
-  Suits: Friend
 
 
 # Wildlife banter  

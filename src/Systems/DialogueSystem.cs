@@ -48,6 +48,15 @@ namespace StarshipWanderer.Systems
         {
             return g.HasValue ? AllDialogues.SingleOrDefault(d => d.Identifier == g) : null;
         }
+        
+        public IEnumerable<DialogueNode> GetDialogues(Guid[] guids)
+        {
+            if (guids == null)
+                yield break;
+
+            foreach (var guid in guids)
+                yield return AllDialogues.SingleOrDefault(d => d.Identifier == guid);
+        }
 
         public void Run(SystemArgs args, DialogueNode node)
         {
@@ -104,20 +113,17 @@ namespace StarshipWanderer.Systems
 
         public DialogueNode GetBanter(SystemArgs args)
         {
-            var world = args.AggressorIfAny.CurrentLocation.World;
+            var valid = GetDialogues(args.Recipient.Dialogue.Banter)
+                .Where(d => d.Conditions.All(c => c.IsMet(args)))
+                .ToArray();
 
-            var a = args.Recipient as IActor;
+            if (valid.Any())
+            {
+                var r= args.AggressorIfAny.CurrentLocation.World.R;
+                return valid.GetRandom(r);
+            }
 
-            if (a == null)
-                return null;
-
-            var relationship = world.Relationships.SumBetween(a,args.AggressorIfAny);
-
-            var suitable = AllDialogues.Where(a => a.Suits == Banter.Neutral
-                                    || a.Suits == Banter.Friend && relationship >= 0
-                                    || a.Suits == Banter.Foe && relationship < 0);
-            
-            return suitable.ToList().Shuffle(world.R).FirstOrDefault();
+            return null;
         }
     }
 }

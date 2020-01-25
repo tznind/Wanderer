@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using StarshipWanderer.Systems;
+using StarshipWanderer.Dialogues.Conditions;
 
 namespace StarshipWanderer.Dialogues
 {
@@ -10,16 +10,8 @@ namespace StarshipWanderer.Dialogues
 
         public String Body { get; set; }
 
-        public Banter Suits { get; set; } = Banter.None;
+        public DialogueConditionCollection Conditions { get; set; } = new DialogueConditionCollection();
 
         public List<DialogueOption> Options = new List<DialogueOption>();
-    }
-
-    public enum Banter
-    {
-        None = 0,
-        Friend,
-        Foe,
-        Neutral,
     }
 }

@@ -5,7 +5,9 @@ using NUnit.Framework;
 using StarshipWanderer;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
+using StarshipWanderer.Behaviours;
 using StarshipWanderer.Dialogues;
+using StarshipWanderer.Dialogues.Conditions;
 using StarshipWanderer.Relationships;
 using StarshipWanderer.Systems;
 using YamlDotNet.Serialization;
@@ -68,13 +70,14 @@ namespace Tests.Systems
             {
                 Identifier = new Guid("4abbc8e5-880c-44d3-ba0e-a9f13a0522d0"),
                 Body = "Hello Friend",
-                Suits = Banter.Friend
+                Conditions = new DialogueConditionCollection(new RelationshipCondition(Comparison.GreaterThanOrEqual,5))
+
             };
             var foe = new DialogueNode()
             {
                 Identifier = new Guid("00d77067-da1c-4c34-96ee-8a74353e4839"),
                 Body = "Hello Foe",
-                Suits = Banter.Foe
+                Conditions = new DialogueConditionCollection(new RelationshipCondition(Comparison.LessThan,-4))
             };
 
             them.Dialogue.Verb = "talk";
@@ -138,4 +141,6 @@ namespace Tests.Systems
 
 
     }
+
+    
 }
