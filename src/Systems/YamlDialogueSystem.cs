@@ -8,7 +8,9 @@ namespace StarshipWanderer.Systems
     {
         public YamlDialogueSystem(params string[] dialogueYaml)
         {
-            var de = new Deserializer();
+            var de = new DeserializerBuilder()
+                .WithTypeConverter(new DialogueConditionYamlTypeConverter())
+                .Build();
 
             if(dialogueYaml != null)
                 foreach (string yaml in dialogueYaml)
@@ -20,9 +22,18 @@ namespace StarshipWanderer.Systems
                     }
                     catch (Exception e)
                     {
-                        throw new ArgumentException("Error in dialogue yaml:" + e.Message);
+                        throw new ArgumentException("Error in dialogue yaml:" + e.Message,e);
                     }
                 }
+        }
+
+        public string Serialize()
+        {
+            var serializer = new SerializerBuilder()
+                .WithTypeConverter(new DialogueConditionYamlTypeConverter())
+                .Build();
+
+            return serializer.Serialize(this.AllDialogues);
         }
     }
 }

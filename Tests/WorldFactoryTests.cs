@@ -6,6 +6,7 @@ using System.Text;
 using NUnit.Framework;
 using StarshipWanderer;
 using StarshipWanderer.Factories;
+using StarshipWanderer.Factories.Blueprints;
 using StarshipWanderer.Systems;
 
 namespace Tests
@@ -23,6 +24,15 @@ namespace Tests
 
             var dialogue = new YamlDialogueSystem(f.GetAllDialogueYaml().ToArray());
             Assert.Greater(dialogue.AllDialogues.Count,0);
+        }
+
+        [Test]
+        public void TestYaml_ActorFiles()
+        {
+            var f = new WorldFactory(){
+                ResourcesDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory,"Resources")
+            };
+            f.Create();
         }
     }
 }

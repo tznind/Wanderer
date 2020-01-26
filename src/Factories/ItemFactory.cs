@@ -21,6 +21,8 @@ namespace StarshipWanderer.Factories
             {
                 item.BaseActions.Add(new DialogueAction());
                 item.Dialogue = blueprint.Dialogue;
+                if (item.Dialogue.Verb == null)
+                    item.Dialogue.Verb = "read";
             }
 
             return item;
