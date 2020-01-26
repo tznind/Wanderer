@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NUnit.Framework;
 using StarshipWanderer;
 using StarshipWanderer.Actors;
 
@@ -38,6 +39,10 @@ namespace Tests
 
         public bool GetChoice<T>(string title, string body, out T chosen, params T[] options)
         {
+            //make sure nobody ever presents empty options
+            foreach (var o in options) 
+                Assert.IsFalse(string.IsNullOrWhiteSpace(o.ToString()));
+
             if(_index >= _getChoiceReturns.Length)
                 throw new Exception($"Did not have an answer for GetChoice of:{title} ({body})");
             try

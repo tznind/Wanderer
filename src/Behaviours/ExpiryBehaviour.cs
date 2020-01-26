@@ -30,8 +30,22 @@ namespace StarshipWanderer.Behaviours
             {
                 _adjective.Owner.Adjectives.Remove(_adjective);
                 _adjective.BaseBehaviours.Remove(this);
+            } 
+        }
+
+        public override bool AreIdentical(IBehaviour other)
+        {
+            if (other is ExpiryBehaviour o)
+            {
+                return
+                    //timer left 
+                    o._roundsBeforeRemoval - o._roundsSeen.Count
+
+                    //timer left
+                    == _roundsBeforeRemoval - _roundsSeen.Count;
             }
-                
+
+            return false;
         }
     }
 }
