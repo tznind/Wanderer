@@ -49,6 +49,15 @@ namespace StarshipWanderer.Factories
                 }
             }
 
+            if (blueprint.Dialogue != null)
+            {
+                room.Dialogue = blueprint.Dialogue;
+
+                if(string.IsNullOrWhiteSpace(room.Dialogue.Verb))
+                    room.Dialogue.Verb = "inspect";
+
+            }
+
             return room;
         }
     }

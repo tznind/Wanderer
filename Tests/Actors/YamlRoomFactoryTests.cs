@@ -2,6 +2,9 @@
 using System.Linq;
 using NUnit.Framework;
 using StarshipWanderer;
+using StarshipWanderer.Actions;
+using StarshipWanderer.Actors;
+using StarshipWanderer.Dialogues;
 using StarshipWanderer.Factories;
 using StarshipWanderer.Factories.Blueprints;
 using StarshipWanderer.Relationships;
@@ -10,6 +13,34 @@ namespace Tests.Actors
 {
     class YamlRoomFactoryTests : UnitTest
     {
+        [Test]
+        public void TestCreatingRoomFromBlueprint_WithDialogue()
+        {
+            var yaml = @"- Name: Gun Bay
+  Dialogue:
+    Next: 193506ab-11bc-4de2-963e-e2f55a38d006";
+
+            var roomFactory = new YamlRoomFactory(yaml, new AdjectiveFactory());
+
+            var w = new World();
+            w.Dialogue.AllDialogues.Add(new DialogueNode()
+            {
+                Identifier = new Guid("193506ab-11bc-4de2-963e-e2f55a38d006"),
+                Body = "This room is rank"
+            });
+
+            var room = roomFactory.Create(w, roomFactory.Blueprints.Single());
+            var you = new You("Wanderer",room);
+
+            var ui = GetUI("inspect:Gun Bay");
+
+            w.RunRound(ui,new DialogueAction());
+
+            Assert.Contains("This room is rank",ui.MessagesShown);
+
+
+        }
+
         [Test]
         public void TestCreatingRoomFromBlueprint_NoFaction()
         {

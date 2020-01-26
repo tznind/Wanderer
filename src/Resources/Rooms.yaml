@@ -1,2 +1,6 @@
 ﻿- Name: Tunnels
 - Name: Vents
+- Name: Gun Bay
+  Faction: e6edabf6-9ae9-40e8-aa51-772616e7f1ff
+  Dialogue:
+    Next: 335770f7-48b5-4465-b133-df87934404bc
