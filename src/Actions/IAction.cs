@@ -3,7 +3,7 @@ using StarshipWanderer.Behaviours;
 
 namespace StarshipWanderer.Actions
 {
-    public interface IAction
+    public interface IAction : IAreIdentical<IAction>
     {
         /// <summary>
         /// The human readable name of the action which can be undertaken

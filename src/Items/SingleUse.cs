@@ -32,5 +32,10 @@ namespace StarshipWanderer.Items
         public void OnRoundEnding(IUserinterface ui, Guid round)
         {
         }
+
+        public bool AreIdentical(IBehaviour other)
+        {
+            return other is IAdjective oa && this.AreIdentical(oa);
+        }
     }
 }

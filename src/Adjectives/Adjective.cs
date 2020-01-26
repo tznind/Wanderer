@@ -37,6 +37,10 @@ namespace StarshipWanderer.Adjectives
         
         public abstract IEnumerable<string> GetDescription();
 
-        
+
+        public bool AreIdentical(IAdjective other)
+        {
+            return this.AreIdentical((IHasStats)other);
+        }
     }
 }

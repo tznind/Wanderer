@@ -8,7 +8,7 @@ using StarshipWanderer.Stats;
 
 namespace StarshipWanderer.Adjectives
 {
-    public interface IAdjective : IHasStats
+    public interface IAdjective : IHasStats, IAreIdentical<IAdjective>
     {
         /// <summary>
         /// The object to which the adjective is attached

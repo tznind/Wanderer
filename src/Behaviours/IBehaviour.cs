@@ -4,7 +4,7 @@ using StarshipWanderer.Actions;
 
 namespace StarshipWanderer.Behaviours
 {
-    public interface IBehaviour
+    public interface IBehaviour : IAreIdentical<IBehaviour>
     {
         void OnPush(IUserinterface ui, ActionStack stack,Frame frame);
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace StarshipWanderer.Stats
 {
-    public class StatsCollection: Dictionary<Stat,double>
+    public class StatsCollection: Dictionary<Stat,double>, IAreIdentical<StatsCollection>
     {
         public StatsCollection()
         {

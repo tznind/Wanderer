@@ -98,5 +98,10 @@ namespace StarshipWanderer.Adjectives.ActorOnly
         {
             return InjurySystem.IsHealableBy(actor, this, out reason);
         }
+
+        public bool AreIdentical(IBehaviour other)
+        {
+            return other is IAdjective oa && this.AreIdentical(oa);
+        }
     }
 }

@@ -21,5 +21,17 @@ namespace StarshipWanderer.Behaviours
         public virtual void OnRoundEnding(IUserinterface ui, Guid round)
         {
         }
+
+        public virtual bool AreIdentical(IBehaviour other)
+        {
+            if (other == null)
+                return false;
+
+            //if they are different Types
+            if (other.GetType() != GetType())
+                return false;
+
+            return true;
+        }
     }
 }

@@ -38,6 +38,14 @@ namespace StarshipWanderer.Actions
         /// <param name="frame"></param>
         public abstract void Pop(IUserinterface ui, ActionStack stack, Frame frame);
 
+        public bool AreIdentical(IAction other)
+        {
+            if (other == null)
+                return false;
+
+            return this.Name == other.Name;
+        }
+
         /// <summary>
         /// Returns <see cref="Name"/>
         /// </summary>

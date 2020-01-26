@@ -7,6 +7,7 @@ using StarshipWanderer.Actors;
 using StarshipWanderer.Behaviours;
 using StarshipWanderer.Items;
 using StarshipWanderer.Relationships;
+using StarshipWanderer.Stats;
 
 namespace Tests.Actors
 {
@@ -77,6 +78,36 @@ namespace Tests.Actors
 
             Assert.Contains(cares,dave.GetFinalBehaviours().ToArray(),"Expected behaviour be back on again now you are alive");
         }
-    }
 
+        [Test]
+        public void TestActors_AreIdentical()
+        {
+            var room = InARoom(out IWorld w);
+
+            var n1 = new Npc("A", room);
+            var n2 = new Npc("A", room);
+            
+            Assert.IsFalse(n1.AreIdentical(null),"Other is null");
+
+            Assert.IsTrue(n1.AreIdentical(n1));
+            Assert.IsTrue(n1.AreIdentical(n2));
+
+            var item = new Item("A");
+            Assert.IsFalse(n1.AreIdentical(item),"Types differ");
+
+            n2.Name = "Troll";
+            Assert.IsFalse(n1.AreIdentical(n2),"Names differ");
+
+            n1.Name = "Troll";
+            Assert.IsTrue(n1.AreIdentical(n2),"Names are same again");
+
+            n1.BaseStats[Stat.Fight] = 500;
+            Assert.IsFalse(n1.AreIdentical(n2),"One fights better");
+
+            n2.BaseStats[Stat.Fight] = 500;
+            Assert.IsTrue(n1.AreIdentical(n2),"Both fights well");
+
+
+        }
+    }
 }

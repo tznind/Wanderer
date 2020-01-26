@@ -31,6 +31,9 @@ namespace StarshipWanderer
         }
         public bool AreIdentical(IHasStats other)
         {
+            if (other == null)
+                return false;
+
             //if they are different Types
             if (other.GetType() != GetType())
                 return false;
