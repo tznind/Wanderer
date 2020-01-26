@@ -24,18 +24,7 @@ namespace StarshipWanderer.Conditions
                 return false;
 
             var attitude = talkingTo.CurrentLocation.World.Relationships.SumBetween(talkingTo, dialogueArgs.AggressorIfAny);
-
-
-            switch (Condition)
-            {
-                case Comparison.LessThan:
-                    return attitude < Threshold;
-                case Comparison.GreaterThanOrEqual:
-                    return attitude >= Threshold;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
+            return Condition.IsMet(attitude, Threshold);
         }
 
         public string? SerializeAsConstructorCall()

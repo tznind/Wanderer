@@ -22,6 +22,8 @@ namespace StarshipWanderer.Stats
                     return "How good you are with tech";
                 case Stat.Initiative:
                     return "Determines action order for Npcs";
+                case Stat.Value:
+                    return "How much something or someone is worth";
                 default:
                     throw new ArgumentOutOfRangeException(nameof(s), s, null);
             }

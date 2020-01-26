@@ -1,29 +1,25 @@
 ﻿using System;
 using System.Linq;
-using System.Text.RegularExpressions;
-using StarshipWanderer.Behaviours;
-using StarshipWanderer.Conditions;
-using StarshipWanderer.Systems;
 using TB.ComponentModel;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
 
-namespace StarshipWanderer.Dialogues
+namespace StarshipWanderer.Conditions
 {
-    public class DialogueConditionYamlTypeConverter : IYamlTypeConverter
+    public class ConditionYamlTypeConverter : IYamlTypeConverter
     {
         private readonly Type[] _conditions;
 
-        public DialogueConditionYamlTypeConverter()
+        public ConditionYamlTypeConverter()
         {
-            _conditions = typeof(ICondition<SystemArgs>).Assembly.GetTypes()
-                .Where(t => typeof(ICondition<SystemArgs>).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
+            _conditions = typeof(IConditionBase).Assembly.GetTypes()
+                .Where(t => typeof(IConditionBase).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
                 .ToArray();
         }
         public bool Accepts(Type type)
         {
-            return typeof(ICondition<SystemArgs>).IsAssignableFrom(type);
+            return typeof(IConditionBase).IsAssignableFrom(type);
         }
 
         public object? ReadYaml(IParser parser, Type type)
@@ -44,7 +40,7 @@ namespace StarshipWanderer.Dialogues
                 c.Name.Equals(split[0] + "Condition"));
 
             if(conditionType == null)
-                throw new YamlException($"Could not find condition called {split[0]}");
+                throw new YamlException($"Could not find ICondition called {split[0]}");
 
             var constructor = conditionType
                 .GetConstructors()
@@ -68,10 +64,8 @@ namespace StarshipWanderer.Dialogues
 
         public void WriteYaml(IEmitter emitter, object? value, Type type)
         {
-            var condition = (ICondition<SystemArgs>) value;
+            var condition = (IConditionBase) value;
             
-            
-
             // reset of serialisation code
             emitter.Emit(new Scalar(condition.SerializeAsConstructorCall()));
 

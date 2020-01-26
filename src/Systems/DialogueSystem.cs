@@ -34,7 +34,7 @@ namespace StarshipWanderer.Systems
                 var d = GetDialogue(args.Recipient.Dialogue.Next);
                     
                 //if there is no main dialogue set or its conditions are not yet met, fall back on banter
-                if(d == null || !d.Conditions.All(c=>c.IsMet(args)))
+                if(d == null || !d.Require.All(c=>c.IsMet(args)))
                     d =  GetBanter(args);
                 
                 if (d != null)
@@ -118,7 +118,7 @@ namespace StarshipWanderer.Systems
         public DialogueNode GetBanter(SystemArgs args)
         {
             var valid = GetDialogues(args.Recipient.Dialogue.Banter)
-                .Where(d => d.Conditions.All(c => c.IsMet(args)))
+                .Where(d => d.Require.All(c => c.IsMet(args)))
                 .ToArray();
 
             if (valid.Any())

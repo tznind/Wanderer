@@ -1,6 +1,6 @@
 ﻿- Identifier: 4ac218f4-1f7a-4d97-b65f-4b0b71deaca8
   Body: "Greetings {aggessor}, may the emperor shine on your presence"
-  Conditions:
+  Require:
     - Relationship(GreaterThanOrEqual,0)
   Options:
   - Destination: 
@@ -11,7 +11,7 @@
     Text: Go to hell
 - Identifier: 9a3c04b7-8f5a-498a-a0d3-00d6f66ba0e8
   Body: "Listen buddy, we aint friends.  I got nothing to say to you"
-  Conditions:
+  Require:
     - Relationship(LessThan,0)
 
 

@@ -5,6 +5,7 @@ using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives;
 using StarshipWanderer.Behaviours;
+using StarshipWanderer.Conditions;
 using StarshipWanderer.Places;
 using StarshipWanderer.Stats;
 
@@ -24,7 +25,10 @@ namespace StarshipWanderer.Items
         /// </summary>
         public bool IsErased { get; set; } = false;
 
-        
+
+        public List<ICondition<IActor>> Require { get; set; } = new List<ICondition<IActor>>();
+
+
         public void Drop(IUserinterface ui, IActor owner, Guid round)
         {
             //remove us from the owner
@@ -47,6 +51,14 @@ namespace StarshipWanderer.Items
         public bool Has<T>(IActor owner, Func<T, bool> condition) where T : IAdjective
         {
             return Adjectives.Any(a => a is T t && condition(t));
+        }
+
+        public bool CanUse(IActor actor)
+        {
+            if (IsErased)
+                return false;
+
+            return Require.All(c => c.IsMet(actor));
         }
 
 

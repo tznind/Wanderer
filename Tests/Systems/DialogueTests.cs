@@ -70,14 +70,20 @@ namespace Tests.Systems
             {
                 Identifier = new Guid("4abbc8e5-880c-44d3-ba0e-a9f13a0522d0"),
                 Body = "Hello Friend",
-                Conditions = new DialogueConditionCollection(new RelationshipCondition(Comparison.GreaterThanOrEqual,5))
+                Require = new List<ICondition<SystemArgs>>()
+                {
+                    new RelationshipCondition(Comparison.GreaterThanOrEqual,5)
+                }
 
             };
             var foe = new DialogueNode()
             {
                 Identifier = new Guid("00d77067-da1c-4c34-96ee-8a74353e4839"),
                 Body = "Hello Foe",
-                Conditions = new DialogueConditionCollection(new RelationshipCondition(Comparison.LessThan,-4))
+                Require = new List<ICondition<SystemArgs>>()
+                {
+                    new RelationshipCondition(Comparison.LessThan,-4)
+                }
             };
 
             them.Dialogue.Verb = "talk";

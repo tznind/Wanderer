@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using StarshipWanderer.Actors;
+using StarshipWanderer.Items;
 using StarshipWanderer.Places;
 using StarshipWanderer.Systems;
 
@@ -16,22 +17,25 @@ namespace StarshipWanderer.Actions
         {
             var targets = new Dictionary<string, IHasStats>();
 
-            AddTarget(targets, actor.CurrentLocation);
+            AddTarget(actor,targets, actor.CurrentLocation);
 
             foreach (var a in actor.GetCurrentLocationSiblings())
-                AddTarget(targets, a);
+                AddTarget(actor,targets, a);
             
             foreach (var i in actor.Items) 
-                AddTarget(targets, i);
+                AddTarget(actor,targets, i);
             
             if(actor.Decide(ui,"Talk To","Pick target",out string chosen, targets.Keys.ToArray(),0))
                 stack.Push(new DialogueFrame(actor,this,targets[chosen],0));
         }
 
-        private void AddTarget(Dictionary<string, IHasStats> targets, IHasStats possibleTarget)
+        private void AddTarget(IActor actor, Dictionary<string, IHasStats> targets, IHasStats possibleTarget)
         {
             if(possibleTarget == null || possibleTarget.Dialogue.IsEmpty)
                 return;
+
+            if (possibleTarget is IItem i && !i.CanUse(actor))
+                    return;
 
             string option = possibleTarget.Dialogue.Verb + ":" + possibleTarget.Name;
 

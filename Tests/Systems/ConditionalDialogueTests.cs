@@ -7,6 +7,7 @@ using StarshipWanderer.Actors;
 using StarshipWanderer.Behaviours;
 using StarshipWanderer.Conditions;
 using StarshipWanderer.Dialogues;
+using StarshipWanderer.Systems;
 
 namespace Tests.Systems
 {
@@ -24,8 +25,10 @@ namespace Tests.Systems
             {
                 Identifier = g1,
                 Body = "Hey I want to give you all the space bucks!",
-                Conditions = new DialogueConditionCollection(new RelationshipCondition(Comparison.GreaterThanOrEqual,5))
-
+                Require = new List<ICondition<SystemArgs>>()
+                {
+                    new RelationshipCondition(Comparison.GreaterThanOrEqual,5)
+                } 
             };
 
             w.Dialogue.AllDialogues = new List<DialogueNode>(new []{n1});

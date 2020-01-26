@@ -25,6 +25,9 @@ namespace StarshipWanderer.Factories
                     item.Dialogue.Verb = "read";
             }
 
+            if(blueprint.Require != null)
+                item.Require = blueprint.Require;
+
             return item;
         }
 

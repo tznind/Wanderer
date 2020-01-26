@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives;
+using StarshipWanderer.Conditions;
 using StarshipWanderer.Places;
 
 namespace StarshipWanderer.Items
@@ -27,6 +29,12 @@ namespace StarshipWanderer.Items
         bool IsErased { get; set; }
         
         /// <summary>
+        /// Conditions the wielder must meet before being able to interact with
+        /// this object
+        /// </summary>
+        List<ICondition<IActor>> Require { get; set; }
+
+        /// <summary>
         /// Forces the owner to drops the item in the supplied <paramref name="owner"/> location
         /// </summary>
         /// <param name="ui"></param>
@@ -52,5 +60,11 @@ namespace StarshipWanderer.Items
         /// <returns></returns>
         bool Has<T>(IActor owner,Func<T,bool> condition) where T : IAdjective;
 
+        /// <summary>
+        /// Returns true if the <paramref name="actor"/> can use this item
+        /// </summary>
+        /// <param name="actor"></param>
+        /// <returns></returns>
+        bool CanUse(IActor actor);
     }
 }

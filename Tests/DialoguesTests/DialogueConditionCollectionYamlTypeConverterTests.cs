@@ -22,10 +22,11 @@ namespace Tests.DialoguesTests
             var node = new DialogueNode()
             {
                 Body = "Hey friend",
-                Conditions = new DialogueConditionCollection(
+                Require = new List<ICondition<SystemArgs>>()
+                {
                     new RelationshipCondition(Comparison.GreaterThanOrEqual, 10),
                     new RelationshipCondition(Comparison.GreaterThanOrEqual, 5)
-                )
+                }
             };
 
             var dialogueSystem = new YamlDialogueSystem()

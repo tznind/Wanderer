@@ -6,6 +6,7 @@ using StarshipWanderer;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Dialogues;
 using StarshipWanderer.Factories;
+using StarshipWanderer.Stats;
 using StarshipWanderer.Systems;
 
 namespace Tests.Actors
@@ -53,6 +54,46 @@ namespace Tests.Actors
 
             Assert.Contains("Welcome to the ship",ui.MessagesShown);
 
+
+        }
+
+        /// <summary>
+        /// Test creating an item that requires high Savvy to use
+        /// </summary>
+        [Test]
+        public void TestRequiresSavvy_ItemRead()
+        {
+            var yaml = @"
+- Name: Encrypted Manual
+  Dialogue: 
+    Next: e088ff6e-60de-4a59-a9d8-b9406a2aed7c
+  Require: 
+    - ActorStat(Savvy,GreaterThan,50)
+";
+            var you = YouInARoom(out IWorld w);
+
+            w.Dialogue.AllDialogues.Add(new DialogueNode()
+            {
+                Identifier = new Guid("e088ff6e-60de-4a59-a9d8-b9406a2aed7c"),
+                Body = "The book is filled with magic secrets"
+            });
+
+            var itemFactory = new YamlItemFactory(yaml, new AdjectiveFactory());
+
+            you.Items.Add(itemFactory.Create(itemFactory.Blueprints.Single()));
+            var ui = GetUI("read:Encrypted Manual");
+
+            w.RunRound(ui,new DialogueAction());
+
+            //todo: this should probably allow you to try to read then tell you its to complex
+            Assert.Contains("There are no valid targets for that action",ui.MessagesShown);
+
+            you.BaseStats[Stat.Savvy] = 51;
+
+            ui = GetUI("read:Encrypted Manual");
+            w.RunRound(ui,new DialogueAction());
+
+            Assert.Contains("The book is filled with magic secrets",ui.MessagesShown);
 
         }
     }

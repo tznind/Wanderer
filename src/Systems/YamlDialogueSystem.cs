@@ -1,4 +1,5 @@
 ﻿using System;
+using StarshipWanderer.Conditions;
 using StarshipWanderer.Dialogues;
 using YamlDotNet.Serialization;
 
@@ -9,7 +10,7 @@ namespace StarshipWanderer.Systems
         public YamlDialogueSystem(params string[] dialogueYaml)
         {
             var de = new DeserializerBuilder()
-                .WithTypeConverter(new DialogueConditionYamlTypeConverter())
+                .WithTypeConverter(new ConditionYamlTypeConverter())
                 .Build();
 
             if(dialogueYaml != null)
@@ -30,7 +31,7 @@ namespace StarshipWanderer.Systems
         public string Serialize()
         {
             var serializer = new SerializerBuilder()
-                .WithTypeConverter(new DialogueConditionYamlTypeConverter())
+                .WithTypeConverter(new ConditionYamlTypeConverter())
                 .Build();
 
             return serializer.Serialize(this.AllDialogues);
