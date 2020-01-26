@@ -1,9 +1,9 @@
 ﻿- Name: 
-  Adjectives:
+  OptionalAdjectives:
     - Type: Strong
     - Type: Tough
 - Name: 
-  Adjectives:
+  OptionalAdjectives:
     - Type: Strong
   Stats:
     Fight: 20

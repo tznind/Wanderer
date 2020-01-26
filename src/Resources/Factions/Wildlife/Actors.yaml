@@ -7,7 +7,7 @@
     - 43d0073f-e3d9-4d4c-84b9-482bbb402546
     - 0f85cde2-0283-4f11-99c0-7cb2b0675845
     - 446e84e6-e884-42e2-915e-1982b07aa853
-  Adjectives:
+  OptionalAdjectives:
     - Type: Giant
     - Type: Rusty
     - Type: Strong
@@ -23,7 +23,7 @@
     - 43d0073f-e3d9-4d4c-84b9-482bbb402546
     - 0f85cde2-0283-4f11-99c0-7cb2b0675845
     - 446e84e6-e884-42e2-915e-1982b07aa853
-  Adjectives:
+  OptionalAdjectives:
     - Type: Strong
   Stats:
     Fight: 15

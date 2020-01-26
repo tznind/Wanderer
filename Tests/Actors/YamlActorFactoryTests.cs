@@ -20,7 +20,7 @@ namespace Tests.Actors
 
          var yaml = @"
 - Name: Centipede
-  Adjectives:
+  OptionalAdjectives:
     - Type: Giant
     - Type: Rusty
     - Type: Strong
@@ -31,7 +31,7 @@ namespace Tests.Actors
   Dialogue: 
     Verb: talk
     Next: 566ae926-a1fe-4209-9a15-fce026dbc5d1
-  Adjectives:
+  OptionalAdjectives:
     - Type: Strong
   Stats:
     Fight: 40
@@ -52,6 +52,36 @@ namespace Tests.Actors
             Assert.AreEqual(new Guid("566ae926-a1fe-4209-9a15-fce026dbc5d1"),actor.Dialogue.Next );
         }
 
-        
+
+        [Test]
+        public void TestCreatingActorWithItem_FromBlueprint()
+        {
+
+            string yaml = @"- Name: Servitor
+  MandatoryAdjectives:
+    - Type: Rusty
+    - Type: Strong
+    - Type: Tough
+  Stats:
+    Fight: 30
+    Loyalty: 20
+  Items:
+    - Name: Chronometer
+      Stats:
+        Value: 10";
+
+            var room = InARoom(out IWorld w);
+            var adj = new AdjectiveFactory();
+            var actorFactory = new YamlActorFactory(yaml, new ItemFactory(adj), adj);
+            var servitor = actorFactory.Create(w, room, null,actorFactory.Blueprints.Single());
+
+            Assert.AreEqual("Servitor",servitor.Name);
+            Assert.Contains("Rusty",servitor.Adjectives.Select(a=>a.Name).ToArray());
+            Assert.Contains("Strong",servitor.Adjectives.Select(a=>a.Name).ToArray());
+            Assert.Contains("Tough",servitor.Adjectives.Select(a=>a.Name).ToArray());
+
+            Assert.AreEqual(10,servitor.Items.Single().BaseStats[Stat.Value]);
+            Assert.AreEqual("Chronometer",servitor.Items.Single().Name);
+        }
     }
 }

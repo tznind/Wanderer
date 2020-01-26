@@ -32,12 +32,16 @@ namespace StarshipWanderer.Factories
         {
             var npc = new Npc(blueprint.Name, place);
             
+            //Adjectives the user definitely wants included
+            if (blueprint.MandatoryAdjectives.Any())
+                foreach (var a in blueprint.MandatoryAdjectives)
+                    npc.Adjectives.Add(AdjectiveFactory.Create(npc, a));
+            
             //pick 1 random adjective if blueprint lists any to pick from
-            if (blueprint.Adjectives.Any())
-            {
-                var adjective = AdjectiveFactory.Create(npc,blueprint.Adjectives.GetRandom(world.R));
-                npc.Adjectives.Add(adjective);
-            }
+            if (blueprint.OptionalAdjectives.Any())
+                npc.Adjectives.Add(
+                    AdjectiveFactory.Create(npc, blueprint.OptionalAdjectives.GetRandom(world.R))
+                    );
 
             if (blueprint.Stats != null)
                 npc.BaseStats.Add(blueprint.Stats);
@@ -54,6 +58,17 @@ namespace StarshipWanderer.Factories
 
             if(string.IsNullOrWhiteSpace(npc.Name))
                 npc.Name = faction?.NameFactory?.GenerateName(world.R) ?? "Unnamed Npc";
+
+            foreach (var blue in blueprint.Items)
+            {
+                var item = ItemFactory.Create(blue);
+                npc.Items.Add(item);
+
+                if (npc.CanEquip(item, out _))
+                    item.IsEquipped = true;
+
+
+            }
 
             return npc;
         }

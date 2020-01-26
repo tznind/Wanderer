@@ -4,6 +4,7 @@ using StarshipWanderer.Actors;
 using StarshipWanderer.Conditions;
 using StarshipWanderer.Dialogues;
 using StarshipWanderer.Items;
+using StarshipWanderer.Stats;
 
 namespace StarshipWanderer.Factories
 {
@@ -11,6 +12,13 @@ namespace StarshipWanderer.Factories
     {
         public string Name { get; set; }
         public DialogueInitiation Dialogue { get; set; }
+
+
+        /// <summary>
+        /// The base stats of the item.  Includes value as well as any
+        /// modifiers granted by having it e.g. improving Fight
+        /// </summary>
+        public StatsCollection Stats { get; set; } = new StatsCollection();
 
         /// <summary>
         /// Which slots are required to equip the item.

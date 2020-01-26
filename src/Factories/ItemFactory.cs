@@ -31,6 +31,9 @@ namespace StarshipWanderer.Factories
             if (blueprint.Slot != null)
                 item.Slot = blueprint.Slot;
 
+            if (blueprint.Stats != null)
+                item.BaseStats = blueprint.Stats.Clone();
+
             return item;
         }
 

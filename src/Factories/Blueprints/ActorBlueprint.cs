@@ -25,12 +25,23 @@ namespace StarshipWanderer.Factories.Blueprints
         /// <see cref="IAdjectiveFactory"/>) from which to pick at random when creating
         /// this Npc
         /// </summary>
-        public AdjectiveBlueprint[] Adjectives { get;set; } = new AdjectiveBlueprint[0];
+        public AdjectiveBlueprint[] OptionalAdjectives { get;set; } = new AdjectiveBlueprint[0];
+
+        /// <summary>
+        /// By default a subset of <see cref="OptionalAdjectives"/> are written to the
+        /// objects created by this blueprint (e.g. depending on difficulty, luck etc).
+        /// Set those that MUST always be on the actor
+        /// </summary>
+        public AdjectiveBlueprint[] MandatoryAdjectives { get; set; } = new AdjectiveBlueprint[0];
 
         /// <summary>
         /// The BaseStats to give the actor
         /// </summary>
         public StatsCollection Stats { get; set; } = new StatsCollection();
 
+        /// <summary>
+        /// Items which the actor may be carrying when created
+        /// </summary>
+        public ItemBlueprint[] Items { get; set;} = new ItemBlueprint[0];
     }
 }
