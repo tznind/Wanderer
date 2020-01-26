@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
 using StarshipWanderer.Behaviours;
+using StarshipWanderer.Conditions;
 using StarshipWanderer.Dialogues;
-using StarshipWanderer.Dialogues.Conditions;
 using StarshipWanderer.Systems;
 
 namespace Tests.DialoguesTests

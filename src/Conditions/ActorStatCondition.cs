@@ -17,5 +17,10 @@ namespace StarshipWanderer.Conditions
         {
             return base.IsMet(forTarget.GetFinalStats());
         }
+
+        public string? SerializeAsConstructorCall()
+        {
+            return $"ActorStat({ToCheck},{Comparison},{Value})";
+        }
     }
 }

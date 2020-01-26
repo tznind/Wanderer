@@ -16,5 +16,10 @@ namespace StarshipWanderer.Conditions
         {
             return forTarget is LeaveFrame f && ConditionalDirections.Contains(f.Direction);
         }
+
+        public string? SerializeAsConstructorCall()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

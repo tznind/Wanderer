@@ -3,9 +3,9 @@ using StarshipWanderer.Actors;
 using StarshipWanderer.Behaviours;
 using StarshipWanderer.Systems;
 
-namespace StarshipWanderer.Dialogues.Conditions
+namespace StarshipWanderer.Conditions
 {
-    public class RelationshipCondition : IDialogueCondition
+    public class RelationshipCondition : ICondition<SystemArgs>
     {
         public Comparison Condition { get; set; }
         public int Threshold { get; set; }

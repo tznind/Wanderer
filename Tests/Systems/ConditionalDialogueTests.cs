@@ -5,8 +5,8 @@ using StarshipWanderer;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Behaviours;
+using StarshipWanderer.Conditions;
 using StarshipWanderer.Dialogues;
-using StarshipWanderer.Dialogues.Conditions;
 
 namespace Tests.Systems
 {
@@ -30,6 +30,7 @@ namespace Tests.Systems
 
             w.Dialogue.AllDialogues = new List<DialogueNode>(new []{n1});
             them.Dialogue.Next = g1;
+            them.Dialogue.Verb = "talk";
             
             for (int i = 0; i < 100; i++)
             {

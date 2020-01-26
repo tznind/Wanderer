@@ -2,7 +2,8 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using StarshipWanderer.Behaviours;
-using StarshipWanderer.Dialogues.Conditions;
+using StarshipWanderer.Conditions;
+using StarshipWanderer.Systems;
 using TB.ComponentModel;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
@@ -16,13 +17,13 @@ namespace StarshipWanderer.Dialogues
 
         public DialogueConditionYamlTypeConverter()
         {
-            _conditions = typeof(IDialogueCondition).Assembly.GetTypes()
-                .Where(t => typeof(IDialogueCondition).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
+            _conditions = typeof(ICondition<SystemArgs>).Assembly.GetTypes()
+                .Where(t => typeof(ICondition<SystemArgs>).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
                 .ToArray();
         }
         public bool Accepts(Type type)
         {
-            return typeof(IDialogueCondition).IsAssignableFrom(type);
+            return typeof(ICondition<SystemArgs>).IsAssignableFrom(type);
         }
 
         public object? ReadYaml(IParser parser, Type type)
@@ -67,7 +68,7 @@ namespace StarshipWanderer.Dialogues
 
         public void WriteYaml(IEmitter emitter, object? value, Type type)
         {
-            var condition = (IDialogueCondition) value;
+            var condition = (ICondition<SystemArgs>) value;
             
             
 

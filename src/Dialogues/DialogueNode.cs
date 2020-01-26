@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using StarshipWanderer.Dialogues.Conditions;
+using StarshipWanderer.Conditions;
 
 namespace StarshipWanderer.Dialogues
 {

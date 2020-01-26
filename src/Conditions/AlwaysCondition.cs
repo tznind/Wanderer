@@ -10,5 +10,10 @@
         {
             return true;
         }
+
+        public string? SerializeAsConstructorCall()
+        {
+            return "Always";
+        }
     }
 }
