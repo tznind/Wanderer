@@ -53,12 +53,23 @@ namespace StarshipWanderer.Items
             return Adjectives.Any(a => a is T t && condition(t));
         }
 
-        public bool CanUse(IActor actor)
+        public bool CanUse(IActor actor,out string reason)
         {
             if (IsErased)
+            {
+                reason = "Item no longer exists";
                 return false;
+            }
+            
+            if(!Require.All(c => c.IsMet(actor)))
+            {
+                reason = "Item requirements not met:" + string.Join(Environment.NewLine,Require.Select(r=>r.ToString()));
+                return false;
+            }
 
-            return Require.All(c => c.IsMet(actor));
+
+            reason = null;
+            return true;
         }
 
 

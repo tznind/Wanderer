@@ -103,8 +103,7 @@ namespace Tests.Items
 
                 Assert.IsFalse(shirt.IsEquipped);
 
-                Assert.Contains(@"You do not meet all the item's requirements:
-Fight LessThanOrEqual 10",ui.MessagesShown);
+                Assert.Contains(@"Item requirements not met:Fight LessThanOrEqual 10",ui.MessagesShown);
 
                 you.BaseStats[Stat.Fight] = 10;
             

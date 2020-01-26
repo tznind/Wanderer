@@ -180,12 +180,8 @@ namespace StarshipWanderer.Actors
                 return false;
             }
 
-            if (!item.Require.All(r => r.IsMet(this)))
-            {
-                reason = "You do not meet all the item's requirements:" + Environment.NewLine +
-                    string.Join(Environment.NewLine, item.Require.Select(r => r.ToString()));
+            if (!item.CanUse(this,out reason))
                 return false;
-            }
 
             reason = null;
             return true;

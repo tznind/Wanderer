@@ -65,6 +65,6 @@ namespace StarshipWanderer.Items
         /// </summary>
         /// <param name="actor"></param>
         /// <returns></returns>
-        bool CanUse(IActor actor);
+        bool CanUse(IActor actor, out string reason);
     }
 }

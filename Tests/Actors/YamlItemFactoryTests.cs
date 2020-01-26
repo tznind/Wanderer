@@ -85,8 +85,7 @@ namespace Tests.Actors
 
             w.RunRound(ui,new DialogueAction());
 
-            //todo: this should probably allow you to try to read then tell you its to complex
-            Assert.Contains("There are no valid targets for that action",ui.MessagesShown);
+            Assert.Contains(@"Item requirements not met:Savvy GreaterThan 50",ui.MessagesShown);
 
             you.BaseStats[Stat.Savvy] = 51;
 

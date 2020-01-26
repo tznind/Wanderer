@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Items;
@@ -26,17 +27,26 @@ namespace StarshipWanderer.Actions
                 AddTarget(actor,targets, i);
             
             if(actor.Decide(ui,"Talk To","Pick target",out string chosen, targets.Keys.ToArray(),0))
-                stack.Push(new DialogueFrame(actor,this,targets[chosen],0));
+                if(ValidatePick(actor,targets[chosen],out string reason))
+                    stack.Push(new DialogueFrame(actor,this,targets[chosen],0));
+                else
+                    ui.ShowMessage("Not Possible", reason);
+        }
+
+        private bool ValidatePick(IActor actor, IHasStats target,out string reason)
+        {
+            if (target is IItem i && !i.CanUse(actor, out reason))
+                return false;
+
+            reason = null;
+            return true;
         }
 
         private void AddTarget(IActor actor, Dictionary<string, IHasStats> targets, IHasStats possibleTarget)
         {
             if(possibleTarget == null || possibleTarget.Dialogue.IsEmpty)
                 return;
-
-            if (possibleTarget is IItem i && !i.CanUse(actor))
-                    return;
-
+            
             string option = possibleTarget.Dialogue.Verb + ":" + possibleTarget.Name;
 
             if(!targets.ContainsKey(option))
