@@ -17,8 +17,11 @@ namespace StarshipWanderer.Actions
                     case EquipmentActionToPerform.None:
                         break;
                     case EquipmentActionToPerform.PutOn:
-                        if(actor.Decide(ui, "Item", "Pick an item to put on", out IItem equip,actor.Items.Where(i=>actor.CanEquip(i,out string _)).ToArray(),0))
-                            stack.Push(new EquipmentFrame(actor,this,toPerform,equip));
+                        if(actor.Decide(ui, "Item", "Pick an item to put on", out IItem equip,actor.Items.ToArray(),0))
+                            if(actor.CanEquip(equip,out string s))
+                                stack.Push(new EquipmentFrame(actor,this,toPerform,equip));
+                            else
+                                ui.ShowMessage("Cannot Equip",s);
                             
                         break;
                     case EquipmentActionToPerform.TakeOff:

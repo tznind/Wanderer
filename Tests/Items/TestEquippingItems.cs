@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using StarshipWanderer;
@@ -74,6 +75,43 @@ namespace Tests.Items
             Assert.IsTrue(s.RunStack(new FixedChoiceUI(EquipmentActionToPerform.PutOn, item1), new EquipmentAction(), you, null));
 
             Assert.AreEqual(30,you.GetFinalStats()[Stat.Fight],"Expected hammer to be boosting your fight");
+        }
+
+        [Test]
+        public void TestEquippingItem_TooMuchFight()
+        {
+                var yaml = @"
+- Name: Suave Shirt
+  Slot: 
+    Name: Chest
+    NumberRequired: 1
+  Require: 
+    - ActorStat(Fight,LessThanOrEqual,10)
+";
+
+                var you = YouInARoom(out IWorld w);
+                you.AvailableSlots.Add("Chest",1);
+
+                var itemFactory = new YamlItemFactory(yaml, new AdjectiveFactory());
+
+                var shirt = itemFactory.Create(itemFactory.Blueprints.Single());
+
+                you.Items.Add(shirt);
+                var ui = GetUI(EquipmentActionToPerform.PutOn,shirt);
+
+                w.RunRound(ui,new EquipmentAction());
+
+                Assert.IsFalse(shirt.IsEquipped);
+
+                Assert.Contains(@"You do not meet all the item's requirements:
+Fight LessThanOrEqual 10",ui.MessagesShown);
+
+                you.BaseStats[Stat.Fight] = 10;
+            
+                ui = GetUI(EquipmentActionToPerform.PutOn,shirt);
+
+                w.RunRound(ui,new EquipmentAction());
+                Assert.IsTrue(shirt.IsEquipped);
         }
     }
 }

@@ -28,6 +28,9 @@ namespace StarshipWanderer.Factories
             if(blueprint.Require != null)
                 item.Require = blueprint.Require;
 
+            if (blueprint.Slot != null)
+                item.Slot = blueprint.Slot;
+
             return item;
         }
 

@@ -12,6 +12,11 @@ namespace StarshipWanderer.Items
         public int NumberRequired { get; set; }
         public InjuryRegion[] SensitiveTo { get; set; }
 
+        public ItemSlot()
+        {
+
+        }
+
         public ItemSlot(string name,int numberRequired, params InjuryRegion[] sensitiveTo)
         {
             NumberRequired = numberRequired;

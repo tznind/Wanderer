@@ -22,5 +22,10 @@ namespace StarshipWanderer.Conditions
         {
             return $"ActorStat({ToCheck},{Comparison},{Value})";
         }
+
+        public override string ToString()
+        {
+            return $"{ToCheck} {Comparison} {Value}";
+        }
     }
 }
