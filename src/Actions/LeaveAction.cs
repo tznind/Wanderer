@@ -6,13 +6,18 @@ using StarshipWanderer.Places;
 
 namespace StarshipWanderer.Actions
 {
-    public class Leave : Action
+    public class LeaveAction : Action
     {
         public override void Push(IUserinterface ui, ActionStack stack, IActor actor)
         {
             //ask actor to pick a direction
-            if (actor.Decide<Direction>(ui, "Leave Direction", null, out var direction,actor.CurrentLocation.LeaveDirections.ToArray(), 0))
+            if (actor.Decide<Direction>(ui, "LeaveAction Direction", null, out var direction,GetTargets(actor), 0))
                 stack.Push(new LeaveFrame(actor,this,direction,0));
+        }
+
+        private Direction[] GetTargets(IActor performer)
+        {
+            return performer.CurrentLocation.LeaveDirections.ToArray();
         }
 
         public override void Pop(IUserinterface ui, ActionStack stack, Frame frame)
@@ -45,6 +50,11 @@ namespace StarshipWanderer.Actions
             frame.PerformedBy.Move(goingTo);
 
             ui.Log.Info(new LogEntry($"{frame.PerformedBy} moved {f.Direction} to {goingTo}",stack.Round,oldPoint));
+        }
+
+        public override bool HasTargets(IActor performer)
+        {
+            return GetTargets(performer).Any();
         }
     }
 }

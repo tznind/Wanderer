@@ -47,7 +47,7 @@ namespace StarshipWanderer.Actors
             CurrentLocation.World.Population.Add(this);
             
             //basic actions everyone can do (by default)
-            BaseActions.Add(new Leave());
+            BaseActions.Add(new LeaveAction());
             BaseActions.Add(new FightAction());
             BaseActions.Add(new PickUpAction());
             BaseActions.Add(new DropAction());

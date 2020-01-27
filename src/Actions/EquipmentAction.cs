@@ -59,6 +59,11 @@ namespace StarshipWanderer.Actions
                     throw new ArgumentOutOfRangeException();
             }
         }
+
+        public override bool HasTargets(IActor performer)
+        {
+            return performer.Items.Any(i=>i.IsEquipped || i.Slot != null);
+        }
     }
 
     public enum EquipmentActionToPerform

@@ -21,10 +21,13 @@ namespace Tests.Actions
         {
             var you = YouInARoom(out IWorld world);
 
+            Assert.IsFalse(new CoerceAction().HasTargets(you));
+
             //create two npcs that can both fight
             var a = new Npc("A",you.CurrentLocation).With(Stat.Initiative,10);
             var b = new Npc("B",you.CurrentLocation).With(Stat.Initiative,0);
             
+            Assert.IsTrue(new CoerceAction().HasTargets(you));
             Assert.IsFalse(b.Has<Injured>(false));
 
             var ui = GetUI(a, a.GetFinalActions().OfType<FightAction>().Single(), b);

@@ -363,7 +363,7 @@ namespace Game.UI
 
             int buttonLoc = 0;
 
-            var allActions = World.Player.GetFinalActions();
+            var allActions = World.Player.GetFinalActions().Where(a=>a.HasTargets(World.Player));
 
             foreach (var action in allActions)
             {

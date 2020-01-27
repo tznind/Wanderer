@@ -18,7 +18,7 @@ namespace Tests
         [Test]
         public void TestBehaviours_AreIdentical()
         {
-            var b1 = new ForbidBehaviour<Leave>(new AlwaysCondition<Frame>(), Mock.Of<IActor>());
+            var b1 = new ForbidBehaviour<LeaveAction>(new AlwaysCondition<Frame>(), Mock.Of<IActor>());
             var b2 = new ExpiryBehaviour(new Medic(Mock.Of<IActor>()), 4);
             var b3 =new ExpiryBehaviour(new Medic(Mock.Of<IActor>()), 3);
 
