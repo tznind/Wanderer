@@ -23,7 +23,6 @@ namespace StarshipWanderer.Factories
             if (blueprint == null)
                 return new Room("Empty Room",world,'e');
             
-
             //pick blueprint faction (or random one if it isn't themed to a specific faction)
             var faction = blueprint.Faction != null
                 ? world.Factions.Single(f => f.Identifier == blueprint.Faction)
@@ -31,8 +30,7 @@ namespace StarshipWanderer.Factories
 
             var room = new Room(blueprint.Name, world, blueprint.Tile) {ControllingFaction = faction};
 
-            var availableAdjectives = AdjectiveFactory.GetAvailableAdjectives(room).ToArray();
-            room.Adjectives.Add(availableAdjectives[world.R.Next(0, availableAdjectives.Length)]);
+            AddBasicProperties(room,blueprint,world,"look");
 
             if (faction != null)
             {
@@ -45,19 +43,10 @@ namespace StarshipWanderer.Factories
                 {
                     var items = world.R.Next(3);
                     for (int i = 0; i < items; i++) 
-                        room.Items.Add(itemFactory.Create(itemFactory.Blueprints.GetRandom(world.R)));
+                        room.Items.Add(itemFactory.Create(world, itemFactory.Blueprints.GetRandom(world.R)));
                 }
             }
-
-            if (blueprint.Dialogue != null)
-            {
-                room.Dialogue = blueprint.Dialogue;
-
-                if(string.IsNullOrWhiteSpace(room.Dialogue.Verb))
-                    room.Dialogue.Verb = "inspect";
-
-            }
-
+            
             return room;
         }
     }

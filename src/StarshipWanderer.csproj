@@ -19,6 +19,7 @@
     <None Remove="Resources\Dialogue\RoomDescriptions.yaml" />
     <None Remove="Resources\Factions\Guncrew\Actors.yaml" />
     <None Remove="Resources\Factions\Guncrew\Faction.yaml" />
+    <None Remove="Resources\Factions\Guncrew\Items.yaml" />
     <None Remove="Resources\Factions\OrderOfTheSigil\Actors.yaml" />
     <None Remove="Resources\Factions\OrderOfTheSigil\Faction.yaml" />
     <None Remove="Resources\Factions\OrderOfTheSigil\Forenames.txt" />
@@ -104,6 +105,12 @@
 
   <ItemGroup>
     <Content Include="Resources\Factions\Guncrew\Actors.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\Factions\Guncrew\Items.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

@@ -94,7 +94,7 @@ namespace Tests.Items
 
                 var itemFactory = new YamlItemFactory(yaml, new AdjectiveFactory());
 
-                var shirt = itemFactory.Create(itemFactory.Blueprints.Single());
+                var shirt = itemFactory.Create(w, itemFactory.Blueprints.Single());
 
                 you.Items.Add(shirt);
                 var ui = GetUI(EquipmentActionToPerform.PutOn,shirt);
