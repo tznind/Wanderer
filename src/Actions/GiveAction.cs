@@ -9,7 +9,7 @@ namespace StarshipWanderer.Actions
     {
         public override void Push(IUserinterface ui, ActionStack stack, IActor actor)
         {
-            if(actor.Decide(ui,"Give","Select an item to give",out IItem toGive, actor.Items.ToArray(),-10))
+            if(actor.Decide(ui,"Give","Select an item to give",out IItem toGive, GetTargets(actor),-10))
                 if(actor.Decide(ui,"To whom",$"Select who to give {toGive}",out IActor toGiveTo, actor.GetCurrentLocationSiblings(),10))
                     stack.Push(new GiveFrame(actor,this,toGive,toGiveTo,GetItemWorthInAttitude(actor,toGive,toGiveTo)));
         }
@@ -32,6 +32,16 @@ namespace StarshipWanderer.Actions
                 f.TargetIfAny.Items.Add(f.ItemToGive);
                 ui.Log.Info(new LogEntry($"{f.PerformedBy} gave {f.ItemToGive} to {f.TargetIfAny}",stack.Round,f.PerformedBy));
             }
+        }
+
+        public override bool HasTargets(IActor performer)
+        {
+            return GetTargets(performer).Any();
+        }
+
+        private IItem[] GetTargets(IActor performer)
+        {
+            return performer.Items.ToArray();
         }
     }
 }

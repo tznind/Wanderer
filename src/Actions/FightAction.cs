@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NLog.Targets;
+﻿using System.Linq;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Stats;
 using StarshipWanderer.Systems;
@@ -11,15 +7,11 @@ namespace StarshipWanderer.Actions
 {
     public class FightAction : Action
     {
-        public FightAction()
-        {
-        }
-
         public override void Push(IUserinterface ui, ActionStack stack,IActor actor)
         {
             const int fightAttitude = -20;
 
-            if (actor.Decide(ui,"Fight", null, out IActor toFight, actor.GetCurrentLocationSiblings(),fightAttitude)) 
+            if (actor.Decide(ui,"Fight", null, out IActor toFight, GetTargets(actor),fightAttitude)) 
                 stack.Push(new FightFrame(actor, toFight, this,actor.CurrentLocation.World.InjurySystems.First(),fightAttitude));
         }
 
@@ -46,6 +38,16 @@ namespace StarshipWanderer.Actions
                 f.PerformedBy,
                 stack.Round));
             
+        }
+
+        public override bool HasTargets(IActor performer)
+        {
+            return GetTargets(performer).Any();
+        }
+
+        private IActor[] GetTargets(IActor performer)
+        {
+            return performer.GetCurrentLocationSiblings();
         }
     }
 }

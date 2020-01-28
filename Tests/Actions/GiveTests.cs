@@ -23,8 +23,12 @@ namespace Tests.Actions
             var them = new Npc("Mort", you.CurrentLocation);
             them.BaseActions.Clear();
 
+            Assert.IsFalse(new GiveAction().HasTargets(you));
+
             var grenade = new Item("Grenade");
             you.Items.Add(grenade);
+            
+            Assert.IsTrue(new GiveAction().HasTargets(you));
 
             //when you chose to give them the grenade
             world.RunRound(GetUI(grenade, them), you.BaseActions.OfType<GiveAction>().Single());

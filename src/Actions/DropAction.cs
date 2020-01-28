@@ -12,7 +12,7 @@ namespace StarshipWanderer.Actions
     {
         public override void Push(IUserinterface ui, ActionStack stack, IActor actor)
         {
-            if(actor.Decide(ui,"Drop","Select an item to drop",out IItem toDrop, actor.Items.ToArray(),-10))
+            if(actor.Decide(ui,"Drop","Select an item to drop",out IItem toDrop, GetTargets(actor),-10))
                 stack.Push(new DropFrame(actor,this,toDrop,- GetItemWorthInAttitude(actor,toDrop)));
         }
 
@@ -24,6 +24,16 @@ namespace StarshipWanderer.Actions
             if(f.PerformedBy.Items.Contains(f.ToDrop))
                 f.ToDrop.Drop(ui, f.PerformedBy,stack.Round);
         }
+
+        public override bool HasTargets(IActor performer)
+        {
+            return GetTargets(performer).Any();
+        }
+        private IItem[] GetTargets(IActor performer)
+        {
+            return performer.Items.ToArray();
+        }
+
         private double GetItemWorthInAttitude(IActor dropper, IItem toDrop)
         {
             //value of item is total value of the item to the recipient

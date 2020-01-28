@@ -35,7 +35,7 @@ namespace Tests.Actors
             Assert.AreEqual(2,factory.Blueprints.Length);
 
             var you = YouInARoom(out IWorld w);
-            var item = factory.Create(factory.Blueprints[1]);
+            var item = factory.Create(w, factory.Blueprints[1]);
 
             Assert.AreEqual("Torn Pamphlet",item.Name);
             Assert.AreEqual(1,item.BaseActions.OfType<DialogueAction>().Count());
@@ -80,7 +80,7 @@ namespace Tests.Actors
 
             var itemFactory = new YamlItemFactory(yaml, new AdjectiveFactory());
 
-            you.Items.Add(itemFactory.Create(itemFactory.Blueprints.Single()));
+            you.Items.Add(itemFactory.Create(w, itemFactory.Blueprints.Single()));
             var ui = GetUI("read:Encrypted Manual");
 
             w.RunRound(ui,new DialogueAction());

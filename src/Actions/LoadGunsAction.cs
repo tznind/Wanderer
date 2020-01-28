@@ -30,5 +30,10 @@ namespace StarshipWanderer.Actions
 
             narrative.Show(ui,false);
         }
+
+        public override bool HasTargets(IActor performer)
+        {
+            return true;
+        }
     }
 }

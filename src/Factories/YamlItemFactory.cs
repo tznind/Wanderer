@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using StarshipWanderer.Conditions;
 using StarshipWanderer.Dialogues;
+using StarshipWanderer.Factories.Blueprints;
 using YamlDotNet.Serialization;
 
 namespace StarshipWanderer.Factories

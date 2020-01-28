@@ -24,5 +24,10 @@ namespace StarshipWanderer.Behaviours
                 $"{frame.PerformedBy} prevented {_toForbid.PerformedBy} from performing action {_toForbid.Action.Name}",
                 stack.Round, _toForbid.PerformedBy));
         }
+
+        public override bool HasTargets(IActor performer)
+        {
+            return true;
+        }
     }
 }

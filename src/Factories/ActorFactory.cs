@@ -31,46 +31,32 @@ namespace StarshipWanderer.Factories
         public IActor Create(IWorld world, IPlace place,IFaction faction, ActorBlueprint blueprint)
         {
             var npc = new Npc(blueprint.Name, place);
-            
-            //Adjectives the user definitely wants included
-            if (blueprint.MandatoryAdjectives.Any())
-                foreach (var a in blueprint.MandatoryAdjectives)
-                    npc.Adjectives.Add(AdjectiveFactory.Create(npc, a));
-            
-            //pick 1 random adjective if blueprint lists any to pick from
-            if (blueprint.OptionalAdjectives.Any())
-                npc.Adjectives.Add(
-                    AdjectiveFactory.Create(npc, blueprint.OptionalAdjectives.GetRandom(world.R))
-                    );
 
-            if (blueprint.Stats != null)
-                npc.BaseStats.Add(blueprint.Stats);
+            AddBasicProperties(npc, blueprint, world,"talk");
 
             if (faction != null)
                 npc.FactionMembership.Add(faction);
-
-            if (blueprint.Dialogue != null)
-            {
-                npc.Dialogue = blueprint.Dialogue;
-                if (npc.Dialogue.Verb == null)
-                    npc.Dialogue.Verb = "talk";
-            }
-
+            
             if(string.IsNullOrWhiteSpace(npc.Name))
                 npc.Name = faction?.NameFactory?.GenerateName(world.R) ?? "Unnamed Npc";
 
-            foreach (var blue in blueprint.Items)
-            {
-                var item = ItemFactory.Create(blue);
-                npc.Items.Add(item);
+            foreach (var blue in blueprint.Items) 
+                SpawnItem(world,npc, blue);
 
-                if (npc.CanEquip(item, out _))
-                    item.IsEquipped = true;
-
-
-            }
+            //plus give them one more random thing that fits the faction
+            if (ItemFactory.Blueprints.Any()) 
+                SpawnItem(world,npc, ItemFactory.Blueprints.GetRandom(world.R));
 
             return npc;
+        }
+
+        private void SpawnItem(IWorld world,IActor actor, ItemBlueprint blue)
+        {
+            var item = ItemFactory.Create(world, blue);
+            actor.Items.Add(item);
+
+            if (actor.CanEquip(item, out _))
+                item.IsEquipped = true;
         }
     }
 }

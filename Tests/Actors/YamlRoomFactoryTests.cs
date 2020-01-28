@@ -32,7 +32,7 @@ namespace Tests.Actors
             var room = roomFactory.Create(w, roomFactory.Blueprints.Single());
             var you = new You("Wanderer",room);
 
-            var ui = GetUI("inspect:Gun Bay");
+            var ui = GetUI("look:Gun Bay");
 
             w.RunRound(ui,new DialogueAction());
 
