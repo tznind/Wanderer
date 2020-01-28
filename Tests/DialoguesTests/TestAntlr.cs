@@ -10,48 +10,50 @@ namespace Tests.DialoguesTests
 {
     class TestAntlr
     {
-
-        public class SpeakLine
+        public class WanderVisitor : WanderBaseVisitor<object>
         {
-            public string Person { get; set; }
-            public string Text { get; set; }
-        }
+            public string? Method { get; set; }
 
-        public class SpeakVisitor : SpeakBaseVisitor<object>
-        {
-            public List<SpeakLine> Lines = new List<SpeakLine>();
-            public override object VisitLine(SpeakParser.LineContext context)
-            {            
-                SpeakParser.NameContext name = context.name();
-                SpeakParser.OpinionContext opinion = context.opinion();
+            public override object VisitMethodcall(WanderParser.MethodcallContext context)
+            {
+                Method = context.word().ToString();
 
-                if (opinion != null)
-                {
-                    
-                    SpeakLine line = new SpeakLine() { Person = name.GetText(), Text = opinion.GetText().Trim('"') };
-                    Lines.Add(line);
-                    return line;
-                }
 
                 return null;
             }
+
+        }
+
+        WanderParser Setup(string command)
+        {
+            
+            AntlrInputStream inputStream = new AntlrInputStream(command);
+            WanderLexer lexer = new WanderLexer(inputStream);
+            CommonTokenStream commonTokenStream = new CommonTokenStream(lexer);
+            WanderParser parser = new WanderParser(commonTokenStream);
+
+            return parser;
+        }
+        [Test]
+        public void Method_NoArgs()
+        {
+            string text = @"GoNuts()";
+                    
+            var visitor = new WanderVisitor();
+            visitor.Visit(Setup(text).methodcall());
+
+            Assert.AreNotEqual("GoNuts",visitor.Method);
         }
 
         [Test]
-        public void TestAntlr_Chat()
+        public void TestAntlr_MethodWithArg()
         {
-            string text = @"dave says ""When life gives you LEMONS make lemonade""";
+            string text = @"GoNuts(Fish)";
                     
-            AntlrInputStream inputStream = new AntlrInputStream(text.ToString());
-            SpeakLexer speakLexer = new SpeakLexer(inputStream);
-            CommonTokenStream commonTokenStream = new CommonTokenStream(speakLexer);
-            SpeakParser speakParser = new SpeakParser(commonTokenStream);
-            SpeakParser.ChatContext chatContext = speakParser.chat();
-            SpeakVisitor visitor = new SpeakVisitor();        
-            visitor.Visit(chatContext);
+            var visitor = new WanderVisitor();
+            visitor.Visit(Setup(text).methodcall());
 
-            Assert.AreEqual("dave",visitor.Lines.Single().Person);
-            Assert.AreEqual("When life gives you LEMONS make lemonade",visitor.Lines.Single().Text);
+            Assert.AreNotEqual("GoNuts",visitor.Method);
         }
     }
 }
