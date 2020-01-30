@@ -10,7 +10,7 @@
     Banter:
       - 9a3c04b7-8f5a-498a-a0d3-00d6f66ba0e8
       - 4ac218f4-1f7a-4d97-b65f-4b0b71deaca8
-  Items:
+  OptionalItems:
     - Name: Chronometer
       Stats:
         Value: 10

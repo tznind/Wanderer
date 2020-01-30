@@ -19,16 +19,21 @@ namespace StarshipWanderer.Factories
             ItemFactory = itemFactory;
         }
         
-        public virtual void Create(IWorld world, IPlace place,IFaction faction)
+        public virtual void Create(IWorld world, IPlace place, IFaction faction, RoomBlueprint roomBlueprintIfAny)
         {
             int numberOfNpc = Math.Max(1,world.R.Next(5));
 
-            if(Blueprints.Any())
+            var pickFrom = Blueprints;
+
+            if (roomBlueprintIfAny != null)
+                pickFrom = pickFrom.Union(roomBlueprintIfAny.OptionalActors).ToArray();
+
+            if(pickFrom.Any())
                 for (int i = 0; i < numberOfNpc; i++)
-                    Create(world, place, faction, Blueprints.GetRandom(world.R));
+                    Create(world, place, faction, pickFrom.GetRandom(world.R),roomBlueprintIfAny);
         }
 
-        public IActor Create(IWorld world, IPlace place,IFaction faction, ActorBlueprint blueprint)
+        public IActor Create(IWorld world, IPlace place, IFaction faction, ActorBlueprint blueprint, RoomBlueprint roomBlueprintIfAny)
         {
             var npc = new Npc(blueprint.Name, place);
 
@@ -40,12 +45,17 @@ namespace StarshipWanderer.Factories
             if(string.IsNullOrWhiteSpace(npc.Name))
                 npc.Name = faction?.NameFactory?.GenerateName(world.R) ?? "Unnamed Npc";
 
-            foreach (var blue in blueprint.Items) 
+            foreach (var blue in blueprint.MandatoryItems) 
                 SpawnItem(world,npc, blue);
 
-            //plus give them one more random thing that fits the faction
-            if (ItemFactory.Blueprints.Any()) 
-                SpawnItem(world,npc, ItemFactory.Blueprints.GetRandom(world.R));
+            //plus give them one more random thing that fits the faction / actor
+            var pickFrom = ItemFactory.Blueprints.Union(blueprint.OptionalItems).ToArray();
+
+            if (roomBlueprintIfAny != null)
+                pickFrom = pickFrom.Union(roomBlueprintIfAny.OptionalItems).ToArray();
+            
+            if (pickFrom.Any()) 
+                SpawnItem(world,npc, pickFrom.GetRandom(world.R));
 
             return npc;
         }

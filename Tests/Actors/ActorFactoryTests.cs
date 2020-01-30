@@ -35,7 +35,7 @@ namespace Tests.Actors
             var room = new Room("Tank Bay", world, 't') {ControllingFaction = faction};
 
             Assert.IsEmpty(room.Actors);
-            actors.Create(world, room,faction);
+            actors.Create(world, room,faction,null);
             
             Assert.IsTrue(room.Actors.Any());
             Assert.GreaterOrEqual(room.Actors.Count(a=>a.FactionMembership.Contains(faction)),1,"Expected room to be populated with some actors belonging to the controlling faction");

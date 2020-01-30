@@ -9,9 +9,15 @@ namespace StarshipWanderer.Factories
     {
         public RoomBlueprint[] Blueprints { get; set; } = new RoomBlueprint[0];
 
+        public ActorFactory GenericActorFactory { get; set; }
+        public ItemFactory GenericItemFactory { get; set; }
+
         public RoomFactory(IAdjectiveFactory adjectiveFactory):base(adjectiveFactory)
         {
+            GenericItemFactory = new ItemFactory(adjectiveFactory);
+            GenericActorFactory = new ActorFactory(GenericItemFactory,adjectiveFactory);
         }
+
 
         public IPlace Create(IWorld world)
         {
@@ -35,18 +41,30 @@ namespace StarshipWanderer.Factories
             if (faction != null)
             {
                 //create some random NPCs
-                faction.ActorFactory?.Create(world, room, faction);
+                faction.ActorFactory?.Create(world, room, faction,blueprint);
 
                 var itemFactory = faction.ActorFactory?.ItemFactory;
 
                 if (itemFactory != null && itemFactory.Blueprints.Any())
                 {
+                    //create some random items
                     var items = world.R.Next(3);
                     for (int i = 0; i < items; i++) 
-                        room.Items.Add(itemFactory.Create(world, itemFactory.Blueprints.GetRandom(world.R)));
+                        room.Items.Add(itemFactory.Create(world, 
+                            //using global items suitable to the faction
+                            itemFactory.Blueprints
+                                //or the room
+                                .Union(blueprint.OptionalItems).ToList()
+                                .GetRandom(world.R)));
                 }
             }
+
+            foreach(var a in blueprint.MandatoryActors)
+                GenericActorFactory.Create(world, room, room.ControllingFaction, a,blueprint);
             
+            foreach(var i in blueprint.MandatoryItems)
+                room.Items.Add(GenericItemFactory.Create(world,i));
+
             return room;
         }
     }

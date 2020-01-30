@@ -2,7 +2,7 @@
   OptionalAdjectives:
     - Type: Strong
     - Type: Tough
-- Name: 
+- Name: # Gets a random name
   OptionalAdjectives:
     - Type: Strong
   Stats:
