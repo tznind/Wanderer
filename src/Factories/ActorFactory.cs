@@ -19,58 +19,54 @@ namespace StarshipWanderer.Factories
             ItemFactory = itemFactory;
         }
         
-        public virtual void Create(IWorld world, IPlace place,IFaction faction)
+        public virtual void Create(IWorld world, IPlace place, IFaction faction, RoomBlueprint roomBlueprintIfAny)
         {
             int numberOfNpc = Math.Max(1,world.R.Next(5));
 
-            if(Blueprints.Any())
+            var pickFrom = Blueprints;
+
+            if (roomBlueprintIfAny != null)
+                pickFrom = pickFrom.Union(roomBlueprintIfAny.OptionalActors).ToArray();
+
+            if(pickFrom.Any())
                 for (int i = 0; i < numberOfNpc; i++)
-                    Create(world, place, faction, Blueprints.GetRandom(world.R));
+                    Create(world, place, faction, pickFrom.GetRandom(world.R),roomBlueprintIfAny);
         }
 
-        public IActor Create(IWorld world, IPlace place,IFaction faction, ActorBlueprint blueprint)
+        public IActor Create(IWorld world, IPlace place, IFaction faction, ActorBlueprint blueprint, RoomBlueprint roomBlueprintIfAny)
         {
             var npc = new Npc(blueprint.Name, place);
-            
-            //Adjectives the user definitely wants included
-            if (blueprint.MandatoryAdjectives.Any())
-                foreach (var a in blueprint.MandatoryAdjectives)
-                    npc.Adjectives.Add(AdjectiveFactory.Create(npc, a));
-            
-            //pick 1 random adjective if blueprint lists any to pick from
-            if (blueprint.OptionalAdjectives.Any())
-                npc.Adjectives.Add(
-                    AdjectiveFactory.Create(npc, blueprint.OptionalAdjectives.GetRandom(world.R))
-                    );
 
-            if (blueprint.Stats != null)
-                npc.BaseStats.Add(blueprint.Stats);
+            AddBasicProperties(npc, blueprint, world,"talk");
 
             if (faction != null)
                 npc.FactionMembership.Add(faction);
-
-            if (blueprint.Dialogue != null)
-            {
-                npc.Dialogue = blueprint.Dialogue;
-                if (npc.Dialogue.Verb == null)
-                    npc.Dialogue.Verb = "talk";
-            }
-
+            
             if(string.IsNullOrWhiteSpace(npc.Name))
                 npc.Name = faction?.NameFactory?.GenerateName(world.R) ?? "Unnamed Npc";
 
-            foreach (var blue in blueprint.Items)
-            {
-                var item = ItemFactory.Create(blue);
-                npc.Items.Add(item);
+            foreach (var blue in blueprint.MandatoryItems) 
+                SpawnItem(world,npc, blue);
 
-                if (npc.CanEquip(item, out _))
-                    item.IsEquipped = true;
+            //plus give them one more random thing that fits the faction / actor
+            var pickFrom = ItemFactory.Blueprints.Union(blueprint.OptionalItems).ToArray();
 
-
-            }
+            if (roomBlueprintIfAny != null)
+                pickFrom = pickFrom.Union(roomBlueprintIfAny.OptionalItems).ToArray();
+            
+            if (pickFrom.Any()) 
+                SpawnItem(world,npc, pickFrom.GetRandom(world.R));
 
             return npc;
+        }
+
+        private void SpawnItem(IWorld world,IActor actor, ItemBlueprint blue)
+        {
+            var item = ItemFactory.Create(world, blue);
+            actor.Items.Add(item);
+
+            if (actor.CanEquip(item, out _))
+                item.IsEquipped = true;
         }
     }
 }

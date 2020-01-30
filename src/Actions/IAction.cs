@@ -28,5 +28,12 @@ namespace StarshipWanderer.Actions
         /// <param name="stack"></param>
         /// <param name="frame"></param>
         void Pop(IUserinterface ui,ActionStack stack,Frame frame);
+
+        /// <summary>
+        /// Returns true if there are legal targets for the ability.
+        /// </summary>
+        /// <param name="performer"></param>
+        /// <returns></returns>
+        bool HasTargets(IActor performer);
     }
 }

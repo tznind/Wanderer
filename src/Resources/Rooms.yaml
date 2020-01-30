@@ -4,3 +4,45 @@
   Faction: e6edabf6-9ae9-40e8-aa51-772616e7f1ff
   Dialogue:
     Next: 335770f7-48b5-4465-b133-df87934404bc
+    
+- Name: Machine room
+  Dialogue:
+    Next: 3ca4e500-cbeb-4b7d-8a2f-4c93607d936e
+- Name: Meat processing
+  Dialogue:
+    Next: 1bc34e34-829c-4ce6-8c19-c43b942d1115
+  MandatoryActors:
+    - Name: Chef
+      OptionalAdjectives:
+        - Type: Strong
+        - Type: Tough
+      Stats:
+        Fight: 20
+        Loyalty: 20
+        Coerce: 15
+- Name: Shanty Town
+  Dialogue:
+    Next: 9450d237-44b6-4a86-b32e-22c25be9fcc0
+  OptionalActors:
+    - Name: Dog
+      OptionalAdjectives:
+        - Type: Strong
+        - Type: Tough
+        - Type: Giant
+      Stats:
+        Fight: 30
+        Loyalty: 5
+- Name: Hull Mine
+  Dialogue:
+    Next: 7701240b-f1f4-41b9-9379-f3c572e566af
+  OptionalItems:
+    - Name: Length of Chain
+      Stats: 
+        Fight: 5
+      Slot:
+        Name: Hand
+        NumberRequired: 2
+
+- Name: Slag pit
+  Dialogue:
+    Next: 90684886-e52c-4422-8637-ea64f98d90d4

@@ -12,6 +12,7 @@
       <HashCode>BAIAAAAgAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAABA=</HashCode>
       <FileName>Stats\StatsCollection.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="StarshipWanderer.Actors.Npc" Collapsed="true">
     <Position X="13.5" Y="6" Width="1.5" />
@@ -59,22 +60,22 @@
       <FileName>Point3.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="StarshipWanderer.Systems.DialogueNode" Collapsed="true">
-    <Position X="7.75" Y="6.25" Width="1.5" />
+  <Class Name="StarshipWanderer.Dialogues.DialogueOption" Collapsed="true">
+    <Position X="10" Y="6.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAQABAAAA=</HashCode>
-      <FileName>Systems\DialogueNode.cs</FileName>
+      <HashCode>AAIAAAAAAAAAAAAEAAAAAAAAAAAAAAAEAAAACAAAAAA=</HashCode>
+      <FileName>Dialogues\DialogueOption.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StarshipWanderer.Dialogues.DialogueNode" Collapsed="true">
+    <Position X="7.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAABAAQABAAAA=</HashCode>
+      <FileName>Dialogues\DialogueNode.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
       <Field Name="Options" />
     </ShowAsCollectionAssociation>
-  </Class>
-  <Class Name="StarshipWanderer.Systems.DialogueOption" Collapsed="true">
-    <Position X="10" Y="6.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAIAAAAAAAAAAAAEAAAAAAAAAAAAAAAEAAAACAAAAAA=</HashCode>
-      <FileName>Systems\DialogueOption.cs</FileName>
-    </TypeIdentifier>
   </Class>
   <Interface Name="StarshipWanderer.IWorld">
     <Position X="10.25" Y="2.75" Width="1.5" />
@@ -83,10 +84,10 @@
       <FileName>IWorld.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
+      <Property Name="RoomFactory" />
       <Property Name="Factions" />
       <Property Name="Relationships" />
       <Property Name="Dialogue" />
-      <Property Name="RoomFactory" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Property Name="Map" />
@@ -117,7 +118,7 @@
   <Interface Name="StarshipWanderer.Actions.IAction">
     <Position X="17" Y="5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAACAAAAAAAAAAAAACAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAACAAAgAAAAAAAAACAA=</HashCode>
       <FileName>Actions\IAction.cs</FileName>
     </TypeIdentifier>
   </Interface>
@@ -128,8 +129,8 @@
       <FileName>Places\IPlace.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="StarshipWanderer.Behaviours.IBehaviour">
-    <Position X="18" Y="0.5" Width="1.5" />
+  <Interface Name="StarshipWanderer.Behaviours.IBehaviour" Collapsed="true">
+    <Position X="18.25" Y="0.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAACAAA=</HashCode>
       <FileName>Behaviours\IBehaviour.cs</FileName>
@@ -169,7 +170,7 @@
   <Interface Name="StarshipWanderer.IHasStats">
     <Position X="15.25" Y="1" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>BAAIAAAARAAQAAAAAAEAAASAAAAAAAAAAgQAAAAAAAA=</HashCode>
+      <HashCode>AAAIAAAARAAQAAAAAAEAAASAAAAAAAAAAgQAAAAAAAA=</HashCode>
       <FileName>IHasStats.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -184,7 +185,7 @@
   <Interface Name="StarshipWanderer.Items.IItem" Collapsed="true">
     <Position X="14.75" Y="4" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAASAAAAAAAAAAAAAABAAAAAAAAAAQAAAgA=</HashCode>
+      <HashCode>AAAAAAAAAAASAAAEAAAAAAAAAABAAAAAABAAAQAAAgA=</HashCode>
       <FileName>Items\IItem.cs</FileName>
     </TypeIdentifier>
   </Interface>
@@ -201,9 +202,6 @@
       <HashCode>AAAAAAAAIAAAAAAAAAAAEAAAAAAAAAAAAAAEAAAABAI=</HashCode>
       <FileName>Systems\IDialogueSystem.cs</FileName>
     </TypeIdentifier>
-    <ShowAsCollectionAssociation>
-      <Property Name="AllDialogues" />
-    </ShowAsCollectionAssociation>
   </Interface>
   <Interface Name="StarshipWanderer.Relationships.IFactionRelationship" Collapsed="true">
     <Position X="5.5" Y="3.75" Width="1.75" />

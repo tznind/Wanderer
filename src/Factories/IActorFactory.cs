@@ -21,6 +21,8 @@ namespace StarshipWanderer.Factories
         /// </summary>
         /// <param name="world"></param>
         /// <param name="place"></param>
-        void Create(IWorld world, IPlace place,IFaction faction);
+        /// <param name="faction"></param>
+        /// <param name="blueprint"></param>
+        void Create(IWorld world, IPlace place, IFaction faction, RoomBlueprint blueprint);
     }
 }

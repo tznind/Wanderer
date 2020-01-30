@@ -8,7 +8,7 @@ namespace StarshipWanderer.Actions
     {
         public override void Push(IUserinterface ui, ActionStack stack, IActor actor)
         {            
-            if(actor.Decide(ui,"Pick Up", null, out IItem chosen, actor.CurrentLocation.Items.ToArray(),0))
+            if(actor.Decide(ui,"Pick Up", null, out IItem chosen, GetTargets(actor),0))
                 stack.Push(new PickUpFrame(actor,this,chosen,actor.CurrentLocation,0));
         }
 
@@ -28,6 +28,16 @@ namespace StarshipWanderer.Actions
             {
                 ui.Log.Info(new LogEntry($"{f.PerformedBy} attempted to pick up {f.Item} but was too slow",stack.Round,f.PerformedBy));
             }
+        }
+
+        public override bool HasTargets(IActor performer)
+        {
+            return GetTargets(performer).Any();
+        }
+
+        private IItem[] GetTargets(IActor performer)
+        {
+            return performer.CurrentLocation.Items.ToArray();
         }
     }
 }

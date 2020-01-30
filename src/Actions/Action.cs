@@ -38,6 +38,8 @@ namespace StarshipWanderer.Actions
         /// <param name="frame"></param>
         public abstract void Pop(IUserinterface ui, ActionStack stack, Frame frame);
 
+        public abstract bool HasTargets(IActor performer);
+
         public bool AreIdentical(IAction other)
         {
             if (other == null)

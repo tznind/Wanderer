@@ -18,6 +18,19 @@ namespace Tests.Actions
     class LeaveTests : UnitTest
     {
         [Test]
+        public void TestLeave_HasTargets()
+        {
+            var you =YouInARoom(out _);
+
+            Assert.IsTrue(new LeaveAction().HasTargets(you));
+
+            you.CurrentLocation.LeaveDirections.Clear();
+
+            Assert.IsFalse(new LeaveAction().HasTargets(you));
+
+        }
+
+        [Test]
         public void LeaveAndComeBack()
         {
             YouInARoom(out IWorld world);
@@ -31,7 +44,7 @@ namespace Tests.Actions
             
             Assert.AreEqual(new Point3(0,0,0),world.Map.GetPoint(world.Player.CurrentLocation));
             
-            var leave = new Leave();
+            var leave = new LeaveAction();
 
             var room1 = world.Player.CurrentLocation;
             Assert.IsNotNull(room1);
@@ -68,7 +81,7 @@ namespace Tests.Actions
             
             world.RoomFactory = factory.Object;
 
-            var leave = new Leave();
+            var leave = new LeaveAction();
 
             var room1 = world.Player.CurrentLocation;
             Assert.IsNotNull(room1);
@@ -116,7 +129,7 @@ namespace Tests.Actions
             //let the player go up from here
             world.Player.CurrentLocation.LeaveDirections.Add(Direction.Up);
 
-            var leave = new Leave();
+            var leave = new LeaveAction();
 
             var room1 = world.Player.CurrentLocation;
             Assert.IsNotNull(room1);
@@ -146,9 +159,9 @@ namespace Tests.Actions
         {
             var room = YouInARoom(out IWorld world).CurrentLocation;
             var guard = new Npc("Guard",room);
-            guard.BaseBehaviours.Add(new ForbidBehaviour<Leave>(new AlwaysCondition<Frame>(),guard));
+            guard.BaseBehaviours.Add(new ForbidBehaviour<LeaveAction>(new AlwaysCondition<Frame>(),guard));
             
-            var leave = new Leave();
+            var leave = new LeaveAction();
 
             var stack = new ActionStack();
 

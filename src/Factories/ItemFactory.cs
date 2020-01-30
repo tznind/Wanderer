@@ -1,6 +1,7 @@
 ﻿using StarshipWanderer.Actions;
 using StarshipWanderer.Adjectives;
 using StarshipWanderer.Dialogues;
+using StarshipWanderer.Factories.Blueprints;
 using StarshipWanderer.Items;
 
 namespace StarshipWanderer.Factories
@@ -13,26 +14,17 @@ namespace StarshipWanderer.Factories
         {
         }
 
-        public IItem Create(ItemBlueprint blueprint)
+        public IItem Create(IWorld world,ItemBlueprint blueprint)
         {
             var item = new Item(blueprint.Name);
 
-            if (blueprint.Dialogue != null)
-            {
-                item.BaseActions.Add(new DialogueAction());
-                item.Dialogue = blueprint.Dialogue;
-                if (item.Dialogue.Verb == null)
-                    item.Dialogue.Verb = "read";
-            }
+            AddBasicProperties(item,blueprint,world,"read");
 
             if(blueprint.Require != null)
                 item.Require = blueprint.Require;
 
             if (blueprint.Slot != null)
                 item.Slot = blueprint.Slot;
-
-            if (blueprint.Stats != null)
-                item.BaseStats = blueprint.Stats.Clone();
 
             return item;
         }

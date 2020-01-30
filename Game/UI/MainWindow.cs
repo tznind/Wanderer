@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using StarshipWanderer;
 using StarshipWanderer.Actors;
@@ -238,23 +239,6 @@ namespace Game.UI
             return optionChosen;
         }
 
-        private string Wrap(string message, int lineWidth)
-        {
-            StringBuilder sb = new StringBuilder();
-
-            for (int i = 0; i < message.Length; i = Math.Min(message.Length, i + lineWidth))
-            {
-                string nextChunk = message.Substring(i, Math.Min(message.Length - i, lineWidth));
-
-                sb.Append(nextChunk);
-
-                if(!nextChunk.Contains('\n'))
-                    sb.Append('\n');
-            }
-            
-            return sb.ToString();
-        }
-
         public void ShowActorStats(IActor actor)
         {
             if (actor == null)
@@ -363,7 +347,7 @@ namespace Game.UI
 
             int buttonLoc = 0;
 
-            var allActions = World.Player.GetFinalActions();
+            var allActions = World.Player.GetFinalActions().Where(a=>a.HasTargets(World.Player));
 
             foreach (var action in allActions)
             {
@@ -417,9 +401,12 @@ namespace Game.UI
 
             for (int i = 0; i < contents.Count; i++)
                 addLabelsTo.Add(new Label(0, i, contents[i]));
+        }
 
-            
-
+        public string Wrap(string s, int width)
+        {
+            var r = new Regex(@"(?:((?>.{1," + width + @"}(?:(?<=[^\S\r\n])[^\S\r\n]?|(?=\r?\n)|$|[^\S\r\n]))|.{1,16})(?:\r?\n)?|(?:\r?\n|$))");
+            return r.Replace(s, "$1\n");
         }
     }
 }

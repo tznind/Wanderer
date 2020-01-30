@@ -42,7 +42,7 @@ namespace Tests.Actors
 
             var room = InARoom(out IWorld w);
 
-            var actor = actorFactory.Create(w,room,null,actorFactory.Blueprints[1]);
+            var actor = actorFactory.Create(w,room,null,actorFactory.Blueprints[1],null);
 
             Assert.AreEqual("Crab",actor.Name);
             Assert.AreEqual("Strong",actor.Adjectives.Single().Name);    
@@ -65,7 +65,7 @@ namespace Tests.Actors
   Stats:
     Fight: 30
     Loyalty: 20
-  Items:
+  MandatoryItems:
     - Name: Chronometer
       Stats:
         Value: 10";
@@ -73,7 +73,7 @@ namespace Tests.Actors
             var room = InARoom(out IWorld w);
             var adj = new AdjectiveFactory();
             var actorFactory = new YamlActorFactory(yaml, new ItemFactory(adj), adj);
-            var servitor = actorFactory.Create(w, room, null,actorFactory.Blueprints.Single());
+            var servitor = actorFactory.Create(w, room, null,actorFactory.Blueprints.Single(),null);
 
             Assert.AreEqual("Servitor",servitor.Name);
             Assert.Contains("Rusty",servitor.Adjectives.Select(a=>a.Name).ToArray());
