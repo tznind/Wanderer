@@ -2,8 +2,6 @@ image: Visual Studio 2019
 
 before_build:
 - nuget restore
-- choco install opencover.portable
-- choco install codecov
 
 build:
   project: StarshipWanderer.sln
@@ -14,5 +12,5 @@ environment:
        secure: bP7KRQj9n04WENG3PpBMorvIMnyEje/3ZdXS4DTVHtjd8WYL3opfkZ6zZmYuQPZa
 
 after_test: 
-  - cmd: OpenCover.Console.Exe -target:"c:\program files\dotnet\dotnet.exe" -targetargs:"test" -filter:\"+[*]*\"  -output:coverage.xml -register:user
-  - cmd: C:\Users\appveyor\.nuget\packages\coveralls.io\1.4.2\tools\coveralls.net.exe --opencover coverage.xml -r %COVERALLS_REPO_TOKEN%
+  - cmd: packages/opencover/4.7.922/tools/OpenCover.Console.exe -target:"c:\program files\dotnet\dotnet.exe" -targetargs:"test" -filter:"+[*]*"  -output:coverage.xml -register:user
+  - cmd: packages\coveralls.io\1.4.2\tools\coveralls.net.exe --opencover coverage.xml -r %COVERALLS_REPO_TOKEN%
