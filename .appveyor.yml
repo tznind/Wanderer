@@ -12,5 +12,5 @@ environment:
        secure: bP7KRQj9n04WENG3PpBMorvIMnyEje/3ZdXS4DTVHtjd8WYL3opfkZ6zZmYuQPZa
 
 after_test: 
-  - cmd:packages\OpenCover.4.7.922\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"packages\NUnit.ConsoleRunner.3.10.1\tools\nunit3-console.exe" -targetargs:"/domain:single Tests\bin\Debug\netcoreapp3.1\Tests.dll" -output:coverage.xml    
+  - cmd: packages\OpenCover.4.7.922\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"packages\NUnit.ConsoleRunner.3.10.1\tools\nunit3-console.exe" -targetargs:"/domain:single Tests\bin\Debug\netcoreapp3.1\Tests.dll" -output:coverage.xml    
   - cmd: packages\coveralls.io.1.4.2\tools\coveralls.net.exe --opencover coverage.xml -r %COVERALLS_REPO_TOKEN%
