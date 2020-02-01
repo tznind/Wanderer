@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using StarshipWanderer.Actors;
 using TB.ComponentModel;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
@@ -41,6 +42,10 @@ namespace StarshipWanderer.Conditions
 
             if(conditionType == null)
                 throw new YamlException($"Could not find ICondition called {split[0]}");
+            
+            //todo: one day we will have to support room / item based conditions too
+            if (conditionType.ContainsGenericParameters)
+                conditionType = conditionType.MakeGenericType(typeof(IActor));
 
             var constructor = conditionType
                 .GetConstructors()
