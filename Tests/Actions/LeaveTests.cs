@@ -127,7 +127,7 @@ namespace Tests.Actions
             
             world.RoomFactory = factory.Object;
             //let the player go up from here
-            world.Player.CurrentLocation.LeaveDirections.Add(Direction.Up);
+            ((Room) world.Player.CurrentLocation).AllowUpDown(true);
 
             var leave = new LeaveAction();
 

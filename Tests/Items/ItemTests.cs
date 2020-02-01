@@ -25,6 +25,9 @@ namespace Tests.Items
             var world = new World();
             var darkRoom = new Room("Dark Room", world,'-');
             darkRoom.Adjectives.Add(new Dark(darkRoom));
+
+            Assert.IsTrue(darkRoom.Has<Dark>());
+
             world.Map.Add(new Point3(0,0,0),darkRoom);
 
             var globe = new Item("Glo Globe");

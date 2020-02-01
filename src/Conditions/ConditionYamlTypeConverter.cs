@@ -37,7 +37,7 @@ namespace StarshipWanderer.Conditions
 
             var conditionType = _conditions.SingleOrDefault(c =>
                 c.Name.Equals(split[0]) ||
-                c.Name.Equals(split[0] + "Condition"));
+                c.Name.StartsWith(split[0] + "Condition")); //use starts with to allow for generics
 
             if(conditionType == null)
                 throw new YamlException($"Could not find ICondition called {split[0]}");
