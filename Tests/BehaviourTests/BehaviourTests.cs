@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Moq;
-using NLog.LayoutRenderers.Wrappers;
 using NUnit.Framework;
 using StarshipWanderer;
 using StarshipWanderer.Actions;
@@ -11,7 +8,7 @@ using StarshipWanderer.Adjectives;
 using StarshipWanderer.Behaviours;
 using StarshipWanderer.Conditions;
 
-namespace Tests
+namespace Tests.BehaviourTests
 {
     class BehaviourTests
     {

@@ -8,9 +8,11 @@ using NUnit.Framework;
 using StarshipWanderer;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
+using StarshipWanderer.Adjectives;
 using StarshipWanderer.Behaviours;
 using StarshipWanderer.Conditions;
 using StarshipWanderer.Factories;
+using StarshipWanderer.Factories.Blueprints;
 using StarshipWanderer.Places;
 
 namespace Tests
@@ -26,18 +28,18 @@ namespace Tests
             {
                 ResourcesDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory,"Resources")
             }.Create();
-            
-            var omg = new Npc("omgz",world1.Player.CurrentLocation);
-            omg.BaseBehaviours.Add(new ForbidBehaviour<LeaveAction>(new LeaveDirectionCondition(Direction.Down), omg));
-            
-            var behaviour = omg.GetFinalBehaviours().OfType<ForbidBehaviour<LeaveAction>>().Single();
 
+            var faction = world1.Factions.First();
+            var actorFactory = faction.ActorFactory;
+            var npc = 
+                actorFactory.Create(world1,world1.Player.CurrentLocation,faction,
+                    new ActorBlueprint()
+                    {
+                        Name = "omg",
+                        MandatoryAdjectives = new []{new AdjectiveBlueprint(){Type = "Rusty"}}
+                    },null);
 
-
-            //we don't forbid going north
-            Assert.IsFalse(behaviour.Condition.IsMet(new LeaveFrame(omg,new LeaveAction(),Direction.North,0)));
-            //we DO forbid going down
-            Assert.IsTrue(behaviour.Condition.IsMet(new LeaveFrame(omg,new LeaveAction(),Direction.Down,0)));
+            Assert.AreEqual(1,npc.Adjectives.OfType<Rusty>().Count(),"Expected npc to be Rusty");
             
             var actionsBefore = world1.Player.CurrentLocation.GetFinalActions(world1.Player).Count();
 
@@ -57,15 +59,9 @@ namespace Tests
                 world1.Population.Count,
                 world2.Population.Count);
 
-            var omg2 = world2.Population.Single(o => o.Name.Equals("omgz"));
-
-            var behaviour2 = omg2.GetFinalBehaviours().OfType<ForbidBehaviour<LeaveAction>>().Single();
-
-            //we don't forbid going north
-            Assert.IsFalse(behaviour2.Condition.IsMet(new LeaveFrame(omg,new LeaveAction(),Direction.North,0)));
-            //we DO forbid going down
-            Assert.IsTrue(behaviour2.Condition.IsMet(new LeaveFrame(omg2,new LeaveAction(),Direction.Down,0)));
+            var omg2 = world2.Population.Single(o => o.Name.Equals("omg"));
             
+            Assert.AreEqual(omg2,omg2.Adjectives.OfType<Rusty>().Single().Owner);
             Assert.AreEqual(actionsBefore , world2.Player.CurrentLocation.GetFinalActions(world2.Player).Count());
         }
 
