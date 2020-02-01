@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/tznind/StarshipWanderer.svg?branch=master)](https://travis-ci.org/tznind/StarshipWanderer)
+[![Build Status](https://travis-ci.org/tznind/StarshipWanderer.svg?branch=master)](https://travis-ci.org/tznind/StarshipWanderer) [![Coverage Status](https://coveralls.io/repos/github/tznind/StarshipWanderer/badge.svg?branch=master)](https://coveralls.io/github/tznind/StarshipWanderer?branch=master)
 
 # StarshipWanderer
 
