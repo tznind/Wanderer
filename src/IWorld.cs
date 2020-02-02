@@ -41,6 +41,11 @@ namespace StarshipWanderer
         IList<IInjurySystem> InjurySystems { get; set; }
 
         /// <summary>
+        /// System(s) for coerce, ordering, trade etc
+        /// </summary>
+        IList<INegotiationSystem> NegotiationSystems { get; set; }
+
+        /// <summary>
         /// Returns all the behaviours that should respond to events in the world
         /// </summary>
         /// <returns></returns>
