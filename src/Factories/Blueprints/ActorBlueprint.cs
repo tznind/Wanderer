@@ -1,10 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
+using StarshipWanderer.Actors;
 using StarshipWanderer.Systems;
 
 namespace StarshipWanderer.Factories.Blueprints
 {
     public class ActorBlueprint : HasStatsBlueprint
     {
+        /// <summary>
+        /// Optional, overrides the default slots (1 head, 2 arms etc) that an actor
+        /// would normally have
+        /// </summary>
+        public SlotCollection Slots { get; set; }
+
         /// <summary>
         /// MandatoryItems which the actor must be carrying when created
         /// </summary>

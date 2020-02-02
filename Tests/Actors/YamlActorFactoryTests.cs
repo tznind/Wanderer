@@ -37,7 +37,7 @@ namespace Tests.Actors
     Fight: 40
 ";
          
-            var actorFactory = new YamlActorFactory(yaml, new ItemFactory(adj), adj);
+            var actorFactory = new YamlActorFactory(yaml, null,new ItemFactory(adj), adj);
             Assert.GreaterOrEqual(actorFactory.Blueprints.Length , 2);
 
             var room = InARoom(out IWorld w);
@@ -72,7 +72,7 @@ namespace Tests.Actors
 
             var room = InARoom(out IWorld w);
             var adj = new AdjectiveFactory();
-            var actorFactory = new YamlActorFactory(yaml, new ItemFactory(adj), adj);
+            var actorFactory = new YamlActorFactory(yaml, null,new ItemFactory(adj), adj);
             var servitor = actorFactory.Create(w, room, null,actorFactory.Blueprints.Single(),null);
 
             Assert.AreEqual("Servitor",servitor.Name);

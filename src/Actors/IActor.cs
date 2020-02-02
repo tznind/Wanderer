@@ -35,7 +35,7 @@ namespace StarshipWanderer.Actors
         /// <summary>
         /// How many of each body part does the actor have in which he can equip stuff
         /// </summary>
-        Dictionary<string,int> AvailableSlots { get; set; }
+        SlotCollection AvailableSlots { get; set; }
         
         /// <summary>
         /// All factions which you belong to

@@ -40,5 +40,42 @@ namespace Tests.Actors
             Assert.IsTrue(room.Actors.Any());
             Assert.GreaterOrEqual(room.Actors.Count(a=>a.FactionMembership.Contains(faction)),1,"Expected room to be populated with some actors belonging to the controlling faction");
         }
+
+        [Test]
+        public void TestActorFactory_SlotCreation()
+        {
+
+            string yamlDefaultSlots =
+                @"
+Head: 1
+Hands: 1
+Legs: 2
+Chest: 1
+";
+
+            string yaml = @"
+- Name: Pirate
+- Name: Scorpion
+  Slots:
+    Head: 1
+    Tail: 1
+    Legs: 6
+";
+            var room = InARoom(out IWorld w);
+            var actorFactory = new YamlActorFactory(yaml,yamlDefaultSlots, new ItemFactory(new AdjectiveFactory()), new AdjectiveFactory());
+            var scorpion = actorFactory.Create(w, room, null, actorFactory.Blueprints[1],null);
+
+            Assert.AreEqual(1,scorpion.AvailableSlots["Head"]);
+            Assert.AreEqual(1,scorpion.AvailableSlots["Tail"]);
+            Assert.AreEqual(6,scorpion.AvailableSlots["Legs"]);
+
+            
+            var pirate = actorFactory.Create(w, room, null, actorFactory.Blueprints[0],null);
+            Assert.AreEqual(1,pirate.AvailableSlots["Head"]);
+            Assert.AreEqual(1,pirate.AvailableSlots["Hands"]);
+            Assert.AreEqual(2,pirate.AvailableSlots["Legs"]);
+            Assert.AreEqual(1,pirate.AvailableSlots["Chest"]);
+
+        }
     }
 }

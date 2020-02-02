@@ -21,6 +21,7 @@ namespace Tests.Items
         {
             var you = YouInARoom(out IWorld w);
             you.BaseStats[Stat.Fight] = 0;
+            you.AvailableSlots.Add("Hand",2);
 
             var itemFactory = new ItemFactory(new AdjectiveFactory());
 
@@ -63,6 +64,7 @@ namespace Tests.Items
             room.Adjectives.Add(new Rusty(room));
 
             you.BaseStats[Stat.Fight] = 20;
+            you.AvailableSlots.Add("Hand",2);
 
             var itemFactory = new ItemFactory(new AdjectiveFactory());
             IItem item1 = itemFactory.Create<Rusty>("Pistol").With(Stat.Fight,20).With(new ItemSlot("Hand",1,InjuryRegion.Hand));

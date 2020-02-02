@@ -24,7 +24,7 @@ namespace StarshipWanderer.Actors
         public HashSet<IItem> Items { get; set; } = new HashSet<IItem>();
         public HashSet<IFaction> FactionMembership { get; set; } = new HashSet<IFaction>();
 
-        public Dictionary<string,int> AvailableSlots { get; set; }  = new Dictionary<string, int>();
+        public SlotCollection AvailableSlots { get; set; } = new SlotCollection();
 
         /// <summary>
         /// Do not use, internal constructor for JSON serialization
@@ -55,8 +55,6 @@ namespace StarshipWanderer.Actors
             BaseActions.Add(new DialogueAction());
             BaseActions.Add(new EquipmentAction());
             BaseBehaviours.Add(new MergeStacksBehaviour(this));
-
-            AvailableSlots.Add("Hand",2);
         }
 
         /// <summary>

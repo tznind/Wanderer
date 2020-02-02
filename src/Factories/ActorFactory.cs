@@ -3,6 +3,7 @@ using System.Linq;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Extensions;
 using StarshipWanderer.Factories.Blueprints;
+using StarshipWanderer.Items;
 using StarshipWanderer.Places;
 using StarshipWanderer.Relationships;
 
@@ -13,6 +14,8 @@ namespace StarshipWanderer.Factories
         public ActorBlueprint[] Blueprints { get; set; }
         
         public IItemFactory ItemFactory { get; set; }
+
+        public SlotCollection DefaultSlots { get; set; } = new SlotCollection();
 
         public ActorFactory(IItemFactory itemFactory, IAdjectiveFactory adjectiveFactory):base(adjectiveFactory)
         {
@@ -57,6 +60,8 @@ namespace StarshipWanderer.Factories
             if (pickFrom.Any()) 
                 SpawnItem(world,npc, pickFrom.GetRandom(world.R));
 
+            npc.AvailableSlots = (blueprint.Slots ?? DefaultSlots)?.Clone() ?? new SlotCollection();
+            
             return npc;
         }
 

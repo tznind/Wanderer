@@ -33,6 +33,7 @@
     <None Remove="Resources\Factions\Wildlife\Faction.yaml" />
     <None Remove="Resources\Factions\Wildlife\Forenames.txt" />
     <None Remove="Resources\Rooms.yaml" />
+    <None Remove="Resources\Slots.yaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -92,6 +93,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Rooms.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Slots.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

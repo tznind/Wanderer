@@ -23,10 +23,13 @@ namespace StarshipWanderer.Factories
             ResourcesDirectory = Path.Combine(entry == null ? Environment.CurrentDirectory : Path.GetDirectoryName(entry) ?? ".","Resources");
         }
 
+        SlotCollection _defaultSlots;
 
         public virtual IWorld Create()
         {
             var world = new World();
+
+            _defaultSlots = GetDefaultSlots();
 
             GenerateFactions(world);
 
@@ -44,6 +47,26 @@ namespace StarshipWanderer.Factories
             world.RoomFactory = roomFactory;
             
             return world;
+        }
+
+        protected virtual SlotCollection GetDefaultSlots()
+        {
+            string defaultSlots = Path.Combine(ResourcesDirectory, "Slots.yaml");
+
+            if (File.Exists(defaultSlots))
+            {
+                try
+                {
+                    var d = new Deserializer();
+                    return d.Deserialize<SlotCollection>(File.ReadAllText(defaultSlots));
+                }
+                catch (Exception e)
+                {
+                    throw new Exception("Error deserializing " + defaultSlots,e);
+                }
+            }
+
+            return new SlotCollection();
         }
 
         protected virtual IAdjectiveFactory GetAdjectiveFactory()
@@ -66,7 +89,10 @@ namespace StarshipWanderer.Factories
         }
         protected virtual You GetPlayer(IPlace startingRoom)
         {
-            return new You("Wanderer", startingRoom);
+            return new You("Wanderer", startingRoom)
+            {
+                AvailableSlots = _defaultSlots.Clone()
+            };
         }
 
         /// <summary>
@@ -97,6 +123,7 @@ namespace StarshipWanderer.Factories
 
                 var factionActorsFile = Path.Combine(directory, "Actors.yaml");
                 var factionItemsFile = Path.Combine(directory, "Items.yaml");
+                var factionSlotsFile = Path.Combine(directory, "Slots.yaml");
                 IItemFactory itemFactory;
 
                 try
@@ -113,13 +140,22 @@ namespace StarshipWanderer.Factories
                 
                 try
                 {
-                    var actorFactory = new YamlActorFactory(File.ReadAllText(factionActorsFile),itemFactory,adjectiveFactory);
+                    string slotsYaml = null;
+
+                    if (File.Exists(factionSlotsFile))
+                        slotsYaml = File.ReadAllText(factionSlotsFile);
+
+                    var actorFactory = new YamlActorFactory(File.ReadAllText(factionActorsFile),slotsYaml,itemFactory,adjectiveFactory);
+
+                    //if there are no faction specific slots use the defaults
+                    if (string.IsNullOrWhiteSpace(slotsYaml) && actorFactory.DefaultSlots.Count == 0)
+                        actorFactory.DefaultSlots = _defaultSlots.Clone();
 
                     f.ActorFactory = actorFactory;
                 }
                 catch (Exception e)
                 {
-                    throw new Exception($"Error Deserializing file {factionActorsFile}",e);
+                    throw new Exception($"Error Deserializing faction actors/slots file in dir '{directory}'",e);
                 }
 
 
