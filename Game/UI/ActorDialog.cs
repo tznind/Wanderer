@@ -46,7 +46,7 @@ namespace Game.UI
             
             lines.Add("Relationships:");
 
-            lines.AddRange(actor.CurrentLocation.World.Relationships.OfType<PersonalRelationship>().Where(r => r.Observer == actor).Select(personalRelationship => personalRelationship.ToString()));
+            lines.AddRange(GetRelationships(actor));
 
 
             View addLabelsTo;
@@ -74,6 +74,21 @@ namespace Game.UI
             
             btn.Clicked = () => { Running = false;};
             btn.FocusFirst();
+        }
+
+        private IEnumerable<string> GetRelationships(IActor actor)
+        {
+            foreach (var relationship in actor.CurrentLocation.World.Relationships.OfType<PersonalRelationship>().Where(r => r.Observer == actor))
+            {
+                //personal relationship then in brackets the sum total (including inherited faction relationships etc)
+                var total = actor.CurrentLocation.World.Relationships.SumBetween(relationship.Observer,relationship.Observed);
+
+                //sometimes they are the same
+                if(Math.Abs(total - relationship.Attitude) < 0.001)
+                    yield return $"{relationship}";
+                else
+                    yield return $"{relationship} ({total})";
+            }
         }
     }
 }

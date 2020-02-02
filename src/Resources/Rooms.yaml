@@ -1,14 +1,19 @@
 ﻿- Name: Tunnels
+  Tile: "-"
 - Name: Vents
+  Tile: "-"
 - Name: Gun Bay
+  Tile: g
   Faction: e6edabf6-9ae9-40e8-aa51-772616e7f1ff
   Dialogue:
     Next: 335770f7-48b5-4465-b133-df87934404bc
     
 - Name: Machine room
+  Tile: m
   Dialogue:
     Next: 3ca4e500-cbeb-4b7d-8a2f-4c93607d936e
 - Name: Meat processing
+  Tile: M
   Dialogue:
     Next: 1bc34e34-829c-4ce6-8c19-c43b942d1115
   MandatoryActors:
@@ -21,6 +26,7 @@
         Loyalty: 20
         Coerce: 15
 - Name: Shanty Town
+  Tile: T
   Dialogue:
     Next: 9450d237-44b6-4a86-b32e-22c25be9fcc0
   OptionalActors:
@@ -33,6 +39,7 @@
         Fight: 30
         Loyalty: 5
 - Name: Hull Mine
+  Tile: m
   Dialogue:
     Next: 7701240b-f1f4-41b9-9379-f3c572e566af
   OptionalItems:
@@ -44,5 +51,6 @@
         NumberRequired: 2
 
 - Name: Slag pit
+  Tile: p
   Dialogue:
     Next: 90684886-e52c-4422-8637-ea64f98d90d4

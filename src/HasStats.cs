@@ -13,6 +13,7 @@ namespace StarshipWanderer
     {
         private IAdjectiveCollection _adjectives = new AdjectiveCollection();
         private IBehaviourCollection _baseBehaviours = new BehaviourCollection();
+        private IActionCollection _baseActions = new ActionCollection();
         public string Name { get; set; }
         public DialogueInitiation Dialogue { get; set; } = new DialogueInitiation();
 
@@ -22,15 +23,24 @@ namespace StarshipWanderer
             set
             {
                 _adjectives = value;
+                value?.PruneNulls();
 
                 if(value != null)
                     foreach (var a in value) 
-                        if(a != null)
-                            a.Owner = this;
+                        a.Owner = this;
             }
         }
 
-        public IActionCollection BaseActions { get; set; } = new ActionCollection();
+        public IActionCollection BaseActions
+        {
+            get => _baseActions;
+            set
+            {
+                _baseActions = value;
+                value?.PruneNulls();
+            }
+        }
+
         public StatsCollection BaseStats { get; set; } = new StatsCollection();
 
         public IBehaviourCollection BaseBehaviours
@@ -39,11 +49,11 @@ namespace StarshipWanderer
             set
             {
                 _baseBehaviours = value;
+                value?.PruneNulls();
 
                 if(value != null)
                     foreach (var b in value) 
-                        if(b != null)
-                            b.Owner = this;
+                        b.Owner = this;
             }
         }
 

@@ -18,5 +18,10 @@ namespace StarshipWanderer.Adjectives
             
             return TrueForAll(e=>other.Any(o=>o.AreIdentical(e)));
         }
+
+        public void PruneNulls()
+        {
+            RemoveAll(v => v == null);
+        }
     }
 }
