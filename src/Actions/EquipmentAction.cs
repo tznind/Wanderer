@@ -21,7 +21,7 @@ namespace StarshipWanderer.Actions
                             if(actor.CanEquip(equip,out string s))
                                 stack.Push(new EquipmentFrame(actor,this,toPerform,equip));
                             else
-                                ui.ShowMessage("Cannot Equip",s);
+                                ShowNarrative(ui,actor,"Cannot Equip",s,$"{actor} tried to equip {equip} but failed ({s})",stack.Round);
                             
                         break;
                     case EquipmentActionToPerform.TakeOff:

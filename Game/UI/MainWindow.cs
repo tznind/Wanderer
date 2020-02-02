@@ -217,7 +217,7 @@ namespace Game.UI
             {
                 int width = DLG_WIDTH - (DLG_BOUNDARY * 2);
 
-                var msg = Wrap(message, width).TrimEnd();
+                var msg = Wrap(message, width-1).TrimEnd();
 
                 var text = new Label(0, 0, msg)
                 {
@@ -378,7 +378,8 @@ namespace Game.UI
 
             var allActions = World.Player.GetFinalActions().Where(a=>a.HasTargets(World.Player));
 
-            foreach (var action in allActions)
+            //don't run out of UI spaces! (maybe we can page this later on if we get too many unique actions to render)
+            foreach (var action in allActions.Take(_buttonLocations.Count))
             {
                 var btn = new Button(_buttonLocations[buttonLoc].X, _buttonLocations[buttonLoc].Y, action.Name, false)
                 {
@@ -412,7 +413,7 @@ namespace Game.UI
 
             contents.Add("Faction:" + (World.Player.CurrentLocation.ControllingFaction?.Name ?? "None"));
 
-            contents.AddRange(World.Player.GetCurrentLocationSiblings().Select(s=>s.ToString()));
+            contents.AddRange(World.Player.GetCurrentLocationSiblings(true).Select(s=>s.ToString()));
             contents.AddRange(World.Player.CurrentLocation.Items.Select(s=>s.ToString()));
 
             View addLabelsTo;

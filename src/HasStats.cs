@@ -25,7 +25,8 @@ namespace StarshipWanderer
 
                 if(value != null)
                     foreach (var a in value) 
-                        a.Owner = this;
+                        if(a != null)
+                            a.Owner = this;
             }
         }
 
@@ -41,7 +42,8 @@ namespace StarshipWanderer
 
                 if(value != null)
                     foreach (var b in value) 
-                        b.Owner = this;
+                        if(b != null)
+                            b.Owner = this;
             }
         }
 

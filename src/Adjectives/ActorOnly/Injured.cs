@@ -64,21 +64,16 @@ namespace StarshipWanderer.Adjectives.ActorOnly
         public void OnPush(IUserinterface ui, ActionStack stack, Frame frame)
         {
             _roundsSeen.Add(stack.Round);
-
-            if (Severity <= 1)
-            {
-                //light wounds
-                if( _roundsSeen.Count >= 10)
-                    Heal(ui,stack.Round);
-            }
+            
+            //light wounds
+            if (InjurySystem.ShouldNaturallyHeal(this, _roundsSeen.Count))
+                Heal(ui, stack.Round);
             else
+            //heavy wounds
+            if (InjurySystem.ShouldWorsen(this, _roundsSeen.Count))
             {
-                //heavy wounds
-                if (InjurySystem.ShouldWorsen(this, _roundsSeen.Count))
-                {
-                    Worsen(ui,stack.Round); //make injury worse
-                    _roundsSeen.Clear(); //and start counting again from 0
-                }
+                Worsen(ui, stack.Round); //make injury worse
+                _roundsSeen.Clear(); //and start counting again from 0
             }
         }
 

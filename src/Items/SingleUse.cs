@@ -24,7 +24,7 @@ namespace StarshipWanderer.Items
         public void OnPush(IUserinterface ui, ActionStack stack, Frame frame)
         {
             //if an action is pushed onto the stack that comes from the owned item
-            if (OwnerItem.GetFinalActions(frame.PerformedBy).Contains(frame.Action))
+            if (OwnerItem.GetFinalActions(frame.PerformedBy).Any(a=>ReferenceEquals(a,frame.Action)))
                 //erase it from existence
                 frame.PerformedBy.CurrentLocation.World.Erase(OwnerItem);
         }

@@ -84,9 +84,9 @@ namespace StarshipWanderer.Actors
         public abstract void Kill(IUserinterface ui, Guid round, string reason);
 
         /// <inheritdoc/>
-        public IActor[] GetCurrentLocationSiblings()
+        public IActor[] GetCurrentLocationSiblings(bool includeDead)
         {
-            return CurrentLocation.World.Population.Where(o => o.CurrentLocation == CurrentLocation && o != this && !o.Dead).ToArray();
+            return CurrentLocation.World.Population.Where(o => o.CurrentLocation == CurrentLocation && o != this && (!o.Dead || includeDead)).ToArray();
         }
 
         public bool Has<T>(bool includeItems) where T : IAdjective

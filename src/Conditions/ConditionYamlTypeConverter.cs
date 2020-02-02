@@ -14,13 +14,13 @@ namespace StarshipWanderer.Conditions
 
         public ConditionYamlTypeConverter()
         {
-            _conditions = typeof(IConditionBase).Assembly.GetTypes()
-                .Where(t => typeof(IConditionBase).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
+            _conditions = typeof(ICondition).Assembly.GetTypes()
+                .Where(t => typeof(ICondition).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
                 .ToArray();
         }
         public bool Accepts(Type type)
         {
-            return typeof(IConditionBase).IsAssignableFrom(type);
+            return typeof(ICondition).IsAssignableFrom(type);
         }
 
         public object? ReadYaml(IParser parser, Type type)
@@ -69,7 +69,7 @@ namespace StarshipWanderer.Conditions
 
         public void WriteYaml(IEmitter emitter, object? value, Type type)
         {
-            var condition = (IConditionBase) value;
+            var condition = (ICondition) value;
             
             // reset of serialisation code
             emitter.Emit(new Scalar(condition.SerializeAsConstructorCall()));

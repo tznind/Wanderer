@@ -69,6 +69,9 @@ namespace StarshipWanderer.Systems
 
         public bool ShouldWorsen(Injured injury, int roundsSeen)
         {
+            if (IsWithinNaturalHealingThreshold(injury) || injury.OwnerActor.Dead)
+                return false;
+
             double worsenRate = 1;
 
             if (injury.OwnerActor.Has<Tough>(true))
@@ -97,6 +100,16 @@ namespace StarshipWanderer.Systems
 
             reason = $"Savvy was too low (required {requiredSavvy})";
             return false;
+        }
+
+        public bool ShouldNaturallyHeal(Injured injured, in int roundsSeen)
+        {
+            return !injured.OwnerActor.Dead && IsWithinNaturalHealingThreshold(injured) && roundsSeen >= 10;
+        }
+
+        private bool IsWithinNaturalHealingThreshold(Injured injured)
+        {
+            return injured.Severity <= 1;
         }
     }
 }

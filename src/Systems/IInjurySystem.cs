@@ -31,5 +31,6 @@ namespace StarshipWanderer.Systems
         bool ShouldWorsen(Injured injured, int roundsSeen);
 
         bool IsHealableBy(IActor actor, Injured injured, out string reason);
+        bool ShouldNaturallyHeal(Injured injured, in int roundsSeenCount);
     }
 }

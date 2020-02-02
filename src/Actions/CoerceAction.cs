@@ -34,7 +34,7 @@ namespace StarshipWanderer.Actions
         }
         private Npc[] GetTargets(IActor performer)
         {
-            return performer.GetCurrentLocationSiblings().OfType<Npc>().ToArray();
+            return performer.GetCurrentLocationSiblings(false).OfType<Npc>().ToArray();
         }
     }
 }

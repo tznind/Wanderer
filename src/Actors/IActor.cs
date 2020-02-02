@@ -78,7 +78,7 @@ namespace StarshipWanderer.Actors
         /// Returns all other people in the <see cref="CurrentLocation"/>
         /// </summary>
         /// <returns></returns>
-        IActor[] GetCurrentLocationSiblings();
+        IActor[] GetCurrentLocationSiblings(bool includeDead);
 
         
         /// <summary>

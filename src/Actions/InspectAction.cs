@@ -16,7 +16,7 @@ namespace StarshipWanderer.Actions
 
         private IActor[] GetTargets(IActor performer)
         {
-            return performer.GetCurrentLocationSiblings();
+            return performer.GetCurrentLocationSiblings(true);
         }
 
         public override void Pop(IUserinterface ui, ActionStack stack, Frame frame)
