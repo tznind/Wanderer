@@ -6,6 +6,7 @@ This file describes the relationship between classes and resource files
 |------------------|------------------|---------------------------|
 | /Dialogue/*.yaml | `DialogueNode[]` | Contains unique dialogue trees.  Each node consists of 1 main piece of text and 0 or more options which can lead to other nodes or end dialogue |
 | /Rooms.yaml | `RoomBlueprint[]` | Contains descriptions of rooms that can be generated |
+| /Items.yaml | `ItemBlueprint[]` | Contains generic items that would fit in any room generated (regardless of `Faction` |
 | /Slots.yaml | `SlotCollection` | Contains default item slots (e.g. 1 Head, 2 Hand etc) that all `Actor` start with (unless the blueprint lists explicit slots).  Note also that this can be overridden with a faction Slots.yaml|
 | /Factions/X/Faction.yaml | `Faction` | Contains description of the faction (name, role etc) |
 | /Factions/X/Actors.yaml  | `ActorBlueprint[]` | Describes how to create `Actor` instances that fit thematically with the `Faction` whose folder they are in |

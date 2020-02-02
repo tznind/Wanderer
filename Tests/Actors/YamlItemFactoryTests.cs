@@ -6,6 +6,7 @@ using StarshipWanderer;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Dialogues;
 using StarshipWanderer.Factories;
+using StarshipWanderer.Items;
 using StarshipWanderer.Stats;
 using StarshipWanderer.Systems;
 
@@ -94,6 +95,33 @@ namespace Tests.Actors
 
             Assert.Contains("The book is filled with magic secrets",ui.MessagesShown);
 
+        }
+
+        [Test]
+        public void TestCreatingItem_Stack()
+        {
+            string yaml = @"
+- Name: Chips
+  Stack: 1
+- Name: Chips
+  Stack: 10
+- Name: Silver Bell";
+
+            InARoom(out IWorld w);
+            var itemFactory = new YamlItemFactory(yaml, new AdjectiveFactory()); 
+            var item = itemFactory.Create(w, itemFactory.Blueprints[0]);
+
+            Assert.IsInstanceOf<IItemStack>(item);
+            Assert.AreEqual(1,((IItemStack)item).StackSize);
+
+            var item2 = itemFactory.Create(w, itemFactory.Blueprints[1]);
+
+            Assert.IsInstanceOf<IItemStack>(item2);
+            Assert.AreEqual(10,((IItemStack)item2).StackSize);
+            
+            var item3 = itemFactory.Create(w, itemFactory.Blueprints[2]);
+            
+            Assert.IsNotInstanceOf<IItemStack>(item3);
         }
     }
 }

@@ -1,0 +1,7 @@
+﻿- Name: Chips
+  Stack: 1
+  Stats:
+    Value: 1
+  Dialogue: 
+    Verb: inspect
+    Next: f2bdb6d3-f793-4374-a198-de6b8ac91488

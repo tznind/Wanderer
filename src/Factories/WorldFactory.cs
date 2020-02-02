@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using StarshipWanderer.Actors;
+using StarshipWanderer.Factories.Blueprints;
 using StarshipWanderer.Places;
 using StarshipWanderer.Relationships;
 using StarshipWanderer.Systems;
@@ -24,12 +25,14 @@ namespace StarshipWanderer.Factories
         }
 
         SlotCollection _defaultSlots;
+        ItemBlueprint[] _defaultItems;
 
         public virtual IWorld Create()
         {
             var world = new World();
 
             _defaultSlots = GetDefaultSlots();
+            _defaultItems = GetDefaultItems();
 
             GenerateFactions(world);
 
@@ -47,6 +50,30 @@ namespace StarshipWanderer.Factories
             world.RoomFactory = roomFactory;
             
             return world;
+        }
+
+        /// <summary>
+        /// Return items suitable for any room/faction
+        /// </summary>
+        /// <returns></returns>
+        protected virtual ItemBlueprint[] GetDefaultItems()
+        {
+            string defaultSlots = Path.Combine(ResourcesDirectory, "Items.yaml");
+
+            if (File.Exists(defaultSlots))
+            {
+                try
+                {
+                    var d = new Deserializer();
+                    return d.Deserialize<ItemBlueprint[]>(File.ReadAllText(defaultSlots));
+                }
+                catch (Exception e)
+                {
+                    throw new Exception("Error deserializing " + defaultSlots,e);
+                }
+            }
+
+            return new ItemBlueprint[0];
         }
 
         protected virtual SlotCollection GetDefaultSlots()
@@ -132,6 +159,10 @@ namespace StarshipWanderer.Factories
                         itemFactory = new YamlItemFactory(File.ReadAllText(factionItemsFile),adjectiveFactory);
                     else
                         itemFactory = new ItemFactory(adjectiveFactory);
+
+                    //add default items that anyone could have
+                    if (_defaultItems != null && _defaultItems.Any())
+                        itemFactory.Blueprints = itemFactory.Blueprints.Union(_defaultItems).ToArray();
                 }
                 catch (Exception e)
                 {
