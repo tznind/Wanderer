@@ -15,6 +15,7 @@ namespace Tests.ConditionTests
     class ConditionSerializationTests : UnitTest
     {
         [TestCase("Never()",typeof(NeverCondition<IActor>))]
+        [TestCase("Always()",typeof(AlwaysCondition<IActor>))]
         public void TestConstructors(string condition,Type expectedType)
         {
             var yaml =
@@ -24,7 +25,10 @@ namespace Tests.ConditionTests
     - {condition}
 ";
             var itemFactory = new YamlItemFactory(yaml,new AdjectiveFactory());
-            Assert.IsInstanceOf(expectedType,itemFactory.Blueprints.Single().Require.Single());
+            var createdInstance = itemFactory.Blueprints.Single().Require.Single();
+            Assert.IsInstanceOf(expectedType,createdInstance);
+            Assert.AreEqual(condition,createdInstance.SerializeAsConstructorCall());
+
         }
     }
 }

@@ -15,7 +15,11 @@ namespace StarshipWanderer.Conditions
 
         public bool IsMet(IActor forTarget)
         {
-            return base.IsMet(forTarget.GetFinalStats());
+            
+            //todo: setting this to final stats causes stack overflow (cannot
+            //check if you meet the stats requirements because that involves
+            //totaling up your stats!
+            return base.IsMet(forTarget.BaseStats);
         }
 
         public string? SerializeAsConstructorCall()

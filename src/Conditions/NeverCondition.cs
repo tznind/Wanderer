@@ -13,7 +13,7 @@
 
         public string? SerializeAsConstructorCall()
         {
-            return "Never";
+            return "Never()";
         }
     }
 }
