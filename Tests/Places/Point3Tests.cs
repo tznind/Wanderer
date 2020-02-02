@@ -9,6 +9,40 @@ namespace Tests.Places
 {
     class Point3Tests : UnitTest
     {
+
+        [Test]
+        public void TestEquality()
+        {
+            
+            var p = new Point3(1, 2, 3);
+            var p2 = new Point3(1, 2, 3);
+
+            Assert.AreEqual(p,p2);
+            Assert.AreEqual(p.GetHashCode(),p2.GetHashCode());
+
+            Assert.IsFalse(p.Equals(null));
+            Assert.IsTrue(p.Equals(p));
+            Assert.IsFalse(p.Equals(1));
+        }
+
+        [Test]
+        public void Test_Offset()
+        {
+            var p = new Point3(1, 2, 3);
+            
+            Assert.AreEqual(new Point3(1,2,4),p.Offset(Direction.Up, 1));
+            Assert.AreEqual(new Point3(1,2,2),p.Offset(Direction.Down, 1));
+            Assert.AreEqual(new Point3(1,3,3),p.Offset(Direction.North, 1));
+            Assert.AreEqual(new Point3(1,1,3),p.Offset(Direction.South, 1));
+            Assert.AreEqual(new Point3(2,2,3),p.Offset(Direction.East, 1));
+            Assert.AreEqual(new Point3(0,2,3),p.Offset(Direction.West, 1));
+
+            Assert.Throws<ArgumentException>(()=>p.Offset(Direction.None, 1));
+
+            Assert.AreEqual(new Point3(2,4,6),p.Offset(new Point3(1,2,3)));
+
+        }
+
         [Test]
         public void Test_Distance()
         {

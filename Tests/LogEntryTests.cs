@@ -26,6 +26,13 @@ namespace Tests
             ui.Log.Info(new LogEntry("test4",Guid.NewGuid(),
                 Mock.Of<IActor>(a=> a.CurrentLocation == Mock.Of<IPlace>(p=>p.GetPoint() == new Point3(1,2,3)))));
             Assert.AreEqual("test4",ui.Log.RoundResults.Single().Message);
+
+            Assert.IsNotEmpty(ui.Log.RoundResults);
+            Assert.IsNotEmpty(ui.Log.Target.Logs);
+            ui.Log.Clear();
+            Assert.IsEmpty(ui.Log.RoundResults);
+            Assert.IsEmpty(ui.Log.Target.Logs);
+
         }
     }
 }

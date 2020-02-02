@@ -312,8 +312,7 @@ namespace Tests.Systems
         [Test]
         public void TestTooManyInjuries_IsFatal()
         {
-            var you = YouInARoom(out IWorld w);
-            you.BaseActions.Add(new LoadGunsAction());
+            var you = YouInARoom(out IWorld w).With(new LoadGunsAction());
 
             //give them an injury
             var injury = new Injured("Cut Lip", you, 2, InjuryRegion.Leg,w.InjurySystems.First());
