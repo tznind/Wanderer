@@ -6,7 +6,7 @@ using StarshipWanderer.Actors;
 
 namespace StarshipWanderer.Actions
 {
-    class InspectAction : Action
+    public class InspectAction : Action
     {
         public override void Push(IUserinterface ui, ActionStack stack, IActor actor)
         {

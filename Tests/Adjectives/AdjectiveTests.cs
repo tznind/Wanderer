@@ -1,10 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Moq;
 using NUnit.Framework;
 using StarshipWanderer;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives;
 using StarshipWanderer.Adjectives.ActorOnly;
+using StarshipWanderer.Factories;
 using StarshipWanderer.Items;
 using StarshipWanderer.Places;
 using StarshipWanderer.Stats;
@@ -13,6 +15,20 @@ namespace Tests.Adjectives
 {
     class AdjectiveTests : UnitTest
     {
+        [Test]
+        public void TestAllAdjectives_HaveDescriptions()
+        {
+            var f = new AdjectiveFactory();
+
+            foreach (var adj in 
+                f.GetAvailableAdjectives(Mock.Of<IHasStats>())
+                    .Union(f.GetAvailableAdjectives(Mock.Of<IPlace>()))
+                    .Union(f.GetAvailableAdjectives(Mock.Of<IActor>()))
+                    .Union(f.GetAvailableAdjectives(Mock.Of<IItem>()))
+                ) 
+                Assert.IsNotEmpty(adj.GetDescription().ToArray(),$"Adjective {adj} was missing GetDescription text");
+        }
+
         [Test]
         public void TestAttractive()
         {
