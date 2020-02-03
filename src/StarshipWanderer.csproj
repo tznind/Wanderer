@@ -16,6 +16,7 @@
   <ItemGroup>
     <None Remove="README.md" />
     <None Remove="Resources\Dialogue\Banter.yaml" />
+    <None Remove="Resources\Dialogue\ItemDescriptions.yaml" />
     <None Remove="Resources\Dialogue\RoomDescriptions.yaml" />
     <None Remove="Resources\Factions\Guncrew\Actors.yaml" />
     <None Remove="Resources\Factions\Guncrew\Faction.yaml" />
@@ -28,15 +29,20 @@
     <None Remove="Resources\Factions\Security\Actors.yaml" />
     <None Remove="Resources\Factions\Security\Faction.yaml" />
     <None Remove="Resources\Factions\Security\Forenames.txt" />
+    <None Remove="Resources\Factions\Security\Items.yaml" />
     <None Remove="Resources\Factions\Security\Surnames.txt" />
     <None Remove="Resources\Factions\Wildlife\Actors.yaml" />
     <None Remove="Resources\Factions\Wildlife\Faction.yaml" />
     <None Remove="Resources\Factions\Wildlife\Forenames.txt" />
     <None Remove="Resources\Rooms.yaml" />
+    <None Remove="Resources\Slots.yaml" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Include="..\SharedAssemblyInfo.cs" Link="SharedAssemblyInfo.cs" />
+    <Content Include="Resources\Dialogue\ItemDescriptions.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Dialogue\RoomDescriptions.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -79,6 +85,9 @@
     <Content Include="Resources\Factions\Security\Forenames.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Items.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Factions\Security\Surnames.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -92,6 +101,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Rooms.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Slots.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

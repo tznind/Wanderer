@@ -11,6 +11,23 @@ namespace Tests.Places
     class MapTests : UnitTest
     {
         [Test]
+        public void TestRoomNotInMap_ThrowsException()
+        {
+            InARoom(out IWorld w);
+            var r = new Room("fff", w, '-');
+
+            var ex = Assert.Throws<Exception>(() => r.GetPoint());
+
+            Assert.AreEqual("Supplied Place 'fff' was not in the current Map",ex.Message);
+
+            w.Map.Add(new Point3(6,7,8),r);
+
+            Assert.AreEqual(6,r.GetPoint().X);
+            Assert.AreEqual(7,r.GetPoint().Y);
+            Assert.AreEqual(8,r.GetPoint().Z);
+        }
+
+        [Test]
         public void TestMapSerialization()
         {
             var p = new Point3(0, 1, 2);

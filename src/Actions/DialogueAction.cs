@@ -52,7 +52,7 @@ namespace StarshipWanderer.Actions
 
             AddTarget(actor,targets, actor.CurrentLocation);
 
-            foreach (var a in actor.GetCurrentLocationSiblings())
+            foreach (var a in actor.GetCurrentLocationSiblings(false))
                 AddTarget(actor,targets, a);
             
             foreach (var i in actor.Items) 

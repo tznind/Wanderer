@@ -20,10 +20,6 @@ namespace StarshipWanderer.Behaviours
             {
                 var a = new ForbidAction(matchingFrame);
                 a.Push(ui,stack,(IActor)Owner);
-                
-                //elevate it to cancel pending (allows later actions/behaviours to cancel this action)
-                if (matchingFrame.Cancelled == CancellationStatus.NotCancelled)
-                    matchingFrame.Cancelled = CancellationStatus.CancellationPending;
             }
         }
     }

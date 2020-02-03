@@ -16,7 +16,10 @@ namespace StarshipWanderer.Factories
 
         public IItem Create(IWorld world,ItemBlueprint blueprint)
         {
-            var item = new Item(blueprint.Name);
+            var item = 
+                blueprint.Stack.HasValue ?
+                new ItemStack(blueprint.Name,blueprint.Stack.Value):
+                new Item(blueprint.Name);
 
             AddBasicProperties(item,blueprint,world,"read");
 

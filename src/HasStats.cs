@@ -11,14 +11,52 @@ namespace StarshipWanderer
 {
     public abstract class HasStats : IHasStats
     {
+        private IAdjectiveCollection _adjectives = new AdjectiveCollection();
+        private IBehaviourCollection _baseBehaviours = new BehaviourCollection();
+        private IActionCollection _baseActions = new ActionCollection();
         public string Name { get; set; }
         public DialogueInitiation Dialogue { get; set; } = new DialogueInitiation();
 
-        public IAdjectiveCollection Adjectives { get; set; } = new AdjectiveCollection();
-        public IActionCollection BaseActions { get; set; } = new ActionCollection();
+        public IAdjectiveCollection Adjectives
+        {
+            get => _adjectives;
+            set
+            {
+                _adjectives = value;
+                value?.PruneNulls();
+
+                if(value != null)
+                    foreach (var a in value) 
+                        a.Owner = this;
+            }
+        }
+
+        public IActionCollection BaseActions
+        {
+            get => _baseActions;
+            set
+            {
+                _baseActions = value;
+                value?.PruneNulls();
+            }
+        }
+
         public StatsCollection BaseStats { get; set; } = new StatsCollection();
-        public IBehaviourCollection BaseBehaviours { get; set; } = new BehaviourCollection();
-        
+
+        public IBehaviourCollection BaseBehaviours
+        {
+            get => _baseBehaviours;
+            set
+            {
+                _baseBehaviours = value;
+                value?.PruneNulls();
+
+                if(value != null)
+                    foreach (var b in value) 
+                        b.Owner = this;
+            }
+        }
+
         public abstract StatsCollection GetFinalStats(IActor forActor);
 
         public abstract IActionCollection GetFinalActions(IActor forActor);

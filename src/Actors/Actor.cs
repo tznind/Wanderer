@@ -24,7 +24,7 @@ namespace StarshipWanderer.Actors
         public HashSet<IItem> Items { get; set; } = new HashSet<IItem>();
         public HashSet<IFaction> FactionMembership { get; set; } = new HashSet<IFaction>();
 
-        public Dictionary<string,int> AvailableSlots { get; set; }  = new Dictionary<string, int>();
+        public SlotCollection AvailableSlots { get; set; } = new SlotCollection();
 
         /// <summary>
         /// Do not use, internal constructor for JSON serialization
@@ -55,8 +55,6 @@ namespace StarshipWanderer.Actors
             BaseActions.Add(new DialogueAction());
             BaseActions.Add(new EquipmentAction());
             BaseBehaviours.Add(new MergeStacksBehaviour(this));
-
-            AvailableSlots.Add("Hand",2);
         }
 
         /// <summary>
@@ -84,9 +82,9 @@ namespace StarshipWanderer.Actors
         public abstract void Kill(IUserinterface ui, Guid round, string reason);
 
         /// <inheritdoc/>
-        public IActor[] GetCurrentLocationSiblings()
+        public IActor[] GetCurrentLocationSiblings(bool includeDead)
         {
-            return CurrentLocation.World.Population.Where(o => o.CurrentLocation == CurrentLocation && o != this && !o.Dead).ToArray();
+            return CurrentLocation.World.Population.Where(o => o.CurrentLocation == CurrentLocation && o != this && (!o.Dead || includeDead)).ToArray();
         }
 
         public bool Has<T>(bool includeItems) where T : IAdjective

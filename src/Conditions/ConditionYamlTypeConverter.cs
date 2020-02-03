@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using StarshipWanderer.Actors;
 using TB.ComponentModel;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
@@ -13,13 +14,13 @@ namespace StarshipWanderer.Conditions
 
         public ConditionYamlTypeConverter()
         {
-            _conditions = typeof(IConditionBase).Assembly.GetTypes()
-                .Where(t => typeof(IConditionBase).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
+            _conditions = typeof(ICondition).Assembly.GetTypes()
+                .Where(t => typeof(ICondition).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
                 .ToArray();
         }
         public bool Accepts(Type type)
         {
-            return typeof(IConditionBase).IsAssignableFrom(type);
+            return typeof(ICondition).IsAssignableFrom(type);
         }
 
         public object? ReadYaml(IParser parser, Type type)
@@ -37,10 +38,14 @@ namespace StarshipWanderer.Conditions
 
             var conditionType = _conditions.SingleOrDefault(c =>
                 c.Name.Equals(split[0]) ||
-                c.Name.Equals(split[0] + "Condition"));
+                c.Name.StartsWith(split[0] + "Condition")); //use starts with to allow for generics
 
             if(conditionType == null)
                 throw new YamlException($"Could not find ICondition called {split[0]}");
+            
+            //todo: one day we will have to support room / item based conditions too
+            if (conditionType.ContainsGenericParameters)
+                conditionType = conditionType.MakeGenericType(typeof(IActor));
 
             var constructor = conditionType
                 .GetConstructors()
@@ -64,7 +69,7 @@ namespace StarshipWanderer.Conditions
 
         public void WriteYaml(IEmitter emitter, object? value, Type type)
         {
-            var condition = (IConditionBase) value;
+            var condition = (ICondition) value;
             
             // reset of serialisation code
             emitter.Emit(new Scalar(condition.SerializeAsConstructorCall()));

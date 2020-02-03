@@ -35,7 +35,7 @@ namespace StarshipWanderer.Actors
         /// <summary>
         /// How many of each body part does the actor have in which he can equip stuff
         /// </summary>
-        Dictionary<string,int> AvailableSlots { get; set; }
+        SlotCollection AvailableSlots { get; set; }
         
         /// <summary>
         /// All factions which you belong to
@@ -78,7 +78,7 @@ namespace StarshipWanderer.Actors
         /// Returns all other people in the <see cref="CurrentLocation"/>
         /// </summary>
         /// <returns></returns>
-        IActor[] GetCurrentLocationSiblings();
+        IActor[] GetCurrentLocationSiblings(bool includeDead);
 
         
         /// <summary>

@@ -77,11 +77,19 @@ namespace StarshipWanderer.Items
         {
             Name = name;
         }
-        
-        public override StatsCollection GetFinalStats(IActor forActor)
+
+        public bool RequirementsMet(IActor forActor)
         {
             //if it requires equipping
             if(Slot != null && !IsEquipped)
+                return false;
+
+            //it has unique conditions that are not met yet
+            return Require.All(r => r.IsMet(forActor));
+        }
+        public override StatsCollection GetFinalStats(IActor forActor)
+        {
+            if(!RequirementsMet(forActor))
                 return new StatsCollection();
 
             var clone = BaseStats.Clone();
@@ -97,7 +105,7 @@ namespace StarshipWanderer.Items
         public override IActionCollection GetFinalActions(IActor forActor)
         {
             //if it requires equipping
-            if(Slot != null && !IsEquipped)
+            if(!RequirementsMet(forActor))
                 return new ActionCollection();
 
             return new ActionCollection(BaseActions.Union(Adjectives.SelectMany(a => a.GetFinalActions(forActor))));

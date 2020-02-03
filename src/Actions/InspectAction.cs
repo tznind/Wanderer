@@ -6,7 +6,7 @@ using StarshipWanderer.Actors;
 
 namespace StarshipWanderer.Actions
 {
-    class InspectAction : Action
+    public class InspectAction : Action
     {
         public override void Push(IUserinterface ui, ActionStack stack, IActor actor)
         {
@@ -16,7 +16,7 @@ namespace StarshipWanderer.Actions
 
         private IActor[] GetTargets(IActor performer)
         {
-            return performer.GetCurrentLocationSiblings();
+            return performer.GetCurrentLocationSiblings(true);
         }
 
         public override void Pop(IUserinterface ui, ActionStack stack, Frame frame)

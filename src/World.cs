@@ -25,6 +25,7 @@ namespace StarshipWanderer
         public IRelationshipSystem Relationships { get; set; } = new RelationshipSystem();
         public IDialogueSystem Dialogue { get; set; } = new DialogueSystem();
         public IList<IInjurySystem> InjurySystems { get; set; } = new List<IInjurySystem>(new []{new InjurySystem()});
+        public IList<INegotiationSystem> NegotiationSystems { get; set; } = new List<INegotiationSystem>(new []{new NegotiationSystem()});
 
         public IRoomFactory RoomFactory { get; set; }
 

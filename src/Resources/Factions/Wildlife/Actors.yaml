@@ -1,4 +1,7 @@
 ﻿- Name: Centipede
+  Slots:
+    Head: 1
+    Mandibles: 1
   Dialogue: 
     Verb: talk
     Banter: 
@@ -15,6 +18,9 @@
   Stats:
     Fight: 20
 - Name: Crab
+  Slots:
+    Head: 1
+    Claw: 2
   Dialogue: 
     Verb: talk
     Banter: 

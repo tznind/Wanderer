@@ -18,6 +18,11 @@ namespace Tests
         
         public List<string> MessagesShown = new List<string>();
 
+        /// <summary>
+        /// List of calls to <see cref="ShowActorStats"/>
+        /// </summary>
+        public List<IActor> ActorStatsShown = new List<IActor>();
+
         public void NewGame()
         {
             throw new NotImplementedException();
@@ -34,7 +39,7 @@ namespace Tests
 
         public void ShowActorStats(IActor actor)
         {
-            throw new NotImplementedException();
+            ActorStatsShown.Add(actor);
         }
 
         public bool GetChoice<T>(string title, string body, out T chosen, params T[] options)

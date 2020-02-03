@@ -12,13 +12,7 @@ namespace StarshipWanderer
         public string Message { get; }
         public Guid Round { get; }
         public Point3 Location { get; }
-
-        public LogEntry(string message)
-        {
-            Message = message;
-            Round = Guid.Empty;
-        }
-
+        
         public LogEntry(string message,Guid round,Point3 location)
         {
             Message = message;

@@ -9,7 +9,11 @@ build:
   project: StarshipWanderer.sln
   verbosity: minimal
 
-test_script:
-- OpenCover.Console.Exe -target:"c:\program files\dotnet\dotnet.exe" -targetargs:"test" -filter:"+[*Wanderer*]* -[Test]*" -output:Wanderer_coverage.xml -register:user
-- codecov -f "Wanderer_coverage.xml"
+environment:
+    COVERALLS_REPO_TOKEN:  
+       secure: bP7KRQj9n04WENG3PpBMorvIMnyEje/3ZdXS4DTVHtjd8WYL3opfkZ6zZmYuQPZa
 
+after_test: 
+  - cmd: "\"packages/opencover/4.7.922/tools/OpenCover.Console.exe\" -target:\"c:/program files/dotnet/dotnet.exe\" -targetargs:\"test -f netcoreapp3.1 -c Release /p:DebugType=full\" -filter:\"+[*Wanderer*]*\"  -output:coverage.xml -register:appveyor -oldStyle -hideskipped:File"
+  - codecov -f "coverage.xml"
+  - cmd: packages\coveralls.io\1.4.2\tools\coveralls.net.exe --opencover coverage.xml -r %COVERALLS_REPO_TOKEN%

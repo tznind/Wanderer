@@ -262,13 +262,17 @@ namespace Tests.Systems
             //you cannot heal as a base action
             Assert.IsFalse(you.GetFinalActions().OfType<HealAction>().Any());
 
-            //give you a kit
-            var kit = itemFactory.Create<SingleUse, Medic>("Kit");
-            you.Items.Add(kit);
+            //give you 2 kits
+            var kit1 = itemFactory.Create<SingleUse, Medic>("Kit");
+            you.Items.Add(kit1);
+            var kit2 = itemFactory.Create<SingleUse, Medic>("Kit");
+            you.Items.Add(kit2);
 
             //now you can heal stuff
-            Assert.IsTrue(you.GetFinalActions().OfType<HealAction>().Any());
-
+            Assert.AreEqual(1,you.GetFinalActions().OfType<HealAction>().Count());
+            //you have 2 kits
+            Assert.AreEqual(2,you.Items.Count(i=>i.Name.Equals("Kit")));
+            
             //give them an injury
             var injury = new Injured("Cut Lip", you, 2, InjuryRegion.Leg,world.InjurySystems.First());
             you.Adjectives.Add(injury);
@@ -280,15 +284,35 @@ namespace Tests.Systems
             
             //injury is gone
             Assert.IsFalse(you.Adjectives.Contains(injury));
-            Assert.IsFalse(you.Items.Contains(kit));
+            //you have now 1 kit remaining
+            Assert.AreEqual(1,you.Items.Count(i=>i.Name.Equals("Kit")));
         }
 
+        [Test]
+        public void Test_InjuriesDontChange_OnceDead()
+        {
+            var you = YouInARoom(out IWorld w);
+            you.Dead = true;
+
+            var a = new Injured("Exposed Spine", you, 7, InjuryRegion.Ribs,new InjurySystem());
+
+            for (int i = 0; i < 100; i++) 
+                Assert.IsFalse(a.InjurySystem.ShouldWorsen(a, i));
+
+            
+            var a2 = new Injured("Grazed Knee", you, 1, InjuryRegion.Leg,new InjurySystem());
+
+            for (int i = 0; i < 100; i++)
+            {
+                Assert.IsFalse(a2.InjurySystem.ShouldWorsen(a, i));
+                Assert.IsFalse(a2.InjurySystem.ShouldNaturallyHeal(a, i));
+            }
+        }
         
         [Test]
         public void TestTooManyInjuries_IsFatal()
         {
-            var you = YouInARoom(out IWorld w);
-            you.BaseActions.Add(new LoadGunsAction());
+            var you = YouInARoom(out IWorld w).With(new LoadGunsAction());
 
             //give them an injury
             var injury = new Injured("Cut Lip", you, 2, InjuryRegion.Leg,w.InjurySystems.First());

@@ -34,7 +34,9 @@ namespace StarshipWanderer
                 _currentRound = toLog.Round;
             }
 
-            RoundResults.Add(toLog);
+            if(toLog.Round != Guid.Empty)
+                RoundResults.Add(toLog);
+
             _log.Info(toLog.Message);
         }
 

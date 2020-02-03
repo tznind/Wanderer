@@ -112,7 +112,7 @@ namespace StarshipWanderer.Systems
 
         public IEnumerable<IActor> GetAvailableTalkTargets(IActor actor)
         {
-            return actor.GetCurrentLocationSiblings().Where(o => CanTalk(actor, o));
+            return actor.GetCurrentLocationSiblings(false).Where(o => CanTalk(actor, o));
         }
 
         public DialogueNode GetBanter(SystemArgs args)

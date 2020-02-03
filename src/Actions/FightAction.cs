@@ -47,7 +47,7 @@ namespace StarshipWanderer.Actions
 
         private IActor[] GetTargets(IActor performer)
         {
-            return performer.GetCurrentLocationSiblings();
+            return performer.GetCurrentLocationSiblings(false);
         }
     }
 }

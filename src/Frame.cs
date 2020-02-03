@@ -15,7 +15,7 @@ namespace StarshipWanderer
         public IActor TargetIfAny { get; set; }
 
         public IAction Action { get; set; }
-        public CancellationStatus Cancelled { get; set; } = CancellationStatus.NotCancelled;
+        public bool Cancelled { get; set; }
 
         public Frame(IActor performedBy, IAction action,double attitude)
         {

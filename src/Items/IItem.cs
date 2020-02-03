@@ -35,6 +35,15 @@ namespace StarshipWanderer.Items
         List<ICondition<IActor>> Require { get; set; }
 
         /// <summary>
+        /// Returns true if the item requirements are met.  This includes all
+        /// <see cref="Require"/> but also that the item is equipped (if it
+        /// has a required <see cref="Slot"/>)
+        /// </summary>
+        /// <param name="forActor"></param>
+        /// <returns></returns>
+        bool RequirementsMet(IActor forActor);
+
+        /// <summary>
         /// Forces the owner to drops the item in the supplied <paramref name="owner"/> location
         /// </summary>
         /// <param name="ui"></param>

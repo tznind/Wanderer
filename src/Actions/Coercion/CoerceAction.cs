@@ -1,9 +1,7 @@
 ﻿using System.Linq;
-using System.Text;
 using StarshipWanderer.Actors;
-using StarshipWanderer.Adjectives;
 
-namespace StarshipWanderer.Actions
+namespace StarshipWanderer.Actions.Coercion
 {
     public class CoerceAction : Action
     {
@@ -15,7 +13,8 @@ namespace StarshipWanderer.Actions
                 if (actor.Decide(ui, "Coerce Action", $"Pick an action you want {toCoerce} to perform",
                     out IAction actionToCoerce,
                     toCoerce.GetFinalActions(toCoerce).Where(a => a.HasTargets(toCoerce)).ToArray(), 0))
-                    stack.Push(new CoerceFrame(actor, this, toCoerce, actionToCoerce,ui,-10));
+                    stack.Push(new CoerceFrame(actor, this, toCoerce, actionToCoerce, ui,
+                        actor.CurrentLocation.World.NegotiationSystems.First(), -10));
         }
 
 
@@ -23,7 +22,7 @@ namespace StarshipWanderer.Actions
         {
             var f = (CoerceFrame)frame ;
             ((Npc)f.TargetIfAny).NextAction = f;
-            f.TargetIfAny.Adjectives.Add(new Coerced(f.TargetIfAny));
+            f.TargetIfAny.Adjectives.Add(new Coerced(f));
 
             ui.Log.Info(new LogEntry($"{f.PerformedBy} coerced {f.TargetIfAny} to perform {f.CoerceAction.Name}", stack.Round,frame.PerformedBy));
         }
@@ -34,7 +33,7 @@ namespace StarshipWanderer.Actions
         }
         private Npc[] GetTargets(IActor performer)
         {
-            return performer.GetCurrentLocationSiblings().OfType<Npc>().ToArray();
+            return performer.GetCurrentLocationSiblings(false).OfType<Npc>().ToArray();
         }
     }
 }

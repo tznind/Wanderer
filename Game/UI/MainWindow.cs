@@ -87,11 +87,23 @@ namespace Game.UI
 
             var dlg = new NewPlayerDialog(newWorld.Player,new AdjectiveFactory());
 
-            Application.Run(dlg);
+            try
+            {
+                Application.Run(dlg);
+            }
+            catch (Exception e)
+            {
+                ShowException("Error Creating World",e);
+            }
 
             if(!dlg.Ok)
                 return;
 
+            SetWorld(newWorld);
+        }
+
+        private void SetWorld(IWorld newWorld)
+        {
             World = newWorld;
             Log.Clear();
             
@@ -103,6 +115,24 @@ namespace Game.UI
             Refresh();
         }
 
+        private void ShowException(string msg, Exception e)
+        {
+            var e2 = e;
+            const string stackTraceOption = "Stack Trace";
+            StringBuilder sb = new StringBuilder();
+
+            while (e2 != null)
+            {
+                sb.AppendLine(e2.Message);
+                e2 = e2.InnerException;
+            }
+
+            if(GetChoice(msg, sb.ToString(), out string chosen, "Ok", stackTraceOption))
+                if(string.Equals(chosen,stackTraceOption))
+                    ShowMessage("Stack Trace",e.ToString());
+
+        }
+
         private void LoadGame()
         {
             var ofd = new OpenDialog("Load Game", "Enter file path to load")
@@ -111,7 +141,6 @@ namespace Game.UI
                 CanChooseDirectories = false,
                 AllowsMultipleSelection = false
             };
-
 
             Application.Run(ofd);
 
@@ -123,13 +152,13 @@ namespace Game.UI
                     
                     var json = File.ReadAllText(f);
                     
-                    World = JsonConvert.DeserializeObject<IWorld>(json, StarshipWanderer.World.GetJsonSerializerSettings());
-
-                    Refresh();
+                    var newWorld = JsonConvert.DeserializeObject<IWorld>(json, StarshipWanderer.World.GetJsonSerializerSettings());
+                    
+                    SetWorld(newWorld);
                 }
                 catch (Exception e)
                 {
-                    ShowMessage("Failed to Load",e.ToString());
+                    ShowException("Failed to Load",e);
                 }
             }
         }
@@ -158,7 +187,7 @@ namespace Game.UI
                 }
                 catch (Exception e)
                 {
-                    ShowMessage("Failed to Save",e.ToString());
+                    ShowException("Failed to Save",e);
                 }
             }
         }
@@ -188,7 +217,7 @@ namespace Game.UI
             {
                 int width = DLG_WIDTH - (DLG_BOUNDARY * 2);
 
-                var msg = Wrap(message, width).TrimEnd();
+                var msg = Wrap(message, width-1).TrimEnd();
 
                 var text = new Label(0, 0, msg)
                 {
@@ -349,7 +378,8 @@ namespace Game.UI
 
             var allActions = World.Player.GetFinalActions().Where(a=>a.HasTargets(World.Player));
 
-            foreach (var action in allActions)
+            //don't run out of UI spaces! (maybe we can page this later on if we get too many unique actions to render)
+            foreach (var action in allActions.Take(_buttonLocations.Count))
             {
                 var btn = new Button(_buttonLocations[buttonLoc].X, _buttonLocations[buttonLoc].Y, action.Name, false)
                 {
@@ -357,7 +387,14 @@ namespace Game.UI
                     Height = 1,
                     Clicked = () =>
                     {
-                        World.RunRound(this, action);
+                        try
+                        {
+                            World.RunRound(this, action);
+                        }
+                        catch (Exception e)
+                        {
+                            ShowException("Error During Round",e);
+                        }
                     }
                 };
 
@@ -376,7 +413,7 @@ namespace Game.UI
 
             contents.Add("Faction:" + (World.Player.CurrentLocation.ControllingFaction?.Name ?? "None"));
 
-            contents.AddRange(World.Player.GetCurrentLocationSiblings().Select(s=>s.ToString()));
+            contents.AddRange(World.Player.GetCurrentLocationSiblings(true).Select(s=>s.ToString()));
             contents.AddRange(World.Player.CurrentLocation.Items.Select(s=>s.ToString()));
 
             View addLabelsTo;

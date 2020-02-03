@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using StarshipWanderer.Actions;
+using StarshipWanderer.Actions.Coercion;
 using StarshipWanderer.Behaviours;
 using StarshipWanderer.Items;
 using StarshipWanderer.Places;
@@ -31,6 +32,7 @@ namespace StarshipWanderer.Actors
         /// <summary>
         /// Forces the next action decided by <see cref="Npc"/> to be this.  After which it will be cleared
         /// </summary>
+        [JsonIgnore]
         public CoerceFrame NextAction { get; set; }
         
         public override bool Decide<T>(IUserinterface ui, string title, string body, out T chosen, T[] options, double attitude)
@@ -41,22 +43,21 @@ namespace StarshipWanderer.Actors
                 return false;
             }
 
-            //if we are being forced to perform an action
-            if(typeof(IAction).IsAssignableFrom(typeof(T)))
-                if (NextAction != null )
+            //if we are being asked to pick an action and we have a coercion
+            if(typeof(IAction).IsAssignableFrom(typeof(T)) && NextAction != null )
+            {
+                //if it is the first time we are being asked what to do (action) after coercion
+                if (!NextAction.Chosen)
                 {
-                    //if it is the first time we are being asked what to do (action) after coercion
-                    if (!NextAction.Chosen)
-                    {
-                        //pick the coerced act
-                        chosen = (T) NextAction.CoerceAction;
-                        NextAction.Chosen = true; //and mark that we are not going to pick it again
-                        return true;
-                    }
-                    
-                    //we have already attempted the coerced action, clear it
-                    NextAction = null;
+                    //pick the coerced act
+                    chosen = (T) NextAction.CoerceAction;
+                    NextAction.Chosen = true; //and mark that we are not going to pick it again
+                    return true;
                 }
+                
+                //we have already attempted the coerced action, clear it
+                NextAction = null;
+            }
 
             //if we are mid coercion we must let the coercer pick targets.
             //when picking targets the coercer should know the Attitude (how kind)

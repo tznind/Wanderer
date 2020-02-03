@@ -16,5 +16,11 @@ namespace StarshipWanderer.Factories.Blueprints
         /// A condition that must be met before the item can be used
         /// </summary>
         public List<ICondition<IActor>> Require { get; set; }
+
+        /// <summary>
+        /// Null for an item that cannot be stacked, 1+ for a
+        /// <see cref="IItemStack"/> of the given size
+        /// </summary>
+        public int? Stack { get; set; }
     }
 }

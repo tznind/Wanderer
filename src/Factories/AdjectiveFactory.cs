@@ -12,11 +12,11 @@ namespace StarshipWanderer.Factories
 {
     public class AdjectiveFactory : IAdjectiveFactory
     {
-        private Type[] _knownAdjectives;
+        public Type[] KnownAdjectives { get; }
 
         public AdjectiveFactory()
         {
-            _knownAdjectives = typeof(IAdjective).Assembly.GetTypes().Where(t =>
+            KnownAdjectives = typeof(IAdjective).Assembly.GetTypes().Where(t =>
                 typeof(IAdjective).IsAssignableFrom(t) && !t.IsAbstract && !t.IsInterface).ToArray();
         }
 
@@ -52,7 +52,7 @@ namespace StarshipWanderer.Factories
 
         public IAdjective Create(IHasStats s, AdjectiveBlueprint blueprint)
         {
-            var type = _knownAdjectives.SingleOrDefault(t=>t.Name.Equals(blueprint.Type)) ?? throw new ArgumentException($"Could not find IAdjective of Type '{blueprint.Type}'");
+            var type = KnownAdjectives.SingleOrDefault(t=>t.Name.Equals(blueprint.Type)) ?? throw new ArgumentException($"Could not find IAdjective of Type '{blueprint.Type}'");
 
             var adjective = Create(s, type);
 

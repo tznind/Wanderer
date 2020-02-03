@@ -22,3 +22,9 @@
   Slot:
     Name: Hand
     NumberRequired: 1
+- Name: Kit
+  MandatoryAdjectives:
+    - Type: SingleUse
+    - Type: Medic
+  Stats:
+    Value: 10
