@@ -18,7 +18,7 @@ namespace StarshipWanderer.Factories
         {
             var deserializer = 
                 new DeserializerBuilder()
-                    .WithTypeConverter(new ConditionYamlTypeConverter())
+                    .WithTypeConverter(new YamlTypeConverter<ICondition>())
                     .Build();
 
             Blueprints = deserializer.Deserialize<ItemBlueprint[]>(yaml);

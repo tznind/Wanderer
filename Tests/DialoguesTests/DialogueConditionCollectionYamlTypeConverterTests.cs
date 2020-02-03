@@ -37,9 +37,9 @@ namespace Tests.DialoguesTests
             //make sure the yaml generated can be parsed back
             var newInstance = new YamlDialogueSystem(yaml);
 
-            StringAssert.Contains("Relationship(GreaterThanOrEqual,10)",yaml);
+            StringAssert.Contains("RelationshipCondition(GreaterThanOrEqual,10)",yaml);
 
-            StringAssert.Contains("Relationship(GreaterThanOrEqual,5)", yaml);
+            StringAssert.Contains("RelationshipCondition(GreaterThanOrEqual,5)", yaml);
         }
     }
 }
