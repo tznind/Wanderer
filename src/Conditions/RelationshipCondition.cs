@@ -29,7 +29,7 @@ namespace StarshipWanderer.Conditions
 
         public string? SerializeAsConstructorCall()
         {
-            return $"Relationship({Condition},{Threshold})";
+            return $"RelationshipCondition({Condition},{Threshold})";
         }
     }
 }

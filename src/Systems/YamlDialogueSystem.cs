@@ -10,7 +10,7 @@ namespace StarshipWanderer.Systems
         public YamlDialogueSystem(params string[] dialogueYaml)
         {
             var de = new DeserializerBuilder()
-                .WithTypeConverter(new ConditionYamlTypeConverter())
+                .WithTypeConverter(new YamlTypeConverter<ICondition>())
                 .Build();
 
             if(dialogueYaml != null)
@@ -31,7 +31,7 @@ namespace StarshipWanderer.Systems
         public string Serialize()
         {
             var serializer = new SerializerBuilder()
-                .WithTypeConverter(new ConditionYamlTypeConverter())
+                .WithTypeConverter(new YamlTypeConverter<ICondition>())
                 .Build();
 
             return serializer.Serialize(this.AllDialogues);

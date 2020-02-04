@@ -14,10 +14,10 @@ namespace StarshipWanderer.Adjectives
         {
             BaseActions.Add(new HealAction());
 
-            Condition = new ActorStatCondition(Stat.Savvy, Comparison.GreaterThanOrEqual, 10);
+            Condition = new StatCondition<IActor>(Stat.Savvy, Comparison.GreaterThanOrEqual, 10);
         }
 
-        public ActorStatCondition Condition { get; set; }
+        public StatCondition<IActor> Condition { get; set; }
 
         public override IActionCollection GetFinalActions(IActor forActor)
         {

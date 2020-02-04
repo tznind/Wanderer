@@ -1,10 +1,11 @@
 ﻿using System;
+using StarshipWanderer.Actors;
 using StarshipWanderer.Behaviours;
 using StarshipWanderer.Stats;
 
 namespace StarshipWanderer.Conditions
 {
-    public abstract class StatCondition
+    public class StatCondition<T> : ICondition<IHasStats> where  T: IHasStats
     {
         public Stat ToCheck { get; set; }
         public Comparison Comparison { get; set; }
@@ -18,9 +19,24 @@ namespace StarshipWanderer.Conditions
             
         }
 
-        public bool IsMet(StatsCollection stats)
+        public bool IsMet(T owner)
         {
-            return Comparison.IsMet(stats[ToCheck], Value);
+            return Comparison.IsMet(owner.BaseStats[ToCheck], Value);
+        }
+
+        public bool IsMet(IHasStats forTarget)
+        {
+            return IsMet((T)forTarget);
+        }
+
+        public string? SerializeAsConstructorCall()
+        {
+            return $"{GetType().Name}<{typeof(T).Name}>({ToCheck},{Comparison},{Value})";
+        }
+
+        public override string ToString()
+        {
+            return $"{ToCheck} {Comparison} {Value}";
         }
     }
 }

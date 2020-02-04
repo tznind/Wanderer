@@ -13,7 +13,7 @@
 
         public string? SerializeAsConstructorCall()
         {
-            return "Always()";
+            return $"AlwaysCondition<{typeof(T).Name}>()";
         }
     }
 }

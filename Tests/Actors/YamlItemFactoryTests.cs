@@ -69,7 +69,7 @@ namespace Tests.Actors
   Dialogue: 
     Next: e088ff6e-60de-4a59-a9d8-b9406a2aed7c
   Require: 
-    - ActorStat(Savvy,GreaterThan,50)
+    - StatCondition<IActor>(Savvy,GreaterThan,50)
 ";
             var you = YouInARoom(out IWorld w);
 

@@ -26,7 +26,7 @@ namespace Tests.ConditionTests
   Stats:
     Savvy: 10
   Require:
-    - Never()";  //<- sunglasses are about to be in fashion but not yet
+    - NeverCondition<IActor>()";  //<- sunglasses are about to be in fashion but not yet
 
             
             var itemFactory = new YamlItemFactory(yaml,new AdjectiveFactory());

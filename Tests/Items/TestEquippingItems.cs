@@ -88,7 +88,7 @@ namespace Tests.Items
     Name: Chest
     NumberRequired: 1
   Require: 
-    - ActorStat(Fight,LessThanOrEqual,10)
+    - StatCondition<IActor>(Fight,LessThanOrEqual,10)
 ";
 
                 var you = YouInARoom(out IWorld w);

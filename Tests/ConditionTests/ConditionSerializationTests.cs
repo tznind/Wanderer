@@ -14,8 +14,8 @@ namespace Tests.ConditionTests
 {
     class ConditionSerializationTests : UnitTest
     {
-        [TestCase("Never()",typeof(NeverCondition<IActor>))]
-        [TestCase("Always()",typeof(AlwaysCondition<IActor>))]
+        [TestCase("NeverCondition<IActor>()",typeof(NeverCondition<IActor>))]
+        [TestCase("AlwaysCondition<IActor>()",typeof(AlwaysCondition<IActor>))]
         public void TestConstructors(string condition,Type expectedType)
         {
             var yaml =

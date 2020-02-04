@@ -1,10 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Text;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Behaviours;
-using StarshipWanderer.Items;
-using StarshipWanderer.Stats;
 
 namespace StarshipWanderer.Adjectives
 {
