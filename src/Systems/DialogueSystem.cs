@@ -79,15 +79,20 @@ namespace StarshipWanderer.Systems
                 args.UserInterface.ShowMessage("Dialogue",FormatString(args,node.Body));
         }
 
-        protected virtual string FormatString(SystemArgs args,string body)
+        protected virtual string FormatString(SystemArgs args,TextBlock[] body)
         {
-            StringBuilder sb = new StringBuilder(body);
+            StringBuilder sb = new StringBuilder();
+
+            foreach (TextBlock block in body)
+                if (block.Condition.All(c => c.IsMet(args)))
+                    sb.AppendLine(block.Text);
+
             foreach (var sub in Substitutions) 
                 sb = sb.Replace(
                     '{' + string.Join(' ',sub.Tokens) + '}'
                     , sub.GetReplacement(args));
 
-            return sb.ToString();
+            return sb.ToString().Trim();
         }
 
         private void Run(SystemArgs args, DialogueOption option)

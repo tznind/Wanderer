@@ -21,7 +21,7 @@ namespace Tests.DialoguesTests
         {
             var node = new DialogueNode()
             {
-                Body = "Hey friend",
+                Body = new TextBlock[]{new TextBlock("Hey friend") },
                 Require = new List<ICondition<SystemArgs>>()
                 {
                     new RelationshipCondition(Comparison.GreaterThanOrEqual, 10),

@@ -24,7 +24,7 @@ namespace Tests.Systems
             var n1 = new DialogueNode()
             {
                 Identifier = g1,
-                Body = "Hey I want to give you all the space bucks!",
+                Body = new TextBlock[]{new TextBlock("Hey I want to give you all the space bucks!") },
                 Require = new List<ICondition<SystemArgs>>()
                 {
                     new RelationshipCondition(Comparison.GreaterThanOrEqual,5)

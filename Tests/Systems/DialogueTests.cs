@@ -27,7 +27,7 @@ namespace Tests.Systems
             var tree = new DialogueNode()
             {
                 Identifier = g,
-                Body = "Hello World"
+                Body = new []{new TextBlock("Hello World") }
             };
             var o1 = new DialogueOption()
             {
@@ -69,7 +69,7 @@ namespace Tests.Systems
             var friend = new DialogueNode()
             {
                 Identifier = new Guid("4abbc8e5-880c-44d3-ba0e-a9f13a0522d0"),
-                Body = "Hello Friend",
+                Body = new TextBlock[]{new TextBlock("Hello Friend") },
                 Require = new List<ICondition<SystemArgs>>()
                 {
                     new RelationshipCondition(Comparison.GreaterThanOrEqual,5)
@@ -79,7 +79,7 @@ namespace Tests.Systems
             var foe = new DialogueNode()
             {
                 Identifier = new Guid("00d77067-da1c-4c34-96ee-8a74353e4839"),
-                Body = "Hello Foe",
+                Body = new TextBlock[]{new TextBlock("Hello Foe") },
                 Require = new List<ICondition<SystemArgs>>()
                 {
                     new RelationshipCondition(Comparison.LessThan,-4)
@@ -112,7 +112,8 @@ namespace Tests.Systems
             npc.Dialogue.Next = new Guid("339271e0-7b11-4aba-a9e2-2776f6c5a197");
 
             var yaml = @"- Identifier: 339271e0-7b11-4aba-a9e2-2776f6c5a197
-  Body: ""Greetings {aggressor} I am {this}""";
+  Body: 
+    - Text: ""Greetings {aggressor} I am {this}""";
          
             var dlg = new YamlDialogueSystem(yaml);
 
@@ -132,7 +133,8 @@ namespace Tests.Systems
             them.Dialogue.Next = new Guid("339271e0-7b11-4aba-a9e2-2776f6c5a197");
 
             var yaml = @"- Identifier: 339271e0-7b11-4aba-a9e2-2776f6c5a197
-  Body: ""Screeeee (this creature seems {DescribeRelationship})""";
+  Body: 
+    - Text: ""Screeeee (this creature seems {DescribeRelationship})""";
             
             var dlg = new YamlDialogueSystem(yaml);
 

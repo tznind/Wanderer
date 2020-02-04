@@ -45,7 +45,12 @@ namespace Tests.Actors
             w.Dialogue.AllDialogues.Add(new DialogueNode()
             {
                 Identifier = new Guid("f1909b20-80c3-4af4-b098-b6bf22bf5ca8"),
-                Body = "Welcome to the ship"
+                Body = new []
+                {
+                    new TextBlock( "Welcome to the ship")
+
+                }
+
             });
 
             you.Items.Add(item);
@@ -76,7 +81,10 @@ namespace Tests.Actors
             w.Dialogue.AllDialogues.Add(new DialogueNode()
             {
                 Identifier = new Guid("e088ff6e-60de-4a59-a9d8-b9406a2aed7c"),
-                Body = "The book is filled with magic secrets"
+                Body = new TextBlock[]
+                {
+                    new TextBlock("The book is filled with magic secrets") 
+                }
             });
 
             var itemFactory = new YamlItemFactory(yaml, new AdjectiveFactory());

@@ -1,5 +1,6 @@
 ﻿- Identifier: 4ac218f4-1f7a-4d97-b65f-4b0b71deaca8
-  Body: "Greetings {aggessor}, may the emperor shine on your presence"
+  Body: 
+    - Text: "Greetings {aggessor}, may the emperor shine on your presence"
   Require:
     - RelationshipCondition(GreaterThanOrEqual,0)
   Options:
@@ -10,30 +11,38 @@
     Attitude: -10
     Text: Go to hell
 - Identifier: 9a3c04b7-8f5a-498a-a0d3-00d6f66ba0e8
-  Body: "Listen buddy, we aint friends.  I got nothing to say to you"
+  Body: 
+    - Text: "Listen buddy, we aint friends.  I got nothing to say to you"
   Require:
     - RelationshipCondition(LessThan,0)
 
 
 # Wildlife banter  
 - Identifier: 339271e0-7b11-4aba-a9e2-2776f6c5a197
-  Body: "Screeeee (this creature seems {DescribeRelationship})"
+  Body: 
+    - Text: "Screeeee (this creature seems {DescribeRelationship})"
 - Identifier: c11ae5d2-a1ab-44b9-a88a-e58f116b2ab7
-  Body: "Brrruprrrr (this creature seems {DescribeRelationship})"
+  Body: 
+    - Text: "Brrruprrrr (this creature seems {DescribeRelationship})"
 - Identifier: 43d0073f-e3d9-4d4c-84b9-482bbb402546
-  Body: "Clickety Clack (this creature seems {DescribeRelationship})"
+  Body: 
+    - Text: "Clickety Clack (this creature seems {DescribeRelationship})"
 - Identifier: 0f85cde2-0283-4f11-99c0-7cb2b0675845
-  Body: "Reeeeeeee (this creature seems {DescribeRelationship})"
+  Body: 
+    - Text: "Reeeeeeee (this creature seems {DescribeRelationship})"
 - Identifier: 446e84e6-e884-42e2-915e-1982b07aa853
-  Body: "SSSSSkkk (this creature seems {DescribeRelationship})"
+  Body: 
+    - Text: "SSSSSkkk (this creature seems {DescribeRelationship})"
 
 - Identifier: e088ff6e-60de-4a59-a9d8-b9406a2aed7c
-  Body: "The torn pages are filled with mad scribblings about a dead emperor on a throne of skulls with four arms for every sin committed by man"
+  Body: 
+    - Text: "The torn pages are filled with mad scribblings about a dead emperor on a throne of skulls with four arms for every sin committed by man"
 
   #A play
 
 - Identifier: f1909b20-80c3-4af4-b098-b6bf22bf5ca8
-  Body: "The pamphlet seems to be some kind of mundane play about the commings and goings of court life in a place called Carcosa."
+  Body: 
+    - Text: "The pamphlet seems to be some kind of mundane play about the commings and goings of court life in a place called Carcosa."
   Options:
   - Destination: 70dd085b-22b9-43ed-9b8d-13a2ef8e55de
     Text: Keep Reading
@@ -41,7 +50,8 @@
     Text: Stop
     
 - Identifier: 70dd085b-22b9-43ed-9b8d-13a2ef8e55de
-  Body: "The setting is odd like some kind of hydroponics bay disaster, green everywhere and growing things and an 'endless blue overhead, like some kind of void shield'"
+  Body: 
+    - Text: "The setting is odd like some kind of hydroponics bay disaster, green everywhere and growing things and an 'endless blue overhead, like some kind of void shield'"
   Options:
   - Destination: f93295d7-d374-4991-a39a-091765995712
     Text: Keep Reading
@@ -49,5 +59,6 @@
     Text: Stop
 
 - Identifier: f93295d7-d374-4991-a39a-091765995712
-  Body: "The second act to the play seems to be missing"
+  Body: 
+    - Text: "The second act to the play seems to be missing"
     

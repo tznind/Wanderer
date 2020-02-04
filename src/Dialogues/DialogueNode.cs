@@ -9,7 +9,7 @@ namespace StarshipWanderer.Dialogues
     {
         public Guid Identifier { get; set; }
 
-        public String Body { get; set; }
+        public TextBlock[] Body { get; set; }
 
         public List<ICondition<SystemArgs>> Require { get; set; } = new List<ICondition<SystemArgs>>();
 
