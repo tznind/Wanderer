@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text.RegularExpressions;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Adjectives;
 using StarshipWanderer.Compilation;
-using TB.ComponentModel;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
@@ -13,11 +10,11 @@ namespace StarshipWanderer.Conditions
 {
     public class YamlTypeConverter<T> : IYamlTypeConverter
     {
-        private readonly TypeCollection _conditions;
+        private readonly TypeCollection _classesOfTypeT;
 
         public YamlTypeConverter()
         {
-            _conditions = Compiler.Instance.TypeFactory.Create<T>();
+            _classesOfTypeT = Compiler.Instance.TypeFactory.Create<T>();
         }
         public bool Accepts(Type type)
         {
@@ -61,10 +58,22 @@ namespace StarshipWanderer.Conditions
                 args = SmoothSplit(m.Groups[2].Value);
             }
 
-            var constructor = new ConstructorCollection(_conditions, typeName, generics);
+            var constructor = new ConstructorCollection(_classesOfTypeT, typeName, generics);
             var builder = new InstanceBuilder();
 
-            return builder.Build(constructor, args);
+            var instance = builder.Build(constructor, args);
+
+
+
+            if (scalar.Trim().StartsWith("!"))
+            {
+                if (instance is ICondition i)
+                    return Not<object>.Decorate(i);
+                
+                throw new NotSupportedException($"Not Operator '!' is only valid for IConditions");
+            }
+
+            return instance;
 
         }
 

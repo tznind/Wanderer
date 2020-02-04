@@ -5,6 +5,7 @@ using NUnit.Framework;
 using StarshipWanderer;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
+using StarshipWanderer.Adjectives;
 using StarshipWanderer.Behaviours;
 using StarshipWanderer.Conditions;
 using StarshipWanderer.Dialogues;
@@ -146,7 +147,31 @@ namespace Tests.Systems
             else
                 Assert.Contains("Screeeee (this creature seems hostile)",ui.MessagesShown);
         }
+        
+        [Test]
+        public void TestConditionalDialogue()
+        {
+            string yaml = @"
+- Identifier: ce16ae16-4de8-4e33-8d52-ace4543ada20
+  Body: 
+    - Text: This room is
+    - Text: Pitch Black
+      Condition: 
+        - ""!PlaceHas<Light>()""
+    - Text: Dimly Illuminated by your light
+      Condition: 
+        - PlaceHas<Light>()";
 
+            var light = (ICondition<SystemArgs>)new PlaceHas<Light>();
+            var notlight = (ICondition<SystemArgs>)Not<object>.Decorate(new PlaceHas<Light>());
+
+            var system = new YamlDialogueSystem(yaml);
+            Assert.IsNotNull(system);
+
+            //TODO: test this with ActorHas
+
+
+        }
 
     }
 

@@ -18,5 +18,6 @@ namespace StarshipWanderer.Conditions
         /// <returns></returns>
         string? SerializeAsConstructorCall();
     }
+
  
 }
