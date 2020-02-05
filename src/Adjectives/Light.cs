@@ -5,12 +5,9 @@ namespace StarshipWanderer.Adjectives
 {
     public class Light : Adjective
     {
-        public IItem Item { get; }
 
-        public Light(IItem item) : base(item)
+        public Light(IHasStats owner) : base(owner)
         {
-            Item = item;
-
         }
 
         public override IEnumerable<string> GetDescription()

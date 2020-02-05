@@ -28,6 +28,7 @@ namespace Tests.Actors
   Stats:
     Fight: 30
 - Name: Crab
+  Identifier: 24a1c3ad-fcdf-4c00-acf7-627e7f70c181
   Dialogue: 
     Verb: talk
     Next: 566ae926-a1fe-4209-9a15-fce026dbc5d1
@@ -50,6 +51,7 @@ namespace Tests.Actors
             Assert.AreEqual(40,actor.BaseStats[Stat.Fight]);    
 
             Assert.AreEqual(new Guid("566ae926-a1fe-4209-9a15-fce026dbc5d1"),actor.Dialogue.Next );
+            Assert.AreEqual(new Guid("24a1c3ad-fcdf-4c00-acf7-627e7f70c181"),actor.Identifier);
         }
 
 

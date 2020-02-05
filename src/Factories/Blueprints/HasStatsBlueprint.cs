@@ -1,4 +1,5 @@
-﻿using StarshipWanderer.Adjectives;
+﻿using System;
+using StarshipWanderer.Adjectives;
 using StarshipWanderer.Dialogues;
 using StarshipWanderer.Stats;
 
@@ -6,6 +7,11 @@ namespace StarshipWanderer.Factories.Blueprints
 {
     public abstract class HasStatsBlueprint
     {
+        /// <summary>
+        /// Uniquely identifies instances created from this blueprint
+        /// </summary>
+        public Guid? Identifier { get; set; }
+
         /// <summary>
         /// Explicit name for this e.g. Centipede otherwise leave null to generate
         /// a random name from the faction <see cref="NameFactory"/> (null Name works for npc only)

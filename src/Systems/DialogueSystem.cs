@@ -85,7 +85,10 @@ namespace StarshipWanderer.Systems
 
             foreach (TextBlock block in body)
                 if (block.Condition.All(c => c.IsMet(args)))
-                    sb.AppendLine(block.Text);
+                {
+                    sb.Append(block.Text);
+                    sb.Append(' ');
+                }
 
             foreach (var sub in Substitutions) 
                 sb = sb.Replace(

@@ -36,6 +36,9 @@ namespace StarshipWanderer.Factories
         /// <param name="defaultDialogueVerb">What do you do to initiate dialogue with this T, e.g. talk, read, look around etc</param>
         protected virtual void AddBasicProperties(T onto, HasStatsBlueprint blueprint,IWorld world, string defaultDialogueVerb)
         {
+            if (blueprint.Identifier.HasValue)
+                onto.Identifier = blueprint.Identifier;
+
             //Adjectives the user definitely wants included
             if (blueprint.MandatoryAdjectives.Any())
                 foreach (var a in blueprint.MandatoryAdjectives)

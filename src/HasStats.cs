@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
@@ -14,6 +15,7 @@ namespace StarshipWanderer
         private IAdjectiveCollection _adjectives = new AdjectiveCollection();
         private IBehaviourCollection _baseBehaviours = new BehaviourCollection();
         private IActionCollection _baseActions = new ActionCollection();
+        public Guid? Identifier { get; set; }
         public string Name { get; set; }
         public DialogueInitiation Dialogue { get; set; } = new DialogueInitiation();
 

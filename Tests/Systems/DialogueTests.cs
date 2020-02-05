@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Moq;
 using NUnit.Framework;
 using StarshipWanderer;
 using StarshipWanderer.Actions;
@@ -158,7 +159,7 @@ namespace Tests.Systems
     - Text: Pitch Black
       Condition: 
         - ""!PlaceHas<Light>()""
-    - Text: Dimly Illuminated by your light
+    - Text: Dimly Illuminated
       Condition: 
         - PlaceHas<Light>()";
 
@@ -168,7 +169,23 @@ namespace Tests.Systems
             var system = new YamlDialogueSystem(yaml);
             Assert.IsNotNull(system);
 
-            //TODO: test this with ActorHas
+            var ui = GetUI();
+
+            var room = InARoom(out _);
+
+            system.Run(new SystemArgs(ui,0,
+                Mock.Of<IActor>(a=> a.CurrentLocation == room),room,
+                Guid.NewGuid()),system.AllDialogues.Single());
+
+            Assert.Contains("This room is Pitch Black",ui.MessagesShown);
+
+            room.Adjectives.Add(new Light(room));
+
+            system.Run(new SystemArgs(ui,0,
+                Mock.Of<IActor>(a=> a.CurrentLocation == room),room,
+                Guid.NewGuid()),system.AllDialogues.Single());
+
+            Assert.Contains("This room is Dimly Illuminated",ui.MessagesShown);
 
 
         }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
@@ -11,6 +12,13 @@ namespace StarshipWanderer
 {
     public interface IHasStats : IAreIdentical<IHasStats>
     {
+        /// <summary>
+        /// The guid for this type of object.  If the object was
+        /// created from a blueprint then this guid is shared
+        /// with other instances stamped out by the blueprint
+        /// </summary>
+        Guid? Identifier { get; set; }
+
         /// <summary>
         /// Human readable name 
         /// </summary>
