@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Moq;
 using NUnit.Framework;
+using StarshipWanderer;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives;
 using StarshipWanderer.Conditions;
@@ -25,9 +26,9 @@ namespace Tests.ConditionTests
         [Test]
         public void TestNot_Has()
         {
-            var i1 =  new Not<IActor>(new Has<IActor, Light>(true));
+            var i1 =  new Not<IHasStats>(new Has<Light>(true));
 
-            var i2 = Not<object>.Decorate(new Has<IActor, Light>(true));
+            var i2 = Not<object>.Decorate(new Has<Light>(true));
 
             Assert.AreEqual(i1.GetType(),i2.GetType());
         }

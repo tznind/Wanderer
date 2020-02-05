@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using Newtonsoft.Json;
 using StarshipWanderer.Actors;
+using StarshipWanderer.Places;
 
 namespace StarshipWanderer.Systems
 {
@@ -41,6 +43,24 @@ namespace StarshipWanderer.Systems
             Recipient = recipient;
             Round = round;
             UserInterface = ui;
+        }
+        
+        /// <summary>
+        /// Returns the place the system args is occuring.  In rare occurrences this
+        /// could be null 
+        /// </summary>
+        [JsonIgnore]
+        public IPlace Place
+        {
+            get
+            {
+                IPlace place = AggressorIfAny?.CurrentLocation;
+
+                if (place == null && Recipient is IActor a)
+                    place = a.CurrentLocation;
+
+                return place ?? Recipient as IPlace;
+            }
         }
     }
 }

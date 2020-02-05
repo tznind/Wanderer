@@ -167,13 +167,10 @@ namespace Tests.Systems
     - Text: This room is
     - Text: Pitch Black
       Condition: 
-        - ""!PlaceHas<Light>()""
+        - ""!Place.Has<Light>(false)""
     - Text: Dimly Illuminated
       Condition: 
-        - PlaceHas<Light>()";
-
-            var light = (ICondition<SystemArgs>)new PlaceHas<Light>();
-            var notlight = (ICondition<SystemArgs>)Not<object>.Decorate(new PlaceHas<Light>());
+        - Place.Has<Light>(false)";
 
             var system = new YamlDialogueSystem(yaml);
             Assert.IsNotNull(system);

@@ -6,7 +6,7 @@ using StarshipWanderer.Places;
 
 namespace StarshipWanderer.Conditions
 {
-    public class Has<T1, T2> : ICondition<T1> where T1 : IHasStats where T2 : IAdjective
+    public class Has<T> : ICondition<IHasStats> where T : IAdjective
     {
         public bool IncludeItems { get; set; }
 
@@ -14,24 +14,23 @@ namespace StarshipWanderer.Conditions
         {
             IncludeItems = includeItems;
         }
-        public bool IsMet(T1 forTarget)
+        public bool IsMet(IHasStats forTarget)
         {
             if (forTarget is IActor a)
-                return a.Has<T2>(IncludeItems);
+                return a.Has<T>(IncludeItems);
 
             if (forTarget is IPlace p)
-                return p.Has<T2>();
+                return p.Has<T>();
 
             if (forTarget is IItem i)
-                return i.Has<T2>(null);
+                return i.Has<T>(null);
 
-            return forTarget.Adjectives.Any(j => j is T2);
+            return forTarget.Adjectives.Any(j => j is T);
         }
 
         public virtual string? SerializeAsConstructorCall()
         {
-            return $"Has<{typeof(T1).Name},{typeof(T2).Name}>({IncludeItems})";
+            return $"Has<{typeof(T).Name}>({IncludeItems})";
         }
-
     }
 }
