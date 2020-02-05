@@ -6,6 +6,7 @@ namespace StarshipWanderer.Behaviours
     {
         LessThan,
         LessThanOrEqual,
+        EqualTo,
         GreaterThanOrEqual,
         GreaterThan
     }
@@ -20,6 +21,8 @@ namespace StarshipWanderer.Behaviours
                     return lhs < rhs;
                 case Comparison.LessThanOrEqual:
                     return lhs <= rhs;
+                case Comparison.EqualTo:
+                    return Math.Abs(lhs - rhs) < 0.001;
                 case Comparison.GreaterThanOrEqual:
                     return lhs >= rhs;
                 case Comparison.GreaterThan:

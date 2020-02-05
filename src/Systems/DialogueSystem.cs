@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using StarshipWanderer.Actors;
+using StarshipWanderer.Compilation;
 using StarshipWanderer.Dialogues;
-using StarshipWanderer.Dialogues.Tokens;
 using StarshipWanderer.Extensions;
 
 namespace StarshipWanderer.Systems
@@ -13,16 +14,6 @@ namespace StarshipWanderer.Systems
     public class DialogueSystem : IDialogueSystem
     {
         public IList<DialogueNode> AllDialogues { get; set; } = new List<DialogueNode>();
-
-        [JsonIgnore] 
-        protected DialogueTokenCollection Substitutions = new DialogueTokenCollection();
-
-        public DialogueSystem()
-        {
-            Substitutions.Add(a=>a.AggressorIfAny?.ToString(), "aggressor");
-            Substitutions.Add(a=>a.Recipient.ToString(), "this");
-            Substitutions.Add(new DescribeRelationshipToken());
-        }
 
         public void Apply(SystemArgs args)
         {
@@ -90,12 +81,18 @@ namespace StarshipWanderer.Systems
                     sb.Append(' ');
                 }
 
-            foreach (var sub in Substitutions) 
-                sb = sb.Replace(
-                    '{' + string.Join(' ',sub.Tokens) + '}'
-                    , sub.GetReplacement(args));
+            return Regex.Replace(sb.ToString(), @"{\s*(\w+)\s*}", m=>ReplaceProperty(m,args)).Trim();
+        }
 
-            return sb.ToString().Trim();
+        private string ReplaceProperty(Match match, SystemArgs args)
+        {
+
+            var prop = args.GetType().GetProperty(match.Groups[1].Value);
+
+            if(prop == null)
+                throw new ParseException($"Unknown Property '{match.Groups[1].Value}'");
+
+            return prop.GetValue(args)?.ToString() ?? "Null";
         }
 
         private void Run(SystemArgs args, DialogueOption option)

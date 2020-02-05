@@ -116,7 +116,7 @@ namespace Tests.Systems
 
             var yaml = @"- Identifier: 339271e0-7b11-4aba-a9e2-2776f6c5a197
   Body: 
-    - Text: ""Greetings {aggressor} I am {this}""";
+    - Text: ""Greetings {AggressorIfAny} I am {Recipient}""";
          
             var dlg = new YamlDialogueSystem(yaml);
 
@@ -137,7 +137,15 @@ namespace Tests.Systems
 
             var yaml = @"- Identifier: 339271e0-7b11-4aba-a9e2-2776f6c5a197
   Body: 
-    - Text: ""Screeeee (this creature seems {DescribeRelationship})""";
+    - Text: Screeeee (this creature seems friendly)
+      Condition: 
+        - RelationshipCondition(GreaterThan,0)
+    - Text: Screeeee (this creature seems hostile)
+      Condition: 
+        - RelationshipCondition(LessThan,0)
+    - Text: Screeeee (this creature seems indifferent)
+      Condition: 
+        - RelationshipCondition(EqualTo,0)";
             
             var dlg = new YamlDialogueSystem(yaml);
 
