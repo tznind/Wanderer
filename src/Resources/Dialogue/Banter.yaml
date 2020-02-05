@@ -1,6 +1,6 @@
 ﻿- Identifier: 4ac218f4-1f7a-4d97-b65f-4b0b71deaca8
   Body: 
-    - Text: "Greetings {aggessor}, may the emperor shine on your presence"
+    - Text: "Greetings {AggressorIfAny}, may the emperor shine on your presence"
   Require:
     - RelationshipCondition(GreaterThanOrEqual,0)
   Options:
@@ -20,20 +20,17 @@
 # Wildlife banter  
 - Identifier: 339271e0-7b11-4aba-a9e2-2776f6c5a197
   Body: 
-    - Text: "Screeeee (this creature seems {DescribeRelationship})"
-- Identifier: c11ae5d2-a1ab-44b9-a88a-e58f116b2ab7
-  Body: 
-    - Text: "Brrruprrrr (this creature seems {DescribeRelationship})"
-- Identifier: 43d0073f-e3d9-4d4c-84b9-482bbb402546
-  Body: 
-    - Text: "Clickety Clack (this creature seems {DescribeRelationship})"
-- Identifier: 0f85cde2-0283-4f11-99c0-7cb2b0675845
-  Body: 
-    - Text: "Reeeeeeee (this creature seems {DescribeRelationship})"
-- Identifier: 446e84e6-e884-42e2-915e-1982b07aa853
-  Body: 
-    - Text: "SSSSSkkk (this creature seems {DescribeRelationship})"
-
+    - Text: "Screeeee (this creature seems"
+    - Text: friendly)
+      Condition: 
+        - RelationshipCondition(GreaterThan,0)
+    - Text: hostile)
+      Condition: 
+        - RelationshipCondition(LessThan,0)
+    - Text: indifferent)
+      Condition: 
+        - RelationshipCondition(EqualTo,0)";
+    
 - Identifier: e088ff6e-60de-4a59-a9d8-b9406a2aed7c
   Body: 
     - Text: "The torn pages are filled with mad scribblings about a dead emperor on a throne of skulls with four arms for every sin committed by man"
