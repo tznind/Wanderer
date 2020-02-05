@@ -9,15 +9,9 @@ namespace StarshipWanderer.Compilation
     {
         public string[] Properties { get; set; }
 
-        public PropertyChain(string chain, out string tail)
+        public PropertyChain(string chain)
         {
-            if(!chain.Contains('.'))
-                throw new ArgumentException($"PropertyChain must include at least one property (string did not contain any dots - '{chain}')");
-            var tokens = chain.Split('.');
-
-            tail = tokens.Last();
-
-            Properties = tokens.Take(tokens.Length - 1).ToArray();
+            Properties = chain.Split('.').ToArray();
         }
 
         public IHasStats FollowChain(object o)

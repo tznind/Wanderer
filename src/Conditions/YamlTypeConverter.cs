@@ -69,13 +69,15 @@ namespace StarshipWanderer.Conditions
             {
                 if(typeof(T) != typeof(ICondition))
                     throw new NotSupportedException("PropertyChains are currently only supported for IConditions");
-
-                chain = new PropertyChain(typeName, out string tail);
-                typeName = tail;
-
+                
                 if(type.GenericTypeArguments.Length != 1)
                     throw new NotSupportedException($"Expected a fully hydrated ICondition with a known T Type but was '{type}'");
 
+                var lastDot = typeName.LastIndexOf('.');
+
+                chain = new PropertyChain(typeName.Substring(0,lastDot));
+                typeName = typeName.Substring(lastDot + 1);
+                
                 adapterType = typeof(PropertyChainToConditionAdapter<>)
                     .MakeGenericType(type.GenericTypeArguments);
             }
