@@ -198,7 +198,6 @@ namespace Tests.Systems
         }
         
         [Test]
-        [Ignore("TODO StatCondition wants IHasStats not SystemArgs so we need to decorator it somehow to handle the 3 things in SystemArgs that might qualify")]
         public void TestConditionalDialogue_ActorHasStat()
         {
             string yaml = @"
@@ -207,10 +206,10 @@ namespace Tests.Systems
     - Text: The denizens of this degenerate bar 
     - Text: make you nervous
       Condition: 
-        - ""!StatCondition<IActor>(Corruption,GreaterThan,5)""
+        - ""!AggressorIfAny.StatCondition<IActor>(Corruption,GreaterThan,5)""
     - Text: seem like your kind of people
       Condition: 
-        - StatCondition<IActor>(Corruption,GreaterThan,5)";
+        - AggressorIfAny.StatCondition<IActor>(Corruption,GreaterThan,5)";
 
             var system = new YamlDialogueSystem(yaml);
             Assert.IsNotNull(system);
