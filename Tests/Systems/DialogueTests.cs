@@ -11,6 +11,7 @@ using StarshipWanderer.Behaviours;
 using StarshipWanderer.Conditions;
 using StarshipWanderer.Dialogues;
 using StarshipWanderer.Relationships;
+using StarshipWanderer.Stats;
 using StarshipWanderer.Systems;
 using YamlDotNet.Serialization;
 
@@ -150,7 +151,7 @@ namespace Tests.Systems
         }
         
         [Test]
-        public void TestConditionalDialogue()
+        public void TestConditionalDialogue_PlaceHasLight()
         {
             string yaml = @"
 - Identifier: ce16ae16-4de8-4e33-8d52-ace4543ada20
@@ -186,8 +187,40 @@ namespace Tests.Systems
                 Guid.NewGuid()),system.AllDialogues.Single());
 
             Assert.Contains("This room is Dimly Illuminated",ui.MessagesShown);
+        }
+        
+        [Test]
+        [Ignore("TODO StatCondition wants IHasStats not SystemArgs so we need to decorator it somehow to handle the 3 things in SystemArgs that might qualify")]
+        public void TestConditionalDialogue_ActorHasStat()
+        {
+            string yaml = @"
+- Identifier: ce16ae16-4de8-4e33-8d52-ace4543ada20
+  Body: 
+    - Text: The denizens of this degenerate bar 
+    - Text: make you nervous
+      Condition: 
+        - ""!StatCondition<IActor>(Corruption,GreaterThan,5)""
+    - Text: seem like your kind of people
+      Condition: 
+        - StatCondition<IActor>(Corruption,GreaterThan,5)";
 
+            var system = new YamlDialogueSystem(yaml);
+            Assert.IsNotNull(system);
 
+            var ui = GetUI();
+
+            var you = YouInARoom(out _);
+            you.BaseStats[Stat.Corruption] = 0;
+
+            system.Run(new SystemArgs(ui,0,you,you.CurrentLocation, Guid.NewGuid()),system.AllDialogues.Single());
+
+            Assert.Contains("The denizens of this degenerate bar make you nervous",ui.MessagesShown);
+
+            you.BaseStats[Stat.Corruption] = 10;
+            
+            system.Run(new SystemArgs(ui,0,you,you.CurrentLocation, Guid.NewGuid()),system.AllDialogues.Single());
+
+            Assert.Contains("The denizens of this degenerate bar seem like your kind of people",ui.MessagesShown);
         }
 
     }
