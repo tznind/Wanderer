@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
@@ -42,8 +43,13 @@ namespace Game.UI
         private readonly FrameView _roomFrame;
         private readonly FrameView _actionFrame;
 
-        public MainWindow(WorldFactory worldFactory):base(new Rect(0,1,WIN_WIDTH,WIN_HEIGHT + 1),null)
+        public MainWindow(WorldFactory worldFactory):base("Game")
         {
+            X = 0;
+            Y = 1;
+            Width = Dim.Fill();
+            Height = Dim.Fill();
+
             _worldFactory = worldFactory;
 
             Log = new EventLog();
@@ -71,13 +77,32 @@ namespace Game.UI
             // 6 x 80  actionFrame
             //***********************
             
-            _roomFrame = new FrameView(new Rect(ROOM_FRAME_X,ROOM_FRAME_Y ,ROOM_FRAME_WIDTH,ROOM_FRAME_HEIGHT), "Contents");
-            _actionFrame = new FrameView(new Rect(-1, 15, 80, 6),"Actions");
+            _roomFrame = new FrameView("Contents")
+            {
+                X = Pos.Percent(50),
+                Y = 0,
+                Width = Dim.Fill() + 1,
+                Height = Dim.Percent(80)
+            };
+            _actionFrame = new FrameView("Actions")
+            {
+                X = 0,
+                Y = Pos.Percent(80),
+                Width = Dim.Fill(),
+                Height = Dim.Fill(),
+            };
+            
             
             _splash = new SplashScreen(){X = 4,Y=4};
             Add(_splash);
 
-            _lblMap = new Label(new Rect(0, 0, MAP_WIDTH, MAP_HEIGHT), " ") {LayoutStyle = LayoutStyle.Absolute};
+            _lblMap = new Label("Map")
+            {
+                X = 0,
+                Y = 0,
+                Width = Dim.Percent(50),
+                Height = Dim.Percent(80)
+            };
 
             _actionFrame.FocusFirst();
         }
@@ -292,6 +317,8 @@ namespace Game.UI
             UpdateRoomFrame();
 
             RedrawMap();
+
+            typeof(Application).GetMethod("TerminalResized", BindingFlags.Static | BindingFlags.NonPublic).Invoke(null, null);
         }
 
         public void ShowMessage(string title, LogEntry showThenLog)
@@ -339,26 +366,26 @@ namespace Game.UI
 
         readonly List<Point> _buttonLocations = new List<Point>()
         {
-            new Point(0,16),
-            new Point(0,17),
-            new Point(0,18),
-            new Point(0,19),
-            new Point(12,16),
-            new Point(12,17),
-            new Point(12,18),
-            new Point(12,19),
-            new Point(24,16),
-            new Point(24,17),
-            new Point(24,18),
-            new Point(24,19),
-            new Point(36,16),
-            new Point(36,17),
-            new Point(36,18),
-            new Point(36,19),
-            new Point(48,16),
-            new Point(48,17),
-            new Point(48,18),
-            new Point(48,19),
+            new Point(0,0),
+            new Point(0,1),
+            new Point(0,2),
+            new Point(0,3),
+            new Point(12,0),
+            new Point(12,1),
+            new Point(12,2),
+            new Point(12,3),
+            new Point(24,0),
+            new Point(24,1),
+            new Point(24,2),
+            new Point(24,3),
+            new Point(36,0),
+            new Point(36,1),
+            new Point(36,2),
+            new Point(36,3),
+            new Point(48,0),
+            new Point(48,1),
+            new Point(48,2),
+            new Point(48,3),
 
         };
 
@@ -399,7 +426,7 @@ namespace Game.UI
                 };
 
                 _oldButtons.Add(btn);
-                this.Add(btn);
+                _actionFrame.Add(btn);
                 buttonLoc++;
             }
         }
