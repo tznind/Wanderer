@@ -20,29 +20,14 @@ namespace Game.UI
         public const int DLG_WIDTH = 78;
         public const int DLG_HEIGHT = 18;
         public const int DLG_BOUNDARY = 2;
-
-        private const int WIN_WIDTH = 80;
-        private const int WIN_HEIGHT = 21;
-
-        private const int MAP_WIDTH = 40;
-        private const int MAP_HEIGHT = WIN_HEIGHT - 7;
-
-        private const int ROOM_FRAME_X = MAP_WIDTH;
-        private const int ROOM_FRAME_Y = -1;
-        private const int ROOM_FRAME_WIDTH = WIN_WIDTH - (MAP_WIDTH + 1);
-        private const int ROOM_FRAME_HEIGHT = MAP_HEIGHT + 3;
-
-
+        
         public IWorld World { get; set; }
         public EventLog Log { get; }
-
-        private readonly Label _lblMap;
         private readonly SplashScreen _splash;
 
-
-        private readonly FrameView _roomFrame;
-        private readonly FrameView _actionFrame;
-
+        private View _roomContents;
+        public bool ShowMap => World?.Map != null;
+        
         public MainWindow(WorldFactory worldFactory):base("Game")
         {
             X = 0;
@@ -77,34 +62,8 @@ namespace Game.UI
             // 6 x 80  actionFrame
             //***********************
             
-            _roomFrame = new FrameView("Contents")
-            {
-                X = Pos.Percent(50),
-                Y = 0,
-                Width = Dim.Fill() + 1,
-                Height = Dim.Percent(80)
-            };
-            _actionFrame = new FrameView("Actions")
-            {
-                X = 0,
-                Y = Pos.Percent(80),
-                Width = Dim.Fill(),
-                Height = Dim.Fill(),
-            };
-            
-            
             _splash = new SplashScreen(){X = 4,Y=4};
             Add(_splash);
-
-            _lblMap = new Label("Map")
-            {
-                X = 0,
-                Y = 0,
-                Width = Dim.Percent(50),
-                Height = Dim.Percent(80)
-            };
-
-            _actionFrame.FocusFirst();
         }
         public void NewGame()
         {
@@ -133,9 +92,6 @@ namespace Game.UI
             Log.Clear();
             
             Remove(_splash);
-            Add(_lblMap);
-            Add(_actionFrame);
-            Add(_roomFrame);
 
             Refresh();
         }
@@ -316,8 +272,6 @@ namespace Game.UI
 
             UpdateRoomFrame();
 
-            RedrawMap();
-
             typeof(Application).GetMethod("TerminalResized", BindingFlags.Static | BindingFlags.NonPublic).Invoke(null, null);
         }
 
@@ -327,36 +281,6 @@ namespace Game.UI
             Log.Info(showThenLog);
         }
 
-
-        private void RedrawMap()
-        {
-            if (World.Player == null)
-                return;
-
-            StringBuilder sb = new StringBuilder();
-            
-            var home = World.Map.GetPoint(World.Player.CurrentLocation);
-
-            //start map drawing at the north most (biggest Y value) and count down (towards south)
-            for (int y = (MAP_HEIGHT/2) - 1 ; y >= -MAP_HEIGHT/2 ; y--)
-            {    
-                //start each line ath the west most (smallest x value) and count up (towards east)
-                for (int x = -MAP_WIDTH/2; x < MAP_WIDTH/2; x++)
-                {
-                    var pointToRender = home.Offset(new Point3(x, y, 0));
-
-                    if (World.Map.ContainsKey(pointToRender) && World.Map[pointToRender].IsExplored)
-                        sb.Append(World.Map[pointToRender].Tile);
-                    else
-                        sb.Append(' ');
-                }
-
-                sb.Append('\n');
-            }
-
-            _lblMap.Text = sb.ToString();
-        }
-
         public void ShowMessage(string title, string body)
         {
             RunDialog(title,body,out _,"Ok");
@@ -364,34 +288,65 @@ namespace Game.UI
 
         readonly List<Button> _oldButtons = new List<Button>();
 
-        readonly List<Point> _buttonLocations = new List<Point>()
+        readonly List<Tuple<Pos,Pos>> _buttonLocations = new List<Tuple<Pos, Pos>>()
         {
-            new Point(0,0),
-            new Point(0,1),
-            new Point(0,2),
-            new Point(0,3),
-            new Point(12,0),
-            new Point(12,1),
-            new Point(12,2),
-            new Point(12,3),
-            new Point(24,0),
-            new Point(24,1),
-            new Point(24,2),
-            new Point(24,3),
-            new Point(36,0),
-            new Point(36,1),
-            new Point(36,2),
-            new Point(36,3),
-            new Point(48,0),
-            new Point(48,1),
-            new Point(48,2),
-            new Point(48,3),
+            Tuple.Create(Pos.At(0),Pos.Percent(100)-4),
+            Tuple.Create(Pos.At(0),Pos.Percent(100)-3),
+            Tuple.Create(Pos.At(0),Pos.Percent(100)-2),
+            Tuple.Create(Pos.At(0),Pos.Percent(100)-1),
+            Tuple.Create(Pos.At(12),Pos.Percent(100)-4),
+            Tuple.Create(Pos.At(12),Pos.Percent(100)-3),
+            Tuple.Create(Pos.At(12),Pos.Percent(100)-2),
+            Tuple.Create(Pos.At(12),Pos.Percent(100)-1),
+            Tuple.Create(Pos.At(24),Pos.Percent(100)-4),
+            Tuple.Create(Pos.At(24),Pos.Percent(100)-3),
+            Tuple.Create(Pos.At(24),Pos.Percent(100)-2),
+            Tuple.Create(Pos.At(24),Pos.Percent(100)-1),
+            Tuple.Create(Pos.At(36),Pos.Percent(100)-4),
+            Tuple.Create(Pos.At(36),Pos.Percent(100)-3),
+            Tuple.Create(Pos.At(36),Pos.Percent(100)-2),
+            Tuple.Create(Pos.At(36),Pos.Percent(100)-1),
+            Tuple.Create(Pos.At(48),Pos.Percent(100)-4),
+            Tuple.Create(Pos.At(48),Pos.Percent(100)-3),
+            Tuple.Create(Pos.At(48),Pos.Percent(100)-2),
+            Tuple.Create(Pos.At(48),Pos.Percent(100)-1),
 
         };
 
+        public override void Redraw(Rect bounds)
+        {
+            base.Redraw(bounds);
+            
+            var mapWidth = (int)(bounds.Width * 0.75) -4;
+            var mapHeight = bounds.Height - 6;
+
+            if (ShowMap)
+            {
+                var home = World.Map.GetPoint(World.Player.CurrentLocation);
+                
+                //var centre world location 0,0
+                var toCentreX = -mapWidth / 2;
+                var toCentreY = -mapHeight / 2;
+
+
+                for (int x = 0; x < mapWidth; x++)
+                {
+                    for (int y = 0; y < mapHeight; y++)
+                    {
+                        Driver.Move(x+2,mapHeight - (y-1));
+                        Driver.SetAttribute((int)ConsoleColor.DarkGreen);
+
+                        var pointToRender = new Point3(x + toCentreX, y +toCentreY, 0).Offset(home);
+
+                        if (World.Map.ContainsKey(pointToRender) && World.Map[pointToRender].IsExplored)
+                            Driver.AddRune( World.Map[pointToRender].Tile);
+                        else
+                            Driver.AddRune(' ');
+                    }
+                }
+            }
+        }
         
-
-
         public void UpdateActions()
         {
             Title = $"Map ({World.Player.CurrentLocation.GetPoint()})";
@@ -408,8 +363,10 @@ namespace Game.UI
             //don't run out of UI spaces! (maybe we can page this later on if we get too many unique actions to render)
             foreach (var action in allActions.Take(_buttonLocations.Count))
             {
-                var btn = new Button(_buttonLocations[buttonLoc].X, _buttonLocations[buttonLoc].Y, action.Name, false)
+                var btn = new Button( action.Name, false)
                 {
+                    X = _buttonLocations[buttonLoc].Item1, 
+                    Y= _buttonLocations[buttonLoc].Item2,
                     Width = 10,
                     Height = 1,
                     Clicked = () =>
@@ -426,15 +383,12 @@ namespace Game.UI
                 };
 
                 _oldButtons.Add(btn);
-                _actionFrame.Add(btn);
+                this.Add(btn);
                 buttonLoc++;
             }
         }
         private void UpdateRoomFrame()
         {
-
-            _roomFrame.Title = World.Player.CurrentLocation.ToString();
-            _roomFrame.RemoveAll();
             
             List<string> contents = new List<string>();
 
@@ -443,28 +397,15 @@ namespace Game.UI
             contents.AddRange(World.Player.GetCurrentLocationSiblings(true).Select(s=>s.ToString()));
             contents.AddRange(World.Player.CurrentLocation.Items.Select(s=>s.ToString()));
 
-            View addLabelsTo;
-
-            //if it is too many items
-            if (contents.Count > ROOM_FRAME_HEIGHT - 3)
+            Remove(_roomContents);
+            //use a scroll view
+            _roomContents = new ListView(contents)
             {
-                //use a scroll view
-                var view = new ScrollView(new Rect(0, 0, ROOM_FRAME_WIDTH, ROOM_FRAME_HEIGHT-2))
-                {
-                    ContentSize = new Size(ROOM_FRAME_WIDTH, contents.Count + 1),
-                    ContentOffset = new Point(0, 0),
-                    ShowVerticalScrollIndicator = true,
-                    ShowHorizontalScrollIndicator = false
-                };
-
-                addLabelsTo = view;
-                _roomFrame.Add(view);
-            }
-            else
-                addLabelsTo = _roomFrame; //otherwise just labels
-
-            for (int i = 0; i < contents.Count; i++)
-                addLabelsTo.Add(new Label(0, i, contents[i]));
+                X=Pos.Percent(75),
+                Width = Dim.Fill(),
+                Height = Dim.Percent(75)
+            };
+            Add(_roomContents);
         }
 
         public string Wrap(string s, int width)
