@@ -391,6 +391,7 @@ namespace Game.UI
         {
             
             List<string> contents = new List<string>();
+            contents.Add( World.Player.CurrentLocation.Name);
 
             contents.Add("Faction:" + (World.Player.CurrentLocation.ControllingFaction?.Name ?? "None"));
 
