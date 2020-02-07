@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives;
-using StarshipWanderer.Behaviours;
 using StarshipWanderer.Items;
 using StarshipWanderer.Relationships;
-using StarshipWanderer.Stats;
 
 namespace StarshipWanderer.Places
 {
@@ -27,6 +25,17 @@ namespace StarshipWanderer.Places
         public HashSet<IItem> Items { get;set; } = new HashSet<IItem>();
         
         public HashSet<Direction> LeaveDirections { get; set; } = new HashSet<Direction>(new []{Direction.North,Direction.South,Direction.East,Direction.West});
+        
+        private int _explicitColor = DefaultColor;
+
+        public override int Color
+        {
+            //use the faction color unless we have an explicit room color set
+            get =>
+                _explicitColor != DefaultColor ? _explicitColor :
+                    ControllingFaction?.Color ?? _explicitColor;
+            set => _explicitColor = value;
+        }
 
         public Room(string name, IWorld world, char tile)
         {
@@ -34,24 +43,6 @@ namespace StarshipWanderer.Places
             World = world;
 
             Tile = tile;
-        }
-
-        public override IActionCollection GetFinalActions(IActor forActor)
-        {
-            return new ActionCollection(BaseActions.Union(Adjectives.SelectMany(a=>a.GetFinalActions(forActor))));
-        }
-        public override StatsCollection GetFinalStats(IActor forActor)
-        {
-            var stats = BaseStats.Clone();
-
-            foreach (var statsCollection in Adjectives.Select(a => a.GetFinalStats(forActor))) 
-                stats.Add(statsCollection);
-
-            return stats;
-        }
-        public override IBehaviourCollection GetFinalBehaviours(IActor forActor)
-        {
-            return new BehaviourCollection(BaseBehaviours.Union(Adjectives.SelectMany(a => a.GetFinalBehaviours(forActor))));
         }
 
         public IEnumerable<IActor> Actors => World.Population.Where(p => p.CurrentLocation == this);

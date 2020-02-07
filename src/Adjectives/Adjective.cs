@@ -1,8 +1,4 @@
 ﻿using System.Collections.Generic;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Behaviours;
-using StarshipWanderer.Stats;
 
 namespace StarshipWanderer.Adjectives
 {
@@ -21,20 +17,6 @@ namespace StarshipWanderer.Adjectives
             Name = GetType().Name;
         }
         
-        public override IActionCollection GetFinalActions(IActor forActor)
-        {
-            return BaseActions;
-        }
-
-        public override StatsCollection GetFinalStats(IActor forActor)
-        {
-            return BaseStats;
-        }
-        public override IBehaviourCollection GetFinalBehaviours(IActor forActor)
-        {
-            return BaseBehaviours;
-        }
-        
         public abstract IEnumerable<string> GetDescription();
 
 
@@ -42,5 +24,6 @@ namespace StarshipWanderer.Adjectives
         {
             return this.AreIdentical((IHasStats)other);
         }
+
     }
 }

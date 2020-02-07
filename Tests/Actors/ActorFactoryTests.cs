@@ -77,5 +77,6 @@ Chest: 1
             Assert.AreEqual(1,pirate.AvailableSlots["Chest"]);
 
         }
+
     }
 }

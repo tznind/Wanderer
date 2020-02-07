@@ -109,5 +109,24 @@ namespace Tests.Actors
 
 
         }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Test_ActorColorInheritance(bool explicitColor)
+        {
+            var you = YouInARoom(out IWorld _);
+
+            if (explicitColor)
+                you.Color = 4;
+
+            var f = new Faction("gangers", FactionRole.Civilian)
+            {
+                Color = 2
+            };
+
+            you.FactionMembership.Add(f);
+
+            Assert.AreEqual(explicitColor ? 4 : 2,you.Color);
+        }
     }
 }

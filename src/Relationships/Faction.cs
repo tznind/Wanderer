@@ -1,16 +1,10 @@
-﻿using System;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Factories;
+﻿using StarshipWanderer.Factories;
 using YamlDotNet.Serialization;
 
 namespace StarshipWanderer.Relationships
 {
-    public class Faction : IFaction
+    public class Faction : HasStats,IFaction
     {
-        public Guid Identifier { get; set; }
-
-        public string Name { get; set; }
-
         public FactionRole Role { get; set; }
 
         [YamlIgnore]
@@ -29,6 +23,7 @@ namespace StarshipWanderer.Relationships
             Name = name;
             Role = role;
         }
+
 
         public override string ToString()
         {

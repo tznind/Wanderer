@@ -4,11 +4,8 @@ using StarshipWanderer.Factories;
 
 namespace StarshipWanderer.Relationships
 {
-    public interface IFaction
+    public interface IFaction : IHasStats
     {
-        Guid Identifier { get; set; }
-
-        string Name { get; set; }
 
         FactionRole Role { get; set; }
 

@@ -59,8 +59,9 @@ namespace Tests.Actors
             Assert.IsEmpty(room.Actors,"Expected that because there are no factions there are no actor factories");
         }
 
-        [Test]
-        public void TestCreatingRoomFromBlueprint_WithFaction()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void TestCreatingRoomFromBlueprint_WithFaction(bool explicitRoomColor)
         {
             var w = new World();
 
@@ -70,6 +71,7 @@ namespace Tests.Actors
                 new Faction("Techno Wizards",FactionRole.Establishment)
                 {
                     Identifier = new Guid("bb70f169-e0f7-40e8-927b-1c181eb8740b"),
+                    Color = 3,
                     ActorFactory = new ActorFactory(new ItemFactory(adj),adj)
                     {
                         Blueprints = new []
@@ -84,8 +86,9 @@ namespace Tests.Actors
             );
 
             var yaml = 
-                @"
+                @$"
 - Name: Tunnels
+  {(explicitRoomColor ? "Color: 2" : "")}
   Faction: bb70f169-e0f7-40e8-927b-1c181eb8740b
 ";
             var roomFactory = new YamlRoomFactory(yaml, new AdjectiveFactory());
@@ -96,6 +99,11 @@ namespace Tests.Actors
 
             Assert.Greater(room.Actors.Count(),0);
             Assert.IsTrue(room.Actors.All(a=>a.Name.Equals("Sandman")));
+
+            //if the room has no set color and it is owned by the faction it should inherit the faction color
+            Assert.AreEqual(explicitRoomColor ? 2 :3,room.Color);
         }
+
+
     }
 }

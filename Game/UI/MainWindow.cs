@@ -8,7 +8,6 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using StarshipWanderer;
 using StarshipWanderer.Actors;
-using StarshipWanderer.Adjectives;
 using StarshipWanderer.Factories;
 using Terminal.Gui;
 
@@ -55,12 +54,6 @@ namespace Game.UI
                 })
             });
             top.Add (menu);
-
-            /****** Menu ***********/
-            // 15 x 80      |  rightFrame
-            // ******** Actions *****
-            // 6 x 80  actionFrame
-            //***********************
             
             _splash = new SplashScreen(){X = 4,Y=4};
             Add(_splash);
@@ -334,14 +327,20 @@ namespace Game.UI
                     for (int y = 0; y < mapHeight; y++)
                     {
                         Driver.Move(x+2,mapHeight - (y-1));
-                        Driver.SetAttribute((int)ConsoleColor.DarkGreen);
 
                         var pointToRender = new Point3(x + toCentreX, y +toCentreY, 0).Offset(home);
 
                         if (World.Map.ContainsKey(pointToRender) && World.Map[pointToRender].IsExplored)
-                            Driver.AddRune( World.Map[pointToRender].Tile);
+                        {
+                            Driver.SetAttribute(World.Map[pointToRender].Color);
+                            Driver.AddRune(World.Map[pointToRender].Tile);
+                        }
                         else
+                        {
+                            
+                            Driver.SetAttribute((int)Color.Black);
                             Driver.AddRune(' ');
+                        }
                     }
                 }
             }

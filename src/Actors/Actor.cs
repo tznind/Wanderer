@@ -25,6 +25,16 @@ namespace StarshipWanderer.Actors
         public HashSet<IFaction> FactionMembership { get; set; } = new HashSet<IFaction>();
 
         public SlotCollection AvailableSlots { get; set; } = new SlotCollection();
+        
+        private int _explicitColor = DefaultColor;
+
+        public override int Color
+        {
+            //use the faction color unless we have an explicit room color set
+            get =>
+                _explicitColor != DefaultColor ? _explicitColor : FactionMembership.FirstOrDefault()?.Color ?? _explicitColor;
+            set => _explicitColor = value;
+        } 
 
         /// <summary>
         /// Do not use, internal constructor for JSON serialization
@@ -68,6 +78,7 @@ namespace StarshipWanderer.Actors
             return new ActionCollection(BaseActions
                 .Union(Adjectives.SelectMany(a => a.GetFinalActions(forActor)))
                 .Union(CurrentLocation.GetFinalActions(forActor))
+                .Union(FactionMembership.SelectMany(f=>f.GetFinalActions(forActor)))
                 .Union(Items.SelectMany(i => i.GetFinalActions(forActor))));
         }
 
@@ -89,7 +100,7 @@ namespace StarshipWanderer.Actors
 
         public bool Has<T>(bool includeItems) where T : IAdjective
         {
-            return Adjectives.Any(a => a is T)
+            return Adjectives.Union(FactionMembership.SelectMany(f=>f.Adjectives)).Any(a => a is T)
                 || includeItems && Items.Any(i=> i.Has<T>(this));
         }
 
@@ -108,6 +119,7 @@ namespace StarshipWanderer.Actors
             return new BehaviourCollection(BaseBehaviours
                 .Union(Adjectives.SelectMany(a=>a.GetFinalBehaviours(forActor)))
                 .Union(CurrentLocation.GetFinalBehaviours(forActor))
+                .Union(FactionMembership.SelectMany(f=>f.GetFinalBehaviours(forActor)))
                 .Union(Items.SelectMany(i=>i.GetFinalBehaviours(forActor))));
         }
 
@@ -119,6 +131,9 @@ namespace StarshipWanderer.Actors
                 clone.Add(adjective.GetFinalStats(forActor));
 
             clone.Add(CurrentLocation.GetFinalStats(forActor));
+
+            foreach (var faction in FactionMembership) 
+                clone.Add(faction.GetFinalStats(forActor));
 
             foreach (var item in Items) 
                 clone.Add(item.GetFinalStats(forActor));

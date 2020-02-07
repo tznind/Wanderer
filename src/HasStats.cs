@@ -19,6 +19,13 @@ namespace StarshipWanderer
         public string Name { get; set; }
         public DialogueInitiation Dialogue { get; set; } = new DialogueInitiation();
 
+        public virtual int Color { get; set; } = DefaultColor;
+
+        /// <summary>
+        /// Default Color (white)
+        /// </summary>
+        public const int DefaultColor = 15;
+
         public IAdjectiveCollection Adjectives
         {
             get => _adjectives;
@@ -58,12 +65,25 @@ namespace StarshipWanderer
                         b.Owner = this;
             }
         }
+        
+        public virtual StatsCollection GetFinalStats(IActor forActor)
+        {
+            var clone = BaseStats.Clone();
+            foreach (var adjective in Adjectives) 
+                clone.Add(adjective.GetFinalStats(forActor));
 
-        public abstract StatsCollection GetFinalStats(IActor forActor);
+            return clone;
+        }
 
-        public abstract IActionCollection GetFinalActions(IActor forActor);
+        public virtual IActionCollection GetFinalActions(IActor forActor)
+        {
+            return new ActionCollection(BaseActions.Union(Adjectives.SelectMany(a=>a.GetFinalActions(forActor))));
+        }
 
-        public abstract IBehaviourCollection GetFinalBehaviours(IActor forActor);
+        public virtual IBehaviourCollection GetFinalBehaviours(IActor forActor)
+        {
+            return new BehaviourCollection(BaseBehaviours.Union(Adjectives.SelectMany(a=>a.GetFinalBehaviours(forActor))));
+        }
         
         public override string ToString()
         {
