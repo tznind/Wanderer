@@ -8,25 +8,35 @@ using Terminal.Gui;
 
 namespace Game.UI
 {
-    public class ActorDialog : Dialog
+    public class HasStatsView : View
     {
-        public ActorDialog(IActor actor)
-            :base(actor.Name, MainWindow.DLG_WIDTH, MainWindow.DLG_HEIGHT)
+        public bool AllowScrolling { get; set; } = true;
+
+        /// <summary>
+        /// Setup the control to display the stats of <paramref name="o"/> as percieved
+        /// by <paramref name="observer"/>
+        /// </summary>
+        /// <param name="observer"></param>
+        /// <param name="o"></param>
+        public void InitializeComponent(IActor observer,IHasStats o)
         {
-            Button btn = new Button("Close",true);
-            AddButton(btn);
-
             List<string> lines = new List<string>();
-            
-            if(actor.Adjectives.Any())
-                lines.Add("Adjectives:" + string.Join(',', actor.Adjectives));
+            const int maxLines = MainWindow.DLG_HEIGHT - 6;
 
-            lines.Add("Factions:" + string.Join(',',actor.FactionMembership));
+            lines.Add("Name:" + o.Name);
+
+            if(o.Adjectives.Any())
+                lines.Add("Adjectives:" + string.Join(',', o.Adjectives));
+
+            var asActor = o as IActor;
+
+            if(asActor != null)
+                lines.Add("Factions:" + string.Join(',',asActor.FactionMembership));
 
             //output stats
-            var finalStats = actor.GetFinalStats();
+            var finalStats = o.GetFinalStats(asActor ?? observer);
 
-            foreach (var baseStat in actor.BaseStats)
+            foreach (var baseStat in o.BaseStats)
             {
                 string line = baseStat.Key + ":" + baseStat.Value;
 
@@ -36,25 +46,30 @@ namespace Game.UI
                 lines.Add(line);
             }
 
-            lines.Add("Items:");
-
-            if(!actor.Items.Any())
-                lines.Add("None");
-            else
-                //output items
-                lines.AddRange(actor.Items.Select(i => i.ToString()));
-            
-            lines.Add("Relationships:");
-
-            lines.AddRange(GetRelationships(actor));
-
-
-            View addLabelsTo;
-
-            //if it is too many items
-            if (lines.Count > MainWindow.DLG_HEIGHT - 6)
+            if (asActor != null)
             {
-                //use a scroll view
+                lines.Add("Items:");
+
+                if(!asActor.Items.Any())
+                    lines.Add("None");
+                else
+                    //output items
+                    lines.AddRange(asActor.Items.Select(i => i.ToString()));
+
+                var relationships = GetRelationships(asActor).ToArray();
+
+                if (relationships.Any())
+                {
+                    lines.Add("Relationships:");
+                    lines.AddRange(relationships);
+                }
+            }
+            
+            View addLabelsTo;
+            //if it is too many items
+            if (lines.Count > maxLines && AllowScrolling)
+            {
+                //use observer scroll view
                 var view = new ScrollView(new Rect(0, 0, MainWindow.DLG_WIDTH-3, MainWindow.DLG_HEIGHT- 6))
                 {
                     ContentSize = new Size(MainWindow.DLG_WIDTH, lines.Count + 1),
@@ -70,12 +85,14 @@ namespace Game.UI
                 addLabelsTo = this; //otherwise just labels
 
             for (int i = 0; i < lines.Count; i++)
-                addLabelsTo.Add(new Label(0, i, lines[i]));
-            
-            btn.Clicked = () => { Running = false;};
-            btn.FocusFirst();
+                if (i == maxLines && !AllowScrolling)
+                {
+                    addLabelsTo.Add(new Label(0, i,"..."));
+                    break;
+                }
+                else
+                    addLabelsTo.Add(new Label(0, i, lines[i]));
         }
-
         private IEnumerable<string> GetRelationships(IActor actor)
         {
             foreach (var relationship in actor.CurrentLocation.World.Relationships.OfType<PersonalRelationship>().Where(r => r.Observer == actor))

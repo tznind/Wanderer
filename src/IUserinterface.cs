@@ -12,7 +12,7 @@ namespace StarshipWanderer
 
         EventLog Log {get;}
 
-        void ShowActorStats(IActor actor);
+        void ShowStats(IHasStats of);
 
         /// <summary>
         /// Gets user to pick from one of the available <paramref name="options"/>

@@ -11,7 +11,7 @@ namespace StarshipWanderer.Actions
         public override void Push(IUserinterface ui, ActionStack stack, IActor actor)
         {
             if (actor.Decide(ui, "Inspect", null, out IActor toInspect, GetTargets(actor),0))
-                ui.ShowActorStats(toInspect);
+                ui.ShowStats(toInspect);
         }
 
         private IActor[] GetTargets(IActor performer)

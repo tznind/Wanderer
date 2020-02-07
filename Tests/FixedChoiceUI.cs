@@ -19,9 +19,9 @@ namespace Tests
         public List<string> MessagesShown = new List<string>();
 
         /// <summary>
-        /// List of calls to <see cref="ShowActorStats"/>
+        /// List of calls to <see cref="ShowStats"/>
         /// </summary>
-        public List<IActor> ActorStatsShown = new List<IActor>();
+        public List<IHasStats> StatsShown = new List<IHasStats>();
 
         public void NewGame()
         {
@@ -37,9 +37,9 @@ namespace Tests
             Log.Register();
         }
 
-        public void ShowActorStats(IActor actor)
+        public void ShowStats(IHasStats of)
         {
-            ActorStatsShown.Add(actor);
+            StatsShown.Add(of);
         }
 
         public bool GetChoice<T>(string title, string body, out T chosen, params T[] options)

@@ -24,8 +24,10 @@ namespace Game.UI
         public EventLog Log { get; }
         private readonly SplashScreen _splash;
 
-        private View _roomContents;
-        public bool ShowMap => World?.Map != null;
+        private ListView _roomContents;
+        private List<IHasStats> _roomContentsObjects;
+        private HasStatsView _detail;
+        public bool ShowMap => World?.Map != null && _detail == null;
         
         public MainWindow(WorldFactory worldFactory):base("Game")
         {
@@ -50,7 +52,7 @@ namespace Game.UI
                 }),
                 new MenuBarItem("_View",new MenuItem[]{
                     new MenuItem ("_Log", null, ViewLog),
-                    new MenuItem ("_Character", null, () => { ShowActorStats(World?.Player); })
+                    new MenuItem ("_Character", null, () => { ShowStats(World?.Player); })
                 })
             });
             top.Add (menu);
@@ -242,15 +244,15 @@ namespace Game.UI
             return optionChosen;
         }
 
-        public void ShowActorStats(IActor actor)
+        public void ShowStats(IHasStats of)
         {
-            if (actor == null)
+            if (of == null)
             {
                 ShowMessage("No World","No game is currently loaded");
                 return;
             }
 
-            var dlg = new ActorDialog(actor);
+            var dlg = new HasStatsDialog(of as IActor ?? World.Player,of);
             Application.Run(dlg);
         }
 
@@ -265,6 +267,12 @@ namespace Game.UI
 
             UpdateRoomFrame();
 
+            TriggerTerminalResized();
+            
+        }
+
+        private void TriggerTerminalResized()
+        {
             typeof(Application).GetMethod("TerminalResized", BindingFlags.Static | BindingFlags.NonPublic).Invoke(null, null);
         }
 
@@ -305,6 +313,8 @@ namespace Game.UI
             Tuple.Create(Pos.At(48),Pos.Percent(100)-1),
 
         };
+
+        
 
         public override void Redraw(Rect bounds)
         {
@@ -388,24 +398,92 @@ namespace Game.UI
         }
         private void UpdateRoomFrame()
         {
+            var room = World.Player.CurrentLocation;
+
+            _roomContentsObjects = new List<IHasStats>();
+            _roomContentsObjects.Add( room);
+
+            if(room.ControllingFaction != null)
+                _roomContentsObjects.Add(room.ControllingFaction);
             
-            List<string> contents = new List<string>();
-            contents.Add( World.Player.CurrentLocation.Name);
+            _roomContentsObjects.AddRange(World.Player.GetCurrentLocationSiblings(true));
+            _roomContentsObjects.AddRange(World.Player.CurrentLocation.Items);
 
-            contents.Add("Faction:" + (World.Player.CurrentLocation.ControllingFaction?.Name ?? "None"));
+            if (_roomContents != null)
+            {
+                Remove(_roomContents);
+                _roomContents.SelectedChanged -= UpdateDetailPane;
+            }
 
-            contents.AddRange(World.Player.GetCurrentLocationSiblings(true).Select(s=>s.ToString()));
-            contents.AddRange(World.Player.CurrentLocation.Items.Select(s=>s.ToString()));
-
-            Remove(_roomContents);
             //use a scroll view
-            _roomContents = new ListView(contents)
+            _roomContents = new ListView(_roomContentsObjects)
             {
                 X=Pos.Percent(75),
                 Width = Dim.Fill(),
                 Height = Dim.Percent(75)
             };
+
+            _roomContents.SelectedChanged += UpdateDetailPane;
+
             Add(_roomContents);
+        }
+
+        public override bool ProcessKey(KeyEvent keyEvent)
+        {
+            try
+            {
+                return base.ProcessKey(keyEvent);
+            }
+            finally
+            {
+                UpdateDetailPane();
+            }
+        }
+
+        public override bool ProcessColdKey(KeyEvent keyEvent)
+        {
+            if (keyEvent.Key == Key.Enter && _roomContents != null && _roomContents.HasFocus)
+            {
+                if(_roomContents.SelectedItem < _roomContentsObjects.Count)
+                    ShowStats(_roomContentsObjects[_roomContents.SelectedItem]);
+            }
+
+            return base.ProcessColdKey(keyEvent);
+        }
+
+        private void UpdateDetailPane()
+        {
+            var selected = _roomContents.SelectedItem;
+            
+            if(_detail != null)
+                Remove(_detail);
+
+            if (_roomContents.HasFocus)
+            {
+                _detail = new HasStatsView()
+                {
+                    AllowScrolling = false
+                };
+
+                var o = _roomContentsObjects[selected];
+
+                _detail.InitializeComponent(o as IActor ?? World.Player,o);
+                _detail.X = 2;
+                _detail.Y = 2;
+                _detail.Width = Dim.Percent(70);
+                _detail.Height = Dim.Fill() - 5;
+
+                Add(_detail);
+            }
+            else
+            {
+                if(_detail != null)
+                    Remove(_detail);
+
+                _detail = null;
+            }
+
+            TriggerTerminalResized();
         }
 
         public string Wrap(string s, int width)

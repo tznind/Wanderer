@@ -15,9 +15,9 @@ namespace Tests.Actions
             var stack = new ActionStack();
             var ui = GetUI(them);
 
-            Assert.IsEmpty(ui.ActorStatsShown);
+            Assert.IsEmpty(ui.StatsShown);
             Assert.IsFalse(stack.RunStack(ui,new InspectAction(),you,null),"Expected Inspect to be a free action");
-            Assert.Contains(them,ui.ActorStatsShown);
+            Assert.Contains(them,ui.StatsShown);
         }
     }
 }
