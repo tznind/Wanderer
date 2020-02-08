@@ -5,6 +5,7 @@ using System.Text;
 using Moq;
 using NUnit.Framework;
 using StarshipWanderer;
+using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives;
 using StarshipWanderer.Factories;
@@ -76,6 +77,26 @@ Chest: 1
             Assert.AreEqual(2,pirate.AvailableSlots["Legs"]);
             Assert.AreEqual(1,pirate.AvailableSlots["Chest"]);
 
+        }
+
+        
+        [Test]
+        public void TestActorFactory_ExplicitActions()
+        {
+            string yaml = @"
+- Name: Scorpion
+  Slots:
+    Head: 1
+    Tail: 1
+    Legs: 6
+  Actions:
+    - FightAction()
+";
+            var room = InARoom(out IWorld w);
+            var actorFactory = new YamlActorFactory(yaml,null, new ItemFactory(new AdjectiveFactory()), new AdjectiveFactory());
+            var scorpion = actorFactory.Create(w, room, null, actorFactory.Blueprints[0],null);
+
+            Assert.IsInstanceOf<FightAction>(scorpion.BaseActions.Single(),"Expected Scorpion to be capable of nothing but fighting");
         }
 
     }

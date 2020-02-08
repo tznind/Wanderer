@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using StarshipWanderer.Compilation;
 using StarshipWanderer.Factories.Blueprints;
 using YamlDotNet.Serialization;
 
@@ -14,8 +15,7 @@ namespace StarshipWanderer.Factories
 
         public YamlRoomFactory(string yaml, IAdjectiveFactory adjectiveFactory) : base(adjectiveFactory)
         {
-            var deserializer = new Deserializer();
-            Blueprints = deserializer.Deserialize<RoomBlueprint[]>(yaml);
+            Blueprints = Compiler.Instance.Deserializer.Deserialize<RoomBlueprint[]>(yaml);
         }
     }
 }

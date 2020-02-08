@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using StarshipWanderer.Actors;
+using StarshipWanderer.Compilation;
 using StarshipWanderer.Factories.Blueprints;
 using StarshipWanderer.Places;
 using StarshipWanderer.Relationships;
@@ -64,8 +65,7 @@ namespace StarshipWanderer.Factories
             {
                 try
                 {
-                    var d = new Deserializer();
-                    return d.Deserialize<ItemBlueprint[]>(File.ReadAllText(defaultSlots));
+                    return Compiler.Instance.Deserializer.Deserialize<ItemBlueprint[]>(File.ReadAllText(defaultSlots));
                 }
                 catch (Exception e)
                 {
@@ -84,8 +84,7 @@ namespace StarshipWanderer.Factories
             {
                 try
                 {
-                    var d = new Deserializer();
-                    return d.Deserialize<SlotCollection>(File.ReadAllText(defaultSlots));
+                    return Compiler.Instance.Deserializer.Deserialize<SlotCollection>(File.ReadAllText(defaultSlots));
                 }
                 catch (Exception e)
                 {
@@ -130,7 +129,6 @@ namespace StarshipWanderer.Factories
         {
             var dirs = Directory.GetDirectories(Path.Combine(ResourcesDirectory, FactionsDirectory));
 
-            var deserializer = new Deserializer();
             var adjectiveFactory = new AdjectiveFactory();
 
             foreach (var directory in dirs)
@@ -141,7 +139,7 @@ namespace StarshipWanderer.Factories
 
                 try
                 {
-                    f = deserializer.Deserialize<Faction>(File.ReadAllText(factionFile));
+                    f = Compiler.Instance.Deserializer.Deserialize<Faction>(File.ReadAllText(factionFile));
                 }
                 catch (Exception e)
                 {

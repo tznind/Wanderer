@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using StarshipWanderer.Actors;
+using StarshipWanderer.Compilation;
 using StarshipWanderer.Factories.Blueprints;
 using YamlDotNet.Serialization;
 
@@ -17,11 +18,11 @@ namespace StarshipWanderer.Factories
         public YamlActorFactory(string yaml, string yamlDefaultSlots, IItemFactory itemFactory,
             IAdjectiveFactory adjectiveFactory) : base(itemFactory, adjectiveFactory)
         {
-            var deserializer = new Deserializer();
-            Blueprints = deserializer.Deserialize<ActorBlueprint[]>(yaml);
+            
+            Blueprints = Compiler.Instance.Deserializer.Deserialize<ActorBlueprint[]>(yaml);
 
             if(!string.IsNullOrWhiteSpace(yamlDefaultSlots))
-                DefaultSlots = deserializer.Deserialize<SlotCollection>(yamlDefaultSlots);
+                DefaultSlots = Compiler.Instance.Deserializer.Deserialize<SlotCollection>(yamlDefaultSlots);
         }
 
     }

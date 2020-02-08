@@ -53,6 +53,9 @@ namespace StarshipWanderer.Factories
             if (blueprint.Unique)
                 UniquesSpawned.Add(blueprint.Identifier ?? Guid.Empty);
 
+            if (blueprint.Actions.Any())
+                onto.BaseActions = blueprint.Actions;
+
             onto.Color = blueprint.Color;
             onto.Unique = blueprint.Unique;
 

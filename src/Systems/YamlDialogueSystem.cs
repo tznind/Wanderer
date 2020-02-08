@@ -1,4 +1,6 @@
 ﻿using System;
+using StarshipWanderer.Actions;
+using StarshipWanderer.Compilation;
 using StarshipWanderer.Conditions;
 using StarshipWanderer.Dialogues;
 using YamlDotNet.Serialization;
@@ -9,16 +11,12 @@ namespace StarshipWanderer.Systems
     {
         public YamlDialogueSystem(params string[] dialogueYaml)
         {
-            var de = new DeserializerBuilder()
-                .WithTypeConverter(new YamlTypeConverter<ICondition>())
-                .Build();
-
             if(dialogueYaml != null)
                 foreach (string yaml in dialogueYaml)
                 {
                     try
                     {
-                        foreach (var dialogueNode in de.Deserialize<DialogueNode[]>(yaml)) 
+                        foreach (var dialogueNode in Compiler.Instance.Deserializer.Deserialize<DialogueNode[]>(yaml)) 
                             AllDialogues.Add(dialogueNode);
                     }
                     catch (Exception e)
