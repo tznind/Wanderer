@@ -18,10 +18,12 @@ namespace Game.UI
         /// </summary>
         /// <param name="observer"></param>
         /// <param name="o"></param>
-        public void InitializeComponent(IActor observer,IHasStats o)
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        public void InitializeComponent(IActor observer,IHasStats o, int width, int height)
         {
             List<string> lines = new List<string>();
-            const int maxLines = MainWindow.DLG_HEIGHT - 6;
+            int maxLines = height - 6;
 
             lines.Add("Name:" + o.Name);
 
@@ -70,9 +72,9 @@ namespace Game.UI
             if (lines.Count > maxLines && AllowScrolling)
             {
                 //use observer scroll view
-                var view = new ScrollView(new Rect(0, 0, MainWindow.DLG_WIDTH-3, MainWindow.DLG_HEIGHT- 6))
+                var view = new ScrollView(new Rect(0, 0, width-3, height- 6))
                 {
-                    ContentSize = new Size(MainWindow.DLG_WIDTH, lines.Count + 1),
+                    ContentSize = new Size(width, lines.Count + 1),
                     ContentOffset = new Point(0, 0),
                     ShowVerticalScrollIndicator = true,
                     ShowHorizontalScrollIndicator = false

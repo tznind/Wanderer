@@ -16,9 +16,9 @@ namespace Game.UI
     public class MainWindow : Window, IUserinterface
     {
         private readonly WorldFactory _worldFactory;
-        public const int DLG_WIDTH = 78;
-        public const int DLG_HEIGHT = 18;
-        public const int DLG_BOUNDARY = 2;
+        public int DlgWidth = 78;
+        public int DlgHeight = 18;
+        public int DlgBoundary = 2;
         
         public IWorld World { get; set; }
         public EventLog Log { get; }
@@ -64,7 +64,7 @@ namespace Game.UI
         {
             var newWorld = _worldFactory.Create();
 
-            var dlg = new NewPlayerDialog(newWorld.Player,new AdjectiveFactory());
+            var dlg = new NewPlayerDialog(this,newWorld.Player,new AdjectiveFactory());
 
             try
             {
@@ -177,7 +177,7 @@ namespace Game.UI
         private void ViewLog()
         {
             RunDialog("Log",
-                string.Join('\n',Log.Target.Logs),out _,"Ok");
+                string.Join('\n',Log.Target.Logs.Reverse()/*most recent first*/),out _,"Ok");
         }
 
         bool RunDialog<T>(string title, string message,out T chosen, params T[] options)
@@ -185,13 +185,13 @@ namespace Game.UI
             var result = default(T);
             bool optionChosen = false;
 
-            var dlg = new Dialog(title, DLG_WIDTH, DLG_HEIGHT);
+            var dlg = new Dialog(title, DlgWidth, DlgHeight);
             
-            var line = DLG_HEIGHT - (DLG_BOUNDARY)*2 - options.Length;
+            var line = DlgHeight - (DlgBoundary)*2 - options.Length;
 
             if (!string.IsNullOrWhiteSpace(message))
             {
-                int width = DLG_WIDTH - (DLG_BOUNDARY * 2);
+                int width = DlgWidth - (DlgBoundary * 2);
 
                 var msg = Wrap(message, width-1).TrimEnd();
 
@@ -252,7 +252,7 @@ namespace Game.UI
                 return;
             }
 
-            var dlg = new HasStatsDialog(of as IActor ?? World.Player,of);
+            var dlg = new HasStatsDialog(this,of as IActor ?? World.Player,of);
             Application.Run(dlg);
         }
 
@@ -319,6 +319,11 @@ namespace Game.UI
         public override void Redraw(Rect bounds)
         {
             base.Redraw(bounds);
+
+            DlgWidth = bounds.Width - 4;
+            DlgHeight = bounds.Height - 4;
+            DlgBoundary = 2;
+
             
             var mapWidth = (int)(bounds.Width * 0.75) -4;
             var mapHeight = bounds.Height - 6;
@@ -467,7 +472,7 @@ namespace Game.UI
 
                 var o = _roomContentsObjects[selected];
 
-                _detail.InitializeComponent(o as IActor ?? World.Player,o);
+                _detail.InitializeComponent(o as IActor ?? World.Player,o,DlgWidth,DlgHeight);
                 _detail.X = 2;
                 _detail.Y = 2;
                 _detail.Width = Dim.Percent(70);

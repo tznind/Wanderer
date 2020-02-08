@@ -9,8 +9,8 @@ namespace Game.UI
     {
         public AdjectiveFactory AdjectiveFactory { get; }
         public bool Ok { get; set; }
-        public NewPlayerDialog(IActor player,AdjectiveFactory adjectiveFactory) 
-            :base("New Character", MainWindow.DLG_WIDTH, MainWindow.DLG_HEIGHT)
+        public NewPlayerDialog(MainWindow ui, IActor player,AdjectiveFactory adjectiveFactory) 
+            :base("New Character", ui.DlgWidth, ui.DlgHeight)
         {
             AdjectiveFactory = adjectiveFactory;
             var btn = new Button("Finish", true)
