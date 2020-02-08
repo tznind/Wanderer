@@ -1,0 +1,21 @@
+
+# Rats
+- Identifier: 66d89592-247a-4af1-a5f1-59f8be919fcf
+  Body: 
+    - Text: "Squeak (this creature seems"
+    - Text: friendly)
+      Condition: 
+        - RelationshipCondition(GreaterThan,0)
+    - Text: hostile)
+      Condition: 
+        - RelationshipCondition(LessThan,0)
+    - Text: indifferent)
+      Condition: 
+        - RelationshipCondition(EqualTo,0);
+
+- Identifier: 8f6ffb26-01ab-4d0a-8083-2fff3475187d
+  Body: 
+    - Text: "The rat queen sits here resplendent on her throne"
+- Identifier: 354a62e1-fcdd-40ed-8cb9-b86de09efdbe
+  Body: 
+    - Text: "Welcome"
