@@ -64,5 +64,12 @@ namespace StarshipWanderer
         /// Attempts to completely erase the item from existence
         /// </summary>
         void Erase(IItem item);
+
+        /// <summary>
+        /// Creates a new room suitable for adding at the given <paramref name="newPoint"/>
+        /// </summary>
+        /// <param name="newPoint"></param>
+        /// <returns></returns>
+        IPlace GetNewRoom(Point3 newPoint);
     }
 }

@@ -25,6 +25,7 @@
     <None Remove="Resources\Factions\OrderOfTheSigil\Faction.yaml" />
     <None Remove="Resources\Factions\OrderOfTheSigil\Forenames.txt" />
     <None Remove="Resources\Factions\OrderOfTheSigil\Items.yaml" />
+    <None Remove="Resources\Factions\OrderOfTheSigil\Rooms.yaml" />
     <None Remove="Resources\Factions\OrderOfTheSigil\Surnames.txt" />
     <None Remove="Resources\Factions\Security\Actors.yaml" />
     <None Remove="Resources\Factions\Security\Faction.yaml" />
@@ -71,6 +72,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Factions\OrderOfTheSigil\Items.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Factions\OrderOfTheSigil\Rooms.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Factions\OrderOfTheSigil\Surnames.txt">

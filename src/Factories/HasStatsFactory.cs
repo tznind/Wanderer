@@ -27,8 +27,12 @@ namespace StarshipWanderer.Factories
 
             o.Adjectives.Add(match);
         }
-
-
+        
+        /// <summary>
+        /// True if the blueprint should be included in randomization choices
+        /// </summary>
+        /// <param name="b"></param>
+        /// <returns></returns>
         public bool Spawnable(HasStatsBlueprint b)
         {
             if (!b.Unique)

@@ -12,6 +12,7 @@ namespace StarshipWanderer.Relationships
 
         public IActorFactory ActorFactory { get; set; }
 
+        public IRoomFactory RoomFactory { get; set; }
 
         public Faction()
         {

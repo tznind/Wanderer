@@ -150,6 +150,8 @@ namespace StarshipWanderer.Factories
 
                 var factionActorsFile = Path.Combine(directory, "Actors.yaml");
                 var factionItemsFile = Path.Combine(directory, "Items.yaml");
+                var factionRoomsFile = Path.Combine(directory, "Rooms.yaml");
+
                 var factionSlotsFile = Path.Combine(directory, "Slots.yaml");
                 IItemFactory itemFactory;
 
@@ -189,6 +191,21 @@ namespace StarshipWanderer.Factories
                     throw new Exception($"Error Deserializing faction actors/slots file in dir '{directory}'",e);
                 }
 
+                try
+                {
+                    var roomFactory = File.Exists(factionRoomsFile)
+                        ? new YamlRoomFactory(File.ReadAllText(factionRoomsFile), adjectiveFactory)
+                        : new RoomFactory(adjectiveFactory);
+
+                    f.RoomFactory = roomFactory;
+                    foreach (RoomBlueprint b in f.RoomFactory.Blueprints)
+                        if (!b.Faction.HasValue)
+                            b.Faction = f.Identifier;
+                }
+                catch (Exception e)
+                {
+                    throw new Exception($"Error Deserializing file {factionRoomsFile}",e);
+                }
 
                 var forenames = new FileInfo(Path.Combine(directory,"Forenames.txt"));
                 var surnames = new FileInfo(Path.Combine(directory, "Surnames.txt"));

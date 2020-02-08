@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Behaviours;
+using StarshipWanderer.Extensions;
 using StarshipWanderer.Factories;
 using StarshipWanderer.Items;
 using StarshipWanderer.Places;
@@ -147,6 +148,15 @@ namespace StarshipWanderer
                     room.Items.Remove(item);
 
             item.IsErased = true;
+        }
+
+        public virtual IPlace GetNewRoom(Point3 newPoint)
+        {
+            var factionRooms = Factions.Select(f => f.RoomFactory)
+                .Where(b => b.Blueprints.Any(b.Spawnable))
+                .ToList();
+
+            return factionRooms.Union(new[] {RoomFactory}).ToArray().GetRandom(R).Create(this);
         }
     }
 }
