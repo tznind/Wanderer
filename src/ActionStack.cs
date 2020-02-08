@@ -23,8 +23,7 @@ namespace StarshipWanderer
         /// <param name="responders">All valid responders</param>
         public bool RunStack(IUserinterface ui, IAction firstAction,IActor performer, IEnumerable<IBehaviour> responders)
         {
-            if(responders == null)
-                responders = new IBehaviour[0];
+            responders = responders?.ToArray() ?? new IBehaviour[0];
 
             //and run push event on the action
             firstAction.Push(ui,this,performer);
@@ -39,8 +38,14 @@ namespace StarshipWanderer
             
             //run all tasks that are not pending cancellation
             while(TryPop(out Frame current))
-                if(!current.Cancelled)
+                if (!current.Cancelled)
+                {
                     current.Action.Pop(ui,this, current);
+
+                    foreach (IBehaviour responder in responders.ToArray())
+                        responder.OnPop(ui, this,current);
+                }
+                    
             
             Clear();
 

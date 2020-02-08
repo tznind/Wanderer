@@ -13,7 +13,7 @@ namespace StarshipWanderer.Behaviours
         {
         }
 
-        public override void OnPush(IUserinterface ui, ActionStack stack, Frame frame)
+        public override void OnPop(IUserinterface ui, ActionStack stack, Frame frame)
         {
             base.OnPush(ui, stack, frame);
 

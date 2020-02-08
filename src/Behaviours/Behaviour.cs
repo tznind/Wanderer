@@ -18,6 +18,13 @@ namespace StarshipWanderer.Behaviours
 
         }
 
+
+        public virtual void OnPop(IUserinterface ui, ActionStack stack, Frame frame)
+        {
+
+        }
+
+
         public virtual void OnRoundEnding(IUserinterface ui, Guid round)
         {
         }

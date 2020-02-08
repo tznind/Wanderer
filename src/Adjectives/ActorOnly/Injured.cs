@@ -77,6 +77,11 @@ namespace StarshipWanderer.Adjectives.ActorOnly
             }
         }
 
+        public void OnPop(IUserinterface ui, ActionStack stack, Frame frame)
+        {
+            
+        }
+
         public void OnRoundEnding(IUserinterface ui, Guid round)
         {
             if(InjurySystem.HasFatalInjuries(OwnerActor,out string reason))
