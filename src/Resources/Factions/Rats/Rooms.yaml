@@ -5,13 +5,21 @@
   Dialogue:
     Next: 8f6ffb26-01ab-4d0a-8083-2fff3475187d
   MandatoryActors:
-    - Name: The Rat Queen
-      OptionalAdjectives:
+    - Identifier: 92320a7c-a7d3-4abb-933c-45a4450f778e
+      Name: The Rat Queen
+      MandatoryAdjectives:
         - Type: Strong
         - Type: Tough
+        - Type: Medic
       Stats:
-        Fight: 20
+        Fight: 40
         Loyalty: 20
-        Coerce: 15
-    Dialogue: 
-      Next: 354a62e1-fcdd-40ed-8cb9-b86de09efdbe
+        Coerce: 60
+        Savvy: 60
+      Actions:
+        - FightAction()
+        - GiveAction()
+        - PickUpAction()
+        - EquipmentAction()
+      Dialogue: 
+        Next: 354a62e1-fcdd-40ed-8cb9-b86de09efdbe

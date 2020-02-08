@@ -90,7 +90,9 @@
     <Content Include="Resources\Factions\Rats\Actors.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Factions\Rats\Rooms.yaml" />
+    <Content Include="Resources\Factions\Rats\Rooms.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Factions\Security\Actors.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

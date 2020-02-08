@@ -62,23 +62,25 @@ namespace Game.UI
         }
         public void NewGame()
         {
-            var newWorld = _worldFactory.Create();
-
-            var dlg = new NewPlayerDialog(this,newWorld.Player,new AdjectiveFactory());
 
             try
             {
+                var newWorld = _worldFactory.Create();
+
+                var dlg = new NewPlayerDialog(this,newWorld.Player,new AdjectiveFactory());
+
                 Application.Run(dlg);
+
+                if(!dlg.Ok)
+                    return;
+
+                SetWorld(newWorld);
             }
             catch (Exception e)
             {
                 ShowException("Error Creating World",e);
             }
 
-            if(!dlg.Ok)
-                return;
-
-            SetWorld(newWorld);
         }
 
         private void SetWorld(IWorld newWorld)

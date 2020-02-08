@@ -50,7 +50,14 @@ namespace StarshipWanderer.Systems
                 yield break;
 
             foreach (var guid in guids)
-                yield return AllDialogues.SingleOrDefault(d => d.Identifier == guid);
+            {
+                var match = AllDialogues.Where(d => d.Identifier == guid).ToArray();
+
+                if (match.Length == 1)
+                    yield return match[0];
+                else 
+                    throw new Exception($"Could not find dialogue '{guid}'");
+            }
         }
 
         public void Run(SystemArgs args, DialogueNode node)

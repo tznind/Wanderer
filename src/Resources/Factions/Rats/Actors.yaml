@@ -12,3 +12,5 @@
     - Type: Tough
   Stats:
     Fight: 10
+  Actions:
+    - FightAction()
