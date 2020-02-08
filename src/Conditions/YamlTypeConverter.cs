@@ -99,8 +99,10 @@ namespace StarshipWanderer.Conditions
                 throw new NotSupportedException($"Not Operator '!' is only valid for IConditions");
             }
 
-            return instance;
+            if(!type.IsInstanceOfType(instance))
+                throw new Exception($"Wrong Type after deserialization.  Needed '{type}' but got '{instance.GetType()}' for code '{scalar}'");
 
+            return instance;
         }
 
         private string[] SmoothSplit(string value)

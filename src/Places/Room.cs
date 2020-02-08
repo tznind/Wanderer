@@ -37,6 +37,14 @@ namespace StarshipWanderer.Places
             set => _explicitColor = value;
         }
 
+        public override IEnumerable<IHasStats> GetAllHaves()
+        {
+            return 
+                base.GetAllHaves()
+                    .Union(Actors.Where( a=>!a.Dead))
+                    .Union(Actors.SelectMany(a=>a.GetAllHaves()));
+        }
+
         public Room(string name, IWorld world, char tile)
         {
             Name = name;

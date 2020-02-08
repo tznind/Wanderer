@@ -18,6 +18,7 @@
     Next: 1bc34e34-829c-4ce6-8c19-c43b942d1115
   MandatoryActors:
     - Name: Chef
+      Identifier: 6fa349e4-aefe-4ebc-9922-e3476ea1dba7
       OptionalAdjectives:
         - Type: Strong
         - Type: Tough

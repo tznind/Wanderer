@@ -95,5 +95,13 @@ namespace StarshipWanderer
         /// <returns></returns>
         IBehaviourCollection GetFinalBehaviours(IActor forActor);
 
+        /// <summary>
+        /// Returns all the other things that the object has
+        /// e.g.
+        /// A Room has occupants and Adjectives
+        /// An Actor has Items and Adjectives
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<IHasStats> GetAllHaves();
     }
 }

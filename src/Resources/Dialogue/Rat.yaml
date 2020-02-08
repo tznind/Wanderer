@@ -12,7 +12,6 @@
     - Text: indifferent)
       Condition: 
         - RelationshipCondition(EqualTo,0);
-
 - Identifier: 8f6ffb26-01ab-4d0a-8083-2fff3475187d
   Body: 
     - Text: "The rat queen sits here resplendent on her throne"

@@ -107,5 +107,10 @@ namespace StarshipWanderer
                    && other.BaseBehaviours.AreIdentical(BaseBehaviours)
                    && other.Adjectives.AreIdentical(Adjectives);
         }
+
+        public virtual IEnumerable<IHasStats> GetAllHaves()
+        {
+            return Adjectives;
+        }
     }
 }

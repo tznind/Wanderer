@@ -204,5 +204,16 @@ namespace StarshipWanderer.Actors
         {
             return (Dead ? "Dead ":"") + Name;
         }
+
+        public override IEnumerable<IHasStats> GetAllHaves()
+        {
+            if(Dead)
+                return new IHasStats[0];
+
+            return 
+                base.GetAllHaves()
+                    .Union(Items)
+                    .Union(Items.SelectMany(i=>i.GetAllHaves()));
+        }
     }
 }
