@@ -453,6 +453,17 @@ namespace Game.UI
                     ShowStats(_roomContentsObjects[_roomContents.SelectedItem]);
             }
 
+            if (keyEvent.Key == Key.Esc && _detail != null)
+            {
+                HideDetailPane();
+                var button = _oldButtons?.FirstOrDefault();
+                if (button != null)
+                    SetFocus(button);
+
+
+                TriggerTerminalResized();
+            }
+
             return base.ProcessColdKey(keyEvent);
         }
 
@@ -482,13 +493,19 @@ namespace Game.UI
             }
             else
             {
-                if(_detail != null)
-                    Remove(_detail);
-
-                _detail = null;
+                HideDetailPane();
             }
 
             TriggerTerminalResized();
+        }
+
+        private void HideDetailPane()
+        {
+            if(_detail != null)
+                Remove(_detail);
+
+            _detail = null;
+
         }
 
         public string Wrap(string s, int width)
