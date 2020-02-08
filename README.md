@@ -44,9 +44,9 @@ All narrative elements driven by the [yaml configuration files](./src/Resources/
 - For every blueprint a [factory](./src/Factories/ActorFactory.cs)
 - For every line of code a [Test](./Tests/Actors/YamlActorFactoryTests.cs)!
 
-Other design patterns include
+Other design patterns include:
 
-- Guids for everything object in the world (that matters)
+- Guids for everyth object in the world (that matters)
 - Everything [HasStats](./src/IHasStats.cs): an actor has stats, the room has stats, his items and the items Adjectives all [HasStats](./src/IHasStats.cs).  Yes that means the Light on the end of your Torch has the capability to talk to you (isn't that awesome?!)
 
 ## Class Diagram
