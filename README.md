@@ -35,6 +35,20 @@ cd ./Game/bin/Debug/netcoreapp3.1/win-x64/publish/
 ```
 __For linux drop the .exe extension__
 
+## Development Goals
+
+All narrative elements driven by the [yaml configuration files](./src/Resources/README.md).  This includes Adjectives, Factions, Rooms, Item slots etc.  The [UI layer is super thin](./src/IUserinterface.cs), consisting of only a handful of methods.
+
+- For every [interface](./src/Actors/IActor.cs), an [abstract](./src/Actors/Actor.cs)!
+- For every abstract a [blueprint](./src/Factories/Blueprints/ActorBlueprint.cs)
+- For every blueprint a [factory](./src/Factories/ActorFactory.cs)
+- For every line of code a [Test](./Tests/Actors/YamlActorFactoryTests.cs)!
+
+Other design patterns include
+
+- Guids for everything object in the world (that matters)
+- Everything [HasStats](./src/IHasStats.cs): an actor has stats, the room has stats, his items and the items Adjectives all [HasStats](./src/IHasStats.cs).  Yes that means the Light on the end of your Torch has the capability to talk to you (isn't that awesome?!)
+
 ## Class Diagram
 
 ![Overview of classes in game][classDiagram]
