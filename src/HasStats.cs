@@ -16,6 +16,7 @@ namespace StarshipWanderer
         private IBehaviourCollection _baseBehaviours = new BehaviourCollection();
         private IActionCollection _baseActions = new ActionCollection();
         public Guid? Identifier { get; set; }
+        public bool Unique { get; set; }
         public string Name { get; set; }
         public DialogueInitiation Dialogue { get; set; } = new DialogueInitiation();
 

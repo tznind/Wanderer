@@ -1,4 +1,5 @@
 ﻿using System;
+using StarshipWanderer.Actions;
 using StarshipWanderer.Adjectives;
 using StarshipWanderer.Dialogues;
 using StarshipWanderer.Stats;
@@ -11,6 +12,11 @@ namespace StarshipWanderer.Factories.Blueprints
         /// Uniquely identifies instances created from this blueprint
         /// </summary>
         public Guid? Identifier { get; set; }
+        
+        /// <summary>
+        /// True to only ever generate one of this thing
+        /// </summary>
+        public bool Unique { get; set; }
 
         /// <summary>
         /// Black=0
@@ -61,5 +67,11 @@ namespace StarshipWanderer.Factories.Blueprints
         /// The BaseStats to give the object
         /// </summary>
         public StatsCollection Stats { get; set; } = new StatsCollection();
+
+        /// <summary>
+        /// Option, if specified this list becomes the actions of the object
+        /// replacing any existing actions they might otherwise get)
+        /// </summary>
+        public ActionCollection Actions { get; set; } = new ActionCollection();
     }
 }

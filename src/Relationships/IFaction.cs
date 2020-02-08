@@ -18,5 +18,10 @@ namespace StarshipWanderer.Relationships
         /// Create actors that fit thematically with this faction
         /// </summary>
         IActorFactory ActorFactory { get; set; }
+
+        /// <summary>
+        /// Creates rooms that fit thematically with this faction
+        /// </summary>
+        IRoomFactory RoomFactory { get; set; }
     }
 }

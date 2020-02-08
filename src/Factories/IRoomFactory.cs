@@ -8,5 +8,7 @@ namespace StarshipWanderer.Factories
         IPlace Create(IWorld world);
 
         RoomBlueprint[] Blueprints { get; set; }
+
+        bool Spawnable(HasStatsBlueprint b);
     }
 }

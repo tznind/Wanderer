@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using StarshipWanderer.Actions;
+using StarshipWanderer.Compilation;
 using StarshipWanderer.Conditions;
 using StarshipWanderer.Dialogues;
 using StarshipWanderer.Factories.Blueprints;
@@ -16,12 +18,7 @@ namespace StarshipWanderer.Factories
 
         public YamlItemFactory(string yaml, IAdjectiveFactory adjectiveFactory):base(adjectiveFactory)
         {
-            var deserializer = 
-                new DeserializerBuilder()
-                    .WithTypeConverter(new YamlTypeConverter<ICondition>())
-                    .Build();
-
-            Blueprints = deserializer.Deserialize<ItemBlueprint[]>(yaml);
+            Blueprints = Compiler.Instance.Deserializer.Deserialize<ItemBlueprint[]>(yaml);
         }
     }
 }
