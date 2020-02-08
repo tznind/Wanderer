@@ -20,6 +20,11 @@ namespace StarshipWanderer
         Guid? Identifier { get; set; }
 
         /// <summary>
+        /// True to only ever generate one of this thing
+        /// </summary>
+        public bool Unique { get; set; }
+
+        /// <summary>
         /// Human readable name 
         /// </summary>
         string Name { get; set; }

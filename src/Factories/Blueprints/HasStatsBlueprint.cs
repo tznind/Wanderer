@@ -11,6 +11,11 @@ namespace StarshipWanderer.Factories.Blueprints
         /// Uniquely identifies instances created from this blueprint
         /// </summary>
         public Guid? Identifier { get; set; }
+        
+        /// <summary>
+        /// True to only ever generate one of this thing
+        /// </summary>
+        public bool Unique { get; set; }
 
         /// <summary>
         /// Black=0

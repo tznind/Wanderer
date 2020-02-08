@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using StarshipWanderer.Extensions;
 using StarshipWanderer.Factories.Blueprints;
 using StarshipWanderer.Places;
@@ -21,7 +23,7 @@ namespace StarshipWanderer.Factories
 
         public IPlace Create(IWorld world)
         {
-            return Create(world,Blueprints.GetRandom(world.R));
+            return Create(world,Blueprints.Where(Spawnable).ToArray().GetRandom(world.R));
         }
 
         public IPlace Create(IWorld world, RoomBlueprint blueprint)

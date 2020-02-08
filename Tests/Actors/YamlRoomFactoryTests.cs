@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using StarshipWanderer;
@@ -7,6 +8,7 @@ using StarshipWanderer.Actors;
 using StarshipWanderer.Dialogues;
 using StarshipWanderer.Factories;
 using StarshipWanderer.Factories.Blueprints;
+using StarshipWanderer.Places;
 using StarshipWanderer.Relationships;
 
 namespace Tests.Actors
@@ -103,7 +105,30 @@ namespace Tests.Actors
             //if the room has no set color and it is owned by the faction it should inherit the faction color
             Assert.AreEqual(explicitRoomColor ? 2 :3,room.Color);
         }
+        
+        [Test]
+        public void Test_UniqueRooms()
+        {
+            var g = new Guid("1f0eb057-edac-4eaa-b61b-778b75463cb9");
 
+            var yaml =
+                @"
+- Identifier: 1f0eb057-edac-4eaa-b61b-778b75463cb9
+  Name: BossRoom
+  Unique: true
+- Name: RegularRoom
 
+";
+            var room =  new YamlRoomFactory(yaml, new AdjectiveFactory());
+
+            var w = new World();
+
+            var rooms = new List<IPlace>();
+            for (int i = 0; i < 100; i++) 
+                rooms.Add(room.Create(w));
+
+            Assert.AreEqual(99,rooms.Count(r=>r.Name.Equals("RegularRoom")));
+            Assert.AreEqual(1,rooms.Count(r=>r.Name.Equals("BossRoom")));
+        }
     }
 }

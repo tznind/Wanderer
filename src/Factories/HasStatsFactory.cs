@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Adjectives;
@@ -10,6 +11,7 @@ namespace StarshipWanderer.Factories
     public abstract class HasStatsFactory<T> where T : IHasStats
     {
         public IAdjectiveFactory AdjectiveFactory { get; set; }
+        public HashSet<Guid> UniquesSpawned = new HashSet<Guid>();
 
         protected HasStatsFactory(IAdjectiveFactory adjectiveFactory)
         {
@@ -27,6 +29,14 @@ namespace StarshipWanderer.Factories
         }
 
 
+        public bool Spawnable(HasStatsBlueprint b)
+        {
+            if (!b.Unique)
+                return true;
+
+            return !UniquesSpawned.Contains(b.Identifier ?? Guid.Empty);
+        }
+
         /// <summary>
         /// Copies the basic properties shared by all <see cref="HasStatsBlueprint"/> onto the target (<paramref name="onto"/>)
         /// </summary>
@@ -36,7 +46,11 @@ namespace StarshipWanderer.Factories
         /// <param name="defaultDialogueVerb">What do you do to initiate dialogue with this T, e.g. talk, read, look around etc</param>
         protected virtual void AddBasicProperties(T onto, HasStatsBlueprint blueprint,IWorld world, string defaultDialogueVerb)
         {
+            if (blueprint.Unique)
+                UniquesSpawned.Add(blueprint.Identifier ?? Guid.Empty);
+
             onto.Color = blueprint.Color;
+            onto.Unique = blueprint.Unique;
 
             if (blueprint.Identifier.HasValue)
                 onto.Identifier = blueprint.Identifier;
