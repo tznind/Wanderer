@@ -47,7 +47,7 @@ namespace StarshipWanderer
         /// Yellow=14
         /// White=15
         /// </summary>
-        int Color { get; set; }
+        ConsoleColor Color { get; set; }
 
         /// <summary>
         /// What the thing does when you try to interact with it in a narrative manner e.g. talk, read

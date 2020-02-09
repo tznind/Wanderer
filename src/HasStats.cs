@@ -20,12 +20,12 @@ namespace StarshipWanderer
         public string Name { get; set; }
         public DialogueInitiation Dialogue { get; set; } = new DialogueInitiation();
 
-        public virtual int Color { get; set; } = DefaultColor;
+        public virtual ConsoleColor Color { get; set; } = DefaultColor;
 
         /// <summary>
         /// Default Color (white)
         /// </summary>
-        public const int DefaultColor = 15;
+        public const ConsoleColor DefaultColor = ConsoleColor.White;
 
         public IAdjectiveCollection Adjectives
         {

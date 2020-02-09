@@ -117,16 +117,16 @@ namespace Tests.Actors
             var you = YouInARoom(out IWorld _);
 
             if (explicitColor)
-                you.Color = 4;
+                you.Color = ConsoleColor.DarkGray;
 
             var f = new Faction("gangers", FactionRole.Civilian)
             {
-                Color = 2
+                Color = ConsoleColor.Cyan
             };
 
             you.FactionMembership.Add(f);
 
-            Assert.AreEqual(explicitColor ? 4 : 2,you.Color);
+            Assert.AreEqual(explicitColor ? ConsoleColor.DarkGray : ConsoleColor.Cyan,you.Color);
         }
     }
 }

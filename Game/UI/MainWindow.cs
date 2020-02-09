@@ -10,6 +10,7 @@ using StarshipWanderer;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Factories;
 using Terminal.Gui;
+using Attribute = Terminal.Gui.Attribute;
 
 namespace Game.UI
 {
@@ -338,23 +339,23 @@ namespace Game.UI
                 var toCentreX = -mapWidth / 2;
                 var toCentreY = -mapHeight / 2;
 
-
-                for (int x = 0; x < mapWidth; x++)
+                
+                for (int y = 0; y < mapHeight; y++)
                 {
-                    for (int y = 0; y < mapHeight; y++)
-                    {
-                        Driver.Move(x+2,mapHeight - (y-1));
+                    Driver.Move(2,mapHeight - (y-1));
 
+                    for (int x = 0; x < mapWidth; x++)
+                    {
                         var pointToRender = new Point3(x + toCentreX, y +toCentreY, 0).Offset(home);
 
                         if (World.Map.ContainsKey(pointToRender) && World.Map[pointToRender].IsExplored)
                         {
-                            Driver.SetAttribute(World.Map[pointToRender].Color);
+                            var att = Attribute.Make((Color) World.Map[pointToRender].Color, (Color) ConsoleColor.Black);
+                            Driver.SetAttribute(att);
                             Driver.AddRune(World.Map[pointToRender].Tile);
                         }
                         else
                         {
-                            
                             Driver.SetAttribute((int)Color.Black);
                             Driver.AddRune(' ');
                         }

@@ -36,7 +36,7 @@ namespace StarshipWanderer.Factories.Blueprints
         /// Yellow=14
         /// White=15
         /// </summary>
-        public int Color { get; set; } = 15;
+        public ConsoleColor Color { get; set; } = ConsoleColor.White;
 
         /// <summary>
         /// Explicit name for this e.g. Centipede otherwise leave null to generate

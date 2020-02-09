@@ -73,7 +73,7 @@ namespace Tests.Actors
                 new Faction("Techno Wizards",FactionRole.Establishment)
                 {
                     Identifier = new Guid("bb70f169-e0f7-40e8-927b-1c181eb8740b"),
-                    Color = 3,
+                    Color = ConsoleColor.Cyan,
                     ActorFactory = new ActorFactory(new ItemFactory(adj),adj)
                     {
                         Blueprints = new []
@@ -103,7 +103,7 @@ namespace Tests.Actors
             Assert.IsTrue(room.Actors.All(a=>a.Name.Equals("Sandman")));
 
             //if the room has no set color and it is owned by the faction it should inherit the faction color
-            Assert.AreEqual(explicitRoomColor ? 2 :3,room.Color);
+            Assert.AreEqual(explicitRoomColor ? ConsoleColor.DarkGreen : ConsoleColor.Cyan ,room.Color);
         }
         
         [Test]

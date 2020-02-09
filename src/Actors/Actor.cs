@@ -26,9 +26,9 @@ namespace StarshipWanderer.Actors
 
         public SlotCollection AvailableSlots { get; set; } = new SlotCollection();
         
-        private int _explicitColor = DefaultColor;
+        private ConsoleColor _explicitColor = DefaultColor;
 
-        public override int Color
+        public override ConsoleColor Color
         {
             //use the faction color unless we have an explicit room color set
             get =>
