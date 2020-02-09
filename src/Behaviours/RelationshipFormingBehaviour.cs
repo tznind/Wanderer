@@ -15,7 +15,7 @@ namespace StarshipWanderer.Behaviours
 
         public override void OnPop(IUserinterface ui, ActionStack stack, Frame frame)
         {
-            base.OnPush(ui, stack, frame);
+            base.OnPop(ui, stack, frame);
 
             var world = frame.PerformedBy.CurrentLocation.World;
             

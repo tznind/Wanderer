@@ -10,6 +10,12 @@ namespace StarshipWanderer.Systems
     {
 
         
+        /// <summary>
+        /// How much an attitude change effects inter faction relationships.  e.g.
+        /// If you attack someone they hate you for 15 but any factions also hate your
+        /// faction(s) for 1.5.  This value is a multiplier and should normally be between
+        ///  0 and 1
+        /// </summary>
         double factionFraction = 0.1;
 
         public void Apply(SystemArgs args)
@@ -47,7 +53,7 @@ namespace StarshipWanderer.Systems
 
                 //then you need to be angry about that! (or happy)
                 var existingRelationship = world.Relationships.OfType<PersonalRelationship>()
-                    .SingleOrDefault(r => r.AppliesTo(actorRecipient, args.AggressorIfAny));
+                    .FirstOrDefault(r => r.AppliesTo(actorRecipient, args.AggressorIfAny));
 
                 if (existingRelationship != null)
                     existingRelationship.Attitude += args.Intensity;
@@ -66,7 +72,7 @@ namespace StarshipWanderer.Systems
                     foreach(var aggressing in args.AggressorIfAny.FactionMembership)
                     {
                         var existingRelationship = world.Relationships.OfType<InterFactionRelationship>()
-                            .SingleOrDefault(r => r.HostFaction == receiving && r.ObservedFaction == aggressing);
+                            .FirstOrDefault(r => r.HostFaction == receiving && r.ObservedFaction == aggressing);
 
 
                         if (existingRelationship != null)
