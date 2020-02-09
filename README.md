@@ -11,7 +11,8 @@ The goal of this project is to create a game in which you wander a city sized st
 
 Imagine pulling a grenade pin and persuading an npc to pick it up only for him to give it back to you on his round.  Or an opportunistic Worker picking up a dropped item from a killed guard:
 
-![Screenshot of gameplay][screenshot]
+![Screenshot of gameplay showing map][screenshot1]
+![Screenshot of gameplay showing narrative][screenshot2]
 
 You can [download the compiled binaries in the Releases Section](https://github.com/tznind/StarshipWanderer/releases) for both windows and linux console.
 
@@ -54,4 +55,5 @@ Other design patterns include:
 ![Overview of classes in game][classDiagram]
 
 [classDiagram]: ./src/Overview.cd.png
-[screenshot]: ./src/Screenshot.png
+[screenshot1]: ./src/Screen1.png
+[screenshot2]: ./src/Screen2.png
