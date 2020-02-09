@@ -53,7 +53,8 @@ namespace Game.UI
                 }),
                 new MenuBarItem("_View",new MenuItem[]{
                     new MenuItem ("_Log", null, ViewLog),
-                    new MenuItem ("_Character", null, () => { ShowStats(World?.Player); })
+                    new MenuItem ("_Character", null, () => { ShowStats(World?.Player); }),
+                    new MenuItem ("_Factions", null, () => { ShowFactions(World); })
                 })
             });
             top.Add (menu);
@@ -61,6 +62,21 @@ namespace Game.UI
             _splash = new SplashScreen(){X = 4,Y=4};
             Add(_splash);
         }
+
+        private void ShowFactions(IWorld world)
+        {
+            if (world == null)
+            {
+                ShowMessage("No World","No game is currently loaded");
+                return;
+            }
+
+            var v = new FactionsView();
+            v.InitializeComponent(world,DlgWidth,DlgHeight);
+            var dlg = new ModalDialog(this,"Factions",v);
+            Application.Run(dlg);
+        }
+
         public void NewGame()
         {
 
@@ -255,7 +271,9 @@ namespace Game.UI
                 return;
             }
 
-            var dlg = new HasStatsDialog(this,of as IActor ?? World.Player,of);
+            var v = new HasStatsView();
+            v.InitializeComponent(of as IActor ?? World.Player,of,DlgWidth,DlgHeight);
+            var dlg = new ModalDialog(this,of.Name,v);
             Application.Run(dlg);
         }
 

@@ -18,5 +18,9 @@ namespace StarshipWanderer.Relationships
             return observer.FactionMembership.Contains(HostFaction) && !observed.FactionMembership.Contains(HostFaction);
         }
 
+        public override bool AppliesTo(IFaction other)
+        {
+            return other != HostFaction;
+        }
     }
 }

@@ -21,6 +21,8 @@ namespace StarshipWanderer.Relationships
 
         public abstract bool AppliesTo(IActor observer, IActor observed);
 
+        public abstract bool AppliesTo(IFaction other);
+
         protected FactionRelationship(IFaction hostFaction,double attitude)
         {
             HostFaction = hostFaction;
