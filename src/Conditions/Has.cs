@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Newtonsoft.Json;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives;
 using StarshipWanderer.Items;
@@ -11,7 +12,8 @@ namespace StarshipWanderer.Conditions
     {
         public Guid? Guid { get; set; }
 
-        public Has()
+        [JsonConstructor]
+        protected Has()
         {
 
         }

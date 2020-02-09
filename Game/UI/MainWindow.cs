@@ -312,6 +312,7 @@ namespace Game.UI
 
         readonly List<Tuple<Pos,Pos>> _buttonLocations = new List<Tuple<Pos, Pos>>()
         {
+            //TODO: this should expand infinitely (with optional scroll view)
             Tuple.Create(Pos.At(0),Pos.Percent(100)-4),
             Tuple.Create(Pos.At(0),Pos.Percent(100)-3),
             Tuple.Create(Pos.At(0),Pos.Percent(100)-2),

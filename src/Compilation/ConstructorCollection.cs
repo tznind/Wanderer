@@ -9,7 +9,7 @@ using YamlDotNet.Core;
 
 namespace StarshipWanderer.Compilation
 {
-    class ConstructorCollection : List<ConstructorInfo>
+    public class ConstructorCollection : List<ConstructorInfo>
     {
         public Type Type { get; }
 
