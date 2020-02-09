@@ -490,6 +490,9 @@ namespace Game.UI
 
         private void UpdateDetailPane()
         {
+            if(_roomContents == null)
+                return;
+
             var selected = _roomContents.SelectedItem;
             
             if(_detail != null)
