@@ -6,6 +6,11 @@ namespace StarshipWanderer.Factories.Blueprints
     public class RoomBlueprint : HasStatsBlueprint
     {
         /// <summary>
+        /// True to make this room the first room to spawn in the world.
+        /// </summary>
+        public bool StartingRoom { get; set; } = false;
+
+        /// <summary>
         /// Null if the room thematically fits any faction, otherwise the <see cref="IFaction.Identifier"/>
         /// </summary>
         public Guid? Faction { get; set; }

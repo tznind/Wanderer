@@ -369,7 +369,11 @@ namespace Game.UI
 
                         if (World.Map.ContainsKey(pointToRender) && World.Map[pointToRender].IsExplored)
                         {
-                            var att = Attribute.Make((Color) World.Map[pointToRender].Color, (Color) ConsoleColor.Black);
+                            var att = 
+                                Equals(pointToRender, home) 
+                                      //flip the colors where you are
+                                    ? Attribute.Make((Color) ConsoleColor.Black,(Color) World.Map[pointToRender].Color)
+                                    :Attribute.Make((Color) World.Map[pointToRender].Color, (Color) ConsoleColor.Black);
                             Driver.SetAttribute(att);
                             Driver.AddRune(World.Map[pointToRender].Tile);
                         }

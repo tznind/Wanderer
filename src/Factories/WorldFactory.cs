@@ -111,6 +111,11 @@ namespace StarshipWanderer.Factories
         }
         protected virtual IPlace GetStartingRoom(IRoomFactory roomFactory, World world)
         {
+            var blue = roomFactory.Blueprints.FirstOrDefault(b => b.StartingRoom);
+
+            if (blue != null)
+                return roomFactory.Create(world, blue);
+
             return roomFactory.Create(world);
         }
         protected virtual You GetPlayer(IPlace startingRoom)
