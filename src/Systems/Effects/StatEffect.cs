@@ -5,7 +5,7 @@ using StarshipWanderer.Systems;
 
 namespace StarshipWanderer.Effects
 {
-    class StatEffect<T> : IEffect<IHasStats>
+    public class StatEffect<T> : IEffect<IHasStats>
     {
         public Stat Stat { get; }
         public double Bonus { get; }
@@ -34,7 +34,7 @@ namespace StarshipWanderer.Effects
 
         public string? SerializeAsConstructorCall()
         {
-            return $"StatEffect({Stat},{Bonus})";
+            return $"StatEffect<{typeof(T).Name}>({Stat},{Bonus})";
         }
     }
 }

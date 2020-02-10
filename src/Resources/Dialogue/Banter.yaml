@@ -105,7 +105,8 @@
     - Text: I'm gonna turn this ship into a Graveyard
       Effect: 
         - AggressorIfAny.StatEffect<IActor>(Fight,20)
+        - Recipient.SetNextDialogue<IActor>(null)
     - Text: One day this ship and everyone in it will be mine
       Effect: 
         - AggressorIfAny.StatEffect<IActor>(Savvy,20)
-
+        - Recipient.SetNextDialogue<IActor>(null)

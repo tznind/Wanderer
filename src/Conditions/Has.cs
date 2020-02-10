@@ -18,21 +18,9 @@ namespace StarshipWanderer.Conditions
 
         }
 
-        public Has(object o)
+        public Has(Guid g)
         {
-            if (o is string s && System.Guid.TryParse(s, out Guid g))
-            {
-                Guid = g;
-                return;
-            }
-
-            if (o is Guid g2)
-            {
-                Guid = g2;
-                return;
-            }
-
-            throw new ArgumentException($"Did not recognize Has argument '{o}'");
+            Guid = g;
         }
 
         public bool IsMet(IHasStats forTarget)

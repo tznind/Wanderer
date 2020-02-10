@@ -19,8 +19,13 @@ namespace StarshipWanderer.Compilation
             var p = c.GetParameters();
             var o = new object[p.Length];
 
-            for (int i = 0; i < p.Length; i++) 
-                o[i] = untypedParameters[i].To(p[i].ParameterType);
+            for (int i = 0; i < p.Length; i++)
+            {
+                if (string.Equals(untypedParameters[i], "null"))
+                    o[i] = null;
+                else
+                    o[i] = untypedParameters[i].To(p[i].ParameterType);
+            }
 
             return c.Invoke(o);
         }
