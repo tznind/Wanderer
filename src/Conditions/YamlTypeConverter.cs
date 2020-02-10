@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using StarshipWanderer.Compilation;
+using StarshipWanderer.Effects;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
@@ -67,19 +68,22 @@ namespace StarshipWanderer.Conditions
             //then we need to follow the property chain
             if (typeName.Contains('.'))
             {
-                if(typeof(T) != typeof(ICondition))
-                    throw new NotSupportedException("PropertyChains are currently only supported for IConditions");
-                
                 if(type.GenericTypeArguments.Length != 1)
-                    throw new NotSupportedException($"Expected a fully hydrated ICondition with a known T Type but was '{type}'");
+                    throw new NotSupportedException($"Expected a fully hydrated interface with a known T Type but was '{type}'");
 
                 var lastDot = typeName.LastIndexOf('.');
 
                 chain = new PropertyChain(typeName.Substring(0,lastDot));
                 typeName = typeName.Substring(lastDot + 1);
-                
-                adapterType = typeof(PropertyChainToConditionAdapter<>)
-                    .MakeGenericType(type.GenericTypeArguments);
+
+                if(typeof(T) == typeof(ICondition))
+                    adapterType = typeof(PropertyChainToConditionAdapter<>)
+                        .MakeGenericType(type.GenericTypeArguments);   
+                else if(typeof(T) == typeof(IEffect))
+                    adapterType = typeof(PropertyChainToEffectAdapter<>)
+                        .MakeGenericType(type.GenericTypeArguments);
+                else
+                    throw new NotSupportedException("PropertyChains are currently only supported for IConditions and IEffects");
             }
 
             var constructor = new ConstructorCollection(_classesOfTypeT, typeName, generics);

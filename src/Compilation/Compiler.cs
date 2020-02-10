@@ -1,5 +1,6 @@
 ﻿using StarshipWanderer.Actions;
 using StarshipWanderer.Conditions;
+using StarshipWanderer.Effects;
 using YamlDotNet.Serialization;
 
 namespace StarshipWanderer.Compilation
@@ -27,6 +28,7 @@ namespace StarshipWanderer.Compilation
             new DeserializerBuilder()
                 .WithTypeConverter(new YamlTypeConverter<ICondition>())
                 .WithTypeConverter(new YamlTypeConverter<IAction>())
+                .WithTypeConverter(new YamlTypeConverter<IEffect>())
                 .Build();
 
         private Compiler()

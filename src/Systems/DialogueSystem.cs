@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Compilation;
 using StarshipWanderer.Dialogues;
+using StarshipWanderer.Effects;
 using StarshipWanderer.Extensions;
 
 namespace StarshipWanderer.Systems
@@ -109,6 +110,10 @@ namespace StarshipWanderer.Systems
                 var w = args.AggressorIfAny.CurrentLocation.World;
                 w.Relationships.Apply(new SystemArgs(args.UserInterface,option.Attitude.Value,args.AggressorIfAny,args.Recipient,args.Round));
             }
+
+            //apply effects of the dialogue choice
+            foreach (IEffect<SystemArgs> effect in option.Effect) 
+                effect.Apply(args);
 
             var d = GetDialogue(option.Destination);
 

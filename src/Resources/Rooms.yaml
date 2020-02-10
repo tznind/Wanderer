@@ -10,7 +10,10 @@
   Faction: e6edabf6-9ae9-40e8-aa51-772616e7f1ff
   Dialogue:
     Next: 335770f7-48b5-4465-b133-df87934404bc
-    
+  MandatoryActors:
+    - Name: Hooded Figure
+      Dialogue:
+        Next: a25c08a2-c4a6-4c6a-a6ee-c11744938349
 - Name: Machine room
   Tile: m
   Dialogue:
