@@ -103,5 +103,14 @@ namespace StarshipWanderer
         /// </summary>
         /// <returns></returns>
         IEnumerable<IHasStats> GetAllHaves();
+
+
+        /// <summary>
+        /// Returns true if the object or a child of it's has the uniquely identified
+        /// other object (with <see cref="Identifier"/> equal to <paramref name="g"/>)
+        /// </summary>
+        /// <param name="g"></param>
+        /// <returns></returns>
+        bool Has(Guid? g);
     }
 }

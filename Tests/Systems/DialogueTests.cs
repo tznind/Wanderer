@@ -73,9 +73,9 @@ namespace Tests.Systems
             {
                 Identifier = new Guid("4abbc8e5-880c-44d3-ba0e-a9f13a0522d0"),
                 Body = new TextBlock[]{new TextBlock("Hello Friend") },
-                Require = new List<ICondition<SystemArgs>>()
+                Require = new List<ICondition>()
                 {
-                    new RelationshipCondition(Comparison.GreaterThanOrEqual,5)
+                    new Code("((IActor)Recipient).AttitudeTo(AggressorIfAny) > 5")
                 }
 
             };
@@ -83,9 +83,9 @@ namespace Tests.Systems
             {
                 Identifier = new Guid("00d77067-da1c-4c34-96ee-8a74353e4839"),
                 Body = new TextBlock[]{new TextBlock("Hello Foe") },
-                Require = new List<ICondition<SystemArgs>>()
+                Require = new List<ICondition>()
                 {
-                    new RelationshipCondition(Comparison.LessThan,-4)
+                    new Code("((IActor)Recipient).AttitudeTo(AggressorIfAny) < -4")
                 }
             };
 
@@ -139,13 +139,13 @@ namespace Tests.Systems
   Body: 
     - Text: Screeeee (this creature seems friendly)
       Condition: 
-        - RelationshipCondition(GreaterThan,0)
+        - Relationship > 0
     - Text: Screeeee (this creature seems hostile)
       Condition: 
-        - RelationshipCondition(LessThan,0)
+        - Relationship < 0
     - Text: Screeeee (this creature seems indifferent)
       Condition: 
-        - RelationshipCondition(EqualTo,0)";
+        - Relationship == 0";
             
             var dlg = new YamlDialogueSystem(yaml);
 
@@ -167,10 +167,10 @@ namespace Tests.Systems
     - Text: This room is
     - Text: Pitch Black
       Condition: 
-        - ""!Place.Has<Light>(false)""
+        - ""!Place.Has<Light>()""
     - Text: Dimly Illuminated
       Condition: 
-        - Place.Has<Light>(false)";
+        - Place.Has<Light>()";
 
             var system = new YamlDialogueSystem(yaml);
             Assert.IsNotNull(system);
@@ -203,10 +203,10 @@ namespace Tests.Systems
     - Text: The denizens of this degenerate bar 
     - Text: make you nervous
       Condition: 
-        - ""!AggressorIfAny.StatCondition<IActor>(Corruption,GreaterThan,5)""
+        - ""!(AggressorIfAny.GetFinalStats()[Stat.Corruption] > 5)""
     - Text: seem like your kind of people
       Condition: 
-        - AggressorIfAny.StatCondition<IActor>(Corruption,GreaterThan,5)";
+        - AggressorIfAny.GetFinalStats()[Stat.Corruption] > 5";
 
             var system = new YamlDialogueSystem(yaml);
             Assert.IsNotNull(system);

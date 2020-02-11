@@ -11,7 +11,7 @@ namespace StarshipWanderer.Dialogues
 
         public TextBlock[] Body { get; set; }
 
-        public List<ICondition<SystemArgs>> Require { get; set; } = new List<ICondition<SystemArgs>>();
+        public List<ICondition> Require { get; set; } = new List<ICondition>();
 
         public List<DialogueOption> Options = new List<DialogueOption>();
     }

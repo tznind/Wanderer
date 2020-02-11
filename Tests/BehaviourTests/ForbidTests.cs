@@ -15,7 +15,7 @@ namespace Tests.BehaviourTests
         {
             TwoInARoom(out _, out IActor them, out IWorld w);
 
-            them.BaseBehaviours.Add(new ForbidBehaviour<LeaveAction>(new LeaveDirectionCondition(Direction.South), them));
+            them.BaseBehaviours.Add(new ForbidBehaviour<LeaveAction>(new Code("Direction == StarshipWanderer.Direction.South"), them));
             var behaviour = them.GetFinalBehaviours().OfType<ForbidBehaviour<LeaveAction>>().Single();
             
             //we don't forbid going north

@@ -90,7 +90,7 @@ Chest: 1
     Tail: 1
     Legs: 6
   Actions:
-    - FightAction()
+    - FightAction
 ";
             var room = InARoom(out IWorld w);
             var actorFactory = new YamlActorFactory(yaml,null, new ItemFactory(new AdjectiveFactory()), new AdjectiveFactory());

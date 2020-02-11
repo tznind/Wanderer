@@ -22,4 +22,8 @@
     <ProjectReference Include="..\src\StarshipWanderer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DialoguesTests\" />
+  </ItemGroup>
+
 </Project>

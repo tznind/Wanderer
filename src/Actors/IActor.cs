@@ -124,5 +124,14 @@ namespace StarshipWanderer.Actors
         /// <param name="reason">Reason that you cannot equip it</param>
         /// <returns></returns>
         bool CanEquip(IItem item, out string reason);
+        
+        /// <summary>
+        /// Returns this actors perception of <paramref name="other"/> (bear in mind you
+        /// might like them but they might hate you back)
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        double AttitudeTo(IActor other);
+
     }
 }

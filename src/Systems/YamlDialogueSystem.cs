@@ -25,14 +25,5 @@ namespace StarshipWanderer.Systems
                     }
                 }
         }
-
-        public string Serialize()
-        {
-            var serializer = new SerializerBuilder()
-                .WithTypeConverter(new YamlTypeConverter<ICondition>())
-                .Build();
-
-            return serializer.Serialize(this.AllDialogues);
-        }
     }
 }

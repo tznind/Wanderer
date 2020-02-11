@@ -12,12 +12,6 @@ namespace Tests.ConditionTests
     public class NeverConditionTests
     {
         [Test]
-        public void TestNever_IsMet_False()
-        {
-            var c = new NeverCondition<IActor>();
-            Assert.IsFalse(c.IsMet(Mock.Of<IActor>()));
-        }
-        [Test]
         public void Test_NeverCondition_WithExpiry()
         {
             var yaml = 
@@ -26,7 +20,7 @@ namespace Tests.ConditionTests
   Stats:
     Savvy: 10
   Require:
-    - NeverCondition<IActor>()";  //<- sunglasses are about to be in fashion but not yet
+    - false";  //<- sunglasses are about to be in fashion but not yet
 
             
             var itemFactory = new YamlItemFactory(yaml,new AdjectiveFactory());

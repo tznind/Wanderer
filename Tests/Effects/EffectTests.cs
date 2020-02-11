@@ -27,7 +27,7 @@ Body:
 Options:   
     - Text: Yes Please!
       Effect: 
-        - AggressorIfAny.StatEffect<IActor>(Fight,20)
+        - AggressorIfAny.BaseStats[Stat.Fight] += 20
 ";
             var n = Compiler.Instance.Deserializer.Deserialize<DialogueNode>(yaml);
 
@@ -59,7 +59,7 @@ Body:
 Options:   
     - Text: Hey yourself
       Effect: 
-        - Recipient.SetNextDialogue<IActor>({(setNull ? "null":Guid.NewGuid().ToString())})
+        - Recipient.Dialogue.Next = {(setNull ? "null": "new Guid(\"" + Guid.NewGuid() + "\")")}
 ";
             var n = Compiler.Instance.Deserializer.Deserialize<DialogueNode>(yaml);
 

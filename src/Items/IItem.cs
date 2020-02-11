@@ -32,7 +32,7 @@ namespace StarshipWanderer.Items
         /// Conditions the wielder must meet before being able to interact with
         /// this object
         /// </summary>
-        List<ICondition<IActor>> Require { get; set; }
+        List<ICondition> Require { get; set; }
 
         /// <summary>
         /// Returns true if the item requirements are met.  This includes all

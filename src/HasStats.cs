@@ -112,5 +112,14 @@ namespace StarshipWanderer
         {
             return Adjectives;
         }
+        public bool Has(Guid? g)
+        {
+            if (g.HasValue)
+                return 
+                    Identifier == g ||
+                    GetAllHaves().Any(a => a.Identifier == g);
+
+            return false;
+        }
     }
 }

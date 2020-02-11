@@ -112,7 +112,7 @@ namespace StarshipWanderer.Systems
             }
 
             //apply effects of the dialogue choice
-            foreach (IEffect<SystemArgs> effect in option.Effect) 
+            foreach (IEffect effect in option.Effect) 
                 effect.Apply(args);
 
             var d = GetDialogue(option.Destination);

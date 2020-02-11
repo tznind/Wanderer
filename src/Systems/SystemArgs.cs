@@ -62,5 +62,16 @@ namespace StarshipWanderer.Systems
                 return place ?? Recipient as IPlace;
             }
         }
+
+        /// <summary>
+        /// Returns the relationship as the <see cref="Recipient"/> observes the
+        /// <see cref="AggressorIfAny"/> (if both are <see cref="IActor"/> - otherwise
+        /// 0)
+        /// </summary>
+        public double Relationship =>
+            AggressorIfAny != null && Recipient is IActor r
+                ?
+                AggressorIfAny.CurrentLocation.World.Relationships.SumBetween(r,AggressorIfAny)
+                : 0;
     }
 }

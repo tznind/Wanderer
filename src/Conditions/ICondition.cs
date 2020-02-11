@@ -1,23 +1,61 @@
-﻿using StarshipWanderer.Systems;
+﻿using Microsoft.CodeAnalysis.CSharp.Scripting;
+using Microsoft.CodeAnalysis.Scripting;
+using Newtonsoft.Json;
+using StarshipWanderer.Effects;
+using StarshipWanderer.Systems;
 
 namespace StarshipWanderer.Conditions
 {
-    public interface ICondition<in T> : ICondition
-    {
-        bool IsMet(T forTarget);
-    }
-
     public interface ICondition
     {
-        /// <summary>
-        /// Return the constructor call that would be used to create new instances
-        /// of this class e.g. MyClass(5,3).  This is the yaml the user would type
-        /// to create this parameterized condition (and so may allow you to drop
-        /// off suffixes e.g. CheckSomething(1) for an ICondition called CheckSomethingCondition
-        /// </summary>
-        /// <returns></returns>
-        string? SerializeAsConstructorCall();
+        string CsharpCode { get; set; }
+        
+        bool IsMet(object o);
     }
+    
+    public class Code : ICondition, IEffect
+    {
+        public string CsharpCode { get; set; }
 
- 
+        
+        [JsonConstructor]
+        public Code()
+        {
+            
+        }
+
+        public Code(string csharpCode)
+        {
+            CsharpCode = csharpCode;
+        }
+
+        public bool IsMet(object forObject)
+        {
+            return CSharpScript.EvaluateAsync<bool>(CsharpCode, 
+                GetScriptOptions()
+                , forObject).Result;
+        }
+
+        private ScriptOptions GetScriptOptions()
+        {
+            return ScriptOptions.Default
+                .WithReferences(typeof(ICondition).Assembly)
+                .WithImports(
+                    "StarshipWanderer.Stats", 
+                    "System",
+                    "StarshipWanderer.Actors",
+                    "StarshipWanderer.Adjectives");
+        }
+
+
+        public void Apply(SystemArgs args)
+        {
+            CSharpScript.EvaluateAsync(CsharpCode, GetScriptOptions(), args).Wait(); 
+        }
+
+        public override string ToString()
+        {
+            return CsharpCode ;
+        }
+    }
 }

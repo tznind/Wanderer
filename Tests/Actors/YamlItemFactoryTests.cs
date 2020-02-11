@@ -74,7 +74,7 @@ namespace Tests.Actors
   Dialogue: 
     Next: e088ff6e-60de-4a59-a9d8-b9406a2aed7c
   Require: 
-    - StatCondition<IActor>(Savvy,GreaterThan,50)
+    - BaseStats[Stat.Savvy] > 50
 ";
             var you = YouInARoom(out IWorld w);
 
@@ -94,7 +94,7 @@ namespace Tests.Actors
 
             w.RunRound(ui,new DialogueAction());
 
-            Assert.Contains(@"Item requirements not met:Savvy GreaterThan 50",ui.MessagesShown);
+            Assert.Contains(@"Item requirements not met:BaseStats[Stat.Savvy] > 50",ui.MessagesShown);
 
             you.BaseStats[Stat.Savvy] = 51;
 
@@ -102,7 +102,6 @@ namespace Tests.Actors
             w.RunRound(ui,new DialogueAction());
 
             Assert.Contains("The book is filled with magic secrets",ui.MessagesShown);
-
         }
 
         [Test]

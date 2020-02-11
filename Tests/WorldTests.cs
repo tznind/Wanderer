@@ -74,7 +74,7 @@ namespace Tests
             }.Create();
 
             var omg = new Npc("omgz",world1.Player.CurrentLocation);
-            omg.BaseBehaviours.Add(new ForbidBehaviour<LeaveAction>(new LeaveDirectionCondition(Direction.Down), omg));
+            omg.BaseBehaviours.Add(new ForbidBehaviour<LeaveAction>(new Code("Direction == StarshipWanderer.Direction.Down"), omg));
             
             var behaviour = omg.GetFinalBehaviours().OfType<ForbidBehaviour<LeaveAction>>().Single();
 

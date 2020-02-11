@@ -13,7 +13,7 @@ namespace StarshipWanderer.Dialogues
 
         public string Text { get; set; }
 
-        public List<IEffect<SystemArgs>> Effect = new List<IEffect<SystemArgs>>();
+        public List<IEffect> Effect = new List<IEffect>();
 
         public override string ToString()
         {

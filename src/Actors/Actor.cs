@@ -200,6 +200,11 @@ namespace StarshipWanderer.Actors
             return true;
         }
 
+        public double AttitudeTo(IActor other)
+        {
+            return this.CurrentLocation.World.Relationships.SumBetween(this,other);
+        }
+
         public override string ToString()
         {
             return (Dead ? "Dead ":"") + Name;

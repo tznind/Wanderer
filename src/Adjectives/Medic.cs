@@ -13,20 +13,8 @@ namespace StarshipWanderer.Adjectives
         public Medic(IHasStats owner):base(owner)
         {
             BaseActions.Add(new HealAction());
-
-            Condition = new StatCondition<IActor>(Stat.Savvy, Comparison.GreaterThanOrEqual, 10);
         }
-
-        public StatCondition<IActor> Condition { get; set; }
-
-        public override IActionCollection GetFinalActions(IActor forActor)
-        {
-            if (Condition.IsMet(forActor))
-                return base.GetFinalActions(forActor);
-            
-            return new ActionCollection();
-        }
-
+        
         public override IEnumerable<string> GetDescription()
         {
             yield return "Allows healing injuries";

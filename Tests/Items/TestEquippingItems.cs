@@ -88,7 +88,7 @@ namespace Tests.Items
     Name: Chest
     NumberRequired: 1
   Require: 
-    - StatCondition<IActor>(Fight,LessThanOrEqual,10)
+    - BaseStats[Stat.Fight] <= 10
 ";
 
                 var you = YouInARoom(out IWorld w);
@@ -105,7 +105,7 @@ namespace Tests.Items
 
                 Assert.IsFalse(shirt.IsEquipped);
 
-                Assert.Contains(@"Item requirements not met:Fight LessThanOrEqual 10",ui.MessagesShown);
+                Assert.Contains(@"Item requirements not met:BaseStats[Stat.Fight] <= 10",ui.MessagesShown);
 
                 you.BaseStats[Stat.Fight] = 10;
             

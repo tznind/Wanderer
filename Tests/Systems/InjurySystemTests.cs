@@ -151,15 +151,11 @@ namespace Tests.Systems
 
             var you = new You("You", room);
 
-            //you are a medic
-            you.Adjectives.Add(new Medic(you));
-            you.BaseStats[Stat.Savvy] = 0;
-
-            //you cannot heal even though you are a medic (because Savvy is 0)
+            //you cannot heal yet
             Assert.IsFalse(you.GetFinalActions().OfType<HealAction>().Any());
 
-            //until you have good Savvy
-            you.BaseStats[Stat.Savvy] = 50;
+            //you are a medic
+            you.Adjectives.Add(new Medic(you));
             
             //now you can heal stuff
             Assert.IsTrue(you.GetFinalActions().OfType<HealAction>().Any());

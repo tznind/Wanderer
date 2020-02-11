@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace StarshipWanderer.Stats
 {
@@ -81,6 +82,12 @@ namespace StarshipWanderer.Stats
                         return false;
 
             return true;
+
+        }
+
+        public bool IsEmpty()
+        {
+            return this.All(v => Math.Abs(v.Value) < 0.0001);
 
         }
     }

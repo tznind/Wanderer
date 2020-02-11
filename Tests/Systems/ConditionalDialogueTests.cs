@@ -25,9 +25,9 @@ namespace Tests.Systems
             {
                 Identifier = g1,
                 Body = new TextBlock[]{new TextBlock("Hey I want to give you all the space bucks!") },
-                Require = new List<ICondition<SystemArgs>>()
+                Require = new List<ICondition>()
                 {
-                    new RelationshipCondition(Comparison.GreaterThanOrEqual,5)
+                    new Code("((IActor)Recipient).AttitudeTo(AggressorIfAny) > 5")
                 } 
             };
 

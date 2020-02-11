@@ -1,4 +1,7 @@
-﻿using StarshipWanderer.Actions;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.CodeAnalysis.CSharp.Scripting;
+using StarshipWanderer.Actions;
 using StarshipWanderer.Conditions;
 using StarshipWanderer.Effects;
 using YamlDotNet.Serialization;
@@ -10,6 +13,7 @@ namespace StarshipWanderer.Compilation
         private static object oInstance = new object();
         private static Compiler _instance;
 
+        
         public static Compiler Instance
         {
             get
