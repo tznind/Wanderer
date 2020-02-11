@@ -3,7 +3,6 @@ using Moq;
 using NUnit.Framework;
 using StarshipWanderer;
 using StarshipWanderer.Actors;
-using StarshipWanderer.Conditions;
 using StarshipWanderer.Factories;
 using StarshipWanderer.Stats;
 

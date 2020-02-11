@@ -5,7 +5,7 @@ using StarshipWanderer;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Behaviours;
-using StarshipWanderer.Conditions;
+using StarshipWanderer.Compilation;
 using StarshipWanderer.Dialogues;
 using StarshipWanderer.Systems;
 
@@ -25,9 +25,9 @@ namespace Tests.Systems
             {
                 Identifier = g1,
                 Body = new TextBlock[]{new TextBlock("Hey I want to give you all the space bucks!") },
-                Require = new List<ICondition>()
+                Require = new List<ICondition<SystemArgs>>()
                 {
-                    new Code("((IActor)Recipient).AttitudeTo(AggressorIfAny) > 5")
+                    new ConditionCode<SystemArgs>("((IActor)Recipient).AttitudeTo(AggressorIfAny) > 5")
                 } 
             };
 

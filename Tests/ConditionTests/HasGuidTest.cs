@@ -2,8 +2,8 @@
 using System.Linq;
 using NUnit.Framework;
 using StarshipWanderer;
+using StarshipWanderer.Actors;
 using StarshipWanderer.Compilation;
-using StarshipWanderer.Conditions;
 using StarshipWanderer.Dialogues;
 using StarshipWanderer.Systems;
 
@@ -17,7 +17,7 @@ namespace Tests.ConditionTests
             var you = YouInARoom(out _);
             
             var g = Guid.NewGuid();
-            var condition = new Code(@$"Has(new Guid(""{g}""))");
+            var condition = new ConditionCode<IHasStats>(@$"Has(new Guid(""{g}""))");
 
             Assert.IsFalse(condition.IsMet(you));
             Assert.IsFalse(condition.IsMet(you.CurrentLocation));

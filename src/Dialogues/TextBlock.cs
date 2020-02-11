@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
-using StarshipWanderer.Conditions;
+using StarshipWanderer.Compilation;
 using StarshipWanderer.Systems;
 
 namespace StarshipWanderer.Dialogues
@@ -17,7 +17,7 @@ namespace StarshipWanderer.Dialogues
             Text = text;
         }
 
-        public ICondition[] Condition { get; set; } = new ICondition[0];
+        public ICondition<SystemArgs>[] Condition { get; set; } = new ICondition<SystemArgs>[0];
 
         public string Text { get; set; }
         

@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
-using StarshipWanderer.Conditions;
+using StarshipWanderer.Compilation;
 
 namespace StarshipWanderer.Behaviours
 {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives;
-using StarshipWanderer.Conditions;
+using StarshipWanderer.Compilation;
 using StarshipWanderer.Places;
 
 namespace StarshipWanderer.Items
@@ -32,7 +32,7 @@ namespace StarshipWanderer.Items
         /// Conditions the wielder must meet before being able to interact with
         /// this object
         /// </summary>
-        List<ICondition> Require { get; set; }
+        List<ICondition<IHasStats>> Require { get; set; }
 
         /// <summary>
         /// Returns true if the item requirements are met.  This includes all

@@ -6,7 +6,7 @@ using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives;
 using StarshipWanderer.Behaviours;
-using StarshipWanderer.Conditions;
+using StarshipWanderer.Compilation;
 using StarshipWanderer.Places;
 using StarshipWanderer.Stats;
 
@@ -27,7 +27,7 @@ namespace StarshipWanderer.Items
         public bool IsErased { get; set; } = false;
 
 
-        public List<ICondition> Require { get; set; } = new List<ICondition>();
+        public List<ICondition<IHasStats>> Require { get; set; } = new List<ICondition<IHasStats>>();
 
 
         public void Drop(IUserinterface ui, IActor owner, Guid round)

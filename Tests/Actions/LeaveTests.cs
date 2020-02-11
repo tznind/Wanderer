@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Behaviours;
-using StarshipWanderer.Conditions;
+using StarshipWanderer.Compilation;
 using StarshipWanderer.Factories;
 using StarshipWanderer.Items;
 
@@ -159,7 +159,7 @@ namespace Tests.Actions
         {
             var room = YouInARoom(out IWorld world).CurrentLocation;
             var guard = new Npc("Guard",room);
-            guard.BaseBehaviours.Add(new ForbidBehaviour<LeaveAction>(new Code("true"),guard));
+            guard.BaseBehaviours.Add(new ForbidBehaviour<LeaveAction>(new ConditionCode<Frame>("true"),guard));
             
             var leave = new LeaveAction();
 

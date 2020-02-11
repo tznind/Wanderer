@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using StarshipWanderer.Actors;
-using StarshipWanderer.Conditions;
+using StarshipWanderer.Compilation;
 using StarshipWanderer.Items;
 
 namespace StarshipWanderer.Factories.Blueprints
@@ -15,7 +15,7 @@ namespace StarshipWanderer.Factories.Blueprints
         /// <summary>
         /// A condition that must be met before the item can be used
         /// </summary>
-        public List<ICondition> Require { get; set; }
+        public List<ICondition<IHasStats>> Require { get; set; }
 
         /// <summary>
         /// Null for an item that cannot be stacked, 1+ for a

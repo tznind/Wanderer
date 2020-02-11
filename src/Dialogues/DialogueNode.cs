@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using StarshipWanderer.Conditions;
+using StarshipWanderer.Compilation;
 using StarshipWanderer.Systems;
 
 namespace StarshipWanderer.Dialogues
@@ -11,7 +11,7 @@ namespace StarshipWanderer.Dialogues
 
         public TextBlock[] Body { get; set; }
 
-        public List<ICondition> Require { get; set; } = new List<ICondition>();
+        public List<ICondition<SystemArgs>> Require { get; set; } = new List<ICondition<SystemArgs>>();
 
         public List<DialogueOption> Options = new List<DialogueOption>();
     }

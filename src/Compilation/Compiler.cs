@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using StarshipWanderer.Actions;
-using StarshipWanderer.Conditions;
-using StarshipWanderer.Effects;
 using YamlDotNet.Serialization;
 
 namespace StarshipWanderer.Compilation

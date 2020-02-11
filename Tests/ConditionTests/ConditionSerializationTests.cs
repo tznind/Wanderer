@@ -5,7 +5,6 @@ using System.Text;
 using Moq;
 using NUnit.Framework;
 using StarshipWanderer.Actors;
-using StarshipWanderer.Conditions;
 using StarshipWanderer.Factories;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;

@@ -10,7 +10,7 @@ using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives;
 using StarshipWanderer.Behaviours;
-using StarshipWanderer.Conditions;
+using StarshipWanderer.Compilation;
 using StarshipWanderer.Factories;
 using StarshipWanderer.Factories.Blueprints;
 using StarshipWanderer.Places;
@@ -74,7 +74,7 @@ namespace Tests
             }.Create();
 
             var omg = new Npc("omgz",world1.Player.CurrentLocation);
-            omg.BaseBehaviours.Add(new ForbidBehaviour<LeaveAction>(new Code("Direction == StarshipWanderer.Direction.Down"), omg));
+            omg.BaseBehaviours.Add(new ForbidBehaviour<LeaveAction>(new ConditionCode<LeaveFrame>("Direction == StarshipWanderer.Direction.Down"), omg));
             
             var behaviour = omg.GetFinalBehaviours().OfType<ForbidBehaviour<LeaveAction>>().Single();
 

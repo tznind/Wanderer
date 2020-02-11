@@ -4,7 +4,7 @@ using StarshipWanderer;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Behaviours;
-using StarshipWanderer.Conditions;
+using StarshipWanderer.Compilation;
 
 namespace Tests.BehaviourTests
 {
@@ -15,7 +15,7 @@ namespace Tests.BehaviourTests
         {
             TwoInARoom(out _, out IActor them, out IWorld w);
 
-            them.BaseBehaviours.Add(new ForbidBehaviour<LeaveAction>(new Code("Direction == StarshipWanderer.Direction.South"), them));
+            them.BaseBehaviours.Add(new ForbidBehaviour<LeaveAction>(new ConditionCode<LeaveFrame>("Direction == StarshipWanderer.Direction.South"), them));
             var behaviour = them.GetFinalBehaviours().OfType<ForbidBehaviour<LeaveAction>>().Single();
             
             //we don't forbid going north

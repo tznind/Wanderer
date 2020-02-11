@@ -1,7 +1,6 @@
 ﻿using System;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Compilation;
-using StarshipWanderer.Conditions;
 using StarshipWanderer.Dialogues;
 using YamlDotNet.Serialization;
 

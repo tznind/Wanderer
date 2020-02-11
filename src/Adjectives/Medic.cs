@@ -3,7 +3,6 @@ using System.Linq;
 using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Behaviours;
-using StarshipWanderer.Conditions;
 using StarshipWanderer.Stats;
 
 namespace StarshipWanderer.Adjectives

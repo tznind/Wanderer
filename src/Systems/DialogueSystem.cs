@@ -7,7 +7,6 @@ using Newtonsoft.Json;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Compilation;
 using StarshipWanderer.Dialogues;
-using StarshipWanderer.Effects;
 using StarshipWanderer.Extensions;
 
 namespace StarshipWanderer.Systems

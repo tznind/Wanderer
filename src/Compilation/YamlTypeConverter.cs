@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Compilation;
-using StarshipWanderer.Effects;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
 
-namespace StarshipWanderer.Conditions
+namespace StarshipWanderer.Compilation
 {
     public class YamlTypeConverter<T> : IYamlTypeConverter
     {
@@ -31,8 +26,16 @@ namespace StarshipWanderer.Conditions
             if (string.IsNullOrWhiteSpace(scalar))
                 return null;
 
-            if (typeof(T) == typeof(ICondition) || typeof(T) == typeof(IEffect))
-                return new Code(scalar);
+            if (typeof(T) == typeof(ICondition))
+            {
+                var conditionCodeType = typeof(ConditionCode<>).MakeGenericType(
+                    type.GenericTypeArguments.Single());
+
+                return Activator.CreateInstance(conditionCodeType, scalar);
+            }
+
+            if(typeof(T) == typeof(IEffect))
+                return new EffectCode(scalar);
             
             var found = _classesOfTypeT.FirstOrDefault(t => t.Name.Equals(scalar));
 
@@ -44,10 +47,7 @@ namespace StarshipWanderer.Conditions
         
         public void WriteYaml(IEmitter emitter, object? value, Type type)
         {
-            var condition = (ICondition) value;
-            
-            // reset of serialisation code
-            emitter.Emit(new Scalar(condition.CsharpCode));
+            throw new NotImplementedException();
         }
     }
 

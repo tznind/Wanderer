@@ -6,7 +6,7 @@ using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives;
 using StarshipWanderer.Behaviours;
-using StarshipWanderer.Conditions;
+using StarshipWanderer.Compilation;
 
 namespace Tests.BehaviourTests
 {
@@ -15,7 +15,7 @@ namespace Tests.BehaviourTests
         [Test]
         public void TestBehaviours_AreIdentical()
         {
-            var b1 = new ForbidBehaviour<LeaveAction>(new Code("true"), Mock.Of<IActor>());
+            var b1 = new ForbidBehaviour<LeaveAction>(new ConditionCode<Frame>("true"), Mock.Of<IActor>());
             var b2 = new ExpiryBehaviour(new Medic(Mock.Of<IActor>()), 4);
             var b3 =new ExpiryBehaviour(new Medic(Mock.Of<IActor>()), 3);
 

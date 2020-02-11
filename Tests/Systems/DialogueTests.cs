@@ -8,7 +8,7 @@ using StarshipWanderer.Actions;
 using StarshipWanderer.Actors;
 using StarshipWanderer.Adjectives;
 using StarshipWanderer.Behaviours;
-using StarshipWanderer.Conditions;
+using StarshipWanderer.Compilation;
 using StarshipWanderer.Dialogues;
 using StarshipWanderer.Relationships;
 using StarshipWanderer.Stats;
@@ -73,9 +73,9 @@ namespace Tests.Systems
             {
                 Identifier = new Guid("4abbc8e5-880c-44d3-ba0e-a9f13a0522d0"),
                 Body = new TextBlock[]{new TextBlock("Hello Friend") },
-                Require = new List<ICondition>()
+                Require = new List<ICondition<SystemArgs>>()
                 {
-                    new Code("((IActor)Recipient).AttitudeTo(AggressorIfAny) > 5")
+                    new ConditionCode<SystemArgs>("((IActor)Recipient).AttitudeTo(AggressorIfAny) > 5")
                 }
 
             };
@@ -83,9 +83,9 @@ namespace Tests.Systems
             {
                 Identifier = new Guid("00d77067-da1c-4c34-96ee-8a74353e4839"),
                 Body = new TextBlock[]{new TextBlock("Hello Foe") },
-                Require = new List<ICondition>()
+                Require = new List<ICondition<SystemArgs>>()
                 {
-                    new Code("((IActor)Recipient).AttitudeTo(AggressorIfAny) < -4")
+                    new ConditionCode<SystemArgs>("((IActor)Recipient).AttitudeTo(AggressorIfAny) < -4")
                 }
             };
 

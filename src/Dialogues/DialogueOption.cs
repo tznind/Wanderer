@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using StarshipWanderer.Effects;
+using StarshipWanderer.Compilation;
 using StarshipWanderer.Systems;
 
 namespace StarshipWanderer.Dialogues

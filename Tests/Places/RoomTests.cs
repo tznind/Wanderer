@@ -5,7 +5,6 @@ using System.Text;
 using NUnit.Framework;
 using StarshipWanderer;
 using StarshipWanderer.Adjectives;
-using StarshipWanderer.Conditions;
 using StarshipWanderer.Items;
 
 namespace Tests.Places
