@@ -14,5 +14,10 @@ namespace Wanderer.Dialogues
         public List<ICondition<SystemArgs>> Require { get; set; } = new List<ICondition<SystemArgs>>();
 
         public List<DialogueOption> Options = new List<DialogueOption>();
+
+        public override string ToString()
+        {
+            return Identifier.ToString();
+        }
     }
 }

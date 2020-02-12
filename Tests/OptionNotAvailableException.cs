@@ -4,7 +4,7 @@ namespace Tests
 {
     public class OptionNotAvailableException : Exception
     {
-        public OptionNotAvailableException(string s)
+        public OptionNotAvailableException(string s):base(s)
         {
             
         }

@@ -18,6 +18,32 @@ namespace Tests.Actions
 {
     class CoerceTest : UnitTest
     {
+
+        [Test]
+        public void Test_CoerceCancelling()
+        {
+            TwoInARoom(out You you, out IActor them,out IWorld world);
+            var ui = GetUI(null);
+
+            Assert.IsFalse(new ActionStack().RunStack(ui,new CoerceAction(), you,null));
+            
+            ui = GetUI(them, null);
+            Assert.IsFalse(new ActionStack().RunStack(ui,new CoerceAction(), you,null));
+
+            //Its too late to cancel.  You have successfully coerced you have to pick targets for the NPC on their go
+            ui = GetUI(them, them.GetFinalActions().OfType<FightAction>().Single(), null);
+            Assert.IsTrue(new ActionStack().RunStack(ui,new CoerceAction(), you,null));
+            
+            ui = GetUI(them, them.GetFinalActions().OfType<FightAction>().Single(), you);
+            world.RunRound(ui, new CoerceAction());
+            Assert.IsTrue(ui.IsExhausted);
+
+            //can't get them to hit themselves!
+            ui = GetUI(them, them.GetFinalActions().OfType<FightAction>().Single(), them);
+            Assert.Throws<OptionNotAvailableException>(()=>world.RunRound(ui,new CoerceAction()));
+
+        }
+
         [Test]
         public void Test_CoerceSuccess_PerformsAction()
         {

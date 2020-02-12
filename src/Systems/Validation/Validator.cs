@@ -31,11 +31,16 @@ namespace Wanderer.Validation
                 return;
             }
 
-            Validate(w,w.RoomFactory, "World RoomFactory");
+            Validate(w);
+        }
 
-            foreach (IFaction faction in w.Factions)
+        public void Validate(IWorld world)
+        {
+            Validate(world,world.RoomFactory, "World RoomFactory");
+
+            foreach (IFaction faction in world.Factions)
             {
-                Validate(w,faction.RoomFactory,$"Faction <{faction}> RoomFactory");
+                Validate(world,faction.RoomFactory,$"Faction <{faction}> RoomFactory");
             }
         }
 
@@ -55,7 +60,7 @@ namespace Wanderer.Validation
             Warnings.AppendLine(IncludeStackTraces ? exception.ToString() : exception.Message);
         }
 
-        protected void Validate(IWorld world,IRoomFactory roomFactory,string title)
+        public void Validate(IWorld world,IRoomFactory roomFactory,string title)
         {
 
             foreach (var blue in roomFactory.Blueprints)
@@ -71,7 +76,7 @@ namespace Wanderer.Validation
                     foreach (var actor in room.Actors.ToArray())
                     {
                         if (actor.Dialogue != null)
-                            ValidateDialogue(world,actor, actor.Dialogue,room);
+                            Validate(world,actor, actor.Dialogue,room);
                         
                         foreach (var item in actor.Items)
                             Validate(world, item,room);
@@ -87,7 +92,7 @@ namespace Wanderer.Validation
         public void Validate(IWorld world, IItem item, IPlace room)
         {
             if (item.Dialogue != null)
-                ValidateDialogue(world, item, item.Dialogue,room);
+                Validate(world, item, item.Dialogue,room);
             
             try
             {
@@ -99,7 +104,7 @@ namespace Wanderer.Validation
             }
         }
 
-        public void ValidateDialogue(IWorld world, IHasStats recipient, DialogueInitiation dialogue, IPlace room)
+        public void Validate(IWorld world, IHasStats recipient, DialogueInitiation dialogue, IPlace room)
         {
             if (!dialogue.Next.HasValue)
                 return;

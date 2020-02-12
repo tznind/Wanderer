@@ -23,6 +23,8 @@ namespace Tests
         /// </summary>
         public List<IHasStats> StatsShown = new List<IHasStats>();
 
+        public bool IsExhausted => _index == _getChoiceReturns.Length;
+
         public void NewGame()
         {
             throw new NotImplementedException();
@@ -32,7 +34,7 @@ namespace Tests
 
         public FixedChoiceUI(params object[] getChoiceReturns)
         {
-            _getChoiceReturns = getChoiceReturns;
+            _getChoiceReturns = getChoiceReturns ?? new object[]{null};
             _index = 0;
             Log.Register();
         }
@@ -53,6 +55,9 @@ namespace Tests
             try
             {
                 chosen = (T) _getChoiceReturns[_index++];
+
+                if (chosen == null)
+                    return false;
             }
             catch (InvalidCastException)
             {
