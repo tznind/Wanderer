@@ -1,10 +1,10 @@
-﻿using StarshipWanderer.Actions;
-using StarshipWanderer.Adjectives;
-using StarshipWanderer.Dialogues;
-using StarshipWanderer.Factories.Blueprints;
-using StarshipWanderer.Items;
+﻿using Wanderer.Actions;
+using Wanderer.Adjectives;
+using Wanderer.Dialogues;
+using Wanderer.Factories.Blueprints;
+using Wanderer.Items;
 
-namespace StarshipWanderer.Factories
+namespace Wanderer.Factories
 {
     public class ItemFactory : HasStatsFactory<IItem>,IItemFactory
     {

@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Adjectives.ActorOnly;
-using StarshipWanderer.Stats;
+using Wanderer.Actors;
+using Wanderer.Adjectives.ActorOnly;
+using Wanderer.Stats;
 
-namespace StarshipWanderer.Adjectives
+namespace Wanderer.Adjectives
 {
     public class Attractive : Adjective
     {

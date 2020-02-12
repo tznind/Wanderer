@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace StarshipWanderer.Adjectives
+namespace Wanderer.Adjectives
 {
     public class AdjectiveCollection : SwCollection<IAdjective>,IAdjectiveCollection
     {

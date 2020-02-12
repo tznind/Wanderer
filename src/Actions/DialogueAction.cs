@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Items;
-using StarshipWanderer.Places;
-using StarshipWanderer.Systems;
+using Wanderer.Actors;
+using Wanderer.Items;
+using Wanderer.Places;
+using Wanderer.Systems;
 
-namespace StarshipWanderer.Actions
+namespace Wanderer.Actions
 {
     public class DialogueAction:Action
     {

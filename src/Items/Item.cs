@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Adjectives;
-using StarshipWanderer.Behaviours;
-using StarshipWanderer.Conditions;
-using StarshipWanderer.Places;
-using StarshipWanderer.Stats;
+using Wanderer.Actions;
+using Wanderer.Actors;
+using Wanderer.Adjectives;
+using Wanderer.Behaviours;
+using Wanderer.Compilation;
+using Wanderer.Places;
+using Wanderer.Stats;
 
-namespace StarshipWanderer.Items
+namespace Wanderer.Items
 {
     public class Item : HasStats,IItem
     {
@@ -26,7 +27,7 @@ namespace StarshipWanderer.Items
         public bool IsErased { get; set; } = false;
 
 
-        public List<ICondition<IActor>> Require { get; set; } = new List<ICondition<IActor>>();
+        public List<ICondition<IHasStats>> Require { get; set; } = new List<ICondition<IHasStats>>();
 
 
         public void Drop(IUserinterface ui, IActor owner, Guid round)
@@ -89,6 +90,9 @@ namespace StarshipWanderer.Items
         }
         public override StatsCollection GetFinalStats(IActor forActor)
         {
+            if(new StackTrace().FrameCount > 1000)
+                throw new Exception("Looks like your about to have a stack overflow.  Are you calling GetFinalStats on an item whose requirements include a Stat check? Maybe switch to BaseStats");
+
             if(!RequirementsMet(forActor))
                 return new StatsCollection();
 

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
-using StarshipWanderer;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Items;
-using StarshipWanderer.Places;
-using StarshipWanderer.Relationships;
+using Wanderer;
+using Wanderer.Actions;
+using Wanderer.Actors;
+using Wanderer.Items;
+using Wanderer.Places;
+using Wanderer.Relationships;
 using Tests.Actions;
 
 namespace Tests.Relationships
@@ -133,6 +133,37 @@ namespace Tests.Relationships
             else
                 Assert.IsNull(youAndBobsFriend,"bobs friend should not care that you hit bob because they aren't really friends");
             
+
+        }
+        [Test]
+        public void TestFactionRelationships_BetweenFactions()
+        {
+            TwoInARoom(out You you,out IActor them,out IWorld world);
+
+            var f1 = new Faction("F1",FactionRole.Civilian);
+            var f2 = new Faction("F2",FactionRole.Civilian);
+
+            you.FactionMembership.Add(f1);
+            them.FactionMembership.Add(f2);
+            them.BaseActions.Clear();
+            
+            Assert.IsEmpty(world.Relationships.OfType<FactionRelationship>().ToArray());
+
+            var ui = new FixedChoiceUI(them);
+
+            //fight each other
+            world.RunRound(ui, new FightAction());
+
+            //not only do you hate each other now but your factions should also hate each other
+            var newRelationship = world.Relationships.OfType<FactionRelationship>().Single();
+            Assert.IsInstanceOf<InterFactionRelationship>(newRelationship);
+
+            Assert.Less(newRelationship.Attitude,0);
+
+            // relationship should be from the fight victim towards the evil attacker!
+            Assert.AreEqual(f2,newRelationship.HostFaction);
+            Assert.AreEqual(f1,((InterFactionRelationship)newRelationship).ObservedFaction);
+
 
         }
     }

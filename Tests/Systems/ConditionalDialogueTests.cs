@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using NUnit.Framework;
-using StarshipWanderer;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Behaviours;
-using StarshipWanderer.Conditions;
-using StarshipWanderer.Dialogues;
-using StarshipWanderer.Systems;
+using Wanderer;
+using Wanderer.Actions;
+using Wanderer.Actors;
+using Wanderer.Behaviours;
+using Wanderer.Compilation;
+using Wanderer.Dialogues;
+using Wanderer.Systems;
 
 namespace Tests.Systems
 {
@@ -27,7 +27,7 @@ namespace Tests.Systems
                 Body = new TextBlock[]{new TextBlock("Hey I want to give you all the space bucks!") },
                 Require = new List<ICondition<SystemArgs>>()
                 {
-                    new RelationshipCondition(Comparison.GreaterThanOrEqual,5)
+                    new ConditionCode<SystemArgs>("((IActor)Recipient).AttitudeTo(AggressorIfAny) > 5")
                 } 
             };
 

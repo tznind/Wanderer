@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using StarshipWanderer.Actors;
+using Wanderer.Actors;
 
-namespace StarshipWanderer.Adjectives
+namespace Wanderer.Adjectives
 {
     public class Tough : Adjective
     {

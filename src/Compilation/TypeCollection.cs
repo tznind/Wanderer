@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace StarshipWanderer.Compilation
+namespace Wanderer.Compilation
 {
     public class TypeCollection : List<Type>
     {

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
-using StarshipWanderer.Conditions;
-using StarshipWanderer.Systems;
+using Wanderer.Compilation;
+using Wanderer.Systems;
 
-namespace StarshipWanderer.Dialogues
+namespace Wanderer.Dialogues
 {
     public class TextBlock
     {

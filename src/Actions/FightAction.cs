@@ -1,9 +1,9 @@
 ﻿using System.Linq;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Stats;
-using StarshipWanderer.Systems;
+using Wanderer.Actors;
+using Wanderer.Stats;
+using Wanderer.Systems;
 
-namespace StarshipWanderer.Actions
+namespace Wanderer.Actions
 {
     public class FightAction : Action
     {

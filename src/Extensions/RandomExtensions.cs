@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace StarshipWanderer.Extensions
+namespace Wanderer.Extensions
 {
     public static class RandomExtensions
     {

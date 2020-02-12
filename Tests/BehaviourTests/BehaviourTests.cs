@@ -1,12 +1,12 @@
 ﻿using System;
 using Moq;
 using NUnit.Framework;
-using StarshipWanderer;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Adjectives;
-using StarshipWanderer.Behaviours;
-using StarshipWanderer.Conditions;
+using Wanderer;
+using Wanderer.Actions;
+using Wanderer.Actors;
+using Wanderer.Adjectives;
+using Wanderer.Behaviours;
+using Wanderer.Compilation;
 
 namespace Tests.BehaviourTests
 {
@@ -15,7 +15,7 @@ namespace Tests.BehaviourTests
         [Test]
         public void TestBehaviours_AreIdentical()
         {
-            var b1 = new ForbidBehaviour<LeaveAction>(new AlwaysCondition<Frame>(), Mock.Of<IActor>());
+            var b1 = new ForbidBehaviour<LeaveAction>(new ConditionCode<Frame>("true"), Mock.Of<IActor>());
             var b2 = new ExpiryBehaviour(new Medic(Mock.Of<IActor>()), 4);
             var b3 =new ExpiryBehaviour(new Medic(Mock.Of<IActor>()), 3);
 

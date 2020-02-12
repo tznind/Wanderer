@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Adjectives;
-using StarshipWanderer.Behaviours;
-using StarshipWanderer.Dialogues;
-using StarshipWanderer.Stats;
+using Wanderer.Actions;
+using Wanderer.Actors;
+using Wanderer.Adjectives;
+using Wanderer.Behaviours;
+using Wanderer.Dialogues;
+using Wanderer.Stats;
 
-namespace StarshipWanderer
+namespace Wanderer
 {
     public abstract class HasStats : IHasStats
     {
@@ -20,12 +20,12 @@ namespace StarshipWanderer
         public string Name { get; set; }
         public DialogueInitiation Dialogue { get; set; } = new DialogueInitiation();
 
-        public virtual int Color { get; set; } = DefaultColor;
+        public virtual ConsoleColor Color { get; set; } = DefaultColor;
 
         /// <summary>
         /// Default Color (white)
         /// </summary>
-        public const int DefaultColor = 15;
+        public const ConsoleColor DefaultColor = ConsoleColor.White;
 
         public IAdjectiveCollection Adjectives
         {
@@ -111,6 +111,15 @@ namespace StarshipWanderer
         public virtual IEnumerable<IHasStats> GetAllHaves()
         {
             return Adjectives;
+        }
+        public bool Has(Guid? g)
+        {
+            if (g.HasValue)
+                return 
+                    Identifier == g ||
+                    GetAllHaves().Any(a => a.Identifier == g);
+
+            return false;
         }
     }
 }

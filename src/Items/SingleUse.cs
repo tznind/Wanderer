@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using StarshipWanderer.Adjectives;
-using StarshipWanderer.Behaviours;
+using Wanderer.Adjectives;
+using Wanderer.Behaviours;
 
-namespace StarshipWanderer.Items
+namespace Wanderer.Items
 {
     public class SingleUse : Adjective, IBehaviour
     {

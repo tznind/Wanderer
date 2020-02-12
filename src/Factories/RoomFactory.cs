@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using StarshipWanderer.Extensions;
-using StarshipWanderer.Factories.Blueprints;
-using StarshipWanderer.Places;
+using Wanderer.Extensions;
+using Wanderer.Factories.Blueprints;
+using Wanderer.Places;
 
-namespace StarshipWanderer.Factories
+namespace Wanderer.Factories
 {
     public class RoomFactory: HasStatsFactory<IPlace>, IRoomFactory
     {

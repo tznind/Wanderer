@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using StarshipWanderer;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Relationships;
+using Wanderer;
+using Wanderer.Actors;
+using Wanderer.Relationships;
 using Terminal.Gui;
 
 namespace Game.UI

@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Adjectives;
-using StarshipWanderer.Behaviours;
-using StarshipWanderer.Dialogues;
-using StarshipWanderer.Stats;
+using Wanderer.Actions;
+using Wanderer.Actors;
+using Wanderer.Adjectives;
+using Wanderer.Behaviours;
+using Wanderer.Dialogues;
+using Wanderer.Stats;
 
-namespace StarshipWanderer
+namespace Wanderer
 {
     public interface IHasStats : IAreIdentical<IHasStats>
     {
@@ -47,7 +47,7 @@ namespace StarshipWanderer
         /// Yellow=14
         /// White=15
         /// </summary>
-        int Color { get; set; }
+        ConsoleColor Color { get; set; }
 
         /// <summary>
         /// What the thing does when you try to interact with it in a narrative manner e.g. talk, read
@@ -103,5 +103,14 @@ namespace StarshipWanderer
         /// </summary>
         /// <returns></returns>
         IEnumerable<IHasStats> GetAllHaves();
+
+
+        /// <summary>
+        /// Returns true if the object or a child of it's has the uniquely identified
+        /// other object (with <see cref="Identifier"/> equal to <paramref name="g"/>)
+        /// </summary>
+        /// <param name="g"></param>
+        /// <returns></returns>
+        bool Has(Guid? g);
     }
 }

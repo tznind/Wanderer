@@ -14,7 +14,15 @@
         - RelationshipCondition(EqualTo,0);
 - Identifier: 8f6ffb26-01ab-4d0a-8083-2fff3475187d
   Body: 
-    - Text: "The rat queen sits here resplendent on her throne"
+    - Text: "The first thing that hits you upon entering this room is the overwhelming musky scent of damp vermin.  The walls trickle with moisture and forms pools in the floor.  Everywhere you look scurry the dark shapes of rats.  Dominating the center of the room is a large bone and fur throne."
+    - Text: "Resplendent in the throne sits a thin grey old lady with wiry hair down to her knees.  You have heard whispered tales of this witch.. she is The Rat Queen"
+      Condition:
+         #Rat queen is present
+       - Recipient.Has(92320a7c-a7d3-4abb-933c-45a4450f778e)
+  Options:
+    - Text: Leave
+    - Text: Approach
+      Destination: 354a62e1-fcdd-40ed-8cb9-b86de09efdbe
 - Identifier: 354a62e1-fcdd-40ed-8cb9-b86de09efdbe
   Body: 
     - Text: "Welcome"

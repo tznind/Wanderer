@@ -2,7 +2,7 @@
   Body: 
     - Text: "Greetings {AggressorIfAny}, may the emperor shine on your presence"
   Require:
-    - RelationshipCondition(GreaterThanOrEqual,0)
+    - Relationship >= 0
   Options:
   - Destination: 
     Attitude: 10
@@ -14,7 +14,7 @@
   Body: 
     - Text: "Listen buddy, we aint friends.  I got nothing to say to you"
   Require:
-    - RelationshipCondition(LessThan,0)
+    - Relationship < 0
 
 
 # Wildlife banter  
@@ -23,13 +23,13 @@
     - Text: "Screeeee (this creature seems"
     - Text: friendly)
       Condition: 
-        - RelationshipCondition(GreaterThan,0)
+        - Relationship > 0
     - Text: hostile)
       Condition: 
-        - RelationshipCondition(LessThan,0)
+        - Relationship < 0
     - Text: indifferent)
       Condition: 
-        - RelationshipCondition(EqualTo,0)";
+        - Relationship == 0;
     
 - Identifier: e088ff6e-60de-4a59-a9d8-b9406a2aed7c
   Body: 
@@ -59,3 +59,54 @@
   Body: 
     - Text: "The second act to the play seems to be missing"
     
+
+- Identifier: a25c08a2-c4a6-4c6a-a6ee-c11744938349
+  Body:
+    - Text: A twisted figure wrinkled with age sits huddled in the corner, warming his hands against a burning barrel.  Occasional bursts of yellow and blue light shoot up from the flames as fragments of whatever toxic compound was once stored inside ignite.  The figure has a gold exclamation mark scrawled onto his hood in some foul smelling grease paint.
+  Options:
+   - Text: Approach
+     Destination: 6ea074f9-ebd2-44e5-880d-de48b674fc3b
+   - Text: Leave  
+
+- Identifier: 6ea074f9-ebd2-44e5-880d-de48b674fc3b
+  Body:
+    - Text: Hrmn? What do you want with an old man
+  Options:
+    - Text: Whats with the gold mark, do you give quests?
+      Destination: 5218eef5-408d-4ddf-b028-0e90b02c50b8
+    - Text: Got any advice for a cutter?
+      Destination: b31b2182-c16e-484e-9715-41c8c1b411df
+
+- Identifier: 5218eef5-408d-4ddf-b028-0e90b02c50b8
+  Body:
+    - Text: What? oh that... maybe once. I used to have visions that told me where a cutter oughta go and what needed doing... nowadays I just stare into the fire and wait to die.
+  Options: 
+    - Text: Sorry to hear that
+      Attitude: 20
+      Destination: 05aad471-e8dc-421b-b468-a369bd5f5656
+    - Text: Whatever
+      Destination: 05aad471-e8dc-421b-b468-a369bd5f5656
+    - Text: Let me put you out of my misery
+      Attitude: -100
+
+- Identifier: b31b2182-c16e-484e-9715-41c8c1b411df
+  Body: 
+    - Text: How about stop bothering old men?
+  Options:   
+    - Text: Whatever
+      Destination: 05aad471-e8dc-421b-b468-a369bd5f5656
+    - Text: How about I stop bother you and start burrying you!
+      Attitude: -100
+
+- Identifier: 05aad471-e8dc-421b-b468-a369bd5f5656
+  Body: 
+    - Text: Well since your here, how about you indulge me? how are you going to change the world?
+  Options:   
+    - Text: I'm gonna turn this ship into a Graveyard
+      Effect: 
+        - AggressorIfAny.BaseStats[Stat.Fight] += 20
+        - Recipient.Dialogue.Next = null
+    - Text: One day this ship and everyone in it will be mine
+      Effect: 
+        - AggressorIfAny.BaseStats[Stat.Savvy] += 20
+        - Recipient.Dialogue.Next = null

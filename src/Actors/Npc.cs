@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Actions.Coercion;
-using StarshipWanderer.Behaviours;
-using StarshipWanderer.Items;
-using StarshipWanderer.Places;
-using StarshipWanderer.Stats;
-using StarshipWanderer.Systems;
+using Wanderer.Actions;
+using Wanderer.Actions.Coercion;
+using Wanderer.Behaviours;
+using Wanderer.Items;
+using Wanderer.Places;
+using Wanderer.Stats;
+using Wanderer.Systems;
 
-namespace StarshipWanderer.Actors
+namespace Wanderer.Actors
 {
     public class Npc : Actor
     {

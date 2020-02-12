@@ -1,8 +1,8 @@
 ﻿using NUnit.Framework;
-using StarshipWanderer;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Adjectives;
-using StarshipWanderer.Compilation;
+using Wanderer;
+using Wanderer.Actors;
+using Wanderer.Adjectives;
+using Wanderer.Compilation;
 
 namespace Tests.CompilerTests
 {

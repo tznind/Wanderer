@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json;
 using NUnit.Framework;
-using StarshipWanderer;
-using StarshipWanderer.Places;
+using Wanderer;
+using Wanderer.Places;
 
 namespace Tests.Places
 {

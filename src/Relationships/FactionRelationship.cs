@@ -1,6 +1,6 @@
-﻿using StarshipWanderer.Actors;
+﻿using Wanderer.Actors;
 
-namespace StarshipWanderer.Relationships
+namespace Wanderer.Relationships
 {
     public abstract class FactionRelationship : IFactionRelationship
     {
@@ -20,6 +20,8 @@ namespace StarshipWanderer.Relationships
         }
 
         public abstract bool AppliesTo(IActor observer, IActor observed);
+
+        public abstract bool AppliesTo(IFaction other);
 
         protected FactionRelationship(IFaction hostFaction,double attitude)
         {

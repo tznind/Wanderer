@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
-using StarshipWanderer;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Actors;
+using Wanderer;
+using Wanderer.Actions;
+using Wanderer.Actors;
 
 namespace Tests.Actions
 {

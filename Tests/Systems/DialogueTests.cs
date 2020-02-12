@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using Moq;
 using NUnit.Framework;
-using StarshipWanderer;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Adjectives;
-using StarshipWanderer.Behaviours;
-using StarshipWanderer.Conditions;
-using StarshipWanderer.Dialogues;
-using StarshipWanderer.Relationships;
-using StarshipWanderer.Stats;
-using StarshipWanderer.Systems;
+using Wanderer;
+using Wanderer.Actions;
+using Wanderer.Actors;
+using Wanderer.Adjectives;
+using Wanderer.Behaviours;
+using Wanderer.Compilation;
+using Wanderer.Dialogues;
+using Wanderer.Relationships;
+using Wanderer.Stats;
+using Wanderer.Systems;
 using YamlDotNet.Serialization;
 
 namespace Tests.Systems
@@ -75,7 +75,7 @@ namespace Tests.Systems
                 Body = new TextBlock[]{new TextBlock("Hello Friend") },
                 Require = new List<ICondition<SystemArgs>>()
                 {
-                    new RelationshipCondition(Comparison.GreaterThanOrEqual,5)
+                    new ConditionCode<SystemArgs>("((IActor)Recipient).AttitudeTo(AggressorIfAny) > 5")
                 }
 
             };
@@ -85,7 +85,7 @@ namespace Tests.Systems
                 Body = new TextBlock[]{new TextBlock("Hello Foe") },
                 Require = new List<ICondition<SystemArgs>>()
                 {
-                    new RelationshipCondition(Comparison.LessThan,-4)
+                    new ConditionCode<SystemArgs>("((IActor)Recipient).AttitudeTo(AggressorIfAny) < -4")
                 }
             };
 
@@ -139,13 +139,13 @@ namespace Tests.Systems
   Body: 
     - Text: Screeeee (this creature seems friendly)
       Condition: 
-        - RelationshipCondition(GreaterThan,0)
+        - Relationship > 0
     - Text: Screeeee (this creature seems hostile)
       Condition: 
-        - RelationshipCondition(LessThan,0)
+        - Relationship < 0
     - Text: Screeeee (this creature seems indifferent)
       Condition: 
-        - RelationshipCondition(EqualTo,0)";
+        - Relationship == 0";
             
             var dlg = new YamlDialogueSystem(yaml);
 
@@ -167,10 +167,10 @@ namespace Tests.Systems
     - Text: This room is
     - Text: Pitch Black
       Condition: 
-        - ""!Place.Has<Light>(false)""
+        - ""!Place.Has<Light>()""
     - Text: Dimly Illuminated
       Condition: 
-        - Place.Has<Light>(false)";
+        - Place.Has<Light>()";
 
             var system = new YamlDialogueSystem(yaml);
             Assert.IsNotNull(system);
@@ -203,10 +203,10 @@ namespace Tests.Systems
     - Text: The denizens of this degenerate bar 
     - Text: make you nervous
       Condition: 
-        - ""!AggressorIfAny.StatCondition<IActor>(Corruption,GreaterThan,5)""
+        - ""!(AggressorIfAny.GetFinalStats()[Stat.Corruption] > 5)""
     - Text: seem like your kind of people
       Condition: 
-        - AggressorIfAny.StatCondition<IActor>(Corruption,GreaterThan,5)";
+        - AggressorIfAny.GetFinalStats()[Stat.Corruption] > 5";
 
             var system = new YamlDialogueSystem(yaml);
             Assert.IsNotNull(system);

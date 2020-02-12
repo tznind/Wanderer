@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
-using StarshipWanderer;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Adjectives;
-using StarshipWanderer.Adjectives.ActorOnly;
-using StarshipWanderer.Adjectives.RoomOnly;
-using StarshipWanderer.Factories;
-using StarshipWanderer.Items;
-using StarshipWanderer.Stats;
+using Wanderer;
+using Wanderer.Actions;
+using Wanderer.Adjectives;
+using Wanderer.Adjectives.ActorOnly;
+using Wanderer.Adjectives.RoomOnly;
+using Wanderer.Factories;
+using Wanderer.Items;
+using Wanderer.Stats;
 
 namespace Tests.Items
 {
@@ -88,7 +88,7 @@ namespace Tests.Items
     Name: Chest
     NumberRequired: 1
   Require: 
-    - StatCondition<IActor>(Fight,LessThanOrEqual,10)
+    - BaseStats[Stat.Fight] <= 10
 ";
 
                 var you = YouInARoom(out IWorld w);
@@ -105,7 +105,7 @@ namespace Tests.Items
 
                 Assert.IsFalse(shirt.IsEquipped);
 
-                Assert.Contains(@"Item requirements not met:Fight LessThanOrEqual 10",ui.MessagesShown);
+                Assert.Contains(@"Item requirements not met:BaseStats[Stat.Fight] <= 10",ui.MessagesShown);
 
                 you.BaseStats[Stat.Fight] = 10;
             

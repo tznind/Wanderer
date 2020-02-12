@@ -1,6 +1,6 @@
-﻿using StarshipWanderer.Actors;
+﻿using Wanderer.Actors;
 
-namespace StarshipWanderer.Actions
+namespace Wanderer.Actions
 {
     public class LeaveFrame : Frame
     {

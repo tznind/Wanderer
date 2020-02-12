@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Behaviours;
+using Wanderer.Actions;
+using Wanderer.Actors;
+using Wanderer.Behaviours;
 
-namespace StarshipWanderer
+namespace Wanderer
 {
     /// <summary>
     /// Handles resolving <see cref="IAction"/> and response actions triggered (e.g. by <see cref="IBehaviour"/>)

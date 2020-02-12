@@ -1,9 +1,9 @@
-﻿using StarshipWanderer.Actors;
-using StarshipWanderer.Factories.Blueprints;
-using StarshipWanderer.Places;
-using StarshipWanderer.Relationships;
+﻿using Wanderer.Actors;
+using Wanderer.Factories.Blueprints;
+using Wanderer.Places;
+using Wanderer.Relationships;
 
-namespace StarshipWanderer.Factories
+namespace Wanderer.Factories
 {
     public interface IActorFactory
     {

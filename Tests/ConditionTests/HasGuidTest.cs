@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 using NUnit.Framework;
-using StarshipWanderer;
-using StarshipWanderer.Compilation;
-using StarshipWanderer.Conditions;
-using StarshipWanderer.Dialogues;
-using StarshipWanderer.Systems;
-using Has = StarshipWanderer.Conditions.Has;
+using Wanderer;
+using Wanderer.Actors;
+using Wanderer.Compilation;
+using Wanderer.Dialogues;
+using Wanderer.Systems;
 
 namespace Tests.ConditionTests
 {
@@ -21,7 +17,7 @@ namespace Tests.ConditionTests
             var you = YouInARoom(out _);
             
             var g = Guid.NewGuid();
-            var condition = new Has(g);
+            var condition = new ConditionCode<IHasStats>(@$"Has(new Guid(""{g}""))");
 
             Assert.IsFalse(condition.IsMet(you));
             Assert.IsFalse(condition.IsMet(you.CurrentLocation));
@@ -40,7 +36,7 @@ namespace Tests.ConditionTests
             string yaml = @$"
 Text: You have a jolly glo globe.
 Condition:
-  - ""{(useNot?"!":"")}AggressorIfAny.CurrentLocation.Has(6fa349e4-aefe-4ebc-9922-e3476ea1dba7)""";
+  - ""{(useNot?"!":"")}AggressorIfAny.CurrentLocation.Has(new Guid(\""6fa349e4-aefe-4ebc-9922-e3476ea1dba7\""))""";
 
             var block = Compiler.Instance.Deserializer.Deserialize<TextBlock>(yaml);
 

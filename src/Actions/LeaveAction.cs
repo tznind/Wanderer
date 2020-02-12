@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Behaviours;
-using StarshipWanderer.Places;
+using Wanderer.Actors;
+using Wanderer.Behaviours;
+using Wanderer.Places;
 
-namespace StarshipWanderer.Actions
+namespace Wanderer.Actions
 {
     public class LeaveAction : Action
     {

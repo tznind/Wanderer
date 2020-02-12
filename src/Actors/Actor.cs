@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Adjectives;
-using StarshipWanderer.Behaviours;
-using StarshipWanderer.Items;
-using StarshipWanderer.Places;
-using StarshipWanderer.Relationships;
-using StarshipWanderer.Stats;
+using Wanderer.Actions;
+using Wanderer.Adjectives;
+using Wanderer.Behaviours;
+using Wanderer.Items;
+using Wanderer.Places;
+using Wanderer.Relationships;
+using Wanderer.Stats;
 
-namespace StarshipWanderer.Actors
+namespace Wanderer.Actors
 {
     /// <inheritdoc cref="IActor"/>
     public abstract class Actor : HasStats,IActor
@@ -26,9 +26,9 @@ namespace StarshipWanderer.Actors
 
         public SlotCollection AvailableSlots { get; set; } = new SlotCollection();
         
-        private int _explicitColor = DefaultColor;
+        private ConsoleColor _explicitColor = DefaultColor;
 
-        public override int Color
+        public override ConsoleColor Color
         {
             //use the faction color unless we have an explicit room color set
             get =>
@@ -198,6 +198,11 @@ namespace StarshipWanderer.Actors
 
             reason = null;
             return true;
+        }
+
+        public double AttitudeTo(IActor other)
+        {
+            return this.CurrentLocation.World.Relationships.SumBetween(this,other);
         }
 
         public override string ToString()

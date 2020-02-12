@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using StarshipWanderer.Adjectives.ActorOnly;
+using Wanderer.Adjectives.ActorOnly;
 
-namespace StarshipWanderer.Items
+namespace Wanderer.Items
 {
     public class ItemSlot : IItemSlot
     {

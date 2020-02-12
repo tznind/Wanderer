@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Adjectives;
-using StarshipWanderer.Extensions;
-using StarshipWanderer.Factories.Blueprints;
+using Wanderer.Actions;
+using Wanderer.Adjectives;
+using Wanderer.Extensions;
+using Wanderer.Factories.Blueprints;
 
-namespace StarshipWanderer.Factories
+namespace Wanderer.Factories
 {
     public abstract class HasStatsFactory<T> where T : IHasStats
     {

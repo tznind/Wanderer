@@ -1,7 +1,7 @@
 ﻿using System;
-using StarshipWanderer.Actors;
+using Wanderer.Actors;
 
-namespace StarshipWanderer
+namespace Wanderer
 {
     public interface IUserinterface
     {

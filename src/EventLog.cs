@@ -4,7 +4,7 @@ using System.Text;
 using NLog;
 using NLog.Targets;
 
-namespace StarshipWanderer
+namespace Wanderer
 {
     public class EventLog
     {

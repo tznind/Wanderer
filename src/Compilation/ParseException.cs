@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace StarshipWanderer.Compilation
+namespace Wanderer.Compilation
 {
-    internal class ParseException : Exception
+    public class ParseException : Exception
     {
         public ParseException(string s):base(s)
         {

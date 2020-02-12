@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Items;
-using StarshipWanderer.Stats;
+using Wanderer.Actors;
+using Wanderer.Items;
+using Wanderer.Stats;
 
-namespace StarshipWanderer.Actions
+namespace Wanderer.Actions
 {
     public class DropAction : Action
     {

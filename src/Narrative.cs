@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Stats;
+using Wanderer.Actors;
+using Wanderer.Stats;
 
-namespace StarshipWanderer
+namespace Wanderer
 {
     /// <summary>
     /// Builds up a string of fluff text with log entries / technical summary.

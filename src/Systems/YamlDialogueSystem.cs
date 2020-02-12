@@ -1,11 +1,10 @@
 ﻿using System;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Compilation;
-using StarshipWanderer.Conditions;
-using StarshipWanderer.Dialogues;
+using Wanderer.Actions;
+using Wanderer.Compilation;
+using Wanderer.Dialogues;
 using YamlDotNet.Serialization;
 
-namespace StarshipWanderer.Systems
+namespace Wanderer.Systems
 {
     public class YamlDialogueSystem : DialogueSystem
     {
@@ -24,15 +23,6 @@ namespace StarshipWanderer.Systems
                         throw new ArgumentException("Error in dialogue yaml:" + e.Message,e);
                     }
                 }
-        }
-
-        public string Serialize()
-        {
-            var serializer = new SerializerBuilder()
-                .WithTypeConverter(new YamlTypeConverter<ICondition>())
-                .Build();
-
-            return serializer.Serialize(this.AllDialogues);
         }
     }
 }

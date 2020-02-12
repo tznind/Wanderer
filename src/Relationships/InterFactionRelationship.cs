@@ -1,6 +1,6 @@
-﻿using StarshipWanderer.Actors;
+﻿using Wanderer.Actors;
 
-namespace StarshipWanderer.Relationships
+namespace Wanderer.Relationships
 {
     /// <summary>
     /// Models a relationship between all members of one faction and all members
@@ -20,6 +20,11 @@ namespace StarshipWanderer.Relationships
         {
             return observer.FactionMembership.Contains(HostFaction)
                    && observed.FactionMembership.Contains(ObservedFaction);
+        }
+
+        public override bool AppliesTo(IFaction other)
+        {
+            return other == ObservedFaction;
         }
     }
 }

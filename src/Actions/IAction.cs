@@ -1,7 +1,7 @@
-﻿using StarshipWanderer.Actors;
-using StarshipWanderer.Behaviours;
+﻿using Wanderer.Actors;
+using Wanderer.Behaviours;
 
-namespace StarshipWanderer.Actions
+namespace Wanderer.Actions
 {
     public interface IAction : IAreIdentical<IAction>
     {

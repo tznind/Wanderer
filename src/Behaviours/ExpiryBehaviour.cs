@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using StarshipWanderer.Adjectives;
-using StarshipWanderer.Behaviours;
+using Wanderer.Adjectives;
+using Wanderer.Behaviours;
 
-namespace StarshipWanderer.Behaviours
+namespace Wanderer.Behaviours
 {
     public class ExpiryBehaviour : Behaviour
     {

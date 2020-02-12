@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
-namespace StarshipWanderer.Stats
+namespace Wanderer.Stats
 {
     public class StatsCollection: Dictionary<Stat,double>, IAreIdentical<StatsCollection>
     {
@@ -81,6 +82,12 @@ namespace StarshipWanderer.Stats
                         return false;
 
             return true;
+
+        }
+
+        public bool IsEmpty()
+        {
+            return this.All(v => Math.Abs(v.Value) < 0.0001);
 
         }
     }

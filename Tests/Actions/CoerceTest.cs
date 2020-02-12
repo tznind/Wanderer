@@ -4,14 +4,15 @@ using System.Linq;
 using System.Text;
 using Moq;
 using NUnit.Framework;
-using StarshipWanderer;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Actions.Coercion;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Adjectives.ActorOnly;
-using StarshipWanderer.Behaviours;
-using StarshipWanderer.Items;
-using StarshipWanderer.Stats;
+using Wanderer;
+using Wanderer.Actions;
+using Wanderer.Actions.Coercion;
+using Wanderer.Actors;
+using Wanderer.Adjectives.ActorOnly;
+using Wanderer.Behaviours;
+using Wanderer.Items;
+using Wanderer.Relationships;
+using Wanderer.Stats;
 
 namespace Tests.Actions
 {
@@ -50,6 +51,7 @@ namespace Tests.Actions
         {
             TwoInARoom(out You you,out IActor them,out IWorld w);
 
+            you.BaseStats[Stat.Coerce] = 20;
             var copper = new Item("Copper Coin").With(Stat.Value, 1);
             them.Items.Add(copper);
             var giveCopper = GetUI(them, them.GetFinalActions().OfType<GiveAction>().Single(), copper, you);
@@ -65,10 +67,38 @@ namespace Tests.Actions
             var givePlatinum = GetUI(them, them.GetFinalActions().OfType<GiveAction>().Single(), platinum, you);
             w.RunRound(givePlatinum,new CoerceAction());
 
-            //when you coerce them to give you something cheap it works
+            //when you coerce them to give you something expensive it doesnt work
             Assert.IsFalse(you.Items.Contains(platinum),"Expected them to refuse to give you the platinum");
             Assert.IsTrue(them.Items.Contains(platinum));
-            Assert.Contains("Test Wanderer failed to coerce Chaos Sam - Insufficient persuasion (Needed 100, Had 10)",givePlatinum.Log.RoundResults.Select(m=>m.Message).ToArray());
+            Assert.Contains("Test Wanderer failed to coerce Chaos Sam - Insufficient persuasion (Needed 120, Had 20)",givePlatinum.Log.RoundResults.Select(m=>m.Message).ToArray());
+
+        }
+
+        [Test]
+        public void CoerceFriends_IsEasier()
+        {
+            TwoInARoom(out You you,out IActor them,out IWorld w);
+
+            var platinum = new Item("Platinum Coin").With(Stat.Value, 100);
+            them.Items.Add(platinum);
+            var givePlatinum = GetUI(them, them.GetFinalActions().OfType<GiveAction>().Single(), platinum, you);
+            w.RunRound(givePlatinum,new CoerceAction());
+
+            //when you coerce them to give you something expensive it doesn't work
+            Assert.IsFalse(you.Items.Contains(platinum),"Expected them to refuse to give you the platinum");
+            Assert.IsTrue(them.Items.Contains(platinum));
+            Assert.Contains("Test Wanderer failed to coerce Chaos Sam - Insufficient persuasion (Needed 110, Had 10)",givePlatinum.Log.RoundResults.Select(m=>m.Message).ToArray());
+
+            //they love you!
+            w.Relationships.Add(new PersonalRelationship(them,you){Attitude=110});
+
+            //try now
+            givePlatinum = GetUI(them, them.GetFinalActions().OfType<GiveAction>().Single(), platinum, you);
+            w.RunRound(givePlatinum,new CoerceAction());
+
+            Assert.IsTrue(you.Items.Contains(platinum),"Expected them to give you the platinum now you are friends");
+            Assert.IsFalse(them.Items.Contains(platinum));
+
 
         }
     }

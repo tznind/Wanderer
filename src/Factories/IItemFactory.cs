@@ -1,9 +1,9 @@
-﻿using StarshipWanderer.Actors;
-using StarshipWanderer.Factories.Blueprints;
-using StarshipWanderer.Items;
-using StarshipWanderer.Places;
+﻿using Wanderer.Actors;
+using Wanderer.Factories.Blueprints;
+using Wanderer.Items;
+using Wanderer.Places;
 
-namespace StarshipWanderer.Factories
+namespace Wanderer.Factories
 {
     public interface IItemFactory
     {

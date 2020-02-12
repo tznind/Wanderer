@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Conditions;
-using StarshipWanderer.Items;
+using Wanderer.Actors;
+using Wanderer.Compilation;
+using Wanderer.Items;
 
-namespace StarshipWanderer.Factories.Blueprints
+namespace Wanderer.Factories.Blueprints
 {
     public class ItemBlueprint : HasStatsBlueprint
     {
@@ -15,7 +15,7 @@ namespace StarshipWanderer.Factories.Blueprints
         /// <summary>
         /// A condition that must be met before the item can be used
         /// </summary>
-        public List<ICondition<IActor>> Require { get; set; }
+        public List<ICondition<IHasStats>> Require { get; set; }
 
         /// <summary>
         /// Null for an item that cannot be stacked, 1+ for a

@@ -5,15 +5,15 @@ using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 using NUnit.Framework;
-using StarshipWanderer;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Adjectives;
-using StarshipWanderer.Behaviours;
-using StarshipWanderer.Conditions;
-using StarshipWanderer.Factories;
-using StarshipWanderer.Factories.Blueprints;
-using StarshipWanderer.Places;
+using Wanderer;
+using Wanderer.Actions;
+using Wanderer.Actors;
+using Wanderer.Adjectives;
+using Wanderer.Behaviours;
+using Wanderer.Compilation;
+using Wanderer.Factories;
+using Wanderer.Factories.Blueprints;
+using Wanderer.Places;
 
 namespace Tests
 {
@@ -74,7 +74,7 @@ namespace Tests
             }.Create();
 
             var omg = new Npc("omgz",world1.Player.CurrentLocation);
-            omg.BaseBehaviours.Add(new ForbidBehaviour<LeaveAction>(new LeaveDirectionCondition(Direction.Down), omg));
+            omg.BaseBehaviours.Add(new ForbidBehaviour<LeaveAction>(new ConditionCode<LeaveFrame>("Direction == Wanderer.Direction.Down"), omg));
             
             var behaviour = omg.GetFinalBehaviours().OfType<ForbidBehaviour<LeaveAction>>().Single();
 

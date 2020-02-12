@@ -1,8 +1,8 @@
-﻿using StarshipWanderer.Actors;
-using StarshipWanderer.Items;
-using StarshipWanderer.Places;
+﻿using Wanderer.Actors;
+using Wanderer.Items;
+using Wanderer.Places;
 
-namespace StarshipWanderer.Actions
+namespace Wanderer.Actions
 {
     public class PickUpFrame : Frame
     {

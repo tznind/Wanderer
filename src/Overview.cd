@@ -9,7 +9,7 @@
   <Comment CommentText="Factories">
     <Position X="8.969" Y="6.969" Height="0.365" Width="3.992" />
   </Comment>
-  <Class Name="StarshipWanderer.Stats.StatsCollection" Collapsed="true">
+  <Class Name="Wanderer.Stats.StatsCollection" Collapsed="true">
     <Position X="17.75" Y="2" Width="2" />
     <TypeIdentifier>
       <HashCode>BAIAAAAgAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAABA=</HashCode>
@@ -17,21 +17,21 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="StarshipWanderer.Actors.Npc" Collapsed="true">
+  <Class Name="Wanderer.Actors.Npc" Collapsed="true">
     <Position X="13.5" Y="6" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAEAAAAIAAAAAAAAgAAAAAAAAAAAAABAAAAA=</HashCode>
       <FileName>Actors\Npc.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="StarshipWanderer.Actors.You" Collapsed="true">
+  <Class Name="Wanderer.Actors.You" Collapsed="true">
     <Position X="11.75" Y="6" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAA=</HashCode>
       <FileName>Actors\You.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="StarshipWanderer.Actors.Actor" Collapsed="true">
+  <Class Name="Wanderer.Actors.Actor" Collapsed="true">
     <Position X="12.5" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAMAaCAAEAAAAABiAAAAAAAAAAAQACBAUAAA=</HashCode>
@@ -39,21 +39,21 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="StarshipWanderer.ActionStack" Collapsed="true">
+  <Class Name="Wanderer.ActionStack" Collapsed="true">
     <Position X="15.25" Y="6" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAIAAAA=</HashCode>
       <FileName>ActionStack.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="StarshipWanderer.Frame">
+  <Class Name="Wanderer.Frame">
     <Position X="18.25" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAIAAgAAACAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
       <FileName>Frame.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="StarshipWanderer.Point3" Collapsed="true">
+  <Class Name="Wanderer.Point3" Collapsed="true">
     <Position X="12.5" Y="1.75" Width="1.5" />
     <Compartments>
       <Compartment Name="Methods" Collapsed="true" />
@@ -63,44 +63,44 @@
       <FileName>Point3.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="StarshipWanderer.Dialogues.DialogueOption" Collapsed="true">
+  <Class Name="Wanderer.Dialogues.DialogueOption" Collapsed="true">
     <Position X="6.25" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAIAAAAAAAAAAAAEAAAAAAAAAAAAAAAEAAAACAAAAAA=</HashCode>
       <FileName>Dialogues\DialogueOption.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="StarshipWanderer.Dialogues.DialogueNode" Collapsed="true">
+  <Class Name="Wanderer.Dialogues.DialogueNode" Collapsed="true">
     <Position X="6.25" Y="3" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAABAAQABAAAA=</HashCode>
       <FileName>Dialogues\DialogueNode.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="StarshipWanderer.Factories.Blueprints.RoomBlueprint" Collapsed="true">
+  <Class Name="Wanderer.Factories.Blueprints.RoomBlueprint" Collapsed="true">
     <Position X="11.5" Y="7.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAEQAAAAAAAAAAAAgAAAAAAAQAAAAAAAIQA=</HashCode>
       <FileName>Factories\Blueprints\RoomBlueprint.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="StarshipWanderer.Factories.Blueprints.ActorBlueprint" Collapsed="true">
+  <Class Name="Wanderer.Factories.Blueprints.ActorBlueprint" Collapsed="true">
     <Position X="11.5" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAQAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Factories\Blueprints\ActorBlueprint.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="StarshipWanderer.Factories.Blueprints.ItemBlueprint" Collapsed="true">
+  <Class Name="Wanderer.Factories.Blueprints.ItemBlueprint" Collapsed="true">
     <Position X="11.5" Y="9.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAgA=</HashCode>
       <FileName>Factories\Blueprints\ItemBlueprint.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Interface Name="StarshipWanderer.IWorld">
+  <Interface Name="Wanderer.IWorld">
     <Position X="10.25" Y="2.75" Width="1.5" />
-    <AssociationLine Name="RoomFactory" Type="StarshipWanderer.Factories.IRoomFactory" FixedFromPoint="true" FixedToPoint="true">
+    <AssociationLine Name="RoomFactory" Type="Wanderer.Factories.IRoomFactory" FixedFromPoint="true" FixedToPoint="true">
       <Path>
         <Point X="10.688" Y="6.036" />
         <Point X="10.688" Y="6.411" />
@@ -117,7 +117,7 @@
       <Property Name="Factions" />
     </ShowAsAssociation>
   </Interface>
-  <Interface Name="StarshipWanderer.Actors.IActor" Collapsed="true">
+  <Interface Name="Wanderer.Actors.IActor" Collapsed="true">
     <Position X="12.5" Y="4" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAMAaCAAEAAAAABiAAAAAAAAAAAQACBAUAAA=</HashCode>
@@ -127,49 +127,49 @@
       <Property Name="CurrentLocation" />
     </ShowAsAssociation>
   </Interface>
-  <Interface Name="StarshipWanderer.Adjectives.IAdjective">
+  <Interface Name="Wanderer.Adjectives.IAdjective">
     <Position X="17.75" Y="3" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAACAAAAAAAAAIAAAAAAAAAAAQAAAAAAAAAAAAAA=</HashCode>
       <FileName>Adjectives\IAdjective.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="StarshipWanderer.Actions.IAction">
+  <Interface Name="Wanderer.Actions.IAction">
     <Position X="16.75" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAACAAAgAAAAAAAAACAA=</HashCode>
       <FileName>Actions\IAction.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="StarshipWanderer.Places.IPlace" Collapsed="true">
+  <Interface Name="Wanderer.Places.IPlace" Collapsed="true">
     <Position X="12.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAIAAAABACqAAAIAAAAAAAAAAAAAAAAAAAAAgAAQA=</HashCode>
       <FileName>Places\IPlace.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="StarshipWanderer.Behaviours.IBehaviour" Collapsed="true">
+  <Interface Name="Wanderer.Behaviours.IBehaviour" Collapsed="true">
     <Position X="18" Y="0.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAACAAA=</HashCode>
       <FileName>Behaviours\IBehaviour.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="StarshipWanderer.Systems.IRelationshipSystem" Collapsed="true">
+  <Interface Name="Wanderer.Systems.IRelationshipSystem" Collapsed="true">
     <Position X="8" Y="1.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACA=</HashCode>
       <FileName>Systems\IRelationshipSystem.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="StarshipWanderer.Relationships.IFactionCollection" Collapsed="true">
+  <Interface Name="Wanderer.Relationships.IFactionCollection" Collapsed="true">
     <Position X="7.75" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
       <FileName>Relationships\IFactionCollection.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="StarshipWanderer.Relationships.IFaction" Collapsed="true">
+  <Interface Name="Wanderer.Relationships.IFaction" Collapsed="true">
     <Position X="7.75" Y="5.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAQAAAAAAAFAAAAAQAAAAAAAAAAAAAQAAAAAA=</HashCode>
@@ -179,14 +179,14 @@
       <Property Name="ActorFactory" />
     </ShowAsAssociation>
   </Interface>
-  <Interface Name="StarshipWanderer.Relationships.IRelationship" Collapsed="true">
+  <Interface Name="Wanderer.Relationships.IRelationship" Collapsed="true">
     <Position X="8" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAACAAAAAABAAAAAAAAAA=</HashCode>
       <FileName>Relationships\IRelationship.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="StarshipWanderer.IHasStats">
+  <Interface Name="Wanderer.IHasStats">
     <Position X="15.25" Y="1" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAIAAAARAAQAAAAAAEAAASAAAAAAAAAAgQAAAAAAAA=</HashCode>
@@ -196,35 +196,35 @@
       <Property Name="BaseStats" />
     </ShowAsAssociation>
   </Interface>
-  <Interface Name="StarshipWanderer.Items.IItem" Collapsed="true">
+  <Interface Name="Wanderer.Items.IItem" Collapsed="true">
     <Position X="14.75" Y="4" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAASIAAEAAAAAAAAAABAAAAAABAAAQAAAgA=</HashCode>
       <FileName>Items\IItem.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="StarshipWanderer.Systems.IInjurySystem" Collapsed="true">
+  <Interface Name="Wanderer.Systems.IInjurySystem" Collapsed="true">
     <Position X="6" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAABAFAAAAAAAAAABCAAAAAAAAAAAAAAAAgAA=</HashCode>
       <FileName>Systems\IInjurySystem.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="StarshipWanderer.Systems.IDialogueSystem" Collapsed="true">
+  <Interface Name="Wanderer.Systems.IDialogueSystem" Collapsed="true">
     <Position X="6.25" Y="2.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAIAAAAAAAAAAAEAAAAAAAAAAAAAAEAAAABAI=</HashCode>
       <FileName>Systems\IDialogueSystem.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="StarshipWanderer.Relationships.IFactionRelationship" Collapsed="true">
+  <Interface Name="Wanderer.Relationships.IFactionRelationship" Collapsed="true">
     <Position X="8" Y="3" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
       <FileName>Relationships\IFactionRelationship.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="StarshipWanderer.Factories.IRoomFactory" Collapsed="true">
+  <Interface Name="Wanderer.Factories.IRoomFactory" Collapsed="true">
     <Position X="9" Y="7.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAgAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
@@ -234,7 +234,7 @@
       <Property Name="Blueprints" />
     </ShowAsCollectionAssociation>
   </Interface>
-  <Interface Name="StarshipWanderer.Factories.IActorFactory" Collapsed="true">
+  <Interface Name="Wanderer.Factories.IActorFactory" Collapsed="true">
     <Position X="9" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAABAAAAAAAAAAAgAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
@@ -244,7 +244,7 @@
       <Property Name="Blueprints" />
     </ShowAsCollectionAssociation>
   </Interface>
-  <Interface Name="StarshipWanderer.Factories.IItemFactory" Collapsed="true">
+  <Interface Name="Wanderer.Factories.IItemFactory" Collapsed="true">
     <Position X="9" Y="9.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAgAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
@@ -254,35 +254,35 @@
       <Property Name="Blueprints" />
     </ShowAsCollectionAssociation>
   </Interface>
-  <Interface Name="StarshipWanderer.IUserinterface" Collapsed="true">
+  <Interface Name="Wanderer.IUserinterface" Collapsed="true">
     <Position X="10" Y="0.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AgAAAAgAAABAAAAAAAAAAAAABAgAAAAAAAAABAAAAAA=</HashCode>
       <FileName>IUserinterface.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="StarshipWanderer.Systems.ISystem" Collapsed="true">
+  <Interface Name="Wanderer.Systems.ISystem" Collapsed="true">
     <Position X="6.75" Y="1" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Systems\ISystem.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="StarshipWanderer.Systems.INegotiationSystem" Collapsed="true">
+  <Interface Name="Wanderer.Systems.INegotiationSystem" Collapsed="true">
     <Position X="6" Y="5.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Systems\INegotiationSystem.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="StarshipWanderer.Conditions.ICondition" Collapsed="true">
+  <Interface Name="Wanderer.Conditions.ICondition" Collapsed="true">
     <Position X="14.75" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Conditions\ICondition.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Enum Name="StarshipWanderer.Stats.Stat">
+  <Enum Name="Wanderer.Stats.Stat">
     <Position X="19.75" Y="2" Width="1.25" />
     <TypeIdentifier>
       <HashCode>AAAAAACAAAALgAAAEAAAAAAAAAAAAAAAAAAgAAEAAAA=</HashCode>

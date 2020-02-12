@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Behaviours;
-using StarshipWanderer.Factories;
-using StarshipWanderer.Items;
-using StarshipWanderer.Places;
-using StarshipWanderer.Relationships;
-using StarshipWanderer.Systems;
+using Wanderer.Actions;
+using Wanderer.Actors;
+using Wanderer.Behaviours;
+using Wanderer.Factories;
+using Wanderer.Items;
+using Wanderer.Places;
+using Wanderer.Relationships;
+using Wanderer.Systems;
 
-namespace StarshipWanderer
+namespace Wanderer
 {
     public interface IWorld
     {

@@ -1,4 +1,4 @@
-﻿namespace StarshipWanderer.Factories
+﻿namespace Wanderer.Factories
 {
     public interface IWorldFactory
     {

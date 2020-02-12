@@ -5,18 +5,18 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Behaviours;
-using StarshipWanderer.Extensions;
-using StarshipWanderer.Factories;
-using StarshipWanderer.Items;
-using StarshipWanderer.Places;
-using StarshipWanderer.Relationships;
-using StarshipWanderer.Stats;
-using StarshipWanderer.Systems;
+using Wanderer.Actions;
+using Wanderer.Actors;
+using Wanderer.Behaviours;
+using Wanderer.Extensions;
+using Wanderer.Factories;
+using Wanderer.Items;
+using Wanderer.Places;
+using Wanderer.Relationships;
+using Wanderer.Stats;
+using Wanderer.Systems;
 
-namespace StarshipWanderer
+namespace Wanderer
 {
     public class World : IWorld
     {

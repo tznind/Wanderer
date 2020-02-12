@@ -2,12 +2,12 @@
 using System.Linq;
 using NUnit.Framework;
 using NUnit.Framework.Constraints;
-using StarshipWanderer;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Behaviours;
-using StarshipWanderer.Items;
-using StarshipWanderer.Relationships;
-using StarshipWanderer.Stats;
+using Wanderer;
+using Wanderer.Actors;
+using Wanderer.Behaviours;
+using Wanderer.Items;
+using Wanderer.Relationships;
+using Wanderer.Stats;
 
 namespace Tests.Actors
 {
@@ -117,16 +117,16 @@ namespace Tests.Actors
             var you = YouInARoom(out IWorld _);
 
             if (explicitColor)
-                you.Color = 4;
+                you.Color = ConsoleColor.DarkGray;
 
             var f = new Faction("gangers", FactionRole.Civilian)
             {
-                Color = 2
+                Color = ConsoleColor.Cyan
             };
 
             you.FactionMembership.Add(f);
 
-            Assert.AreEqual(explicitColor ? 4 : 2,you.Color);
+            Assert.AreEqual(explicitColor ? ConsoleColor.DarkGray : ConsoleColor.Cyan,you.Color);
         }
     }
 }

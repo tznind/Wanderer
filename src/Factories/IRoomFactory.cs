@@ -1,11 +1,12 @@
-﻿using StarshipWanderer.Factories.Blueprints;
-using StarshipWanderer.Places;
+﻿using Wanderer.Factories.Blueprints;
+using Wanderer.Places;
 
-namespace StarshipWanderer.Factories
+namespace Wanderer.Factories
 {
     public interface IRoomFactory
     {
         IPlace Create(IWorld world);
+        IPlace Create(IWorld world, RoomBlueprint blueprint);
 
         RoomBlueprint[] Blueprints { get; set; }
 

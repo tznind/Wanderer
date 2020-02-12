@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Relationships;
-using StarshipWanderer.Systems;
+using Wanderer.Actors;
+using Wanderer.Relationships;
+using Wanderer.Systems;
 
-namespace StarshipWanderer.Systems
+namespace Wanderer.Systems
 {
     public interface IRelationshipSystem : IList<IRelationship>, ISystem
     {

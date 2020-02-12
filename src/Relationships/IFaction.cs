@@ -1,8 +1,8 @@
 ﻿using System;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Factories;
+using Wanderer.Actors;
+using Wanderer.Factories;
 
-namespace StarshipWanderer.Relationships
+namespace Wanderer.Relationships
 {
     public interface IFaction : IHasStats
     {

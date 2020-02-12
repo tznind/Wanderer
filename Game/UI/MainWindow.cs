@@ -6,10 +6,11 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using StarshipWanderer;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Factories;
+using Wanderer;
+using Wanderer.Actors;
+using Wanderer.Factories;
 using Terminal.Gui;
+using Attribute = Terminal.Gui.Attribute;
 
 namespace Game.UI
 {
@@ -52,7 +53,8 @@ namespace Game.UI
                 }),
                 new MenuBarItem("_View",new MenuItem[]{
                     new MenuItem ("_Log", null, ViewLog),
-                    new MenuItem ("_Character", null, () => { ShowStats(World?.Player); })
+                    new MenuItem ("_Character", null, () => { ShowStats(World?.Player); }),
+                    new MenuItem ("_Factions", null, () => { ShowFactions(World); })
                 })
             });
             top.Add (menu);
@@ -60,6 +62,21 @@ namespace Game.UI
             _splash = new SplashScreen(){X = 4,Y=4};
             Add(_splash);
         }
+
+        private void ShowFactions(IWorld world)
+        {
+            if (world == null)
+            {
+                ShowMessage("No World","No game is currently loaded");
+                return;
+            }
+
+            var v = new FactionsView();
+            v.InitializeComponent(world,DlgWidth,DlgHeight);
+            var dlg = new ModalDialog(this,"Factions",v);
+            Application.Run(dlg);
+        }
+
         public void NewGame()
         {
 
@@ -130,7 +147,7 @@ namespace Game.UI
                     
                     var json = File.ReadAllText(f);
                     
-                    var newWorld = JsonConvert.DeserializeObject<IWorld>(json, StarshipWanderer.World.GetJsonSerializerSettings());
+                    var newWorld = JsonConvert.DeserializeObject<IWorld>(json, Wanderer.World.GetJsonSerializerSettings());
                     
                     SetWorld(newWorld);
                 }
@@ -160,7 +177,7 @@ namespace Game.UI
                 
                 try
                 {
-                    var json = JsonConvert.SerializeObject(World, StarshipWanderer.World.GetJsonSerializerSettings());
+                    var json = JsonConvert.SerializeObject(World, Wanderer.World.GetJsonSerializerSettings());
                     File.WriteAllText(f.ToString(),json);
                 }
                 catch (Exception e)
@@ -254,7 +271,9 @@ namespace Game.UI
                 return;
             }
 
-            var dlg = new HasStatsDialog(this,of as IActor ?? World.Player,of);
+            var v = new HasStatsView();
+            v.InitializeComponent(of as IActor ?? World.Player,of,DlgWidth,DlgHeight);
+            var dlg = new ModalDialog(this,of.Name,v);
             Application.Run(dlg);
         }
 
@@ -293,6 +312,7 @@ namespace Game.UI
 
         readonly List<Tuple<Pos,Pos>> _buttonLocations = new List<Tuple<Pos, Pos>>()
         {
+            //TODO: this should expand infinitely (with optional scroll view)
             Tuple.Create(Pos.At(0),Pos.Percent(100)-4),
             Tuple.Create(Pos.At(0),Pos.Percent(100)-3),
             Tuple.Create(Pos.At(0),Pos.Percent(100)-2),
@@ -338,23 +358,27 @@ namespace Game.UI
                 var toCentreX = -mapWidth / 2;
                 var toCentreY = -mapHeight / 2;
 
-
-                for (int x = 0; x < mapWidth; x++)
+                
+                for (int y = 0; y < mapHeight; y++)
                 {
-                    for (int y = 0; y < mapHeight; y++)
-                    {
-                        Driver.Move(x+2,mapHeight - (y-1));
+                    Driver.Move(2,mapHeight - (y-1));
 
+                    for (int x = 0; x < mapWidth; x++)
+                    {
                         var pointToRender = new Point3(x + toCentreX, y +toCentreY, 0).Offset(home);
 
                         if (World.Map.ContainsKey(pointToRender) && World.Map[pointToRender].IsExplored)
                         {
-                            Driver.SetAttribute(World.Map[pointToRender].Color);
+                            var att = 
+                                Equals(pointToRender, home) 
+                                      //flip the colors where you are
+                                    ? Attribute.Make((Color) ConsoleColor.Black,(Color) World.Map[pointToRender].Color)
+                                    :Attribute.Make((Color) World.Map[pointToRender].Color, (Color) ConsoleColor.Black);
+                            Driver.SetAttribute(att);
                             Driver.AddRune(World.Map[pointToRender].Tile);
                         }
                         else
                         {
-                            
                             Driver.SetAttribute((int)Color.Black);
                             Driver.AddRune(' ');
                         }
@@ -471,6 +495,9 @@ namespace Game.UI
 
         private void UpdateDetailPane()
         {
+            if(_roomContents == null)
+                return;
+
             var selected = _roomContents.SelectedItem;
             
             if(_detail != null)

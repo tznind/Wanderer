@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace StarshipWanderer
+namespace Wanderer
 {
     public static class DirectionExtensions
     {

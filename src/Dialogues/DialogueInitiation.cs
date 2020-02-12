@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace StarshipWanderer.Dialogues
+namespace Wanderer.Dialogues
 {
     public class DialogueInitiation
     {

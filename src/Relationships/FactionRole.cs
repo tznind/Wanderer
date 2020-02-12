@@ -1,4 +1,4 @@
-﻿namespace StarshipWanderer.Relationships
+﻿namespace Wanderer.Relationships
 {
     public enum FactionRole
     {

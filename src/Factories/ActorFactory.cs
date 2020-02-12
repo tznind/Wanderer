@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Linq;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Extensions;
-using StarshipWanderer.Factories.Blueprints;
-using StarshipWanderer.Items;
-using StarshipWanderer.Places;
-using StarshipWanderer.Relationships;
+using Wanderer.Actors;
+using Wanderer.Extensions;
+using Wanderer.Factories.Blueprints;
+using Wanderer.Items;
+using Wanderer.Places;
+using Wanderer.Relationships;
 
-namespace StarshipWanderer.Factories
+namespace Wanderer.Factories
 {
     public class ActorFactory : HasStatsFactory<IActor> ,IActorFactory
     {

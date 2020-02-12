@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using Wanderer.Compilation;
+using Wanderer.Systems;
 
-namespace StarshipWanderer.Dialogues
+namespace Wanderer.Dialogues
 {
     public class DialogueOption
     {
@@ -9,6 +12,8 @@ namespace StarshipWanderer.Dialogues
         public int? Attitude { get; set; }
 
         public string Text { get; set; }
+
+        public List<IEffect> Effect = new List<IEffect>();
 
         public override string ToString()
         {

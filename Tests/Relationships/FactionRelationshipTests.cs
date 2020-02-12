@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
-using StarshipWanderer;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Places;
-using StarshipWanderer.Relationships;
+using Wanderer;
+using Wanderer.Actors;
+using Wanderer.Places;
+using Wanderer.Relationships;
 
 namespace Tests.Relationships
 {
@@ -55,6 +55,9 @@ namespace Tests.Relationships
             //cops are friends with one another
             _world.Relationships.Add(new IntraFactionRelationship(_cops, 10));
 
+            Assert.IsTrue(((IFactionRelationship)_world.Relationships[0]).AppliesTo(_cops),"Relationship should apply when cops consider other cops");
+            Assert.IsFalse(((IFactionRelationship)_world.Relationships[0]).AppliesTo(_robbers),"Relationship should not apply when cops consider robbers");
+
             Assert.AreEqual(0,GetTotalFor(_robber1, _robber2));
             Assert.AreEqual(10,GetTotalFor(_cop1, _cop2));
 
@@ -76,6 +79,9 @@ namespace Tests.Relationships
 
             //but cops hate non cops more
             _world.Relationships.Add(new ExtraFactionRelationship(_cops, -7));
+
+            Assert.IsTrue(((IFactionRelationship)_world.Relationships[0]).AppliesTo(_cops),"Relationship should apply when robbers consider cops");
+            Assert.IsFalse(((IFactionRelationship)_world.Relationships[0]).AppliesTo(_robbers),"Relationship should not apply when robbers consider robbers");
 
             //cops and robbers are all ok with their friends
             Assert.AreEqual(0,GetTotalFor(_robber1, _robber2));
@@ -109,6 +115,9 @@ namespace Tests.Relationships
             //but cops hate robbers more
             _world.Relationships.Add(new InterFactionRelationship(_cops,_robbers, -7));
 
+            Assert.IsTrue(((IFactionRelationship)_world.Relationships[0]).AppliesTo(_cops),"Relationship should apply when robbers consider cops");
+            Assert.IsFalse(((IFactionRelationship)_world.Relationships[0]).AppliesTo(_robbers),"Relationship should not apply when robbers consider robbers");
+            
             //cops and robbers are all ok with their friends
             Assert.AreEqual(0,GetTotalFor(_robber1, _robber2));
             Assert.AreEqual(0,GetTotalFor(_cop1, _cop2));

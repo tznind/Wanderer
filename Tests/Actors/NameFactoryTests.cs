@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using Moq;
 using NUnit.Framework;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Factories;
+using Wanderer.Actors;
+using Wanderer.Factories;
 
 namespace Tests.Actors
 {

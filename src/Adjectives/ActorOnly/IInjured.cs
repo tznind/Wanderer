@@ -1,7 +1,7 @@
 ﻿using System;
-using StarshipWanderer.Actors;
+using Wanderer.Actors;
 
-namespace StarshipWanderer.Adjectives.ActorOnly
+namespace Wanderer.Adjectives.ActorOnly
 {
     public interface IInjured : IAdjective
     {

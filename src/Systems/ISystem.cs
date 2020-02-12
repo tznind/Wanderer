@@ -1,6 +1,6 @@
-﻿using StarshipWanderer.Actors;
+﻿using Wanderer.Actors;
 
-namespace StarshipWanderer.Systems
+namespace Wanderer.Systems
 {
     /// <summary>
     /// A system for applying a range of possibly cumulative effects on an

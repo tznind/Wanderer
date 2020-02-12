@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Adjectives;
-using StarshipWanderer.Items;
-using StarshipWanderer.Relationships;
+using Wanderer.Actors;
+using Wanderer.Adjectives;
+using Wanderer.Items;
+using Wanderer.Relationships;
 
-namespace StarshipWanderer.Places
+namespace Wanderer.Places
 {
     public class Room : HasStats, IPlace
     {
@@ -26,9 +26,9 @@ namespace StarshipWanderer.Places
         
         public HashSet<Direction> LeaveDirections { get; set; } = new HashSet<Direction>(new []{Direction.North,Direction.South,Direction.East,Direction.West});
         
-        private int _explicitColor = DefaultColor;
+        private ConsoleColor _explicitColor = DefaultColor;
 
-        public override int Color
+        public override ConsoleColor Color
         {
             //use the faction color unless we have an explicit room color set
             get =>

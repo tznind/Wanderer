@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Adjectives;
-using StarshipWanderer.Factories.Blueprints;
+using Wanderer.Actors;
+using Wanderer.Adjectives;
+using Wanderer.Factories.Blueprints;
 
-namespace StarshipWanderer.Factories
+namespace Wanderer.Factories
 {
     public interface IAdjectiveFactory
     {

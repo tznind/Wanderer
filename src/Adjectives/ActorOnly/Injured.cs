@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Adjectives.RoomOnly;
-using StarshipWanderer.Behaviours;
-using StarshipWanderer.Stats;
-using StarshipWanderer.Systems;
+using Wanderer.Actors;
+using Wanderer.Adjectives.RoomOnly;
+using Wanderer.Behaviours;
+using Wanderer.Stats;
+using Wanderer.Systems;
 
-namespace StarshipWanderer.Adjectives.ActorOnly
+namespace Wanderer.Adjectives.ActorOnly
 {
     public class Injured : Adjective, IBehaviour, IInjured
     {

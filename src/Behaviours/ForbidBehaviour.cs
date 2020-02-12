@@ -1,15 +1,15 @@
 ﻿using System.Linq;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Conditions;
+using Wanderer.Actions;
+using Wanderer.Actors;
+using Wanderer.Compilation;
 
-namespace StarshipWanderer.Behaviours
+namespace Wanderer.Behaviours
 {
     public class ForbidBehaviour<T> : Behaviour where T:Action
     {
-        public ICondition<Frame> Condition { get; set; }
+        public ICondition Condition { get; set; }
 
-        public ForbidBehaviour(ICondition<Frame> condition, IActor owner):base(owner)
+        public ForbidBehaviour(ICondition condition, IActor owner):base(owner)
         {
             Condition = condition;
         }

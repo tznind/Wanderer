@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace StarshipWanderer.Behaviours
+namespace Wanderer.Behaviours
 {
     public enum Comparison
     {

@@ -1,10 +1,10 @@
 ﻿using System;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Adjectives;
-using StarshipWanderer.Dialogues;
-using StarshipWanderer.Stats;
+using Wanderer.Actions;
+using Wanderer.Adjectives;
+using Wanderer.Dialogues;
+using Wanderer.Stats;
 
-namespace StarshipWanderer.Factories.Blueprints
+namespace Wanderer.Factories.Blueprints
 {
     public abstract class HasStatsBlueprint
     {
@@ -36,7 +36,7 @@ namespace StarshipWanderer.Factories.Blueprints
         /// Yellow=14
         /// White=15
         /// </summary>
-        public int Color { get; set; } = 15;
+        public ConsoleColor Color { get; set; } = ConsoleColor.White;
 
         /// <summary>
         /// Explicit name for this e.g. Centipede otherwise leave null to generate

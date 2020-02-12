@@ -2,12 +2,12 @@
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
-using StarshipWanderer;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Adjectives;
-using StarshipWanderer.Factories;
-using StarshipWanderer.Items;
-using StarshipWanderer.Stats;
+using Wanderer;
+using Wanderer.Actors;
+using Wanderer.Adjectives;
+using Wanderer.Factories;
+using Wanderer.Items;
+using Wanderer.Stats;
 
 namespace Tests.Actors
 {

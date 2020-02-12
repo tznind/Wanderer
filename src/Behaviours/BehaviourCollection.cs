@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using StarshipWanderer.Adjectives;
+using Wanderer.Adjectives;
 
-namespace StarshipWanderer.Behaviours
+namespace Wanderer.Behaviours
 {
     class BehaviourCollection : SwCollection<IBehaviour>,IBehaviourCollection
     {

@@ -1,11 +1,11 @@
 ﻿using System.Linq;
 using System.Threading;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Relationships;
-using StarshipWanderer.Systems;
+using Wanderer.Actions;
+using Wanderer.Actors;
+using Wanderer.Relationships;
+using Wanderer.Systems;
 
-namespace StarshipWanderer.Behaviours
+namespace Wanderer.Behaviours
 {
     public class RelationshipFormingBehaviour : Behaviour
     {
@@ -15,7 +15,7 @@ namespace StarshipWanderer.Behaviours
 
         public override void OnPop(IUserinterface ui, ActionStack stack, Frame frame)
         {
-            base.OnPush(ui, stack, frame);
+            base.OnPop(ui, stack, frame);
 
             var world = frame.PerformedBy.CurrentLocation.World;
             

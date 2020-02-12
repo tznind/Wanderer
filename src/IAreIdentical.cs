@@ -1,4 +1,4 @@
-﻿namespace StarshipWanderer
+﻿namespace Wanderer
 {
     public interface IAreIdentical<T>
     {

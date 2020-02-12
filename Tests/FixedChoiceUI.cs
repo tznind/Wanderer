@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
-using StarshipWanderer;
-using StarshipWanderer.Actors;
+using Wanderer;
+using Wanderer.Actors;
 
 namespace Tests
 {
