@@ -1,7 +1,7 @@
-﻿using StarshipWanderer.Actions;
-using StarshipWanderer.Actors;
+﻿using Wanderer.Actions;
+using Wanderer.Actors;
 
-namespace StarshipWanderer.Behaviours
+namespace Wanderer.Behaviours
 {
     internal class ForbidAction : Action
     {

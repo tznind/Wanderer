@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Adjectives;
-using StarshipWanderer.Behaviours;
-using StarshipWanderer.Dialogues;
-using StarshipWanderer.Stats;
+using Wanderer.Actions;
+using Wanderer.Actors;
+using Wanderer.Adjectives;
+using Wanderer.Behaviours;
+using Wanderer.Dialogues;
+using Wanderer.Stats;
 
-namespace StarshipWanderer
+namespace Wanderer
 {
     public abstract class HasStats : IHasStats
     {

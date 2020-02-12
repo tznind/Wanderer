@@ -1,6 +1,6 @@
-﻿using StarshipWanderer.Actors;
+﻿using Wanderer.Actors;
 
-namespace StarshipWanderer.Relationships
+namespace Wanderer.Relationships
 {
     /// <summary>
     /// Models a relationship between members of the same <see cref="IFaction"/>

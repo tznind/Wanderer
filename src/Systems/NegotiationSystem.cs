@@ -1,7 +1,7 @@
 ﻿using System;
-using StarshipWanderer.Actors;
+using Wanderer.Actors;
 
-namespace StarshipWanderer.Systems
+namespace Wanderer.Systems
 {
     class NegotiationSystem : INegotiationSystem
     {

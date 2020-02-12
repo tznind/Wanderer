@@ -1,7 +1,7 @@
 ﻿using System;
-using StarshipWanderer.Actors;
+using Wanderer.Actors;
 
-namespace StarshipWanderer
+namespace Wanderer
 {
     /// <summary>
     /// An event in the game world that should be logged.  May be associated with a specific

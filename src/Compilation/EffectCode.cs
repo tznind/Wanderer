@@ -1,8 +1,8 @@
 ﻿using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
-using StarshipWanderer.Systems;
+using Wanderer.Systems;
 
-namespace StarshipWanderer.Compilation
+namespace Wanderer.Compilation
 {
     public class EffectCode : Code, IEffect
     {

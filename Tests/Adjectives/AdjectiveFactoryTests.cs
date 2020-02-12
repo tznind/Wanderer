@@ -1,9 +1,9 @@
 ﻿using Moq;
 using NUnit.Framework;
-using StarshipWanderer;
-using StarshipWanderer.Factories;
-using StarshipWanderer.Factories.Blueprints;
-using StarshipWanderer.Places;
+using Wanderer;
+using Wanderer.Factories;
+using Wanderer.Factories.Blueprints;
+using Wanderer.Places;
 
 namespace Tests.Adjectives
 {

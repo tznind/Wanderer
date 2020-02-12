@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using Moq;
 using NUnit.Framework;
-using StarshipWanderer;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Compilation;
-using StarshipWanderer.Dialogues;
-using StarshipWanderer.Stats;
-using StarshipWanderer.Systems;
+using Wanderer;
+using Wanderer.Actors;
+using Wanderer.Compilation;
+using Wanderer.Dialogues;
+using Wanderer.Stats;
+using Wanderer.Systems;
 
 namespace Tests.Effects
 {

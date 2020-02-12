@@ -1,7 +1,7 @@
-﻿using StarshipWanderer.Adjectives;
-using StarshipWanderer.Stats;
+﻿using Wanderer.Adjectives;
+using Wanderer.Stats;
 
-namespace StarshipWanderer.Factories.Blueprints
+namespace Wanderer.Factories.Blueprints
 {
     public class AdjectiveBlueprint
     {

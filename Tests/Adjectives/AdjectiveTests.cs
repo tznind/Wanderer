@@ -2,14 +2,14 @@
 using System.Linq;
 using Moq;
 using NUnit.Framework;
-using StarshipWanderer;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Adjectives;
-using StarshipWanderer.Adjectives.ActorOnly;
-using StarshipWanderer.Factories;
-using StarshipWanderer.Items;
-using StarshipWanderer.Places;
-using StarshipWanderer.Stats;
+using Wanderer;
+using Wanderer.Actors;
+using Wanderer.Adjectives;
+using Wanderer.Adjectives.ActorOnly;
+using Wanderer.Factories;
+using Wanderer.Items;
+using Wanderer.Places;
+using Wanderer.Stats;
 
 namespace Tests.Adjectives
 {

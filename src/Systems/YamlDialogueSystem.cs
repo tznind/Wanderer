@@ -1,10 +1,10 @@
 ﻿using System;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Compilation;
-using StarshipWanderer.Dialogues;
+using Wanderer.Actions;
+using Wanderer.Compilation;
+using Wanderer.Dialogues;
 using YamlDotNet.Serialization;
 
-namespace StarshipWanderer.Systems
+namespace Wanderer.Systems
 {
     public class YamlDialogueSystem : DialogueSystem
     {

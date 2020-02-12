@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Behaviours;
+using Wanderer.Actors;
+using Wanderer.Behaviours;
 
-namespace StarshipWanderer.Actions
+namespace Wanderer.Actions
 {
     /// <inheritdoc/>
     public abstract class Action : IAction

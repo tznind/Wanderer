@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
-using StarshipWanderer;
-using StarshipWanderer.Adjectives;
-using StarshipWanderer.Items;
+using Wanderer;
+using Wanderer.Adjectives;
+using Wanderer.Items;
 
 namespace Tests.Places
 {

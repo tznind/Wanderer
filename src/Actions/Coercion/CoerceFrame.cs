@@ -1,7 +1,7 @@
-﻿using StarshipWanderer.Actors;
-using StarshipWanderer.Systems;
+﻿using Wanderer.Actors;
+using Wanderer.Systems;
 
-namespace StarshipWanderer.Actions.Coercion
+namespace Wanderer.Actions.Coercion
 {
     public class CoerceFrame : Frame
     {

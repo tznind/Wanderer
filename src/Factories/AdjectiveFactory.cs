@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Adjectives;
-using StarshipWanderer.Adjectives.RoomOnly;
-using StarshipWanderer.Factories.Blueprints;
-using StarshipWanderer.Items;
-using StarshipWanderer.Places;
+using Wanderer.Actors;
+using Wanderer.Adjectives;
+using Wanderer.Adjectives.RoomOnly;
+using Wanderer.Factories.Blueprints;
+using Wanderer.Items;
+using Wanderer.Places;
 
-namespace StarshipWanderer.Factories
+namespace Wanderer.Factories
 {
     public class AdjectiveFactory : IAdjectiveFactory
     {

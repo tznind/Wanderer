@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using StarshipWanderer.Compilation;
-using StarshipWanderer.Systems;
+using Wanderer.Compilation;
+using Wanderer.Systems;
 
-namespace StarshipWanderer.Dialogues
+namespace Wanderer.Dialogues
 {
     public class DialogueOption
     {

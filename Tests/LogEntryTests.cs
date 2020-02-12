@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using Moq;
 using NUnit.Framework;
-using StarshipWanderer;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Places;
+using Wanderer;
+using Wanderer.Actors;
+using Wanderer.Places;
 
 namespace Tests
 {

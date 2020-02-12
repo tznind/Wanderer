@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
-using StarshipWanderer;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Items;
-using StarshipWanderer.Places;
-using StarshipWanderer.Relationships;
+using Wanderer;
+using Wanderer.Actions;
+using Wanderer.Actors;
+using Wanderer.Items;
+using Wanderer.Places;
+using Wanderer.Relationships;
 using Tests.Actions;
 
 namespace Tests.Relationships

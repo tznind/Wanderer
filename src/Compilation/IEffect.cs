@@ -1,6 +1,6 @@
-﻿using StarshipWanderer.Systems;
+﻿using Wanderer.Systems;
 
-namespace StarshipWanderer.Compilation
+namespace Wanderer.Compilation
 {
 
     public interface IEffect

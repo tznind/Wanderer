@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Adjectives;
-using StarshipWanderer.Behaviours;
-using StarshipWanderer.Compilation;
-using StarshipWanderer.Places;
-using StarshipWanderer.Stats;
+using Wanderer.Actions;
+using Wanderer.Actors;
+using Wanderer.Adjectives;
+using Wanderer.Behaviours;
+using Wanderer.Compilation;
+using Wanderer.Places;
+using Wanderer.Stats;
 
-namespace StarshipWanderer.Items
+namespace Wanderer.Items
 {
     public class Item : HasStats,IItem
     {

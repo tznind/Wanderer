@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using StarshipWanderer.Adjectives.ActorOnly;
+using Wanderer.Adjectives.ActorOnly;
 
-namespace StarshipWanderer.Items
+namespace Wanderer.Items
 {
     /// <summary>
     /// A location in which an item can be equipped

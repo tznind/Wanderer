@@ -1,11 +1,11 @@
 ﻿using Newtonsoft.Json;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Compilation;
-using StarshipWanderer.Dialogues;
-using StarshipWanderer.Factories.Blueprints;
+using Wanderer.Actions;
+using Wanderer.Compilation;
+using Wanderer.Dialogues;
+using Wanderer.Factories.Blueprints;
 using YamlDotNet.Serialization;
 
-namespace StarshipWanderer.Factories
+namespace Wanderer.Factories
 {
     public class YamlItemFactory : ItemFactory
     {

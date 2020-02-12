@@ -1,17 +1,17 @@
 ﻿using Moq;
 using NUnit.Framework;
-using StarshipWanderer;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Places;
+using Wanderer;
+using Wanderer.Actions;
+using Wanderer.Places;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Behaviours;
-using StarshipWanderer.Compilation;
-using StarshipWanderer.Factories;
-using StarshipWanderer.Items;
+using Wanderer.Actors;
+using Wanderer.Behaviours;
+using Wanderer.Compilation;
+using Wanderer.Factories;
+using Wanderer.Items;
 
 namespace Tests.Actions
 {

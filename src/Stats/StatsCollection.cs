@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace StarshipWanderer.Stats
+namespace Wanderer.Stats
 {
     public class StatsCollection: Dictionary<Stat,double>, IAreIdentical<StatsCollection>
     {

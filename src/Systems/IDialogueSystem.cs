@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Dialogues;
+using Wanderer.Actors;
+using Wanderer.Dialogues;
 
-namespace StarshipWanderer.Systems
+namespace Wanderer.Systems
 {
     public interface IDialogueSystem : ISystem
     {

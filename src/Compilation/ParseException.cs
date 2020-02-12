@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace StarshipWanderer.Compilation
+namespace Wanderer.Compilation
 {
     public class ParseException : Exception
     {

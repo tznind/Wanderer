@@ -1,9 +1,9 @@
 ﻿using System.Linq;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Compilation;
+using Wanderer.Actions;
+using Wanderer.Actors;
+using Wanderer.Compilation;
 
-namespace StarshipWanderer.Behaviours
+namespace Wanderer.Behaviours
 {
     public class ForbidBehaviour<T> : Behaviour where T:Action
     {

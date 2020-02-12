@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using Moq;
 using NUnit.Framework;
-using StarshipWanderer;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Factories;
-using StarshipWanderer.Stats;
+using Wanderer;
+using Wanderer.Actors;
+using Wanderer.Factories;
+using Wanderer.Stats;
 
 namespace Tests.ConditionTests
 {

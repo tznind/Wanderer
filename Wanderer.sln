@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29215.179
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarshipWanderer", "src\StarshipWanderer.csproj", "{BE8AEA42-7F88-4ECF-9BC1-65CA981A05B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wanderer", "src\Wanderer.csproj", "{BE8AEA42-7F88-4ECF-9BC1-65CA981A05B5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{D2121C44-CEEF-40AE-9F5C-F366040BBA49}"
 EndProject

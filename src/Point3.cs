@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace StarshipWanderer
+namespace Wanderer
 {
     /// <summary>
     /// Represents a point in 3d space in which X maps to EAST/WEST, Y maps to NORTH/SOUTH and Z maps to UP/DOWN

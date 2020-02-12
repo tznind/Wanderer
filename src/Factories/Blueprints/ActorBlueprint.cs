@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Systems;
+using Wanderer.Actors;
+using Wanderer.Systems;
 
-namespace StarshipWanderer.Factories.Blueprints
+namespace Wanderer.Factories.Blueprints
 {
     public class ActorBlueprint : HasStatsBlueprint
     {

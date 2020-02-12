@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
-using StarshipWanderer.Compilation;
-using StarshipWanderer.Factories.Blueprints;
+using Wanderer.Compilation;
+using Wanderer.Factories.Blueprints;
 using YamlDotNet.Serialization;
 
-namespace StarshipWanderer.Factories
+namespace Wanderer.Factories
 {
     public class YamlRoomFactory : RoomFactory
     {

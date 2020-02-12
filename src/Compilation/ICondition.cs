@@ -1,4 +1,4 @@
-﻿namespace StarshipWanderer.Compilation
+﻿namespace Wanderer.Compilation
 {
     public interface ICondition
     {

@@ -4,10 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
-using StarshipWanderer;
-using StarshipWanderer.Factories;
-using StarshipWanderer.Factories.Blueprints;
-using StarshipWanderer.Systems;
+using Wanderer;
+using Wanderer.Factories;
+using Wanderer.Factories.Blueprints;
+using Wanderer.Systems;
 
 namespace Tests
 {

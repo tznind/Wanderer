@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using Moq;
 using NUnit.Framework;
-using StarshipWanderer;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Adjectives;
-using StarshipWanderer.Behaviours;
-using StarshipWanderer.Compilation;
-using StarshipWanderer.Dialogues;
-using StarshipWanderer.Relationships;
-using StarshipWanderer.Stats;
-using StarshipWanderer.Systems;
+using Wanderer;
+using Wanderer.Actions;
+using Wanderer.Actors;
+using Wanderer.Adjectives;
+using Wanderer.Behaviours;
+using Wanderer.Compilation;
+using Wanderer.Dialogues;
+using Wanderer.Relationships;
+using Wanderer.Stats;
+using Wanderer.Systems;
 using YamlDotNet.Serialization;
 
 namespace Tests.Systems

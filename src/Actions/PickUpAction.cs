@@ -1,8 +1,8 @@
 ﻿using System.Linq;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Items;
+using Wanderer.Actors;
+using Wanderer.Items;
 
-namespace StarshipWanderer.Actions
+namespace Wanderer.Actions
 {
     public class PickUpAction : Action
     {

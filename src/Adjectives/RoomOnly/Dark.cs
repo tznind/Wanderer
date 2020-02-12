@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Places;
-using StarshipWanderer.Stats;
+using Wanderer.Actors;
+using Wanderer.Places;
+using Wanderer.Stats;
 
-namespace StarshipWanderer.Adjectives.RoomOnly
+namespace Wanderer.Adjectives.RoomOnly
 {
     public class Dark : Adjective
     {

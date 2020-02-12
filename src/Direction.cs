@@ -1,4 +1,4 @@
-﻿namespace StarshipWanderer
+﻿namespace Wanderer
 {
     public enum Direction
     {

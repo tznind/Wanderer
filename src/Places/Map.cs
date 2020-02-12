@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using StarshipWanderer.Actors;
+using Wanderer.Actors;
 
-namespace StarshipWanderer.Places
+namespace Wanderer.Places
 {
     /// <summary>
     /// Map in Z,X,Y order

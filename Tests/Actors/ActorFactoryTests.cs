@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using Moq;
 using NUnit.Framework;
-using StarshipWanderer;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Adjectives;
-using StarshipWanderer.Factories;
-using StarshipWanderer.Factories.Blueprints;
-using StarshipWanderer.Items;
-using StarshipWanderer.Places;
-using StarshipWanderer.Relationships;
+using Wanderer;
+using Wanderer.Actions;
+using Wanderer.Actors;
+using Wanderer.Adjectives;
+using Wanderer.Factories;
+using Wanderer.Factories.Blueprints;
+using Wanderer.Items;
+using Wanderer.Places;
+using Wanderer.Relationships;
 
 namespace Tests.Actors
 {

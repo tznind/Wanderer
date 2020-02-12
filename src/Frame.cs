@@ -1,7 +1,7 @@
-﻿using StarshipWanderer.Actions;
-using StarshipWanderer.Actors;
+﻿using Wanderer.Actions;
+using Wanderer.Actors;
 
-namespace StarshipWanderer
+namespace Wanderer
 {
     public class Frame
     {

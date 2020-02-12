@@ -1,7 +1,7 @@
-﻿using StarshipWanderer.Actors;
-using StarshipWanderer.Adjectives.ActorOnly;
+﻿using Wanderer.Actors;
+using Wanderer.Adjectives.ActorOnly;
 
-namespace StarshipWanderer.Actions
+namespace Wanderer.Actions
 {
     public class HealFrame : Frame
     {

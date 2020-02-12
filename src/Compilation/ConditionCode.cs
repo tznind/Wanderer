@@ -1,7 +1,7 @@
 ﻿using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 
-namespace StarshipWanderer.Compilation
+namespace Wanderer.Compilation
 {
     public class ConditionCode<T> : Code, ICondition<T>
     {

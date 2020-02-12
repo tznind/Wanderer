@@ -6,9 +6,9 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using StarshipWanderer;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Factories;
+using Wanderer;
+using Wanderer.Actors;
+using Wanderer.Factories;
 using Terminal.Gui;
 using Attribute = Terminal.Gui.Attribute;
 
@@ -147,7 +147,7 @@ namespace Game.UI
                     
                     var json = File.ReadAllText(f);
                     
-                    var newWorld = JsonConvert.DeserializeObject<IWorld>(json, StarshipWanderer.World.GetJsonSerializerSettings());
+                    var newWorld = JsonConvert.DeserializeObject<IWorld>(json, Wanderer.World.GetJsonSerializerSettings());
                     
                     SetWorld(newWorld);
                 }
@@ -177,7 +177,7 @@ namespace Game.UI
                 
                 try
                 {
-                    var json = JsonConvert.SerializeObject(World, StarshipWanderer.World.GetJsonSerializerSettings());
+                    var json = JsonConvert.SerializeObject(World, Wanderer.World.GetJsonSerializerSettings());
                     File.WriteAllText(f.ToString(),json);
                 }
                 catch (Exception e)

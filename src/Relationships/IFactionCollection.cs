@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using StarshipWanderer.Actors;
+using Wanderer.Actors;
 
-namespace StarshipWanderer.Relationships
+namespace Wanderer.Relationships
 {
     public interface IFactionCollection : IList<IFaction>
     {

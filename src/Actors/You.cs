@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Actions.Coercion;
-using StarshipWanderer.Places;
-using StarshipWanderer.Stats;
+using Wanderer.Actions;
+using Wanderer.Actions.Coercion;
+using Wanderer.Places;
+using Wanderer.Stats;
 
-namespace StarshipWanderer.Actors
+namespace Wanderer.Actors
 {
     /// <summary>
     /// The human player character.  All decisions triggered use the <see cref="IUserinterface"/>

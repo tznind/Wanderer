@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using StarshipWanderer.Adjectives;
-using StarshipWanderer.Stats;
+using Wanderer.Adjectives;
+using Wanderer.Stats;
 
-namespace StarshipWanderer.Actions.Coercion
+namespace Wanderer.Actions.Coercion
 {
     public class Coerced : Adjective
     {

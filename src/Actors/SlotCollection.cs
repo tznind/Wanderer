@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace StarshipWanderer.Actors
+namespace Wanderer.Actors
 {
     public class SlotCollection : Dictionary<string,int>
     {

@@ -1,8 +1,8 @@
 ﻿using System.Linq;
-using StarshipWanderer;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Places;
-using StarshipWanderer.Relationships;
+using Wanderer;
+using Wanderer.Actors;
+using Wanderer.Places;
+using Wanderer.Relationships;
 
 namespace Tests
 {

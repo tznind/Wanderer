@@ -1,12 +1,12 @@
 ﻿using System;
 using Moq;
 using NUnit.Framework;
-using StarshipWanderer;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Adjectives;
-using StarshipWanderer.Behaviours;
-using StarshipWanderer.Compilation;
+using Wanderer;
+using Wanderer.Actions;
+using Wanderer.Actors;
+using Wanderer.Adjectives;
+using Wanderer.Behaviours;
+using Wanderer.Compilation;
 
 namespace Tests.BehaviourTests
 {

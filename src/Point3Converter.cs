@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Globalization;
 
-namespace StarshipWanderer
+namespace Wanderer
 {
     public class Point3Converter : TypeConverter {
         // Overrides the CanConvertFrom method of TypeConverter.

@@ -1,8 +1,8 @@
 ﻿using System;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Actors;
+using Wanderer.Actions;
+using Wanderer.Actors;
 
-namespace StarshipWanderer.Behaviours
+namespace Wanderer.Behaviours
 {
     public abstract class Behaviour : IBehaviour
     {

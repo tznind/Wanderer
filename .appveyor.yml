@@ -6,7 +6,7 @@ before_build:
 - choco install codecov
 
 build:
-  project: StarshipWanderer.sln
+  project: Wanderer.sln
   verbosity: minimal
 
 environment:

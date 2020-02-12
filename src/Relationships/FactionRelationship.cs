@@ -1,6 +1,6 @@
-﻿using StarshipWanderer.Actors;
+﻿using Wanderer.Actors;
 
-namespace StarshipWanderer.Relationships
+namespace Wanderer.Relationships
 {
     public abstract class FactionRelationship : IFactionRelationship
     {

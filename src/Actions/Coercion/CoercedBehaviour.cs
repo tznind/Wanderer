@@ -1,8 +1,8 @@
-﻿using StarshipWanderer.Behaviours;
-using StarshipWanderer.Stats;
-using StarshipWanderer.Systems;
+﻿using Wanderer.Behaviours;
+using Wanderer.Stats;
+using Wanderer.Systems;
 
-namespace StarshipWanderer.Actions.Coercion
+namespace Wanderer.Actions.Coercion
 {
     /// <summary>
     /// Controls the duration and cancellation (based on exactly what you are asking

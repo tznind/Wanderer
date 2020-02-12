@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
 using NUnit.Framework;
-using StarshipWanderer;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Compilation;
-using StarshipWanderer.Dialogues;
-using StarshipWanderer.Systems;
+using Wanderer;
+using Wanderer.Actors;
+using Wanderer.Compilation;
+using Wanderer.Dialogues;
+using Wanderer.Systems;
 
 namespace Tests.ConditionTests
 {

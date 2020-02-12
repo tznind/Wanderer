@@ -1,4 +1,4 @@
-﻿namespace StarshipWanderer.Items
+﻿namespace Wanderer.Items
 {
     public interface IItemStack : IItem
     {

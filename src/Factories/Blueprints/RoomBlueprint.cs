@@ -1,7 +1,7 @@
 ﻿using System;
-using StarshipWanderer.Relationships;
+using Wanderer.Relationships;
 
-namespace StarshipWanderer.Factories.Blueprints
+namespace Wanderer.Factories.Blueprints
 {
     public class RoomBlueprint : HasStatsBlueprint
     {

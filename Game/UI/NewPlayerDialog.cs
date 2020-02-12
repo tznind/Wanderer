@@ -1,6 +1,6 @@
-﻿using StarshipWanderer.Actors;
-using StarshipWanderer.Adjectives;
-using StarshipWanderer.Factories;
+﻿using Wanderer.Actors;
+using Wanderer.Adjectives;
+using Wanderer.Factories;
 using Terminal.Gui;
 
 namespace Game.UI

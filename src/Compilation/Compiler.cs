@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
-using StarshipWanderer.Actions;
+using Wanderer.Actions;
 using YamlDotNet.Serialization;
 
-namespace StarshipWanderer.Compilation
+namespace Wanderer.Compilation
 {
     public sealed class Compiler
     {

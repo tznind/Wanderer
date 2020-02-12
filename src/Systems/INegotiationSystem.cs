@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace StarshipWanderer.Systems
+namespace Wanderer.Systems
 {
     /// <summary>
     /// System for all persuasion and negotiation type activities

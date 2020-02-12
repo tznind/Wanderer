@@ -1,4 +1,4 @@
-﻿namespace StarshipWanderer.Stats
+﻿namespace Wanderer.Stats
 {
     public enum Stat
     {

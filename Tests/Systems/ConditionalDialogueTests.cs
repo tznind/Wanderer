@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using NUnit.Framework;
-using StarshipWanderer;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Behaviours;
-using StarshipWanderer.Compilation;
-using StarshipWanderer.Dialogues;
-using StarshipWanderer.Systems;
+using Wanderer;
+using Wanderer.Actions;
+using Wanderer.Actors;
+using Wanderer.Behaviours;
+using Wanderer.Compilation;
+using Wanderer.Dialogues;
+using Wanderer.Systems;
 
 namespace Tests.Systems
 {

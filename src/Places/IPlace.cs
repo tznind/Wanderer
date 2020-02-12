@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Adjectives;
-using StarshipWanderer.Items;
-using StarshipWanderer.Relationships;
+using Wanderer.Actions;
+using Wanderer.Actors;
+using Wanderer.Adjectives;
+using Wanderer.Items;
+using Wanderer.Relationships;
 
-namespace StarshipWanderer.Places
+namespace Wanderer.Places
 {
     public interface IPlace : IHasStats
     {

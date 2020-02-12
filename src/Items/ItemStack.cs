@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Behaviours;
-using StarshipWanderer.Stats;
+using Wanderer.Actors;
+using Wanderer.Behaviours;
+using Wanderer.Stats;
 
-namespace StarshipWanderer.Items
+namespace Wanderer.Items
 {
     /// <summary>
     /// Creates an item which represents 1 or more copies of something (e.g. credits).

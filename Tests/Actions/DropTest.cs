@@ -4,9 +4,9 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using NUnit.Framework;
-using StarshipWanderer;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Items;
+using Wanderer;
+using Wanderer.Actions;
+using Wanderer.Items;
 
 namespace Tests.Actions
 {

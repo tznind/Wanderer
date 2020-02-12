@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\StarshipWanderer.csproj" />
+    <ProjectReference Include="..\src\Wanderer.csproj" />
   </ItemGroup>
 
   <ItemGroup>

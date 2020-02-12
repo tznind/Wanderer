@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Behaviours;
-using StarshipWanderer.Stats;
+using Wanderer.Actions;
+using Wanderer.Actors;
+using Wanderer.Behaviours;
+using Wanderer.Stats;
 
-namespace StarshipWanderer.Adjectives
+namespace Wanderer.Adjectives
 {
     public class Medic : Adjective
     {

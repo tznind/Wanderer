@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using Game.UI;
-using StarshipWanderer;
-using StarshipWanderer.Factories;
-using StarshipWanderer.Validation;
+using Wanderer;
+using Wanderer.Factories;
+using Wanderer.Validation;
 using Terminal.Gui;
 
 namespace Game
@@ -12,7 +12,6 @@ namespace Game
     {
         static void Main(string[] args)
         {
-            Application.Init();
 
             var f = new WorldFactory();
 
@@ -31,6 +30,7 @@ namespace Game
             }
             else
             {
+                Application.Init();
                 var mainWindow = new MainWindow(f);
                 Application.Top.Add(mainWindow);
                 Application.Run();                

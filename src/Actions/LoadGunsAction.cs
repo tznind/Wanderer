@@ -1,9 +1,9 @@
 ﻿using System.Text;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Behaviours;
-using StarshipWanderer.Stats;
+using Wanderer.Actors;
+using Wanderer.Behaviours;
+using Wanderer.Stats;
 
-namespace StarshipWanderer.Actions
+namespace Wanderer.Actions
 {
     public class LoadGunsAction : Action
     {

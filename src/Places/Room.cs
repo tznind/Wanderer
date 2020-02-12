@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Adjectives;
-using StarshipWanderer.Items;
-using StarshipWanderer.Relationships;
+using Wanderer.Actors;
+using Wanderer.Adjectives;
+using Wanderer.Items;
+using Wanderer.Relationships;
 
-namespace StarshipWanderer.Places
+namespace Wanderer.Places
 {
     public class Room : HasStats, IPlace
     {

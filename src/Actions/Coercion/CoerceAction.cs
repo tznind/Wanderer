@@ -1,7 +1,7 @@
 ﻿using System.Linq;
-using StarshipWanderer.Actors;
+using Wanderer.Actors;
 
-namespace StarshipWanderer.Actions.Coercion
+namespace Wanderer.Actions.Coercion
 {
     public class CoerceAction : Action
     {

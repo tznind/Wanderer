@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using StarshipWanderer.Actors;
+using Wanderer.Actors;
 
-namespace StarshipWanderer.Relationships
+namespace Wanderer.Relationships
 {
     public class FactionCollection : List<IFaction>,IFactionCollection
     {

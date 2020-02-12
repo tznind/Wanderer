@@ -1,4 +1,4 @@
-﻿namespace StarshipWanderer.Adjectives.ActorOnly
+﻿namespace Wanderer.Adjectives.ActorOnly
 {
     public enum InjuryRegion
     {

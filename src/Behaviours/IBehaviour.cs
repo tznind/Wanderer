@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Text;
-using StarshipWanderer.Actions;
+using Wanderer.Actions;
 
-namespace StarshipWanderer.Behaviours
+namespace Wanderer.Behaviours
 {
     public interface IBehaviour : IAreIdentical<IBehaviour>
     {

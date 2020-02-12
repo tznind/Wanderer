@@ -1,6 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
-using StarshipWanderer.Extensions;
+using Wanderer.Extensions;
 
 namespace Tests.Extensions
 {

@@ -1,6 +1,6 @@
-[![Build Status](https://travis-ci.org/tznind/StarshipWanderer.svg?branch=master)](https://travis-ci.org/tznind/StarshipWanderer) [![Coverage Status](https://coveralls.io/repos/github/tznind/StarshipWanderer/badge.svg?branch=master)](https://coveralls.io/github/tznind/StarshipWanderer?branch=master)
+[![Build Status](https://travis-ci.org/tznind/Wanderer.svg?branch=master)](https://travis-ci.org/tznind/Wanderer) [![Coverage Status](https://coveralls.io/repos/github/tznind/Wanderer/badge.svg?branch=master)](https://coveralls.io/github/tznind/Wanderer?branch=master)
 
-# StarshipWanderer
+# Wanderer
 
 The goal of this project is to create a game in which you wander a city sized starship interacting with the inhabitants and generally getting up to trouble.  The following goals are intended for the project:
 
@@ -14,7 +14,7 @@ Imagine pulling a grenade pin and persuading an npc to pick it up only for him t
 ![Screenshot of gameplay showing map][screenshot1]
 ![Screenshot of gameplay showing narrative][screenshot2]
 
-You can [download the compiled binaries in the Releases Section](https://github.com/tznind/StarshipWanderer/releases) for both windows and linux console.
+You can [download the compiled binaries in the Releases Section](https://github.com/tznind/Wanderer/releases) for both windows and linux console.
 
 **The game is in very early development and not really ready for playing.  Open issues for suggestions or if you like the idea and what to get involved.**
 

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace StarshipWanderer.Adjectives
+namespace Wanderer.Adjectives
 {
     public interface ISwCollection<T>: IList<T>
     {

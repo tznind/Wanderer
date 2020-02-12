@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
-using StarshipWanderer;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Adjectives;
-using StarshipWanderer.Adjectives.ActorOnly;
-using StarshipWanderer.Adjectives.RoomOnly;
-using StarshipWanderer.Factories;
-using StarshipWanderer.Items;
-using StarshipWanderer.Stats;
+using Wanderer;
+using Wanderer.Actions;
+using Wanderer.Adjectives;
+using Wanderer.Adjectives.ActorOnly;
+using Wanderer.Adjectives.RoomOnly;
+using Wanderer.Factories;
+using Wanderer.Items;
+using Wanderer.Stats;
 
 namespace Tests.Items
 {

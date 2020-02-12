@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Stats;
+using Wanderer.Actors;
+using Wanderer.Stats;
 
-namespace StarshipWanderer.Adjectives
+namespace Wanderer.Adjectives
 {
     public class Giant : Adjective
     {

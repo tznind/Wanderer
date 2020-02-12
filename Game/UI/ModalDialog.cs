@@ -1,5 +1,5 @@
-﻿using StarshipWanderer;
-using StarshipWanderer.Actors;
+﻿using Wanderer;
+using Wanderer.Actors;
 using Terminal.Gui;
 
 namespace Game.UI

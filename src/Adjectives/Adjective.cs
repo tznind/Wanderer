@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace StarshipWanderer.Adjectives
+namespace Wanderer.Adjectives
 {
     public abstract class Adjective : HasStats,IAdjective
     {

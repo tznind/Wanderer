@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Adjectives;
-using StarshipWanderer.Behaviours;
-using StarshipWanderer.Items;
-using StarshipWanderer.Places;
-using StarshipWanderer.Relationships;
-using StarshipWanderer.Stats;
-using StarshipWanderer.Systems;
+using Wanderer.Actions;
+using Wanderer.Adjectives;
+using Wanderer.Behaviours;
+using Wanderer.Items;
+using Wanderer.Places;
+using Wanderer.Relationships;
+using Wanderer.Stats;
+using Wanderer.Systems;
 
-namespace StarshipWanderer.Actors
+namespace Wanderer.Actors
 {
     /// <summary>
     /// An entity in a single location (at once) capable of performing actions (this includes the human player)

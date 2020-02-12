@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Compilation;
-using StarshipWanderer.Dialogues;
-using StarshipWanderer.Factories;
-using StarshipWanderer.Items;
-using StarshipWanderer.Places;
-using StarshipWanderer.Relationships;
-using StarshipWanderer.Systems;
+using Wanderer.Actors;
+using Wanderer.Compilation;
+using Wanderer.Dialogues;
+using Wanderer.Factories;
+using Wanderer.Items;
+using Wanderer.Places;
+using Wanderer.Relationships;
+using Wanderer.Systems;
 
-namespace StarshipWanderer.Validation
+namespace Wanderer.Validation
 {
     public class WorldValidator
     {

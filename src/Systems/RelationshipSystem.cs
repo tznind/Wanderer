@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Relationships;
+using Wanderer.Actors;
+using Wanderer.Relationships;
 
-namespace StarshipWanderer.Systems
+namespace Wanderer.Systems
 {
     public class RelationshipSystem : List<IRelationship>, IRelationshipSystem
     {

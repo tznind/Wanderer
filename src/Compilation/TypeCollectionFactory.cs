@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace StarshipWanderer.Compilation
+namespace Wanderer.Compilation
 {
     public class TypeCollectionFactory
     {

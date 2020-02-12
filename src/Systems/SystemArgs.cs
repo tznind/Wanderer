@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Places;
+using Wanderer.Actors;
+using Wanderer.Places;
 
-namespace StarshipWanderer.Systems
+namespace Wanderer.Systems
 {
     /// <summary>
     /// Input arguments describing how and who to apply an <see cref="ISystem"/> to

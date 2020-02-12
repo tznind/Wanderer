@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Adjectives;
-using StarshipWanderer.Compilation;
-using StarshipWanderer.Places;
+using Wanderer.Actors;
+using Wanderer.Adjectives;
+using Wanderer.Compilation;
+using Wanderer.Places;
 
-namespace StarshipWanderer.Items
+namespace Wanderer.Items
 {
 
     public interface IItem : IHasStats

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace StarshipWanderer.Adjectives
+namespace Wanderer.Adjectives
 {
     public class SwCollection<T> : List<T>, ISwCollection<T> where T : IAreIdentical<T>
     {

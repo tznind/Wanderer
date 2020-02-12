@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using StarshipWanderer.Places;
+using Wanderer.Places;
 
-namespace StarshipWanderer.Adjectives.RoomOnly
+namespace Wanderer.Adjectives.RoomOnly
 {
     public class Stale : Adjective
     {

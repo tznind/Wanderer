@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
-using StarshipWanderer;
-using StarshipWanderer.Actions;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Dialogues;
-using StarshipWanderer.Factories;
-using StarshipWanderer.Factories.Blueprints;
-using StarshipWanderer.Places;
-using StarshipWanderer.Relationships;
+using Wanderer;
+using Wanderer.Actions;
+using Wanderer.Actors;
+using Wanderer.Dialogues;
+using Wanderer.Factories;
+using Wanderer.Factories.Blueprints;
+using Wanderer.Places;
+using Wanderer.Relationships;
 
 namespace Tests.Actors
 {

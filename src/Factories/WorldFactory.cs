@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Compilation;
-using StarshipWanderer.Factories.Blueprints;
-using StarshipWanderer.Places;
-using StarshipWanderer.Relationships;
-using StarshipWanderer.Systems;
+using Wanderer.Actors;
+using Wanderer.Compilation;
+using Wanderer.Factories.Blueprints;
+using Wanderer.Places;
+using Wanderer.Relationships;
+using Wanderer.Systems;
 using YamlDotNet.Serialization;
 
-namespace StarshipWanderer.Factories
+namespace Wanderer.Factories
 {
     public class WorldFactory : IWorldFactory
     {

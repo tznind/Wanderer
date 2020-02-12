@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Adjectives.ActorOnly;
+using Wanderer.Actors;
+using Wanderer.Adjectives.ActorOnly;
 
-namespace StarshipWanderer.Systems
+namespace Wanderer.Systems
 {
     /// <inheritdoc />
     public interface IInjurySystem: ISystem

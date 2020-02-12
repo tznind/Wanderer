@@ -1,7 +1,7 @@
 ﻿using Microsoft.CodeAnalysis.Scripting;
 using Newtonsoft.Json;
 
-namespace StarshipWanderer.Compilation
+namespace Wanderer.Compilation
 {
     public abstract class Code 
     {
@@ -24,10 +24,10 @@ namespace StarshipWanderer.Compilation
             return ScriptOptions.Default
                 .WithReferences(typeof(ICondition<>).Assembly)
                 .WithImports(
-                    "StarshipWanderer.Stats", 
+                    "Wanderer.Stats", 
                     "System",
-                    "StarshipWanderer.Actors",
-                    "StarshipWanderer.Adjectives");
+                    "Wanderer.Actors",
+                    "Wanderer.Adjectives");
         }
 
         

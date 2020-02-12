@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using StarshipWanderer.Adjectives;
+using Wanderer.Adjectives;
 
-namespace StarshipWanderer.Actions
+namespace Wanderer.Actions
 {
     public class ActionCollection : SwCollection<IAction>, IActionCollection
     {

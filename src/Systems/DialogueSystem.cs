@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Compilation;
-using StarshipWanderer.Dialogues;
-using StarshipWanderer.Extensions;
+using Wanderer.Actors;
+using Wanderer.Compilation;
+using Wanderer.Dialogues;
+using Wanderer.Extensions;
 
-namespace StarshipWanderer.Systems
+namespace Wanderer.Systems
 {
     public class DialogueSystem : IDialogueSystem
     {

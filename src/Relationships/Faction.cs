@@ -1,7 +1,7 @@
-﻿using StarshipWanderer.Factories;
+﻿using Wanderer.Factories;
 using YamlDotNet.Serialization;
 
-namespace StarshipWanderer.Relationships
+namespace Wanderer.Relationships
 {
     public class Faction : HasStats,IFaction
     {

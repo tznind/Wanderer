@@ -1,8 +1,8 @@
-﻿using StarshipWanderer.Actions;
-using StarshipWanderer.Places;
-using StarshipWanderer.Stats;
+﻿using Wanderer.Actions;
+using Wanderer.Places;
+using Wanderer.Stats;
 
-namespace StarshipWanderer.Items
+namespace Wanderer.Items
 {
     public static class HasStatsExtensions
     {

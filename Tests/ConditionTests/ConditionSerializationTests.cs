@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using Moq;
 using NUnit.Framework;
-using StarshipWanderer.Actors;
-using StarshipWanderer.Factories;
+using Wanderer.Actors;
+using Wanderer.Factories;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 
