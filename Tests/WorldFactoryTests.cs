@@ -20,9 +20,9 @@ namespace Tests
                 ResourcesDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory,"Resources")
             };
 
-            Assert.IsNotEmpty(f.GetAllDialogueYaml());
+            var dialogue = f.GetDialogue();
+            Assert.IsNotNull(dialogue);
 
-            var dialogue = new YamlDialogueSystem(f.GetAllDialogueYaml().ToArray());
             Assert.Greater(dialogue.AllDialogues.Count,0);
         }
 
@@ -33,6 +33,24 @@ namespace Tests
                 ResourcesDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory,"Resources")
             };
             f.Create();
+        }
+
+        [Test]
+        public void BadYaml_String()
+        {
+            var ex = Assert.Throws<ArgumentException>(()=>new YamlDialogueSystem("fffff"));
+            StringAssert.Contains("Error in dialogue yaml",ex.Message);
+        }
+
+        [Test]
+        public void BadYaml_File()
+        {
+            var fi = new FileInfo(Path.Combine(TestContext.CurrentContext.WorkDirectory, "troll.yaml"));
+            File.WriteAllText(fi.FullName,"ffff");
+
+            var ex = Assert.Throws<ArgumentException>(()=>new YamlDialogueSystem(fi));
+            StringAssert.Contains("Error in dialogue yaml",ex.Message);
+            StringAssert.Contains("troll.yaml",ex.Message);
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Wanderer.Actors;
@@ -8,7 +7,6 @@ using Wanderer.Factories.Blueprints;
 using Wanderer.Places;
 using Wanderer.Relationships;
 using Wanderer.Systems;
-using YamlDotNet.Serialization;
 
 namespace Wanderer.Factories
 {
@@ -37,7 +35,7 @@ namespace Wanderer.Factories
 
             GenerateFactions(world);
 
-            world.Dialogue = new YamlDialogueSystem(GetAllDialogueYaml().ToArray());
+            world.Dialogue = GetDialogue();
 
             var adjectiveFactory = GetAdjectiveFactory();
 
@@ -242,9 +240,12 @@ namespace Wanderer.Factories
             }
         }
 
-        public virtual IEnumerable<string> GetAllDialogueYaml()
+        public virtual DialogueSystem GetDialogue()
         {
-            return Directory.EnumerateFiles(Path.Combine(ResourcesDirectory,DialogueDirectory),"*.yaml",SearchOption.AllDirectories).Select(File.ReadAllText);
+            return new YamlDialogueSystem(
+                Directory.EnumerateFiles(Path.Combine(ResourcesDirectory,DialogueDirectory),"*.yaml",SearchOption.AllDirectories)
+                    .Select(f=>new FileInfo(f)).ToArray()
+                );
         }
     }
 }
