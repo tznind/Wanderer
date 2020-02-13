@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Newtonsoft.Json;
 using Wanderer.Actions;
 using Wanderer.Compilation;
 using Wanderer.Dialogues;
@@ -9,6 +10,11 @@ namespace Wanderer.Systems
 {
     public class YamlDialogueSystem : DialogueSystem
     {
+        [JsonConstructor]
+        protected YamlDialogueSystem()
+        {
+
+        }
         public YamlDialogueSystem(params string[] dialogueYaml)
         {
             if(dialogueYaml != null)
