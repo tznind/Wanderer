@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Wanderer.Actions;
 using Wanderer.Actors;
 using Wanderer.Adjectives.ActorOnly;
 
@@ -30,8 +31,16 @@ namespace Wanderer.Systems
         /// <returns></returns>
         bool ShouldWorsen(Injured injured, int roundsSeen);
 
+        /// <summary>
+        /// True if the <paramref name="actor"/> can heal the <paramref name="injured"/>
+        /// adjective.  This is usually a test done by the <see cref="HealAction"/>
+        /// </summary>
+        /// <param name="actor"></param>
+        /// <param name="injured"></param>
+        /// <param name="reason"></param>
+        /// <returns></returns>
         bool IsHealableBy(IActor actor, Injured injured, out string reason);
-        bool ShouldNaturallyHeal(Injured injured, in int roundsSeenCount);
+        bool ShouldNaturallyHeal(Injured injured, int roundsSeenCount);
         
         /// <summary>
         /// Make the given <paramref name="injured"/> worse (i.e. progress to infection,

@@ -5,51 +5,21 @@ using Wanderer.Actors;
 using Wanderer.Adjectives;
 using Wanderer.Adjectives.ActorOnly;
 using Wanderer.Adjectives.RoomOnly;
+using Wanderer.Extensions;
 using Wanderer.Stats;
 
 namespace Wanderer.Systems
 {
-
-
-    public class TissueInjurySystem : IInjurySystem
+    public class TissueInjurySystem : InjurySystem
     {
-        public Guid Identifier { get; set; } = new Guid("9b137f26-834d-4033-ae36-74ab578f5868");
+        public override Guid Identifier { get; set; } = new Guid("9b137f26-834d-4033-ae36-74ab578f5868");
 
-        public virtual void Apply(SystemArgs args, InjuryRegion region)
+        protected override IEnumerable<InjuryRegion> GetAvailableInjuryLocations(SystemArgs args)
         {
-            if(args.Intensity < 0 || region == InjuryRegion.None)
-                return;
-
-            var a = (IActor) args.Recipient;
-
-            //currently you can't damage rooms or burn books
-            if (a == null)
-                return;
-
-            var available = GetAvailableInjuries(a).ToArray();
-
-            var worst = available.Max(i => i.Severity);
-
-            var newInjury = available.FirstOrDefault(a =>
-                (int)a.Severity == (int)Math.Min(worst, args.Intensity / 10) && a.Region == region);
-
-            if(newInjury == null)
-                throw new Exception("No Injury  found for severity " + args.Intensity);
-
-            args.Recipient.Adjectives.Add(newInjury);
-            args.UserInterface.Log.Info(new LogEntry($"{args.Recipient} gained {newInjury}", args.Round,a));
+            return Enum.GetValues(typeof(InjuryRegion)).Cast<InjuryRegion>().Where(r=>r != InjuryRegion.None);
         }
 
-
-        public virtual void Apply(SystemArgs args)
-        {
-            var regions = Enum.GetValues(typeof(InjuryRegion)).Cast<InjuryRegion>().ToArray();
-
-            //Generate a random region excluding None
-            Apply(args,regions[(int) Math.Abs(args.Intensity % (regions.Length-1)+1)]);
-        }
-
-        public virtual IEnumerable<Injured> GetAvailableInjuries(IActor actor)
+        public override IEnumerable<Injured> GetAvailableInjuries(IActor actor)
         {
             foreach (InjuryRegion region in Enum.GetValues(typeof(InjuryRegion)))
             {
@@ -59,24 +29,8 @@ namespace Wanderer.Systems
             }
         }
 
-        public virtual bool HasFatalInjuries(IActor owner, out string diedOf)
+        protected override bool ShouldWorsenImpl(Injured injury, int roundsSeen)
         {
-            //Combined total of serious wounds (2 or higher) severity is 10
-            if (owner.Adjectives.OfType<Injured>().Where(i => i.Severity > 1).Sum(i => i.Severity) >= 10)
-            {
-                diedOf = "injuries";
-                return true;
-            }
-
-            diedOf = null;
-            return false;
-        }
-
-        public virtual bool ShouldWorsen(Injured injury, int roundsSeen)
-        {
-            if (IsWithinNaturalHealingThreshold(injury) || injury.OwnerActor.Dead)
-                return false;
-
             double worsenRate = 1;
 
             if (injury.OwnerActor.Has<Tough>(true))
@@ -89,7 +43,7 @@ namespace Wanderer.Systems
         
         }
 
-        public virtual bool IsHealableBy(IActor actor, Injured injured, out string reason)
+        public override bool IsHealableBy(IActor actor, Injured injured, out string reason)
         {
             var requiredSavvy = injured.Severity * 5;
 
@@ -107,12 +61,12 @@ namespace Wanderer.Systems
             return false;
         }
 
-        public virtual bool ShouldNaturallyHeal(Injured injured, in int roundsSeen)
+        protected override bool ShouldNaturallyHealImpl(Injured injured, int roundsSeen)
         {
-            return !injured.OwnerActor.Dead && IsWithinNaturalHealingThreshold(injured) && roundsSeen >= 10;
+            return roundsSeen >= 10;
         }
 
-        public virtual void Worsen(Injured injured, IUserinterface ui, Guid round)
+        public override void Worsen(Injured injured, IUserinterface ui, Guid round)
         {
             if (!injured.IsInfected)
             {
@@ -126,14 +80,10 @@ namespace Wanderer.Systems
             injured.Severity++;
         }
 
-        public virtual void Heal(Injured injured, IUserinterface ui, Guid round)
+        public override void Heal(Injured injured, IUserinterface ui, Guid round)
         {
             injured.Owner.Adjectives.Remove(injured);
             ui.Log.Info(new LogEntry($"{injured.Name} was healed",round,injured.OwnerActor));
-        }
-        protected virtual bool IsWithinNaturalHealingThreshold(Injured injured)
-        {
-            return injured.Severity <= 1;
         }
     }
 }
