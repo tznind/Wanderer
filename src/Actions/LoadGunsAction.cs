@@ -12,7 +12,7 @@ namespace Wanderer.Actions
             stack.Push(new Frame(actor,this,0));
         }
 
-        public override void Pop(IUserinterface ui, ActionStack stack, Frame frame)
+        public override void Pop(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
         {
             var narrative = new Narrative(frame.PerformedBy,"Load Guns","You spend several hours pushing overloaded gun carriages in the sweat and smoke filled confines of the loading bay.",null,stack.Round);
 

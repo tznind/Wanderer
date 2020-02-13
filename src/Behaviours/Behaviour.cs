@@ -13,13 +13,13 @@ namespace Wanderer.Behaviours
             Owner = owner;
         }
 
-        public virtual void OnPush(IUserinterface ui, ActionStack stack, Frame frame)
+        public virtual void OnPush(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
         {
 
         }
 
 
-        public virtual void OnPop(IUserinterface ui, ActionStack stack, Frame frame)
+        public virtual void OnPop(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
         {
 
         }

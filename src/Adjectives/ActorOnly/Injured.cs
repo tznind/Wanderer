@@ -61,7 +61,7 @@ namespace Wanderer.Adjectives.ActorOnly
         
 
 
-        public void OnPush(IUserinterface ui, ActionStack stack, Frame frame)
+        public void OnPush(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
         {
             _roundsSeen.Add(stack.Round);
             
@@ -77,7 +77,7 @@ namespace Wanderer.Adjectives.ActorOnly
             }
         }
 
-        public void OnPop(IUserinterface ui, ActionStack stack, Frame frame)
+        public void OnPop(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
         {
             
         }

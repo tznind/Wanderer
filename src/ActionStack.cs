@@ -17,11 +17,12 @@ namespace Wanderer
         /// <summary>
         /// Runs the <paramref name="firstAction"/> and evaluates all responders
         /// </summary>
+        /// <param name="world">Where the action is happening</param>
         /// <param name="ui">When decisions require user input, this handles it</param>
         /// <param name="firstAction">The initial action (to go on bottom of stack)</param>
         /// <param name="performer">Who is attempting <paramref name="firstAction"/></param>
         /// <param name="responders">All valid responders</param>
-        public bool RunStack(IUserinterface ui, IAction firstAction,IActor performer, IEnumerable<IBehaviour> responders)
+        public bool RunStack(IWorld world,IUserinterface ui, IAction firstAction,IActor performer, IEnumerable<IBehaviour> responders)
         {
             responders = responders?.ToArray() ?? new IBehaviour[0];
 
@@ -34,16 +35,16 @@ namespace Wanderer
 
             //check all behaviours to see if they want to respond (by pushing actions etc)
             foreach (IBehaviour responder in responders.ToArray())  //ToArray needed because they can self destruct at this time!
-                responder.OnPush(ui, this,Peek());
+                responder.OnPush(world,ui, this,Peek());
             
             //run all tasks that are not pending cancellation
             while(TryPop(out Frame current))
                 if (!current.Cancelled)
                 {
-                    current.Action.Pop(ui,this, current);
+                    current.Action.Pop(world,ui,this, current);
 
                     foreach (IBehaviour responder in responders.ToArray())
-                        responder.OnPop(ui, this,current);
+                        responder.OnPop(world,ui, this,current);
                 }
                     
             

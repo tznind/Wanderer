@@ -14,7 +14,7 @@ namespace Wanderer.Behaviours
             Condition = condition;
         }
 
-        public override void OnPush(IUserinterface ui, ActionStack stack, Frame frame)
+        public override void OnPush(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
         {
             foreach (var matchingFrame in stack.Where(a => a.Action is T && Condition.IsMet(frame)).ToArray())
             {

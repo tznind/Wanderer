@@ -75,7 +75,7 @@ namespace Wanderer
                 if(ShouldRunActionsIn(npc.CurrentLocation)
                    && npc.Decide(ui, "Pick Action", null, out IAction chosen,
                     npc.GetFinalActions().ToArray(), 0))
-                    stack.RunStack(ui,chosen,npc,Population.SelectMany(p=>p.GetFinalBehaviours()));
+                    stack.RunStack(this,ui,chosen,npc,Population.SelectMany(p=>p.GetFinalBehaviours()));
             }
         }
 
@@ -110,7 +110,7 @@ namespace Wanderer
             }
 
             var stack = new ActionStack();
-            var actionRun = stack.RunStack(ui, playerAction, Player,GetAllBehaviours());
+            var actionRun = stack.RunStack(this,ui, playerAction, Player,GetAllBehaviours());
 
             if (actionRun)
             {

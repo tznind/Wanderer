@@ -22,7 +22,7 @@ namespace Wanderer.Systems
         /// </summary>
         public Frame Proposed { get;set; }
 
-        public NegotiationSystemArgs(IUserinterface ui, double intensity, IActor aggressorIfAny, IHasStats recipient, Guid round) : base(ui, intensity, aggressorIfAny, recipient, round)
+        public NegotiationSystemArgs(IWorld world,IUserinterface ui, double intensity, IActor aggressorIfAny, IHasStats recipient, Guid round) : base(world,ui, intensity, aggressorIfAny, recipient, round)
         {
         }
 

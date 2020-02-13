@@ -19,7 +19,7 @@ namespace Tests.Items
         [Test]
         public void TestGiantHammers_RequireHandsToUse()
         {
-            var you = YouInARoom(out IWorld w);
+            var you = YouInARoom(out IWorld world);
             you.BaseStats[Stat.Fight] = 0;
             you.AvailableSlots.Add("Hand",2);
 
@@ -38,12 +38,12 @@ namespace Tests.Items
 
             ActionStack s = new ActionStack();
 
-            Assert.IsTrue(s.RunStack(new FixedChoiceUI(EquipmentActionToPerform.PutOn, item1), new EquipmentAction(), you, null));
+            Assert.IsTrue(s.RunStack(world,new FixedChoiceUI(EquipmentActionToPerform.PutOn, item1), new EquipmentAction(), you, null));
 
             Assert.AreEqual(30,you.GetFinalStats()[Stat.Fight],"Expected hammer to be boosting your fight");
 
             //cannot equip it because it is already equipped
-            Assert.IsFalse(s.RunStack(new FixedChoiceUI(EquipmentActionToPerform.PutOn, item2), new EquipmentAction(), you, null),"Expected attempt to wield 2 hammers to have failed");
+            Assert.IsFalse(s.RunStack(world,new FixedChoiceUI(EquipmentActionToPerform.PutOn, item2), new EquipmentAction(), you, null),"Expected attempt to wield 2 hammers to have failed");
             
             Assert.AreEqual(30,you.GetFinalStats()[Stat.Fight],"Expected you to still be wielding 1");
 
@@ -51,7 +51,7 @@ namespace Tests.Items
             you.AvailableSlots["Hand"] = 4;
 
             //now you can equip it!
-            Assert.IsTrue(s.RunStack(new FixedChoiceUI(EquipmentActionToPerform.PutOn, item2), new EquipmentAction(), you, null),"Now you have 4 arms 2 hammers should be fine!");
+            Assert.IsTrue(s.RunStack(world,new FixedChoiceUI(EquipmentActionToPerform.PutOn, item2), new EquipmentAction(), you, null),"Now you have 4 arms 2 hammers should be fine!");
 
             Assert.AreEqual(60,you.GetFinalStats()[Stat.Fight]);
 
@@ -59,7 +59,7 @@ namespace Tests.Items
         [Test]
         public void TestRustyPistolInRustyRoom_EquipForSmallBonus()
         {
-            var you = YouInARoom(out IWorld w);
+            var you = YouInARoom(out IWorld world);
             var room = you.CurrentLocation;
             room.Adjectives.Add(new Rusty(room));
 
@@ -74,7 +74,7 @@ namespace Tests.Items
 
             ActionStack s = new ActionStack();
 
-            Assert.IsTrue(s.RunStack(new FixedChoiceUI(EquipmentActionToPerform.PutOn, item1), new EquipmentAction(), you, null));
+            Assert.IsTrue(s.RunStack(world,new FixedChoiceUI(EquipmentActionToPerform.PutOn, item1), new EquipmentAction(), you, null));
 
             Assert.AreEqual(30,you.GetFinalStats()[Stat.Fight],"Expected hammer to be boosting your fight");
         }

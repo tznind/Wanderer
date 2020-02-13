@@ -12,6 +12,11 @@ namespace Wanderer.Systems
     public class SystemArgs
     {
         /// <summary>
+        /// The root game object
+        /// </summary>
+        public IWorld World { get; set; }
+
+        /// <summary>
         /// The ui for logging events etc / showing messages
         /// </summary>
         public IUserinterface UserInterface;
@@ -36,8 +41,9 @@ namespace Wanderer.Systems
         /// </summary>
         public Guid Round { get; set; }
 
-        public SystemArgs(IUserinterface ui,double intensity,IActor aggressorIfAny,IHasStats recipient,Guid round)
+        public SystemArgs(IWorld world,IUserinterface ui,double intensity,IActor aggressorIfAny,IHasStats recipient,Guid round)
         {
+            World = world;
             Intensity = intensity;
             AggressorIfAny = aggressorIfAny;
             Recipient = recipient;

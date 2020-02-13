@@ -20,7 +20,7 @@ namespace Wanderer.Actions
             return toGive.GetFinalStats(toGiveTo)[Stat.Value];
         }
 
-        public override void Pop(IUserinterface ui, ActionStack stack, Frame frame)
+        public override void Pop(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
         {
             var f = (GiveFrame) frame;
 

@@ -51,7 +51,7 @@ namespace Tests.Actions
             Assert.AreEqual("TestRoom",room1.Name);
 
             var stack = new ActionStack();
-            stack.RunStack(GetUI(Direction.North),leave,world.Player,new IBehaviour[0]);
+            stack.RunStack(world,GetUI(Direction.North),leave,world.Player,new IBehaviour[0]);
             
             var room2 = world.Player.CurrentLocation;
             Assert.IsNotNull(room1);
@@ -59,7 +59,7 @@ namespace Tests.Actions
             Assert.AreNotSame(room1, room2,"Expected room to change after leaving it");
             Assert.AreEqual("North Room",world.Player.CurrentLocation.Name);
             
-            stack.RunStack(GetUI(Direction.South),leave,world.Player,new IBehaviour[0]);
+            stack.RunStack(world,GetUI(Direction.South),leave,world.Player,new IBehaviour[0]);
 
             Assert.AreSame(room1, world.Player.CurrentLocation,"Should be back in the first room again");
             Assert.AreEqual("TestRoom",world.Player.CurrentLocation.Name);
@@ -89,18 +89,18 @@ namespace Tests.Actions
             var stack = new ActionStack();
 
             //north
-            stack.RunStack(GetUI(Direction.North),leave,world.Player,new IBehaviour[0]);
+            stack.RunStack(world,GetUI(Direction.North),leave,world.Player,new IBehaviour[0]);
             Assert.AreNotSame(room1, world.Player.CurrentLocation,"After going north we should not be in the same room");
             Assert.AreEqual("NorthRoom", world.Player.CurrentLocation.Name);
 
             //east,south,west
-            stack.RunStack(GetUI(Direction.East),leave,world.Player,new IBehaviour[0]);
+            stack.RunStack(world,GetUI(Direction.East),leave,world.Player,new IBehaviour[0]);
             Assert.AreEqual("NorthEastRoom", world.Player.CurrentLocation.Name);
 
-            stack.RunStack(GetUI(Direction.South),leave,world.Player,new IBehaviour[0]);
+            stack.RunStack(world,GetUI(Direction.South),leave,world.Player,new IBehaviour[0]);
             Assert.AreEqual("EastRoom", world.Player.CurrentLocation.Name);
 
-            stack.RunStack(GetUI(Direction.West),leave,world.Player,new IBehaviour[0]);
+            stack.RunStack(world,GetUI(Direction.West),leave,world.Player,new IBehaviour[0]);
             Assert.AreEqual("TestRoom", world.Player.CurrentLocation.Name);
 
             factory.Verify();
@@ -139,13 +139,13 @@ namespace Tests.Actions
             Assert.AreEqual("TestRoom", world.Player.CurrentLocation.Name);
 
             //up
-            stack.RunStack(GetUI(Direction.Up),leave,world.Player,new IBehaviour[0]);
+            stack.RunStack(world,GetUI(Direction.Up),leave,world.Player,new IBehaviour[0]);
             Assert.AreEqual("UpperRoom", world.Player.CurrentLocation.Name);
             
             Assert.Contains(Direction.Down,upperRoom.LeaveDirections.ToArray());
 
             //down
-            stack.RunStack(GetUI(Direction.Down),leave,world.Player,new IBehaviour[0]);
+            stack.RunStack(world,GetUI(Direction.Down),leave,world.Player,new IBehaviour[0]);
             Assert.AreEqual("TestRoom", world.Player.CurrentLocation.Name);
 
             
@@ -165,7 +165,7 @@ namespace Tests.Actions
 
             var stack = new ActionStack();
 
-            stack.RunStack(GetUI(Direction.South), leave,world.Player ,guard.GetFinalBehaviours());
+            stack.RunStack(world,GetUI(Direction.South), leave,world.Player ,guard.GetFinalBehaviours());
 
             Assert.AreSame(room,world.Player.CurrentLocation,"Expected to be in the same room as started in");
         }

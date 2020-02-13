@@ -41,12 +41,12 @@ Condition:
             var block = Compiler.Instance.Deserializer.Deserialize<TextBlock>(yaml);
 
 
-            var you = YouInARoom(out IWorld _);
+            var you = YouInARoom(out IWorld world);
 
             you.Identifier = new Guid("6fa349e4-aefe-4ebc-9922-e3476ea1dba7");
 
             Assert.AreEqual(!useNot,
-                block.Condition.Single().IsMet(new SystemArgs(null, 0, you, null, Guid.Empty)));
+                block.Condition.Single().IsMet(new SystemArgs(world,null, 0, you, null, Guid.Empty)));
         }
     }
 }

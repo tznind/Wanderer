@@ -121,7 +121,7 @@ namespace Wanderer.Validation
             {
                 try
                 {
-                    condition.IsMet(new SystemArgs(null, 0, GetTestActor(room), recipient, Guid.Empty));
+                    condition.IsMet(new SystemArgs(world,null, 0, GetTestActor(room), recipient, Guid.Empty));
                 }
                 catch (Exception e)
                 {

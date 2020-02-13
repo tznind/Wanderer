@@ -43,7 +43,7 @@ namespace Tests.Items
             Assert.AreEqual(1,you.CurrentLocation.Items.Count);
 
             var stack = new ActionStack();
-            stack.RunStack(new FixedChoiceUI(globe), new PickUpAction(), you,new IBehaviour[0]);
+            stack.RunStack(world,new FixedChoiceUI(globe), new PickUpAction(), you,new IBehaviour[0]);
 
             Assert.AreEqual(1,you.Items.Count);
             Assert.AreEqual(0,you.CurrentLocation.Items.Count);

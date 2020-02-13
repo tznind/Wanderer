@@ -17,16 +17,16 @@ namespace Wanderer.Actions.Coercion
             Coerced = coerced;
         }
 
-        public override void OnPush(IUserinterface ui, ActionStack stack, Frame frame)
+        public override void OnPush(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
         {
-            base.OnPush(ui, stack, frame);
+            base.OnPush(world,ui, stack, frame);
             
             var coerceFrame = Coerced.CoercedFrame;
 
             //if the coerced frame has had all it's decisions made and is about to be pushed onto the stack
             if (ReferenceEquals(frame.Action,coerceFrame.CoerceAction))
             {
-                var args = new NegotiationSystemArgs(ui, coerceFrame.PerformedBy.GetFinalStats()[Stat.Coerce],
+                var args = new NegotiationSystemArgs(world,ui, coerceFrame.PerformedBy.GetFinalStats()[Stat.Coerce],
                     coerceFrame.PerformedBy, coerceFrame.TargetIfAny, stack.Round);
                 
                 //the final frame that is being pushed is what we are proposing they do

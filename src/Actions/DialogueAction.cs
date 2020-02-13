@@ -35,11 +35,12 @@ namespace Wanderer.Actions
         }
 
 
-        public override void Pop(IUserinterface ui, ActionStack stack, Frame frame)
+        public override void Pop(IWorld world1, IUserinterface ui, ActionStack stack, Frame frame)
         {
             var f = (DialogueFrame) frame;
+            var world = frame.PerformedBy.CurrentLocation.World;
             //apply the dialogue system
-            frame.PerformedBy.CurrentLocation.World.Dialogue.Apply(new SystemArgs(ui, 0, f.PerformedBy, f.DialogueTarget, stack.Round));
+            world.Dialogue.Apply(new SystemArgs(world,ui, 0, f.PerformedBy, f.DialogueTarget, stack.Round));
         }
 
         public override bool HasTargets(IActor performer)

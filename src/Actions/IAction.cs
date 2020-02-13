@@ -24,10 +24,11 @@ namespace Wanderer.Actions
         /// When implemented executes the action after it has been confirmed by the full
         /// <paramref name="stack"/> execution (e.g. nobody cancelled you etc).
         /// </summary>
+        /// <param name="world"></param>
         /// <param name="ui"></param>
         /// <param name="stack"></param>
         /// <param name="frame"></param>
-        void Pop(IUserinterface ui,ActionStack stack,Frame frame);
+        void Pop(IWorld world, IUserinterface ui, ActionStack stack, Frame frame);
 
         /// <summary>
         /// Returns true if there are legal targets for the ability.

@@ -15,16 +15,16 @@ namespace Wanderer.Actions
                 stack.Push(new FightFrame(actor, toFight, this,actor.CurrentLocation.World.InjurySystems.First(),fightAttitude));
         }
 
-        public override void Pop(IUserinterface ui, ActionStack stack, Frame frame)
+        public override void Pop(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
         {
             var f = (FightFrame) frame;
             
             var attackerAdvantage = f.PerformedBy.GetFinalStats()[Stat.Fight] - f.TargetIfAny.GetFinalStats()[Stat.Fight];
             
             ui.Log.Info(new LogEntry($"{f.PerformedBy} fought {f.TargetIfAny}",stack.Round,f.PerformedBy));
-
+            
             //inflict damage on the target
-            f.InjurySystem.Apply(new SystemArgs(ui,
+            f.InjurySystem.Apply(new SystemArgs(world,ui,
                 attackerAdvantage + 20, //Even fighting someone of lower Fight results in injury so add 20
 
                 f.PerformedBy,
@@ -32,7 +32,7 @@ namespace Wanderer.Actions
                 stack.Round));
 
             //inflict damage back again
-            f.InjurySystem.Apply(new SystemArgs(ui,
+            f.InjurySystem.Apply(new SystemArgs(world,ui,
                 -attackerAdvantage + 20,
                 f.TargetIfAny,
                 f.PerformedBy,

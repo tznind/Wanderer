@@ -13,18 +13,16 @@ namespace Wanderer.Behaviours
         {
         }
 
-        public override void OnPop(IUserinterface ui, ActionStack stack, Frame frame)
+        public override void OnPop(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
         {
-            base.OnPop(ui, stack, frame);
-
-            var world = frame.PerformedBy.CurrentLocation.World;
+            base.OnPop(world,ui, stack, frame);
             
             if(frame.TargetIfAny == null)            
                 return;
 
             //if the target is me then I might get angry
             if (frame.TargetIfAny == Owner)
-                IDoCare(ui,world,frame,stack,frame.Attitude);
+                IDoCare(world,ui,frame,stack,frame.Attitude);
             else
             {
                 //is the target one of my friends?
@@ -33,22 +31,22 @@ namespace Wanderer.Behaviours
 
                 //Your hurting one of my friends, im unhappy
                 if (howMuchICare > 0.0001)
-                    IDoCare(ui,world,frame,stack,frame.Attitude);
+                    IDoCare(world,ui,frame,stack,frame.Attitude);
 
                 //your hurting my enemies, I'm happy!
                 if(howMuchICare < 0.001)
-                    IDoCare(ui,world,frame,stack,-0.5 * frame.Attitude);
+                    IDoCare(world,ui,frame,stack,-0.5 * frame.Attitude);
             }
         }
 
-        private void IDoCare(IUserinterface ui, IWorld world, Frame frame, ActionStack stack, double attitudeChange)
+        private void IDoCare(IWorld world, IUserinterface ui, Frame frame, ActionStack stack, double attitudeChange)
         {
             var o = (IActor) Owner;
             //but do I know
             
             //apply relationship change where I change towards the action initiator
             if(o.IsAwareOf(frame.PerformedBy))
-                world.Relationships.Apply(new SystemArgs(ui,attitudeChange,
+                world.Relationships.Apply(new SystemArgs(world,ui,attitudeChange,
                 frame.PerformedBy,
                 o,stack.Round));
         }

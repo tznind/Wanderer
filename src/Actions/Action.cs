@@ -33,10 +33,11 @@ namespace Wanderer.Actions
         /// <summary>
         /// Override to your action once it is confirmed
         /// </summary>
+        /// <param name="world"></param>
         /// <param name="ui"></param>
         /// <param name="stack"></param>
         /// <param name="frame"></param>
-        public abstract void Pop(IUserinterface ui, ActionStack stack, Frame frame);
+        public abstract void Pop(IWorld world, IUserinterface ui, ActionStack stack, Frame frame);
 
         public abstract bool HasTargets(IActor performer);
 

@@ -25,14 +25,14 @@ namespace Tests.Actions
             TwoInARoom(out You you, out IActor them,out IWorld world);
             var ui = GetUI(null);
 
-            Assert.IsFalse(new ActionStack().RunStack(ui,new CoerceAction(), you,null));
+            Assert.IsFalse(new ActionStack().RunStack(world,ui,new CoerceAction(), you,null));
             
             ui = GetUI(them, null);
-            Assert.IsFalse(new ActionStack().RunStack(ui,new CoerceAction(), you,null));
+            Assert.IsFalse(new ActionStack().RunStack(world,ui,new CoerceAction(), you,null));
 
             //Its too late to cancel.  You have successfully coerced you have to pick targets for the NPC on their go
             ui = GetUI(them, them.GetFinalActions().OfType<FightAction>().Single(), null);
-            Assert.IsTrue(new ActionStack().RunStack(ui,new CoerceAction(), you,null));
+            Assert.IsTrue(new ActionStack().RunStack(world,ui,new CoerceAction(), you,null));
             
             ui = GetUI(them, them.GetFinalActions().OfType<FightAction>().Single(), you);
             world.RunRound(ui, new CoerceAction());

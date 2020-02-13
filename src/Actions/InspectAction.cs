@@ -19,7 +19,7 @@ namespace Wanderer.Actions
             return performer.GetCurrentLocationSiblings(true);
         }
 
-        public override void Pop(IUserinterface ui, ActionStack stack, Frame frame)
+        public override void Pop(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
         {
         }
 

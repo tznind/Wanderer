@@ -18,7 +18,7 @@ namespace Tests.Effects
         [Test]
         public void TestEffect_StatBoost()
         {
-            var you = YouInARoom(out IWorld _);
+            var you = YouInARoom(out IWorld world);
 
             string yaml =
                 @"
@@ -38,7 +38,7 @@ Options:
             var ui = GetUI(n.Options.First());
 
             double before = you.BaseStats[Stat.Fight];
-            d.Run(new SystemArgs(ui,0,you,Mock.Of<IHasStats>(),Guid.NewGuid()),n);
+            d.Run(new SystemArgs(world,ui,0,you,Mock.Of<IHasStats>(),Guid.NewGuid()),n);
             Assert.AreEqual(before + 20,you.BaseStats[Stat.Fight]);
 
 
@@ -48,7 +48,7 @@ Options:
         [TestCase(false)]
         public void TestEffect_SetNextDialogue(bool setNull)
         {
-            TwoInARoom(out You you, out IActor them,out IWorld _);
+            TwoInARoom(out You you, out IActor them,out IWorld world);
             
             var before = them.Dialogue.Next = Guid.NewGuid();
             
@@ -68,7 +68,7 @@ Options:
 
             //pick the first option
             var ui = GetUI(n.Options.First());
-            d.Run(new SystemArgs(ui,0,you,them,Guid.NewGuid()),n);
+            d.Run(new SystemArgs(world,ui,0,you,them,Guid.NewGuid()),n);
 
             if(setNull)
                 Assert.IsNull(them.Dialogue.Next);

@@ -20,7 +20,7 @@ namespace Wanderer.Actions
             return performer.CurrentLocation.LeaveDirections.ToArray();
         }
 
-        public override void Pop(IUserinterface ui, ActionStack stack, Frame frame)
+        public override void Pop(IWorld world1, IUserinterface ui, ActionStack stack, Frame frame)
         {
             var f = (LeaveFrame) frame;
 

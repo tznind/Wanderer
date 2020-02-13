@@ -106,8 +106,7 @@ namespace Wanderer.Systems
         {
             if (option.Attitude.HasValue)
             {
-                var w = args.AggressorIfAny.CurrentLocation.World;
-                w.Relationships.Apply(new SystemArgs(args.UserInterface,option.Attitude.Value,args.AggressorIfAny,args.Recipient,args.Round));
+                args.World.Relationships.Apply(new SystemArgs(args.World,args.UserInterface,option.Attitude.Value,args.AggressorIfAny,args.Recipient,args.Round));
             }
 
             //apply effects of the dialogue choice

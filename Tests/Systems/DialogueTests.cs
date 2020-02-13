@@ -109,7 +109,7 @@ namespace Tests.Systems
         [Test]
         public void Test_SimpleSubstitution()
         {
-            var you = YouInARoom(out IWorld w);
+            var you = YouInARoom(out IWorld world);
             you.Name = "Flash";
             var npc = new Npc("Space Crab",you.CurrentLocation);
             npc.Dialogue.Next = new Guid("339271e0-7b11-4aba-a9e2-2776f6c5a197");
@@ -121,7 +121,7 @@ namespace Tests.Systems
             var dlg = new YamlDialogueSystem(yaml);
 
             var ui = GetUI();
-            dlg.Apply(new SystemArgs(ui,0,you,npc,Guid.Empty));
+            dlg.Apply(new SystemArgs(world,ui,0,you,npc,Guid.Empty));
             Assert.Contains("Greetings Flash I am Space Crab",ui.MessagesShown);
             
         }
@@ -130,7 +130,7 @@ namespace Tests.Systems
         [TestCase(false)]
         public void Test_Substitutions(bool areFriends)
         {
-            TwoInARoomWithRelationship(areFriends ? 10:-10,false,out You you, out IActor them,out IWorld w);
+            TwoInARoomWithRelationship(areFriends ? 10:-10,false,out You you, out IActor them,out IWorld world);
             
             them.Name = "Space Crab";
             them.Dialogue.Next = new Guid("339271e0-7b11-4aba-a9e2-2776f6c5a197");
@@ -150,7 +150,7 @@ namespace Tests.Systems
             var dlg = new YamlDialogueSystem(yaml);
 
             var ui = GetUI();
-            dlg.Apply(new SystemArgs(ui,0,you,them,Guid.Empty));
+            dlg.Apply(new SystemArgs(world,ui,0,you,them,Guid.Empty));
 
             if(areFriends)
                 Assert.Contains("Screeeee (this creature seems friendly)",ui.MessagesShown);
@@ -177,9 +177,9 @@ namespace Tests.Systems
 
             var ui = GetUI();
 
-            var room = InARoom(out _);
+            var room = InARoom(out IWorld world);
 
-            system.Run(new SystemArgs(ui,0,
+            system.Run(new SystemArgs(world,ui,0,
                 Mock.Of<IActor>(a=> a.CurrentLocation == room),room,
                 Guid.NewGuid()),system.AllDialogues.Single());
 
@@ -187,7 +187,7 @@ namespace Tests.Systems
 
             room.Adjectives.Add(new Light(room));
 
-            system.Run(new SystemArgs(ui,0,
+            system.Run(new SystemArgs(world,ui,0,
                 Mock.Of<IActor>(a=> a.CurrentLocation == room),room,
                 Guid.NewGuid()),system.AllDialogues.Single());
 
@@ -213,16 +213,16 @@ namespace Tests.Systems
 
             var ui = GetUI();
 
-            var you = YouInARoom(out _);
+            var you = YouInARoom(out IWorld world);
             you.BaseStats[Stat.Corruption] = 0;
 
-            system.Run(new SystemArgs(ui,0,you,you.CurrentLocation, Guid.NewGuid()),system.AllDialogues.Single());
+            system.Run(new SystemArgs(world,ui,0,you,you.CurrentLocation, Guid.NewGuid()),system.AllDialogues.Single());
 
             Assert.Contains("The denizens of this degenerate bar make you nervous",ui.MessagesShown);
 
             you.BaseStats[Stat.Corruption] = 10;
             
-            system.Run(new SystemArgs(ui,0,you,you.CurrentLocation, Guid.NewGuid()),system.AllDialogues.Single());
+            system.Run(new SystemArgs(world,ui,0,you,you.CurrentLocation, Guid.NewGuid()),system.AllDialogues.Single());
 
             Assert.Contains("The denizens of this degenerate bar seem like your kind of people",ui.MessagesShown);
         }
