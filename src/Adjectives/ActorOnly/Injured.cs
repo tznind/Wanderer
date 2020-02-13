@@ -23,25 +23,15 @@ namespace Wanderer.Adjectives.ActorOnly
 
         public IActor OwnerActor { get; set; }
 
-        public void Worsen(IUserinterface ui,  Guid round)
+
+        public void Worsen(IUserinterface ui, Guid round)
         {
-            if (!IsInfected)
-            {
-                IsInfected = true;
-                ui.Log.Info(new LogEntry($"{Name} became infected",round,OwnerActor));
-                Name = "Infected " + Name;
-            }
-            else
-                ui.Log.Info(new LogEntry($"{Name} got worse", round,OwnerActor));
-
-            Severity++;
+            InjurySystem.Worsen(this, ui, round);
         }
-
 
         public void Heal(IUserinterface ui, Guid round)
         {
-            Owner.Adjectives.Remove(this);
-            ui.Log.Info(new LogEntry($"{Name} was healed",round,OwnerActor));
+            InjurySystem.Heal(this, ui, round);
         }
 
         public Injured(string name,IActor actor, double severity,InjuryRegion region,IInjurySystem system):base(actor)
@@ -57,10 +47,7 @@ namespace Wanderer.Adjectives.ActorOnly
 
             BaseBehaviours.Add(this);
         }
-
         
-
-
         public void OnPush(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
         {
             _roundsSeen.Add(stack.Round);

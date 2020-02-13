@@ -9,9 +9,13 @@ using Wanderer.Stats;
 
 namespace Wanderer.Systems
 {
-    public class InjurySystem : IInjurySystem
+
+
+    public class TissueInjurySystem : IInjurySystem
     {
-        public void Apply(SystemArgs args, InjuryRegion region)
+        public Guid Identifier { get; set; } = new Guid("9b137f26-834d-4033-ae36-74ab578f5868");
+
+        public virtual void Apply(SystemArgs args, InjuryRegion region)
         {
             if(args.Intensity < 0 || region == InjuryRegion.None)
                 return;
@@ -36,7 +40,8 @@ namespace Wanderer.Systems
             args.UserInterface.Log.Info(new LogEntry($"{args.Recipient} gained {newInjury}", args.Round,a));
         }
 
-        public void Apply(SystemArgs args)
+
+        public virtual void Apply(SystemArgs args)
         {
             var regions = Enum.GetValues(typeof(InjuryRegion)).Cast<InjuryRegion>().ToArray();
 
@@ -54,7 +59,7 @@ namespace Wanderer.Systems
             }
         }
 
-        public bool HasFatalInjuries(IActor owner, out string diedOf)
+        public virtual bool HasFatalInjuries(IActor owner, out string diedOf)
         {
             //Combined total of serious wounds (2 or higher) severity is 10
             if (owner.Adjectives.OfType<Injured>().Where(i => i.Severity > 1).Sum(i => i.Severity) >= 10)
@@ -67,7 +72,7 @@ namespace Wanderer.Systems
             return false;
         }
 
-        public bool ShouldWorsen(Injured injury, int roundsSeen)
+        public virtual bool ShouldWorsen(Injured injury, int roundsSeen)
         {
             if (IsWithinNaturalHealingThreshold(injury) || injury.OwnerActor.Dead)
                 return false;
@@ -84,7 +89,7 @@ namespace Wanderer.Systems
         
         }
 
-        public bool IsHealableBy(IActor actor, Injured injured, out string reason)
+        public virtual bool IsHealableBy(IActor actor, Injured injured, out string reason)
         {
             var requiredSavvy = injured.Severity * 5;
 
@@ -102,12 +107,31 @@ namespace Wanderer.Systems
             return false;
         }
 
-        public bool ShouldNaturallyHeal(Injured injured, in int roundsSeen)
+        public virtual bool ShouldNaturallyHeal(Injured injured, in int roundsSeen)
         {
             return !injured.OwnerActor.Dead && IsWithinNaturalHealingThreshold(injured) && roundsSeen >= 10;
         }
 
-        private bool IsWithinNaturalHealingThreshold(Injured injured)
+        public virtual void Worsen(Injured injured, IUserinterface ui, Guid round)
+        {
+            if (!injured.IsInfected)
+            {
+                injured.IsInfected = true;
+                ui.Log.Info(new LogEntry($"{injured.Name} became infected",round,injured.OwnerActor));
+                injured.Name = "Infected " + injured.Name;
+            }
+            else
+                ui.Log.Info(new LogEntry($"{injured.Name} got worse", round,injured.OwnerActor));
+
+            injured.Severity++;
+        }
+
+        public virtual void Heal(Injured injured, IUserinterface ui, Guid round)
+        {
+            injured.Owner.Adjectives.Remove(injured);
+            ui.Log.Info(new LogEntry($"{injured.Name} was healed",round,injured.OwnerActor));
+        }
+        protected virtual bool IsWithinNaturalHealingThreshold(Injured injured)
         {
             return injured.Severity <= 1;
         }

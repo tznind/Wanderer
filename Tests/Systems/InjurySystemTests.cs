@@ -28,7 +28,7 @@ namespace Tests.Systems
         {
             List<string> seenSoFar = new List<string>();
 
-            var sys = new InjurySystem();
+            var sys = new TissueInjurySystem();
 
             var world = new World();
             var room = new Room("someRoom", world,'-');
@@ -290,13 +290,13 @@ namespace Tests.Systems
             var you = YouInARoom(out IWorld w);
             you.Dead = true;
 
-            var a = new Injured("Exposed Spine", you, 7, InjuryRegion.Ribs,new InjurySystem());
+            var a = new Injured("Exposed Spine", you, 7, InjuryRegion.Ribs,new TissueInjurySystem());
 
             for (int i = 0; i < 100; i++) 
                 Assert.IsFalse(a.InjurySystem.ShouldWorsen(a, i));
 
             
-            var a2 = new Injured("Grazed Knee", you, 1, InjuryRegion.Leg,new InjurySystem());
+            var a2 = new Injured("Grazed Knee", you, 1, InjuryRegion.Leg,new TissueInjurySystem());
 
             for (int i = 0; i < 100; i++)
             {
