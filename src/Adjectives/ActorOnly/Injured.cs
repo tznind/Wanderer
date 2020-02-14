@@ -20,10 +20,7 @@ namespace Wanderer.Adjectives.ActorOnly
         /// Tracks how many rounds have gone by
         /// </summary>
         readonly HashSet<Guid> _roundsSeen = new HashSet<Guid>();
-
-        public IActor OwnerActor { get; set; }
-
-
+        
         public void Worsen(IUserinterface ui, Guid round)
         {
             InjurySystem.Worsen(this, ui, round);
@@ -34,7 +31,7 @@ namespace Wanderer.Adjectives.ActorOnly
             InjurySystem.Heal(this, ui, round);
         }
 
-        public Injured(string name,IActor actor, double severity,InjuryRegion region,IInjurySystem system):base(actor)
+        public Injured(string name,IHasStats owner, double severity,InjuryRegion region,IInjurySystem system):base(owner)
         {
             Severity = severity;
             Region = region;
@@ -43,7 +40,6 @@ namespace Wanderer.Adjectives.ActorOnly
 
             BaseStats[Stat.Fight] = -5 * severity;
             Name = name;
-            OwnerActor = actor;
 
             BaseBehaviours.Add(this);
         }
@@ -71,8 +67,8 @@ namespace Wanderer.Adjectives.ActorOnly
 
         public void OnRoundEnding(IUserinterface ui, Guid round)
         {
-            if(InjurySystem.HasFatalInjuries(OwnerActor,out string reason))
-                OwnerActor.Kill(ui,round, reason);
+            if (InjurySystem.HasFatalInjuries(this, out string reason))
+                InjurySystem.Kill(this, ui,round, reason);
         }
         
         public override IEnumerable<string> GetDescription()

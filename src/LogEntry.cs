@@ -20,7 +20,7 @@ namespace Wanderer
             Location = location;
         }
 
-        public LogEntry(string message, Guid round, IActor actor):this(message,round,actor.CurrentLocation.GetPoint())
+        public LogEntry(string message, Guid round, IActor actor):this(message,round,actor?.CurrentLocation?.GetPoint())
         {
             
         }

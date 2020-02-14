@@ -32,11 +32,13 @@ namespace Wanderer.Systems
         protected override bool ShouldWorsenImpl(Injured injury, int roundsSeen)
         {
             double worsenRate = 1;
+            
+            var a = injury.Owner as IActor;
 
-            if (injury.OwnerActor.Has<Tough>(true))
+            if (a != null && a.Has<Tough>(true))
                 worsenRate--;
 
-            if (injury.OwnerActor.CurrentLocation.Has<Stale>())
+            if (a != null && a.CurrentLocation.Has<Stale>())
                 worsenRate++;
 
             return Math.Abs(worsenRate) > 0.0001 && Math.Abs(roundsSeen % (injury.Severity*2 / worsenRate)) < 0.0001;
@@ -48,8 +50,9 @@ namespace Wanderer.Systems
             var requiredSavvy = injured.Severity * 5;
 
             //harder to heal giant things
-            if (injured.OwnerActor.Has<Giant>(false))
-                requiredSavvy *= 1.5;
+            if(injured.Owner is IActor a)
+                if (a.Has<Giant>(false))
+                    requiredSavvy *= 1.5;
 
             if (actor.GetFinalStats()[Stat.Savvy] > requiredSavvy)
             {
@@ -71,11 +74,11 @@ namespace Wanderer.Systems
             if (!injured.IsInfected)
             {
                 injured.IsInfected = true;
-                ui.Log.Info(new LogEntry($"{injured.Name} became infected",round,injured.OwnerActor));
+                ui.Log.Info(new LogEntry($"{injured.Name} became infected",round,injured.Owner as IActor));
                 injured.Name = "Infected " + injured.Name;
             }
             else
-                ui.Log.Info(new LogEntry($"{injured.Name} got worse", round,injured.OwnerActor));
+                ui.Log.Info(new LogEntry($"{injured.Name} got worse", round,injured.Owner as IActor));
 
             injured.Severity++;
         }
@@ -83,7 +86,7 @@ namespace Wanderer.Systems
         public override void Heal(Injured injured, IUserinterface ui, Guid round)
         {
             injured.Owner.Adjectives.Remove(injured);
-            ui.Log.Info(new LogEntry($"{injured.Name} was healed",round,injured.OwnerActor));
+            ui.Log.Info(new LogEntry($"{injured.Name} was healed",round,injured.Owner as IActor));
         }
     }
 }

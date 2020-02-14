@@ -18,10 +18,10 @@ namespace Wanderer.Systems
         /// Returns true if the <paramref name="owner"/> is so injured (by this system)
         /// that they should die.
         /// </summary>
-        /// <param name="owner"></param>
+        /// <param name="injured"></param>
         /// <param name="diedOf"></param>
         /// <returns></returns>
-        bool HasFatalInjuries(IActor owner, out string diedOf);
+        bool HasFatalInjuries(IInjured injured, out string diedOf);
 
         /// <summary>
         /// Returns true if the injury should worsen
@@ -58,5 +58,15 @@ namespace Wanderer.Systems
         /// <param name="ui"></param>
         /// <param name="round"></param>
         void Heal(Injured injured, IUserinterface ui, Guid round);
+
+        /// <summary>
+        /// Kill/destroy the owner of the given <paramref name="injured"/> (usually
+        /// because they <see cref="HasFatalInjuries"/>)
+        /// </summary>
+        /// <param name="injured"></param>
+        /// <param name="ui"></param>
+        /// <param name="round"></param>
+        /// <param name="diedOf"></param>
+        void Kill(Injured injured, IUserinterface ui, Guid round, string diedOf);
     }
 }

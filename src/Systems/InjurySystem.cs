@@ -47,10 +47,10 @@ namespace Wanderer.Systems
         }
         public abstract IEnumerable<Injured> GetAvailableInjuries(IActor actor);
 
-        public virtual bool HasFatalInjuries(IActor owner, out string diedOf)
+        public virtual bool HasFatalInjuries(IInjured injured, out string diedOf)
         {
             //Combined total of serious wounds (2 or higher) severity is 10
-            if (owner.Adjectives.OfType<Injured>().Where(i => i.Severity > 1).Sum(i => i.Severity) >= 10)
+            if (injured.Owner.Adjectives.OfType<Injured>().Where(i => i.Severity > 1).Sum(i => i.Severity) >= 10)
             {
                 diedOf = "injuries";
                 return true;
@@ -62,9 +62,11 @@ namespace Wanderer.Systems
 
         public bool ShouldWorsen(Injured injury, int roundsSeen)
         {
-            if (IsWithinNaturalHealingThreshold(injury) || (injury.OwnerActor != null && injury.OwnerActor.Dead))
+            if (IsWithinNaturalHealingThreshold(injury))
                 return false;
 
+            if (injury.Owner is IActor a && a.Dead)
+                return false;
 
             return ShouldWorsenImpl(injury, roundsSeen);
         }
@@ -82,7 +84,7 @@ namespace Wanderer.Systems
         public bool ShouldNaturallyHeal(Injured injured, int roundsSeenCount)
         {
             //if your dead you are not getting better
-            if(injured.OwnerActor != null && injured.OwnerActor.Dead)
+            if (injured.Owner is IActor a && a.Dead)
                 return false;
 
             //if the wound is too bad to heal by itself
@@ -103,8 +105,14 @@ namespace Wanderer.Systems
 
         public abstract void Worsen(Injured injured, IUserinterface ui, Guid round);
         public abstract void Heal(Injured injured, IUserinterface ui, Guid round);
-
         
+        public virtual void Kill(Injured injured, IUserinterface ui, Guid round, string diedOf)
+        {
+            if(injured.Owner is IActor a)
+                a.Kill(ui,round, diedOf);
+        }
+
+
         /// <summary>
         /// Injury should get better by itself (and not worsen), override to create injury
         /// systems that do not heal by themselves or where the threshold is higher
