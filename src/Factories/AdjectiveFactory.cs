@@ -36,6 +36,7 @@ namespace Wanderer.Factories
                 yield return new Tough(actor);
                 yield return new Medic(actor);
                 yield return new Giant(actor);
+                yield return new Tired(actor);
             }
 
             if (o is IItem item)

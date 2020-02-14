@@ -12,10 +12,11 @@ namespace Wanderer.Behaviours
         readonly HashSet<Guid> _roundsSeen = new HashSet<Guid>();
 
         /// <summary>
-        /// Add to <see cref="IHasStats.BaseBehaviours"/> in order to expire the given <paramref name="adjective"/> after <paramref name="roundsBeforeRemoval"/>
+        /// Add to <see cref="IHasStats.BaseBehaviours"/> in order to expire the given <paramref name="adjective"/>
+        /// after <paramref name="roundsBeforeRemoval"/>
         /// </summary>
         /// <param name="adjective"></param>
-        /// <param name="roundsBeforeRemoval"></param>
+        /// <param name="roundsBeforeRemoval">1 for current round only, 2 for this round and next round, etc</param>
         public ExpiryBehaviour(IAdjective adjective, int roundsBeforeRemoval) : base(adjective.Owner)
         {
             _adjective = adjective;

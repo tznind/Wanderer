@@ -1,5 +1,8 @@
 ﻿using System.Linq;
 using Wanderer.Actors;
+using Wanderer.Adjectives;
+using Wanderer.Behaviours;
+using Wanderer.Items;
 using Wanderer.Stats;
 using Wanderer.Systems;
 
@@ -37,6 +40,14 @@ namespace Wanderer.Actions
                 f.TargetIfAny,
                 f.PerformedBy,
                 stack.Round));
+
+            foreach (var a in new []{f.TargetIfAny, f.PerformedBy})
+            {
+                //fighting makes you tired
+                a.Adjectives.Add(
+                    //expires at the end of the next round
+                    new Tired(a).WithExpiry(2));
+            }
             
         }
 
