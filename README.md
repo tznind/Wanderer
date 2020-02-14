@@ -11,10 +11,14 @@ The goal of this project is to create a game in which you wander a city sized st
 3. No dice rolls for actions (if you have Fight 10 and you fight someone with Fight 15 the outcome should always be the same)
 4. Actions should have consequences (for relationships, long term injuries etc).
 
-Imagine pulling a grenade pin and persuading an npc to pick it up only for him to give it back to you on his round.  Or an opportunistic Worker picking up a dropped item from a killed guard:
+Flexibility and extensibility are also core aims.  To this end: 
+
+1. All narrative, dialogues, blueprints etc should come from [external yaml/csharp scripting files](./Resources.md)
+2. The library (`Wanderer`) must remain seperate from the UI (`Game.csproj`) with a very thin [interface layer](./src/IUserinterface.cs) to allow for any future UI formats.
 
 ![Screenshot of gameplay showing map][screenshot1]
 ![Screenshot of gameplay showing narrative][screenshot2]
+![Screenshot of gameplay showing dialogue][screenshot3]
 
 You can [download the compiled binaries in the Releases Section](https://github.com/tznind/Wanderer/releases) for both windows and linux console.
 
@@ -59,3 +63,4 @@ Other design patterns include:
 [classDiagram]: ./src/Overview.cd.png
 [screenshot1]: ./src/Screen1.png
 [screenshot2]: ./src/Screen2.png
+[screenshot3]: ./src/Screen3.png

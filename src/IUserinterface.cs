@@ -5,11 +5,6 @@ namespace Wanderer
 {
     public interface IUserinterface
     {
-        /// <summary>
-        /// Trashes the current <see cref="IWorld"/> and creates a new one
-        /// </summary>
-        void NewGame();
-
         EventLog Log {get;}
 
         void ShowStats(IHasStats of);

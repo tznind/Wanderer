@@ -130,7 +130,12 @@ namespace Wanderer.Factories
         /// <param name="world"></param>
         protected virtual void GenerateFactions(World world)
         {
-            var dirs = Directory.GetDirectories(Path.Combine(ResourcesDirectory, FactionsDirectory));
+            var factionsDir = Path.Combine(ResourcesDirectory, FactionsDirectory);
+
+            if (!Directory.Exists(factionsDir))
+                return;
+
+            var dirs = Directory.GetDirectories(factionsDir);
 
             var adjectiveFactory = new AdjectiveFactory();
 
@@ -242,8 +247,13 @@ namespace Wanderer.Factories
 
         public virtual DialogueSystem GetDialogue()
         {
+            var dialogueDir = Path.Combine(ResourcesDirectory, DialogueDirectory);
+
+            if(!Directory.Exists(dialogueDir))
+                return new DialogueSystem();
+
             return new YamlDialogueSystem(
-                Directory.EnumerateFiles(Path.Combine(ResourcesDirectory,DialogueDirectory),"*.yaml",SearchOption.AllDirectories)
+                Directory.EnumerateFiles(dialogueDir,"*.yaml",SearchOption.AllDirectories)
                     .Select(f=>new FileInfo(f)).ToArray()
                 );
         }
