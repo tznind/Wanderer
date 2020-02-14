@@ -63,8 +63,10 @@ namespace Game.UI
             _splash = new SplashScreen(){X = 4,Y=4};
             _mapView = new MapView()
             {
+                X = 0,
+                Y = -1,
                 Width = Dim.Percent(70),
-                Height = Dim.Percent(100) - 5
+                Height = Dim.Fill() - 5
             };
 
             Add(_splash);
@@ -413,7 +415,7 @@ namespace Game.UI
             //use a scroll view
             _roomContents = new ListView(_roomContentsObjects)
             {
-                X=Pos.Percent(75),
+                X=Pos.Percent(70),
                 Width = Dim.Fill(),
                 Height = Dim.Percent(75)
             };
@@ -467,11 +469,11 @@ namespace Game.UI
             if(_detail != null)
                 Remove(_detail);
 
+            if(_mapView != null)
+                Remove(_mapView);
+                
             if (_roomContents.HasFocus)
             {
-                if(_mapView != null)
-                    Remove(_mapView);
-
                 _detail = new HasStatsView()
                 {
                     AllowScrolling = false
@@ -480,8 +482,8 @@ namespace Game.UI
                 var o = _roomContentsObjects[selected];
 
                 _detail.InitializeComponent(o as IActor ?? World.Player,o,DlgWidth,DlgHeight);
-                _detail.X = 2;
-                _detail.Y = 2;
+                _detail.X = 1;
+                _detail.Y = 1;
                 _detail.Width = Dim.Percent(70);
                 _detail.Height = Dim.Fill() - 5;
 
