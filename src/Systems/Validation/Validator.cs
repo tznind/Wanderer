@@ -52,14 +52,28 @@ namespace Wanderer.Validation
         private void AddError(string msg, Exception exception)
         {
             Errors.AppendLine(msg);
-            Errors.AppendLine(IncludeStackTraces ? exception.ToString() : exception.Message);
+            Errors.AppendLine(IncludeStackTraces ? exception.ToString() : Flatten(exception));
         }
+
+
         private void AddWarning(string msg, Exception exception)
         {
             Warnings.AppendLine(msg);
-            Warnings.AppendLine(IncludeStackTraces ? exception.ToString() : exception.Message);
+            Warnings.AppendLine(IncludeStackTraces ? Flatten(exception) : exception.Message);
         }
 
+        private string Flatten(Exception ex)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            while(ex != null)
+            {
+                sb.AppendLine(ex.Message);
+                ex = ex.InnerException;
+            }
+
+            return sb.ToString();
+        }
         public void Validate(IWorld world,IRoomFactory roomFactory,string title)
         {
 
