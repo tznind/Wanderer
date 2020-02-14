@@ -10,7 +10,6 @@ using Wanderer;
 using Wanderer.Actors;
 using Wanderer.Factories;
 using Terminal.Gui;
-using Attribute = Terminal.Gui.Attribute;
 
 namespace Game.UI
 {
@@ -28,6 +27,8 @@ namespace Game.UI
         private ListView _roomContents;
         private List<IHasStats> _roomContentsObjects;
         private HasStatsView _detail;
+        private MapView _mapView;
+
         public bool ShowMap => World?.Map != null && _detail == null;
         
         public MainWindow(WorldFactory worldFactory):base("Game")
@@ -60,6 +61,12 @@ namespace Game.UI
             top.Add (menu);
             
             _splash = new SplashScreen(){X = 4,Y=4};
+            _mapView = new MapView()
+            {
+                Width = Dim.Percent(70),
+                Height = Dim.Percent(100) - 5
+            };
+
             Add(_splash);
         }
 
@@ -106,6 +113,10 @@ namespace Game.UI
             Log.Clear();
             
             Remove(_splash);
+            
+            _mapView.World = World;
+            Add(_mapView);
+
 
             Refresh();
         }
@@ -338,54 +349,7 @@ namespace Game.UI
 
         
 
-        public override void Redraw(Rect bounds)
-        {
-            base.Redraw(bounds);
-
-            DlgWidth = bounds.Width - 4;
-            DlgHeight = bounds.Height - 4;
-            DlgBoundary = 2;
-
-            
-            var mapWidth = (int)(bounds.Width * 0.75) -4;
-            var mapHeight = bounds.Height - 6;
-
-            if (ShowMap)
-            {
-                var home = World.Map.GetPoint(World.Player.CurrentLocation);
-                
-                //var centre world location 0,0
-                var toCentreX = -mapWidth / 2;
-                var toCentreY = -mapHeight / 2;
-
-                
-                for (int y = 0; y < mapHeight; y++)
-                {
-                    Driver.Move(2,mapHeight - (y-1));
-
-                    for (int x = 0; x < mapWidth; x++)
-                    {
-                        var pointToRender = new Point3(x + toCentreX, y +toCentreY, 0).Offset(home);
-
-                        if (World.Map.ContainsKey(pointToRender) && World.Map[pointToRender].IsExplored)
-                        {
-                            var att = 
-                                Equals(pointToRender, home) 
-                                      //flip the colors where you are
-                                    ? Attribute.Make((Color) ConsoleColor.Black,(Color) World.Map[pointToRender].Color)
-                                    :Attribute.Make((Color) World.Map[pointToRender].Color, (Color) ConsoleColor.Black);
-                            Driver.SetAttribute(att);
-                            Driver.AddRune(World.Map[pointToRender].Tile);
-                        }
-                        else
-                        {
-                            Driver.SetAttribute((int)Color.Black);
-                            Driver.AddRune(' ');
-                        }
-                    }
-                }
-            }
-        }
+        
         
         public void UpdateActions()
         {
@@ -479,7 +443,7 @@ namespace Game.UI
                     ShowStats(_roomContentsObjects[_roomContents.SelectedItem]);
             }
 
-            if (keyEvent.Key == Key.Esc && _detail != null)
+            if (keyEvent.Key == Key.Esc && _detail != null )
             {
                 HideDetailPane();
                 var button = _oldButtons?.FirstOrDefault();
@@ -505,6 +469,9 @@ namespace Game.UI
 
             if (_roomContents.HasFocus)
             {
+                if(_mapView != null)
+                    Remove(_mapView);
+
                 _detail = new HasStatsView()
                 {
                     AllowScrolling = false
@@ -535,6 +502,8 @@ namespace Game.UI
 
             _detail = null;
 
+            if(_mapView != null)
+                Add(_mapView);
         }
 
         public string Wrap(string s, int width)
