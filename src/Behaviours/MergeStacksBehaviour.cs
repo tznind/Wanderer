@@ -11,10 +11,9 @@ namespace Wanderer.Behaviours
         {
         }
 
-        public override void OnRoundEnding(IUserinterface ui, Guid round)
+        public override void OnRoundEnding(IWorld world,IUserinterface ui, Guid round)
         {
             var a = (IActor)Owner;
-            var world = a.CurrentLocation.World;
 
             foreach (var s1 in a.Items.OfType<IItemStack>().ToArray())
             foreach (var s2 in a.Items.OfType<IItemStack>().ToArray())
@@ -23,7 +22,7 @@ namespace Wanderer.Behaviours
                     s1.Combine(s2,world);
             }
 
-            base.OnRoundEnding(ui, round);
+            base.OnRoundEnding(world, ui, round);
         }
     }
 }

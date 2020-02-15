@@ -23,7 +23,7 @@ namespace Wanderer.Behaviours
             _roundsBeforeRemoval = roundsBeforeRemoval;
         }
 
-        public override void OnRoundEnding(IUserinterface ui, Guid round)
+        public override void OnRoundEnding(IWorld world,IUserinterface ui, Guid round)
         {
             _roundsSeen.Add(round);
 

@@ -10,6 +10,7 @@ using Wanderer.Stats;
 
 namespace Wanderer.Systems
 {
+
     public class TissueInjurySystem : InjurySystem
     {
         public override Guid Identifier { get; set; } = new Guid("9b137f26-834d-4033-ae36-74ab578f5868");

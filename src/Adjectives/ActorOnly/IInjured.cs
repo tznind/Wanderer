@@ -1,10 +1,13 @@
 ﻿using System;
 using Wanderer.Actors;
+using Wanderer.Systems;
 
 namespace Wanderer.Adjectives.ActorOnly
 {
     public interface IInjured : IAdjective
     {
+        IInjurySystem InjurySystem { get; set; }
+
         InjuryRegion Region { get; set; }
         double Severity { get; set; }
         

@@ -33,7 +33,7 @@ namespace Wanderer.Items
                 frame.PerformedBy.CurrentLocation.World.Erase(OwnerItem);
         }
 
-        public void OnRoundEnding(IUserinterface ui, Guid round)
+        public void OnRoundEnding(IWorld world,IUserinterface ui, Guid round)
         {
         }
 

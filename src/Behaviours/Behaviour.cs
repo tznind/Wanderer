@@ -25,7 +25,7 @@ namespace Wanderer.Behaviours
         }
 
 
-        public virtual void OnRoundEnding(IUserinterface ui, Guid round)
+        public virtual void OnRoundEnding(IWorld world,IUserinterface ui, Guid round)
         {
         }
 

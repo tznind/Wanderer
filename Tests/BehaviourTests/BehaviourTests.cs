@@ -26,7 +26,7 @@ namespace Tests.BehaviourTests
             Assert.IsFalse(b2.AreIdentical(b3),"Different rounds remaining");
 
             //simulate 1 round
-            b2.OnRoundEnding(Mock.Of<IUserinterface>(),Guid.NewGuid());
+            b2.OnRoundEnding(Mock.Of<IWorld>(),Mock.Of<IUserinterface>(),Guid.NewGuid());
 
             //now timer matches they are identical from users perspective
             Assert.IsTrue(b2.AreIdentical(b3),"Same rounds remaining now");

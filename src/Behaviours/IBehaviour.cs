@@ -28,6 +28,6 @@ namespace Wanderer.Behaviours
         /// <param name="frame"></param>
         void OnPop(IWorld world, IUserinterface ui, ActionStack stack, Frame frame);
 
-        void OnRoundEnding(IUserinterface ui,Guid round);
+        void OnRoundEnding(IWorld world,IUserinterface ui,Guid round);
     }
 }

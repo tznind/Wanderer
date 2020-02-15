@@ -65,7 +65,7 @@ namespace Wanderer.Adjectives.ActorOnly
             
         }
 
-        public void OnRoundEnding(IUserinterface ui, Guid round)
+        public void OnRoundEnding(IWorld world,IUserinterface ui, Guid round)
         {
             if (InjurySystem.HasFatalInjuries(this, out string reason))
                 InjurySystem.Kill(this, ui,round, reason);

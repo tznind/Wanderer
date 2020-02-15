@@ -25,7 +25,11 @@ namespace Wanderer
         public HashSet<IActor> Population { get; set; } =  new HashSet<IActor>();
         public IRelationshipSystem Relationships { get; set; } = new RelationshipSystem();
         public IDialogueSystem Dialogue { get; set; } = new DialogueSystem();
-        public IList<IInjurySystem> InjurySystems { get; set; } = new List<IInjurySystem>(new []{new TissueInjurySystem()});
+        public IList<IInjurySystem> InjurySystems { get; set; } = new List<IInjurySystem>(new IInjurySystem[]
+            {
+                new TissueInjurySystem(),
+                new HungerInjurySystem(),
+            });
         public IList<INegotiationSystem> NegotiationSystems { get; set; } = new List<INegotiationSystem>(new []{new NegotiationSystem()});
 
         public IRoomFactory RoomFactory { get; set; }
@@ -117,7 +121,7 @@ namespace Wanderer
                 RunNpcActions(stack,ui);
 
                 foreach (IBehaviour b in GetAllBehaviours()) 
-                    b.OnRoundEnding(ui, stack.Round);
+                    b.OnRoundEnding(this,ui, stack.Round);
 
                 if(ui.Log.RoundResults.Any())
                     ui.ShowMessage("Round Results",string.Join('\n',GetPlayerVisibleLogResults(ui)));

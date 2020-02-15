@@ -10,6 +10,7 @@ using Wanderer.Items;
 using Wanderer.Places;
 using Wanderer.Relationships;
 using Wanderer.Stats;
+using Wanderer.Systems;
 
 namespace Wanderer.Actors
 {
@@ -64,7 +65,13 @@ namespace Wanderer.Actors
             BaseActions.Add(new GiveAction());
             BaseActions.Add(new DialogueAction());
             BaseActions.Add(new EquipmentAction());
+
             BaseBehaviours.Add(new MergeStacksBehaviour(this));
+
+            var hungerSystem = CurrentLocation.World.InjurySystems.OfType<HungerInjurySystem>().FirstOrDefault();
+
+            if(hungerSystem != null)
+                BaseBehaviours.Add(new GetsHungryBehaviour(this,hungerSystem));
         }
 
         /// <summary>
