@@ -54,6 +54,10 @@ namespace Wanderer.Validation
             Errors.AppendLine(msg);
             Errors.AppendLine(IncludeStackTraces ? exception.ToString() : Flatten(exception));
         }
+        private void AddError(string msg)
+        {
+            Errors.AppendLine(msg);
+        }
 
 
         private void AddWarning(string msg, Exception exception)
@@ -127,10 +131,13 @@ namespace Wanderer.Validation
 
             if (d == null)
             {
-                Errors.AppendLine($"Could not find Dialogue '{dialogue.Next}'");
+                AddError($"Could not find Dialogue '{dialogue.Next}'");
                 return;
             }
 
+            if(d.Body == null || d.Body.Length == 0 || d.Body.All(b=>string.IsNullOrWhiteSpace(b.Text)))
+                AddError($"Dialogue '{d.Identifier}' has no Body Text");
+                
             foreach (ICondition<SystemArgs> condition in d.Require)
             {
                 try
@@ -143,6 +150,28 @@ namespace Wanderer.Validation
                 }
             }
 
+            foreach(var option in d.Options)
+                Validate(world,recipient,dialogue,room,d,option);
+
         }
+
+        public void Validate(IWorld world, IHasStats recipient, DialogueInitiation initiation, IPlace room,DialogueNode dialogue, DialogueOption option)
+        {
+            if(string.IsNullOrWhiteSpace(option.Text))
+                AddError($"A Dialogue Option of Dialogue '{dialogue.Identifier}' has no Text");
+            
+            foreach (IEffect effect in option.Effect)
+            {
+                try
+                {
+                    effect.Apply(new SystemArgs(world,null, 0, GetTestActor(room), recipient, Guid.Empty));
+                }
+                catch (Exception e)
+                {
+                    AddWarning($"Error testing EffectCode of Option '{option.Text}' of Dialogue '{dialogue.Identifier}' for test actor interacting with '{recipient}'",e);
+                }
+            }
+        }
+
     }
 }

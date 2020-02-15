@@ -40,7 +40,7 @@ namespace Tests.Validation
         }
 
         [Test]
-        public void TestWorldValidator_BadEffectCode()
+        public void TestWorldValidator_BadConditionCode()
         {
             var w = new WorldFactory().Create();
             var v = new WorldValidator();
@@ -60,6 +60,95 @@ namespace Tests.Validation
             
             StringAssert.Contains("Error testing dialogue condition on '1cf15faf-837b-4629-84c5-bdfa7631a905'",v.Warnings.ToString());
             StringAssert.Contains("The name 'Troll' does not exist in the current context",v.Warnings.ToString());
+        }
+
+        [Test]
+        public void TestWorldValidator_DialogueWithNoText()
+        {
+            var w = new WorldFactory().Create();
+            var v = new WorldValidator();
+
+            var d = new DialogueNode()
+            {
+                Identifier = new Guid("1cf15faf-837b-4629-84c5-bdfa7631a905")
+            };
+
+            w.Dialogue.AllDialogues.Add(d);
+
+            v.Validate(w,w.Player,new DialogueInitiation()
+            {
+                Next = new Guid("1cf15faf-837b-4629-84c5-bdfa7631a905")
+
+            },w.Player.CurrentLocation );
+            
+            StringAssert.Contains("Dialogue '1cf15faf-837b-4629-84c5-bdfa7631a905' has no Body Text",v.Errors.ToString());
+        }
+
+
+
+        [Test]
+        public void TestWorldValidator_DialogueOptionWithNoText()
+        {
+            var w = new WorldFactory().Create();
+            var v = new WorldValidator();
+
+            var d = new DialogueNode()
+            {
+                Identifier = new Guid("1cf15faf-837b-4629-84c5-bdfa7631a905"),
+                Body = new TextBlock[]
+                {
+                    new TextBlock("I dare say")
+                },
+                Options = {new DialogueOption()}
+            };
+            w.Dialogue.AllDialogues.Add(d);
+
+            v.Validate(w,w.Player,new DialogueInitiation()
+            {
+                Next = new Guid("1cf15faf-837b-4629-84c5-bdfa7631a905")
+
+            },w.Player.CurrentLocation );
+            
+            StringAssert.Contains("A Dialogue Option of Dialogue '1cf15faf-837b-4629-84c5-bdfa7631a905' has no Text",v.Errors.ToString());
+        }
+
+
+
+        [Test]
+        public void TestWorldValidator_DialogueOptionWithBadEffectCode()
+        {
+            var w = new WorldFactory().Create();
+            var v = new WorldValidator();
+
+            var d = new DialogueNode()
+            {
+                Identifier = new Guid("1cf15faf-837b-4629-84c5-bdfa7631a905"),
+                Body = new TextBlock[]
+                {
+                    new TextBlock("I dare say")
+                },
+                Options = {
+                    new DialogueOption()
+                    {
+                        Text = "Do stuff",
+                        Effect = 
+                        {
+                            new EffectCode("Trollolol=1")
+                        }
+                    }
+                }
+            };
+            w.Dialogue.AllDialogues.Add(d);
+
+            v.Validate(w,w.Player,new DialogueInitiation()
+            {
+                Next = new Guid("1cf15faf-837b-4629-84c5-bdfa7631a905")
+
+            },w.Player.CurrentLocation );
+           
+          
+            StringAssert.Contains("Error testing EffectCode of Option 'Do stuff' of Dialogue '1cf15faf-837b-4629-84c5-bdfa7631a905'",v.Warnings.ToString());
+            StringAssert.Contains("The name 'Trollolol' does not exist in the current context",v.Warnings.ToString());
         }
     }
 }
