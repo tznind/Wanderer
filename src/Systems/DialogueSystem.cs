@@ -122,16 +122,6 @@ namespace Wanderer.Systems
         }
 
 
-        public bool CanTalk(IActor actor, IActor other)
-        {
-            return true;
-        }
-
-        public IEnumerable<IActor> GetAvailableTalkTargets(IActor actor)
-        {
-            return actor.GetCurrentLocationSiblings(false).Where(o => CanTalk(actor, o));
-        }
-
         public DialogueNode GetBanter(SystemArgs args)
         {
             var valid = GetDialogues(args.Recipient.Dialogue.Banter)

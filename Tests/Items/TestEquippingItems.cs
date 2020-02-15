@@ -55,6 +55,11 @@ namespace Tests.Items
 
             Assert.AreEqual(60,you.GetFinalStats()[Stat.Fight]);
 
+            //take it off again
+            Assert.IsTrue(s.RunStack(world,new FixedChoiceUI(EquipmentActionToPerform.TakeOff, item2), new EquipmentAction(), you, null));
+
+            //stats should return to before value
+            Assert.AreEqual(30,you.GetFinalStats()[Stat.Fight]);
         }
         [Test]
         public void TestRustyPistolInRustyRoom_EquipForSmallBonus()
