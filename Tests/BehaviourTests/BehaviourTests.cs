@@ -10,6 +10,7 @@ using Wanderer.Compilation;
 
 namespace Tests.BehaviourTests
 {
+
     class BehaviourTests
     {
         [Test]

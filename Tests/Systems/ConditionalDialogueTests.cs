@@ -19,6 +19,10 @@ namespace Tests.Systems
         {
             TwoInARoomWithRelationship(friends ? 10 : -10,false,out You you, out IActor them, out IWorld w);
             them.BaseActions.Clear();
+            
+            //so you don't starve
+            you.BaseBehaviours.Clear();
+            them.BaseBehaviours.Clear();
 
             var g1 = new Guid("93d68a59-d0ef-4df7-97af-fa3db0840bad");
             var n1 = new DialogueNode()

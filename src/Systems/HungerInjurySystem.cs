@@ -72,6 +72,11 @@ namespace Wanderer.Systems
             return false;
         }
 
+        protected override bool IsWithinNaturalHealingThreshold(Injured injured)
+        {
+            return false;
+        }
+
         protected override bool ShouldWorsenImpl(Injured injury, int roundsSeen)
         {
             return roundsSeen > injury.Severity * 2.001;

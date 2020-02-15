@@ -23,7 +23,7 @@ namespace Wanderer.Systems
 
         public virtual void Apply(SystemArgs args, InjuryRegion region)
         {
-            if(args.Intensity < 0 || region == InjuryRegion.None)
+            if(args.Intensity < 0 )
                 return;
 
             var a = (IActor) args.Recipient;
