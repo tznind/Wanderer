@@ -150,5 +150,43 @@ namespace Tests.Validation
             StringAssert.Contains("Error testing EffectCode of Option 'Do stuff' of Dialogue '1cf15faf-837b-4629-84c5-bdfa7631a905'",v.Warnings.ToString());
             StringAssert.Contains("The name 'Trollolol' does not exist in the current context",v.Warnings.ToString());
         }
+
+                [Test]
+        public void TestWorldValidator_DialogueOptionWithMissingDestination()
+        {
+            var w = new WorldFactory().Create();
+            var v = new WorldValidator();
+
+            var d = new DialogueNode()
+            {
+                Identifier = new Guid("1cf15faf-837b-4629-84c5-bdfa7631a905"),
+                Body = new TextBlock[]
+                {
+                    new TextBlock("I dare say")
+
+
+                },
+                Options = {
+                    new DialogueOption()
+                    {
+                        Text = "Rather!",
+
+                        //This is missing
+                        Destination = new Guid("d7bcff5f-31a4-41ad-a71e-9b51a6565fc3")
+                    }
+                }
+            };
+            w.Dialogue.AllDialogues.Add(d);
+
+            v.Validate(w,w.Player,new DialogueInitiation()
+            {
+                Next = new Guid("1cf15faf-837b-4629-84c5-bdfa7631a905")
+
+            },w.Player.CurrentLocation );
+            
+            StringAssert.Contains("Could not find Dialogue 'd7bcff5f-31a4-41ad-a71e-9b51a6565fc3",v.Errors.ToString());
+        }
+
+
     }
 }

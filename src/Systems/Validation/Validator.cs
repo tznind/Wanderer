@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Wanderer.Actors;
@@ -17,6 +18,11 @@ namespace Wanderer.Validation
         public StringBuilder Errors { get; set; } = new StringBuilder();
         public bool IncludeStackTraces { get; set; }
         public StringBuilder Warnings { get; set; } = new StringBuilder();
+
+        ///<summary>
+        /// Avoid circular checking and hence stack overflows
+        ///</summary>
+        List<Guid> _alreadyValidated = new List<Guid>();
 
         public void Validate(WorldFactory worldFactory)
         {
@@ -122,10 +128,17 @@ namespace Wanderer.Validation
             }
         }
 
+
+
         public void Validate(IWorld world, IHasStats recipient, DialogueInitiation dialogue, IPlace room)
         {
             if (!dialogue.Next.HasValue)
                 return;
+
+            if(_alreadyValidated.Contains(dialogue.Next.Value))
+                return;
+            else
+                _alreadyValidated.Add(dialogue.Next.Value);
 
             var d = world.Dialogue.GetDialogue(dialogue.Next);
 
@@ -170,6 +183,12 @@ namespace Wanderer.Validation
                 {
                     AddWarning($"Error testing EffectCode of Option '{option.Text}' of Dialogue '{dialogue.Identifier}' for test actor interacting with '{recipient}'",e);
                 }
+            }
+
+            if(option.Destination != null)
+            {
+                initiation.Next = option.Destination;
+                Validate(world,recipient,initiation,room);
             }
         }
 
