@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Wanderer.Actors;
@@ -17,6 +18,11 @@ namespace Wanderer.Validation
         public StringBuilder Errors { get; set; } = new StringBuilder();
         public bool IncludeStackTraces { get; set; }
         public StringBuilder Warnings { get; set; } = new StringBuilder();
+
+        ///<summary>
+        /// Avoid circular checking and hence stack overflows
+        ///</summary>
+        List<Guid> _alreadyValidated = new List<Guid>();
 
         public void Validate(WorldFactory worldFactory)
         {
@@ -52,14 +58,32 @@ namespace Wanderer.Validation
         private void AddError(string msg, Exception exception)
         {
             Errors.AppendLine(msg);
-            Errors.AppendLine(IncludeStackTraces ? exception.ToString() : exception.Message);
+            Errors.AppendLine(IncludeStackTraces ? exception.ToString() : Flatten(exception));
         }
+        private void AddError(string msg)
+        {
+            Errors.AppendLine(msg);
+        }
+
+
         private void AddWarning(string msg, Exception exception)
         {
             Warnings.AppendLine(msg);
-            Warnings.AppendLine(IncludeStackTraces ? exception.ToString() : exception.Message);
+            Warnings.AppendLine(IncludeStackTraces ? Flatten(exception) : exception.Message);
         }
 
+        private string Flatten(Exception ex)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            while(ex != null)
+            {
+                sb.AppendLine(ex.Message);
+                ex = ex.InnerException;
+            }
+
+            return sb.ToString();
+        }
         public void Validate(IWorld world,IRoomFactory roomFactory,string title)
         {
 
@@ -104,19 +128,29 @@ namespace Wanderer.Validation
             }
         }
 
+
+
         public void Validate(IWorld world, IHasStats recipient, DialogueInitiation dialogue, IPlace room)
         {
             if (!dialogue.Next.HasValue)
                 return;
 
+            if(_alreadyValidated.Contains(dialogue.Next.Value))
+                return;
+            else
+                _alreadyValidated.Add(dialogue.Next.Value);
+
             var d = world.Dialogue.GetDialogue(dialogue.Next);
 
             if (d == null)
             {
-                Errors.AppendLine($"Could not find Dialogue '{dialogue.Next}'");
+                AddError($"Could not find Dialogue '{dialogue.Next}'");
                 return;
             }
 
+            if(d.Body == null || d.Body.Length == 0 || d.Body.All(b=>string.IsNullOrWhiteSpace(b.Text)))
+                AddError($"Dialogue '{d.Identifier}' has no Body Text");
+                
             foreach (ICondition<SystemArgs> condition in d.Require)
             {
                 try
@@ -129,6 +163,34 @@ namespace Wanderer.Validation
                 }
             }
 
+            foreach(var option in d.Options)
+                Validate(world,recipient,dialogue,room,d,option);
+
         }
+
+        public void Validate(IWorld world, IHasStats recipient, DialogueInitiation initiation, IPlace room,DialogueNode dialogue, DialogueOption option)
+        {
+            if(string.IsNullOrWhiteSpace(option.Text))
+                AddError($"A Dialogue Option of Dialogue '{dialogue.Identifier}' has no Text");
+            
+            foreach (IEffect effect in option.Effect)
+            {
+                try
+                {
+                    effect.Apply(new SystemArgs(world,null, 0, GetTestActor(room), recipient, Guid.Empty));
+                }
+                catch (Exception e)
+                {
+                    AddWarning($"Error testing EffectCode of Option '{option.Text}' of Dialogue '{dialogue.Identifier}' for test actor interacting with '{recipient}'",e);
+                }
+            }
+
+            if(option.Destination != null)
+            {
+                initiation.Next = option.Destination;
+                Validate(world,recipient,initiation,room);
+            }
+        }
+
     }
 }
