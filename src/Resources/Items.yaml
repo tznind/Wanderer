@@ -5,3 +5,19 @@
   Dialogue: 
     Verb: inspect
     Next: f2bdb6d3-f793-4374-a198-de6b8ac91488
+
+- Name: Worms
+  MandatoryAdjectives:
+  - Type: SingleUse
+  Actions:
+    - EatAction
+- Name: Mushrooms
+  MandatoryAdjectives:
+  - Type: SingleUse
+  Actions:
+    - EatAction
+- Name: Fungus
+  MandatoryAdjectives:
+  - Type: SingleUse
+  Actions:
+    - EatAction

@@ -32,6 +32,12 @@
         Fight: 20
         Loyalty: 20
         Coerce: 15
+      MandatoryItems:
+        - Name: Spiced Rat
+          MandatoryAdjectives:
+            - Type: SingleUse
+          Actions:
+            - EatAction
 - Name: Shanty Town
   Tile: T
   Dialogue:

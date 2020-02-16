@@ -14,6 +14,7 @@ namespace Wanderer.Items
         {
             OwnerItem = owner;
             BaseBehaviours.Add(this);
+            IsPrefix = false;
         }
         
         public override IEnumerable<string> GetDescription()
