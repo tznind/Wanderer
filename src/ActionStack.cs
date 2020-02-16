@@ -15,7 +15,10 @@ namespace Wanderer
         public Guid Round { get; }= Guid.NewGuid();
 
         /// <summary>
-        /// Runs the <paramref name="firstAction"/> and evaluates all responders
+        /// Runs the <paramref name="firstAction"/> and evaluates all responders.
+        /// This overload shortcuts decision making and allows arbitrary action frames
+        /// to run even when the <paramref name="performer"/> could not normally pick them
+        /// (so be careful using it).
         /// </summary>
         /// <param name="world">Where the action is happening</param>
         /// <param name="ui">When decisions require user input, this handles it</param>
@@ -24,11 +27,31 @@ namespace Wanderer
         /// <param name="responders">All valid responders</param>
         public bool RunStack(IWorld world,IUserinterface ui, IAction firstAction,IActor performer, IEnumerable<IBehaviour> responders)
         {
-            responders = responders?.ToArray() ?? new IBehaviour[0];
-
             //and run push event on the action
             firstAction.Push(ui,this,performer);
 
+            return RunStack(world, ui, performer, responders);
+        }
+        
+        /// <summary>
+        /// Runs the <paramref name="frameToRun"/> and evaluates all responders
+        /// </summary>
+        /// <param name="world">Where the action is happening</param>
+        /// <param name="ui">When decisions require user input, this handles it</param>
+        /// <param name="frameToRun">The initial action frame (to go on bottom of stack)</param>
+        /// <param name="performer">Who is attempting <paramref name="frameToRun"/></param>
+        /// <param name="responders">All valid responders</param>
+        public bool RunStack(IWorld world,IUserinterface ui, Frame frameToRun,IActor performer, IEnumerable<IBehaviour> responders)
+        {
+            Push(frameToRun);
+
+            return RunStack(world, ui, performer, responders);
+        }
+
+        private bool RunStack(IWorld world,IUserinterface ui,IActor performer, IEnumerable<IBehaviour> responders)
+        {
+            responders = responders?.ToArray() ?? new IBehaviour[0];
+            
             //If the action decided not to push after all (e.g. UI cancel or decision not to push)
             if (this.Count == 0)
                 return false; //initial action was aborted
@@ -46,7 +69,6 @@ namespace Wanderer
                     foreach (IBehaviour responder in responders.ToArray())
                         responder.OnPop(world,ui, this,current);
                 }
-                    
             
             Clear();
 

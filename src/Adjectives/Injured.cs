@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Wanderer.Actors;
-using Wanderer.Adjectives.RoomOnly;
 using Wanderer.Behaviours;
 using Wanderer.Stats;
 using Wanderer.Systems;
 
-namespace Wanderer.Adjectives.ActorOnly
+namespace Wanderer.Adjectives
 {
     public class Injured : Adjective, IBehaviour, IInjured
     {

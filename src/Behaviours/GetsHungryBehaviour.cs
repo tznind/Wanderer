@@ -1,5 +1,5 @@
 using System.Linq;
-using Wanderer.Adjectives.ActorOnly;
+using Wanderer.Adjectives;
 using Wanderer.Systems;
 
 namespace Wanderer.Behaviours

@@ -2,7 +2,7 @@ using System.Linq;
 using NUnit.Framework;
 using Wanderer;
 using Wanderer.Actions;
-using Wanderer.Adjectives.ActorOnly;
+using Wanderer.Adjectives;
 using Wanderer.Behaviours;
 using Wanderer.Factories;
 

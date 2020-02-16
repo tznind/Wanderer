@@ -12,6 +12,7 @@ using Wanderer.Extensions;
 using Wanderer.Factories;
 using Wanderer.Items;
 using Wanderer.Places;
+using Wanderer.Plans;
 using Wanderer.Relationships;
 using Wanderer.Stats;
 using Wanderer.Systems;
@@ -21,6 +22,8 @@ namespace Wanderer
     public class World : IWorld
     {
         public Map Map { get; set;} = new Map();
+
+        public PlanningSystem PlanningSystem { get; set; } = new PlanningSystem();
 
         public HashSet<IActor> Population { get; set; } =  new HashSet<IActor>();
         public IRelationshipSystem Relationships { get; set; } = new RelationshipSystem();
@@ -65,20 +68,33 @@ namespace Wanderer
         private void RunNpcActions(ActionStack stack,IUserinterface ui)
         {
             //use ToArray because people might blow up rooms or kill one another
-            foreach (var npc in Population.OrderByDescending(a=>a.GetFinalStats()[Stat.Initiative]).ToArray())
+            foreach (var npc in Population.OfType<Npc>().OrderByDescending(a=>a.GetFinalStats()[Stat.Initiative]).ToArray())
             {
-                //player always acts first in any round (e.g. in order to coerce people, cancel actions etc)
-                if(npc is You)
-                    continue;
-
                 //if occupant was killed by a previous action
                 if(!Population.Contains(npc))
                     continue;
+                
+                //if npc is in an explored(ish) location
+                if(!ShouldRunActionsIn(npc.CurrentLocation))
+                    return;
 
-                //if npc is in an explored location and decides to do an action
-                if(ShouldRunActionsIn(npc.CurrentLocation)
-                   && npc.Decide(ui, "Pick Action", null, out IAction chosen,
-                    npc.GetFinalActions().ToArray(), 0))
+                //if the npc has a cunning plan (and isn't being coerced)!
+                if (npc.NextAction == null)
+                {
+                    //give the Npc a chance to form a plan
+                    PlanningSystem.Apply(new SystemArgs(this,ui,0,null,npc,stack.Round));
+
+                    //if the Npc has decided what to do
+                    if (npc.Plan != null)
+                    {
+                        stack.RunStack(this,ui,npc.Plan,npc,Population.SelectMany(p=>p.GetFinalBehaviours()));
+                        continue;
+                    }
+
+                }
+
+                
+                if(npc.Decide(ui, "Pick Action", null, out IAction chosen, npc.GetFinalActions().ToArray(), 0))
                     stack.RunStack(this,ui,chosen,npc,Population.SelectMany(p=>p.GetFinalBehaviours()));
             }
         }

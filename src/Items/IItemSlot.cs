@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Wanderer.Adjectives.ActorOnly;
+using Wanderer.Adjectives;
 
 namespace Wanderer.Items
 {

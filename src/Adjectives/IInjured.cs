@@ -2,7 +2,7 @@
 using Wanderer.Actors;
 using Wanderer.Systems;
 
-namespace Wanderer.Adjectives.ActorOnly
+namespace Wanderer.Adjectives
 {
     public interface IInjured : IAdjective
     {

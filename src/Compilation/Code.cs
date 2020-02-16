@@ -26,7 +26,11 @@ namespace Wanderer.Compilation
                 .WithImports(
                     "Wanderer.Stats", 
                     "System",
+                    "System.Linq",
+                    "Wanderer",
                     "Wanderer.Actors",
+                    "Wanderer.Actions",
+                    "Wanderer.Systems",
                     "Wanderer.Adjectives");
         }
 

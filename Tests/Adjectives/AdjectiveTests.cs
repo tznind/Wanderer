@@ -5,7 +5,6 @@ using NUnit.Framework;
 using Wanderer;
 using Wanderer.Actors;
 using Wanderer.Adjectives;
-using Wanderer.Adjectives.ActorOnly;
 using Wanderer.Factories;
 using Wanderer.Items;
 using Wanderer.Places;

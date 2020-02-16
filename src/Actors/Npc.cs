@@ -7,8 +7,6 @@ using Wanderer.Actions.Coercion;
 using Wanderer.Behaviours;
 using Wanderer.Items;
 using Wanderer.Places;
-using Wanderer.Stats;
-using Wanderer.Systems;
 
 namespace Wanderer.Actors
 {
@@ -34,7 +32,12 @@ namespace Wanderer.Actors
         /// </summary>
         [JsonIgnore]
         public CoerceFrame NextAction { get; set; }
-        
+
+        /// <summary>
+        /// The current plan the Npc is planning to do (unless something prevents it)
+        /// </summary>
+        public Frame Plan { get; set; }
+
         public override bool Decide<T>(IUserinterface ui, string title, string body, out T chosen, T[] options, double attitude)
         {
             if (Dead)

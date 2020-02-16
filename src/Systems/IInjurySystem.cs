@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Wanderer.Actions;
 using Wanderer.Actors;
-using Wanderer.Adjectives.ActorOnly;
+using Wanderer.Adjectives;
 
 namespace Wanderer.Systems
 {

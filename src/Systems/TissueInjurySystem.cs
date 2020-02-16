@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Wanderer.Actors;
 using Wanderer.Adjectives;
-using Wanderer.Adjectives.ActorOnly;
 using Wanderer.Adjectives.RoomOnly;
 using Wanderer.Extensions;
 using Wanderer.Stats;

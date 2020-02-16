@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Wanderer.Actors;
-using Wanderer.Adjectives.ActorOnly;
 
 namespace Wanderer.Systems
 {

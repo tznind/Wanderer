@@ -1,6 +1,6 @@
 using System.Linq;
 using Wanderer.Actors;
-using Wanderer.Adjectives.ActorOnly;
+using Wanderer.Adjectives;
 using Wanderer.Systems;
 
 namespace Wanderer.Actions

@@ -8,7 +8,7 @@ using Wanderer;
 using Wanderer.Actions;
 using Wanderer.Actions.Coercion;
 using Wanderer.Actors;
-using Wanderer.Adjectives.ActorOnly;
+using Wanderer.Adjectives;
 using Wanderer.Behaviours;
 using Wanderer.Items;
 using Wanderer.Relationships;

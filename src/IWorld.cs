@@ -6,6 +6,7 @@ using Wanderer.Behaviours;
 using Wanderer.Factories;
 using Wanderer.Items;
 using Wanderer.Places;
+using Wanderer.Plans;
 using Wanderer.Relationships;
 using Wanderer.Systems;
 
@@ -44,6 +45,11 @@ namespace Wanderer
         /// System(s) for coerce, ordering, trade etc
         /// </summary>
         IList<INegotiationSystem> NegotiationSystems { get; set; }
+        
+        /// <summary>
+        /// System for helping <see cref="Npc"/> make sensible decisions
+        /// </summary>
+        PlanningSystem PlanningSystem { get; set; }
 
         /// <summary>
         /// Returns all the behaviours that should respond to events in the world

@@ -1,4 +1,5 @@
-﻿using Wanderer.Actions;
+﻿using System.Linq;
+using Wanderer.Actions;
 using Wanderer.Actors;
 
 namespace Wanderer
@@ -23,6 +24,5 @@ namespace Wanderer
             Action = action;
             Attitude = attitude;
         }
-
     }
 }
