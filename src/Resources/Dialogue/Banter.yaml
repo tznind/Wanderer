@@ -29,7 +29,7 @@
         - Relationship < 0
     - Text: indifferent)
       Condition: 
-        - Relationship == 0;
+        - Relationship == 0
     
 - Identifier: e088ff6e-60de-4a59-a9d8-b9406a2aed7c
   Body: 

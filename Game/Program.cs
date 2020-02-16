@@ -45,7 +45,7 @@ namespace Game
                             if(validator.Errors.Length > 0)
                                 Console.WriteLine(validator.Errors);
                             else
-                                Console.WriteLine("Validation Passed");
+                                Console.WriteLine("Validation Passed" + (validator.Warnings.Length > 0 ? " with warnings":""));
                        }
                        else
                        {

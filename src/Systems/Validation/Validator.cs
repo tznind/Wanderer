@@ -131,26 +131,41 @@ namespace Wanderer.Systems.Validation
 
         public void Validate(IWorld world, IHasStats recipient, DialogueInitiation dialogue, IPlace room)
         {
-            if (!dialogue.Next.HasValue)
-                return;
-
-            if(_alreadyValidated.Contains(dialogue.Next.Value))
-                return;
-            else
-                _alreadyValidated.Add(dialogue.Next.Value);
-
-            var d = world.Dialogue.GetDialogue(dialogue.Next);
-
-            if (d == null)
+            if (dialogue.Next.HasValue)
             {
-                AddError($"Could not find Dialogue '{dialogue.Next}'");
-                return;
-            }
-
-            if(d.Body == null || d.Body.Length == 0 || d.Body.All(b=>string.IsNullOrWhiteSpace(b.Text)))
-                AddError($"Dialogue '{d.Identifier}' has no Body Text");
+                var d = world.Dialogue.GetDialogue(dialogue.Next);
                 
-            foreach (ICondition<SystemArgs> condition in d.Require)
+                if (d == null)
+                    AddError($"Could not find Dialogue '{dialogue.Next}'");
+                else
+                    Validate(world, recipient, dialogue,d, room);
+            }
+            
+            if (dialogue.Banter != null)
+                foreach (var guid in dialogue.Banter)
+                {
+                    var d = world.Dialogue.GetDialogue(guid);
+
+                    if (d == null)
+                        AddError($"Could not find Banter Dialogue '{dialogue.Next}'");
+                    else
+                        Validate(world, recipient, dialogue,d, room);
+                }
+        }
+
+
+        public void Validate(IWorld world, IHasStats recipient,DialogueInitiation dialogue, DialogueNode node, IPlace room)
+        {
+            if(_alreadyValidated.Contains(node.Identifier))
+                return;
+            
+            _alreadyValidated.Add(node.Identifier);
+
+
+            if(node.Body == null || node.Body.Length == 0 || node.Body.All(b=>string.IsNullOrWhiteSpace(b.Text)))
+                AddError($"Dialogue '{node.Identifier}' has no Body Text");
+                
+            foreach (ICondition<SystemArgs> condition in node.Require)
             {
                 try
                 {
@@ -158,15 +173,28 @@ namespace Wanderer.Systems.Validation
                 }
                 catch (Exception e)
                 {
-                    AddWarning($"Error testing dialogue condition on '{d}' for test actor interacting with '{recipient}'",e);
+                    AddWarning($"Error testing dialogue condition on '{node}' for test actor interacting with '{recipient}'",e);
                 }
             }
 
-            foreach(var option in d.Options)
-                Validate(world,recipient,dialogue,room,d,option);
+            if(node.Body != null)
+                foreach (ICondition<SystemArgs> condition in node.Body.SelectMany(b => b.Condition))
+                {
+                    try
+                    {
+                        condition.IsMet(new SystemArgs(world,null, 0, GetTestActor(room), recipient, Guid.Empty));
+                    }
+                    catch (Exception e)
+                    {
+                        AddWarning($"Error testing dialogue BodyText Condition on '{node}' for test actor interacting with '{recipient}'",e);
+                    }
+                }
+
+
+            foreach(var option in node.Options)
+                Validate(world,recipient,dialogue,room,node,option);
 
         }
-
         public void Validate(IWorld world, IHasStats recipient, DialogueInitiation initiation, IPlace room,DialogueNode dialogue, DialogueOption option)
         {
             if(string.IsNullOrWhiteSpace(option.Text))

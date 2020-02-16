@@ -5,13 +5,13 @@
     - Text: "Squeak (this creature seems"
     - Text: friendly)
       Condition: 
-        - RelationshipCondition(GreaterThan,0)
+        - Relationship > 1
     - Text: hostile)
       Condition: 
-        - RelationshipCondition(LessThan,0)
+        - Relationship < -1
     - Text: indifferent)
       Condition: 
-        - RelationshipCondition(EqualTo,0);
+        - Math.Abs(Relationship) <= 0.001
 - Identifier: 8f6ffb26-01ab-4d0a-8083-2fff3475187d
   Body: 
     - Text: "The first thing that hits you upon entering this room is the overwhelming musky scent of damp vermin.  The walls trickle with moisture and forms pools in the floor.  Everywhere you look scurry the dark shapes of rats.  Dominating the center of the room is a large bone and fur throne."
