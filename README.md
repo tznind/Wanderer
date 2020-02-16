@@ -56,6 +56,14 @@ Other design patterns include:
 - Guids for everyth object in the world (that matters)
 - Everything [HasStats](./src/IHasStats.cs): an actor has stats, the room has stats, his items and the items Adjectives all [HasStats](./src/IHasStats.cs).  Yes that means the Light on the end of your Torch has the capability to talk to you (isn't that awesome?!)
 
+## Dependencies
+
+[Terminal.Gui](https://github.com/migueldeicaza/gui.cs) - Only the most awesome console gui ever!
+[CommandLineParser](https://github.com/commandlineparser/commandline) - For parsing CLI args
+[YamlDotNet](https://github.com/aaubry/YamlDotNet) - Markup language parser
+[JSON.Net](https://github.com/JamesNK/Newtonsoft.Json) - For saving/loading
+[Rosyln](https://github.com/dotnet/roslyn/wiki/Scripting-API-Samples) - For parsing C# in script files
+
 ## Class Diagram
 
 ![Overview of classes in game][classDiagram]

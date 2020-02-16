@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
 using Wanderer.Factories;
-using Wanderer.Validation;
+using Wanderer.Systems.Validation;
 
 namespace Tests
 {

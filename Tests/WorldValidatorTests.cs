@@ -1,16 +1,12 @@
 ﻿using System;
-using Moq;
 using NUnit.Framework;
-using Wanderer;
-using Wanderer.Actors;
 using Wanderer.Compilation;
 using Wanderer.Dialogues;
 using Wanderer.Factories;
-using Wanderer.Places;
 using Wanderer.Systems;
-using Wanderer.Validation;
+using Wanderer.Systems.Validation;
 
-namespace Tests.Validation
+namespace Tests
 {
     class WorldValidatorTests
     {

@@ -9,9 +9,8 @@ using Wanderer.Factories;
 using Wanderer.Items;
 using Wanderer.Places;
 using Wanderer.Relationships;
-using Wanderer.Systems;
 
-namespace Wanderer.Validation
+namespace Wanderer.Systems.Validation
 {
     public class WorldValidator
     {
