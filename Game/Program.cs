@@ -3,9 +3,9 @@ using System.Linq;
 using Game.UI;
 using Wanderer;
 using Wanderer.Factories;
-using Wanderer.Validation;
 using Terminal.Gui;
 using CommandLine;
+using Wanderer.Systems.Validation;
 
 namespace Game
 {

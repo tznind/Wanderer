@@ -1,23 +1,25 @@
 using System;
 using NUnit.Framework;
-using Tests;
 using Wanderer;
 using Wanderer.Actors;
 using Wanderer.Systems;
 
-public class SystemArgsTests : UnitTest
+namespace Tests.Systems
 {
-
-    [Test]
-    public void TestSystemArgs_Properties()
+    public class SystemArgsTests : UnitTest
     {
-        TwoInARoomWithRelationship(100,false,out You you, out IActor them,out IWorld world);
 
-        var args = new SystemArgs(world,GetUI(),0,you,them,Guid.Empty);
+        [Test]
+        public void TestSystemArgs_Properties()
+        {
+            TwoInARoomWithRelationship(100,false,out You you, out IActor them,out IWorld world);
 
-        Assert.AreEqual(you.CurrentLocation,args.Place);
-        Assert.AreEqual(100,args.Relationship);
+            var args = new SystemArgs(world,GetUI(),0,you,them,Guid.Empty);
+
+            Assert.AreEqual(you.CurrentLocation,args.Place);
+            Assert.AreEqual(100,args.Relationship);
         
-    }
+        }
 
+    }
 } 

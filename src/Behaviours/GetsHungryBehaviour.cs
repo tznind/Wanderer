@@ -27,8 +27,11 @@ namespace Wanderer.Behaviours
 
             _roundsSeen++;
 
-            if(_roundsSeen > 5)
+            if (_roundsSeen > 5)
+            {
                 HungerSystem.Apply(new SystemArgs(world,ui,10/*TODO rly? this number gets divided by 10 arbitrarily in injury system base class!*/,null,Owner,round));
+                _roundsSeen = 0;
+            }
         }
     }
 }
