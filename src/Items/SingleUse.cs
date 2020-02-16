@@ -29,8 +29,17 @@ namespace Wanderer.Items
         {
             //if an action is pushed onto the stack that comes from the owned item
             if (OwnerItem.GetFinalActions(frame.PerformedBy).Any(a=>ReferenceEquals(a,frame.Action)))
+            {
+                //stack of 2+ just decrements the stack
+                if(OwnerItem is IItemStack s && s.StackSize > 1)
+                {
+                    s.StackSize --;
+                    return;
+                }
+                
                 //erase it from existence
                 frame.PerformedBy.CurrentLocation.World.Erase(OwnerItem);
+            }
         }
 
         public void OnRoundEnding(IWorld world,IUserinterface ui, Guid round)

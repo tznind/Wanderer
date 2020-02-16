@@ -284,6 +284,46 @@ namespace Tests.Systems
             Assert.AreEqual(1,you.Items.Count(i=>i.Name.Equals("Kit")));
         }
 
+
+        [Test]
+        public void Test_HealingAnInjury_WithSingleUseItemStack()
+        {
+            var itemFactory = new ItemFactory(new AdjectiveFactory());
+
+            var world = new World();
+            var room = new Room("someRoom", world,'-');
+            world.Map.Add(new Point3(0,0,0), room);
+            var you = new You("You", room);
+            you.BaseStats[Stat.Savvy] = 50;
+                      
+            var kitStack = itemFactory.CreateStack<SingleUse, Medic>("Kit",2);
+            you.Items.Add(kitStack);
+
+            Assert.AreEqual(2,kitStack.StackSize);
+
+            //give them an injury
+            var injury = new Injured("Cut Lip", you, 2, InjuryRegion.Leg,world.InjurySystems.First());
+            you.Adjectives.Add(injury);
+
+            var stack = new ActionStack();
+
+            Assert.Contains(injury, you.Adjectives.ToArray());
+            stack.RunStack(world,new FixedChoiceUI(you, injury), you.GetFinalActions().OfType<HealAction>().Single(), you, you.GetFinalBehaviours());
+            
+            //injury is gone
+            Assert.IsFalse(you.Adjectives.Contains(injury));
+            //you have now 1 kit remaining
+            Assert.AreEqual(1,kitStack.StackSize);
+
+            //give them another injury
+            you.Adjectives.Add(injury);
+            stack.RunStack(world,new FixedChoiceUI(you, injury), you.GetFinalActions().OfType<HealAction>().Single(), you, you.GetFinalBehaviours());
+
+            //now stack should have disapeared
+            Assert.IsEmpty(you.Items);
+            
+        }
+
         [Test]
         public void Test_InjuriesDontChange_OnceDead()
         {

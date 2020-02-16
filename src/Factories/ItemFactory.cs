@@ -39,6 +39,13 @@ namespace Wanderer.Factories
             Add<T>(item);
             return item;
         }
+        public IItemStack CreateStack<T1,T2>(string name, int size) where T1 : IAdjective where T2 : IAdjective
+        {
+            var item = new ItemStack(name,size);
+            Add<T1>(item);
+            Add<T2>(item);
+            return item;
+        }
 
         public IItem Create<T>(string name) where T : IAdjective
         {
