@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Scripting;
+﻿using System;
+using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 using Wanderer.Systems;
 
@@ -10,16 +11,32 @@ namespace Wanderer.Compilation
 
         public FrameSourceCode(string csharpCode):base(csharpCode)
         {
-            _script = CSharpScript.Create<Frame>(csharpCode, GetScriptOptions(),typeof(SystemArgs));
+            try
+            {
+                _script = CSharpScript.Create<Frame>(csharpCode, GetScriptOptions(),typeof(SystemArgs));
+            }
+            catch(Exception ex)
+            {
+
+                throw new Exception($"Error compiling '{GetType().Name}' script code '{csharpCode}'",ex);
+            }
         }
         public Frame GetFrame(SystemArgs args)
         {
-            var result = _script.RunAsync(args).Result;
 
-            if (result.Exception != null)
-                throw result.Exception;
+            try
+            {
+                var result = _script.RunAsync(args).Result;
 
-            return result.ReturnValue;
+                if (result.Exception != null)
+                    throw result.Exception;
+
+                return result.ReturnValue;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception($"Error executing '{GetType().Name}' script code '{CsharpCode}'.  SystemArgs were for '{args.Recipient}'",ex);
+            }
         }
     }
 }

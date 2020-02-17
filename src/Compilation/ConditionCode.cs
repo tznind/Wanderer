@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Scripting;
+﻿using System;
+using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 
 namespace Wanderer.Compilation
@@ -9,16 +10,32 @@ namespace Wanderer.Compilation
 
         public ConditionCode(string csharpCode):base(csharpCode)
         {
-            _script = CSharpScript.Create<bool>(csharpCode, GetScriptOptions(),typeof(T));
+            try
+            {
+                _script = CSharpScript.Create<bool>(csharpCode, GetScriptOptions(),typeof(T));
+            }
+            catch(Exception ex)
+            {
+                
+                throw new Exception($"Error compiling '{GetType().Name}' script code '{csharpCode}'",ex);
+            }
         }
         public bool IsMet(T forObject)
         {
-            var result = _script.RunAsync(forObject).Result;
+            try
+            {
+                var result = _script.RunAsync(forObject).Result;
 
-            if (result.Exception != null)
-                throw result.Exception;
+                if (result.Exception != null)
+                    throw result.Exception;
 
-            return result.ReturnValue;
+                return result.ReturnValue;
+
+            }
+            catch(Exception ex)
+            {
+                throw new Exception($"Error executing '{GetType().Name}' script code '{CsharpCode}'.  T was typeof({typeof(T)}) and had value '{forObject}'",ex);
+            }
         }
 
         public bool IsMet(object o)

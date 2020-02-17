@@ -69,7 +69,7 @@ namespace Wanderer.Systems.Validation
         private void AddWarning(string msg, Exception exception)
         {
             Warnings.AppendLine(msg);
-            Warnings.AppendLine(IncludeStackTraces ? Flatten(exception) : exception.Message);
+            Warnings.AppendLine(IncludeStackTraces ?  exception.ToString() : Flatten(exception));
         }
 
         private string Flatten(Exception ex)
