@@ -88,6 +88,7 @@ namespace Wanderer
         /// <returns></returns>
         IActionCollection GetFinalActions(IActor forActor);
 
+
         /// <summary>
         /// Returns all behaviours the object including those granted by child objects (e.g. gear, adjectives etc) (super set of <see cref="BaseBehaviours"/> and any from gear, <see cref="IAdjective"/> etc)
         /// </summary>

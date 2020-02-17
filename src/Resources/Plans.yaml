@@ -1,1 +1,4 @@
- 
+- Name: Eat if hungry
+  Condition:
+    - Recipient.Has(new Guid("89c18233-5250-4445-8799-faa9a888fb7f"))
+  Do: new Frame((IActor)Recipient,GetFinalActions().OfType<EatAction>().FirstOrDefault(),0)

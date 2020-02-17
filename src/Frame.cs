@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Wanderer.Actions;
 using Wanderer.Actors;
 
@@ -23,6 +24,17 @@ namespace Wanderer
             PerformedBy = performedBy;
             Action = action;
             Attitude = attitude;
+        }
+
+        /// <summary> 
+        /// Returns the origin of <see cref="Action"/> or null if a frame was generated
+        /// which somehow did not originate from the <see cref="PerformedBy"/> or one
+        /// of his child items
+        /// <summary/>
+        internal IHasStats GetActionOwner()
+        {
+            return PerformedBy.GetAllHaves().FirstOrDefault(h=>
+            h.GetFinalActions(PerformedBy).Contains(Action));
         }
     }
 }

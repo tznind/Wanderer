@@ -239,13 +239,13 @@ namespace Tests
                 {
                     new ConditionCode<SystemArgs>("true")
                 },
-                DoFrame = new FrameSourceCode("fffff")
+                Do = new FrameSourceCode("fffff")
             };
 
             v.Validate(Mock.Of<IWorld>(),plan, Mock.Of<IActor>());
 
-            StringAssert.Contains(@"Failed to validate DoFrame of Plan 'Do something nefarious'
-(1,1): error CS0103: The name 'fffff' does not exist",v.Warnings.ToString());
+            StringAssert.Contains(@"Failed to validate DoFrame of Plan 'Do something nefarious'",v.Warnings.ToString());
+            StringAssert.Contains(@"(1,1): error CS0103: The name 'fffff' does not exist",v.Warnings.ToString());
         }
     }
 }

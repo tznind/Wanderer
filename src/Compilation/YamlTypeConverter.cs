@@ -36,6 +36,9 @@ namespace Wanderer.Compilation
 
             if(typeof(T) == typeof(IEffect))
                 return new EffectCode(scalar);
+
+            if(typeof(T) == typeof(IFrameSource))
+                return new FrameSourceCode(scalar);
             
             var found = _classesOfTypeT.FirstOrDefault(t => t.Name.Equals(scalar));
 

@@ -18,6 +18,11 @@ namespace Wanderer.Actions
                 .FirstOrDefault(i => i.InjurySystem is HungerInjurySystem);
 
             hunger?.Heal(ui,stack.Round);
+
+
+            frame.GetActionOwner();
+
+            ui.Log.Info(new LogEntry($"{frame.PerformedBy} ate {frame.GetActionOwner()?.Name}",stack.Round,frame.PerformedBy));
         }
 
         public override bool HasTargets(IActor performer)

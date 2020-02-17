@@ -35,7 +35,7 @@ namespace Wanderer.Plans
                 if (plan.Condition.TrueForAll(c => c.IsMet(args)))
                 {
                     //then this is what we would do
-                    var frame = plan.DoFrame.GetFrame(args);
+                    var frame = plan.Do.GetFrame(args);
 
                     //do some sanity checking, can we pick that action?
                     if (actor.GetFinalActions().Any(a => a.AreIdentical(frame.Action)))

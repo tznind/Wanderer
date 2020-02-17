@@ -127,21 +127,21 @@ namespace Wanderer.Systems.Validation
                 }
                 catch(Exception e)
                 {
-                    AddWarning($"Failed to validate Condition {condition} on Plan '{plan}'",e);
+                    AddWarning($"Failed to validate Condition {condition} on Plan '{plan}' when using '{actor}' in '{actor.CurrentLocation}'",e);
                 }
             }
             
 
             try
             {
-                if(plan.DoFrame == null )
+                if(plan.Do == null )
                     AddError($"Plan '{plan}' has no DoFrame");
                 else
-                    plan.DoFrame.GetFrame(new SystemArgs(world,null,0,null,actor,Guid.Empty));
+                    plan.Do.GetFrame(new SystemArgs(world,null,0,null,actor,Guid.Empty));
             }
             catch(Exception e)
             {
-                AddWarning($"Failed to validate DoFrame of Plan '{plan}'",e);
+                AddWarning($"Failed to validate DoFrame of Plan '{plan}' when using '{actor}' in '{actor.CurrentLocation}'",e);
             }
         }
 

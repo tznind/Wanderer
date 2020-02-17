@@ -72,7 +72,10 @@ namespace Tests.BehaviourTests
             you.Items.Add(itemFactory.Create(world, itemFactory.Blueprints[0]));
 
             Assert.AreEqual(1,you.Items.Count);
-            world.RunRound(GetUI(),you.Items.Single().BaseActions.Single());
+            var ui = GetUI();
+            world.RunRound(ui,you.Items.Single().BaseActions.Single());
+
+            Assert.Contains("Test Wanderer ate Apple",ui.MessagesShown);
 
             Assert.IsEmpty(you.Adjectives.OfType<IInjured>().ToArray());
             Assert.AreEqual(0,you.Items.Count);

@@ -40,10 +40,18 @@ namespace Game
                             validator.IncludeStackTraces = false;
                             validator.Validate(f);
                             
-                            Console.WriteLine(validator.Warnings);
+
+                            if(validator.Warnings.Length > 0)
+                            {
+                                Console.WriteLine("WARNINGS:");
+                                Console.WriteLine(validator.Warnings);
+                            }
 
                             if(validator.Errors.Length > 0)
+                            {
+                                Console.WriteLine("ERRORS:");
                                 Console.WriteLine(validator.Errors);
+                            }
                             else
                                 Console.WriteLine("Validation Passed" + (validator.Warnings.Length > 0 ? " with warnings":""));
                        }

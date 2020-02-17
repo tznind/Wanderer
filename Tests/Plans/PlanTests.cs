@@ -22,7 +22,7 @@ namespace Tests.Plans
 
             var ifHungryEatPlan = new Plan()
             {
-                DoFrame = new FrameSourceCode(
+                Do = new FrameSourceCode(
                     @"new Frame((IActor)Recipient,((IActor)Recipient).GetFinalActions().OfType<EatAction>().FirstOrDefault(),0)"),
                 Condition =
                 {
@@ -66,5 +66,24 @@ namespace Tests.Plans
             Assert.IsNotNull(((Npc)them).Plan);
 
         }
+
+        [Test]
+        public void Test_DeserializePlan()
+        {
+
+            string yaml = @"
+- Name: Eat if hungry
+  Condition:
+    - Recipient.Has(new Guid(""89c18233-5250-4445-8799-faa9a888fb7f""))
+  Do: new Frame(Recipient,GetFinalActions().OfType<EatAction>().FirstOrDefault(),0)
+  ";
+
+            var plans = Compiler.Instance.Deserializer.Deserialize<Plan[]>(yaml);
+
+            Assert.AreEqual(1,plans.Length);
+            Assert.AreEqual("Eat if hungry",plans[0].Name);
+
+        }
+
     }
 }

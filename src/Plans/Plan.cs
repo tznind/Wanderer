@@ -13,7 +13,7 @@ namespace Wanderer.Plans
 
         public List<ICondition<SystemArgs>> Condition { get; set; } = new List<ICondition<SystemArgs>>();
 
-        public IFrameSource DoFrame { get; set; }
+        public IFrameSource Do { get; set; }
 
         public double Weight { get; set; }
 

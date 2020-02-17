@@ -1,6 +1,8 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
+using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
+using Wanderer.Actions;
 using Wanderer.Actors;
 using Wanderer.Places;
 
@@ -68,6 +70,28 @@ namespace Wanderer.Systems
                 return place ?? Recipient as IPlace;
             }
         }
+        
+        ///<summary>
+        /// Returns the final list of Actions associated with the Recipient
+        ///
+        /// <para>
+        /// Returns final actions for the Recipient if they are an IActor. 
+        /// Otherwise (if item or place) returns actions that AggressorIfAny (if not null) 
+        /// could perform there. Otherwise returns the BaseActions of all children of 
+        /// the Recipient
+        /// </para>
+        ///</summary>
+        public IEnumerable<IAction> GetFinalActions()
+        {
+            if( Recipient is IActor actor)
+                return actor.GetFinalActions();
+
+            if(AggressorIfAny != null)
+                return Recipient.GetFinalActions(AggressorIfAny);
+
+            return Recipient.GetAllHaves().SelectMany(h=>h.BaseActions);
+        }
+
 
         /// <summary>
         /// Returns the relationship as the <see cref="Recipient"/> observes the

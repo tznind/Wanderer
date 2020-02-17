@@ -5,6 +5,7 @@ using Wanderer.Actors;
 using Wanderer.Compilation;
 using Wanderer.Factories.Blueprints;
 using Wanderer.Places;
+using Wanderer.Plans;
 using Wanderer.Relationships;
 using Wanderer.Systems;
 
@@ -33,6 +34,8 @@ namespace Wanderer.Factories
             _defaultSlots = GetDefaultSlots();
             _defaultItems = GetDefaultItems();
 
+            world.PlanningSystem = GeneratePlans(world);
+
             GenerateFactions(world);
 
             world.Dialogue = GetDialogue();
@@ -51,23 +54,46 @@ namespace Wanderer.Factories
             return world;
         }
 
+
+        public PlanningSystem GeneratePlans(IWorld world)
+        {
+            string defaultPlans = Path.Combine(ResourcesDirectory, "Plans.yaml");
+            var planning = new PlanningSystem();
+
+            if (File.Exists(defaultPlans))
+            {
+                try
+                {
+                    planning.Plans.AddRange(Compiler.Instance.Deserializer.Deserialize<Plan[]>(File.ReadAllText(defaultPlans)));
+                    
+                }
+                catch (Exception e)
+                {
+                    throw new Exception("Error deserializing " + defaultPlans,e);
+                }
+            }
+
+            return planning;
+
+        }
+
         /// <summary>
         /// Return items suitable for any room/faction
         /// </summary>
         /// <returns></returns>
         protected virtual ItemBlueprint[] GetDefaultItems()
         {
-            string defaultSlots = Path.Combine(ResourcesDirectory, "Items.yaml");
+            string defaultItems = Path.Combine(ResourcesDirectory, "Items.yaml");
 
-            if (File.Exists(defaultSlots))
+            if (File.Exists(defaultItems))
             {
                 try
                 {
-                    return Compiler.Instance.Deserializer.Deserialize<ItemBlueprint[]>(File.ReadAllText(defaultSlots));
+                    return Compiler.Instance.Deserializer.Deserialize<ItemBlueprint[]>(File.ReadAllText(defaultItems));
                 }
                 catch (Exception e)
                 {
-                    throw new Exception("Error deserializing " + defaultSlots,e);
+                    throw new Exception("Error deserializing " + defaultItems,e);
                 }
             }
 
