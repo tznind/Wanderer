@@ -19,7 +19,7 @@ namespace Wanderer.Compilation
             return typeof(T).IsAssignableFrom(type);
         }
 
-        public object? ReadYaml(IParser parser, Type type)
+        public object ReadYaml(IParser parser, Type type)
         {
             var scalar = parser.Consume<Scalar>().Value;
 
@@ -45,7 +45,7 @@ namespace Wanderer.Compilation
             return Activator.CreateInstance(found);
         }
         
-        public void WriteYaml(IEmitter emitter, object? value, Type type)
+        public void WriteYaml(IEmitter emitter, object value, Type type)
         {
             throw new NotImplementedException();
         }

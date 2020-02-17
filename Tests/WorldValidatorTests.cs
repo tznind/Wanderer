@@ -1,8 +1,12 @@
 ﻿using System;
+using Moq;
 using NUnit.Framework;
+using Wanderer;
+using Wanderer.Actors;
 using Wanderer.Compilation;
 using Wanderer.Dialogues;
 using Wanderer.Factories;
+using Wanderer.Plans;
 using Wanderer.Systems;
 using Wanderer.Systems.Validation;
 
@@ -183,6 +187,65 @@ namespace Tests
             StringAssert.Contains("Could not find Dialogue 'd7bcff5f-31a4-41ad-a71e-9b51a6565fc3",v.Errors.ToString());
         }
 
+        [Test]
+        public void TestValidate_BadPlanCondition()
+        {
+            WorldValidator v = new WorldValidator();
+            
+            var plan = new Plan()
+            {
+                Condition = 
+                {
+                    new ConditionCode<SystemArgs>("throw new Exception(\"this is bat country!\");")
+                }
+            };
 
+            v.Validate(Mock.Of<IWorld>(),plan, Mock.Of<IActor>());
+
+            StringAssert.Contains("One or more errors occurred. (this is bat country!)",v.Warnings.ToString());
+        }
+
+
+        [Test]
+        public void TestValidate_BadPlanMissingDoFrame()
+        {
+            WorldValidator v = new WorldValidator();
+            
+            var plan = new Plan()
+            {
+                Name = "Do something nefarious",
+                Condition = 
+                {
+                    new ConditionCode<SystemArgs>("true")
+                }
+            };
+
+            v.Validate(Mock.Of<IWorld>(),plan, Mock.Of<IActor>());
+
+            StringAssert.Contains("Plan 'Do something nefarious' has no DoFrame",v.Errors.ToString());
+        }
+
+
+
+        [Test]
+        public void TestValidate_BadPlanBadDoFrame()
+        {
+            WorldValidator v = new WorldValidator();
+            
+            var plan = new Plan()
+            {
+                Name = "Do something nefarious",
+                Condition = 
+                {
+                    new ConditionCode<SystemArgs>("true")
+                },
+                DoFrame = new FrameSourceCode("fffff")
+            };
+
+            v.Validate(Mock.Of<IWorld>(),plan, Mock.Of<IActor>());
+
+            StringAssert.Contains(@"Failed to validate DoFrame of Plan 'Do something nefarious'
+(1,1): error CS0103: The name 'fffff' does not exist",v.Warnings.ToString());
+        }
     }
 }

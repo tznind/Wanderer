@@ -16,5 +16,10 @@ namespace Wanderer.Plans
         public IFrameSource DoFrame { get; set; }
 
         public double Weight { get; set; }
+
+        public override string ToString()
+        {
+            return Identifier?.ToString() ?? Name ?? "Unamed Plan";
+        }
     }
 }
