@@ -113,6 +113,16 @@ namespace Wanderer.Systems
         }
 
 
+        ///<summary>
+        /// Returns the first <see cref="IAction"/> of type T from 
+        /// <see cref="GetFinalActions"/>
+        ///</summary>
+        public T GetFinalAction<T>() where T:IAction
+        {
+            return GetFinalActions().OfType<T>().FirstOrDefault();
+        }
+
+
         /// <summary>
         /// Returns the relationship as the <see cref="Recipient"/> observes the
         /// <see cref="AggressorIfAny"/> (if both are <see cref="IActor"/> - otherwise
