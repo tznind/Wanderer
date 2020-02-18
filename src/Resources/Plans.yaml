@@ -2,3 +2,29 @@
   Condition:
     - Recipient.Has(new Guid("89c18233-5250-4445-8799-faa9a888fb7f"))
   Do: new Frame((IActor)Recipient,GetFinalActions().OfType<EatAction>().FirstOrDefault(),0)
+- Name: Pick stuff up
+  Condition:
+    - Place.Items.Any()
+  Do: new PickUpFrame((IActor)Recipient,GetFinalActions().OfType<PickUpAction>().FirstOrDefault(),Place.Items.FirstOrDefault(),Place,0)
+- Name: Equip Stuff
+  Condition:
+    - Items.Any(i=>((IActor)Recipient).CanEquip(i, out _))
+  Do: |
+        new EquipmentFrame
+        (
+           (IActor)Recipient,
+           GetFinalActions().OfType<EquipmentAction>().FirstOrDefault(),
+           EquipmentActionToPerform.PutOn,
+           Items.FirstOrDefault(i=>((IActor)Recipient).CanEquip(i,out _))
+        )
+- Name: Fight Enemies
+  Condition: 
+    - Place.Actors.Any(o=>RelationshipTo(o) < -20)
+  Do: |
+        new FightFrame(
+           (IActor)Recipient,
+           Place.Actors.OrderBy(o=>RelationshipTo(o)).FirstOrDefault(),
+           GetFinalActions().OfType<FightAction>().FirstOrDefault(),
+           World.InjurySystems.First(),
+           -20)
+

@@ -108,5 +108,5 @@
         - Recipient.Dialogue.Next = null
     - Text: One day this ship and everyone in it will be mine
       Effect: 
-        - AggressorIfAny.BaseStats[Stat.Savvy] += 20
+        - AggressorIfAny.BaseStats[Stat.Coerce] += 20
         - Recipient.Dialogue.Next = null

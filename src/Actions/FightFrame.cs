@@ -3,7 +3,7 @@ using Wanderer.Systems;
 
 namespace Wanderer.Actions
 {
-    internal class FightFrame : Frame
+    public class FightFrame : Frame
     {
         public IInjurySystem InjurySystem { get; }
 

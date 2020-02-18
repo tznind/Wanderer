@@ -4,6 +4,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using Wanderer.Actions;
 using Wanderer.Actors;
+using Wanderer.Items;
 using Wanderer.Places;
 
 namespace Wanderer.Systems
@@ -70,6 +71,25 @@ namespace Wanderer.Systems
                 return place ?? Recipient as IPlace;
             }
         }
+
+        /// <summary>
+        /// Returns all items owned by the Recipient (if it is an actor or place). Otherwise
+        /// returns empty
+        /// </summary>
+        [JsonIgnore]
+        public IEnumerable<IItem> Items
+        {
+            get
+            {
+                if (Recipient is IActor a)
+                    return a.Items;
+
+                if(Recipient is IPlace p)
+                    return p.Items;
+
+                return new IItem[0];
+            }
+        }
         
         ///<summary>
         /// Returns the final list of Actions associated with the Recipient
@@ -99,9 +119,20 @@ namespace Wanderer.Systems
         /// 0)
         /// </summary>
         public double Relationship =>
-            AggressorIfAny != null && Recipient is IActor r
+            RelationshipTo(AggressorIfAny);
+
+
+        /// <summary>
+        /// Returns the relationship as the <see cref="Recipient"/> observes the
+        /// <paramref name="other"/> (if Recipient is <see cref="IActor"/> - otherwise
+        /// 0)
+        /// </summary>
+        public double RelationshipTo(IActor other)
+        {
+                return other != null && Recipient is IActor r
                 ?
-                AggressorIfAny.CurrentLocation.World.Relationships.SumBetween(r,AggressorIfAny)
+                World.Relationships.SumBetween(r,other)
                 : 0;
+        }
     }
 }
