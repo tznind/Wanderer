@@ -34,7 +34,6 @@ namespace Game.UI
             if(World == null)
                 return;
 
-            
             var mapWidth = bounds.Width;
             var mapHeight = bounds.Height;
 
@@ -45,27 +44,40 @@ namespace Game.UI
             var toCentreX = -mapWidth / 2;
             var toCentreY = -mapHeight / 2;
 
-            
+            Attribute? oldColor = null;
+
             for (int y = 0; y < mapHeight; y++)
             {
                 for (int x = 0; x < mapWidth; x++)
                 {
                     var pointToRender = new Point3(x + toCentreX, y +toCentreY, 0).Offset(home);
 
+                    Attribute newColor;
+                    char symbol;
+
                     if (World.Map.ContainsKey(pointToRender) && World.Map[pointToRender].IsExplored)
                     {
-                        Driver.SetAttribute(Equals(pointToRender, home) 
+
+                        newColor = Equals(pointToRender, home) 
                                     //flip the colors where you are
                                     ? _invertedColors[(Color) World.Map[pointToRender].Color]
-                                :_regularColors[(Color)World.Map[pointToRender].Color]
-                                );
-                        AddRune(x,mapHeight - y,World.Map[pointToRender].Tile);
+                                :_regularColors[(Color)World.Map[pointToRender].Color];
+                        
+                        symbol = World.Map[pointToRender].Tile;
                     }
                     else
                     {
-                        Driver.SetAttribute(_attBlack);
-                        AddRune(x,mapHeight - y,' ');
+                        newColor = _attBlack;
+                        symbol = ' ';
                     }
+
+                    if(newColor != oldColor)
+                    {
+                        Driver.SetAttribute(newColor);
+                        oldColor = newColor;
+                    }
+                        
+                    AddRune(x,mapHeight - y,symbol);
                 }
             }
         }

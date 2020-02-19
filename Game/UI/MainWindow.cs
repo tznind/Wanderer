@@ -13,7 +13,8 @@ using Terminal.Gui;
 
 namespace Game.UI
 {
-    public class MainWindow : Window, IUserinterface
+    public class 
+    MainWindow : Window, IUserinterface
     {
         private readonly WorldFactory _worldFactory;
         public int DlgWidth = 78;
@@ -65,7 +66,7 @@ namespace Game.UI
             {
                 X = 0,
                 Y = -1,
-                Width = Dim.Percent(70),
+                Width = Dim.Percent(70)-1,
                 Height = Dim.Fill() - 5
             };
 
@@ -413,7 +414,7 @@ namespace Game.UI
             }
 
             //use a scroll view
-            _roomContents = new ListView(_roomContentsObjects)
+            _roomContents = new ListView(new RoomContentsRenderer(_roomContentsObjects))
             {
                 X=Pos.Percent(70),
                 Width = Dim.Fill(),
@@ -451,7 +452,6 @@ namespace Game.UI
                 var button = _oldButtons?.FirstOrDefault();
                 if (button != null)
                     SetFocus(button);
-
 
                 TriggerTerminalResized();
             }
