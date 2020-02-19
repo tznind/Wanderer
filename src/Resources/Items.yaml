@@ -7,16 +7,22 @@
     Next: f2bdb6d3-f793-4374-a198-de6b8ac91488
 
 - Name: Worms
+  Stats:
+    Value: 5
   MandatoryAdjectives:
   - Type: SingleUse
   Actions:
     - EatAction
 - Name: Mushrooms
+  Stats:
+    Value: 7
   MandatoryAdjectives:
   - Type: SingleUse
   Actions:
     - EatAction
 - Name: Fungus
+  Stats:
+    Value: 5
   MandatoryAdjectives:
   - Type: SingleUse
   Actions:
