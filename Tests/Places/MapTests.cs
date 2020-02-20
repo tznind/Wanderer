@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Moq;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using Wanderer;
@@ -47,6 +48,60 @@ namespace Tests.Places
             var m2 = JsonConvert.DeserializeObject<Map>(json, World.GetJsonSerializerSettings());
 
             Assert.AreEqual("someroom",m2[new Point3(0,1,2)].Name);
+        }
+
+
+        [Test]
+        public void TestAdjacent_IgnorePathing()
+        {
+
+             HashSet<Direction> onlyNorth = new HashSet<Direction>
+            {
+                Direction.North,
+            };
+
+            var _000 = Mock.Of<IPlace>(p=>p.LeaveDirections == onlyNorth );
+            var _010 = Mock.Of<IPlace>();
+            var _001 = Mock.Of<IPlace>();
+            var _003 = Mock.Of<IPlace>();
+
+            var map = new Map();
+            map.Add(new Point3(0,0,0),_000);
+            map.Add(new Point3(0,1,0),_010);
+            map.Add(new Point3(0,0,1),_001);
+            map.Add(new Point3(0,0,3),_003);
+
+            var result = map.GetAdjacentPlaces(_000,false);
+
+            Assert.AreEqual(2,result.Count);
+            Assert.AreEqual(_010,result[Direction.North]);
+            Assert.AreEqual(_001,result[Direction.Up]);
+        }
+
+
+        [Test]
+        public void TestAdjacent_RespectPathing()
+        {
+             HashSet<Direction> onlyNorth = new HashSet<Direction>
+            {
+                Direction.North,
+            };
+
+            var _000 = Mock.Of<IPlace>(p=>p.LeaveDirections == onlyNorth );
+            var _010 = Mock.Of<IPlace>();
+            var _001 = Mock.Of<IPlace>();
+            var _003 = Mock.Of<IPlace>();
+
+            var map = new Map();
+            map.Add(new Point3(0,0,0),_000);
+            map.Add(new Point3(0,1,0),_010);
+            map.Add(new Point3(0,0,1),_001);
+            map.Add(new Point3(0,0,3),_003);
+
+            var result = map.GetAdjacentPlaces(_000,true);
+
+            Assert.AreEqual(1,result.Count);
+            Assert.AreEqual(_010,result[Direction.North]);
         }
     }
 }

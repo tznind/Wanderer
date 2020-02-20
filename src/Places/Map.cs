@@ -29,5 +29,35 @@ namespace Wanderer.Places
             }
         }
 
+
+        /// <summary>
+        /// Returns rooms adjacent to the provided location
+        /// </summary>
+        /// <param name="place"></param>
+        /// <param name="pathable">true to return only places where you can directly move in that direction</param>
+        /// <returns></returns>
+        public Dictionary<Direction, IPlace> GetAdjacentPlaces(IPlace place, bool pathable)
+        {
+
+            var origin = GetPoint(place);
+
+            var toReturn = new Dictionary<Direction,IPlace>();
+            
+            foreach (Direction direction in Enum.GetValues(typeof(Direction)))
+            {
+                if(direction == Direction.None)
+                    continue;
+
+                var offset = origin.Offset(direction,1);
+
+                //if you can move there or you don't care about walls!
+                if(place.LeaveDirections.Contains(direction) || !pathable)
+                    if(ContainsKey(offset))
+                        toReturn.Add(direction,this[offset]);
+            }
+
+            return toReturn;
+        }
+
     }
 }
