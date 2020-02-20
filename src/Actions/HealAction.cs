@@ -6,7 +6,7 @@ namespace Wanderer.Actions
 {
     public class HealAction : Action
     {
-        public override void Push(IUserinterface ui, ActionStack stack, IActor actor)
+        public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
         {
             if (actor.Decide(ui, "Heal", "Choose who to heal", out IActor target, GetTargets(actor), 10))
                 if(actor.Decide(ui,"Injury", "Choose an Injury",out Injured toHeal, target.Adjectives.OfType<Injured>().ToArray(),10))

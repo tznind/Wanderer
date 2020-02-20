@@ -8,7 +8,7 @@ namespace Wanderer.Actions
 {
     public class LeaveAction : Action
     {
-        public override void Push(IUserinterface ui, ActionStack stack, IActor actor)
+        public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
         {
             //ask actor to pick a direction
             if (actor.Decide<Direction>(ui, "LeaveAction Direction", null, out var direction,GetTargets(actor), 0))
@@ -20,7 +20,7 @@ namespace Wanderer.Actions
             return performer.CurrentLocation.LeaveDirections.ToArray();
         }
 
-        public override void Pop(IWorld world1, IUserinterface ui, ActionStack stack, Frame frame)
+        public override void Pop(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
         {
             var f = (LeaveFrame) frame;
 
@@ -31,8 +31,6 @@ namespace Wanderer.Actions
             var newPoint = oldPoint.Offset(f.Direction,1);
             
             IPlace goingTo;
-
-            var world = frame.PerformedBy.CurrentLocation.World;
 
             if (world.Map.ContainsKey(newPoint))
                 goingTo = world.Map[newPoint];

@@ -8,6 +8,8 @@
         Fight,
         Coerce,
         Savvy,
+        Suave,
+        Leadership,
         Initiative,
         Value
     }

@@ -122,7 +122,7 @@ namespace Wanderer.Systems
             return GetFinalActions().OfType<T>().FirstOrDefault();
         }
 
-
+        
         /// <summary>
         /// Returns the relationship as the <see cref="Recipient"/> observes the
         /// <see cref="AggressorIfAny"/> (if both are <see cref="IActor"/> - otherwise

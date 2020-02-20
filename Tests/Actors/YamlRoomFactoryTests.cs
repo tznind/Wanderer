@@ -32,6 +32,8 @@ namespace Tests.Actors
             });
 
             var room = roomFactory.Create(w, roomFactory.Blueprints.Single());
+            w.Map.Add(new Point3(0,0,0),room);
+
             var you = new You("Wanderer",room);
 
             var ui = GetUI("look:Gun Bay");

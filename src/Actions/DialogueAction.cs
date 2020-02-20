@@ -14,7 +14,7 @@ namespace Wanderer.Actions
         {
             Name = "Other";
         }
-        public override void Push(IUserinterface ui, ActionStack stack, IActor actor)
+        public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
         {
             var targets = GetTargets(actor);
             

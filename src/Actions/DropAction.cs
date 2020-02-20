@@ -10,7 +10,7 @@ namespace Wanderer.Actions
 {
     public class DropAction : Action
     {
-        public override void Push(IUserinterface ui, ActionStack stack, IActor actor)
+        public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
         {
             if(actor.Decide(ui,"Drop","Select an item to drop",out IItem toDrop, GetTargets(actor),-10))
                 stack.Push(new DropFrame(actor,this,toDrop,- GetItemWorthInAttitude(actor,toDrop)));

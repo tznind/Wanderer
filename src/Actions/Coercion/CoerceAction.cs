@@ -5,7 +5,7 @@ namespace Wanderer.Actions.Coercion
 {
     public class CoerceAction : Action
     {
-        public override void Push(IUserinterface ui, ActionStack stack, IActor actor)
+        public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
         {
             //pick a target 
             if(actor.Decide(ui,"Coerce Target", null, out Npc toCoerce, GetTargets(actor),-20))

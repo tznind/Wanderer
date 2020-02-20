@@ -19,7 +19,7 @@ namespace Wanderer.Behaviours
             foreach (var matchingFrame in stack.Where(a => a.Action is T && Condition.IsMet(frame)).ToArray())
             {
                 var a = new ForbidAction(matchingFrame);
-                a.Push(ui,stack,(IActor)Owner);
+                a.Push(world,ui,stack,(IActor)Owner);
             }
         }
     }

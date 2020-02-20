@@ -23,6 +23,7 @@ namespace Tests.Actions
         public void Test_CoerceCancelling()
         {
             TwoInARoom(out You you, out IActor them,out IWorld world);
+
             var ui = GetUI(null);
 
             Assert.IsFalse(new ActionStack().RunStack(world,ui,new CoerceAction(), you,null));

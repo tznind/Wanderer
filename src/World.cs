@@ -129,6 +129,9 @@ namespace Wanderer
                 return;
             }
 
+            //get fresh round logs
+            ui.Log.RoundResults.Clear();
+
             var stack = new ActionStack();
             var actionRun = stack.RunStack(this,ui, playerAction, Player,GetAllBehaviours());
 
@@ -139,8 +142,9 @@ namespace Wanderer
                 foreach (IBehaviour b in GetAllBehaviours()) 
                     b.OnRoundEnding(this,ui, stack.Round);
 
-                if(ui.Log.RoundResults.Any())
-                    ui.ShowMessage("Round Results",string.Join('\n',GetPlayerVisibleLogResults(ui)));
+                var results = GetPlayerVisibleLogResults(ui).ToArray();
+                if(results.Any())
+                    ui.ShowMessage("Round Results",string.Join('\n',results));
 
                 ui.Refresh();
             }

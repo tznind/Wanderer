@@ -7,7 +7,7 @@ namespace Wanderer.Actions
 {
     public class EquipmentAction : Action
     {
-        public override void Push(IUserinterface ui, ActionStack stack, IActor actor)
+        public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
         {
             if (actor.Decide(ui, "Equipment Action", null, out EquipmentActionToPerform toPerform,
                 GetValues<EquipmentActionToPerform>(),0))

@@ -24,6 +24,10 @@ namespace Wanderer.Stats
                     return "Determines action order for Npcs";
                 case Stat.Value:
                     return "How much something or someone is worth";
+                case Stat.Leadership:
+                    return "How good you are at commanding allies";
+                case Stat.Suave:
+                    return "How tolerant others are of your bad behaviours";
                 default:
                     throw new ArgumentOutOfRangeException(nameof(s), s, null);
             }

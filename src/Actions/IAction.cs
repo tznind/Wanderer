@@ -18,7 +18,7 @@ namespace Wanderer.Actions
         /// <param name="ui"></param>
         /// <param name="stack"></param>
         /// <param name="performer"></param>
-        void Push(IUserinterface ui, ActionStack stack,IActor performer);
+        void Push(IWorld world,IUserinterface ui, ActionStack stack,IActor performer);
 
         /// <summary>
         /// When implemented executes the action after it has been confirmed by the full

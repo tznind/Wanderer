@@ -28,7 +28,7 @@ namespace Wanderer
         public bool RunStack(IWorld world,IUserinterface ui, IAction firstAction,IActor performer, IEnumerable<IBehaviour> responders)
         {
             //and run push event on the action
-            firstAction.Push(ui,this,performer);
+            firstAction.Push(world,ui,this,performer);
 
             return RunStack(world, ui, performer, responders);
         }

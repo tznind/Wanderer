@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Wanderer.Actors;
+using Wanderer.Adjectives;
 using Wanderer.Systems;
 
 namespace Wanderer.Plans
@@ -46,11 +47,20 @@ namespace Wanderer.Plans
                 }
             }
 
+            //if we are being led to perform a given Plan at a different priority than normal?
+            var led = actor.GetAllHaves().OfType<LedAdjective>();
+
             //if we have a viable plan pick the best one
             if (viablePlans.Any())
                 actor.Plan = 
                     viablePlans
-                        .OrderByDescending(p => p.Key.Weight)
+                        .OrderByDescending(p => 
+                        
+                        //use the overriding priority (if there is one)
+                        led.FirstOrDefault(l=>l.Led.Plan == p.Key)?.Led?.Weight ??
+
+                        //otherwise use the default plan weight
+                        p.Key.Weight)
                         .First().Value;
         }
     }

@@ -65,6 +65,7 @@ namespace Wanderer.Actors
             BaseActions.Add(new GiveAction());
             BaseActions.Add(new DialogueAction());
             BaseActions.Add(new EquipmentAction());
+            BaseActions.Add(new LeadershipAction());
 
             BaseBehaviours.Add(new MergeStacksBehaviour(this));
 

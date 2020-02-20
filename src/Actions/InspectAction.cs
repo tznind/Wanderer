@@ -8,7 +8,7 @@ namespace Wanderer.Actions
 {
     public class InspectAction : Action
     {
-        public override void Push(IUserinterface ui, ActionStack stack, IActor actor)
+        public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
         {
             if (actor.Decide(ui, "Inspect", null, out IActor toInspect, GetTargets(actor),0))
                 ui.ShowStats(toInspect);

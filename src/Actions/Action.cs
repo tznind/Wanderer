@@ -5,6 +5,7 @@ using Wanderer.Behaviours;
 
 namespace Wanderer.Actions
 {
+
     /// <inheritdoc/>
     public abstract class Action : IAction
     {
@@ -27,7 +28,7 @@ namespace Wanderer.Actions
         /// <param name="ui"></param>
         /// <param name="stack"></param>
         /// <param name="actor"></param>
-        public abstract void Push(IUserinterface ui, ActionStack stack, IActor actor);
+        public abstract void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor);
 
 
         /// <summary>
