@@ -1,0 +1,93 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Wanderer.Places;
+
+namespace Wanderer.Places
+{
+    public class DijkstraPathing
+    {
+        public Map Map { get; }
+        public Node Start { get; set;}
+        public Node End { get; set;}
+
+        public Node NearestToStart {get;set;}
+
+        List<Node> nodesSeen = new List<Node>();
+
+        public class Node 
+        {
+            public IPlace Place{get;set;}
+            public int? MinCostToStart { get; set; }
+            public bool Visited { get; internal set; }
+            public Node NearestToStart { get; internal set; }
+
+            public Node(IPlace place)
+            {
+                this.Place = place;
+            }
+        }
+
+        public DijkstraPathing(Map map,IPlace start, IPlace end)
+        {
+            Map = map;
+            Start = new Node(start);
+            End = new Node(end);
+
+            nodesSeen.Add(Start);
+            nodesSeen.Add(End);
+        }
+
+        public List<Node> GetShortestPathDijkstra()
+        {
+            DijkstraSearch();
+            var shortestPath = new List<Node>();
+            shortestPath.Add(End);
+            BuildShortestPath(shortestPath, End);
+            shortestPath.Reverse();
+            return shortestPath;
+        }
+
+        private void BuildShortestPath(List<Node> list, Node node)
+        {
+            if (node.NearestToStart == null)
+                return;
+            list.Add(node.NearestToStart);
+            BuildShortestPath(list, node.NearestToStart);
+        }
+
+
+
+        private void DijkstraSearch()
+        {
+            Start.MinCostToStart = 0;
+            var prioQueue = new List<Node>();
+            prioQueue.Add(Start);
+            do {
+                prioQueue = prioQueue.OrderBy(x => x.MinCostToStart).ToList();
+                var node = prioQueue.First();
+                prioQueue.Remove(node);
+                foreach (var cnn in Map.GetAdjacentPlaces(node.Place,true))
+                {
+                    
+                    var childNode = nodesSeen.FirstOrDefault(n=>n.Place == cnn.Value) ?? new Node(cnn.Value);
+                    if (childNode.Visited)
+                        continue;
+                    if (childNode.MinCostToStart == null ||
+                        node.MinCostToStart + 1 < childNode.MinCostToStart)
+                    {
+                        childNode.MinCostToStart = node.MinCostToStart + 1;
+                        childNode.NearestToStart = node;
+                        if (!prioQueue.Any(n=>n.Place == childNode.Place))
+                            prioQueue.Add(childNode);
+                    }
+                }
+                node.Visited = true;
+                nodesSeen.Add(node);
+                
+                if (node.Place == End.Place)
+                    return;
+            } while (prioQueue.Any());
+        }
+    }
+}
