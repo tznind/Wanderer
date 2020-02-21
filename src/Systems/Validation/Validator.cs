@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using Wanderer.Actors;
 using Wanderer.Compilation;
@@ -92,28 +93,34 @@ namespace Wanderer.Systems.Validation
                 try
                 {
                     var room = roomFactory.Create(world, blue);
-
-
-                    foreach (var item in room.Items.ToArray())
-                        Validate(world,item,room);
-                    
-                    foreach (var actor in room.Actors.ToArray())
-                    {
-                        if (actor.Dialogue != null)
-                            Validate(world,actor, actor.Dialogue,room);
-                        
-                        foreach (var item in actor.Items)
-                            Validate(world, item,room);
-
-                        foreach(var plan in world.PlanningSystem.Plans)
-                            Validate(world,plan,actor);
-
-                    }
+                    Validate(world,room);
                 }
                 catch (Exception e)
                 {
                     AddError($"Error creating RoomBlueprint for RoomFactory '{title}'.  Error was in {blue.Identifier?.ToString() ?? "Unamed Blueprint"}"  ,e);
                 }
+            }
+        }
+
+        public void Validate(IWorld world, IPlace room)
+        {
+            foreach (var item in room.Items.ToArray())
+                Validate(world,item,room);
+                    
+            if(room.Dialogue != null)
+                Validate(world,room,room.Dialogue,room);
+
+            foreach (var actor in room.Actors.ToArray())
+            {
+                if (actor.Dialogue != null)
+                    Validate(world,actor, actor.Dialogue,room);
+                        
+                foreach (var item in actor.Items)
+                    Validate(world, item,room);
+
+                foreach(var plan in world.PlanningSystem.Plans)
+                    Validate(world,plan,actor);
+
             }
         }
 

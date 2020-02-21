@@ -15,10 +15,10 @@
     - Text: The coppery scent of blood is in the air.  The sound of grinding gears and the shovelling of coal and meat reverberates off the walls.  Periodically bright bursts of light gust out of the hungry furnaces that drive the meat processing machinery.  Here and there piles of bodies lie waiting for recyc.
     - Text: A greasy Chef in a blood spattered apron sits in one corner grisly gutting a dead rat
       Condition:
-        - AggressorIfAny.CurrentLocation.Has(6fa349e4-aefe-4ebc-9922-e3476ea1dba7)
+        - AggressorIfAny.CurrentLocation.Has(new Guid("6fa349e4-aefe-4ebc-9922-e3476ea1dba7"))
     - Text: The room seems empty somehow without the imposing Chef
       Condition:
-        - "!AggressorIfAny.CurrentLocation.Has(6fa349e4-aefe-4ebc-9922-e3476ea1dba7)"
+        - "!AggressorIfAny.CurrentLocation.Has(new Guid(\"6fa349e4-aefe-4ebc-9922-e3476ea1dba7\"))"
 #-	Meat collector
 #-	Chef
 
