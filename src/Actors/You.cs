@@ -41,6 +41,9 @@ namespace Wanderer.Actors
             BaseActions.Add(new CoerceAction());
             //player can inspect Npc
             BaseActions.Add(new InspectAction());
+
+            //for now lets not confuse the player by having Npc countermand their orders
+            BaseActions.Add(new LeadershipAction());
         }
 
         public override bool Decide<T>(IUserinterface ui, string title, string body, out T chosen, T[] options, double attitude)
