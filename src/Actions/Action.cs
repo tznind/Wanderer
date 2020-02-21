@@ -38,7 +38,10 @@ namespace Wanderer.Actions
         /// <param name="ui"></param>
         /// <param name="stack"></param>
         /// <param name="frame"></param>
-        public abstract void Pop(IWorld world, IUserinterface ui, ActionStack stack, Frame frame);
+        public virtual void Pop(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
+        {
+
+        }
 
         public abstract bool HasTargets(IActor performer);
 

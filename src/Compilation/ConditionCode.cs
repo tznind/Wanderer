@@ -10,27 +10,13 @@ namespace Wanderer.Compilation
 
         public ConditionCode(string csharpCode):base(csharpCode)
         {
-            try
-            {
-                _script = CSharpScript.Create<bool>(csharpCode, GetScriptOptions(),typeof(T));
-            }
-            catch(Exception ex)
-            {
-                
-                throw new Exception($"Error compiling '{GetType().Name}' script code '{csharpCode}'",ex);
-            }
+            _script = CSharpScript.Create<bool>(csharpCode, GetScriptOptions(),typeof(T));
         }
         public bool IsMet(T forObject)
         {
             try
             {
-                var result = _script.RunAsync(forObject).Result;
-
-                if (result.Exception != null)
-                    throw result.Exception;
-
-                return result.ReturnValue;
-
+                return _script.RunAsync(forObject).Result.ReturnValue;
             }
             catch(Exception ex)
             {

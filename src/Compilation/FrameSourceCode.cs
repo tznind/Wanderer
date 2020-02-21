@@ -11,27 +11,13 @@ namespace Wanderer.Compilation
 
         public FrameSourceCode(string csharpCode):base(csharpCode)
         {
-            try
-            {
-                _script = CSharpScript.Create<Frame>(csharpCode, GetScriptOptions(),typeof(SystemArgs));
-            }
-            catch(Exception ex)
-            {
-
-                throw new Exception($"Error compiling '{GetType().Name}' script code '{csharpCode}'",ex);
-            }
+            _script = CSharpScript.Create<Frame>(csharpCode, GetScriptOptions(),typeof(SystemArgs));
         }
         public Frame GetFrame(SystemArgs args)
         {
-
             try
             {
-                var result = _script.RunAsync(args).Result;
-
-                if (result.Exception != null)
-                    throw result.Exception;
-
-                return result.ReturnValue;
+                return _script.RunAsync(args).Result.ReturnValue;
             }
             catch(Exception ex)
             {

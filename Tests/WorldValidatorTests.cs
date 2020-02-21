@@ -114,8 +114,9 @@ namespace Tests
 
 
 
-        [Test]
-        public void TestWorldValidator_DialogueOptionWithBadEffectCode()
+        [TestCase("Trollolol=1","The name 'Trollolol' does not exist in the current context")] // bad runtime value
+        [TestCase("sdf sdf sdf","; expected")] // bad compile time value
+        public void TestWorldValidator_DialogueOptionWithBadEffectCode(string badCode, string expectedError)
         {
             var w = new WorldFactory().Create();
             var v = new WorldValidator();
@@ -133,7 +134,7 @@ namespace Tests
                         Text = "Do stuff",
                         Effect = 
                         {
-                            new EffectCode("Trollolol=1")
+                            new EffectCode(badCode)
                         }
                     }
                 }
@@ -148,7 +149,7 @@ namespace Tests
            
           
             StringAssert.Contains("Error testing EffectCode of Option 'Do stuff' of Dialogue '1cf15faf-837b-4629-84c5-bdfa7631a905'",v.Warnings.ToString());
-            StringAssert.Contains("The name 'Trollolol' does not exist in the current context",v.Warnings.ToString());
+            StringAssert.Contains(expectedError,v.Warnings.ToString());
         }
 
                 [Test]

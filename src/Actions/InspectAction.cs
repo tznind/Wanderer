@@ -18,11 +18,7 @@ namespace Wanderer.Actions
         {
             return performer.GetCurrentLocationSiblings(true);
         }
-
-        public override void Pop(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
-        {
-        }
-
+        
         public override bool HasTargets(IActor performer)
         {
             return GetTargets(performer).Any();
