@@ -133,14 +133,30 @@ import ('Wanderer','Wanderer.Places')
         {
             var you = YouInARoom(out IWorld world);
 
-            var code = new ConditionCode<SystemArgs>("condition = place:GetFinalStats(you)[Stat.Corruption] > 50");
+            var code = new ConditionCode<SystemArgs>("condition = Place:GetFinalStats(you)[Stat.Corruption] > 50");
 
             var args = new SystemArgs(world,GetUI(),0,null,you,Guid.Empty);
 
             var lua = code.GetLua(args);
 
-            lua.DoString(code.CsharpCode);
+            lua.DoString(code.Script);
             Assert.AreEqual(false,lua["condition"]);
+        }
+
+        [Test]
+        public void TestLua_Assignment()
+        {
+            var you = YouInARoom(out IWorld world);
+
+            Assert.AreEqual("TestRoom",you.CurrentLocation.Name);
+            var code = new ConditionCode<SystemArgs>("Place.Name = 'fish'");
+
+            var args = new SystemArgs(world,GetUI(),0,null,you,Guid.Empty);
+
+            var lua = code.GetLua(args);
+
+            lua.DoString(code.Script);
+            Assert.AreEqual("fish",you.CurrentLocation.Name);
         }
     }
 }

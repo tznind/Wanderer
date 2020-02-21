@@ -7,7 +7,7 @@ namespace Wanderer.Compilation
 {
     public abstract class Code 
     {
-        public string CsharpCode { get; set; }
+        public string Script { get; set; }
 
         
         [JsonConstructor]
@@ -15,9 +15,9 @@ namespace Wanderer.Compilation
         {
         }
 
-        public Code(string csharpCode)
+        public Code(string script)
         {
-            CsharpCode = csharpCode;
+            Script = script;
         }
 
 
@@ -36,12 +36,17 @@ namespace Wanderer.Compilation
                     "Wanderer.Adjectives");
         }
 
-        public Lua GetLua(SystemArgs args)
+        public Lua GetLua(object o)
         {
             var lua = GetLua();
-            
 
-            lua["place"] = args.Place;
+            foreach(var prop in o.GetType().GetProperties())
+            {
+                var val = prop.GetValue(o);
+
+                if(val != null)
+                    lua[prop.Name] = val;
+            }
 
             return lua;
         }
@@ -64,10 +69,17 @@ import ('Wanderer','Wanderer.Adjectives')
             return lua;
         }
 
+        public void Run(SystemArgs a)
+        {
+            using(var lua = GetLua(a))
+            {
+                lua.DoString(Script);
+            }
+        }
         
         public override string ToString()
         {
-            return CsharpCode ;
+            return Script ;
         }
     }
 }

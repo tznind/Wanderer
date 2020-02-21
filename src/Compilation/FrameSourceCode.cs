@@ -9,9 +9,9 @@ namespace Wanderer.Compilation
     {
         private Script<Frame> _script;
 
-        public FrameSourceCode(string csharpCode):base(csharpCode)
+        public FrameSourceCode(string script):base(script)
         {
-            _script = CSharpScript.Create<Frame>(csharpCode, GetScriptOptions(),typeof(SystemArgs));
+            _script = CSharpScript.Create<Frame>(script, GetScriptOptions(),typeof(SystemArgs));
         }
         public Frame GetFrame(SystemArgs args)
         {
@@ -21,7 +21,7 @@ namespace Wanderer.Compilation
             }
             catch(Exception ex)
             {
-                throw new Exception($"Error executing '{GetType().Name}' script code '{CsharpCode}'.  SystemArgs were for '{args.Recipient}'",ex);
+                throw new Exception($"Error executing '{GetType().Name}' script code '{Script}'.  SystemArgs were for '{args.Recipient}'",ex);
             }
         }
     }

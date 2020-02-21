@@ -8,9 +8,9 @@ namespace Wanderer.Compilation
     {
         private Script<bool> _script;
 
-        public ConditionCode(string csharpCode):base(csharpCode)
+        public ConditionCode(string script):base(script)
         {
-            _script = CSharpScript.Create<bool>(csharpCode, GetScriptOptions(),typeof(T));
+            _script = CSharpScript.Create<bool>(script, GetScriptOptions(),typeof(T));
         }
         public bool IsMet(T forObject)
         {
@@ -20,7 +20,7 @@ namespace Wanderer.Compilation
             }
             catch(Exception ex)
             {
-                throw new Exception($"Error executing '{GetType().Name}' script code '{CsharpCode}'.  T was typeof({typeof(T)}) and had value '{forObject}'",ex);
+                throw new Exception($"Error executing '{GetType().Name}' script code '{Script}'.  T was typeof({typeof(T)}) and had value '{forObject}'",ex);
             }
         }
 

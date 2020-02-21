@@ -10,9 +10,9 @@ namespace Wanderer.Compilation
     {
         private Script _script;
 
-        public EffectCode(string csharpCode):base(csharpCode)
+        public EffectCode(string script):base(script)
         {
-            _script = CSharpScript.Create(csharpCode, GetScriptOptions(),typeof(SystemArgs));
+            _script = CSharpScript.Create(script, GetScriptOptions(),typeof(SystemArgs));
         }
         public void Apply(SystemArgs args)
         {
@@ -22,7 +22,7 @@ namespace Wanderer.Compilation
             }
             catch(Exception ex)
             {
-                throw new Exception($"Error executing '{GetType().Name}' script code '{CsharpCode}'.  SystemArgs were for '{args.Recipient}'",ex);
+                throw new Exception($"Error executing '{GetType().Name}' script code '{Script}'.  SystemArgs were for '{args.Recipient}'",ex);
             }
         }
     }
