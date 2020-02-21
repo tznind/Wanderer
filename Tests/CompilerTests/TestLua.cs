@@ -4,7 +4,9 @@ using System.Text;
 using NLua;
 using NUnit.Framework;
 using Wanderer;
+using Wanderer.Compilation;
 using Wanderer.Stats;
+using Wanderer.Systems;
 
 namespace Tests.CompilerTests
 {
@@ -124,6 +126,21 @@ import ('Wanderer','Wanderer.Places')
                 lua.DoString("result = you.CurrentLocation:GetFinalStats(you)[Stat.Corruption] > 50");
                 Assert.IsTrue((bool) lua["result"]);
             }
+        }
+
+        [Test]
+        public void TestLua_SystemArgsCondition()
+        {
+            var you = YouInARoom(out IWorld world);
+
+            var code = new ConditionCode<SystemArgs>("condition = place:GetFinalStats(you)[Stat.Corruption] > 50");
+
+            var args = new SystemArgs(world,GetUI(),0,null,you,Guid.Empty);
+
+            var lua = code.GetLua(args);
+
+            lua.DoString(code.CsharpCode);
+            Assert.AreEqual(false,lua["condition"]);
         }
     }
 }
