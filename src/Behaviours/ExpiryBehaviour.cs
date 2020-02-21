@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using Wanderer.Adjectives;
 using Wanderer.Behaviours;
 
@@ -7,9 +8,15 @@ namespace Wanderer.Behaviours
 {
     public class ExpiryBehaviour : Behaviour
     {
-        private readonly IAdjective _adjective;
-        private readonly int _roundsBeforeRemoval;
-        readonly HashSet<Guid> _roundsSeen = new HashSet<Guid>();
+        public IAdjective Adjective { get; set; }
+        public int RoundsBeforeRemoval { get; set; }
+        public HashSet<Guid> RoundsSeen { get; set; } = new HashSet<Guid>();
+
+        [JsonConstructor]
+        protected ExpiryBehaviour():base(null)
+        {
+
+        }
 
         /// <summary>
         /// Add to <see cref="IHasStats.BaseBehaviours"/> in order to expire the given <paramref name="adjective"/>
@@ -19,18 +26,18 @@ namespace Wanderer.Behaviours
         /// <param name="roundsBeforeRemoval">1 for current round only, 2 for this round and next round, etc</param>
         public ExpiryBehaviour(IAdjective adjective, int roundsBeforeRemoval) : base(adjective.Owner)
         {
-            _adjective = adjective;
-            _roundsBeforeRemoval = roundsBeforeRemoval;
+            Adjective = adjective;
+            RoundsBeforeRemoval = roundsBeforeRemoval;
         }
 
         public override void OnRoundEnding(IWorld world,IUserinterface ui, Guid round)
         {
-            _roundsSeen.Add(round);
+            RoundsSeen.Add(round);
 
-            if (_roundsSeen.Count >= _roundsBeforeRemoval)
+            if (RoundsSeen.Count >= RoundsBeforeRemoval)
             {
-                _adjective.Owner.Adjectives.Remove(_adjective);
-                _adjective.BaseBehaviours.Remove(this);
+                Adjective.Owner.Adjectives.Remove(Adjective);
+                Adjective.BaseBehaviours.Remove(this);
             } 
         }
 
@@ -40,10 +47,10 @@ namespace Wanderer.Behaviours
             {
                 return
                     //timer left 
-                    o._roundsBeforeRemoval - o._roundsSeen.Count
+                    o.RoundsBeforeRemoval - o.RoundsSeen.Count
 
                     //timer left
-                    == _roundsBeforeRemoval - _roundsSeen.Count;
+                    == RoundsBeforeRemoval - RoundsSeen.Count;
             }
 
             return false;
