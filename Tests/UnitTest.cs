@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Wanderer;
 using Wanderer.Actors;
+using Wanderer.Factories;
 using Wanderer.Places;
 using Wanderer.Relationships;
 
@@ -12,6 +13,7 @@ namespace Tests
         {
             world = new World();
             var room = new Room("TestRoom", world,'-');
+            world.RoomFactory = new RoomFactory(new AdjectiveFactory());
             world.Map.Add(new Point3(0,0,0),room );
             return room;
         }

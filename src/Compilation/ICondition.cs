@@ -2,8 +2,6 @@
 {
     public interface ICondition
     {
-        string CsharpCode { get; set; }
-
         bool IsMet(object o);
     }
 

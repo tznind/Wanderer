@@ -85,5 +85,26 @@ namespace Tests.Plans
 
         }
 
+        [Test]
+        public void Test_FollowPlan()
+        {
+            TwoInARoom(out You you, out IActor them, out IWorld world);
+
+            //move out of their room
+            Assert.AreEqual(you.CurrentLocation,them.CurrentLocation);
+            world.RunRound(GetUI(Direction.North),new LeaveAction());
+            Assert.AreNotEqual(you.CurrentLocation,them.CurrentLocation);
+
+            //give them a plan to follow you!
+            world.PlanningSystem.Plans.Add(new FollowPlan(world.Player));
+
+            //kill some time
+            var ui = GetUI();
+            world.RunRound(ui,new LoadGunsAction());
+            
+            //they should follow you
+            Assert.AreEqual(you.CurrentLocation,them.CurrentLocation);
+            Assert.IsInstanceOf(typeof(LeaveFrame),((Npc)them).Plan);
+        }
     }
 }

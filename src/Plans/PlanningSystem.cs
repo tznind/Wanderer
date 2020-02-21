@@ -25,12 +25,17 @@ namespace Wanderer.Plans
         public void Apply(SystemArgs args)
         {
             var actor = (Npc) args.Recipient;
+
+            //if we are being led to perform a given Plan at a different priority than normal?
+            var led = actor.GetAllHaves().OfType<LedAdjective>().ToArray();
+
             
             //clear any old plans
             actor.Plan = null;
             var viablePlans = new Dictionary<Plan,Frame>();
 
-            foreach (var plan in Plans)
+            //Pick from the world plans or any custom plans configured for us (via leadership)
+            foreach (var plan in Plans.Union(led.Select(l=>l.Led.Plan)))
             {
                 //if the plan is viable
                 if (plan.Condition.TrueForAll(c => c.IsMet(args)))
@@ -46,9 +51,6 @@ namespace Wanderer.Plans
                     }
                 }
             }
-
-            //if we are being led to perform a given Plan at a different priority than normal?
-            var led = actor.GetAllHaves().OfType<LedAdjective>();
 
             //if we have a viable plan pick the best one
             if (viablePlans.Any())

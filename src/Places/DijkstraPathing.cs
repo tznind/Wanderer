@@ -38,12 +38,21 @@ namespace Wanderer.Places
             nodesSeen.Add(End);
         }
 
+        /// <summary>
+        /// Returns the path from <see cref="Start"/> to <see cref="End"/> or null
+        /// if there is no route found
+        /// </summary>
+        /// <returns></returns>
         public List<Node> GetShortestPathDijkstra()
         {
             DijkstraSearch();
             var shortestPath = new List<Node>();
             shortestPath.Add(End);
             BuildShortestPath(shortestPath, End);
+
+            if (!shortestPath.Contains(Start))
+                return null;
+
             shortestPath.Reverse();
             return shortestPath;
         }

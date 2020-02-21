@@ -144,5 +144,22 @@ namespace Wanderer.Systems
                 World.Relationships.SumBetween(r,other)
                 : 0;
         }
+
+        /// <summary>
+        /// Returns the distance between <see cref="Recipient"/> and the given
+        /// <paramref name="actor"/> (or -1 if <see cref="Recipient"/> is at an
+        /// unknown location)
+        /// </summary>
+        /// <param name="actor"></param>
+        /// <returns></returns>
+        public double DistanceTo(IActor actor)
+        {
+            var p = Place;
+
+            if (p == null)
+                return -1;
+
+            return World.Map.GetPoint(p).Distance(World.Map.GetPoint(actor.CurrentLocation));
+        }
     }
 }
