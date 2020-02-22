@@ -22,7 +22,7 @@ namespace Wanderer.Actors
         /// <inheritdoc/>
         public IPlace CurrentLocation { get; set; }
         
-        public HashSet<IItem> Items { get; set; } = new HashSet<IItem>();
+        public List<IItem> Items { get; set; } = new List<IItem>();
         public HashSet<IFaction> FactionMembership { get; set; } = new HashSet<IFaction>();
 
         public SlotCollection AvailableSlots { get; set; } = new SlotCollection();

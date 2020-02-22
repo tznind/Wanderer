@@ -30,7 +30,7 @@ namespace Wanderer.Actors
         /// <summary>
         /// Items that the actor owns
         /// </summary>
-        HashSet<IItem> Items { get;set; }
+        List<IItem> Items { get;set; }
 
         /// <summary>
         /// How many of each body part does the actor have in which he can equip stuff

@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using Wanderer.Actions;
 using Wanderer.Actors;
 using Wanderer.Behaviours;
+using Wanderer.Compilation;
 using Wanderer.Extensions;
 using Wanderer.Factories;
 using Wanderer.Items;
@@ -46,6 +47,8 @@ namespace Wanderer
         }
 
         public IFactionCollection Factions { get; set; } = new FactionCollection();
+
+        public string ResourcesDirectory { get; set; } = Compiler.GetDefaultResourcesDirectory();
 
         /// <summary>
         /// Returns settings suitable for loading/saving worlds

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Microsoft.CodeAnalysis.Scripting;
 using Newtonsoft.Json;
 using NLua;
@@ -38,17 +39,22 @@ namespace Wanderer.Compilation
                     "Wanderer.Adjectives");
         }
 
-        public Lua GetLua(object o)
+        public Lua GetLua(IWorld world,object o)
         {
             var lua = GetLua();
 
-            foreach(var prop in o.GetType().GetProperties())
-            {
-                var val = prop.GetValue(o);
+            if(o != null)
+                foreach(var prop in o.GetType().GetProperties())
+                {
+                    var val = prop.GetValue(o);
 
-                if(val != null)
-                    lua[prop.Name] = val;
-            }
+                    if(val != null)
+                        lua[prop.Name] = val;
+                }
+            var main = Path.Combine(world.ResourcesDirectory, "Main.lua");
+            if (File.Exists(main)) 
+                lua.DoFile(main);
+
 
             ApplyGuidConstructorFix(lua);
 
@@ -80,7 +86,7 @@ import ('Wanderer','Wanderer.Adjectives')
 
         public void Run(SystemArgs a)
         {
-            using(var lua = GetLua(a))
+            using(var lua = GetLua(a.World,a))
             {
                 lua.DoString(Script);
             }

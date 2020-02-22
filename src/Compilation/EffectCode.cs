@@ -13,7 +13,7 @@ namespace Wanderer.Compilation
         {
             try
             {
-                GetLua(args).DoString(Script);
+                GetLua(args.World,args).DoString(Script);
             }
             catch(Exception ex)
             {

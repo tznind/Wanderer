@@ -39,6 +39,7 @@
     <None Remove="Resources\Factions\Wildlife\Actors.yaml" />
     <None Remove="Resources\Factions\Wildlife\Faction.yaml" />
     <None Remove="Resources\Factions\Wildlife\Forenames.txt" />
+    <None Remove="Resources\Main.lua" />
     <None Remove="Resources\Rooms.yaml" />
     <None Remove="Resources\Slots.yaml" />
   </ItemGroup>
@@ -150,6 +151,12 @@
 
   <ItemGroup>
     <Content Include="Resources\Factions\Rats\Faction.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\Main.lua">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using NLua;
 using NUnit.Framework;
 using Wanderer;
+using Wanderer.Actors;
 using Wanderer.Compilation;
+using Wanderer.Items;
 using Wanderer.Stats;
 using Wanderer.Systems;
 
@@ -181,7 +184,7 @@ import ('Wanderer','Wanderer.Places')
 
             var args = new SystemArgs(world,GetUI(),0,null,you,Guid.Empty);
 
-            var lua = code.GetLua(args);
+            var lua = code.GetLua(world,args);
 
             lua.DoString(code.Script);
             Assert.AreEqual(false,lua["condition"]);
@@ -197,7 +200,7 @@ import ('Wanderer','Wanderer.Places')
 
             var args = new SystemArgs(world,GetUI(),0,null,you,Guid.Empty);
 
-            var lua = code.GetLua(args);
+            var lua = code.GetLua(world,args);
 
             lua.DoString(code.Script);
             Assert.AreEqual("fish",you.CurrentLocation.Name);
@@ -264,6 +267,32 @@ import ('Wanderer','Wanderer.Places')
                 lua["SomeListClass1"] = new SomeListClass();
                 Assert.AreEqual("Hi",lua.DoString("return SomeListClass1:SayHi()")[0]);
 
+            }
+        }
+        
+        [Test]
+        public void TestLua_CallMainLuaMethod()
+        {
+            var you = YouInARoom(out IWorld world);
+
+            var ec = new EffectCode("");
+            
+            using (var lua = ec.GetLua(world, null))
+            {
+                lua["you"] = you;
+                
+                Assert.IsNull(lua.DoString("return GetFirstEquippableItem(you)"));
+
+                you.AvailableSlots = new SlotCollection{{"Head",1}};
+                you.Items.Add(new Item("Hat") {Slot = new ItemSlot("Head", 1)});
+
+                Assert.IsTrue(you.CanEquip(you.Items.Single(),out _));
+                
+                Assert.AreEqual(you.Items.Single(),lua.DoString("return GetFirstEquippableItem(you)")[0]);
+
+                you.AvailableSlots.Clear();
+
+                Assert.IsNull(lua.DoString("return GetFirstEquippableItem(you)"));
             }
         }
     }
