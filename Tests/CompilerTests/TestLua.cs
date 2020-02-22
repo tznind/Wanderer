@@ -10,6 +10,34 @@ using Wanderer.Systems;
 
 namespace Tests.CompilerTests
 {
+
+    public class C
+    {
+        public string Val { get; }
+
+        public C()
+        {
+            Val = "trollolol";
+        }
+        public C(string val)
+        {
+            Val = val;
+        }
+        public C(int val)
+        {
+            Val = val.ToString() + "(int overload used)";
+        }
+    }
+
+    public class D
+    {
+        public Guid G {get;set;}
+        public D(string g)
+        {
+            G = new Guid(g);
+        }
+    }
+
     class TestLua : UnitTest
     {
         [Test]
@@ -157,6 +185,47 @@ import ('Wanderer','Wanderer.Places')
 
             lua.DoString(code.Script);
             Assert.AreEqual("fish",you.CurrentLocation.Name);
+        }
+
+
+
+        [Test]
+        public void TestLua_ConstructGuid()
+        {
+            using(var lua =  new Lua())
+            {
+                lua.LoadCLRPackage();
+                lua.DoString(@"import ('System','System')");
+                lua.DoString($"import ('{typeof(C).Assembly.GetName().Name}','{typeof(C).Namespace}')");
+                lua.DoString($"import ('{typeof(Guid).Assembly.GetName().Name}','{typeof(Guid).Namespace}')");
+
+                Assert.AreEqual("fff",lua.DoString("return 'fff'")[0]);
+
+                Assert.AreEqual("trollolol",((C)lua.DoString("return C()")[0]).Val);
+                Assert.AreEqual("fff",((C)lua.DoString("return C('fff')")[0]).Val);
+                Assert.AreEqual("5(int overload used)",((C)lua.DoString("return C(5)")[0]).Val);
+
+                lua.DoString("GuidClass=luanet.import_type('System.Guid')");
+                lua.DoString("guid_cons=luanet.get_constructor_bysig(GuidClass,'System.String')");
+                
+                Assert.AreEqual(
+                    new Guid("adc70ae1-769e-4ace-aa83-928a604c5739"),
+                lua.DoString("return guid_cons('adc70ae1-769e-4ace-aa83-928a604c5739')")[0]);
+
+                Assert.AreEqual(
+                    new Guid("adc70ae1-769e-4ace-aa83-928a604c5739"),
+                    ((D)lua.DoString("return D('adc70ae1-769e-4ace-aa83-928a604c5739')")[0]).G);
+
+                Assert.IsNotNull(lua.DoString("return Guid.NewGuid()")[0]);
+                Assert.AreEqual(Guid.Empty,lua.DoString("return Guid.Empty")[0]);
+                Assert.AreEqual(
+                    new Guid("adc70ae1-769e-4ace-aa83-928a604c5739"),
+                lua.DoString("return Guid.Parse('adc70ae1-769e-4ace-aa83-928a604c5739')")[0]);
+
+                Assert.AreEqual(
+                    new Guid("adc70ae1-769e-4ace-aa83-928a604c5739"),
+                lua.DoString("return Guid('adc70ae1-769e-4ace-aa83-928a604c5739')")[0]);
+            }
         }
     }
 }
