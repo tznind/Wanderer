@@ -27,7 +27,7 @@ Body:
 Options:   
     - Text: Yes Please!
       Effect: 
-        - AggressorIfAny.BaseStats[Fight] = AggressorIfAny.BaseStats[Fight] + 20
+        - AggressorIfAny.BaseStats:Increase(Fight , 20)
 ";
             var n = Compiler.Instance.Deserializer.Deserialize<DialogueNode>(yaml);
 

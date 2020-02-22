@@ -37,7 +37,23 @@ namespace Tests.CompilerTests
             G = new Guid(g);
         }
     }
+    
+    public class SomeClass
+    {
+        public string SayHi()
+        {
+            return "Hi";
+        }
+    }
 
+    
+    public class SomeListClass :List<string>
+    {
+        public string SayHi()
+        {
+            return "Hi";
+        }
+    }
     class TestLua : UnitTest
     {
         [Test]
@@ -228,6 +244,26 @@ import ('Wanderer','Wanderer.Places')
                 Assert.AreEqual(
                     new Guid("adc70ae1-769e-4ace-aa83-928a604c5739"),
                 lua.DoString("return Guid('adc70ae1-769e-4ace-aa83-928a604c5739')")[0]);
+            }
+        }
+
+
+
+        [Test]
+        public void TestLua_Methods()
+        {
+            using (var lua = new Lua())
+            {
+                lua.LoadCLRPackage();
+                lua.DoString(@"import ('System','System')");
+                lua.DoString($"import ('{typeof(C).Assembly.GetName().Name}','{typeof(C).Namespace}')");
+
+                lua["SomeClass1"] = new SomeClass();
+                Assert.AreEqual("Hi",lua.DoString("return SomeClass1:SayHi()")[0]);
+                
+                lua["SomeListClass1"] = new SomeListClass();
+                Assert.AreEqual("Hi",lua.DoString("return SomeListClass1:SayHi()")[0]);
+
             }
         }
     }
