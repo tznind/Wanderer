@@ -81,5 +81,11 @@ import ('Wanderer','Wanderer.Adjectives')
         {
             return Script ;
         }
+        public static void ApplyGuidConstructorFix(Lua lua)
+        {
+            //TODO: this is a hacky workaround for guid constructor seemingly returning null
+            lua.DoString("GuidClass=luanet.import_type('System.Guid')");
+            lua.DoString("Guid=luanet.get_constructor_bysig(GuidClass,'System.String')");
+        }
     }
 }

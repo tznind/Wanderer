@@ -222,6 +222,9 @@ import ('Wanderer','Wanderer.Places')
                     new Guid("adc70ae1-769e-4ace-aa83-928a604c5739"),
                 lua.DoString("return Guid.Parse('adc70ae1-769e-4ace-aa83-928a604c5739')")[0]);
 
+
+                Code.ApplyGuidConstructorFix(lua);
+
                 Assert.AreEqual(
                     new Guid("adc70ae1-769e-4ace-aa83-928a604c5739"),
                 lua.DoString("return Guid('adc70ae1-769e-4ace-aa83-928a604c5739')")[0]);
