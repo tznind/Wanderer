@@ -1,6 +1,8 @@
-﻿using Microsoft.CodeAnalysis.Scripting;
+﻿using System;
+using Microsoft.CodeAnalysis.Scripting;
 using Newtonsoft.Json;
 using NLua;
+using Wanderer.Stats;
 using Wanderer.Systems;
 
 namespace Wanderer.Compilation
@@ -48,6 +50,8 @@ namespace Wanderer.Compilation
                     lua[prop.Name] = val;
             }
 
+            ApplyGuidConstructorFix(lua);
+
             return lua;
         }
 
@@ -66,6 +70,11 @@ import ('Wanderer','Wanderer.Systems')
 import ('Wanderer','Wanderer.Adjectives')
 
 ");
+
+            //setup Fight as alias for Stat.Fight etc
+            foreach(Stat val in Enum.GetValues(typeof(Stat)))
+                lua[val.ToString()] = val;
+
             return lua;
         }
 

@@ -40,7 +40,27 @@ namespace Wanderer.Stats
 
             return this;
         }
-        
+
+        /// <summary>
+        /// Increases the <paramref name="stat"/> by <paramref name="value"/>
+        /// </summary>
+        /// <param name="stat"></param>
+        /// <param name="value"></param>
+        public void Increase(Stat stat, double value)
+        {
+            this[stat] += value;
+        }
+
+        /// <summary>
+        /// Decreases the <paramref name="stat"/> by <paramref name="value"/>
+        /// (this is the same as calling Increase with a negative value)
+        /// </summary>
+        /// <param name="stat"></param>
+        /// <param name="value"></param>
+        public void Decrease(Stat stat, double value)
+        {
+            Increase(stat,-value);
+        }
         /// <summary>
         /// Subtracts the stats of the <paramref name="other"/> to this (changes permanently
         /// this class)

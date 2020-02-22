@@ -104,9 +104,9 @@
   Options:   
     - Text: I'm gonna turn this ship into a Graveyard
       Effect: 
-        - AggressorIfAny.BaseStats[Stat.Fight] += 20
+        - AggressorIfAny.BaseStats[Stat.Fight] = AggressorIfAny.BaseStats[Stat.Fight] + 20
         - Recipient.Dialogue.Next = null
     - Text: One day this ship and everyone in it will be mine
       Effect: 
-        - AggressorIfAny.BaseStats[Stat.Coerce] += 20
+        - AggressorIfAny.BaseStats[Stat.Coerce] = AggressorIfAny.BaseStats[Stat.Coerce] + 20
         - Recipient.Dialogue.Next = null

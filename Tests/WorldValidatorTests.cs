@@ -113,9 +113,7 @@ namespace Tests
         }
 
 
-
-        [TestCase("Trollolol=1","The name 'Trollolol' does not exist in the current context")] // bad runtime value
-        [TestCase("sdf sdf sdf","; expected")] // bad compile time value
+        [TestCase("sdf sdf sdf","syntax error near 'sdf'")] // bad compile time value
         public void TestWorldValidator_DialogueOptionWithBadEffectCode(string badCode, string expectedError)
         {
             var w = new WorldFactory().Create();
