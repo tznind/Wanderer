@@ -23,13 +23,13 @@
     - Text: "Screeeee (this creature seems"
     - Text: friendly)
       Condition: 
-        - Recipient:AttitudeTo(AggressorIfAny) > 0
+        - return Recipient:AttitudeTo(AggressorIfAny) > 0
     - Text: hostile)
       Condition: 
-        - Recipient:AttitudeTo(AggressorIfAny) < 0
+        - return Recipient:AttitudeTo(AggressorIfAny) < 0
     - Text: indifferent)
       Condition: 
-        - Recipient:AttitudeTo(AggressorIfAny) == 0
+        - return Recipient:AttitudeTo(AggressorIfAny) == 0
     
 - Identifier: e088ff6e-60de-4a59-a9d8-b9406a2aed7c
   Body: 
