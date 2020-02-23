@@ -12,7 +12,8 @@ namespace Wanderer.Compilation
         {
             try
             {
-                return (Frame)GetLua(args.World,args).DoString(Script)[0];
+                using(var lua = GetLua(args.World,args))
+                    return (Frame)lua.DoString(Script)[0];
             }
             catch(Exception ex)
             {
