@@ -14,7 +14,6 @@ namespace Tests
 {
     class WorldValidatorTests
     {
-        [Ignore("While we fix all the syntax errors!")]
         [Test]
         public void TestWorldValidator_Success()
         {

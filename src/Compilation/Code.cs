@@ -57,6 +57,7 @@ import ('Wanderer','Wanderer.Actions')
 import ('System','System')
 import ('Wanderer','Wanderer.Systems')
 import ('Wanderer','Wanderer.Adjectives')
+import ('Wanderer','Wanderer.Items')
 
 ");
 

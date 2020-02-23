@@ -16,6 +16,9 @@ namespace Wanderer.Systems.Validation
 {
     public class WorldValidator
     {
+        public int ErrorCount {get;set;} = 0;
+        public int WarningCount {get;set;} = 0;
+
         public StringBuilder Errors { get; set; } = new StringBuilder();
         public bool IncludeStackTraces { get; set; }
         public StringBuilder Warnings { get; set; } = new StringBuilder();
@@ -60,6 +63,8 @@ namespace Wanderer.Systems.Validation
         {
             Errors.AppendLine(msg);
             Errors.AppendLine(IncludeStackTraces ? exception.ToString() : Flatten(exception));
+
+            ErrorCount++;
         }
         private void AddError(string msg)
         {
@@ -71,6 +76,8 @@ namespace Wanderer.Systems.Validation
         {
             Warnings.AppendLine(msg);
             Warnings.AppendLine(IncludeStackTraces ?  exception.ToString() : Flatten(exception));
+
+            WarningCount++;
         }
 
         private string Flatten(Exception ex)

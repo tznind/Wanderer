@@ -281,7 +281,7 @@ import ('Wanderer','Wanderer.Places')
             {
                 lua["you"] = you;
                 
-                Assert.IsNull(lua.DoString("return GetFirstEquippableItem(you)"));
+                Assert.IsNull(lua.DoString("return GetFirstEquippableItem(you)")[0]);
 
                 you.AvailableSlots = new SlotCollection{{"Head",1}};
                 you.Items.Add(new Item("Hat") {Slot = new ItemSlot("Head", 1)});
@@ -292,7 +292,7 @@ import ('Wanderer','Wanderer.Places')
 
                 you.AvailableSlots.Clear();
 
-                Assert.IsNull(lua.DoString("return GetFirstEquippableItem(you)"));
+                Assert.IsNull(lua.DoString("return GetFirstEquippableItem(you)")[0]);
             }
         }
     }
