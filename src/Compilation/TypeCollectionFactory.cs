@@ -10,9 +10,12 @@ namespace Wanderer.Compilation
     {
         private readonly Assembly[] _assemblies;
 
+        Lazy<Type[]> _getAllTypesLazy;
+
         public TypeCollectionFactory(params Assembly[]  assemblies)
         {
             _assemblies = assemblies;
+            _getAllTypesLazy = new Lazy<Type[]>(()=>_assemblies.SelectMany(a=>a.GetTypes()).ToArray());
         }
         
         public TypeCollection Create<T>(bool includeAbstract = false, bool includeInsterface = false)
@@ -22,7 +25,7 @@ namespace Wanderer.Compilation
 
         public TypeCollection Create(Type baseType, bool includeAbstract, bool includeInterface)
         {
-            return new TypeCollection(baseType,_assemblies.SelectMany(a=>a.GetTypes())
+            return new TypeCollection(baseType, _getAllTypesLazy.Value
                 .Where(t => baseType.IsAssignableFrom(t) && (!t.IsInterface || includeInterface) && (!t.IsAbstract || includeAbstract))
                 .ToArray());
         }

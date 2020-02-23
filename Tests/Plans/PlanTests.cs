@@ -23,10 +23,10 @@ namespace Tests.Plans
             var ifHungryEatPlan = new Plan()
             {
                 Do = new FrameSourceCode(
-                    @"new Frame((IActor)Recipient,((IActor)Recipient).GetFinalActions().OfType<EatAction>().FirstOrDefault(),0)"),
+                    @"return Frame(Recipient,EatAction(),0)"),
                 Condition =
                 {
-                    new ConditionCode<SystemArgs>("Recipient.Adjectives.OfType<IInjured>().Any(a=>a.InjurySystem is HungerInjurySystem)")
+                    new ConditionCode<SystemArgs>("return Recipient:Has(Guid('89c18233-5250-4445-8799-faa9a888fb7f'))")
                 }
             };
 

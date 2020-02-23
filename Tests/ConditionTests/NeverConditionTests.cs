@@ -8,7 +8,7 @@ using Wanderer.Stats;
 
 namespace Tests.ConditionTests
 {
-    public class NeverConditionTests
+    public class NeverConditionTests : UnitTest
     {
         [Test]
         public void Test_NeverCondition_WithExpiry()
@@ -19,15 +19,18 @@ namespace Tests.ConditionTests
   Stats:
     Savvy: 10
   Require:
-    - false";  //<- sunglasses are about to be in fashion but not yet
+    - return false";  //<- sunglasses are about to be in fashion but not yet
 
             
             var itemFactory = new YamlItemFactory(yaml,new AdjectiveFactory());
             var item = itemFactory.Create(new World(), itemFactory.Blueprints.Single());
 
-            Assert.AreEqual(0,item.GetFinalStats(Mock.Of<IActor>())[Stat.Savvy]);
+            var you = YouInARoom(out _);
+            you.BaseStats[Stat.Savvy] = 0;
+
+            Assert.AreEqual(0,item.GetFinalStats(you)[Stat.Savvy]);
             item.Require.Clear();
-            Assert.AreEqual(10,item.GetFinalStats(Mock.Of<IActor>())[Stat.Savvy]);
+            Assert.AreEqual(10,item.GetFinalStats(you)[Stat.Savvy]);
 
         }
 

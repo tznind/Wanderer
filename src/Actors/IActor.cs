@@ -133,5 +133,15 @@ namespace Wanderer.Actors
         /// <returns></returns>
         double AttitudeTo(IActor other);
 
+
+        /// <summary>
+        /// Returns the distance to the other <paramref name="actor"/> 
+        /// </summary>
+        /// <param name="actor"></param>
+        /// <returns></returns>
+        double DistanceTo(IActor actor);
+
+        IActor BestFriend(bool inSameLocation, double threshold);
+        IActor WorstEnemy(bool inSameLocation, double threshold);
     }
 }

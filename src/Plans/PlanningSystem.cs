@@ -38,7 +38,7 @@ namespace Wanderer.Plans
             foreach (var plan in Plans.Union(led.Select(l=>l.Led.Plan)))
             {
                 //if the plan is viable
-                if (plan.Condition.TrueForAll(c => c.IsMet(args)))
+                if (plan.Condition.TrueForAll(c => c.IsMet(args.World,args)))
                 {
                     //then this is what we would do
                     var frame = plan.Do.GetFrame(args);

@@ -2,12 +2,12 @@
 {
     public interface ICondition
     {
-        bool IsMet(object o);
+        bool IsMet(IWorld world, object o);
     }
 
     public interface ICondition<T> : ICondition
     {
         
-        bool IsMet(T o);
+        bool IsMet(IWorld world,T o);
     }
 }

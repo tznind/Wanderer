@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Wanderer.Actions;
 using YamlDotNet.Serialization;
 

@@ -3,33 +3,33 @@
     - Recipient.Has(new Guid("89c18233-5250-4445-8799-faa9a888fb7f"))
     - GetFinalAction<EatAction>() != null
 
-  Do: new Frame((IActor)Recipient,GetFinalAction<EatAction>(),0)
+  Do: return Frame(Recipient,EatAction(),0)
 - Name: Pick stuff up
   Condition:
     - Place.Items.Any()
     - GetFinalAction<PickUpAction>() != null
-  Do: new PickUpFrame((IActor)Recipient,GetFinalAction<PickUpAction>(),Place.Items.FirstOrDefault(),Place,0)
+  Do: return PickUpFrame(Recipient,PickUpAction(),Place.Items[0],Place,0)
 - Name: Equip Stuff
   Condition:
     - Items.Any(i=>((IActor)Recipient).CanEquip(i, out _))
     - GetFinalAction<EquipmentAction>() != null
   Do: |
-        new EquipmentFrame
+        return EquipmentFrame
         (
-           (IActor)Recipient,
-           GetFinalAction<EquipmentAction>(),
+           Recipient,
+           EquipmentAction(),
            EquipmentActionToPerform.PutOn,
-           Items.FirstOrDefault(i=>((IActor)Recipient).CanEquip(i,out _))
+           GetFirstEquippableItem(Recipient)
         )
 - Name: Fight Enemies
   Condition: 
     - Place.Actors.Any(o=>RelationshipTo(o) < -20)
     - GetFinalAction<FightAction>() != null
   Do: |
-        new FightFrame(
-           (IActor)Recipient,
+        return FightFrame(
+           Recipient,
            Place.Actors.OrderBy(o=>RelationshipTo(o)).FirstOrDefault(),
-           GetFinalAction<FightAction>(),
-           World.InjurySystems.First(),
+           FightAction(),
+           World.InjurySystems[0],
            -20)
 

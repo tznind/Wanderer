@@ -74,7 +74,7 @@ namespace Tests.Actors
   Dialogue: 
     Next: e088ff6e-60de-4a59-a9d8-b9406a2aed7c
   Require: 
-    - BaseStats[Stat.Savvy] > 50
+    - return BaseStats[Stat.Savvy] > 50
 ";
             var you = YouInARoom(out IWorld w);
 
@@ -94,7 +94,7 @@ namespace Tests.Actors
 
             w.RunRound(ui,new DialogueAction());
 
-            Assert.Contains(@"Item requirements not met:BaseStats[Stat.Savvy] > 50",ui.MessagesShown);
+            Assert.Contains(@"Item requirements not met:return BaseStats[Stat.Savvy] > 50",ui.MessagesShown);
 
             you.BaseStats[Stat.Savvy] = 51;
 

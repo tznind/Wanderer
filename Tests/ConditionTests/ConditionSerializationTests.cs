@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Moq;
 using NUnit.Framework;
+using Wanderer;
 using Wanderer.Actors;
 using Wanderer.Factories;
 using YamlDotNet.Core;
@@ -13,8 +14,8 @@ namespace Tests.ConditionTests
 {
     class ConditionSerializationTests : UnitTest
     {
-        [TestCase("false")]
-        [TestCase("true")]
+        [TestCase("return false")]
+        [TestCase("return true")]
         public void TestConstructors(string condition)
         {
             var yaml =
@@ -26,7 +27,7 @@ namespace Tests.ConditionTests
             var itemFactory = new YamlItemFactory(yaml,new AdjectiveFactory());
             var createdInstance = itemFactory.Blueprints.Single().Require.Single();
 
-            Assert.AreEqual(condition == "true", createdInstance.IsMet(Mock.Of<IActor>()));
+            Assert.AreEqual(condition == "return true", createdInstance.IsMet(new World(),Mock.Of<IActor>()));
 
         }
     }

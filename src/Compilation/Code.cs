@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using Microsoft.CodeAnalysis.Scripting;
 using Newtonsoft.Json;
 using NLua;
 using Wanderer.Stats;
@@ -21,22 +20,6 @@ namespace Wanderer.Compilation
         public Code(string script)
         {
             Script = script;
-        }
-
-
-        protected ScriptOptions GetScriptOptions()
-        {
-            return ScriptOptions.Default
-                .WithReferences(typeof(ICondition<>).Assembly)
-                .WithImports(
-                    "Wanderer.Stats", 
-                    "System",
-                    "System.Linq",
-                    "Wanderer",
-                    "Wanderer.Actors",
-                    "Wanderer.Actions",
-                    "Wanderer.Systems",
-                    "Wanderer.Adjectives");
         }
 
         public Lua GetLua(IWorld world,object o)
@@ -79,7 +62,8 @@ import ('Wanderer','Wanderer.Adjectives')
 
             //setup Fight as alias for Stat.Fight etc
             foreach(Stat val in Enum.GetValues(typeof(Stat)))
-                lua[val.ToString()] = val;
+                if(val != Stat.None)
+                    lua[val.ToString()] = val;
 
             return lua;
         }

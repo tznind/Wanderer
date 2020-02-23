@@ -5,6 +5,7 @@ using Wanderer.Actions;
 using Wanderer.Actors;
 using Wanderer.Adjectives;
 using Wanderer.Behaviours;
+using Wanderer.Compilation;
 using Wanderer.Dialogues;
 using Wanderer.Stats;
 
@@ -120,6 +121,18 @@ namespace Wanderer
                     GetAllHaves().Any(a => a.Identifier == g);
 
             return false;
+        }
+
+        public bool Has(string typename)
+        {
+            var types = Compiler.Instance.TypeFactory.Create<IHasStats>(true,true);
+            return Has(types.GetTypeNamed(typename));
+        }
+
+        public bool Has(Type type)
+        {
+            return this.GetType() == type ||
+            GetAllHaves().Any(a => a.GetType() == type);
         }
     }
 }

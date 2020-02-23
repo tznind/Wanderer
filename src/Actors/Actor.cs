@@ -227,5 +227,38 @@ namespace Wanderer.Actors
                     .Union(Items)
                     .Union(Items.SelectMany(i=>i.GetAllHaves()));
         }
+
+        public double DistanceTo(IActor actor)
+        {
+            var world = CurrentLocation.World;
+
+            return world.Map.GetPoint(CurrentLocation).Distance(world.Map.GetPoint(actor.CurrentLocation));
+        }
+
+        public IActor BestFriend(bool inSameLocation, double threshold)
+        {
+            var world = CurrentLocation.World;
+            var relationships = world.Relationships;
+            var consider = inSameLocation ? 
+                    GetCurrentLocationSiblings(false)
+                    : world.Population.ToArray();
+
+            return consider.OrderByDescending(a=>relationships.SumBetween(this,a))
+                            .Where(a=>relationships.SumBetween(this,a) > threshold)
+                            .FirstOrDefault();
+        }
+
+        public IActor WorstEnemy(bool inSameLocation, double threshold)
+        {
+            var world = CurrentLocation.World;
+            var relationships = world.Relationships;
+            var consider = inSameLocation ? 
+                    GetCurrentLocationSiblings(false)
+                    : world.Population.ToArray();
+
+            return consider.OrderBy(a=>relationships.SumBetween(this,a))
+                            .Where(a=>relationships.SumBetween(this,a) < threshold)
+                            .FirstOrDefault();
+        }
     }
 }

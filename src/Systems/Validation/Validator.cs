@@ -130,7 +130,7 @@ namespace Wanderer.Systems.Validation
             {
                 try
                 {
-                    condition.IsMet(new SystemArgs(world,null,0,null,actor,Guid.Empty));
+                    condition.IsMet(world,new SystemArgs(world,null,0,null,actor,Guid.Empty));
                 }
                 catch(Exception e)
                 {
@@ -209,7 +209,7 @@ namespace Wanderer.Systems.Validation
             {
                 try
                 {
-                    condition.IsMet(new SystemArgs(world,null, 0, GetTestActor(room), recipient, Guid.Empty));
+                    condition.IsMet(world,new SystemArgs(world,null, 0, GetTestActor(room), recipient, Guid.Empty));
                 }
                 catch (Exception e)
                 {
@@ -222,7 +222,7 @@ namespace Wanderer.Systems.Validation
                 {
                     try
                     {
-                        condition.IsMet(new SystemArgs(world,null, 0, GetTestActor(room), recipient, Guid.Empty));
+                        condition.IsMet(world,new SystemArgs(world,null, 0, GetTestActor(room), recipient, Guid.Empty));
                     }
                     catch (Exception e)
                     {
