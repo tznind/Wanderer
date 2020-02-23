@@ -43,6 +43,9 @@ namespace Wanderer.Plans
                     //then this is what we would do
                     var frame = plan.Do.GetFrame(args);
 
+                    if(frame == null)
+                        throw new Exception($"Plan {plan} returned a null Frame");
+
                     //do some sanity checking, can we pick that action?
                     if (actor.GetFinalActions().Any(a => a.AreIdentical(frame.Action)))
                     {

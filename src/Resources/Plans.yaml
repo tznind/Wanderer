@@ -1,35 +1,39 @@
 - Name: Eat if hungry
   Condition:
-    - Recipient.Has(new Guid("89c18233-5250-4445-8799-faa9a888fb7f"))
-    - GetFinalAction<EatAction>() != null
+    - return Recipient:Has(Guid("89c18233-5250-4445-8799-faa9a888fb7f"))
+    - return Recipient:GetFinalActions():HasAction('Eat')
 
-  Do: return Frame(Recipient,EatAction(),0)
+  Do: |
+        return
+            Frame(
+               Recipient,
+               Recipient:GetFinalActions():GetAction('Eat'),
+               0)
 - Name: Pick stuff up
   Condition:
-    - Place.Items.Any()
-    - GetFinalAction<PickUpAction>() != null
+    - return Place.Items.Count > 0
+    - return Recipient:GetFinalActions():HasAction('PickUp')
   Do: return PickUpFrame(Recipient,PickUpAction(),Place.Items[0],Place,0)
 - Name: Equip Stuff
   Condition:
-    - Items.Any(i=>((IActor)Recipient).CanEquip(i, out _))
-    - GetFinalAction<EquipmentAction>() != null
+    - return GetFirstEquippableItem(Recipient) ~= nil
+    - return Recipient:GetFinalActions():HasAction('Equipment')
   Do: |
-        return EquipmentFrame
-        (
+        return EquipmentFrame(
            Recipient,
-           EquipmentAction(),
+           Recipient:GetFinalActions():GetAction('Equipment'),
            EquipmentActionToPerform.PutOn,
            GetFirstEquippableItem(Recipient)
         )
 - Name: Fight Enemies
   Condition: 
-    - Place.Actors.Any(o=>RelationshipTo(o) < -20)
-    - GetFinalAction<FightAction>() != null
+    - return Recipient:WorstEnemy(true,-20) ~= nil
+    - return Recipient:GetFinalActions():HasAction('Fight')
   Do: |
         return FightFrame(
            Recipient,
-           Place.Actors.OrderBy(o=>RelationshipTo(o)).FirstOrDefault(),
-           FightAction(),
+           Recipient:WorstEnemy(true,-20),
+           Recipient:GetFinalActions():GetAction('Fight'),
            World.InjurySystems[0],
            -20)
 

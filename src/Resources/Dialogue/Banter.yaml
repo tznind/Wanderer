@@ -2,7 +2,7 @@
   Body: 
     - Text: "Greetings {AggressorIfAny}, may the emperor shine on your presence"
   Require:
-    - Relationship >= 0
+    - return Recipient:AttitudeTo(AggressorIfAny) >= 0
   Options:
   - Destination: 
     Attitude: 10
@@ -14,7 +14,7 @@
   Body: 
     - Text: "Listen buddy, we aint friends.  I got nothing to say to you"
   Require:
-    - Relationship < 0
+    - return Recipient:AttitudeTo(AggressorIfAny) < 0
 
 
 # Wildlife banter  

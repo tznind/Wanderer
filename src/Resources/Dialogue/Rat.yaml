@@ -5,20 +5,20 @@
     - Text: "Squeak (this creature seems"
     - Text: friendly)
       Condition: 
-        - Relationship > 1
+        - return Recipient:AttitudeTo(AggressorIfAny) > 1
     - Text: hostile)
       Condition: 
-        - Relationship < -1
+        - return Recipient:AttitudeTo(AggressorIfAny) < -1
     - Text: indifferent)
       Condition: 
-        - Math.Abs(Relationship) <= 0.001
+        - return Recipient:AttitudeTo(AggressorIfAny) == 0
 - Identifier: 8f6ffb26-01ab-4d0a-8083-2fff3475187d
   Body: 
     - Text: "The first thing that hits you upon entering this room is the overwhelming musky scent of damp vermin.  The walls trickle with moisture and forms pools in the floor.  Everywhere you look scurry the dark shapes of rats.  Dominating the center of the room is a large bone and fur throne."
     - Text: "Resplendent in the throne sits a thin grey old lady with wiry hair down to her knees.  You have heard whispered tales of this witch.. she is The Rat Queen"
       Condition:
          #Rat queen is present
-       - Recipient.Has(new Guid("92320a7c-a7d3-4abb-933c-45a4450f778e"))
+       - return Place:Has(Guid("92320a7c-a7d3-4abb-933c-45a4450f778e"))
   Options:
     - Text: Leave
     - Text: Approach

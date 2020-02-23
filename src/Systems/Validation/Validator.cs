@@ -144,7 +144,12 @@ namespace Wanderer.Systems.Validation
                 if(plan.Do == null )
                     AddError($"Plan '{plan}' has no DoFrame");
                 else
-                    plan.Do.GetFrame(new SystemArgs(world,null,0,null,actor,Guid.Empty));
+                {
+                    var f = plan.Do.GetFrame(new SystemArgs(world,null,0,null,actor,Guid.Empty));
+
+                    if(f == null)
+                        throw new Exception("Script returned a null Frame");
+                }
             }
             catch(Exception e)
             {
