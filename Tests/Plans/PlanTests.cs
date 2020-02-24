@@ -120,16 +120,15 @@ namespace Tests.Plans
 
             var you = YouInARoom(out IWorld world);
 
-
             var args = new SystemArgs(world,GetUI(),0,null,you,Guid.Empty);
 
-            using(var lua = code.GetLua(world,args))
+            using(var lua = code.Factory.Create(world,args))
                 Assert.IsInstanceOf(typeof(IAction),lua.DoString("return Recipient:GetFinalActions():GetAction('Equipment')")[0]);
 
-            using(var lua = code.GetLua(world,args))
+            using(var lua = code.Factory.Create(world,args))
                 Assert.IsInstanceOf(typeof(EquipmentActionToPerform),lua.DoString("return EquipmentActionToPerform.PutOn")[0]);
 
-            using(var lua = code.GetLua(world,args))
+            using(var lua = code.Factory.Create(world,args))
                 Assert.IsNull(lua.DoString("return GetFirstEquippableItem(Recipient)")[0]);
     
             Assert.IsNotNull(code.GetFrame(args));

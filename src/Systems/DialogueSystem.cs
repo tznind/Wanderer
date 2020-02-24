@@ -8,6 +8,7 @@ using Wanderer.Actors;
 using Wanderer.Compilation;
 using Wanderer.Dialogues;
 using Wanderer.Extensions;
+using Wanderer.Factories;
 
 namespace Wanderer.Systems
 {
@@ -90,18 +91,18 @@ namespace Wanderer.Systems
                     sb.Append(' ');
                 }
 
-            return Regex.Replace(sb.ToString(), @"{\s*(\w+)\s*}", m=>ReplaceProperty(m,args)).Trim();
+            return Regex.Replace(sb.ToString(), @"{([^}]+)}", m=>ReplaceWithLua(m,args)).Trim();
         }
 
-        private string ReplaceProperty(Match match, SystemArgs args)
+        private string ReplaceWithLua(Match match, SystemArgs args)
         {
+            var code = match.Groups[1].Value.Trim();
 
-            var prop = args.GetType().GetProperty(match.Groups[1].Value);
+            if(!code.StartsWith("return"))
+                code = "return " + code;
 
-            if(prop == null)
-                throw new ParseException($"Unknown Property '{match.Groups[1].Value}'");
-
-            return prop.GetValue(args)?.ToString() ?? "Null";
+            using(var lua = new LuaFactory().Create(args.World,args))
+                return lua.DoString(code)?.ElementAt(0)?.ToString();
         }
 
         private void Run(SystemArgs args, DialogueOption option)

@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
+using NLua;
 using Wanderer.Actions;
 using Wanderer.Actors;
 using Wanderer.Behaviours;
@@ -185,5 +186,6 @@ namespace Wanderer
 
             return factionRooms.Union(new[] {RoomFactory}).ToArray().GetRandom(R).Create(this);
         }
+
     }
 }

@@ -7,6 +7,7 @@ using NUnit.Framework;
 using Wanderer;
 using Wanderer.Actors;
 using Wanderer.Compilation;
+using Wanderer.Factories;
 using Wanderer.Items;
 using Wanderer.Stats;
 using Wanderer.Systems;
@@ -180,14 +181,11 @@ import ('Wanderer','Wanderer.Places')
         {
             var you = YouInARoom(out IWorld world);
 
-            var code = new ConditionCode<SystemArgs>("condition = Place:GetFinalStats(you)[Stat.Corruption] > 50");
+            var code = new ConditionCode<SystemArgs>("return Place:GetFinalStats(AggressorIfAny)[Corruption] > 50");
 
             var args = new SystemArgs(world,GetUI(),0,null,you,Guid.Empty);
 
-            var lua = code.GetLua(world,args);
-
-            lua.DoString(code.Script);
-            Assert.AreEqual(false,lua["condition"]);
+            Assert.AreEqual(false,code.IsMet(world,args));
         }
 
         [Test]
@@ -200,13 +198,12 @@ import ('Wanderer','Wanderer.Places')
 
             var args = new SystemArgs(world,GetUI(),0,null,you,Guid.Empty);
 
-            var lua = code.GetLua(world,args);
-
-            lua.DoString(code.Script);
-            Assert.AreEqual("fish",you.CurrentLocation.Name);
+            using(var lua = code.Factory.Create(world,args))
+            {
+               lua.DoString(code.Script);
+               Assert.AreEqual("fish",you.CurrentLocation.Name);
+            }
         }
-
-
 
         [Test]
         public void TestLua_ConstructGuid()
@@ -242,7 +239,8 @@ import ('Wanderer','Wanderer.Places')
                 lua.DoString("return Guid.Parse('adc70ae1-769e-4ace-aa83-928a604c5739')")[0]);
 
 
-                Code.ApplyGuidConstructorFix(lua);
+                
+                LuaFactory.ApplyGuidConstructorFix(lua);
 
                 Assert.AreEqual(
                     new Guid("adc70ae1-769e-4ace-aa83-928a604c5739"),
@@ -275,9 +273,9 @@ import ('Wanderer','Wanderer.Places')
         {
             var you = YouInARoom(out IWorld world);
 
-            var ec = new EffectCode("");
+            var f = new LuaFactory();
             
-            using (var lua = ec.GetLua(world, null))
+            using (var lua = f.Create(world, null))
             {
                 lua["you"] = you;
                 

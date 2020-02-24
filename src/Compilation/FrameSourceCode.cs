@@ -12,7 +12,7 @@ namespace Wanderer.Compilation
         {
             try
             {
-                using(var lua = GetLua(args.World,args))
+                using(var lua = Factory.Create(args.World,args))
                     return (Frame)lua.DoString(Script)[0];
             }
             catch(Exception ex)
