@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using Microsoft.CodeAnalysis.CSharp.Scripting;
+using System.IO;
 using Wanderer.Actions;
 using YamlDotNet.Serialization;
 
@@ -40,5 +39,10 @@ namespace Wanderer.Compilation
         }
 
 
+        public static string GetDefaultResourcesDirectory()
+        {
+            string entry = System.Reflection.Assembly.GetEntryAssembly()?.Location;
+            return Path.Combine(entry == null ? Environment.CurrentDirectory : Path.GetDirectoryName(entry) ?? ".","Resources");
+        }
     }
 }

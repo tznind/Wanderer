@@ -20,8 +20,7 @@ namespace Wanderer.Factories
 
         public WorldFactory()
         {
-            string entry = System.Reflection.Assembly.GetEntryAssembly()?.Location;
-            ResourcesDirectory = Path.Combine(entry == null ? Environment.CurrentDirectory : Path.GetDirectoryName(entry) ?? ".","Resources");
+            ResourcesDirectory = Compiler.GetDefaultResourcesDirectory();
         }
 
         SlotCollection _defaultSlots;
@@ -30,6 +29,7 @@ namespace Wanderer.Factories
         public virtual IWorld Create()
         {
             var world = new World();
+            world.ResourcesDirectory = ResourcesDirectory;
 
             _defaultSlots = GetDefaultSlots();
             _defaultItems = GetDefaultItems();

@@ -8,6 +8,7 @@ using Wanderer.Actions;
 using Wanderer.Actors;
 using Wanderer.Adjectives;
 using Wanderer.Compilation;
+using Wanderer.Items;
 using Wanderer.Plans;
 using Wanderer.Systems;
 
@@ -23,10 +24,10 @@ namespace Tests.Plans
             var ifHungryEatPlan = new Plan()
             {
                 Do = new FrameSourceCode(
-                    @"new Frame((IActor)Recipient,((IActor)Recipient).GetFinalActions().OfType<EatAction>().FirstOrDefault(),0)"),
+                    @"return Frame(Recipient,EatAction(),0)"),
                 Condition =
                 {
-                    new ConditionCode<SystemArgs>("Recipient.Adjectives.OfType<IInjured>().Any(a=>a.InjurySystem is HungerInjurySystem)")
+                    new ConditionCode<SystemArgs>("return Recipient:Has(Guid('89c18233-5250-4445-8799-faa9a888fb7f'))")
                 }
             };
 
@@ -74,8 +75,8 @@ namespace Tests.Plans
             string yaml = @"
 - Name: Eat if hungry
   Condition:
-    - Recipient.Has(new Guid(""89c18233-5250-4445-8799-faa9a888fb7f""))
-  Do: new Frame(Recipient,GetFinalActions().OfType<EatAction>().FirstOrDefault(),0)
+    - return true
+  Do: return nil
   ";
 
             var plans = Compiler.Instance.Deserializer.Deserialize<Plan[]>(yaml);
@@ -105,6 +106,34 @@ namespace Tests.Plans
             //they should follow you
             Assert.AreEqual(you.CurrentLocation,them.CurrentLocation);
             Assert.IsInstanceOf(typeof(LeaveFrame),((Npc)them).Plan);
+        }
+
+        [Test]
+        public void TestDoFrame()
+        {
+            var code = new FrameSourceCode(@"return EquipmentFrame(
+           Recipient,
+           Recipient:GetFinalActions():GetAction('Equipment'),
+           EquipmentActionToPerform.PutOn,
+           nil
+        )");
+
+            var you = YouInARoom(out IWorld world);
+
+
+            var args = new SystemArgs(world,GetUI(),0,null,you,Guid.Empty);
+
+            using(var lua = code.GetLua(world,args))
+                Assert.IsInstanceOf(typeof(IAction),lua.DoString("return Recipient:GetFinalActions():GetAction('Equipment')")[0]);
+
+            using(var lua = code.GetLua(world,args))
+                Assert.IsInstanceOf(typeof(EquipmentActionToPerform),lua.DoString("return EquipmentActionToPerform.PutOn")[0]);
+
+            using(var lua = code.GetLua(world,args))
+                Assert.IsNull(lua.DoString("return GetFirstEquippableItem(Recipient)")[0]);
+    
+            Assert.IsNotNull(code.GetFrame(args));
+
         }
     }
 }

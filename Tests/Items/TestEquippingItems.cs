@@ -92,7 +92,7 @@ namespace Tests.Items
     Name: Chest
     NumberRequired: 1
   Require: 
-    - BaseStats[Stat.Fight] <= 10
+    - return BaseStats[Stat.Fight] <= 10
 ";
 
                 var you = YouInARoom(out IWorld w);
@@ -109,7 +109,7 @@ namespace Tests.Items
 
                 Assert.IsFalse(shirt.IsEquipped);
 
-                Assert.Contains(@"Item requirements not met:BaseStats[Stat.Fight] <= 10",ui.MessagesShown);
+                Assert.Contains(@"Item requirements not met:return BaseStats[Stat.Fight] <= 10",ui.MessagesShown);
 
                 you.BaseStats[Stat.Fight] = 10;
             

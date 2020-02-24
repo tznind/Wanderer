@@ -2,7 +2,7 @@
   Body: 
     - Text: "Greetings {AggressorIfAny}, may the emperor shine on your presence"
   Require:
-    - Relationship >= 0
+    - return Recipient:AttitudeTo(AggressorIfAny) >= 0
   Options:
   - Destination: 
     Attitude: 10
@@ -14,7 +14,7 @@
   Body: 
     - Text: "Listen buddy, we aint friends.  I got nothing to say to you"
   Require:
-    - Relationship < 0
+    - return Recipient:AttitudeTo(AggressorIfAny) < 0
 
 
 # Wildlife banter  
@@ -23,13 +23,13 @@
     - Text: "Screeeee (this creature seems"
     - Text: friendly)
       Condition: 
-        - Relationship > 0
+        - return Recipient:AttitudeTo(AggressorIfAny) > 0
     - Text: hostile)
       Condition: 
-        - Relationship < 0
+        - return Recipient:AttitudeTo(AggressorIfAny) < 0
     - Text: indifferent)
       Condition: 
-        - Relationship == 0
+        - return Recipient:AttitudeTo(AggressorIfAny) == 0
     
 - Identifier: e088ff6e-60de-4a59-a9d8-b9406a2aed7c
   Body: 
@@ -104,9 +104,9 @@
   Options:   
     - Text: I'm gonna turn this ship into a Graveyard
       Effect: 
-        - AggressorIfAny.BaseStats[Stat.Fight] += 20
+        - AggressorIfAny.BaseStats:Increase(Fight, 20)
         - Recipient.Dialogue.Next = null
     - Text: One day this ship and everyone in it will be mine
       Effect: 
-        - AggressorIfAny.BaseStats[Stat.Coerce] += 20
+        - AggressorIfAny.BaseStats:Increase(Coerce,20)
         - Recipient.Dialogue.Next = null

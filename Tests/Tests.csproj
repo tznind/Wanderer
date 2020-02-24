@@ -10,6 +10,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DialoguesTests\**" />
+    <EmbeddedResource Remove="DialoguesTests\**" />
+    <None Remove="DialoguesTests\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="coveralls.io" Version="1.4.2" />
     <PackageReference Include="Moq" Version="4.13.1" />
     <PackageReference Include="nunit" Version="3.12.0" />
@@ -20,10 +26,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\src\Wanderer.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="DialoguesTests\" />
   </ItemGroup>
 
 </Project>

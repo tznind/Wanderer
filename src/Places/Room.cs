@@ -22,7 +22,7 @@ namespace Wanderer.Places
         /// <inheritdoc/>
         public char Tile { get; set; } = '.';
 
-        public HashSet<IItem> Items { get;set; } = new HashSet<IItem>();
+        public List<IItem> Items { get;set; } = new List<IItem>();
         
         public HashSet<Direction> LeaveDirections { get; set; } = new HashSet<Direction>(new []{Direction.North,Direction.South,Direction.East,Direction.West});
         

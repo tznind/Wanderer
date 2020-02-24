@@ -1,32 +1,29 @@
 ﻿using System;
-using Microsoft.CodeAnalysis.CSharp.Scripting;
-using Microsoft.CodeAnalysis.Scripting;
 
 namespace Wanderer.Compilation
 {
     public class ConditionCode<T> : Code, ICondition<T>
     {
-        private Script<bool> _script;
 
-        public ConditionCode(string csharpCode):base(csharpCode)
+        public ConditionCode(string script):base(script)
         {
-            _script = CSharpScript.Create<bool>(csharpCode, GetScriptOptions(),typeof(T));
         }
-        public bool IsMet(T forObject)
+        public bool IsMet(IWorld world,T forObject)
         {
             try
             {
-                return _script.RunAsync(forObject).Result.ReturnValue;
+                using(var lua = GetLua(world,forObject))
+                    return (bool)lua.DoString(Script)[0];
             }
             catch(Exception ex)
             {
-                throw new Exception($"Error executing '{GetType().Name}' script code '{CsharpCode}'.  T was typeof({typeof(T)}) and had value '{forObject}'",ex);
+                throw new Exception($"Error executing '{GetType().Name}' script code '{Script}'.  T was typeof({typeof(T)}) and had value '{forObject}'",ex);
             }
         }
 
-        public bool IsMet(object o)
+        public bool IsMet(IWorld world,object o)
         {
-            return IsMet((T) o);
+            return IsMet(world,(T) o);
         }
     }
 }

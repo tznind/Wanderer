@@ -30,7 +30,7 @@ namespace Wanderer.Actors
         /// <summary>
         /// Items that the actor owns
         /// </summary>
-        HashSet<IItem> Items { get;set; }
+        List<IItem> Items { get;set; }
 
         /// <summary>
         /// How many of each body part does the actor have in which he can equip stuff
@@ -133,5 +133,15 @@ namespace Wanderer.Actors
         /// <returns></returns>
         double AttitudeTo(IActor other);
 
+
+        /// <summary>
+        /// Returns the distance to the other <paramref name="actor"/> 
+        /// </summary>
+        /// <param name="actor"></param>
+        /// <returns></returns>
+        double DistanceTo(IActor actor);
+
+        IActor BestFriend(bool inSameLocation, double threshold);
+        IActor WorstEnemy(bool inSameLocation, double threshold);
     }
 }

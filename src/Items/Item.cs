@@ -62,7 +62,7 @@ namespace Wanderer.Items
                 return false;
             }
             
-            if(!Require.All(c => c.IsMet(actor)))
+            if(!Require.All(c => c.IsMet(actor.CurrentLocation.World,actor)))
             {
                 reason = "Item requirements not met:" + string.Join(Environment.NewLine,Require.Select(r=>r.ToString()));
                 return false;
@@ -86,7 +86,7 @@ namespace Wanderer.Items
                 return false;
 
             //it has unique conditions that are not met yet
-            return Require.All(r => r.IsMet(forActor));
+            return Require.All(r => r.IsMet(forActor.CurrentLocation.World,forActor));
         }
         public override StatsCollection GetFinalStats(IActor forActor)
         {

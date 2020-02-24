@@ -27,7 +27,7 @@ namespace Wanderer.Systems
                 var d = GetDialogue(args.Recipient.Dialogue.Next);
                     
                 //if there is no main dialogue set or its conditions are not yet met, fall back on banter
-                if(d == null || !d.Require.All(c=>c.IsMet(args)))
+                if(d == null || !d.Require.All(c=>c.IsMet(args.World,args)))
                     d =  GetBanter(args);
                 
                 if (d != null)
@@ -84,7 +84,7 @@ namespace Wanderer.Systems
             StringBuilder sb = new StringBuilder();
 
             foreach (TextBlock block in body)
-                if (block.Condition.All(c => c.IsMet(args)))
+                if (block.Condition.All(c => c.IsMet(args.World,args)))
                 {
                     sb.Append(block.Text);
                     sb.Append(' ');
@@ -125,7 +125,7 @@ namespace Wanderer.Systems
         public DialogueNode GetBanter(SystemArgs args)
         {
             var valid = GetDialogues(args.Recipient.Dialogue.Banter)
-                .Where(d => d.Require.All(c => c.IsMet(args)))
+                .Where(d => d.Require.All(c => c.IsMet(args.World,args)))
                 .ToArray();
 
             if (valid.Any())
