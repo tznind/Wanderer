@@ -8,6 +8,9 @@ namespace Wanderer.Actions
 {
     public class InspectAction : Action
     {
+
+        public override char HotKey => 'i';
+        
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
         {
             if (actor.Decide(ui, "Inspect", null, out IActor toInspect, GetTargets(actor),0))

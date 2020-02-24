@@ -10,6 +10,9 @@ namespace Wanderer.Actions
 {
     public class DialogueAction:Action
     {
+
+        public override char HotKey => 'o';
+
         public DialogueAction()
         {
             Name = "Other";

@@ -7,6 +7,8 @@ namespace Wanderer.Actions
 {
     public class GiveAction : Action
     {
+
+        public override char HotKey => 'g';
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
         {
             if(actor.Decide(ui,"Give","Select an item to give",out IItem toGive, GetTargets(actor),-10))

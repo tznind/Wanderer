@@ -7,6 +7,9 @@ namespace Wanderer.Actions
 {
     public class LoadGunsAction : Action
     {
+
+        public override char HotKey => 'n';
+
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
         {
             stack.Push(new Frame(actor,this,0));

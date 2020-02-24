@@ -6,6 +6,9 @@ namespace Wanderer.Actions
 {
     public class HealAction : Action
     {
+
+        public override char HotKey => 'h';
+
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
         {
             if (actor.Decide(ui, "Heal", "Choose who to heal", out IActor target, GetTargets(actor), 10))

@@ -5,6 +5,9 @@ namespace Wanderer.Actions.Coercion
 {
     public class CoerceAction : Action
     {
+
+        public override char HotKey => 'c';
+        
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
         {
             //pick a target 

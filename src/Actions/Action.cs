@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Newtonsoft.Json;
 using Wanderer.Actors;
 using Wanderer.Behaviours;
 
@@ -11,6 +12,9 @@ namespace Wanderer.Actions
     {
         /// <inheritdoc/>
         public string Name { get; set; }
+
+        [JsonIgnore]
+        public abstract char HotKey {get;}
 
         /// <summary>
         /// Initializes action with a default <see cref="Name"/> based on the class name

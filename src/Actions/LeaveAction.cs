@@ -8,6 +8,9 @@ namespace Wanderer.Actions
 {
     public class LeaveAction : Action
     {
+
+        public override char HotKey => 'l';
+        
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
         {
             //ask actor to pick a direction

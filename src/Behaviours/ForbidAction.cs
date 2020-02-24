@@ -5,6 +5,8 @@ namespace Wanderer.Behaviours
 {
     internal class ForbidAction : Action
     {
+        public override char HotKey => '-';
+
         private readonly Frame _toForbid;
 
         public ForbidAction(Frame toForbid)
