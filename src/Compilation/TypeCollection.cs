@@ -23,7 +23,7 @@ namespace Wanderer.Compilation
              var match = this.Where(t=>t.Name.Equals(name)).ToArray();
 
              if(match.Length != 1)
-                 throw new Exception($"Found {match} types called '{name}' (with BaseType {BaseType})");
+                 throw new Exception($"Found {match.Length} types called '{name}' (with BaseType {BaseType})");
 
             return match[0];
         }
