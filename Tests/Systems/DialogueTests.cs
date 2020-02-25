@@ -75,7 +75,7 @@ namespace Tests.Systems
                 Body = new TextBlock[]{new TextBlock("Hello Friend") },
                 Require = new List<ICondition<SystemArgs>>()
                 {
-                    new ConditionCode<SystemArgs>("((IActor)Recipient).AttitudeTo(AggressorIfAny) > 5")
+                    new ConditionCode<SystemArgs>("return Recipient:AttitudeTo(AggressorIfAny) > 5")
                 }
 
             };
@@ -85,7 +85,7 @@ namespace Tests.Systems
                 Body = new TextBlock[]{new TextBlock("Hello Foe") },
                 Require = new List<ICondition<SystemArgs>>()
                 {
-                    new ConditionCode<SystemArgs>("((IActor)Recipient).AttitudeTo(AggressorIfAny) < -4")
+                    new ConditionCode<SystemArgs>("return Recipient:AttitudeTo(AggressorIfAny) < -4")
                 }
             };
 
@@ -126,6 +126,25 @@ namespace Tests.Systems
             
         }
 
+        [Test]
+        public void Test_AdvancedSubstitution()
+        {
+            TwoInARoomWithRelationship(-50,false,out You you,out IActor npc, out IWorld world);
+            you.Name = "Flash";
+            npc.Dialogue.Next = new Guid("339271e0-7b11-4aba-a9e2-2776f6c5a197");
+
+            var yaml = @"- Identifier: 339271e0-7b11-4aba-a9e2-2776f6c5a197
+  Body: 
+    - Text: ""I really hate {Recipient:WorstEnemy(false,-10)}""";
+         
+            var dlg = new YamlDialogueSystem(yaml);
+
+            var ui = GetUI();
+            dlg.Apply(new SystemArgs(world,ui,0,you,npc,Guid.Empty));
+            Assert.Contains("I really hate Flash",ui.MessagesShown);
+            
+        }
+
         [TestCase(true)]
         [TestCase(false)]
         public void Test_Substitutions(bool areFriends)
@@ -139,13 +158,13 @@ namespace Tests.Systems
   Body: 
     - Text: Screeeee (this creature seems friendly)
       Condition: 
-        - Relationship > 0
+        - return Recipient:AttitudeTo(AggressorIfAny) > 0
     - Text: Screeeee (this creature seems hostile)
       Condition: 
-        - Relationship < 0
+        - return Recipient:AttitudeTo(AggressorIfAny)  < 0
     - Text: Screeeee (this creature seems indifferent)
       Condition: 
-        - Relationship == 0";
+        - return Recipient:AttitudeTo(AggressorIfAny) == 0";
             
             var dlg = new YamlDialogueSystem(yaml);
 
@@ -167,10 +186,10 @@ namespace Tests.Systems
     - Text: This room is
     - Text: Pitch Black
       Condition: 
-        - ""!Place.Has<Light>()""
+        - return Place:Has('Light') == false
     - Text: Dimly Illuminated
       Condition: 
-        - Place.Has<Light>()";
+        - return Place:Has('Light')";
 
             var system = new YamlDialogueSystem(yaml);
             Assert.IsNotNull(system);
@@ -203,10 +222,10 @@ namespace Tests.Systems
     - Text: The denizens of this degenerate bar 
     - Text: make you nervous
       Condition: 
-        - ""!(AggressorIfAny.GetFinalStats()[Stat.Corruption] > 5)""
+        - return AggressorIfAny:GetFinalStats()[Stat.Corruption] <= 5
     - Text: seem like your kind of people
       Condition: 
-        - AggressorIfAny.GetFinalStats()[Stat.Corruption] > 5";
+        - return AggressorIfAny:GetFinalStats()[Stat.Corruption] > 5";
 
             var system = new YamlDialogueSystem(yaml);
             Assert.IsNotNull(system);

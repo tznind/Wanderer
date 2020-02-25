@@ -11,13 +11,20 @@ namespace Tests.Actions
         [Test]
         public void TestInspectIsFreeAction()
         {
-            TwoInARoom(out You you, out IActor them, out IWorld _);
+            TwoInARoom(out You you, out IActor them, out IWorld world);
 
             var stack = new ActionStack();
             var ui = GetUI(them);
 
+            var action = new InspectAction();
+            //you can pick them as a target
+            Assert.IsTrue(action.HasTargets(you));
+
+            //do so
             Assert.IsEmpty(ui.StatsShown);
-            Assert.IsFalse(stack.RunStack(Mock.Of<IWorld>(),ui,new InspectAction(),you,null),"Expected Inspect to be a free action");
+            Assert.IsFalse(stack.RunStack(world,ui,action,you,null),"Expected Inspect to be a free action");
+            
+            //you should have seen their stats
             Assert.Contains(them,ui.StatsShown);
         }
     }

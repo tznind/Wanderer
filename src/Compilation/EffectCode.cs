@@ -1,38 +1,25 @@
 ﻿using System;
-using Microsoft.CodeAnalysis.CSharp.Scripting;
-using Microsoft.CodeAnalysis.Scripting;
 using Wanderer.Systems;
 
 namespace Wanderer.Compilation
 {
     public class EffectCode : Code, IEffect
     {
-        private Script _script;
 
-        public EffectCode(string csharpCode):base(csharpCode)
+        public EffectCode(string script):base(script)
         {
-            try
-            {
-                _script = CSharpScript.Create(csharpCode, GetScriptOptions(),typeof(SystemArgs));
-            }
-            catch(Exception ex)
-            {
-                throw new Exception($"Error compiling '{GetType().Name}' script code '{csharpCode}'",ex);
-            }
         }
         public void Apply(SystemArgs args)
         {
             try
             {
-                var result = _script.RunAsync(args).Result;
-
-                if (result.Exception != null)
-                    throw result.Exception;
-
+                
+                using(var lua = Factory.Create(args.World,args))
+                    lua.DoString(Script);
             }
             catch(Exception ex)
             {
-                throw new Exception($"Error executing '{GetType().Name}' script code '{CsharpCode}'.  SystemArgs were for '{args.Recipient}'",ex);
+                throw new Exception($"Error executing '{GetType().Name}' script code '{Script}'.  SystemArgs were for '{args.Recipient}'",ex);
             }
         }
     }

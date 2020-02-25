@@ -16,6 +16,9 @@ namespace Wanderer.Systems.Validation
 {
     public class WorldValidator
     {
+        public int ErrorCount {get;set;} = 0;
+        public int WarningCount {get;set;} = 0;
+
         public StringBuilder Errors { get; set; } = new StringBuilder();
         public bool IncludeStackTraces { get; set; }
         public StringBuilder Warnings { get; set; } = new StringBuilder();
@@ -60,6 +63,8 @@ namespace Wanderer.Systems.Validation
         {
             Errors.AppendLine(msg);
             Errors.AppendLine(IncludeStackTraces ? exception.ToString() : Flatten(exception));
+
+            ErrorCount++;
         }
         private void AddError(string msg)
         {
@@ -71,6 +76,8 @@ namespace Wanderer.Systems.Validation
         {
             Warnings.AppendLine(msg);
             Warnings.AppendLine(IncludeStackTraces ?  exception.ToString() : Flatten(exception));
+
+            WarningCount++;
         }
 
         private string Flatten(Exception ex)
@@ -130,7 +137,7 @@ namespace Wanderer.Systems.Validation
             {
                 try
                 {
-                    condition.IsMet(new SystemArgs(world,null,0,null,actor,Guid.Empty));
+                    condition.IsMet(world,new SystemArgs(world,null,0,null,actor,Guid.Empty));
                 }
                 catch(Exception e)
                 {
@@ -144,7 +151,12 @@ namespace Wanderer.Systems.Validation
                 if(plan.Do == null )
                     AddError($"Plan '{plan}' has no DoFrame");
                 else
-                    plan.Do.GetFrame(new SystemArgs(world,null,0,null,actor,Guid.Empty));
+                {
+                    var f = plan.Do.GetFrame(new SystemArgs(world,null,0,null,actor,Guid.Empty));
+
+                    if(f == null)
+                        throw new Exception("Script returned a null Frame");
+                }
             }
             catch(Exception e)
             {
@@ -209,7 +221,7 @@ namespace Wanderer.Systems.Validation
             {
                 try
                 {
-                    condition.IsMet(new SystemArgs(world,null, 0, GetTestActor(room), recipient, Guid.Empty));
+                    condition.IsMet(world,new SystemArgs(world,null, 0, GetTestActor(room), recipient, Guid.Empty));
                 }
                 catch (Exception e)
                 {
@@ -222,7 +234,7 @@ namespace Wanderer.Systems.Validation
                 {
                     try
                     {
-                        condition.IsMet(new SystemArgs(world,null, 0, GetTestActor(room), recipient, Guid.Empty));
+                        condition.IsMet(world,new SystemArgs(world,null, 0, GetTestActor(room), recipient, Guid.Empty));
                     }
                     catch (Exception e)
                     {

@@ -10,6 +10,9 @@ namespace Wanderer.Actions
 {
     public class DropAction : Action
     {
+
+        public override char HotKey => 'd';
+
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
         {
             if(actor.Decide(ui,"Drop","Select an item to drop",out IItem toDrop, GetTargets(actor),-10))

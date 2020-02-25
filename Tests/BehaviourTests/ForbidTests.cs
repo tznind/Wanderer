@@ -15,13 +15,13 @@ namespace Tests.BehaviourTests
         {
             TwoInARoom(out _, out IActor them, out IWorld w);
 
-            them.BaseBehaviours.Add(new ForbidBehaviour<LeaveAction>(new ConditionCode<LeaveFrame>("Direction == Wanderer.Direction.South"), them));
+            them.BaseBehaviours.Add(new ForbidBehaviour<LeaveAction>(new ConditionCode<LeaveFrame>("return LeaveDirection == Direction.South"), them));
             var behaviour = them.GetFinalBehaviours().OfType<ForbidBehaviour<LeaveAction>>().Single();
             
             //we don't forbid going north
-            Assert.IsFalse(behaviour.Condition.IsMet(new LeaveFrame(them,new LeaveAction(),Direction.North,0)));
+            Assert.IsFalse(behaviour.Condition.IsMet(w,new LeaveFrame(them,new LeaveAction(),Direction.North,0)));
             //we DO forbid going South
-            Assert.IsTrue(behaviour.Condition.IsMet(new LeaveFrame(them,new LeaveAction(),Direction.South,0)));
+            Assert.IsTrue(behaviour.Condition.IsMet(w,new LeaveFrame(them,new LeaveAction(),Direction.South,0)));
 
             var ui = GetUI(Direction.South);
             w.RunRound(ui,new LeaveAction());

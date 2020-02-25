@@ -13,7 +13,7 @@ The goal of this project is to create a game in which you wander a city sized st
 
 Flexibility and extensibility are also core aims.  To this end: 
 
-1. All narrative, dialogues, blueprints etc should come from [external yaml/csharp scripting files](./Resources.md)
+1. All narrative, dialogues, blueprints etc should come from [external yaml/lua scripting files](./Resources.md)
 2. The library (`Wanderer`) must remain seperate from the UI (`Game.csproj`) with a very thin [interface layer](./src/IUserinterface.cs) to allow for any future UI formats.
 
 ![Screenshot of gameplay showing map][screenshot1]
@@ -62,7 +62,7 @@ Other design patterns include:
 [CommandLineParser](https://github.com/commandlineparser/commandline) - For parsing CLI args
 [YamlDotNet](https://github.com/aaubry/YamlDotNet) - Markup language parser
 [JSON.Net](https://github.com/JamesNK/Newtonsoft.Json) - For saving/loading
-[Rosyln](https://github.com/dotnet/roslyn/wiki/Scripting-API-Samples) - For parsing C# in script files
+[NLua](https://github.com/NLua/NLua) - For script files
 
 ## Class Diagram
 

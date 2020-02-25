@@ -23,6 +23,11 @@ namespace Wanderer.Compilation
         {
             var scalar = parser.Consume<Scalar>().Value;
 
+            return ParseScalar(scalar, type);
+        }
+
+        public object ParseScalar(string scalar, Type type)
+        {
             if (string.IsNullOrWhiteSpace(scalar))
                 return null;
 
@@ -43,11 +48,11 @@ namespace Wanderer.Compilation
             var found = _classesOfTypeT.FirstOrDefault(t => t.Name.Equals(scalar));
 
             if(found == null)
-                throw new ParseException("Could not find Type " + scalar);
+                throw new ParseException($"Could not find Type '{scalar}' (either it does not exist or it is not a {typeof(T).Name})");
             
             return Activator.CreateInstance(found);
         }
-        
+
         public void WriteYaml(IEmitter emitter, object value, Type type)
         {
             throw new NotImplementedException();

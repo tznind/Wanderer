@@ -31,7 +31,7 @@ namespace Wanderer.Places
         /// <summary>
         /// Items that are not owned by anyone yet
         /// </summary>
-        HashSet<IItem> Items { get;set; }
+        List<IItem> Items { get;set; }
 
         [JsonIgnore]
         IEnumerable<IActor> Actors { get; }

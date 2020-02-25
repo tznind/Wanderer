@@ -12,14 +12,20 @@ namespace Game.UI
     {
         private List<IHasStats> _roomContentsObjects;
 
-        Terminal.Gui.Attribute? _green;
-        Terminal.Gui.Attribute? _red;
-        Terminal.Gui.Attribute? _normal;
+        Terminal.Gui.Attribute _green;
+        Terminal.Gui.Attribute _red;
+        Terminal.Gui.Attribute _normal;
 
-        public RoomContentsRenderer(List<IHasStats> roomContentsObjects)
+        public RoomContentsRenderer()
         {
-            _roomContentsObjects = roomContentsObjects;
+            _red = Terminal.Gui.Attribute.Make(Color.BrightRed,Color.Black);
+            _green = Terminal.Gui.Attribute.Make(Color.BrightGreen,Color.Black);
+            _normal = Terminal.Gui.Attribute.Make(Color.White,Color.Black);
+        }
 
+        public void SetCollection(List<IHasStats> roomContentsObjects)
+        {
+            _roomContentsObjects = roomContentsObjects;            
         }
 
         public int Count => _roomContentsObjects.Count;
@@ -63,15 +69,6 @@ namespace Game.UI
             ustring = ustring.Substring(0,Math.Min(ustring.Length,width-3)) + suffix;
             ustring = ustring.PadRight(width);
 
-            if(_red == null)
-                _red = driver.MakeAttribute(Color.BrightRed,Color.Black);
-
-            if(_green == null)
-                _green = driver.MakeAttribute(Color.BrightGreen,Color.Black);
-
-            if(_normal == null)
-                _normal = driver.MakeAttribute(Color.White,Color.Black);
-
             int byteLen = ustring.Length;
             int used = 0;
             for (int i = 0; i < byteLen;) 
@@ -82,12 +79,12 @@ namespace Game.UI
                     break;
 
                 if(rune == '-')
-                    driver.SetAttribute(_red.Value);
+                    driver.SetAttribute(_red);
                 else
                 if(rune == '+')
-                    driver.SetAttribute(_green.Value);
+                    driver.SetAttribute(_green);
                 else
-                    driver.SetAttribute(_normal.Value);
+                    driver.SetAttribute(_normal);
 
                 driver.AddRune (rune);
                 used += count;

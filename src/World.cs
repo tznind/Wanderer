@@ -5,9 +5,11 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
+using NLua;
 using Wanderer.Actions;
 using Wanderer.Actors;
 using Wanderer.Behaviours;
+using Wanderer.Compilation;
 using Wanderer.Extensions;
 using Wanderer.Factories;
 using Wanderer.Items;
@@ -46,6 +48,8 @@ namespace Wanderer
         }
 
         public IFactionCollection Factions { get; set; } = new FactionCollection();
+
+        public string ResourcesDirectory { get; set; } = Compiler.GetDefaultResourcesDirectory();
 
         /// <summary>
         /// Returns settings suitable for loading/saving worlds
@@ -182,5 +186,6 @@ namespace Wanderer
 
             return factionRooms.Union(new[] {RoomFactory}).ToArray().GetRandom(R).Create(this);
         }
+
     }
 }

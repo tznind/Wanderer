@@ -8,6 +8,8 @@ namespace Wanderer.Actions
 {
     public class LeadershipAction : Action
     {
+        public override char HotKey => 'p';
+
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
         {
             if(actor.Decide(ui,"Leadership",null,out IActor chosen,GetTargets(actor).ToArray(),0))

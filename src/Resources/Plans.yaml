@@ -1,35 +1,39 @@
 - Name: Eat if hungry
   Condition:
-    - Recipient.Has(new Guid("89c18233-5250-4445-8799-faa9a888fb7f"))
-    - GetFinalAction<EatAction>() != null
+    - return Recipient:Has(Guid("89c18233-5250-4445-8799-faa9a888fb7f"))
+    - return Recipient:GetFinalActions():HasAction('Eat')
 
-  Do: new Frame((IActor)Recipient,GetFinalAction<EatAction>(),0)
+  Do: |
+        return
+            Frame(
+               Recipient,
+               Recipient:GetFinalActions():GetAction('Eat'),
+               0)
 - Name: Pick stuff up
   Condition:
-    - Place.Items.Any()
-    - GetFinalAction<PickUpAction>() != null
-  Do: new PickUpFrame((IActor)Recipient,GetFinalAction<PickUpAction>(),Place.Items.FirstOrDefault(),Place,0)
+    - return Place.Items.Count > 0
+    - return Recipient:GetFinalActions():HasAction('PickUp')
+  Do: return PickUpFrame(Recipient,Recipient:GetFinalActions():GetAction('PickUp'),FirstOrDefault(Place.Items),Place,0)
 - Name: Equip Stuff
   Condition:
-    - Items.Any(i=>((IActor)Recipient).CanEquip(i, out _))
-    - GetFinalAction<EquipmentAction>() != null
+    - return GetFirstEquippableItem(Recipient) ~= nil
+    - return Recipient:GetFinalActions():HasAction('Equipment')
   Do: |
-        new EquipmentFrame
-        (
-           (IActor)Recipient,
-           GetFinalAction<EquipmentAction>(),
+        return EquipmentFrame(
+           Recipient,
+           Recipient:GetFinalActions():GetAction('Equipment'),
            EquipmentActionToPerform.PutOn,
-           Items.FirstOrDefault(i=>((IActor)Recipient).CanEquip(i,out _))
+           GetFirstEquippableItem(Recipient)
         )
 - Name: Fight Enemies
   Condition: 
-    - Place.Actors.Any(o=>RelationshipTo(o) < -20)
-    - GetFinalAction<FightAction>() != null
+    - return Recipient:WorstEnemy(true,-20) ~= nil
+    - return Recipient:GetFinalActions():HasAction('Fight')
   Do: |
-        new FightFrame(
-           (IActor)Recipient,
-           Place.Actors.OrderBy(o=>RelationshipTo(o)).FirstOrDefault(),
-           GetFinalAction<FightAction>(),
-           World.InjurySystems.First(),
+        return FightFrame(
+           Recipient,
+           Recipient:WorstEnemy(true,-20),
+           Recipient:GetFinalActions():GetAction('Fight'),
+           World.InjurySystems[0],
            -20)
 

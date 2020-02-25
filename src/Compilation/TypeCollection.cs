@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Wanderer.Compilation
 {
@@ -15,6 +16,16 @@ namespace Wanderer.Compilation
         {
             BaseType = baseType;
             AddRange(initialCollection);
+        }
+
+        public Type GetTypeNamed(string name)
+        {
+             var match = this.Where(t=>t.Name.Equals(name)).ToArray();
+
+             if(match.Length != 1)
+                 throw new Exception($"Found {match.Length} types called '{name}' (with BaseType {BaseType})");
+
+            return match[0];
         }
     }
 }

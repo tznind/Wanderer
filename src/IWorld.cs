@@ -14,6 +14,11 @@ namespace Wanderer
 {
     public interface IWorld
     {
+        /// <summary>
+        /// Location of the Resources folder on disk used to create this <see cref="IWorld"/>
+        /// </summary>
+        string ResourcesDirectory { get; set; }
+
         Random R { get; set; }
 
         You Player { get; }

@@ -7,6 +7,9 @@ namespace Wanderer.Actions
 {
     public class EquipmentAction : Action
     {
+
+        public override char HotKey => 'q';
+        
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
         {
             if (actor.Decide(ui, "Equipment Action", null, out EquipmentActionToPerform toPerform,

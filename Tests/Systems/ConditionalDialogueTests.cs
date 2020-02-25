@@ -31,7 +31,7 @@ namespace Tests.Systems
                 Body = new TextBlock[]{new TextBlock("Hey I want to give you all the space bucks!") },
                 Require = new List<ICondition<SystemArgs>>()
                 {
-                    new ConditionCode<SystemArgs>("((IActor)Recipient).AttitudeTo(AggressorIfAny) > 5")
+                    new ConditionCode<SystemArgs>("return Recipient:AttitudeTo(AggressorIfAny) > 5")
                 } 
             };
 

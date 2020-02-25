@@ -16,7 +16,7 @@ namespace Wanderer.Behaviours
 
         public override void OnPush(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
         {
-            foreach (var matchingFrame in stack.Where(a => a.Action is T && Condition.IsMet(frame)).ToArray())
+            foreach (var matchingFrame in stack.Where(a => a.Action is T && Condition.IsMet(world,frame)).ToArray())
             {
                 var a = new ForbidAction(matchingFrame);
                 a.Push(world,ui,stack,(IActor)Owner);

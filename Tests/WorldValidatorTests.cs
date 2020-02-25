@@ -48,7 +48,7 @@ namespace Tests
             var d = new DialogueNode()
             {
                 Identifier = new Guid("1cf15faf-837b-4629-84c5-bdfa7631a905"),
-                Require = {new ConditionCode<SystemArgs>("Troll = 1")}
+                Require = {new ConditionCode<SystemArgs>("Tr oll oll = 1")}
             };
             w.Dialogue.AllDialogues.Add(d);
 
@@ -59,7 +59,7 @@ namespace Tests
             },w.Player.CurrentLocation );
             
             StringAssert.Contains("Error testing dialogue condition on '1cf15faf-837b-4629-84c5-bdfa7631a905'",v.Warnings.ToString());
-            StringAssert.Contains("The name 'Troll' does not exist in the current context",v.Warnings.ToString());
+            StringAssert.Contains("syntax error near 'oll'",v.Warnings.ToString());
         }
 
         [Test]
@@ -113,9 +113,8 @@ namespace Tests
         }
 
 
-
-        [Test]
-        public void TestWorldValidator_DialogueOptionWithBadEffectCode()
+        [TestCase("sdf sdf sdf","syntax error near 'sdf'")] // bad compile time value
+        public void TestWorldValidator_DialogueOptionWithBadEffectCode(string badCode, string expectedError)
         {
             var w = new WorldFactory().Create();
             var v = new WorldValidator();
@@ -133,7 +132,7 @@ namespace Tests
                         Text = "Do stuff",
                         Effect = 
                         {
-                            new EffectCode("Trollolol=1")
+                            new EffectCode(badCode)
                         }
                     }
                 }
@@ -148,7 +147,7 @@ namespace Tests
            
           
             StringAssert.Contains("Error testing EffectCode of Option 'Do stuff' of Dialogue '1cf15faf-837b-4629-84c5-bdfa7631a905'",v.Warnings.ToString());
-            StringAssert.Contains("The name 'Trollolol' does not exist in the current context",v.Warnings.ToString());
+            StringAssert.Contains(expectedError,v.Warnings.ToString());
         }
 
                 [Test]
@@ -196,13 +195,13 @@ namespace Tests
             {
                 Condition = 
                 {
-                    new ConditionCode<SystemArgs>("throw new Exception(\"this is bat country!\");")
+                    new ConditionCode<SystemArgs>("this is bat country")
                 }
             };
 
             v.Validate(Mock.Of<IWorld>(),plan, Mock.Of<IActor>());
 
-            StringAssert.Contains("One or more errors occurred. (this is bat country!)",v.Warnings.ToString());
+            StringAssert.Contains("Error executing 'ConditionCode`1' script code 'this is bat country'.",v.Warnings.ToString());
         }
 
 
@@ -245,7 +244,6 @@ namespace Tests
             v.Validate(Mock.Of<IWorld>(),plan, Mock.Of<IActor>());
 
             StringAssert.Contains(@"Failed to validate DoFrame of Plan 'Do something nefarious'",v.Warnings.ToString());
-            StringAssert.Contains(@"(1,1): error CS0103: The name 'fffff' does not exist",v.Warnings.ToString());
         }
     }
 }

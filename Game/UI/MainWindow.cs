@@ -10,6 +10,7 @@ using Wanderer;
 using Wanderer.Actors;
 using Wanderer.Factories;
 using Terminal.Gui;
+using Wanderer.Actions;
 
 namespace Game.UI
 {
@@ -29,6 +30,7 @@ namespace Game.UI
         private List<IHasStats> _roomContentsObjects;
         private HasStatsView _detail;
         private MapView _mapView;
+        private RoomContentsRenderer _roomContentsRenderer = new RoomContentsRenderer();
 
         public bool ShowMap => World?.Map != null && _detail == null;
         
@@ -254,7 +256,10 @@ namespace Game.UI
             foreach (var value in options)
             {
                 T v1 = (T) value;
-                var btn = new Button(0, line++, value.ToString())
+
+                string name = value is IAction a ? GetActionButtonName(a) : value.ToString();
+
+                var btn = new Button(0, line++, name)
                 {
                     Clicked = () =>
                     {
@@ -370,7 +375,10 @@ namespace Game.UI
             //don't run out of UI spaces! (maybe we can page this later on if we get too many unique actions to render)
             foreach (var action in allActions.Take(_buttonLocations.Count))
             {
-                var btn = new Button( action.Name, false)
+
+                var name = GetActionButtonName(action);
+
+                var btn = new Button( name, false)
                 {
                     X = _buttonLocations[buttonLoc].Item1, 
                     Y= _buttonLocations[buttonLoc].Item2,
@@ -394,6 +402,19 @@ namespace Game.UI
                 buttonLoc++;
             }
         }
+
+        private string GetActionButtonName(IAction action)
+        {
+            //indicate hotkey by using underscore
+            var idx = action.Name.ToLower().IndexOf(char.ToLower(action.HotKey));
+
+            //the first upper case character becomes the key
+            return idx > 0 
+                //lower everything up to the index, upper the index then add the rest
+                ? action.Name.Substring(0,idx).ToLower() + char.ToUpper(action.HotKey) +  (action.Name.Length == idx ? "":action.Name.Substring(idx+1)):
+                action.Name;
+        }
+
         private void UpdateRoomFrame()
         {
             var room = World.Player.CurrentLocation;
@@ -414,7 +435,8 @@ namespace Game.UI
             }
 
             //use a scroll view
-            _roomContents = new ListView(new RoomContentsRenderer(_roomContentsObjects))
+             _roomContentsRenderer.SetCollection(_roomContentsObjects);
+            _roomContents = new ListView( _roomContentsRenderer)
             {
                 X=Pos.Percent(70),
                 Width = Dim.Fill(),

@@ -39,6 +39,7 @@
     <None Remove="Resources\Factions\Wildlife\Actors.yaml" />
     <None Remove="Resources\Factions\Wildlife\Faction.yaml" />
     <None Remove="Resources\Factions\Wildlife\Forenames.txt" />
+    <None Remove="Resources\Main.lua" />
     <None Remove="Resources\Rooms.yaml" />
     <None Remove="Resources\Slots.yaml" />
   </ItemGroup>
@@ -129,9 +130,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="3.5.0-beta2-final" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="NLog" Version="4.6.8" />
+    <PackageReference Include="NLua" Version="1.4.29" />
     <PackageReference Include="YamlDotNet" Version="8.0.0" />
   </ItemGroup>
 
@@ -149,6 +150,12 @@
 
   <ItemGroup>
     <Content Include="Resources\Factions\Rats\Faction.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\Main.lua">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

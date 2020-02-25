@@ -14,7 +14,7 @@ namespace Game.UI
     class FactionsView : View
     {
         private List<IFaction> _factions;
-        private List<ProgressBar> _relationshipBars;
+        private List<Label> _relationshipBars;
         private ColorScheme _redScheme;
         private ColorScheme _greenScheme;
 
@@ -27,7 +27,7 @@ namespace Game.UI
             Height = Dim.Fill();
 
             _factions = world.Factions.ToList();
-            _relationshipBars = new List<ProgressBar>();
+            _relationshipBars = new List<Label>();
             
             //for each faction
             foreach (var f in _factions)
@@ -55,7 +55,8 @@ namespace Game.UI
 
             for (var index = 0; index < _factions.Count; index++)
             {
-                var pb = new ProgressBar()
+
+                var pb = new Label("attitude")
                 {
                     X = Pos.Right(_listview),
                     Y = index,
@@ -75,6 +76,7 @@ namespace Game.UI
                 HotNormal = red,
                 Normal = red
             };
+
             _greenScheme = new ColorScheme()
             {
                 Focus = green,
@@ -89,8 +91,6 @@ namespace Game.UI
 
         private void UpdateGraphs()
         {
-            var max = _factionFeelings.SelectMany(v => v.Value).Select(Math.Abs).Max();
-
             var selectedFaction = _factions[_listview.SelectedItem];
 
             for (var index = 0; index < _relationshipBars.Count; index++)
@@ -98,7 +98,23 @@ namespace Game.UI
                 
                 //how strong
                 var feeling = _factionFeelings[selectedFaction][index];
-                _relationshipBars[index].Fraction = (float)(Math.Abs(feeling)/max);
+                
+                if(Math.Abs(feeling) < 0.001)
+                {
+                    _relationshipBars[index].Text = "";
+                }
+                else
+                if(feeling > 0)
+                {
+                    _relationshipBars[index].ColorScheme = _greenScheme;
+                    _relationshipBars[index].Text = new string('+',Math.Min(10,Math.Max(1,(int)(feeling/10.0))));
+                }
+                else
+                {
+                    _relationshipBars[index].ColorScheme = _redScheme;
+                    _relationshipBars[index].Text = new string('-',Math.Min(10,Math.Max(1,(int)(Math.Abs(feeling)/10.0))));
+                }
+
                 _relationshipBars[index].ColorScheme = feeling < 0 ? _redScheme : _greenScheme;
             }
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Newtonsoft.Json;
 using Wanderer.Actors;
 using Wanderer.Behaviours;
 
@@ -11,6 +12,9 @@ namespace Wanderer.Actions
     {
         /// <inheritdoc/>
         public string Name { get; set; }
+
+        [JsonIgnore]
+        public abstract char HotKey {get;}
 
         /// <summary>
         /// Initializes action with a default <see cref="Name"/> based on the class name
@@ -38,7 +42,10 @@ namespace Wanderer.Actions
         /// <param name="ui"></param>
         /// <param name="stack"></param>
         /// <param name="frame"></param>
-        public abstract void Pop(IWorld world, IUserinterface ui, ActionStack stack, Frame frame);
+        public virtual void Pop(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
+        {
+
+        }
 
         public abstract bool HasTargets(IActor performer);
 

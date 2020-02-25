@@ -8,6 +8,9 @@ namespace Wanderer.Actions
 {
     public class LeaveAction : Action
     {
+
+        public override char HotKey => 'l';
+        
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
         {
             //ask actor to pick a direction
@@ -24,11 +27,11 @@ namespace Wanderer.Actions
         {
             var f = (LeaveFrame) frame;
 
-            if(f.Direction == Direction.None)
+            if(f.LeaveDirection == Direction.None)
                 return;
             
             var oldPoint = frame.PerformedBy.CurrentLocation.GetPoint();
-            var newPoint = oldPoint.Offset(f.Direction,1);
+            var newPoint = oldPoint.Offset(f.LeaveDirection,1);
             
             IPlace goingTo;
 
@@ -39,7 +42,7 @@ namespace Wanderer.Actions
                 var newRoom = world.GetNewRoom(newPoint);
                 
                 //however you got into this room you should be able to get back again
-                newRoom.LeaveDirections.Add(f.Direction.Opposite());
+                newRoom.LeaveDirections.Add(f.LeaveDirection.Opposite());
 
                 world.Map.Add(newPoint,newRoom);
                 goingTo = newRoom;
@@ -47,7 +50,7 @@ namespace Wanderer.Actions
 
             frame.PerformedBy.Move(goingTo);
 
-            ui.Log.Info(new LogEntry($"{frame.PerformedBy} moved {f.Direction} to {goingTo}",stack.Round,oldPoint));
+            ui.Log.Info(new LogEntry($"{frame.PerformedBy} moved {f.LeaveDirection} to {goingTo}",stack.Round,oldPoint));
         }
 
         public override bool HasTargets(IActor performer)

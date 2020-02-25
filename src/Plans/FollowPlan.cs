@@ -45,24 +45,24 @@ namespace Wanderer.Plans
             if (toMove == Direction.None)
                 return null;
 
-            return new LeaveFrame((IActor) args.Recipient,args.GetFinalAction<LeaveAction>(),toMove,0);
+            return new LeaveFrame((IActor) args.Recipient, new LeaveAction(),toMove,0);
         }
 
 
-        public bool IsMet(SystemArgs args)
+        public bool IsMet(IWorld world,SystemArgs args)
         {
             if (!(args.Recipient is IActor a))
                 return false;
             
             return 
                 //must be able to take wander around
-                args.GetFinalAction<LeaveAction>() != null &&
+                /*args.GetFinalAction<LeaveAction>() != null &&*/
                 
                 //and both are alive (both the follower and the person they are following
                 !ToFollow.Dead && !a.Dead &&
                 
                 //and they are not already right next to you
-                args.DistanceTo(ToFollow) >= 1 &&
+                a.DistanceTo(ToFollow) >= 1 &&
                 
                 //and it is possible to navigate a path to them
                 GetPath(args) != null;
@@ -77,9 +77,9 @@ namespace Wanderer.Plans
             return pathing.GetShortestPathDijkstra();
         }
 
-        public bool IsMet(object o)
+        public bool IsMet(IWorld world,object o)
         {
-            return IsMet((SystemArgs) o);
+            return IsMet(world,(SystemArgs) o);
         }
     }
 }

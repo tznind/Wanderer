@@ -1,43 +1,27 @@
-﻿using Microsoft.CodeAnalysis.Scripting;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using Wanderer.Factories;
 
 namespace Wanderer.Compilation
 {
     public abstract class Code 
     {
-        public string CsharpCode { get; set; }
+        public string Script { get; set; }
 
+        public LuaFactory Factory {get;set;} = new LuaFactory();
         
         [JsonConstructor]
         public Code()
         {
         }
 
-        public Code(string csharpCode)
+        public Code(string script)
         {
-            CsharpCode = csharpCode;
+            Script = script;
         }
-
-
-        protected ScriptOptions GetScriptOptions()
-        {
-            return ScriptOptions.Default
-                .WithReferences(typeof(ICondition<>).Assembly)
-                .WithImports(
-                    "Wanderer.Stats", 
-                    "System",
-                    "System.Linq",
-                    "Wanderer",
-                    "Wanderer.Actors",
-                    "Wanderer.Actions",
-                    "Wanderer.Systems",
-                    "Wanderer.Adjectives");
-        }
-
         
         public override string ToString()
         {
-            return CsharpCode ;
+            return Script ;
         }
     }
 }
