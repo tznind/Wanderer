@@ -30,6 +30,7 @@ namespace Game.UI
         private List<IHasStats> _roomContentsObjects;
         private HasStatsView _detail;
         private MapView _mapView;
+        private RoomContentsRenderer _roomContentsRenderer = new RoomContentsRenderer();
 
         public bool ShowMap => World?.Map != null && _detail == null;
         
@@ -434,7 +435,8 @@ namespace Game.UI
             }
 
             //use a scroll view
-            _roomContents = new ListView(new RoomContentsRenderer(_roomContentsObjects))
+             _roomContentsRenderer.SetCollection(_roomContentsObjects);
+            _roomContents = new ListView( _roomContentsRenderer)
             {
                 X=Pos.Percent(70),
                 Width = Dim.Fill(),
