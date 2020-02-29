@@ -34,6 +34,7 @@ namespace Wanderer
             {
                 new TissueInjurySystem(),
                 new HungerInjurySystem(),
+                new FireInjurySystem()
             });
         public IList<INegotiationSystem> NegotiationSystems { get; set; } = new List<INegotiationSystem>(new []{new NegotiationSystem()});
 
@@ -185,6 +186,12 @@ namespace Wanderer
                 .ToList();
 
             return factionRooms.Union(new[] {RoomFactory}).ToArray().GetRandom(R).Create(this);
+        }
+
+        public ISystem GetSystem(Guid g)
+        {
+            //TODO: This should return other systems too
+            return InjurySystems.FirstOrDefault(i=>i.Identifier == g);
         }
 
     }

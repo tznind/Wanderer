@@ -26,13 +26,10 @@ namespace Wanderer.Systems
             if(args.Intensity < 0 )
                 return;
 
-            var a = (IActor) args.Recipient;
-
-            //currently you can't damage rooms or burn books
-            if (a == null)
+            if (args.Recipient == null)
                 return;
 
-            var available = GetAvailableInjuries(a).ToArray();
+            var available = GetAvailableInjuries(args.Recipient).ToArray();
 
             var worst = available.Max(i => i.Severity);
 
@@ -43,9 +40,9 @@ namespace Wanderer.Systems
                 throw new Exception("No Injury  found for severity " + args.Intensity);
 
             args.Recipient.Adjectives.Add(newInjury);
-            args.UserInterface.Log.Info(new LogEntry($"{args.Recipient} gained {newInjury}", args.Round,a));
+            args.UserInterface.Log.Info(new LogEntry($"{args.Recipient} gained {newInjury}", args.Round,args.Place.GetPoint()));
         }
-        public abstract IEnumerable<Injured> GetAvailableInjuries(IActor actor);
+        public abstract IEnumerable<Injured> GetAvailableInjuries(IHasStats actor);
 
         public virtual bool HasFatalInjuries(IInjured injured, out string diedOf)
         {

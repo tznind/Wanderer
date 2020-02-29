@@ -1,57 +1,98 @@
 ﻿using System;
 using System.Collections.Generic;
 using Wanderer.Actors;
+using Wanderer.Adjectives;
+using Wanderer.Places;
+using System.Linq;
+using Wanderer.Extensions;
 
 namespace Wanderer.Systems
 {
-    /*
-    public class FireInjurySystem : IInjurySystem
+    public class FireInjurySystem : InjurySystem
     {
-        public Guid Identifier { get; set; } = new Guid("2bdb1d38-c0c6-4eca-8d50-676b000f0d6f");
-        
-        public virtual void Apply(SystemArgs args)
+        public override Guid Identifier { get;set; } = new Guid("3c0dd6d7-1f84-44ad-b446-323bd747b09b");
+
+        public override IEnumerable<Injured> GetAvailableInjuries(IHasStats actor)
         {
-            throw new NotImplementedException();
+            for(double i = 1 ; i <=5;i++)
+                yield return new Injured(
+                    GetDescription(i),actor,1,InjuryRegion.None,this){
+
+                        //mark the injury as comming from hunger system
+                        Identifier = Identifier
+                    };
         }
 
-        public void Apply(SystemArgs args, InjuryRegion region)
+        private string GetDescription(double severity)
         {
-            throw new NotImplementedException();
+            if(severity <= 1.0001)
+                return "Smoking";
+            if(severity <= 2.0001)
+                return "Smouldering";
+            if(severity <= 3.0001)
+                return "Burning";
+            if(severity <= 4.0001)
+                return "Flaming";
+            if(severity <= 5.0001)
+                return "Conflagration";
+
+            return "Inferno";
         }
 
-        public IEnumerable<Injured> GetAvailableInjuries(IActor actor)
+        public override void Heal(Injured injured, IUserinterface ui, Guid round)
         {
-            throw new NotImplementedException();
+            injured.Severity -= 2;
+            if(injured.Severity <= 0)
+                injured.Owner.Adjectives.Remove(injured);
+            else
+                injured.Name = GetDescription(injured.Severity);
         }
 
-        public bool HasFatalInjuries(IActor owner, out string diedOf)
+        public override bool IsHealableBy(IActor actor, Injured injured, out string reason)
         {
-            throw new NotImplementedException();
+            reason = "it's fire!";
+            return false;
         }
 
-        public bool ShouldWorsen(Injured injured, int roundsSeen)
+        public override void Worsen(Injured injured, IUserinterface ui, Guid round)
         {
-            throw new NotImplementedException();
+            
+            if(injured.Owner is IPlace p)
+            {
+                //rooms set other rooms on fire!
+                foreach(var adjacent in p.World.Map.GetAdjacentPlaces(p,false))
+                    this.Apply(new SystemArgs(p.World,ui,1,null,p,round));
+
+                //and the people in them
+                foreach(var actor in p.Actors)
+                    this.Apply(new SystemArgs(p.World,ui,1,null,actor,round));
+            }
+            
+            if(injured.Owner is IActor a)
+            {
+                var world =a.CurrentLocation.World;
+                var region =  ((InjuryRegion[])Enum.GetValues(typeof(InjuryRegion))).ToList().GetRandom(world.R);
+
+                //This should be a soft tissue injury rebranded as a a burn
+                var burn = new Injured("Burnt " + region,a,injured.Severity,region,world.InjurySystems[0]);
+
+                a.Adjectives.Add(burn);
+            }
         }
 
-        public bool IsHealableBy(IActor actor, Injured injured, out string reason)
+        protected override IEnumerable<InjuryRegion> GetAvailableInjuryLocations(SystemArgs args)
         {
-            throw new NotImplementedException();
+            yield return InjuryRegion.None;
         }
 
-        public bool ShouldNaturallyHeal(Injured injured, in int roundsSeenCount)
+        protected override bool ShouldNaturallyHealImpl(Injured injured, int roundsSeenCount)
         {
-            throw new NotImplementedException();
+            return false;
         }
 
-        public void Worsen(Injured injured, IUserinterface ui, Guid round)
+        protected override bool ShouldWorsenImpl(Injured injury, int roundsSeen)
         {
-            throw new NotImplementedException();
+            return true;
         }
-
-        public void Heal(Injured injured, IUserinterface ui, Guid round)
-        {
-            throw new NotImplementedException();
-        }
-    }*/
+    }
 }

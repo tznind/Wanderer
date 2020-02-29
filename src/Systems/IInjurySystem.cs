@@ -12,7 +12,7 @@ namespace Wanderer.Systems
         
 
         void Apply(SystemArgs args, InjuryRegion region);
-        IEnumerable<Injured> GetAvailableInjuries(IActor actor);
+        IEnumerable<Injured> GetAvailableInjuries(IHasStats actor);
 
         /// <summary>
         /// Returns true if the <paramref name="owner"/> is so injured (by this system)

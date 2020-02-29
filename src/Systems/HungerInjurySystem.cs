@@ -9,7 +9,7 @@ namespace Wanderer.Systems
     {
         public override Guid Identifier {get;set;} = new Guid("89c18233-5250-4445-8799-faa9a888fb7f");
 
-        public override IEnumerable<Injured> GetAvailableInjuries(IActor actor)
+        public override IEnumerable<Injured> GetAvailableInjuries(IHasStats actor)
         {
             for(double i = 1 ; i <=5;i++)
                 yield return new Injured(

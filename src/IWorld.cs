@@ -82,5 +82,7 @@ namespace Wanderer
         /// <param name="newPoint"></param>
         /// <returns></returns>
         IPlace GetNewRoom(Point3 newPoint);
+
+        ISystem GetSystem(Guid g);
     }
 }

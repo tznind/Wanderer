@@ -19,7 +19,7 @@ namespace Wanderer.Systems
             return Enum.GetValues(typeof(InjuryRegion)).Cast<InjuryRegion>().Where(r=>r != InjuryRegion.None);
         }
 
-        public override IEnumerable<Injured> GetAvailableInjuries(IActor actor)
+        public override IEnumerable<Injured> GetAvailableInjuries(IHasStats actor)
         {
             foreach (InjuryRegion region in Enum.GetValues(typeof(InjuryRegion)))
             {
