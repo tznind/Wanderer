@@ -22,7 +22,7 @@ namespace Wanderer.Systems
         /// <summary>
         /// The ui for logging events etc / showing messages
         /// </summary>
-        public IUserinterface UserInterface;
+        public IUserinterface UserInterface { get; set; }
 
         /// <summary>
         /// How strongly to apply the given system

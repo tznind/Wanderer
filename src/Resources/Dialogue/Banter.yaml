@@ -66,12 +66,12 @@
   Options:
    - Text: Approach
      Destination: 6ea074f9-ebd2-44e5-880d-de48b674fc3b
-#   - Text: Kick Over Barrel
-#     Effect: 
+   - Text: Kick Over Barrel
+     Effect: 
               #Get Fire system and apply it to the room
- #           - |
-  #              World:GetSystem(Guid("3c0dd6d7-1f84-44ad-b446-323bd747b09b"))
-   #              :Apply(SystemArgs(World,ui,20,World.Player,Place,Round))
+            - |
+                World:GetSystem(Guid("3c0dd6d7-1f84-44ad-b446-323bd747b09b"))
+                 :Apply(SystemArgs(World,UserInterface,20,World.Player,Place,Round))
    - Text: Leave  
 
 - Identifier: 6ea074f9-ebd2-44e5-880d-de48b674fc3b
