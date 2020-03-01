@@ -14,6 +14,9 @@ using Wanderer.Relationships;
 
 namespace Wanderer.Systems.Validation
 {
+
+    
+
     public class WorldValidator
     {
         public int ErrorCount {get;set;} = 0;
@@ -27,6 +30,8 @@ namespace Wanderer.Systems.Validation
         /// Avoid circular checking and hence stack overflows
         ///</summary>
         List<Guid> _alreadyValidated = new List<Guid>();
+
+        private IUserinterface _ui = new ValidatorUI();
 
         public void Validate(WorldFactory worldFactory)
         {
@@ -137,7 +142,7 @@ namespace Wanderer.Systems.Validation
             {
                 try
                 {
-                    condition.IsMet(world,new SystemArgs(world,null,0,null,actor,Guid.Empty));
+                    condition.IsMet(world,new SystemArgs(world,_ui,0,null,actor,Guid.Empty));
                 }
                 catch(Exception e)
                 {
@@ -152,7 +157,7 @@ namespace Wanderer.Systems.Validation
                     AddError($"Plan '{plan}' has no DoFrame");
                 else
                 {
-                    var f = plan.Do.GetFrame(new SystemArgs(world,null,0,null,actor,Guid.Empty));
+                    var f = plan.Do.GetFrame(new SystemArgs(world,_ui,0,null,actor,Guid.Empty));
 
                     if(f == null)
                         throw new Exception("Script returned a null Frame");
@@ -221,7 +226,7 @@ namespace Wanderer.Systems.Validation
             {
                 try
                 {
-                    condition.IsMet(world,new SystemArgs(world,null, 0, GetTestActor(room), recipient, Guid.Empty));
+                    condition.IsMet(world,new SystemArgs(world,_ui, 0, GetTestActor(room), recipient, Guid.Empty));
                 }
                 catch (Exception e)
                 {
@@ -234,7 +239,7 @@ namespace Wanderer.Systems.Validation
                 {
                     try
                     {
-                        condition.IsMet(world,new SystemArgs(world,null, 0, GetTestActor(room), recipient, Guid.Empty));
+                        condition.IsMet(world,new SystemArgs(world,_ui, 0, GetTestActor(room), recipient, Guid.Empty));
                     }
                     catch (Exception e)
                     {
@@ -256,7 +261,7 @@ namespace Wanderer.Systems.Validation
             {
                 try
                 {
-                    effect.Apply(new SystemArgs(world,null, 0, GetTestActor(room), recipient, Guid.Empty));
+                    effect.Apply(new SystemArgs(world,_ui, 0, GetTestActor(room), recipient, Guid.Empty));
                 }
                 catch (Exception e)
                 {
@@ -270,6 +275,40 @@ namespace Wanderer.Systems.Validation
                 Validate(world,recipient,initiation,room);
             }
         }
+        
+        private class ValidatorUI : IUserinterface
+        {
+            public ValidatorUI()
+            {
+                Log.Register();
+            }
+            public EventLog Log { get; } = new EventLog();
 
+            public void ShowStats(IHasStats of)
+            {
+
+            }
+
+            public bool GetChoice<T>(string title, string body, out T chosen, params T[] options)
+            {
+                chosen = options.FirstOrDefault();
+                return true;
+            }
+
+            public void Refresh()
+            {
+                
+            }
+
+            public void ShowMessage(string title, string body)
+            {
+                
+            }
+
+            public void ShowMessage(string title, LogEntry showThenLog)
+            {
+                
+            }
+        }
     }
 }

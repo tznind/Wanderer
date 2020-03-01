@@ -94,5 +94,16 @@ namespace Wanderer.Systems
         {
             return true;
         }
+
+        protected override bool IsWithinNaturalHealingThreshold(Injured injured)
+        {
+            return false;
+        }
+
+        public override bool HasFatalInjuries(IInjured injured, out string diedOf)
+        {
+            diedOf = null;
+            return false;
+        }
     }
 }
