@@ -25,7 +25,7 @@ namespace Wanderer.Systems
             {
                 double severity = 0;
                 foreach (var s in new string[]{"Bruised","Cut","Lacerated","Fractured","Broken","Detached"})
-                    yield return new Injured(s + " " + region, actor, severity++, region,this);
+                    yield return new Injured(s + " " + region, actor, severity+=10, region,this);
             }
         }
 
@@ -41,7 +41,7 @@ namespace Wanderer.Systems
             if (a != null && a.CurrentLocation.Has<Stale>())
                 worsenRate++;
 
-            return Math.Abs(worsenRate) > 0.0001 && Math.Abs(roundsSeen % (injury.Severity*2 / worsenRate)) < 0.0001;
+            return Math.Abs(worsenRate) > 0.0001 && Math.Abs(roundsSeen % (injury.Severity*0.2 / worsenRate)) < 0.0001;
         
         }
 
@@ -80,7 +80,7 @@ namespace Wanderer.Systems
             else
                 ui.Log.Info(new LogEntry($"{injured.Name} got worse", round,injured.Owner as IActor));
 
-            injured.Severity++;
+            injured.Severity+=10;
         }
 
         public override void Heal(Injured injured, IUserinterface ui, Guid round)

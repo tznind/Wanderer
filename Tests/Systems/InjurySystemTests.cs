@@ -36,7 +36,7 @@ namespace Tests.Systems
             var a = new You("You", room);
 
             
-            for (int i = 0; i < 60; i++)
+            for (int i = 6; i < 66; i++)
             {
                 a.Adjectives.Clear();
                 sys.Apply(new SystemArgs(world,GetUI(),i,null,a,Guid.Empty));
@@ -63,7 +63,7 @@ namespace Tests.Systems
             var a = new You("You", room);
             
             //give them an injury
-            var injury = new Injured("Bruised Shin", a, 1, InjuryRegion.Leg,world.InjurySystems.First());
+            var injury = new Injured("Bruised Shin", a, 10, InjuryRegion.Leg,world.InjurySystems.First());
             a.Adjectives.Add(injury);
             
             for (int i = 0; i < 10; i++)
@@ -350,14 +350,14 @@ namespace Tests.Systems
             var you = YouInARoom(out IWorld w).With(new LoadGunsAction());
 
             //give them an injury
-            var injury = new Injured("Cut Lip", you, 2, InjuryRegion.Leg,w.InjurySystems.First());
+            var injury = new Injured("Cut Lip", you, 20, InjuryRegion.Leg,w.InjurySystems.First());
             you.Adjectives.Add(injury);
 
             w.RunRound(new FixedChoiceUI(),you.GetFinalActions().OfType<LoadGunsAction>().Single());
 
             Assert.IsFalse(you.Dead,"Did not expect you to die from light injuries");
             
-            var badInjury = new Injured("Decapitated Head", you, 10, InjuryRegion.Head,w.InjurySystems.First());
+            var badInjury = new Injured("Decapitated Head", you, 100, InjuryRegion.Head,w.InjurySystems.First());
             you.Adjectives.Add(badInjury);
 
             Assert.IsFalse(you.Dead,"Expected death check to be at the end of the round");

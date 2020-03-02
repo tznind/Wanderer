@@ -14,7 +14,7 @@ namespace Wanderer.Systems
 
         public override IEnumerable<Injured> GetAvailableInjuries(IHasStats actor)
         {
-            for(double i = 1 ; i <=5;i++)
+            for(double i = 10 ; i <=50;i+=10)
                 yield return new Injured(
                     GetDescription(i),actor,1,InjuryRegion.None,this){
 
@@ -25,15 +25,15 @@ namespace Wanderer.Systems
 
         private string GetDescription(double severity)
         {
-            if(severity <= 1.0001)
+            if(severity <= 10.0001)
                 return "Smoking";
-            if(severity <= 2.0001)
+            if(severity <= 20.0001)
                 return "Smouldering";
-            if(severity <= 3.0001)
+            if(severity <= 30.0001)
                 return "Burning";
-            if(severity <= 4.0001)
+            if(severity <= 40.0001)
                 return "Flaming";
-            if(severity <= 5.0001)
+            if(severity <= 50.0001)
                 return "Conflagration";
 
             return "Inferno";

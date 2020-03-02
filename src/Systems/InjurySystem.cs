@@ -29,15 +29,17 @@ namespace Wanderer.Systems
             if (args.Recipient == null)
                 return;
 
-            var available = GetAvailableInjuries(args.Recipient).ToArray();
-
-            var worst = available.Max(i => i.Severity);
-
-            var newInjury = available.FirstOrDefault(a =>
-                (int)a.Severity == (int)Math.Min(worst, args.Intensity / 10) && a.Region == region);
+            var newInjury = 
+            GetAvailableInjuries(args.Recipient)
+                .OrderBy(a =>
+                //find the closest intensity injury to what is desired
+                Math.Abs(args.Intensity - a.Severity)).Where(a=> a.Region == region)
+                .FirstOrDefault();
 
             if(newInjury == null)
-                throw new Exception("No Injury  found for severity " + args.Intensity);
+                throw new Exception("No Injury  found for severity " + args.Intensity + " Region " + region);
+
+            newInjury.Severity = args.Intensity;
 
             args.Recipient.Adjectives.Add(newInjury);
             args.UserInterface.Log.Info(new LogEntry($"{args.Recipient} gained {newInjury}", args.Round,args.Place.GetPoint()));
@@ -46,8 +48,8 @@ namespace Wanderer.Systems
 
         public virtual bool HasFatalInjuries(IInjured injured, out string diedOf)
         {
-            //Combined total of serious wounds (2 or higher) severity is 10
-            if (injured.Owner.Adjectives.OfType<Injured>().Where(i => i.Severity > 1).Sum(i => i.Severity) >= 10)
+            //Combined total of serious wounds (2 or higher) severity is 100
+            if (injured.Owner.Adjectives.OfType<Injured>().Where(i => i.Severity > 1).Sum(i => i.Severity) >= 100)
             {
                 diedOf = "injuries";
                 return true;
@@ -118,7 +120,7 @@ namespace Wanderer.Systems
         /// <returns></returns>
         protected virtual bool IsWithinNaturalHealingThreshold(Injured injured)
         {
-            return injured.Severity <= 1;
+            return injured.Severity <= 10;
         }
     }
 }

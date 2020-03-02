@@ -11,7 +11,7 @@ namespace Wanderer.Systems
 
         public override IEnumerable<Injured> GetAvailableInjuries(IHasStats actor)
         {
-            for(double i = 1 ; i <=5;i++)
+            for(double i = 10 ; i <=50;i+=10)
                 yield return new Injured(
                     GetDescription(i),actor,1,InjuryRegion.None,this){
 
@@ -22,13 +22,13 @@ namespace Wanderer.Systems
 
         private string GetDescription(double severity)
         {
-            if(severity <= 1.0001)
+            if(severity <= 10.0001)
                 return "Peckish";
-            if(severity <= 2.0001)
+            if(severity <= 20.0001)
                 return "Hungry";
-            if(severity <= 3.0001)
+            if(severity <= 30.0001)
                 return "Famished";
-            if(severity <= 4.0001)
+            if(severity <= 40.0001)
                 return "Ravenous";
 
             return "Starved";
@@ -36,7 +36,7 @@ namespace Wanderer.Systems
 
         public override void Heal(Injured injured, IUserinterface ui, Guid round)
         {
-            injured.Severity -= 2;
+            injured.Severity -= 20;
             if(injured.Severity <= 0)
                 injured.Owner.Adjectives.Remove(injured);
             else
@@ -52,14 +52,14 @@ namespace Wanderer.Systems
 
         public override void Worsen(Injured injured, IUserinterface ui, Guid round)
         {
-            injured.Severity++;
+            injured.Severity+=10;
             injured.Name = GetDescription(injured.Severity);
         }
 
         public override bool HasFatalInjuries(IInjured injured, out string diedOf)
         {
             diedOf = "Hunger";
-            return injured.Severity>=7;
+            return injured.Severity>=70;
         }
 
         protected override IEnumerable<InjuryRegion> GetAvailableInjuryLocations(SystemArgs args)
@@ -79,7 +79,7 @@ namespace Wanderer.Systems
 
         protected override bool ShouldWorsenImpl(Injured injury, int roundsSeen)
         {
-            return roundsSeen > injury.Severity * 2.001;
+            return roundsSeen > injury.Severity * 0.2;
         }
     }
 }
