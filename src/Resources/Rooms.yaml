@@ -14,6 +14,13 @@
     - Name: Hooded Figure
       Dialogue:
         Next: a25c08a2-c4a6-4c6a-a6ee-c11744938349
+    - Name: Carlos Darkmeer
+      Dialogue:
+        Next: fa7e55d3-b086-4e35-b816-c2d79fe66ac2
+      Actions:
+        - FightAction
+        - EatAction
+        - LoadGunsAction
 - Name: Machine room
   Tile: m
   Dialogue:
