@@ -14,9 +14,9 @@
 #why am I here
 - Identifier: 0d552aec-4691-48e8-9752-c816faf22782
   Body: 
-    - Text: Hell if I know? I know why I’m here though. I’m meat. Meat for this beast. This decaying rusting bucket of bolts we all live in. It needs us to suffer and struggle as surely as it needs coal for its engines.
+    - Text: Hell if I know? I know why I'm here though. I'm meat. Meat for this beast. This decaying rusting bucket of bolts we all live in. It needs us to suffer and struggle as surely as it needs coal for its engines.
   Options:
-    - Text: That’s an elaborate theory you’ve got there
+    - Text: That's an elaborate theory you've got there
       Destination: 9732b865-7175-4671-813a-d6c58c9ae54f
     - Text: The ship runs on coal?
       Destination: a522ec0e-5879-48e6-b8f6-7949c9fb1ef9
@@ -24,7 +24,7 @@
 #why load shells
 - Identifier: ce351aae-16ab-4d53-a91e-e3a1540629c5
   Body:
-    - Text: Think I have a choice? There’s a system you know. Step out of line and.... no more stepping. Besides the ship needs to shoot. A lot presumably.
+    - Text: Think I have a choice? There's a system you know. Step out of line and.... no more stepping. Besides the ship needs to shoot. A lot presumably.
   Options:
     - Text: Ok
       Destination: fa7e55d3-b086-4e35-b816-c2d79fe66ac2
@@ -32,7 +32,7 @@
 #get a drink
 - Identifier: 1619645e-ba64-463f-8fec-2720600e6a80
   Body:
-    - Text: There’s a dive a few sections over called 'The Hole'. Good a place as any.
+    - Text: There's a dive a few sections over called 'The Hole'. Good a place as any.
   Options:
     - Text: Good to know
       Destination: fa7e55d3-b086-4e35-b816-c2d79fe66ac2
@@ -40,7 +40,7 @@
 #An elaborate theory
 - Identifier: 9732b865-7175-4671-813a-d6c58c9ae54f
   Body:
-   - Text: Sure just don’t talk about it too loudly, there’s folks who don’t like that sort of patter
+   - Text: Sure just don't talk about it too loudly, there's folks who don't like that sort of patter
   Options:
    - Text: Okay
      Destination: fa7e55d3-b086-4e35-b816-c2d79fe66ac2
@@ -48,7 +48,7 @@
 #Runs on coal?
 - Identifier: a522ec0e-5879-48e6-b8f6-7949c9fb1ef9
   Body: 
-    - Text: Sure my Paw told me he’d been to the engine decks and seen em shovelling it into great glowing furnaces.
+    - Text: Sure my Paw told me he'd been to the engine decks and seen em shovelling it into great glowing furnaces.
   Options:
     - Text: Tell me more about your Paw
       SingleUse: true
@@ -57,7 +57,7 @@
 #Tell about Paw?
 - Identifier: ada60318-3da0-4519-bb26-0afa930e9d3f
   Body:
-    - Text: That’s all your getting outta me. He’s dead and that’s all there is to say
+    - Text: That's all your getting outta me. He's dead and that's all there is to say
   Options:
     - Text: May his flesh nourish us
       Attitude: 10
