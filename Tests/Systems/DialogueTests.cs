@@ -246,7 +246,45 @@ namespace Tests.Systems
             Assert.Contains("The denizens of this degenerate bar seem like your kind of people",ui.MessagesShown);
         }
 
-    }
+        [Test]
+        public void TestSingleUse_DialogueOption()
+        {
+                string yaml = @"
+- Identifier: ce16ae16-4de8-4e33-8d52-ace4543ada20
+  Body: 
+    - Text: You want some Death Sticks?  
+  Options:
+    - Text: Yes give me 500
+      SingleUse: true
+    - Text: Sure give me 1";
 
-    
+                var system = new YamlDialogueSystem(yaml);
+                Assert.IsNotNull(system);
+                var ui = GetUI("Yes give me 500");
+                var you = YouInARoom(out IWorld world);
+
+                Assert.IsFalse(system.AllDialogues.First().Options.First().Exhausted);
+
+                //option should be allowed
+                system.Run(new SystemArgs(world,ui,0,you,you.CurrentLocation, Guid.NewGuid()),system.AllDialogues.Single());
+
+                ui = GetUI("Yes give me 500");
+                
+                //next time around you shouldn't be able to pick it
+                Assert.Throws<Exception>(()=>system.Run(new SystemArgs(world,ui,0,you,you.CurrentLocation, Guid.NewGuid()),system.AllDialogues.Single()));
+
+                //because it is exhausted
+                Assert.IsTrue(system.AllDialogues.First().Options.First().Exhausted);
+
+                //but you should be able to still pick this one
+                ui = GetUI("Sure give me 1");
+                
+                //next time around you shouldn't be able to pick it
+                system.Run(new SystemArgs(world, ui, 0, you, you.CurrentLocation, Guid.NewGuid()),
+                    system.AllDialogues.Single());
+
+
+        }
+
+    }
 }

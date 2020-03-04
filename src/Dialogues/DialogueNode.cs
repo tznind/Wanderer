@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Wanderer.Compilation;
 using Wanderer.Systems;
 
@@ -18,6 +19,11 @@ namespace Wanderer.Dialogues
         public override string ToString()
         {
             return Identifier.ToString();
+        }
+
+        public DialogueOption[] GetOptionsToShow()
+        {
+            return Options.Where(o => !o.Exhausted).ToArray();
         }
     }
 }

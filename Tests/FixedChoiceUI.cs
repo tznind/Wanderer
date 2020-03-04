@@ -4,6 +4,7 @@ using System.Linq;
 using NUnit.Framework;
 using Wanderer;
 using Wanderer.Actors;
+using Wanderer.Dialogues;
 
 namespace Tests
 {
@@ -54,7 +55,13 @@ namespace Tests
                 throw new Exception($"Did not have an answer for GetChoice of:{title} ({body})");
             try
             {
-                chosen = (T) _getChoiceReturns[_index++];
+                object oChosen = _getChoiceReturns[_index++];
+
+                //allow test harness users to specify strings instead of objects if so desired (e.g. to select a DialogueOption)
+                if (oChosen is string)
+                    oChosen = options.SingleOrDefault(o => o.ToString().Equals(oChosen)) ?? oChosen;
+
+                chosen = (T)oChosen;
 
                 if (chosen == null)
                     return false;
