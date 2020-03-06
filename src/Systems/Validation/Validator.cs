@@ -59,7 +59,7 @@ namespace Wanderer.Systems.Validation
             }
         }
 
-        protected virtual Npc GetTestActor(IPlace room)
+        protected virtual Npc GetTestActor(IRoom room)
         {
             return new Npc("test actor",room);
         }
@@ -114,7 +114,7 @@ namespace Wanderer.Systems.Validation
             }
         }
 
-        public void Validate(IWorld world, IPlace room)
+        public void Validate(IWorld world, IRoom room)
         {
             foreach (var item in room.Items.ToArray())
                 Validate(world,item,room);
@@ -169,7 +169,7 @@ namespace Wanderer.Systems.Validation
             }
         }
 
-        public void Validate(IWorld world, IItem item, IPlace room)
+        public void Validate(IWorld world, IItem item, IRoom room)
         {
             if (item.Dialogue != null)
                 Validate(world, item, item.Dialogue,room);
@@ -186,7 +186,7 @@ namespace Wanderer.Systems.Validation
 
 
 
-        public void Validate(IWorld world, IHasStats recipient, DialogueInitiation dialogue, IPlace room)
+        public void Validate(IWorld world, IHasStats recipient, DialogueInitiation dialogue, IRoom room)
         {
             if (dialogue.Next.HasValue)
             {
@@ -211,7 +211,7 @@ namespace Wanderer.Systems.Validation
         }
 
 
-        public void Validate(IWorld world, IHasStats recipient,DialogueInitiation dialogue, DialogueNode node, IPlace room)
+        public void Validate(IWorld world, IHasStats recipient,DialogueInitiation dialogue, DialogueNode node, IRoom room)
         {
             if(_alreadyValidated.Contains(node.Identifier))
                 return;
@@ -252,7 +252,7 @@ namespace Wanderer.Systems.Validation
                 Validate(world,recipient,dialogue,room,node,option);
 
         }
-        public void Validate(IWorld world, IHasStats recipient, DialogueInitiation initiation, IPlace room,DialogueNode dialogue, DialogueOption option)
+        public void Validate(IWorld world, IHasStats recipient, DialogueInitiation initiation, IRoom room,DialogueNode dialogue, DialogueOption option)
         {
             if(string.IsNullOrWhiteSpace(option.Text))
                 AddError($"A Dialogue Option of Dialogue '{dialogue.Identifier}' has no Text");

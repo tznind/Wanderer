@@ -7,7 +7,7 @@ using Wanderer.Places;
 
 namespace Wanderer.Factories
 {
-    public class RoomFactory: HasStatsFactory<IPlace>, IRoomFactory
+    public class RoomFactory: HasStatsFactory<IRoom>, IRoomFactory
     {
         public RoomBlueprint[] Blueprints { get; set; } = new RoomBlueprint[0];
 
@@ -21,12 +21,12 @@ namespace Wanderer.Factories
         }
 
 
-        public IPlace Create(IWorld world)
+        public IRoom Create(IWorld world)
         {
             return Create(world,Blueprints.Where(Spawnable).ToArray().GetRandom(world.R));
         }
 
-        public IPlace Create(IWorld world, RoomBlueprint blueprint)
+        public IRoom Create(IWorld world, RoomBlueprint blueprint)
         {
             if (blueprint == null)
                 return new Room("Empty Room",world,'e');

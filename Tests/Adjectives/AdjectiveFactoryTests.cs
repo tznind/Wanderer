@@ -22,7 +22,7 @@ namespace Tests.Adjectives
         public void TestCreateRoomOnly_AdjectiveBlueprint(string typeName)
         {
             var adj = new AdjectiveFactory();
-            Assert.IsNotNull(adj.Create(Mock.Of<IPlace>(),new AdjectiveBlueprint(){Type = typeName}));
+            Assert.IsNotNull(adj.Create(Mock.Of<IRoom>(),new AdjectiveBlueprint(){Type = typeName}));
         }
     }
 }

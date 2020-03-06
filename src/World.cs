@@ -110,7 +110,7 @@ namespace Wanderer
         /// </summary>
         /// <param name="place"></param>
         /// <returns></returns>
-        private bool ShouldRunActionsIn(IPlace place)
+        private bool ShouldRunActionsIn(IRoom place)
         {
             return
                 place.IsExplored || place.GetPoint().Distance(Player.CurrentLocation.GetPoint()) <= 2;
@@ -179,7 +179,7 @@ namespace Wanderer
             item.IsErased = true;
         }
 
-        public virtual IPlace GetNewRoom(Point3 newPoint)
+        public virtual IRoom GetNewRoom(Point3 newPoint)
         {
             var factionRooms = Factions.Select(f => f.RoomFactory)
                 .Where(b => b.Blueprints.Any(b.Spawnable))

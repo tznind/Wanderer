@@ -5,7 +5,7 @@ namespace Wanderer.Adjectives.RoomOnly
 {
     public class Stale : Adjective
     {
-        public Stale(IPlace owner) : base(owner)
+        public Stale(IRoom owner) : base(owner)
         {
 
         }

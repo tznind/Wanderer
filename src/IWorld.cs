@@ -81,7 +81,7 @@ namespace Wanderer
         /// </summary>
         /// <param name="newPoint"></param>
         /// <returns></returns>
-        IPlace GetNewRoom(Point3 newPoint);
+        IRoom GetNewRoom(Point3 newPoint);
 
         ISystem GetSystem(Guid g);
     }

@@ -9,7 +9,7 @@ using Wanderer.Relationships;
 
 namespace Wanderer.Places
 {
-    public interface IPlace : IHasStats
+    public interface IRoom : IHasStats
     {
         /// <summary>
         /// Who currently controls this place (can be null)

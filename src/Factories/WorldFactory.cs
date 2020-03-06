@@ -133,7 +133,7 @@ namespace Wanderer.Factories
 
             return new RoomFactory(adjectiveFactory);
         }
-        protected virtual IPlace GetStartingRoom(IRoomFactory roomFactory, World world)
+        protected virtual IRoom GetStartingRoom(IRoomFactory roomFactory, World world)
         {
             var blue = roomFactory.Blueprints.FirstOrDefault(b => b.StartingRoom);
 
@@ -142,7 +142,7 @@ namespace Wanderer.Factories
 
             return roomFactory.Create(world);
         }
-        protected virtual You GetPlayer(IPlace startingRoom)
+        protected virtual You GetPlayer(IRoom startingRoom)
         {
             return new You("Wanderer", startingRoom)
             {

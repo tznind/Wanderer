@@ -9,7 +9,7 @@ namespace Tests
 {
     public class UnitTest
     {
-        protected IPlace InARoom(out IWorld world)
+        protected IRoom InARoom(out IWorld world)
         {
             world = new World();
             var room = new Room("TestRoom", world,'-');

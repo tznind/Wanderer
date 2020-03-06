@@ -21,7 +21,7 @@ namespace Tests.Adjectives
 
             foreach (var adj in 
                 f.GetAvailableAdjectives(Mock.Of<IHasStats>())
-                    .Union(f.GetAvailableAdjectives(Mock.Of<IPlace>()))
+                    .Union(f.GetAvailableAdjectives(Mock.Of<IRoom>()))
                     .Union(f.GetAvailableAdjectives(Mock.Of<IActor>()))
                     .Union(f.GetAvailableAdjectives(Mock.Of<IItem>()))
                 ) 

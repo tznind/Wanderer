@@ -17,18 +17,18 @@ namespace Wanderer.Places
 
         public class Node 
         {
-            public IPlace Place{get;set;}
+            public IRoom Place{get;set;}
             public int? MinCostToStart { get; set; }
             public bool Visited { get; internal set; }
             public Node NearestToStart { get; internal set; }
 
-            public Node(IPlace place)
+            public Node(IRoom place)
             {
                 this.Place = place;
             }
         }
 
-        public DijkstraPathing(Map map,IPlace start, IPlace end)
+        public DijkstraPathing(Map map,IRoom start, IRoom end)
         {
             Map = map;
             Start = new Node(start);

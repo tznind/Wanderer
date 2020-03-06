@@ -24,7 +24,7 @@ namespace Tests
             Assert.AreEqual("test3",ui.Log.RoundResults.Single().Message);
             
             ui.Log.Info(new LogEntry("test4",Guid.NewGuid(),
-                Mock.Of<IActor>(a=> a.CurrentLocation == Mock.Of<IPlace>(p=>p.GetPoint() == new Point3(1,2,3)))));
+                Mock.Of<IActor>(a=> a.CurrentLocation == Mock.Of<IRoom>(p=>p.GetPoint() == new Point3(1,2,3)))));
             Assert.AreEqual("test4",ui.Log.RoundResults.Single().Message);
 
             Assert.IsNotEmpty(ui.Log.RoundResults);

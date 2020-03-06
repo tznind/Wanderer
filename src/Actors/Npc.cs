@@ -22,7 +22,7 @@ namespace Wanderer.Actors
 
         }
 
-        public Npc(string name,IPlace currentLocation) : base( name,currentLocation)
+        public Npc(string name,IRoom currentLocation) : base( name,currentLocation)
         {
             BaseBehaviours.Add(new RelationshipFormingBehaviour(this));
         }

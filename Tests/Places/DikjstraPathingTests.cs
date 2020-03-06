@@ -24,14 +24,14 @@ namespace Tests.Places
                 Direction.Down,
             };
 
-            var _000 = Mock.Of<IPlace>(p=>p.LeaveDirections == any && p.ToString() == "000");
-            var _001 = Mock.Of<IPlace>(p=>p.LeaveDirections == any && p.ToString() == "001");
-            var _010 = Mock.Of<IPlace>(p=>p.LeaveDirections == any && p.ToString() == "010");
-            var _011 = Mock.Of<IPlace>(p=>p.LeaveDirections == any && p.ToString() == "011");
-            var _100 = Mock.Of<IPlace>(p=>p.LeaveDirections == any && p.ToString() == "100");
-            var _101 = Mock.Of<IPlace>(p=>p.LeaveDirections == any && p.ToString() == "101");
-            var _110 = Mock.Of<IPlace>(p=>p.LeaveDirections == any && p.ToString() == "110");
-            var _111 = Mock.Of<IPlace>(p=>p.LeaveDirections == any && p.ToString() == "111");
+            var _000 = Mock.Of<IRoom>(p=>p.LeaveDirections == any && p.ToString() == "000");
+            var _001 = Mock.Of<IRoom>(p=>p.LeaveDirections == any && p.ToString() == "001");
+            var _010 = Mock.Of<IRoom>(p=>p.LeaveDirections == any && p.ToString() == "010");
+            var _011 = Mock.Of<IRoom>(p=>p.LeaveDirections == any && p.ToString() == "011");
+            var _100 = Mock.Of<IRoom>(p=>p.LeaveDirections == any && p.ToString() == "100");
+            var _101 = Mock.Of<IRoom>(p=>p.LeaveDirections == any && p.ToString() == "101");
+            var _110 = Mock.Of<IRoom>(p=>p.LeaveDirections == any && p.ToString() == "110");
+            var _111 = Mock.Of<IRoom>(p=>p.LeaveDirections == any && p.ToString() == "111");
 
             var map = new Map();
             map.Add(new Point3(0,0,0),_000);

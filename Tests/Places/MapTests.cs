@@ -60,10 +60,10 @@ namespace Tests.Places
                 Direction.North,
             };
 
-            var _000 = Mock.Of<IPlace>(p=>p.LeaveDirections == onlyNorth );
-            var _010 = Mock.Of<IPlace>();
-            var _001 = Mock.Of<IPlace>();
-            var _003 = Mock.Of<IPlace>();
+            var _000 = Mock.Of<IRoom>(p=>p.LeaveDirections == onlyNorth );
+            var _010 = Mock.Of<IRoom>();
+            var _001 = Mock.Of<IRoom>();
+            var _003 = Mock.Of<IRoom>();
 
             var map = new Map();
             map.Add(new Point3(0,0,0),_000);
@@ -87,10 +87,10 @@ namespace Tests.Places
                 Direction.North,
             };
 
-            var _000 = Mock.Of<IPlace>(p=>p.LeaveDirections == onlyNorth );
-            var _010 = Mock.Of<IPlace>();
-            var _001 = Mock.Of<IPlace>();
-            var _003 = Mock.Of<IPlace>();
+            var _000 = Mock.Of<IRoom>(p=>p.LeaveDirections == onlyNorth );
+            var _010 = Mock.Of<IRoom>();
+            var _001 = Mock.Of<IRoom>();
+            var _003 = Mock.Of<IRoom>();
 
             var map = new Map();
             map.Add(new Point3(0,0,0),_000);

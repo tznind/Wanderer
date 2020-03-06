@@ -10,7 +10,7 @@ namespace Tests.Relationships
 {
     public class FactionRelationshipTests : UnitTest
     {
-        IPlace _room;
+        IRoom _room;
         Faction _cops;
         Faction _robbers;
         Npc _cop1;

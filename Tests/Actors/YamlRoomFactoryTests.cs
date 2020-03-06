@@ -125,7 +125,7 @@ namespace Tests.Actors
 
             var w = new World();
 
-            var rooms = new List<IPlace>();
+            var rooms = new List<IRoom>();
             for (int i = 0; i < 100; i++) 
                 rooms.Add(room.Create(w));
 

@@ -9,7 +9,7 @@ using Wanderer.Relationships;
 
 namespace Wanderer.Places
 {
-    public class Room : HasStats, IPlace
+    public class Room : HasStats, IRoom
     {
         /// <inheritdoc/>
         public IFaction ControllingFaction { get; set; }

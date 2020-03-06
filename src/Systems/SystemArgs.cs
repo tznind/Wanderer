@@ -59,16 +59,16 @@ namespace Wanderer.Systems
         /// could be null 
         /// </summary>
         [JsonIgnore]
-        public IPlace Place
+        public IRoom Place
         {
             get
             {
-                IPlace place = AggressorIfAny?.CurrentLocation;
+                IRoom place = AggressorIfAny?.CurrentLocation;
 
                 if (place == null && Recipient is IActor a)
                     place = a.CurrentLocation;
 
-                return place ?? Recipient as IPlace;
+                return place ?? Recipient as IRoom;
             }
         }
 
@@ -84,7 +84,7 @@ namespace Wanderer.Systems
                 if (Recipient is IActor a)
                     return a.Items;
 
-                if(Recipient is IPlace p)
+                if(Recipient is IRoom p)
                     return p.Items;
 
                 return new IItem[0];

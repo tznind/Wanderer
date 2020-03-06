@@ -24,7 +24,7 @@ namespace Wanderer.Factories
         /// <param name="place">Where to create the actor</param>
         /// <param name="faction"></param>
         /// <param name="roomBlueprintIfAny">Optional blueprint which might contain thematic room items etc</param>
-        void Create(IWorld world, IPlace place, IFaction faction, RoomBlueprint roomBlueprintIfAny);
+        void Create(IWorld world, IRoom place, IFaction faction, RoomBlueprint roomBlueprintIfAny);
 
         /// <summary>
         /// Create a new resident in <paramref name="place"/> by stamping out the actor <paramref name="blueprint"/>
@@ -35,6 +35,6 @@ namespace Wanderer.Factories
         /// <param name="blueprint">Description of the npc to create including optional bits</param>
         /// <param name="roomBlueprintIfAny">Optional blueprint which might contain thematic room items etc</param>
         /// <returns></returns>
-        IActor Create(IWorld world, IPlace place, IFaction faction, ActorBlueprint blueprint, RoomBlueprint roomBlueprintIfAny);
+        IActor Create(IWorld world, IRoom place, IFaction faction, ActorBlueprint blueprint, RoomBlueprint roomBlueprintIfAny);
     }
 }

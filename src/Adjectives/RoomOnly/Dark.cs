@@ -7,7 +7,7 @@ namespace Wanderer.Adjectives.RoomOnly
 {
     public class Dark : Adjective
     {
-        public Dark(IPlace owner) : base(owner)
+        public Dark(IRoom owner) : base(owner)
         {
             BaseStats[Stat.Fight] = -10;
         }

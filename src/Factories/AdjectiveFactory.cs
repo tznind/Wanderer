@@ -22,7 +22,7 @@ namespace Wanderer.Factories
 
         public IEnumerable<IAdjective> GetAvailableAdjectives<T>(T o) where T : IHasStats
         {
-            if (o is IPlace place)
+            if (o is IRoom place)
             {
                 yield return new Dark(place);
                 yield return new Stale(place);

@@ -57,7 +57,7 @@ namespace Wanderer.Systems
         public override void Worsen(Injured injured, IUserinterface ui, Guid round)
         {
             
-            if(injured.Owner is IPlace p)
+            if(injured.Owner is IRoom p)
             {
                 //rooms set other rooms on fire!
                 foreach(var adjacent in p.World.Map.GetAdjacentPlaces(p,false))
