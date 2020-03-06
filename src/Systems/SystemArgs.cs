@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using Wanderer.Actions;
 using Wanderer.Actors;
 using Wanderer.Items;
-using Wanderer.Places;
+using Wanderer.Rooms;
 
 namespace Wanderer.Systems
 {
@@ -59,7 +59,7 @@ namespace Wanderer.Systems
         /// could be null 
         /// </summary>
         [JsonIgnore]
-        public IRoom Place
+        public IRoom Room
         {
             get
             {

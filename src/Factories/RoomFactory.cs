@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Wanderer.Extensions;
 using Wanderer.Factories.Blueprints;
-using Wanderer.Places;
+using Wanderer.Rooms;
 
 namespace Wanderer.Factories
 {

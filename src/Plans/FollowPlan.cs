@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using Wanderer.Actions;
 using Wanderer.Actors;
 using Wanderer.Compilation;
-using Wanderer.Places;
+using Wanderer.Rooms;
 using Wanderer.Systems;
 
 namespace Wanderer.Plans
@@ -37,9 +37,9 @@ namespace Wanderer.Plans
 
             Direction toMove = Direction.None;
 
-            foreach (var adjacentPlace in args.World.Map.GetAdjacentPlaces(path[0].Place,true))
-                if (adjacentPlace.Value == path[1].Place)
-                    toMove = adjacentPlace.Key;
+            foreach (var adjacentRoom in args.World.Map.GetAdjacentRooms(path[0].Room,true))
+                if (adjacentRoom.Value == path[1].Room)
+                    toMove = adjacentRoom.Key;
 
             //Somehow we are no longer able to go that way :(
             if (toMove == Direction.None)
@@ -70,7 +70,7 @@ namespace Wanderer.Plans
 
         public List<DijkstraPathing.Node> GetPath(SystemArgs args)
         {
-            var from = args.Place;
+            var from = args.Room;
             var to = ToFollow.CurrentLocation;
 
             DijkstraPathing pathing = new DijkstraPathing(args.World.Map,from,to);

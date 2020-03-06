@@ -8,7 +8,7 @@ using Wanderer.Actors;
 using Wanderer.Dialogues;
 using Wanderer.Factories;
 using Wanderer.Factories.Blueprints;
-using Wanderer.Places;
+using Wanderer.Rooms;
 using Wanderer.Relationships;
 
 namespace Tests.Actors

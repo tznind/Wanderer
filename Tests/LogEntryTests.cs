@@ -6,7 +6,7 @@ using Moq;
 using NUnit.Framework;
 using Wanderer;
 using Wanderer.Actors;
-using Wanderer.Places;
+using Wanderer.Rooms;
 
 namespace Tests
 {

@@ -6,7 +6,7 @@ using Wanderer.Adjectives;
 using Wanderer.Adjectives.RoomOnly;
 using Wanderer.Factories.Blueprints;
 using Wanderer.Items;
-using Wanderer.Places;
+using Wanderer.Rooms;
 
 namespace Wanderer.Factories
 {

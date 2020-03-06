@@ -13,7 +13,7 @@ using Wanderer.Behaviours;
 using Wanderer.Compilation;
 using Wanderer.Factories;
 using Wanderer.Factories.Blueprints;
-using Wanderer.Places;
+using Wanderer.Rooms;
 
 namespace Tests
 {

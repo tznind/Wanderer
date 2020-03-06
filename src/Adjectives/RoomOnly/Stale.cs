@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Wanderer.Places;
+using Wanderer.Rooms;
 
 namespace Wanderer.Adjectives.RoomOnly
 {

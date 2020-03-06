@@ -4,7 +4,7 @@ using System.Linq;
 using Wanderer.Actors;
 using Wanderer.Compilation;
 using Wanderer.Factories.Blueprints;
-using Wanderer.Places;
+using Wanderer.Rooms;
 using Wanderer.Plans;
 using Wanderer.Relationships;
 using Wanderer.Systems;

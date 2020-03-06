@@ -3,7 +3,7 @@ using System.Linq;
 using NUnit.Framework;
 using Wanderer;
 using Wanderer.Actors;
-using Wanderer.Places;
+using Wanderer.Rooms;
 using Wanderer.Relationships;
 
 namespace Tests.Relationships

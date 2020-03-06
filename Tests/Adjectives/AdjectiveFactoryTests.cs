@@ -3,7 +3,7 @@ using NUnit.Framework;
 using Wanderer;
 using Wanderer.Factories;
 using Wanderer.Factories.Blueprints;
-using Wanderer.Places;
+using Wanderer.Rooms;
 
 namespace Tests.Adjectives
 {

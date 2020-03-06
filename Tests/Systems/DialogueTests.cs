@@ -178,7 +178,7 @@ namespace Tests.Systems
         }
         
         [Test]
-        public void TestConditionalDialogue_PlaceHasLight()
+        public void TestConditionalDialogue_RoomHasLight()
         {
             string yaml = @"
 - Identifier: ce16ae16-4de8-4e33-8d52-ace4543ada20
@@ -186,10 +186,10 @@ namespace Tests.Systems
     - Text: This room is
     - Text: Pitch Black
       Condition: 
-        - return Place:Has('Light') == false
+        - return Room:Has('Light') == false
     - Text: Dimly Illuminated
       Condition: 
-        - return Place:Has('Light')";
+        - return Room:Has('Light')";
 
             var system = new YamlDialogueSystem(yaml);
             Assert.IsNotNull(system);

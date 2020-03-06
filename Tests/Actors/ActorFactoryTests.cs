@@ -11,7 +11,7 @@ using Wanderer.Adjectives;
 using Wanderer.Factories;
 using Wanderer.Factories.Blueprints;
 using Wanderer.Items;
-using Wanderer.Places;
+using Wanderer.Rooms;
 using Wanderer.Relationships;
 
 namespace Tests.Actors

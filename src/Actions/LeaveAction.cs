@@ -2,7 +2,7 @@
 using System.Linq;
 using Wanderer.Actors;
 using Wanderer.Behaviours;
-using Wanderer.Places;
+using Wanderer.Rooms;
 
 namespace Wanderer.Actions
 {

@@ -6,7 +6,7 @@ using Wanderer.Actions;
 using Wanderer.Actions.Coercion;
 using Wanderer.Behaviours;
 using Wanderer.Items;
-using Wanderer.Places;
+using Wanderer.Rooms;
 
 namespace Wanderer.Actors
 {

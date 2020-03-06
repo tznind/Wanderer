@@ -2,7 +2,7 @@
 using Wanderer;
 using Wanderer.Actors;
 using Wanderer.Factories;
-using Wanderer.Places;
+using Wanderer.Rooms;
 using Wanderer.Relationships;
 
 namespace Tests

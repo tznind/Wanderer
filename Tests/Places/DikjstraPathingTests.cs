@@ -4,9 +4,9 @@ using System.Linq;
 using Moq;
 using NUnit.Framework;
 using Wanderer;
-using Wanderer.Places;
+using Wanderer.Rooms;
 
-namespace Tests.Places
+namespace Tests.Rooms
 {
     public class DijstraPathingTests
     {
@@ -48,10 +48,10 @@ namespace Tests.Places
             var result = pathing.GetShortestPathDijkstra();
 
             Assert.AreEqual(4,result.Count);
-            Assert.AreEqual(_000,result[0].Place);
-            Assert.AreEqual(_001,result[1].Place);
-            Assert.AreEqual(_011,result[2].Place);
-            Assert.AreEqual(_111,result[3].Place);
+            Assert.AreEqual(_000,result[0].Room);
+            Assert.AreEqual(_001,result[1].Room);
+            Assert.AreEqual(_011,result[2].Room);
+            Assert.AreEqual(_111,result[3].Room);
 
 
         }

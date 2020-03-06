@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Wanderer.Actors;
 using Wanderer.Adjectives;
-using Wanderer.Places;
+using Wanderer.Rooms;
 using System.Linq;
 using Wanderer.Extensions;
 
@@ -60,7 +60,7 @@ namespace Wanderer.Systems
             if(injured.Owner is IRoom p)
             {
                 //rooms set other rooms on fire!
-                foreach(var adjacent in p.World.Map.GetAdjacentPlaces(p,false))
+                foreach(var adjacent in p.World.Map.GetAdjacentRooms(p,false))
                     this.Apply(new SystemArgs(p.World,ui,1,null,p,round));
 
                 //and the people in them

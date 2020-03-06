@@ -7,7 +7,7 @@ using Wanderer.Actions;
 using Wanderer.Adjectives;
 using Wanderer.Behaviours;
 using Wanderer.Items;
-using Wanderer.Places;
+using Wanderer.Rooms;
 using Wanderer.Relationships;
 using Wanderer.Stats;
 using Wanderer.Systems;

@@ -11,9 +11,9 @@
                0)
 - Name: Pick stuff up
   Condition:
-    - return Place.Items.Count > 0
+    - return Room.Items.Count > 0
     - return Recipient:GetFinalActions():HasAction('PickUp')
-  Do: return PickUpFrame(Recipient,Recipient:GetFinalActions():GetAction('PickUp'),FirstOrDefault(Place.Items),Place,0)
+  Do: return PickUpFrame(Recipient,Recipient:GetFinalActions():GetAction('PickUp'),FirstOrDefault(Room.Items),Room,0)
 - Name: Equip Stuff
   Condition:
     - return GetFirstEquippableItem(Recipient) ~= nil

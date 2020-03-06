@@ -4,7 +4,7 @@ using System.Text;
 using NUnit.Framework;
 using Wanderer;
 
-namespace Tests.Places
+namespace Tests.Rooms
 {
     class Point3Tests : UnitTest
     {

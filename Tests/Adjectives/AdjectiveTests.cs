@@ -7,7 +7,7 @@ using Wanderer.Actors;
 using Wanderer.Adjectives;
 using Wanderer.Factories;
 using Wanderer.Items;
-using Wanderer.Places;
+using Wanderer.Rooms;
 using Wanderer.Stats;
 
 namespace Tests.Adjectives

@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Wanderer.Places;
+using Wanderer.Rooms;
 
-namespace Wanderer.Places
+namespace Wanderer.Rooms
 {
     public class DijkstraPathing
     {
@@ -17,14 +17,14 @@ namespace Wanderer.Places
 
         public class Node 
         {
-            public IRoom Place{get;set;}
+            public IRoom Room{get;set;}
             public int? MinCostToStart { get; set; }
             public bool Visited { get; internal set; }
             public Node NearestToStart { get; internal set; }
 
             public Node(IRoom place)
             {
-                this.Place = place;
+                this.Room = place;
             }
         }
 
@@ -76,10 +76,10 @@ namespace Wanderer.Places
                 prioQueue = prioQueue.OrderBy(x => x.MinCostToStart).ToList();
                 var node = prioQueue.First();
                 prioQueue.Remove(node);
-                foreach (var cnn in Map.GetAdjacentPlaces(node.Place,true))
+                foreach (var cnn in Map.GetAdjacentRooms(node.Room,true))
                 {
                     
-                    var childNode = nodesSeen.FirstOrDefault(n=>n.Place == cnn.Value) ?? new Node(cnn.Value);
+                    var childNode = nodesSeen.FirstOrDefault(n=>n.Room == cnn.Value) ?? new Node(cnn.Value);
                     if (childNode.Visited)
                         continue;
                     if (childNode.MinCostToStart == null ||
@@ -87,14 +87,14 @@ namespace Wanderer.Places
                     {
                         childNode.MinCostToStart = node.MinCostToStart + 1;
                         childNode.NearestToStart = node;
-                        if (!prioQueue.Any(n=>n.Place == childNode.Place))
+                        if (!prioQueue.Any(n=>n.Room == childNode.Room))
                             prioQueue.Add(childNode);
                     }
                 }
                 node.Visited = true;
                 nodesSeen.Add(node);
                 
-                if (node.Place == End.Place)
+                if (node.Room == End.Room)
                     return;
             } while (prioQueue.Any());
         }

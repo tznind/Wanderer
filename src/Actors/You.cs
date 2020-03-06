@@ -4,7 +4,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using Wanderer.Actions;
 using Wanderer.Actions.Coercion;
-using Wanderer.Places;
+using Wanderer.Rooms;
 using Wanderer.Stats;
 
 namespace Wanderer.Actors

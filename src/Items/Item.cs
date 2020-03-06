@@ -7,7 +7,7 @@ using Wanderer.Actors;
 using Wanderer.Adjectives;
 using Wanderer.Behaviours;
 using Wanderer.Compilation;
-using Wanderer.Places;
+using Wanderer.Rooms;
 using Wanderer.Stats;
 
 namespace Wanderer.Items

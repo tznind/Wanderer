@@ -7,7 +7,7 @@ using Wanderer;
 using Wanderer.Adjectives;
 using Wanderer.Items;
 
-namespace Tests.Places
+namespace Tests.Rooms
 {
     class RoomTests : UnitTest
     {

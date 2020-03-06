@@ -4,7 +4,7 @@ using Wanderer.Actors;
 using Wanderer.Extensions;
 using Wanderer.Factories.Blueprints;
 using Wanderer.Items;
-using Wanderer.Places;
+using Wanderer.Rooms;
 using Wanderer.Relationships;
 
 namespace Wanderer.Factories

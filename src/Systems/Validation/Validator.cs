@@ -8,7 +8,7 @@ using Wanderer.Compilation;
 using Wanderer.Dialogues;
 using Wanderer.Factories;
 using Wanderer.Items;
-using Wanderer.Places;
+using Wanderer.Rooms;
 using Wanderer.Plans;
 using Wanderer.Relationships;
 

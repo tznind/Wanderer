@@ -1,6 +1,6 @@
 ﻿using Wanderer.Actors;
 using Wanderer.Factories.Blueprints;
-using Wanderer.Places;
+using Wanderer.Rooms;
 using Wanderer.Relationships;
 
 namespace Wanderer.Factories

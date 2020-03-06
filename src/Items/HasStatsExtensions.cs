@@ -1,5 +1,5 @@
 ﻿using Wanderer.Actions;
-using Wanderer.Places;
+using Wanderer.Rooms;
 using Wanderer.Stats;
 
 namespace Wanderer.Items

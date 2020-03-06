@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using Wanderer;
 using Wanderer.Actions;
-using Wanderer.Places;
+using Wanderer.Rooms;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -7,7 +7,7 @@ using Wanderer.Adjectives;
 using Wanderer.Items;
 using Wanderer.Relationships;
 
-namespace Wanderer.Places
+namespace Wanderer.Rooms
 {
     public class Room : HasStats, IRoom
     {

@@ -10,7 +10,7 @@ using Wanderer.Adjectives;
 using Wanderer.Adjectives.RoomOnly;
 using Wanderer.Factories;
 using Wanderer.Items;
-using Wanderer.Places;
+using Wanderer.Rooms;
 using Wanderer.Stats;
 using Tests.Actions;
 

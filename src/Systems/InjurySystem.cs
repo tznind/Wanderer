@@ -42,7 +42,7 @@ namespace Wanderer.Systems
             newInjury.Severity = args.Intensity;
 
             args.Recipient.Adjectives.Add(newInjury);
-            args.UserInterface.Log.Info(new LogEntry($"{args.Recipient} gained {newInjury}", args.Round,args.Place.GetPoint()));
+            args.UserInterface.Log.Info(new LogEntry($"{args.Recipient} gained {newInjury}", args.Round,args.Room.GetPoint()));
         }
         public abstract IEnumerable<Injured> GetAvailableInjuries(IHasStats actor);
 

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Wanderer.Actors;
-using Wanderer.Places;
+using Wanderer.Rooms;
 using Wanderer.Stats;
 
 namespace Wanderer.Adjectives.RoomOnly
