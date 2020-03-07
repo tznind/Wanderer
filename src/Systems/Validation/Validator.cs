@@ -219,7 +219,7 @@ namespace Wanderer.Systems.Validation
             _alreadyValidated.Add(node.Identifier);
 
 
-            if(node.Body == null || node.Body.Length == 0 || node.Body.All(b=>string.IsNullOrWhiteSpace(b.Text)))
+            if(node.Body == null || node.Body.Count == 0 || node.Body.All(b=>string.IsNullOrWhiteSpace(b.Text)))
                 AddError($"Dialogue '{node.Identifier}' has no Body Text");
                 
             foreach (ICondition<SystemArgs> condition in node.Require)

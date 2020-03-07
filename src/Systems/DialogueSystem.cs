@@ -82,7 +82,7 @@ namespace Wanderer.Systems
                 args.UserInterface.ShowMessage("Dialogue",FormatString(args,node.Body));
         }
 
-        protected virtual string FormatString(SystemArgs args,TextBlock[] body)
+        protected virtual string FormatString(SystemArgs args,IEnumerable<TextBlock> body)
         {
             StringBuilder sb = new StringBuilder();
 

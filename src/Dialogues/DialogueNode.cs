@@ -10,7 +10,7 @@ namespace Wanderer.Dialogues
     {
         public Guid Identifier { get; set; }
 
-        public TextBlock[] Body { get; set; }
+        public List<TextBlock> Body { get; set; } = new List<TextBlock>();
 
         public List<ICondition<SystemArgs>> Require { get; set; } = new List<ICondition<SystemArgs>>();
 
