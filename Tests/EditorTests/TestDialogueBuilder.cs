@@ -73,5 +73,30 @@ Where you from stranger?
             
 
         }
+
+        [Test]
+        public void TestSerialize()
+        {
+            string dlg = @"
+Where you from stranger?
+  Nowhere special
+  I'm from little rock friend
+    I've heard of that place, it's nice
+      Wasn't when I was there
+      Yeah it's nice enough";
+
+
+            var builder = new DialogueBuilder();
+            var result = builder.BuildAndSerialize(dlg);
+
+            StringAssert.Contains(@"Body:
+  - Text: I've heard of that place, it's nice
+  Options:
+  - Text: Wasn't when I was there
+  - Text: Yeah it's nice enough",result);
+
+            
+
+        }
     }
 }

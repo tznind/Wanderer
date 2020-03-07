@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Wanderer.Dialogues;
+using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.TypeInspectors;
 
 namespace Wanderer.Editor
 {
@@ -143,9 +146,75 @@ namespace Wanderer.Editor
             return currentNode;
         }
 
+        public string BuildAndSerialize(string dialogue)
+        {
+            var nodes = Build(dialogue);
+
+            if(nodes == null)
+                return null;
+
+
+            //do not serialize empty arrays
+            foreach(var n in nodes)
+            {
+                n.Require = null;
+
+                foreach(var b in n.Body)
+                    b.Condition = null;
+
+                foreach(var o in n.Options)
+                {
+                    o.Effect = null;
+                }
+
+                if(!n.Options.Any())
+                    n.Options = null;
+            }
+
+
+            var ser = new SerializerBuilder()
+            .ConfigureDefaultValuesHandling(DefaultValuesHandling.OmitDefaults)
+            .WithTypeInspector(x => new SortedTypeInspector(x))
+            .Build();
+
+            return ser.Serialize(nodes);
+
+        }
+
         private bool IsBlankOrComment(string line)
         {
             return string.IsNullOrWhiteSpace(line) || line.Trim().StartsWith('#');
+        }
+    }
+    public class SortedTypeInspector : TypeInspectorSkeleton
+    {
+        private readonly ITypeInspector _innerTypeInspector;
+
+        public SortedTypeInspector(ITypeInspector innerTypeInspector)
+        {
+            _innerTypeInspector = innerTypeInspector;
+        }
+
+        public override IEnumerable<IPropertyDescriptor> GetProperties(Type type, object container)
+        {
+            var props = _innerTypeInspector.GetProperties(type, container).ToList();
+
+
+            //order you want things comming out in (first)
+            foreach(var propName in new []{"Identifier","Body","Text"})
+            {
+                var i = props.FirstOrDefault(p=>p.Name == propName);
+
+                if(i != null)
+                {
+                    yield return i;
+                    props.Remove(i);
+                }
+            }
+
+            //then everything else
+            foreach(var remaining in props)
+                yield return remaining;
         }
     }
 }
