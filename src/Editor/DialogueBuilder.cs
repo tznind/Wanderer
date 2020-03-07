@@ -146,6 +146,30 @@ namespace Wanderer.Editor
             return currentNode;
         }
 
+        public FileInfo BuildAndSerialize(FileInfo f)
+        {
+            if(!f.Exists)
+                throw new FileNotFoundException(f.FullName);
+
+            if(f.Extension == ".yaml")
+                throw new NotSupportedException("File should be proto dialogue e.g. txt not yaml");
+
+            string outPath = Path.Combine(f.DirectoryName,
+            Path.GetFileNameWithoutExtension(f.Name)) + ".yaml";
+
+            if(File.Exists(outPath))
+                throw new Exception("Output file path already exists " + outPath);
+
+            var yaml = BuildAndSerialize(File.ReadAllText(f.FullName));
+
+            if(!string.IsNullOrWhiteSpace(yaml))
+            {
+                File.WriteAllText(outPath,yaml);
+                return new FileInfo(outPath);
+            }
+
+            return null;
+        }
         public string BuildAndSerialize(string dialogue)
         {
             var nodes = Build(dialogue);
