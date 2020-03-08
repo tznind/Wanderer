@@ -25,6 +25,16 @@ namespace Wanderer.Factories
         {
             return Create(world,Blueprints.Where(Spawnable).ToArray().GetRandom(world.R));
         }
+        public IRoom Create(World world, Point3 location)
+        {
+            var exact = Blueprints.FirstOrDefault(b => Equals(location, b.FixedLocation));
+
+            if (exact != null)
+                return Create(world, exact);
+
+            return Create(world);
+        }
+
 
         public IRoom Create(IWorld world, RoomBlueprint blueprint)
         {

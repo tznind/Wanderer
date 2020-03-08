@@ -7,6 +7,7 @@ namespace Wanderer.Factories
     {
         IRoom Create(IWorld world);
         IRoom Create(IWorld world, RoomBlueprint blueprint);
+        IRoom Create(World world, Point3 location);
 
         RoomBlueprint[] Blueprints { get; set; }
 

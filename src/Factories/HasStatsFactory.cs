@@ -5,6 +5,7 @@ using Wanderer.Actions;
 using Wanderer.Adjectives;
 using Wanderer.Extensions;
 using Wanderer.Factories.Blueprints;
+using Wanderer.Rooms;
 
 namespace Wanderer.Factories
 {
@@ -35,6 +36,10 @@ namespace Wanderer.Factories
         /// <returns></returns>
         public bool Spawnable(HasStatsBlueprint b)
         {
+            //don't return fixed location stuff as a random choice
+            if (b is RoomBlueprint r && r.FixedLocation != null)
+                return false;
+
             if (!b.Unique)
                 return true;
 

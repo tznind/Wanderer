@@ -44,9 +44,10 @@ namespace Wanderer.Factories
 
             var roomFactory = GetRoomFactory(adjectiveFactory);
 
-            var startingRoom = GetStartingRoom(roomFactory,world);
+            var zero = new Point3(0, 0, 0);
+            var startingRoom = roomFactory.Create(world,zero);
             startingRoom.IsExplored = true;
-            world.Map.Add(new Point3(0,0,0),startingRoom);
+            world.Map.Add(zero,startingRoom);
 
             world.Population.Add(GetPlayer(startingRoom));
             world.RoomFactory = roomFactory;
@@ -132,15 +133,6 @@ namespace Wanderer.Factories
                 return new YamlRoomFactory(File.ReadAllText(fi.FullName),adjectiveFactory);
 
             return new RoomFactory(adjectiveFactory);
-        }
-        protected virtual IRoom GetStartingRoom(IRoomFactory roomFactory, World world)
-        {
-            var blue = roomFactory.Blueprints.FirstOrDefault(b => b.StartingRoom);
-
-            if (blue != null)
-                return roomFactory.Create(world, blue);
-
-            return roomFactory.Create(world);
         }
         protected virtual You GetPlayer(IRoom startingRoom)
         {

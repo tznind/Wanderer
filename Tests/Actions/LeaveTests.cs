@@ -11,6 +11,7 @@ using Wanderer.Actors;
 using Wanderer.Behaviours;
 using Wanderer.Compilation;
 using Wanderer.Factories;
+using Wanderer.Factories.Blueprints;
 using Wanderer.Items;
 
 namespace Tests.Actions
@@ -168,6 +169,47 @@ namespace Tests.Actions
             stack.RunStack(world,GetUI(Direction.South), leave,world.Player ,guard.GetFinalBehaviours());
 
             Assert.AreSame(room,world.Player.CurrentLocation,"Expected to be in the same room as started in");
+        }
+
+        [Test]
+        public void FixedLocationRooms()
+        {
+            var start = new RoomBlueprint()
+            {
+                Name = "Start",
+                FixedLocation = new Point3(0, 0, 0)
+            };
+            var west = new RoomBlueprint()
+            {
+                Name = "West",
+                FixedLocation = new Point3(-1, 0, 0)
+            };
+
+            var f = new RoomFactory(new AdjectiveFactory())
+            {
+                Blueprints = new[] {start, west}
+            };
+            
+            var world = new World();
+            world.RoomFactory = f;
+            var room = world.RoomFactory.Create(world, new Point3(0, 0, 0));
+            world.Map.Add(new Point3(0,0,0),room); 
+            new You("Test Wanderer", room);
+
+            Assert.AreEqual("Start",world.Player.CurrentLocation.Name);
+
+            //go north
+            var stack = new ActionStack();
+            stack.RunStack(world,GetUI(Direction.North),new LeaveAction(), world.Player,new IBehaviour[0]);
+            Assert.AreEqual("Empty Room",world.Player.CurrentLocation.Name);
+
+            //go west 
+            stack.RunStack(world,GetUI(Direction.West),new LeaveAction(), world.Player,new IBehaviour[0]);
+            Assert.AreEqual("Empty Room",world.Player.CurrentLocation.Name);
+
+            //go south 
+            stack.RunStack(world,GetUI(Direction.South),new LeaveAction(), world.Player,new IBehaviour[0]);
+            Assert.AreEqual("West",world.Player.CurrentLocation.Name);
         }
     }
 }
