@@ -19,7 +19,7 @@ namespace Wanderer.Systems
             {
                 if(RoomsToRooms)
                     foreach(var adjacent in p.World.Map.GetAdjacentRooms(p,false))
-                        injurySystem.Apply(new SystemArgs(p.World,ui,1,null,p,round));
+                        injurySystem.Apply(new SystemArgs(p.World,ui,1,null,adjacent.Value,round));
 
                 if(RoomsToActors)
                     foreach(var actor in p.Actors)

@@ -113,6 +113,12 @@ namespace Wanderer
         {
             return Adjectives;
         }
+
+        public IEnumerable<IHasStats> GetAllHaves(Guid guid)
+        {
+            return GetAllHaves().Where(h => Equals(h.Identifier , guid));
+        }
+
         public bool Has(Guid? g)
         {
             if (g.HasValue)
