@@ -14,6 +14,10 @@ Injuries:
   - Name: Inferno
     Severity: 60
 
+Spreads:
+   RoomsToRooms: true
+   RoomsToActors: true
+
 NaturalHealThreshold: 0
 WorsenRate: 1
 SyncDescriptions: true
