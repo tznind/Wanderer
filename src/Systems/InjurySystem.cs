@@ -49,6 +49,19 @@ namespace Wanderer.Systems
         public List<InjuryBlueprint> Injuries { get; set; } = new List<InjuryBlueprint>();
 
 
+        public double NaturalHealThreshold {get;set;} = 20;
+
+        public double NaturalHealRate {get;set;} = 10;
+
+        
+        public bool SyncDescriptions{get;set;}
+
+        public string WorsenVerb {get;set;} = "got worse";
+
+        public bool Infection {get;set;}
+
+        public Spreading Spreads{get;set;}
+
         public virtual void Apply(SystemArgs args)
         {
             if(args.Intensity < 0 )
@@ -57,22 +70,25 @@ namespace Wanderer.Systems
             if (args.Recipient == null)
                 return;
 
-            var candidates = 
-            Injuries
-                .OrderBy(a =>
-                //find the closest intensity injury to what is desired
-                Math.Abs(args.Intensity - a.Severity))
-                .FirstOrDefault();
+            var candidate = GetBlueprintFor(args.Intensity);
 
-            if(candidates == null)
+            if(candidate == null)
                 throw new Exception("No Injury  found for severity " + args.Intensity);
 
-            newInjury.Severity = args.Intensity;
+            var newInjury = new Injured(candidate.Name,args.Recipient,args.Intensity,candidate.Region,this);
 
             args.Recipient.Adjectives.Add(newInjury);
             args.UserInterface.Log.Info(new LogEntry($"{args.Recipient} gained {newInjury}", args.Round,args.Room.GetPoint()));
         }
-        public abstract IEnumerable<Injured> GetAvailableInjuries(IHasStats actor);
+
+        protected virtual InjuryBlueprint GetBlueprintFor(double intensity)
+        {
+            return Injuries
+                .OrderBy(a =>
+                //find the closest intensity injury to what is desired
+                Math.Abs(intensity - a.Severity))
+                .FirstOrDefault();
+        }
 
         public virtual bool HasFatalInjuries(IInjured injured, out string diedOf)
         {
@@ -95,30 +111,24 @@ namespace Wanderer.Systems
             if (injury.Owner is IActor a && a.Dead)
                 return false;
 
-            double worsenRate = 1;
+            double ratio = 1;
+
+            var haveTypes = injury.Owner.GetAllHaves().Select(h=>h.GetType()).Distinct();
+
+            //If you have something that makes you immune to worsening
+            if(ResistWorsen.Immune.Intersect(haveTypes).Any())
+                return false;
             
-            var a = injury.Owner as IActor;
+            //If you have something that makes you resist worsening
+            if(ResistWorsen.Resist.Intersect(haveTypes).Any())
+                ratio *= 2;
+            
+            //If you have something that makes you vulnerable to worsening
+            if(ResistWorsen.Vulnerable.Intersect(haveTypes).Any())
+                ratio *= 0.5;
 
-            if (a != null && a.Has<Tough>(true))
-                worsenRate--;
-
-            if (a != null && a.CurrentLocation.Has<Stale>())
-                worsenRate++;
-
-            return Math.Abs(worsenRate) > 0.0001 && Math.Abs(roundsSeen % (injury.Severity*0.2 / worsenRate)) < 0.0001;
-
-
-
-            return ShouldWorsenImpl(injury, roundsSeen);
+            return roundsSeen > ratio * WorsenRate;
         }
-
-        /// <summary>
-        /// Override to indicate whether the <paramref name="injury"/> should get worse.
-        /// </summary>
-        /// <param name="injury"></param>
-        /// <param name="roundsSeen">Time since it last got worse</param>
-        /// <returns></returns>
-        protected abstract bool ShouldWorsenImpl(Injured injury, int roundsSeen);
 
         public virtual bool IsHealableBy(IActor actor, Injured injured, out string reason)
         {
@@ -155,19 +165,62 @@ namespace Wanderer.Systems
             if (!IsWithinNaturalHealingThreshold(injured))
                 return false;
 
-            return ShouldNaturallyHealImpl(injured, roundsSeenCount);
+            return  roundsSeenCount > NaturalHealRate;
         }
 
-        /// <summary>
-        /// Return true if the <paramref name="injured"/> should have healed by now
-        /// based on it's age (<paramref name="roundsSeenCount"/>)
-        /// </summary>
-        /// <param name="injured"></param>
-        /// <param name="roundsSeenCount"></param>
-        /// <returns></returns>
-        protected abstract bool ShouldNaturallyHealImpl(Injured injured, int roundsSeenCount);
 
-        public abstract void Worsen(Injured injured, IUserinterface ui, Guid round);
+        public virtual void Worsen(Injured injured, IUserinterface ui, Guid round)
+        {
+            injured.Severity+=10;
+
+            //if injury names should be updated with severity
+            if(SyncDescriptions)
+            {
+                var newInjury = GetBlueprintFor(injured.Severity);
+
+                if(newInjury != null)
+                    injured.Name = newInjury.Name;
+            }
+            
+            //if wounds can become infected
+            if (!injured.IsInfected && Infection)
+            {
+                injured.IsInfected = true;
+                ui.Log.Info(new LogEntry($"{injured.Name} became infected",round,injured.Owner as IActor));
+                injured.Name = "Infected " + injured.Name;
+            }
+            else
+                ui.Log.Info(new LogEntry($"{injured.Name} {WorsenVerb}", round,injured.Owner as IActor));
+
+            if(Spreads != null)
+            {
+                
+                /*
+            
+            if(injured.Owner is IRoom p)
+            {
+                //rooms set other rooms on fire!
+                foreach(var adjacent in p.World.Map.GetAdjacentRooms(p,false))
+                    this.Apply(new SystemArgs(p.World,ui,1,null,p,round));
+
+                //and the people in them
+                foreach(var actor in p.Actors)
+                    this.Apply(new SystemArgs(p.World,ui,1,null,actor,round));
+            }
+            
+            if(injured.Owner is IActor a)
+            {
+                var world =a.CurrentLocation.World;
+                var region =  ((InjuryRegion[])Enum.GetValues(typeof(InjuryRegion))).ToList().GetRandom(world.R);
+
+                //This should be a soft tissue injury rebranded as a a burn
+                var burn = new Injured("Burnt " + region,a,injured.Severity,region,world.InjurySystems[0]);
+
+                a.Adjectives.Add(burn);
+            }*/
+            }
+        }
+
         
         public virtual void Heal(Injured injured, IUserinterface ui, Guid round)
         {
@@ -192,7 +245,7 @@ namespace Wanderer.Systems
         /// <returns></returns>
         protected virtual bool IsWithinNaturalHealingThreshold(Injured injured)
         {
-            return injured.Severity <= 10;
+            return injured.Severity <= NaturalHealThreshold;
         }
     }
 }

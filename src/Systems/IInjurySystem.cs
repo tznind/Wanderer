@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Wanderer.Actions;
 using Wanderer.Actors;
 using Wanderer.Adjectives;
+using Wanderer.Factories.Blueprints;
 
 namespace Wanderer.Systems
 {
@@ -10,7 +11,7 @@ namespace Wanderer.Systems
     public interface IInjurySystem: ISystem
     {
         
-        IEnumerable<Injured> GetAvailableInjuries(IHasStats actor);
+        List<InjuryBlueprint> Injuries { get; set; }
 
         /// <summary>
         /// Returns true if the <paramref name="owner"/> is so injured (by this system)

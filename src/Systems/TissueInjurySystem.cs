@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Wanderer.Actors;
 using Wanderer.Adjectives;
+using Wanderer.Adjectives.RoomOnly;
 
 namespace Wanderer.Systems
 {
@@ -10,7 +11,11 @@ namespace Wanderer.Systems
     {
         public TissueInjurySystem()
         {
+
             Identifier =  new Guid("9b137f26-834d-4033-ae36-74ab578f5868");
+
+            ResistWorsen.Immune.Add(typeof(Tough));
+            ResistWorsen.Vulnerable.Add(typeof(Stale));
         }
 
         public override IEnumerable<Injured> GetAvailableInjuries(IHasStats actor)
@@ -23,24 +28,6 @@ namespace Wanderer.Systems
             }
         }
 
-        protected override bool ShouldNaturallyHealImpl(Injured injured, int roundsSeen)
-        {
-            return roundsSeen >= 10;
-        }
-
-        public override void Worsen(Injured injured, IUserinterface ui, Guid round)
-        {
-            if (!injured.IsInfected)
-            {
-                injured.IsInfected = true;
-                ui.Log.Info(new LogEntry($"{injured.Name} became infected",round,injured.Owner as IActor));
-                injured.Name = "Infected " + injured.Name;
-            }
-            else
-                ui.Log.Info(new LogEntry($"{injured.Name} got worse", round,injured.Owner as IActor));
-
-            injured.Severity+=10;
-        }
 
     }
 }

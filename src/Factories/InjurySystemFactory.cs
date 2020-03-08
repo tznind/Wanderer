@@ -10,7 +10,7 @@ namespace Wanderer.Factories
     {
         public IInjurySystem Create(InjurySystemBlueprint blue)
         {
-            new HungerInjurySystem()
+            return null;
 
         }
     }
