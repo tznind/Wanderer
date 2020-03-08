@@ -10,7 +10,16 @@ namespace Wanderer.Systems
     /// <inheritdoc />
     public interface IInjurySystem: ISystem
     {
-        
+        /// <summary>
+        /// Human readable name for the system
+        /// </summary>
+        string Name { get; set; }
+
+        /// <summary>
+        /// True if the injury system should be the default e.g. for Fight
+        /// </summary>
+        bool IsDefault { get; set; }
+
         List<InjuryBlueprint> Injuries { get; set; }
 
         /// <summary>

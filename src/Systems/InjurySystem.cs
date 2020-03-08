@@ -13,6 +13,9 @@ namespace Wanderer.Systems
     {
         public Guid Identifier { get; set; }
 
+        public string Name { get; set; }
+        public bool IsDefault { get; set; }
+
         /// <summary>
         /// Describes how the injuries inflicted by this system are healed e.g.
         /// "healed", "put out", "solved by eating"

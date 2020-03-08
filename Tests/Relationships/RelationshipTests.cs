@@ -63,11 +63,9 @@ namespace Tests.Relationships
         [Test]
         public void Test_FightingMakesYouEnemies()
         {
-            IWorld world = new World();
-            var room = new Room("Test Room", world,'-');
-            world.Map.Add(new Point3(0,0,0), room);
+            var you = YouInARoom(out IWorld world);
+            var room = you.CurrentLocation;
 
-            var you = new You("wanderer", room);
             var bob = new Npc("Bob", room); 
             
             //don't do anything bob like wander off!
@@ -98,11 +96,9 @@ namespace Tests.Relationships
         public void FightingIsFrownedUponByOthers(bool areFriends)
         {
             //when I'm in a room with 2 people
-            IWorld world = new World();
-            var room = new Room("Test Room", world,'-');
-            world.Map.Add(new Point3(0,0,0), room);
+            var you = YouInARoom(out IWorld world);
+            var room = you.CurrentLocation;
 
-            var you = new You("wanderer", room);
             var bob = new Npc("Bob", room); 
             var bobsFriend = new Npc("Bobs Friend", room); 
             
