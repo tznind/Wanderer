@@ -36,7 +36,7 @@ namespace Tests.Systems
             var a = new You("You", room);
 
             
-            for (int i = 6; i < 66; i++)
+            for (int i = 10; i < 66; i++)
             {
                 a.Adjectives.Clear();
                 sys.Apply(new SystemArgs(world,GetUI(),i,null,a,Guid.Empty));
@@ -66,14 +66,14 @@ namespace Tests.Systems
             var injury = new Injured("Bruised Shin", a, 10, InjuryRegion.Leg,world.InjurySystems.First());
             a.Adjectives.Add(injury);
             
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 11; i++)
             {
                 var stack = new ActionStack();
                 stack.RunStack(world,GetUI(typeof(object)), new LoadGunsAction(), a, a.GetFinalBehaviours());
 
                 //after 9 round you should still be injured                
-                if(i <9)
-                    Assert.Contains(injury,a.Adjectives.ToArray());
+                if(i <10)
+                    Assert.Contains(injury,a.Adjectives.ToArray(), $"unexpected injury healing on round {i}");
                 else
                     //on 10th round it should be gone
                     Assert.IsFalse(a.Adjectives.Contains(injury));
@@ -189,7 +189,7 @@ namespace Tests.Systems
             Assert.Contains(injury,you.Adjectives.ToArray());
             Assert.IsTrue(stack.RunStack(world,new FixedChoiceUI(you,injury), you.GetFinalActions().OfType<HealAction>().Single(), you, you.GetFinalBehaviours()));
 
-            var badInjury = new Injured("Cut Lip", you, 8, InjuryRegion.Leg,world.InjurySystems.First());
+            var badInjury = new Injured("Cut Lip", you, 80, InjuryRegion.Leg,world.InjurySystems.First());
             you.Adjectives.Add(badInjury);
 
             stack = new ActionStack();
@@ -221,7 +221,7 @@ namespace Tests.Systems
             var them = new ActorFactory(new ItemFactory(adj),adj);
             them.Add<Giant>(you);
 
-            var badInjury = new Injured("Cut Lip", you, 8, InjuryRegion.Leg,world.InjurySystems.First());
+            var badInjury = new Injured("Cut Lip", you, 80, InjuryRegion.Leg,world.InjurySystems.First());
             you.Adjectives.Add(badInjury);
 
             var stack = new ActionStack();

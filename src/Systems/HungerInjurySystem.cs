@@ -19,6 +19,7 @@ namespace Wanderer.Systems
             base.Injuries.Add(new InjuryBlueprint("Starved",50));
 
             FatalThreshold = 60;
+            FatalVerb = "starvation";
 
             //does not get better by itself
             NaturalHealThreshold = 0;

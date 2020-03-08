@@ -45,7 +45,7 @@ namespace Tests.BehaviourTests
             Assert.IsTrue(you.Dead);
 
             //total turns without eating before death
-            Assert.AreEqual(54,i);
+            Assert.AreEqual(61,i);
 
         }
 
@@ -75,7 +75,7 @@ namespace Tests.BehaviourTests
             var ui = GetUI();
             world.RunRound(ui,you.Items.Single().BaseActions.Single());
 
-            Assert.Contains("Test Wanderer ate Apple",ui.MessagesShown);
+            Assert.Contains("Test Wanderer ate Apple",ui.Log.RoundResults.Select(m=>m.Message).ToArray());
 
             Assert.IsEmpty(you.Adjectives.OfType<IInjured>().ToArray());
             Assert.AreEqual(0,you.Items.Count);

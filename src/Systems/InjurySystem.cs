@@ -46,23 +46,57 @@ namespace Wanderer.Systems
         /// </summary>
         public Resistances ResistWorsen { get; set; } = new Resistances();
 
+        /// <summary>
+        /// Blueprints for all injuries that can be caused by this system
+        /// </summary>
         public List<InjuryBlueprint> Injuries { get; set; } = new List<InjuryBlueprint>();
 
 
+        /// <summary>
+        /// How bad an injury can be before it will no longer heal by itself.
+        /// Set to 0 to make wounds that never heal (by themselves) 
+        /// </summary>
         public double NaturalHealThreshold {get;set;} = 20;
 
+        /// <summary>
+        /// The number of rounds that must pass before a wound below the
+        /// <see cref="NaturalHealThreshold"/> heals itself
+        /// </summary>
         public double NaturalHealRate {get;set;} = 10;
 
-        
+        /// <summary>
+        /// If true then injuries change name as they get better/worse e.g.
+        /// "smoking" becomes "burning".  False to stick with original wording
+        /// e.g. don't graduate "bruised shin" into "broken elbow"
+        /// </summary>
         public bool SyncDescriptions{get;set;}
 
+        /// <summary>
+        /// How to describe the injury getting worse
+        /// </summary>
         public string WorsenVerb {get;set;} = "got worse";
 
+        /// <summary>
+        /// True if injuries should become <see cref="Injured.IsInfected"/>
+        /// </summary>
         public bool Infection {get;set;}
 
+        /// <summary>
+        /// Controls how/if the injuries can spread to other actors/rooms
+        /// e.g. fire, plague etc.
+        /// </summary>
         public Spreading Spreads{get;set;}
 
+        /// <summary>
+        /// Combined total number of injuries created by this system that
+        /// should result in death
+        /// </summary>
         public double FatalThreshold {get;set;} = 100;
+
+        /// <summary>
+        /// How to describe death from reaching the <see cref="FatalThreshold"/>
+        /// </summary>
+        public string FatalVerb { get; set; } = "injuries";
 
         public virtual void Apply(SystemArgs args)
         {
@@ -100,7 +134,7 @@ namespace Wanderer.Systems
             //Combined total of serious wounds (2 or higher) severity is 100
             if (injured.Owner.Adjectives.OfType<Injured>().Where(i => i.Severity > 1).Sum(i => i.Severity) >= FatalThreshold)
             {
-                diedOf = "injuries";
+                diedOf = FatalVerb;
                 return true;
             }
 
