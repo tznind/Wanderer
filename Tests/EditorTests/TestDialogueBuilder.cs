@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using NUnit.Framework;
 using Wanderer.Compilation;
 using Wanderer.Editor;
+using Wanderer.Factories.Blueprints;
 using YamlDotNet.Serialization;
 
 namespace Tests.EditorTests
@@ -95,8 +96,79 @@ Where you from stranger?
   - Text: Wasn't when I was there
   - Text: Yeah it's nice enough",result);
 
-            
+        }
 
+        [Test]
+        public void BuildAndSerialize_NoFile()
+        {
+            var b = new DialogueBuilder();
+            Assert.Throws<FileNotFoundException>(()=>b.BuildAndSerialize(new FileInfo("troll")));
+        }
+
+        [Test] public void BuildAndSerialize_NoYamlFiles()
+        {
+            var b = new DialogueBuilder();
+
+            var input = new FileInfo(Path.Combine(TestContext.CurrentContext.WorkDirectory,"troll2.yaml"));
+            File.WriteAllText(input.FullName,"#emptyfile");
+
+            Assert.Throws<NotSupportedException>(()=>b.BuildAndSerialize(input));
+        }
+
+
+        [Test]
+        public void BuildAndSerialize_EmptyFile()
+        {
+            var b = new DialogueBuilder();
+
+            var input = new FileInfo(Path.Combine(TestContext.CurrentContext.WorkDirectory,"troll.z"));
+            File.WriteAllText(input.FullName,"#emptyfile");
+
+            var expectedOut = Path.Combine(TestContext.CurrentContext.WorkDirectory,"troll.yaml");
+            if (File.Exists(expectedOut)) 
+                File.Delete(expectedOut);
+
+            var output = b.BuildAndSerialize(input);
+
+            Assert.IsNull(output);
+            Assert.IsFalse(File.Exists(expectedOut));
+        }
+
+        [Test]
+        public void BuildAndSerialize_OutputFileAlreadyExists()
+        {
+            var b = new DialogueBuilder();
+
+            var input = new FileInfo(Path.Combine(TestContext.CurrentContext.WorkDirectory,"troll.z"));
+            File.WriteAllText(input.FullName,"#emptyfile");
+
+            var expectedOut = Path.Combine(TestContext.CurrentContext.WorkDirectory,"troll.yaml");
+            if (File.Exists(expectedOut)) 
+                File.Delete(expectedOut);
+            File.WriteAllText(expectedOut,"blahblah");
+
+            var ex = Assert.Throws<Exception>(()=>b.BuildAndSerialize(input));
+
+            StringAssert.StartsWith("Output file path already exists",ex.Message);
+        }
+
+        [Test]
+        public void BuildAndSerialize_Success()
+        {
+            var b = new DialogueBuilder();
+
+            var input = new FileInfo(Path.Combine(TestContext.CurrentContext.WorkDirectory,"troll.z"));
+            File.WriteAllText(input.FullName,"hey there wanderer");
+
+            var expectedOut = Path.Combine(TestContext.CurrentContext.WorkDirectory,"troll.yaml");
+            if (File.Exists(expectedOut)) 
+                File.Delete(expectedOut);
+
+            var output = b.BuildAndSerialize(input);
+
+            Assert.AreEqual(expectedOut,output.FullName);
+
+            StringAssert.Contains(@"- Text: hey there wanderer",File.ReadAllText(expectedOut));
         }
     }
 }
