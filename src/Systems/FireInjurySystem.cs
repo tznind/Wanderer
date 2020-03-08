@@ -21,27 +21,10 @@ namespace Wanderer.Systems
             base.Injuries.Add(new InjuryBlueprint("Flaming",40));
             base.Injuries.Add(new InjuryBlueprint("Conflagration",50));
             base.Injuries.Add(new InjuryBlueprint("Inferno",60));
-        }
 
-        protected override bool ShouldNaturallyHealImpl(Injured injured, int roundsSeenCount)
-        {
-            return false;
-        }
-
-        protected override bool ShouldWorsenImpl(Injured injury, int roundsSeen)
-        {
-            return true;
-        }
-
-        protected override bool IsWithinNaturalHealingThreshold(Injured injured)
-        {
-            return false;
-        }
-
-        public override bool HasFatalInjuries(IInjured injured, out string diedOf)
-        {
-            diedOf = null;
-            return false;
+            NaturalHealThreshold = 0;
+            WorsenRate = 1;
+            SyncDescriptions = true;
         }
     }
 }

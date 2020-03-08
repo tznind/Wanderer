@@ -5,6 +5,6 @@ namespace Wanderer.Factories
 {
     internal interface IInjurySystemFactory
     {
-        IInjurySystem Create(InjurySystemBlueprint blue);
+        IInjurySystem Create(string yaml);
     }
 }

@@ -7,7 +7,7 @@ namespace Tests.Systems
         [Test]
         public void TestCreatingInjurySystem()
         {
-            new InjurySystemFactory();
+            //TODO create from yaml
         }
     }
 }

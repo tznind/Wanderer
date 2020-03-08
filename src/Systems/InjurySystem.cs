@@ -62,6 +62,8 @@ namespace Wanderer.Systems
 
         public Spreading Spreads{get;set;}
 
+        public double FatalThreshold {get;set;} = 100;
+
         public virtual void Apply(SystemArgs args)
         {
             if(args.Intensity < 0 )
@@ -75,7 +77,10 @@ namespace Wanderer.Systems
             if(candidate == null)
                 throw new Exception("No Injury  found for severity " + args.Intensity);
 
-            var newInjury = new Injured(candidate.Name,args.Recipient,args.Intensity,candidate.Region,this);
+            var newInjury = new Injured(candidate.Name,args.Recipient,args.Intensity,candidate.Region,this)
+            {
+                Identifier = this.Identifier
+            };
 
             args.Recipient.Adjectives.Add(newInjury);
             args.UserInterface.Log.Info(new LogEntry($"{args.Recipient} gained {newInjury}", args.Round,args.Room.GetPoint()));
@@ -93,7 +98,7 @@ namespace Wanderer.Systems
         public virtual bool HasFatalInjuries(IInjured injured, out string diedOf)
         {
             //Combined total of serious wounds (2 or higher) severity is 100
-            if (injured.Owner.Adjectives.OfType<Injured>().Where(i => i.Severity > 1).Sum(i => i.Severity) >= 100)
+            if (injured.Owner.Adjectives.OfType<Injured>().Where(i => i.Severity > 1).Sum(i => i.Severity) >= FatalThreshold)
             {
                 diedOf = "injuries";
                 return true;
@@ -194,30 +199,7 @@ namespace Wanderer.Systems
 
             if(Spreads != null)
             {
-                
-                /*
-            
-            if(injured.Owner is IRoom p)
-            {
-                //rooms set other rooms on fire!
-                foreach(var adjacent in p.World.Map.GetAdjacentRooms(p,false))
-                    this.Apply(new SystemArgs(p.World,ui,1,null,p,round));
-
-                //and the people in them
-                foreach(var actor in p.Actors)
-                    this.Apply(new SystemArgs(p.World,ui,1,null,actor,round));
-            }
-            
-            if(injured.Owner is IActor a)
-            {
-                var world =a.CurrentLocation.World;
-                var region =  ((InjuryRegion[])Enum.GetValues(typeof(InjuryRegion))).ToList().GetRandom(world.R);
-
-                //This should be a soft tissue injury rebranded as a a burn
-                var burn = new Injured("Burnt " + region,a,injured.Severity,region,world.InjurySystems[0]);
-
-                a.Adjectives.Add(burn);
-            }*/
+                Spreads.HandleSpreading(injured,this,ui,round);
             }
         }
 
