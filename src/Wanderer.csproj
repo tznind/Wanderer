@@ -163,4 +163,8 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Resources\InjurySystems\" />
+  </ItemGroup>
+
 </Project>

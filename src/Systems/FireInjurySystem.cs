@@ -48,11 +48,6 @@ namespace Wanderer.Systems
                 injured.Name = GetDescription(injured.Severity);
         }
 
-        public override bool IsHealableBy(IActor actor, Injured injured, out string reason)
-        {
-            reason = "it's fire!";
-            return false;
-        }
 
         public override void Worsen(Injured injured, IUserinterface ui, Guid round)
         {
@@ -79,12 +74,7 @@ namespace Wanderer.Systems
                 a.Adjectives.Add(burn);
             }
         }
-
-        protected override IEnumerable<InjuryRegion> GetAvailableInjuryLocations(SystemArgs args)
-        {
-            yield return InjuryRegion.None;
-        }
-
+        
         protected override bool ShouldNaturallyHealImpl(Injured injured, int roundsSeenCount)
         {
             return false;

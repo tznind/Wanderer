@@ -7,7 +7,10 @@ namespace Wanderer.Systems
 {
     public class HungerInjurySystem : InjurySystem
     {
-        public override Guid Identifier {get;set;} = new Guid("89c18233-5250-4445-8799-faa9a888fb7f");
+        public HungerInjurySystem()
+        {
+            Identifier = new Guid("89c18233-5250-4445-8799-faa9a888fb7f");
+        }
 
         public override IEnumerable<Injured> GetAvailableInjuries(IHasStats actor)
         {
@@ -43,12 +46,6 @@ namespace Wanderer.Systems
                 injured.Name = GetDescription(injured.Severity);
         }
 
-        public override bool IsHealableBy(IActor actor, Injured injured, out string reason)
-        {
-            //only food heals injuries
-            reason = "You need to eat something";
-            return false;
-        }
 
         public override void Worsen(Injured injured, IUserinterface ui, Guid round)
         {
@@ -62,10 +59,6 @@ namespace Wanderer.Systems
             return injured.Severity>=70;
         }
 
-        protected override IEnumerable<InjuryRegion> GetAvailableInjuryLocations(SystemArgs args)
-        {
-            yield return InjuryRegion.None;
-        }
 
         protected override bool ShouldNaturallyHealImpl(Injured injured, int roundsSeenCount)
         {

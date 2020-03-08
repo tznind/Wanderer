@@ -10,8 +10,6 @@ namespace Wanderer.Systems
     public interface IInjurySystem: ISystem
     {
         
-
-        void Apply(SystemArgs args, InjuryRegion region);
         IEnumerable<Injured> GetAvailableInjuries(IHasStats actor);
 
         /// <summary>
