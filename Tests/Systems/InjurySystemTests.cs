@@ -16,6 +16,7 @@ using Wanderer.Rooms;
 using Wanderer.Stats;
 using Wanderer.Systems;
 using Tests.Actions;
+using YamlDotNet.Serialization;
 using Enumerable = System.Linq.Enumerable;
 
 namespace Tests.Systems
@@ -23,57 +24,25 @@ namespace Tests.Systems
     class InjurySystemTests : UnitTest
     {
         [Test]
-        public void Test_AllInjuriesUnique()
-        {
-            List<string> seenSoFar = new List<string>();
-
-            var sys = new TissueInjurySystem();
-
-            var world = new World();
-            var room = new Room("someRoom", world,'-');
-            world.Map.Add(new Point3(0,0,0), room);
-
-            var a = new You("You", room);
-
-            
-            for (int i = 6; i < 66; i++)
-            {
-                a.Adjectives.Clear();
-                sys.Apply(new SystemArgs(world,GetUI(),i,null,a,Guid.Empty));
-
-                //it should have applied 1 injury
-                Assert.AreEqual(1,a.Adjectives.Count);
-                var injury = (Injured)a.Adjectives.Single();
-
-                Assert.AreNotEqual(InjuryRegion.None,injury);
-
-                var newInjury = injury.Name;
-                Assert.IsFalse(seenSoFar.Contains(newInjury),$"Saw duplicate injury '{newInjury}' for i={i}");
-                seenSoFar.Add(newInjury);
-            }
-        }
-
-        [Test]
         public void Test_LightInjuriesHealOverTime()
         {
-            var world = new World();
-            var room = new Room("someRoom", world,'-');
-            world.Map.Add(new Point3(0,0,0), room);
+            var you = YouInARoom(out IWorld world);
+            var room = you.CurrentLocation;
 
             var a = new You("You", room);
             
             //give them an injury
-            var injury = new Injured("Bruised Shin", a, 10, InjuryRegion.Leg,world.InjurySystems.First());
+            var injury = new Injured("Bruised Shin", a, 10, InjuryRegion.Leg,world.InjurySystems.First(i=>i.IsDefault));
             a.Adjectives.Add(injury);
             
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 11; i++)
             {
                 var stack = new ActionStack();
                 stack.RunStack(world,GetUI(typeof(object)), new LoadGunsAction(), a, a.GetFinalBehaviours());
 
                 //after 9 round you should still be injured                
-                if(i <9)
-                    Assert.Contains(injury,a.Adjectives.ToArray());
+                if(i <10)
+                    Assert.Contains(injury,a.Adjectives.ToArray(), $"unexpected injury healing on round {i}");
                 else
                     //on 10th round it should be gone
                     Assert.IsFalse(a.Adjectives.Contains(injury));
@@ -86,26 +55,23 @@ namespace Tests.Systems
         [TestCase(false,false)]
         public void Test_HeavyInjuriesGetWorseOverTime(bool isTough, bool roomIsStale)
         {
-            var world = new World();
-            var room = new Room("someRoom", world,'-');
-            world.Map.Add(new Point3(0,0,0), room);
-            
+            var you = YouInARoom(out IWorld world);
+            var room = you.CurrentLocation;
+
             if (roomIsStale)
                 room.Adjectives.Add(new Stale(room));
 
-            var a = new You("You", room);
-
             //give them an injury
-            var injury = new Injured("Cut Lip", a, 2, InjuryRegion.Leg,world.InjurySystems.First());
-            a.Adjectives.Add(injury);
+            var injury = new Injured("Cut Lip", you, 2, InjuryRegion.Leg,world.InjurySystems.First(i=>i.IsDefault));
+            you.Adjectives.Add(injury);
 
             if (isTough)
-                a.Adjectives.Add(new Tough(a));
+                you.Adjectives.Add(new Tough(you));
 
             for (int i = 0; i < 10; i++)
             {
                 var stack = new ActionStack();
-                stack.RunStack(world,GetUI(typeof(object)), new LoadGunsAction(), a, a.GetFinalBehaviours());
+                stack.RunStack(world,GetUI(typeof(object)), new LoadGunsAction(), you, you.GetFinalBehaviours());
 
                 //after 2 rounds (0 and 1) you should still be injured                
                 if(i == 0 )
@@ -144,11 +110,7 @@ namespace Tests.Systems
         [Test]
         public void Test_HealingAnInjury()
         {
-            var world = new World();
-            var room = new Room("someRoom", world,'-');
-            world.Map.Add(new Point3(0,0,0), room);
-
-            var you = new You("You", room);
+            var you = YouInARoom(out IWorld world);
 
             //you cannot heal yet
             Assert.IsFalse(you.GetFinalActions().OfType<HealAction>().Any());
@@ -160,7 +122,7 @@ namespace Tests.Systems
             Assert.IsTrue(you.GetFinalActions().OfType<HealAction>().Any());
 
             //give them an injury
-            var injury = new Injured("Cut Lip", you, 2, InjuryRegion.Leg,world.InjurySystems.First());
+            var injury = new Injured("Cut Lip", you, 2, InjuryRegion.Leg,world.InjurySystems.First(i=>i.IsDefault));
             you.Adjectives.Add(injury);
 
             var stack = new ActionStack();
@@ -181,7 +143,7 @@ namespace Tests.Systems
             you.BaseStats[Stat.Savvy] = 20;
 
             //give them an injury
-            var injury = new Injured("Cut Lip", you, 2, InjuryRegion.Leg,world.InjurySystems.First());
+            var injury = new Injured("Cut Lip", you, 2, InjuryRegion.Leg,world.InjurySystems.First(i=>i.IsDefault));
             you.Adjectives.Add(injury);
             
             var stack = new ActionStack();
@@ -189,7 +151,7 @@ namespace Tests.Systems
             Assert.Contains(injury,you.Adjectives.ToArray());
             Assert.IsTrue(stack.RunStack(world,new FixedChoiceUI(you,injury), you.GetFinalActions().OfType<HealAction>().Single(), you, you.GetFinalBehaviours()));
 
-            var badInjury = new Injured("Cut Lip", you, 8, InjuryRegion.Leg,world.InjurySystems.First());
+            var badInjury = new Injured("Cut Lip", you, 80, InjuryRegion.Leg,world.InjurySystems.First(i=>i.IsDefault));
             you.Adjectives.Add(badInjury);
 
             stack = new ActionStack();
@@ -221,7 +183,7 @@ namespace Tests.Systems
             var them = new ActorFactory(new ItemFactory(adj),adj);
             them.Add<Giant>(you);
 
-            var badInjury = new Injured("Cut Lip", you, 8, InjuryRegion.Leg,world.InjurySystems.First());
+            var badInjury = new Injured("Cut Lip", you, 80, InjuryRegion.Leg,world.InjurySystems.First(i=>i.IsDefault));
             you.Adjectives.Add(badInjury);
 
             var stack = new ActionStack();
@@ -246,11 +208,7 @@ namespace Tests.Systems
         public void Test_HealingAnInjury_WithSingleUseItem()
         {
             var itemFactory = new ItemFactory(new AdjectiveFactory());
-
-            var world = new World();
-            var room = new Room("someRoom", world,'-');
-            world.Map.Add(new Point3(0,0,0), room);
-            var you = new You("You", room);
+            var you = YouInARoom(out IWorld world);
             you.BaseStats[Stat.Savvy] = 50;
             
 
@@ -269,7 +227,7 @@ namespace Tests.Systems
             Assert.AreEqual(2,you.Items.Count(i=>i.Name.Equals("Kit")));
             
             //give them an injury
-            var injury = new Injured("Cut Lip", you, 2, InjuryRegion.Leg,world.InjurySystems.First());
+            var injury = new Injured("Cut Lip", you, 2, InjuryRegion.Leg,world.InjurySystems.First(i=>i.IsDefault));
             you.Adjectives.Add(injury);
 
             var stack = new ActionStack();
@@ -288,11 +246,8 @@ namespace Tests.Systems
         public void Test_HealingAnInjury_WithSingleUseItemStack()
         {
             var itemFactory = new ItemFactory(new AdjectiveFactory());
-
-            var world = new World();
-            var room = new Room("someRoom", world,'-');
-            world.Map.Add(new Point3(0,0,0), room);
-            var you = new You("You", room);
+            
+            var you = YouInARoom(out IWorld world);
             you.BaseStats[Stat.Savvy] = 50;
                       
             var kitStack = itemFactory.CreateStack<SingleUse, Medic>("Kit",2);
@@ -301,7 +256,7 @@ namespace Tests.Systems
             Assert.AreEqual(2,kitStack.StackSize);
 
             //give them an injury
-            var injury = new Injured("Cut Lip", you, 2, InjuryRegion.Leg,world.InjurySystems.First());
+            var injury = new Injured("Cut Lip", you, 2, InjuryRegion.Leg,world.InjurySystems.First(i=>i.IsDefault));
             you.Adjectives.Add(injury);
 
             var stack = new ActionStack();
@@ -329,13 +284,15 @@ namespace Tests.Systems
             var you = YouInARoom(out IWorld w);
             you.Dead = true;
 
-            var a = new Injured("Exposed Spine", you, 7, InjuryRegion.Ribs,new TissueInjurySystem());
+            var injurySystem = w.InjurySystems.Single(i => i.Identifier == new Guid("9b137f26-834d-4033-ae36-74ab578f5868"));
+
+            var a = new Injured("Exposed Spine", you, 7, InjuryRegion.Ribs,injurySystem);
 
             for (int i = 0; i < 100; i++) 
                 Assert.IsFalse(a.InjurySystem.ShouldWorsen(a, i));
 
             
-            var a2 = new Injured("Grazed Knee", you, 1, InjuryRegion.Leg,new TissueInjurySystem());
+            var a2 = new Injured("Grazed Knee", you, 1, InjuryRegion.Leg,injurySystem);
 
             for (int i = 0; i < 100; i++)
             {
@@ -350,14 +307,14 @@ namespace Tests.Systems
             var you = YouInARoom(out IWorld w).With(new LoadGunsAction());
 
             //give them an injury
-            var injury = new Injured("Cut Lip", you, 20, InjuryRegion.Leg,w.InjurySystems.First());
+            var injury = new Injured("Cut Lip", you, 20, InjuryRegion.Leg,w.InjurySystems.First(i=>i.IsDefault));
             you.Adjectives.Add(injury);
 
             w.RunRound(new FixedChoiceUI(),you.GetFinalActions().OfType<LoadGunsAction>().Single());
 
             Assert.IsFalse(you.Dead,"Did not expect you to die from light injuries");
             
-            var badInjury = new Injured("Decapitated Head", you, 100, InjuryRegion.Head,w.InjurySystems.First());
+            var badInjury = new Injured("Decapitated Head", you, 100, InjuryRegion.Head,w.InjurySystems.First(i=>i.IsDefault));
             you.Adjectives.Add(badInjury);
 
             Assert.IsFalse(you.Dead,"Expected death check to be at the end of the round");

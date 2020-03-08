@@ -17,8 +17,12 @@ namespace Wanderer.Actions
         {
             const int fightAttitude = -20;
 
-            if (actor.Decide(ui,"Fight", null, out IActor toFight, GetTargets(actor),fightAttitude)) 
-                stack.Push(new FightFrame(actor, toFight, this,actor.CurrentLocation.World.InjurySystems.First(),fightAttitude));
+            var injurySystem = actor.CurrentLocation.World.InjurySystems.OrderByDescending(i=>i.IsDefault).FirstOrDefault();
+
+            //does the world support injuries
+            if(injurySystem != null)
+                if (actor.Decide(ui,"Fight", null, out IActor toFight, GetTargets(actor),fightAttitude)) 
+                    stack.Push(new FightFrame(actor, toFight, this,injurySystem,fightAttitude));
         }
 
         public override void Pop(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)

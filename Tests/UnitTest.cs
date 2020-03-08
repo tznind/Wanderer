@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using NUnit.Framework;
 using Wanderer;
 using Wanderer.Actors;
 using Wanderer.Factories;
@@ -15,6 +16,10 @@ namespace Tests
             var room = new Room("TestRoom", world,'-');
             world.RoomFactory = new RoomFactory(new AdjectiveFactory());
             world.Map.Add(new Point3(0,0,0),room );
+
+            var wf = new WorldFactory();
+            world.InjurySystems = wf.GetInjurySystems();
+
             return room;
         }
 

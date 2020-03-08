@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Wanderer.Actors;
 using Wanderer.Adjectives;
@@ -18,10 +19,10 @@ namespace Wanderer.Actions
         public override void Pop(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
         {
             var hunger = frame.PerformedBy.Adjectives.OfType<IInjured>()
-                .FirstOrDefault(i => i.InjurySystem is HungerInjurySystem);
+                //TODO: this is a reference to Hunger.yaml once actions are yamled too then this should move there
+                .FirstOrDefault(i => i.InjurySystem.Identifier == new Guid("89c18233-5250-4445-8799-faa9a888fb7f"));
 
             hunger?.Heal(ui,stack.Round);
-
 
             frame.GetActionOwner();
 

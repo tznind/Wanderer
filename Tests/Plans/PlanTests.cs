@@ -41,8 +41,10 @@ namespace Tests.Plans
             //they should not be hungry
             Assert.AreEqual(0,them.Adjectives.OfType<IInjured>().Count());
             
+            var hungerSystem = world.InjurySystems.Single(i=>i.Identifier == new Guid("89c18233-5250-4445-8799-faa9a888fb7f"));
+
             //make them hungry
-            new HungerInjurySystem().Apply(
+            hungerSystem.Apply(
                 new SystemArgs(world,GetUI(),10/*TODO: again this is x10 vs Severity!*/,null,them,Guid.Empty)
                 );
             

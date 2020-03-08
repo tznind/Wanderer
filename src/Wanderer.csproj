@@ -39,6 +39,9 @@
     <None Remove="Resources\Factions\Wildlife\Actors.yaml" />
     <None Remove="Resources\Factions\Wildlife\Faction.yaml" />
     <None Remove="Resources\Factions\Wildlife\Forenames.txt" />
+    <None Remove="Resources\InjurySystems\Fire.yaml" />
+    <None Remove="Resources\InjurySystems\Hunger.yaml" />
+    <None Remove="Resources\InjurySystems\TissueInjury.yaml" />
     <None Remove="Resources\Main.lua" />
     <None Remove="Resources\Rooms.yaml" />
     <None Remove="Resources\Slots.yaml" />
@@ -106,6 +109,9 @@
     <Content Include="Resources\Factions\Security\Forenames.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\InjurySystems\TissueInjury.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Items.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -159,6 +165,15 @@
 
   <ItemGroup>
     <Content Include="Resources\Main.lua">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\InjurySystems\Hunger.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\InjurySystems\Fire.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

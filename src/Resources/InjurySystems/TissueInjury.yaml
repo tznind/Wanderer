@@ -1,0 +1,204 @@
+﻿Identifier: 9b137f26-834d-4033-ae36-74ab578f5868
+Name: Tissue Damage
+IsDefault: true
+HealVerb: healed
+HealerStat: Savvy
+HealerStatMultiplier: 0.5
+WorsenRate: 10
+ResistWorsen:
+  Vulnerable:
+  - Wanderer.Adjectives.RoomOnly.Stale, Wanderer, Version=0.0.6.0, Culture=neutral, PublicKeyToken=null
+  Immune:
+  - Wanderer.Adjectives.Tough, Wanderer, Version=0.0.6.0, Culture=neutral, PublicKeyToken=null
+
+NaturalHealThreshold: 20
+NaturalHealRate: 10
+SyncDescriptions: false
+WorsenVerb: got worse
+Infection: true
+Spreads: 
+FatalThreshold: 100
+FatalVerb: injuries
+
+Injuries:
+- Region: Head
+  Name: Bruised Head
+  Severity: 10
+- Region: Head
+  Name: Cut Head
+  Severity: 20
+- Region: Head
+  Name: Lacerated Head
+  Severity: 30
+- Region: Head
+  Name: Fractured Head
+  Severity: 40
+- Region: Head
+  Name: Broken Head
+  Severity: 50
+- Region: Head
+  Name: Detached Head
+  Severity: 60
+- Region: Eye
+  Name: Bruised Eye
+  Severity: 11
+- Region: Eye
+  Name: Cut Eye
+  Severity: 21
+- Region: Eye
+  Name: Lacerated Eye
+  Severity: 31
+- Region: Eye
+  Name: Fractured Eye
+  Severity: 41
+- Region: Eye
+  Name: Broken Eye
+  Severity: 51
+- Region: Eye
+  Name: Detached Eye
+  Severity: 61
+- Region: Jaw
+  Name: Bruised Jaw
+  Severity: 12
+- Region: Jaw
+  Name: Cut Jaw
+  Severity: 22
+- Region: Jaw
+  Name: Lacerated Jaw
+  Severity: 32
+- Region: Jaw
+  Name: Fractured Jaw
+  Severity: 42
+- Region: Jaw
+  Name: Broken Jaw
+  Severity: 52
+- Region: Jaw
+  Name: Detached Jaw
+  Severity: 62
+- Region: Neck
+  Name: Bruised Neck
+  Severity: 13
+- Region: Neck
+  Name: Cut Neck
+  Severity: 23
+- Region: Neck
+  Name: Lacerated Neck
+  Severity: 33
+- Region: Neck
+  Name: Fractured Neck
+  Severity: 43
+- Region: Neck
+  Name: Broken Neck
+  Severity: 53
+- Region: Neck
+  Name: Detached Neck
+  Severity: 63
+- Region: Ribs
+  Name: Bruised Ribs
+  Severity: 14
+- Region: Ribs
+  Name: Cut Ribs
+  Severity: 24
+- Region: Ribs
+  Name: Lacerated Ribs
+  Severity: 34
+- Region: Ribs
+  Name: Fractured Ribs
+  Severity: 44
+- Region: Ribs
+  Name: Broken Ribs
+  Severity: 54
+- Region: Ribs
+  Name: Detached Ribs
+  Severity: 64
+- Region: Arm
+  Name: Bruised Arm
+  Severity: 15
+- Region: Arm
+  Name: Cut Arm
+  Severity: 25
+- Region: Arm
+  Name: Lacerated Arm
+  Severity: 35
+- Region: Arm
+  Name: Fractured Arm
+  Severity: 45
+- Region: Arm
+  Name: Broken Arm
+  Severity: 55
+- Region: Arm
+  Name: Detached Arm
+  Severity: 65
+- Region: Hand
+  Name: Bruised Hand
+  Severity: 16
+- Region: Hand
+  Name: Cut Hand
+  Severity: 26
+- Region: Hand
+  Name: Lacerated Hand
+  Severity: 36
+- Region: Hand
+  Name: Fractured Hand
+  Severity: 46
+- Region: Hand
+  Name: Broken Hand
+  Severity: 56
+- Region: Hand
+  Name: Detached Hand
+  Severity: 66
+- Region: OffHand
+  Name: Bruised OffHand
+  Severity: 17
+- Region: OffHand
+  Name: Cut OffHand
+  Severity: 27
+- Region: OffHand
+  Name: Lacerated OffHand
+  Severity: 37
+- Region: OffHand
+  Name: Fractured OffHand
+  Severity: 47
+- Region: OffHand
+  Name: Broken OffHand
+  Severity: 57
+- Region: OffHand
+  Name: Detached OffHand
+  Severity: 67
+- Region: Leg
+  Name: Bruised Leg
+  Severity: 18
+- Region: Leg
+  Name: Cut Leg
+  Severity: 28
+- Region: Leg
+  Name: Lacerated Leg
+  Severity: 38
+- Region: Leg
+  Name: Fractured Leg
+  Severity: 48
+- Region: Leg
+  Name: Broken Leg
+  Severity: 58
+- Region: Leg
+  Name: Detached Leg
+  Severity: 68
+- Region: Foot
+  Name: Bruised Foot
+  Severity: 19
+- Region: Foot
+  Name: Cut Foot
+  Severity: 29
+- Region: Foot
+  Name: Lacerated Foot
+  Severity: 39
+- Region: Foot
+  Name: Fractured Foot
+  Severity: 49
+- Region: Foot
+  Name: Broken Foot
+  Severity: 59
+- Region: Foot
+  Name: Detached Foot
+  Severity: 69
+

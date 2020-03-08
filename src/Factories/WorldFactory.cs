@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Wanderer.Actors;
@@ -31,6 +32,8 @@ namespace Wanderer.Factories
             var world = new World();
             world.ResourcesDirectory = ResourcesDirectory;
 
+            world.InjurySystems = GetInjurySystems();
+
             _defaultSlots = GetDefaultSlots();
             _defaultItems = GetDefaultItems();
 
@@ -53,6 +56,35 @@ namespace Wanderer.Factories
             world.RoomFactory = roomFactory;
             
             return world;
+        }
+
+        public virtual IList<IInjurySystem> GetInjurySystems()
+        {
+            var toReturn = new List<IInjurySystem>();
+
+            var dir = Path.Combine(ResourcesDirectory, "InjurySystems");
+
+            if (!Directory.Exists(dir))
+                return toReturn;
+
+            foreach (var file in Directory.GetFiles(dir,"*.yaml",SearchOption.AllDirectories))
+            {
+                try
+                {
+                    var yaml = File.ReadAllText(file);
+                    
+                    if(string.IsNullOrWhiteSpace(yaml))
+                        continue;
+
+                    toReturn.Add(Compiler.Instance.Deserializer.Deserialize<InjurySystem>(yaml));
+                }
+                catch (Exception e)
+                {
+                    throw new Exception($"Error building InjurySystem from file '{file}'",e);
+                }
+            }
+
+            return toReturn;
         }
 
 

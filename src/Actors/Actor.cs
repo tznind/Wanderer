@@ -59,7 +59,11 @@ namespace Wanderer.Actors
             
             //basic actions everyone can do (by default)
             BaseActions.Add(new LeaveAction());
-            BaseActions.Add(new FightAction());
+
+            //if there are ways to be injured then there are ways to fight
+            if(currentLocation.World.InjurySystems.Any())
+                BaseActions.Add(new FightAction());
+
             BaseActions.Add(new PickUpAction());
             BaseActions.Add(new DropAction());
             BaseActions.Add(new GiveAction());
@@ -68,7 +72,8 @@ namespace Wanderer.Actors
 
             BaseBehaviours.Add(new MergeStacksBehaviour(this));
 
-            var hungerSystem = CurrentLocation.World.InjurySystems.OfType<HungerInjurySystem>().FirstOrDefault();
+            //TODO: this is a reference to the hunger system which means this behaviour should go into yaml too
+            var hungerSystem = CurrentLocation.World.InjurySystems.FirstOrDefault(i=>i.Identifier == new Guid("89c18233-5250-4445-8799-faa9a888fb7f"));
 
             if(hungerSystem != null)
                 BaseBehaviours.Add(new GetsHungryBehaviour(this,hungerSystem));
