@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using NUnit.Framework;
@@ -90,11 +91,11 @@ Where you from stranger?
             var builder = new DialogueBuilder();
             var result = builder.BuildAndSerialize(dlg);
 
-            StringAssert.Contains(@"Body:
-  - Text: I've heard of that place, it's nice
-  Options:
-  - Text: Wasn't when I was there
-  - Text: Yeah it's nice enough",result);
+            StringAssert.Contains("Body:", result); 
+            StringAssert.Contains("- Text: I've heard of that place, it's nice", result);
+            StringAssert.Contains("Options:", result);
+            StringAssert.Contains("- Text: Wasn't when I was there", result);
+            StringAssert.Contains("- Text: Yeah it's nice enough",result);
 
         }
 
