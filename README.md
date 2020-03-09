@@ -23,6 +23,7 @@ Technical Goals:
 3. [Maximum Test coverage](https://codecov.io/gh/tznind/Wanderer)
 
 ![Screenshot of gameplay showing map][screenshot1]
+![Screenshot of gameplay showing map][screenshot2]
 
 ## Download
 
