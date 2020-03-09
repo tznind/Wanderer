@@ -5,6 +5,9 @@ This file describes the relationship between classes and resource files
 |   Yaml File      |  Class           |   Notes                   |
 |------------------|------------------|---------------------------|
 | /Dialogue/*.yaml | `DialogueNode[]` | Contains unique dialogue trees.  Each node consists of 1 main piece of text and 0 or more options which can lead to other nodes or end dialogue |
+| /InjurySystems/*.yaml | `InjurySystem` | Describes a method of inflicting damage upon Rooms and Actors (e.g. fire, plague, tissue damage etc)|
+| /[Main.lua](./Main.lua) | N\A | Defines custom global methods and helper functions for use in scripting blocks |
+| /[Plans.yaml](./Plans.yaml) | `Plan` | Contains AI Plans for NPC Actors.  These can be influenced by Leadership Actions of others|
 | /Rooms.yaml | `RoomBlueprint[]` | Contains descriptions of rooms that can be generated |
 | /Items.yaml | `ItemBlueprint[]` | Contains generic items that would fit in any room generated (regardless of `Faction` |
 | /Slots.yaml | `SlotCollection` | Contains default item slots (e.g. 1 Head, 2 Hand etc) that all `Actor` start with (unless the blueprint lists explicit slots).  Note also that this can be overridden with a faction Slots.yaml|

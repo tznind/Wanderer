@@ -25,10 +25,13 @@ namespace Wanderer.Actions
         }
 
         /// <summary>
-        /// Resets action state to <see cref="CancellationStatus.NotCancelled"/> and
-        /// pushes onto <paramref name="stack"/>.  Overrides should prompt for any
-        /// additional setup for maybe executing the command (i.e. in <see cref="Pop"/>)
+        /// Prompts for all choices and then pushes onto <paramref name="stack"/>
+        /// a suitable <see cref="Frame"/> (or not if there are no valid options picked / option
+        /// picking is cancelled.
+        /// 
+        /// <para>Actual resolution of the action should be reserved for the <see cref="Pop"/> method</para>
         /// </summary>
+        /// <param name="world"></param>
         /// <param name="ui"></param>
         /// <param name="stack"></param>
         /// <param name="actor"></param>
