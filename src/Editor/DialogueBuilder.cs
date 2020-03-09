@@ -30,17 +30,18 @@ namespace Wanderer.Editor
             _overRead = null;
             _allNodes = new List<DialogueNode>();
 
-            var sr = new StringReader(simpleDialogueTree);
+            using (var sr = new StringReader(simpleDialogueTree))
+            {
+                //read the first line
+                string currentLine = GetNextLine(sr);
 
-            //read the first line
-            string currentLine = GetNextLine(sr);
+                if (currentLine == null)
+                    return null;
 
-            if (currentLine == null)
-                return null;
+                GetNode(sr, 0, currentLine);
 
-            GetNode(sr, 0, currentLine);
-
-            return _allNodes;
+                return _allNodes;
+            }
         }
 
 
