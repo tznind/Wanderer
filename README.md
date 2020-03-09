@@ -13,14 +13,14 @@ Stalk the abandoned corridors and burned out machine rooms of a city sized stars
 ## Goals
 
 1. Persuasion and Cunning should be as viable as Fighting
-2. No dice rolls for actions (if you have Fight 10 and you fight someone with Fight 15 the outcome should always be the same)
+2. No dice rolls for actions
 3. Actions should have consequences (for relationships, long term injuries etc).
 
 Technical Goals:
 
 1. [Simple yaml/lua game files](./Resources.md)
 2. [Super thin interface layer](./src/IUserinterface.cs)
-3. Maximum Test coverage
+3. [Maximum Test coverage](https://codecov.io/gh/tznind/Wanderer)
 
 ![Screenshot of gameplay showing map][screenshot1]
 
@@ -48,27 +48,13 @@ cd ./Game/bin/Debug/netcoreapp3.1/win-x64/publish/
 ```
 __For linux drop the .exe extension__
 
-## Development Goals
-
-All narrative elements driven by the [yaml configuration files](./src/Resources/README.md).  This includes Adjectives, Factions, Rooms, Item slots etc.  The [UI layer is super thin](./src/IUserinterface.cs), consisting of only a handful of methods.
-
-- For every [interface](./src/Actors/IActor.cs), an [abstract](./src/Actors/Actor.cs)!
-- For every abstract a [blueprint](./src/Factories/Blueprints/ActorBlueprint.cs)
-- For every blueprint a [factory](./src/Factories/ActorFactory.cs)
-- For every line of code a [Test](./Tests/Actors/YamlActorFactoryTests.cs)!
-
-Other design patterns include:
-
-- Guids for everyth object in the world (that matters)
-- Everything [HasStats](./src/IHasStats.cs): an actor has stats, the room has stats, his items and the items Adjectives all [HasStats](./src/IHasStats.cs).  Yes that means the Light on the end of your Torch has the capability to talk to you (isn't that awesome?!)
-
 ## Dependencies
 
-[Terminal.Gui](https://github.com/migueldeicaza/gui.cs) - Only the most awesome console gui ever!
-[CommandLineParser](https://github.com/commandlineparser/commandline) - For parsing CLI args
-[YamlDotNet](https://github.com/aaubry/YamlDotNet) - Markup language parser
-[JSON.Net](https://github.com/JamesNK/Newtonsoft.Json) - For saving/loading
-[NLua](https://github.com/NLua/NLua) - For script files
+- [Terminal.Gui](https://github.com/migueldeicaza/gui.cs) - Only the most awesome console gui ever!
+- [CommandLineParser](https://github.com/commandlineparser/commandline) - For parsing CLI args
+- [YamlDotNet](https://github.com/aaubry/YamlDotNet) - Markup language parser
+- [JSON.Net](https://github.com/JamesNK/Newtonsoft.Json) - For saving/loading
+- [NLua](https://github.com/NLua/NLua) - For script files
 
 ## Class Diagram
 
