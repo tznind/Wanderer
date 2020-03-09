@@ -4,25 +4,27 @@
 
 # Wanderer
 
-Wanderer is a game built upon the __most powerful graphics engine in the world: your imagination__
+Wanderer is a game built upon the __most powerful graphics engine in the world: your imagination!__
 
-Stalk the abandoned corridors and burned out machine rooms of a city sized starship.  Kill, sneak or talk your way through problems as you forge your own story.  Will you turn each room into a killing field; gather a loyal band of allies or unite a faction in rebellion against the status quo
+Stalk the abandoned corridors and burned out machine rooms of a city sized starship.  Kill, sneak or talk your way through problems as you forge your own story.  Will you turn each room into a killing field; gather a loyal band of allies or unite a faction in rebellion against the status quo?
 
-The following goals are intended for the project:
+![Screenshot of gameplay showing dialogue][screenshot3]
 
-1. Any action the Player can do Non Player Characters (Npc) can do
-2. Persuasion and Cunning should be as viable as Fighting
-3. No dice rolls for actions (if you have Fight 10 and you fight someone with Fight 15 the outcome should always be the same)
-4. Actions should have consequences (for relationships, long term injuries etc).
+## Goals
 
-Flexibility and extensibility are also core aims.  To this end: 
+1. Persuasion and Cunning should be as viable as Fighting
+2. No dice rolls for actions (if you have Fight 10 and you fight someone with Fight 15 the outcome should always be the same)
+3. Actions should have consequences (for relationships, long term injuries etc).
 
-1. All narrative, dialogues, blueprints etc should come from [external yaml/lua scripting files](./Resources.md)
-2. The library (`Wanderer`) must remain seperate from the UI (`Game.csproj`) with a very thin [interface layer](./src/IUserinterface.cs) to allow for any future UI formats.
+Technical Goals:
+
+1. [Simple yaml/lua game files](./Resources.md)
+2. [Super thin interface layer](./src/IUserinterface.cs)
+3. Maximum Test coverage
 
 ![Screenshot of gameplay showing map][screenshot1]
-![Screenshot of gameplay showing narrative][screenshot2]
-![Screenshot of gameplay showing dialogue][screenshot3]
+
+## Download
 
 You can [download the compiled binaries in the Releases Section](https://github.com/tznind/Wanderer/releases) for both windows and linux console.
 
