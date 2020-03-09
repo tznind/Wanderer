@@ -191,6 +191,19 @@ namespace Wanderer
             return factionRooms.Union(new[] {RoomFactory}).ToArray().GetRandom(R).Create(this);
         }
 
+        public IRoom Reveal(Point3 location)
+        {
+            //spawn a room there if there aren't any yet
+            if (!Map.ContainsKey(location))
+            {
+                var room = GetNewRoom(location);
+                Map.Add(location,room);
+            }
+
+            Map[location].IsExplored = true;
+            return Map[location];
+        }
+
         public ISystem GetSystem(Guid g)
         {
             //TODO: This should return other systems too

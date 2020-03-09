@@ -4,6 +4,7 @@ using Wanderer.Actions;
 using Wanderer.Actors;
 using Wanderer.Behaviours;
 using Wanderer.Factories;
+using Wanderer.Factories.Blueprints;
 using Wanderer.Items;
 using Wanderer.Rooms;
 using Wanderer.Plans;
@@ -82,6 +83,15 @@ namespace Wanderer
         /// <param name="newPoint"></param>
         /// <returns></returns>
         IRoom GetNewRoom(Point3 newPoint);
+
+        /// <summary>
+        /// Marks the given <paramref name="location"/> as explored and spawns a room
+        /// there if none exists yet.  Combine with <see cref="RoomBlueprint.FixedLocation"/>
+        /// to show the player where a plot central room is
+        /// </summary>
+        /// <param name="location"></param>
+        /// <returns></returns>
+        IRoom Reveal(Point3 location);
 
         ISystem GetSystem(Guid g);
     }

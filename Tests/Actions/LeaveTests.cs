@@ -211,5 +211,44 @@ namespace Tests.Actions
             stack.RunStack(world,GetUI(Direction.South),new LeaveAction(), world.Player,new IBehaviour[0]);
             Assert.AreEqual("West",world.Player.CurrentLocation.Name);
         }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public void TestReveal(bool alreadyExisted)
+        {
+            var start = new RoomBlueprint()
+            {
+                Name = "Start",
+                FixedLocation = new Point3(0, 0, 0)
+            };
+            var west = new RoomBlueprint()
+            {
+                Name = "West",
+                FixedLocation = new Point3(-1, 0, 0)
+            };
+
+            var f = new RoomFactory(new AdjectiveFactory())
+            {
+                Blueprints = new[] {start, west}
+            };
+            
+            var world = new World();
+            world.RoomFactory = f;
+            var room = world.RoomFactory.Create(world, new Point3(0, 0, 0));
+            world.Map.Add(new Point3(0,0,0),room);
+
+            if (alreadyExisted)
+            {
+                world.Map.Add(new Point3(-1,0,0),world.GetNewRoom(new Point3(-1,0,0))); 
+                Assert.IsFalse(world.Map[new Point3(-1,0,0)].IsExplored);
+            }
+            else
+            {
+                Assert.IsFalse(world.Map.ContainsKey(new Point3(-1,0,0)));
+            }
+
+            world.Reveal(new Point3(-1, 0, 0));
+            Assert.IsTrue(world.Map[new Point3(-1,0,0)].IsExplored);
+        }
     }
 }
