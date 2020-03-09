@@ -162,7 +162,7 @@ import ('{typeof(A).Assembly.GetName().Name}', '{typeof(A).Namespace}')
                 lua.DoString(@"
 import ('Wanderer', 'Wanderer')
 import ('Wanderer','Wanderer.Stats')
-import ('Wanderer','Wanderer.Places')
+import ('Wanderer','Wanderer.Rooms')
 "
                 );
 
@@ -181,7 +181,7 @@ import ('Wanderer','Wanderer.Places')
         {
             var you = YouInARoom(out IWorld world);
 
-            var code = new ConditionCode<SystemArgs>("return Place:GetFinalStats(AggressorIfAny)[Corruption] > 50");
+            var code = new ConditionCode<SystemArgs>("return Room:GetFinalStats(AggressorIfAny)[Corruption] > 50");
 
             var args = new SystemArgs(world,GetUI(),0,null,you,Guid.Empty);
 
@@ -194,7 +194,7 @@ import ('Wanderer','Wanderer.Places')
             var you = YouInARoom(out IWorld world);
 
             Assert.AreEqual("TestRoom",you.CurrentLocation.Name);
-            var code = new ConditionCode<SystemArgs>("Place.Name = 'fish'");
+            var code = new ConditionCode<SystemArgs>("Room.Name = 'fish'");
 
             var args = new SystemArgs(world,GetUI(),0,null,you,Guid.Empty);
 

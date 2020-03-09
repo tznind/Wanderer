@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using Wanderer.Actors;
-using Wanderer.Places;
+using Wanderer.Rooms;
 using Wanderer.Stats;
 
 namespace Wanderer.Adjectives.RoomOnly
 {
     public class Dark : Adjective
     {
-        public Dark(IPlace owner) : base(owner)
+        public Dark(IRoom owner) : base(owner)
         {
             BaseStats[Stat.Fight] = -10;
         }

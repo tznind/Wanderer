@@ -4,7 +4,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using Wanderer.Actions;
 using Wanderer.Actions.Coercion;
-using Wanderer.Places;
+using Wanderer.Rooms;
 using Wanderer.Stats;
 
 namespace Wanderer.Actors
@@ -26,11 +26,11 @@ namespace Wanderer.Actors
         }
 
         /// <summary>
-        /// Creates a new instance of the player in the given <see cref="IPlace"/> (this includes adding them to the world population)
+        /// Creates a new instance of the player in the given <see cref="IRoom"/> (this includes adding them to the world population)
         /// </summary>
         /// <param name="name"></param>
         /// <param name="currentLocation"></param>
-        public You(string name, IPlace currentLocation):base( name,currentLocation)
+        public You(string name, IRoom currentLocation):base( name,currentLocation)
         {
             BaseStats[Stat.Loyalty] = 10;
             BaseStats[Stat.Fight] = 20;
@@ -59,7 +59,7 @@ namespace Wanderer.Actors
             return ui.GetChoice(title,body,out chosen,options);
         }
 
-        public override void Move(IPlace newLocation)
+        public override void Move(IRoom newLocation)
         {
             base.Move(newLocation);
             newLocation.IsExplored = true;

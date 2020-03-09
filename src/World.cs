@@ -13,7 +13,7 @@ using Wanderer.Compilation;
 using Wanderer.Extensions;
 using Wanderer.Factories;
 using Wanderer.Items;
-using Wanderer.Places;
+using Wanderer.Rooms;
 using Wanderer.Plans;
 using Wanderer.Relationships;
 using Wanderer.Stats;
@@ -30,11 +30,7 @@ namespace Wanderer
         public HashSet<IActor> Population { get; set; } =  new HashSet<IActor>();
         public IRelationshipSystem Relationships { get; set; } = new RelationshipSystem();
         public IDialogueSystem Dialogue { get; set; } = new DialogueSystem();
-        public IList<IInjurySystem> InjurySystems { get; set; } = new List<IInjurySystem>(new IInjurySystem[]
-            {
-                new TissueInjurySystem(),
-                new HungerInjurySystem(),
-            });
+        public IList<IInjurySystem> InjurySystems { get; set; } = new List<IInjurySystem>();
         public IList<INegotiationSystem> NegotiationSystems { get; set; } = new List<INegotiationSystem>(new []{new NegotiationSystem()});
 
         public IRoomFactory RoomFactory { get; set; }
@@ -109,7 +105,7 @@ namespace Wanderer
         /// </summary>
         /// <param name="place"></param>
         /// <returns></returns>
-        private bool ShouldRunActionsIn(IPlace place)
+        private bool ShouldRunActionsIn(IRoom place)
         {
             return
                 place.IsExplored || place.GetPoint().Distance(Player.CurrentLocation.GetPoint()) <= 2;
@@ -178,13 +174,40 @@ namespace Wanderer
             item.IsErased = true;
         }
 
-        public virtual IPlace GetNewRoom(Point3 newPoint)
+        public virtual IRoom GetNewRoom(Point3 newPoint)
         {
+            // pick a room factory that has a blueprint for this exact point
+            foreach (var potential in Factions.Select(f=>f.RoomFactory).Union(new[] {RoomFactory}))
+            {
+                if (potential.Blueprints.Any(b => Equals(newPoint, b.FixedLocation)))
+                    return potential.Create(this, newPoint);
+            }
+
+            //otherwise create a random room
             var factionRooms = Factions.Select(f => f.RoomFactory)
                 .Where(b => b.Blueprints.Any(b.Spawnable))
                 .ToList();
 
             return factionRooms.Union(new[] {RoomFactory}).ToArray().GetRandom(R).Create(this);
+        }
+
+        public IRoom Reveal(Point3 location)
+        {
+            //spawn a room there if there aren't any yet
+            if (!Map.ContainsKey(location))
+            {
+                var room = GetNewRoom(location);
+                Map.Add(location,room);
+            }
+
+            Map[location].IsExplored = true;
+            return Map[location];
+        }
+
+        public ISystem GetSystem(Guid g)
+        {
+            //TODO: This should return other systems too
+            return InjurySystems.FirstOrDefault(i=>i.Identifier == g);
         }
 
     }

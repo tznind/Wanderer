@@ -7,9 +7,9 @@ using Wanderer.Adjectives;
 using Wanderer.Items;
 using Wanderer.Relationships;
 
-namespace Wanderer.Places
+namespace Wanderer.Rooms
 {
-    public interface IPlace : IHasStats
+    public interface IRoom : IHasStats
     {
         /// <summary>
         /// Who currently controls this place (can be null)

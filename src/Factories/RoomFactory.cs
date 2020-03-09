@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Wanderer.Extensions;
 using Wanderer.Factories.Blueprints;
-using Wanderer.Places;
+using Wanderer.Rooms;
 
 namespace Wanderer.Factories
 {
-    public class RoomFactory: HasStatsFactory<IPlace>, IRoomFactory
+    public class RoomFactory: HasStatsFactory<IRoom>, IRoomFactory
     {
         public RoomBlueprint[] Blueprints { get; set; } = new RoomBlueprint[0];
 
@@ -21,12 +21,22 @@ namespace Wanderer.Factories
         }
 
 
-        public IPlace Create(IWorld world)
+        public IRoom Create(IWorld world)
         {
             return Create(world,Blueprints.Where(Spawnable).ToArray().GetRandom(world.R));
         }
+        public IRoom Create(World world, Point3 location)
+        {
+            var exact = Blueprints.FirstOrDefault(b => Equals(location, b.FixedLocation));
 
-        public IPlace Create(IWorld world, RoomBlueprint blueprint)
+            if (exact != null)
+                return Create(world, exact);
+
+            return Create(world);
+        }
+
+
+        public IRoom Create(IWorld world, RoomBlueprint blueprint)
         {
             if (blueprint == null)
                 return new Room("Empty Room",world,'e');

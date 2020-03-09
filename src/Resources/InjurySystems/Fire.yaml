@@ -1,0 +1,23 @@
+﻿Identifier: "3c0dd6d7-1f84-44ad-b446-323bd747b09b"
+Name: Fire
+Injuries:
+  - Name: Smoking
+    Severity: 10
+  - Name: Smouldering
+    Severity: 20
+  - Name: Burning
+    Severity: 30
+  - Name: Flaming
+    Severity: 40
+  - Name: Conflagration
+    Severity: 50
+  - Name: Inferno
+    Severity: 60
+
+Spreads:
+   RoomsToRooms: true
+   RoomsToActors: true
+
+NaturalHealThreshold: 0
+WorsenRate: 1
+SyncDescriptions: true

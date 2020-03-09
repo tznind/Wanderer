@@ -7,9 +7,9 @@ using Wanderer.Adjectives;
 using Wanderer.Items;
 using Wanderer.Relationships;
 
-namespace Wanderer.Places
+namespace Wanderer.Rooms
 {
-    public class Room : HasStats, IPlace
+    public class Room : HasStats, IRoom
     {
         /// <inheritdoc/>
         public IFaction ControllingFaction { get; set; }

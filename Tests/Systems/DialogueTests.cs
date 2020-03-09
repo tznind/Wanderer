@@ -30,7 +30,7 @@ namespace Tests.Systems
             var tree = new DialogueNode()
             {
                 Identifier = g,
-                Body = new []{new TextBlock("Hello World") }
+                Body = new List<TextBlock>{new TextBlock("Hello World") }
             };
             var o1 = new DialogueOption()
             {
@@ -72,7 +72,7 @@ namespace Tests.Systems
             var friend = new DialogueNode()
             {
                 Identifier = new Guid("4abbc8e5-880c-44d3-ba0e-a9f13a0522d0"),
-                Body = new TextBlock[]{new TextBlock("Hello Friend") },
+                Body = new List<TextBlock>{new TextBlock("Hello Friend") },
                 Require = new List<ICondition<SystemArgs>>()
                 {
                     new ConditionCode<SystemArgs>("return Recipient:AttitudeTo(AggressorIfAny) > 5")
@@ -82,7 +82,7 @@ namespace Tests.Systems
             var foe = new DialogueNode()
             {
                 Identifier = new Guid("00d77067-da1c-4c34-96ee-8a74353e4839"),
-                Body = new TextBlock[]{new TextBlock("Hello Foe") },
+                Body = new List<TextBlock>{new TextBlock("Hello Foe") },
                 Require = new List<ICondition<SystemArgs>>()
                 {
                     new ConditionCode<SystemArgs>("return Recipient:AttitudeTo(AggressorIfAny) < -4")
@@ -178,7 +178,7 @@ namespace Tests.Systems
         }
         
         [Test]
-        public void TestConditionalDialogue_PlaceHasLight()
+        public void TestConditionalDialogue_RoomHasLight()
         {
             string yaml = @"
 - Identifier: ce16ae16-4de8-4e33-8d52-ace4543ada20
@@ -186,10 +186,10 @@ namespace Tests.Systems
     - Text: This room is
     - Text: Pitch Black
       Condition: 
-        - return Place:Has('Light') == false
+        - return Room:Has('Light') == false
     - Text: Dimly Illuminated
       Condition: 
-        - return Place:Has('Light')";
+        - return Room:Has('Light')";
 
             var system = new YamlDialogueSystem(yaml);
             Assert.IsNotNull(system);
@@ -246,7 +246,45 @@ namespace Tests.Systems
             Assert.Contains("The denizens of this degenerate bar seem like your kind of people",ui.MessagesShown);
         }
 
-    }
+        [Test]
+        public void TestSingleUse_DialogueOption()
+        {
+                string yaml = @"
+- Identifier: ce16ae16-4de8-4e33-8d52-ace4543ada20
+  Body: 
+    - Text: You want some Death Sticks?  
+  Options:
+    - Text: Yes give me 500
+      SingleUse: true
+    - Text: Sure give me 1";
 
-    
+                var system = new YamlDialogueSystem(yaml);
+                Assert.IsNotNull(system);
+                var ui = GetUI("Yes give me 500");
+                var you = YouInARoom(out IWorld world);
+
+                Assert.IsFalse(system.AllDialogues.First().Options.First().Exhausted);
+
+                //option should be allowed
+                system.Run(new SystemArgs(world,ui,0,you,you.CurrentLocation, Guid.NewGuid()),system.AllDialogues.Single());
+
+                ui = GetUI("Yes give me 500");
+                
+                //next time around you shouldn't be able to pick it
+                Assert.Throws<Exception>(()=>system.Run(new SystemArgs(world,ui,0,you,you.CurrentLocation, Guid.NewGuid()),system.AllDialogues.Single()));
+
+                //because it is exhausted
+                Assert.IsTrue(system.AllDialogues.First().Options.First().Exhausted);
+
+                //but you should be able to still pick this one
+                ui = GetUI("Sure give me 1");
+                
+                //next time around you shouldn't be able to pick it
+                system.Run(new SystemArgs(world, ui, 0, you, you.CurrentLocation, Guid.NewGuid()),
+                    system.AllDialogues.Single());
+
+
+        }
+
+    }
 }

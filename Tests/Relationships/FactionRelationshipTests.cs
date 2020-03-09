@@ -3,14 +3,14 @@ using System.Linq;
 using NUnit.Framework;
 using Wanderer;
 using Wanderer.Actors;
-using Wanderer.Places;
+using Wanderer.Rooms;
 using Wanderer.Relationships;
 
 namespace Tests.Relationships
 {
     public class FactionRelationshipTests : UnitTest
     {
-        IPlace _room;
+        IRoom _room;
         Faction _cops;
         Faction _robbers;
         Npc _cop1;

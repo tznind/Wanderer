@@ -8,7 +8,7 @@ using Wanderer.Actors;
 using Wanderer.Dialogues;
 using Wanderer.Factories;
 using Wanderer.Factories.Blueprints;
-using Wanderer.Places;
+using Wanderer.Rooms;
 using Wanderer.Relationships;
 
 namespace Tests.Actors
@@ -28,7 +28,7 @@ namespace Tests.Actors
             w.Dialogue.AllDialogues.Add(new DialogueNode()
             {
                 Identifier = new Guid("193506ab-11bc-4de2-963e-e2f55a38d006"),
-                Body = new TextBlock[]{new TextBlock("This room is rank"), }
+                Body = new List<TextBlock>{new TextBlock("This room is rank"), }
             });
 
             var room = roomFactory.Create(w, roomFactory.Blueprints.Single());
@@ -125,7 +125,7 @@ namespace Tests.Actors
 
             var w = new World();
 
-            var rooms = new List<IPlace>();
+            var rooms = new List<IRoom>();
             for (int i = 0; i < 100; i++) 
                 rooms.Add(room.Create(w));
 

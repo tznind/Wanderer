@@ -1,12 +1,13 @@
 ﻿using Wanderer.Factories.Blueprints;
-using Wanderer.Places;
+using Wanderer.Rooms;
 
 namespace Wanderer.Factories
 {
     public interface IRoomFactory
     {
-        IPlace Create(IWorld world);
-        IPlace Create(IWorld world, RoomBlueprint blueprint);
+        IRoom Create(IWorld world);
+        IRoom Create(IWorld world, RoomBlueprint blueprint);
+        IRoom Create(World world, Point3 location);
 
         RoomBlueprint[] Blueprints { get; set; }
 

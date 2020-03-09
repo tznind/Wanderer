@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using NUnit.Framework.Constraints;
@@ -45,7 +46,7 @@ namespace Tests.Actors
             w.Dialogue.AllDialogues.Add(new DialogueNode()
             {
                 Identifier = new Guid("f1909b20-80c3-4af4-b098-b6bf22bf5ca8"),
-                Body = new []
+                Body = new List<TextBlock>
                 {
                     new TextBlock( "Welcome to the ship")
 
@@ -81,7 +82,7 @@ namespace Tests.Actors
             w.Dialogue.AllDialogues.Add(new DialogueNode()
             {
                 Identifier = new Guid("e088ff6e-60de-4a59-a9d8-b9406a2aed7c"),
-                Body = new TextBlock[]
+                Body = new List<TextBlock>
                 {
                     new TextBlock("The book is filled with magic secrets") 
                 }

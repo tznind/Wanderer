@@ -141,11 +141,11 @@
       <FileName>Actions\IAction.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="Wanderer.Places.IPlace" Collapsed="true">
+  <Interface Name="Wanderer.Rooms.IRoom" Collapsed="true">
     <Position X="12.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAIAAAABACqAAAIAAAAAAAAAAAAAAAAAAAAAgAAQA=</HashCode>
-      <FileName>Places\IPlace.cs</FileName>
+      <FileName>Rooms\IRoom.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="Wanderer.Behaviours.IBehaviour" Collapsed="true">

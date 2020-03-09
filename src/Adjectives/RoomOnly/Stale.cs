@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using Wanderer.Places;
+using Wanderer.Rooms;
 
 namespace Wanderer.Adjectives.RoomOnly
 {
     public class Stale : Adjective
     {
-        public Stale(IPlace owner) : base(owner)
+        public Stale(IRoom owner) : base(owner)
         {
 
         }

@@ -36,7 +36,7 @@ namespace Wanderer.Factories
                 lua.DoString(@"
 import ('Wanderer', 'Wanderer')
 import ('Wanderer','Wanderer.Stats')
-import ('Wanderer','Wanderer.Places')
+import ('Wanderer','Wanderer.Rooms')
 import ('Wanderer','Wanderer.Actions')
 import ('System','System')
 import ('Wanderer','Wanderer.Systems')

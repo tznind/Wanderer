@@ -36,7 +36,7 @@ namespace Wanderer.Adjectives
             IsPrefix = false;
             InjurySystem = system;
 
-            BaseStats[Stat.Fight] = -5 * severity;
+            BaseStats[Stat.Fight] = -0.5 * severity;
             Name = name;
 
             BaseBehaviours.Add(this);

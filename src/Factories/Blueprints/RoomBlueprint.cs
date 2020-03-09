@@ -6,9 +6,9 @@ namespace Wanderer.Factories.Blueprints
     public class RoomBlueprint : HasStatsBlueprint
     {
         /// <summary>
-        /// True to make this room the first room to spawn in the world.
+        /// Makes the room only appear in the given location
         /// </summary>
-        public bool StartingRoom { get; set; } = false;
+        public Point3 FixedLocation { get; set; }
 
         /// <summary>
         /// Null if the room thematically fits any faction, otherwise the <see cref="IFaction.Identifier"/>

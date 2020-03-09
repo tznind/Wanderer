@@ -65,14 +65,16 @@ namespace Wanderer.Systems
 
         public void Run(SystemArgs args, DialogueNode node)
         {
-            if(node.Options.Any())
+            var options = node.GetOptionsToShow();
+
+            if(options.Any())
             {
-                if (args.UserInterface.GetChoice("Dialogue", FormatString(args,node.Body), out DialogueOption chosen, node.Options.ToArray()))
+                if (args.UserInterface.GetChoice("Dialogue", FormatString(args,node.Body), out DialogueOption chosen, options))
                     Run(args, chosen);
                 else
                 {
                     //if user hits Escape just pick the first option for them :)
-                    Run(args,node.Options.First());
+                    Run(args,options.First());
                 }
 
             }
@@ -80,7 +82,7 @@ namespace Wanderer.Systems
                 args.UserInterface.ShowMessage("Dialogue",FormatString(args,node.Body));
         }
 
-        protected virtual string FormatString(SystemArgs args,TextBlock[] body)
+        protected virtual string FormatString(SystemArgs args,IEnumerable<TextBlock> body)
         {
             StringBuilder sb = new StringBuilder();
 
@@ -111,6 +113,9 @@ namespace Wanderer.Systems
             {
                 args.World.Relationships.Apply(new SystemArgs(args.World,args.UserInterface,option.Attitude.Value,args.AggressorIfAny,args.Recipient,args.Round));
             }
+
+            if (option.SingleUse)
+                option.Exhausted = true;
 
             //apply effects of the dialogue choice
             foreach (IEffect effect in option.Effect) 

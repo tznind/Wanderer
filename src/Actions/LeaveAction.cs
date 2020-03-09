@@ -2,7 +2,7 @@
 using System.Linq;
 using Wanderer.Actors;
 using Wanderer.Behaviours;
-using Wanderer.Places;
+using Wanderer.Rooms;
 
 namespace Wanderer.Actions
 {
@@ -33,7 +33,7 @@ namespace Wanderer.Actions
             var oldPoint = frame.PerformedBy.CurrentLocation.GetPoint();
             var newPoint = oldPoint.Offset(f.LeaveDirection,1);
             
-            IPlace goingTo;
+            IRoom goingTo;
 
             if (world.Map.ContainsKey(newPoint))
                 goingTo = world.Map[newPoint];

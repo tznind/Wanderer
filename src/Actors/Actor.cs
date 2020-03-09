@@ -7,7 +7,7 @@ using Wanderer.Actions;
 using Wanderer.Adjectives;
 using Wanderer.Behaviours;
 using Wanderer.Items;
-using Wanderer.Places;
+using Wanderer.Rooms;
 using Wanderer.Relationships;
 using Wanderer.Stats;
 using Wanderer.Systems;
@@ -20,7 +20,7 @@ namespace Wanderer.Actors
         public bool Dead { get; set; }
 
         /// <inheritdoc/>
-        public IPlace CurrentLocation { get; set; }
+        public IRoom CurrentLocation { get; set; }
         
         public List<IItem> Items { get; set; } = new List<IItem>();
         public HashSet<IFaction> FactionMembership { get; set; } = new HashSet<IFaction>();
@@ -51,7 +51,7 @@ namespace Wanderer.Actors
         /// </summary>
         /// <param name="name"></param>
         /// <param name="currentLocation"></param>
-        public Actor(string name,IPlace currentLocation)
+        public Actor(string name,IRoom currentLocation)
         {
             Name = name;
             CurrentLocation = currentLocation;
@@ -59,7 +59,11 @@ namespace Wanderer.Actors
             
             //basic actions everyone can do (by default)
             BaseActions.Add(new LeaveAction());
-            BaseActions.Add(new FightAction());
+
+            //if there are ways to be injured then there are ways to fight
+            if(currentLocation.World.InjurySystems.Any())
+                BaseActions.Add(new FightAction());
+
             BaseActions.Add(new PickUpAction());
             BaseActions.Add(new DropAction());
             BaseActions.Add(new GiveAction());
@@ -68,7 +72,8 @@ namespace Wanderer.Actors
 
             BaseBehaviours.Add(new MergeStacksBehaviour(this));
 
-            var hungerSystem = CurrentLocation.World.InjurySystems.OfType<HungerInjurySystem>().FirstOrDefault();
+            //TODO: this is a reference to the hunger system which means this behaviour should go into yaml too
+            var hungerSystem = CurrentLocation.World.InjurySystems.FirstOrDefault(i=>i.Identifier == new Guid("89c18233-5250-4445-8799-faa9a888fb7f"));
 
             if(hungerSystem != null)
                 BaseBehaviours.Add(new GetsHungryBehaviour(this,hungerSystem));
@@ -92,7 +97,7 @@ namespace Wanderer.Actors
         public abstract bool Decide<T>(IUserinterface ui, string title, string body, out T chosen, T[] options,
             double attitude);
 
-        public virtual void Move(IPlace newLocation)
+        public virtual void Move(IRoom newLocation)
         {
             CurrentLocation = newLocation;
         }

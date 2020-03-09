@@ -5,19 +5,19 @@ using System.Linq;
 using System.Text;
 using Wanderer.Actors;
 
-namespace Wanderer.Places
+namespace Wanderer.Rooms
 {
     /// <summary>
     /// Map in Z,X,Y order
     /// </summary>
-    public class Map : Dictionary<Point3,IPlace>
+    public class Map : Dictionary<Point3,IRoom>
     {
         /// <summary>
         /// Returns the location in 3d space of the room
         /// </summary>
         /// <param name="place"></param>
         /// <returns></returns>
-        public Point3 GetPoint(IPlace place)
+        public Point3 GetPoint(IRoom place)
         {
             try
             {
@@ -25,7 +25,7 @@ namespace Wanderer.Places
             }
             catch (InvalidOperationException ex)
             {
-                throw new Exception($"Supplied Place '{place}' was not in the current Map",ex);
+                throw new Exception($"Supplied Room '{place}' was not in the current Map",ex);
             }
         }
 
@@ -36,12 +36,12 @@ namespace Wanderer.Places
         /// <param name="place"></param>
         /// <param name="pathable">true to return only places where you can directly move in that direction</param>
         /// <returns></returns>
-        public Dictionary<Direction, IPlace> GetAdjacentPlaces(IPlace place, bool pathable)
+        public Dictionary<Direction, IRoom> GetAdjacentRooms(IRoom place, bool pathable)
         {
 
             var origin = GetPoint(place);
 
-            var toReturn = new Dictionary<Direction,IPlace>();
+            var toReturn = new Dictionary<Direction,IRoom>();
             
             foreach (Direction direction in Enum.GetValues(typeof(Direction)))
             {

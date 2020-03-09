@@ -5,9 +5,9 @@ using Moq;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using Wanderer;
-using Wanderer.Places;
+using Wanderer.Rooms;
 
-namespace Tests.Places
+namespace Tests.Rooms
 {
     class MapTests : UnitTest
     {
@@ -19,7 +19,7 @@ namespace Tests.Places
 
             var ex = Assert.Throws<Exception>(() => r.GetPoint());
 
-            Assert.AreEqual("Supplied Place 'fff' was not in the current Map",ex.Message);
+            Assert.AreEqual("Supplied Room 'fff' was not in the current Map",ex.Message);
 
             w.Map.Add(new Point3(6,7,8),r);
 
@@ -60,10 +60,10 @@ namespace Tests.Places
                 Direction.North,
             };
 
-            var _000 = Mock.Of<IPlace>(p=>p.LeaveDirections == onlyNorth );
-            var _010 = Mock.Of<IPlace>();
-            var _001 = Mock.Of<IPlace>();
-            var _003 = Mock.Of<IPlace>();
+            var _000 = Mock.Of<IRoom>(p=>p.LeaveDirections == onlyNorth );
+            var _010 = Mock.Of<IRoom>();
+            var _001 = Mock.Of<IRoom>();
+            var _003 = Mock.Of<IRoom>();
 
             var map = new Map();
             map.Add(new Point3(0,0,0),_000);
@@ -71,7 +71,7 @@ namespace Tests.Places
             map.Add(new Point3(0,0,1),_001);
             map.Add(new Point3(0,0,3),_003);
 
-            var result = map.GetAdjacentPlaces(_000,false);
+            var result = map.GetAdjacentRooms(_000,false);
 
             Assert.AreEqual(2,result.Count);
             Assert.AreEqual(_010,result[Direction.North]);
@@ -87,10 +87,10 @@ namespace Tests.Places
                 Direction.North,
             };
 
-            var _000 = Mock.Of<IPlace>(p=>p.LeaveDirections == onlyNorth );
-            var _010 = Mock.Of<IPlace>();
-            var _001 = Mock.Of<IPlace>();
-            var _003 = Mock.Of<IPlace>();
+            var _000 = Mock.Of<IRoom>(p=>p.LeaveDirections == onlyNorth );
+            var _010 = Mock.Of<IRoom>();
+            var _001 = Mock.Of<IRoom>();
+            var _003 = Mock.Of<IRoom>();
 
             var map = new Map();
             map.Add(new Point3(0,0,0),_000);
@@ -98,7 +98,7 @@ namespace Tests.Places
             map.Add(new Point3(0,0,1),_001);
             map.Add(new Point3(0,0,3),_003);
 
-            var result = map.GetAdjacentPlaces(_000,true);
+            var result = map.GetAdjacentRooms(_000,true);
 
             Assert.AreEqual(1,result.Count);
             Assert.AreEqual(_010,result[Direction.North]);

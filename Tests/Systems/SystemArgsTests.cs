@@ -16,7 +16,7 @@ namespace Tests.Systems
 
             var args = new SystemArgs(world,GetUI(),0,you,them,Guid.Empty);
 
-            Assert.AreEqual(you.CurrentLocation,args.Place);
+            Assert.AreEqual(you.CurrentLocation,args.Room);
             Assert.AreEqual(100,them.AttitudeTo(you));
 
             Assert.AreEqual(0,you.AttitudeTo(them));

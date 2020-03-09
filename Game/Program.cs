@@ -6,6 +6,8 @@ using Wanderer.Factories;
 using Terminal.Gui;
 using CommandLine;
 using Wanderer.Systems.Validation;
+using Wanderer.Editor;
+using System.IO;
 
 namespace Game
 {
@@ -22,6 +24,10 @@ namespace Game
 
             [Option('r', "resources", Required = false, HelpText = "Location of yaml game files")]
             public string ResourcesDirectory { get; set; }
+
+            [Option('c', "compile", Required = false, HelpText = "Compile a simple proto dialogue tree into yaml")]
+            public string CompileDialogue { get; set; }
+            
         }
 
         static void Main(string[] args)
@@ -29,6 +35,25 @@ namespace Game
             Parser.Default.ParseArguments<Options>(args)
                    .WithParsed<Options>(o =>
                    {
+
+                       if(!string.IsNullOrWhiteSpace(o.CompileDialogue))
+                       {
+                           var b = new DialogueBuilder();
+                           try
+                           {
+                                var result = b.BuildAndSerialize(new FileInfo(o.CompileDialogue));
+                                
+                                if(result == null)
+                                    Console.WriteLine("No file created");
+                                else
+                                    Console.WriteLine("Created " + result.FullName);
+                           }
+                           catch(Exception ex)
+                           {
+                               Console.WriteLine(ex.Message);
+                           }
+                           return;
+                       }
 
                        var f = new WorldFactory();
                        if(o.ResourcesDirectory != null)

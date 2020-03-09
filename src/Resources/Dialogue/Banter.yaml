@@ -66,6 +66,12 @@
   Options:
    - Text: Approach
      Destination: 6ea074f9-ebd2-44e5-880d-de48b674fc3b
+   - Text: Kick Over Barrel
+     Effect: 
+              #Get Fire system and apply it to the room
+            - |
+                World:GetSystem(Guid("3c0dd6d7-1f84-44ad-b446-323bd747b09b"))
+                 :Apply(SystemArgs(World,UserInterface,20,World.Player,Room,Round))
    - Text: Leave  
 
 - Identifier: 6ea074f9-ebd2-44e5-880d-de48b674fc3b
@@ -76,7 +82,7 @@
       Destination: 5218eef5-408d-4ddf-b028-0e90b02c50b8
     - Text: Got any advice for a cutter?
       Destination: b31b2182-c16e-484e-9715-41c8c1b411df
-
+      
 - Identifier: 5218eef5-408d-4ddf-b028-0e90b02c50b8
   Body:
     - Text: What? oh that... maybe once. I used to have visions that told me where a cutter oughta go and what needed doing... nowadays I just stare into the fire and wait to die.

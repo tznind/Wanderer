@@ -1,7 +1,7 @@
 ﻿using Wanderer.Actors;
 using Wanderer.Factories.Blueprints;
 using Wanderer.Items;
-using Wanderer.Places;
+using Wanderer.Rooms;
 
 namespace Wanderer.Factories
 {

@@ -28,7 +28,7 @@ namespace Tests.Systems
             var n1 = new DialogueNode()
             {
                 Identifier = g1,
-                Body = new TextBlock[]{new TextBlock("Hey I want to give you all the space bucks!") },
+                Body = new List<TextBlock>{new TextBlock("Hey I want to give you all the space bucks!") },
                 Require = new List<ICondition<SystemArgs>>()
                 {
                     new ConditionCode<SystemArgs>("return Recipient:AttitudeTo(AggressorIfAny) > 5")

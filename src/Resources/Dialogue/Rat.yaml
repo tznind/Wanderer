@@ -18,7 +18,7 @@
     - Text: "Resplendent in the throne sits a thin grey old lady with wiry hair down to her knees.  You have heard whispered tales of this witch.. she is The Rat Queen"
       Condition:
          #Rat queen is present
-       - return Place:Has(Guid("92320a7c-a7d3-4abb-933c-45a4450f778e"))
+       - return Room:Has(Guid("92320a7c-a7d3-4abb-933c-45a4450f778e"))
   Options:
     - Text: Leave
     - Text: Approach

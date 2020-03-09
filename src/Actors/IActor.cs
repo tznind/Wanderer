@@ -4,7 +4,7 @@ using Wanderer.Actions;
 using Wanderer.Adjectives;
 using Wanderer.Behaviours;
 using Wanderer.Items;
-using Wanderer.Places;
+using Wanderer.Rooms;
 using Wanderer.Relationships;
 using Wanderer.Stats;
 using Wanderer.Systems;
@@ -25,7 +25,7 @@ namespace Wanderer.Actors
         /// <summary>
         /// Where the <see cref="Actor"/> currently is
         /// </summary>
-        IPlace CurrentLocation { get; set; }
+        IRoom CurrentLocation { get; set; }
 
         /// <summary>
         /// Items that the actor owns
@@ -64,7 +64,7 @@ namespace Wanderer.Actors
         /// Move the actor from it's <see cref="CurrentLocation"/> to a <paramref name="newLocation"/>
         /// </summary>
         /// <param name="newLocation"></param>
-        void Move(IPlace newLocation);
+        void Move(IRoom newLocation);
 
         /// <summary>
         /// Ends the life of the <see cref="Actor"/>

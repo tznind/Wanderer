@@ -8,7 +8,7 @@ namespace Wanderer.Actions
 {
     public class LeadershipAction : Action
     {
-        public override char HotKey => 'p';
+        public override char HotKey => 'a';
 
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
         {

@@ -1,20 +1,25 @@
 ﻿using System.Linq;
+using NUnit.Framework;
 using Wanderer;
 using Wanderer.Actors;
 using Wanderer.Factories;
-using Wanderer.Places;
+using Wanderer.Rooms;
 using Wanderer.Relationships;
 
 namespace Tests
 {
     public class UnitTest
     {
-        protected IPlace InARoom(out IWorld world)
+        protected IRoom InARoom(out IWorld world)
         {
             world = new World();
             var room = new Room("TestRoom", world,'-');
             world.RoomFactory = new RoomFactory(new AdjectiveFactory());
             world.Map.Add(new Point3(0,0,0),room );
+
+            var wf = new WorldFactory();
+            world.InjurySystems = wf.GetInjurySystems();
+
             return room;
         }
 

@@ -18,10 +18,10 @@ namespace Wanderer.Actions
         {
             var f = (PickUpFrame)frame;
 
-            if (f.FromPlace.Items.Contains(f.Item))
+            if (f.FromRoom.Items.Contains(f.Item))
             {
                 //remove it from the location and give to player
-                f.FromPlace.Items.Remove(f.Item);
+                f.FromRoom.Items.Remove(f.Item);
                 f.PerformedBy.Items.Add(f.Item);
 
                 ui.Log.Info(new LogEntry($"{f.PerformedBy} picked up {f.Item}",stack.Round,f.PerformedBy));

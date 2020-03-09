@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Wanderer.Actors;
 using Wanderer.Adjectives;
 using Wanderer.Compilation;
-using Wanderer.Places;
+using Wanderer.Rooms;
 
 namespace Wanderer.Items
 {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Moq;
 using NUnit.Framework;
 using Wanderer;
@@ -23,6 +24,9 @@ namespace Tests
 
             Assert.IsEmpty(v.Errors.ToString());
             Assert.IsEmpty(v.Warnings.ToString());
+
+            Assert.AreEqual(0,v.WarningCount);
+            Assert.AreEqual(0,v.ErrorCount);
         }
 
         [Test]
@@ -95,7 +99,7 @@ namespace Tests
             var d = new DialogueNode()
             {
                 Identifier = new Guid("1cf15faf-837b-4629-84c5-bdfa7631a905"),
-                Body = new TextBlock[]
+                Body = new List<TextBlock>
                 {
                     new TextBlock("I dare say")
                 },
@@ -122,7 +126,7 @@ namespace Tests
             var d = new DialogueNode()
             {
                 Identifier = new Guid("1cf15faf-837b-4629-84c5-bdfa7631a905"),
-                Body = new TextBlock[]
+                Body = new List<TextBlock>
                 {
                     new TextBlock("I dare say")
                 },
@@ -159,7 +163,7 @@ namespace Tests
             var d = new DialogueNode()
             {
                 Identifier = new Guid("1cf15faf-837b-4629-84c5-bdfa7631a905"),
-                Body = new TextBlock[]
+                Body = new List<TextBlock>
                 {
                     new TextBlock("I dare say")
 

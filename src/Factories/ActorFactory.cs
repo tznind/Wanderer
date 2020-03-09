@@ -4,7 +4,7 @@ using Wanderer.Actors;
 using Wanderer.Extensions;
 using Wanderer.Factories.Blueprints;
 using Wanderer.Items;
-using Wanderer.Places;
+using Wanderer.Rooms;
 using Wanderer.Relationships;
 
 namespace Wanderer.Factories
@@ -22,7 +22,7 @@ namespace Wanderer.Factories
             ItemFactory = itemFactory;
         }
         
-        public virtual void Create(IWorld world, IPlace place, IFaction faction, RoomBlueprint roomBlueprintIfAny)
+        public virtual void Create(IWorld world, IRoom place, IFaction faction, RoomBlueprint roomBlueprintIfAny)
         {
             int numberOfNpc = Math.Max(1,world.R.Next(5));
 
@@ -36,7 +36,7 @@ namespace Wanderer.Factories
                     Create(world, place, faction, pickFrom.GetRandom(world.R),roomBlueprintIfAny);
         }
 
-        public IActor Create(IWorld world, IPlace place, IFaction faction, ActorBlueprint blueprint, RoomBlueprint roomBlueprintIfAny)
+        public IActor Create(IWorld world, IRoom place, IFaction faction, ActorBlueprint blueprint, RoomBlueprint roomBlueprintIfAny)
         {
             var npc = new Npc(blueprint.Name, place);
 

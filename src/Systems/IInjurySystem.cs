@@ -3,16 +3,24 @@ using System.Collections.Generic;
 using Wanderer.Actions;
 using Wanderer.Actors;
 using Wanderer.Adjectives;
+using Wanderer.Factories.Blueprints;
 
 namespace Wanderer.Systems
 {
     /// <inheritdoc />
     public interface IInjurySystem: ISystem
     {
-        
+        /// <summary>
+        /// Human readable name for the system
+        /// </summary>
+        string Name { get; set; }
 
-        void Apply(SystemArgs args, InjuryRegion region);
-        IEnumerable<Injured> GetAvailableInjuries(IActor actor);
+        /// <summary>
+        /// True if the injury system should be the default e.g. for Fight
+        /// </summary>
+        bool IsDefault { get; set; }
+
+        List<InjuryBlueprint> Injuries { get; set; }
 
         /// <summary>
         /// Returns true if the <paramref name="owner"/> is so injured (by this system)
