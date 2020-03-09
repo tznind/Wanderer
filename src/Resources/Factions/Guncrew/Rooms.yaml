@@ -1,0 +1,22 @@
+﻿- Name: The Hole
+  Identifier: 83db3f1a-fe3f-46c1-9b11-7d8a56ea17e6
+  Unique: true
+  MandatoryActors:
+    - Name: Patron
+      Dialogue:
+        Next: 8c3bb452-d6fc-4954-8593-7601fd58543b
+      Stats:
+        Fight: 40
+        Loyalty: 20
+        Coerce: 60
+        Savvy: 60
+      Actions:
+        - FightAction
+        - GiveAction
+        - EquipmentAction
+    - Name: Barkeep
+      Identifier: 185f63cc-5c64-400e-aefd-e0a16ea358e8
+      Dialogue: 
+        Next: ad2234ab-8fb8-4726-ba7a-025a40d188a9
+  Tile: o
+  FixedLocation: 2,2,0

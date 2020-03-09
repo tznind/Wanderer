@@ -19,9 +19,12 @@
     <None Remove="Resources\Dialogue\ItemDescriptions.yaml" />
     <None Remove="Resources\Dialogue\Rat.yaml" />
     <None Remove="Resources\Dialogue\RoomDescriptions.yaml" />
+    <None Remove="Resources\Dialogue\TheHole\Barkeep.yaml" />
+    <None Remove="Resources\Dialogue\TheHole\Patron.yaml" />
     <None Remove="Resources\Factions\Guncrew\Actors.yaml" />
     <None Remove="Resources\Factions\Guncrew\Faction.yaml" />
     <None Remove="Resources\Factions\Guncrew\Items.yaml" />
+    <None Remove="Resources\Factions\Guncrew\Rooms.yaml" />
     <None Remove="Resources\Factions\OrderOfTheSigil\Actors.yaml" />
     <None Remove="Resources\Factions\OrderOfTheSigil\Faction.yaml" />
     <None Remove="Resources\Factions\OrderOfTheSigil\Forenames.txt" />
@@ -58,6 +61,12 @@
     <Content Include="Resources\Dialogue\RoomDescriptions.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Dialogue\TheHole\Barkeep.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Dialogue\TheHole\Patron.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Factions\Guncrew\Faction.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -70,7 +79,10 @@
     <Content Include="Resources\Dialogue\Banter.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Dialogue\Carlos.yaml">
+    <Content Include="Resources\Dialogue\StartingRoom\Carlos.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Factions\Guncrew\Rooms.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Factions\Guncrew\Surnames.txt">
