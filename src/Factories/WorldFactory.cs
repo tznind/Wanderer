@@ -164,7 +164,7 @@ namespace Wanderer.Factories
         {
            
             //Load ./Rooms.yaml
-            var fi = new FileInfo(Path.Combine(ResourcesDirectory, "Rooms.yaml"));
+            var fi = new FileInfo(Path.Combine(dir.FullName, "Rooms.yaml"));
 
             var factory = new RoomFactory(adjectiveFactory);
 
@@ -173,7 +173,7 @@ namespace Wanderer.Factories
 
 
             //Load ./Rooms/MyCoolRoom.yaml ./Rooms/DecrepidRooms/MyCoolRoom.yaml etc            
-            var sub = new DirectoryInfo(Path.Combine(ResourcesDirectory,RoomsDirectory));
+            var sub = new DirectoryInfo(Path.Combine(dir.FullName,RoomsDirectory));
 
             if(sub.Exists)
                 factory.Blueprints.AddRange(GetRoomBlueprints(sub));

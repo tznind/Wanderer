@@ -132,8 +132,9 @@ namespace Wanderer.Systems.Validation
 
                 foreach(var plan in world.PlanningSystem.Plans)
                     Validate(world,plan,actor);
-
             }
+
+            Console.WriteLine($"Validated {room}");
         }
 
         public void Validate(IWorld world, Plan plan, IActor actor)
