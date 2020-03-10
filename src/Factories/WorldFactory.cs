@@ -14,8 +14,10 @@ namespace Wanderer.Factories
 {
     public class WorldFactory : IWorldFactory
     {
-        public const string DialogueDirectory = "Dialogue/";
-        public const string FactionsDirectory = "Factions/";
+        public const string DialogueDirectory = "Dialogue";
+
+        public const string RoomsDirectory = "Rooms";
+        public const string FactionsDirectory = "Factions";
 
         public string ResourcesDirectory { get; set; }
 
@@ -45,7 +47,7 @@ namespace Wanderer.Factories
 
             var adjectiveFactory = GetAdjectiveFactory();
 
-            var roomFactory = GetRoomFactory(adjectiveFactory);
+            var roomFactory = GetRoomFactory(new DirectoryInfo(ResourcesDirectory),adjectiveFactory);
 
             var zero = new Point3(0, 0, 0);
             var startingRoom = roomFactory.Create(world,zero);
@@ -157,15 +159,60 @@ namespace Wanderer.Factories
             return new AdjectiveFactory();
         }
 
-        protected virtual IRoomFactory GetRoomFactory(IAdjectiveFactory adjectiveFactory)
+        protected virtual IRoomFactory GetRoomFactory(DirectoryInfo dir, IAdjectiveFactory adjectiveFactory)
         {
+           
+            //Load ./Rooms.yaml
             var fi = new FileInfo(Path.Combine(ResourcesDirectory, "Rooms.yaml"));
-            
-            if(fi.Exists)
-                return new YamlRoomFactory(File.ReadAllText(fi.FullName),adjectiveFactory);
 
-            return new RoomFactory(adjectiveFactory);
+            var factory = new RoomFactory(adjectiveFactory);
+
+            if(fi.Exists)
+                factory.Blueprints.AddRange(GetRoomBlueprints(fi));
+
+
+            //Load ./Rooms/MyCoolRoom.yaml ./Rooms/DecrepidRooms/MyCoolRoom.yaml etc            
+            var sub = new DirectoryInfo(Path.Combine(ResourcesDirectory,RoomsDirectory));
+
+            if(sub.Exists)
+                factory.Blueprints.AddRange(GetRoomBlueprints(sub));
+
+            return factory;
         }
+
+        protected virtual IEnumerable<RoomBlueprint> GetRoomBlueprints(FileInfo fi)
+        {
+            try
+            {
+                return Compiler.Instance.Deserializer.Deserialize<RoomBlueprint[]>(File.ReadAllText(fi.FullName));
+            }
+            catch(Exception e)
+            {
+                throw new Exception($"Error loading Rooms in file {fi.FullName}",e);
+            }
+        }
+
+        protected virtual IEnumerable<RoomBlueprint> GetRoomBlueprints(DirectoryInfo dir)
+        {
+            var found = new List<RoomBlueprint>();
+
+            //everything in the current directory is assumed to be a room
+            foreach(FileInfo f in dir.GetFiles("*.yaml"))
+                found.AddRange(GetRoomBlueprints(f));
+
+            foreach(DirectoryInfo sub in dir.GetDirectories())
+            {
+                //Don't load anything under ./Rooms/Dialogue/
+                if(sub.Name.Equals(DialogueDirectory,StringComparison.CurrentCultureIgnoreCase))
+                    continue;
+
+                //But do load everything under./Rooms/DangerousRooms/
+                found.AddRange(GetRoomBlueprints(sub));
+            }
+
+            return found;
+        }
+
         protected virtual You GetPlayer(IRoom startingRoom)
         {
             return new You("Wanderer", startingRoom)
@@ -206,7 +253,6 @@ namespace Wanderer.Factories
 
                 var factionActorsFile = Path.Combine(directory, "Actors.yaml");
                 var factionItemsFile = Path.Combine(directory, "Items.yaml");
-                var factionRoomsFile = Path.Combine(directory, "Rooms.yaml");
 
                 var factionSlotsFile = Path.Combine(directory, "Slots.yaml");
                 IItemFactory itemFactory;
@@ -247,21 +293,11 @@ namespace Wanderer.Factories
                     throw new Exception($"Error Deserializing faction actors/slots file in dir '{directory}'",e);
                 }
 
-                try
-                {
-                    var roomFactory = File.Exists(factionRoomsFile)
-                        ? new YamlRoomFactory(File.ReadAllText(factionRoomsFile), adjectiveFactory)
-                        : new RoomFactory(adjectiveFactory);
-
-                    f.RoomFactory = roomFactory;
-                    foreach (RoomBlueprint b in f.RoomFactory.Blueprints)
-                        if (!b.Faction.HasValue)
-                            b.Faction = f.Identifier;
-                }
-                catch (Exception e)
-                {
-                    throw new Exception($"Error Deserializing file {factionRoomsFile}",e);
-                }
+                f.RoomFactory = GetRoomFactory(new DirectoryInfo(directory),adjectiveFactory);
+                
+                foreach (RoomBlueprint b in f.RoomFactory.Blueprints)
+                    if (!b.Faction.HasValue)
+                        b.Faction = f.Identifier;
 
                 var forenames = new FileInfo(Path.Combine(directory,"Forenames.txt"));
                 var surnames = new FileInfo(Path.Combine(directory, "Surnames.txt"));

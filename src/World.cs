@@ -179,8 +179,9 @@ namespace Wanderer
             // pick a room factory that has a blueprint for this exact point
             foreach (var potential in Factions.Select(f=>f.RoomFactory).Union(new[] {RoomFactory}))
             {
-                if (potential.Blueprints.Any(b => Equals(newPoint, b.FixedLocation)))
-                    return potential.Create(this, newPoint);
+                if(potential.Blueprints != null)
+                    if (potential.Blueprints.Any(b => Equals(newPoint, b.FixedLocation)))
+                        return potential.Create(this, newPoint);
             }
 
             //otherwise create a random room

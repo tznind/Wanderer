@@ -9,7 +9,7 @@ namespace Wanderer.Factories
 {
     public class RoomFactory: HasStatsFactory<IRoom>, IRoomFactory
     {
-        public RoomBlueprint[] Blueprints { get; set; } = new RoomBlueprint[0];
+        public List<RoomBlueprint> Blueprints { get; set; } = new List<RoomBlueprint>();
 
         public ActorFactory GenericActorFactory { get; set; }
         public ItemFactory GenericItemFactory { get; set; }

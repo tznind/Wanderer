@@ -187,7 +187,7 @@ namespace Tests.Actions
 
             var f = new RoomFactory(new AdjectiveFactory())
             {
-                Blueprints = new[] {start, west}
+                Blueprints = new List<RoomBlueprint> {start, west}
             };
             
             var world = new World();
@@ -229,7 +229,7 @@ namespace Tests.Actions
 
             var f = new RoomFactory(new AdjectiveFactory())
             {
-                Blueprints = new[] {start, west}
+                Blueprints = new List<RoomBlueprint> {start, west}
             };
             
             var world = new World();
