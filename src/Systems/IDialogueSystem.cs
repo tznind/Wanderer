@@ -8,7 +8,7 @@ namespace Wanderer.Systems
 {
     public interface IDialogueSystem : ISystem
     {
-        IList<DialogueNode> AllDialogues { get; set; }
+        List<DialogueNode> AllDialogues { get; set; }
         
         /// <summary>
         /// Run an explicit piece of dialogue out of the blue.  Use <see cref="CanTalk"/>

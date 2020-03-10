@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using Wanderer.Actors;
 using Wanderer.Compilation;
+using Wanderer.Dialogues;
 using Wanderer.Factories.Blueprints;
 using Wanderer.Rooms;
 using Wanderer.Plans;
@@ -333,15 +334,32 @@ namespace Wanderer.Factories
 
         public virtual DialogueSystem GetDialogue()
         {
-            var dialogueDir = Path.Combine(ResourcesDirectory, DialogueDirectory);
+            var toReturn = new DialogueSystem();
 
-            if(!Directory.Exists(dialogueDir))
-                return new DialogueSystem();
+            foreach (var dir in Directory.GetDirectories(ResourcesDirectory, DialogueDirectory, SearchOption.AllDirectories))
+                toReturn.AllDialogues.AddRange(GetDialogue(new DirectoryInfo(dir)));
+            
+            return toReturn;
+        }
 
-            return new YamlDialogueSystem(
-                Directory.EnumerateFiles(dialogueDir,"*.yaml",SearchOption.AllDirectories)
-                    .Select(f=>new FileInfo(f)).ToArray()
-                );
+        protected virtual IEnumerable<DialogueNode> GetDialogue(DirectoryInfo dialogueDir)
+        {
+            var toReturn = new List<DialogueNode>();
+        
+            foreach (var fi in dialogueDir.GetFiles("*.yaml",SearchOption.AllDirectories))
+            {
+                try
+                {
+                    foreach (var dialogueNode in Compiler.Instance.Deserializer.Deserialize<DialogueNode[]>(File.ReadAllText(fi.FullName))) 
+                        toReturn.Add(dialogueNode);
+                }
+                catch (Exception e)
+                {
+                    throw new ArgumentException($"Error in dialogue yaml:{ e.Message } in file '{fi.FullName}'",e);
+                }
+            }
+
+            return toReturn;
         }
     }
 }

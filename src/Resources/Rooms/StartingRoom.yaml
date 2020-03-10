@@ -1,0 +1,19 @@
+﻿- Name: Gun Bay
+  Identifier: 6ef90e2d-404f-4464-890a-70120b4e412c
+  Unique: true
+  Tile: g
+  FixedLocation: 0,0,0
+  Faction: e6edabf6-9ae9-40e8-aa51-772616e7f1ff
+  Dialogue:
+    Next: 335770f7-48b5-4465-b133-df87934404bc
+  MandatoryActors:
+    - Name: Hooded Figure
+      Dialogue:
+        Next: a25c08a2-c4a6-4c6a-a6ee-c11744938349
+    - Name: Carlos Darkmeer
+      Dialogue:
+        Next: fa7e55d3-b086-4e35-b816-c2d79fe66ac2
+      Actions:
+        - FightAction
+        - EatAction
+        - LoadGunsAction
