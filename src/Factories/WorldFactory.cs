@@ -346,6 +346,7 @@ namespace Wanderer.Factories
         {
             var toReturn = new List<DialogueNode>();
         
+            //all yaml files anywhere under dialogueDir
             foreach (var fi in dialogueDir.GetFiles("*.yaml",SearchOption.AllDirectories))
             {
                 try

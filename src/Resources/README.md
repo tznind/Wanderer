@@ -18,3 +18,29 @@ This file describes the relationship between classes and resource files
 | /Factions/X/Slots.yaml | `SlotCollection` | Overrides the default system wide item slots for the specific faction (used where the actor blueprint doesn't explicitly list it's own slots)|
 | /Factions/X/Forenames.txt | `NameFactory` | If present then unamed Npc generated in this faction have random selections from this list |
 | /Factions/X/Surnames.txt | `NameFactory` | As above but for surnames |
+
+
+## Subdirectories
+
+Once a project gets too big it can help to use subdirectories.  To this end you can have:
+
+```
+./Rooms.yaml
+./Rooms/Level1/MyCoolRoom.yaml
+./Rooms/Tutorial/MyOtherRoom.yaml
+```
+_Anywhere you could have Rooms.yaml you can also have a Rooms directory.  Files under this directory are loaded as rooms_
+
+You can also create a folder `Dialogue` under any `Rooms` directory:
+
+```
+./Rooms.yaml
+./Rooms/Level1/MyCoolRoom.yaml
+./Rooms/Level1/Dialogue/SomeoneCool.yaml
+./Rooms/Level1/Dialogue/DescriptionOfMyCoolRoom.yaml
+./Rooms/Tutorial/MyOtherRoom.yaml
+./Rooms/Tutorial/Dialogue/Descripions/RoomDescriptionDialogue.yaml
+./Rooms/Tutorial/Dialogue/Actors/Dude1.yaml
+./Rooms/Tutorial/Dialogue/Actors/Dude2.yaml
+```
+_Any file under a folder called 'Dialogue' will be loaded as Dialogue_
