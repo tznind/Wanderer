@@ -143,3 +143,9 @@ We can link dialogue together by adding a `Destination`:
   Body:
     - Text: I... well... <The prince turns away to hide his tears>
 ```
+
+## Scaling Up
+
+Once you have more than a dozen or so config files you may want to start using [resources subdirectories](./src/Resources/README.md#subdirectories).
+
+You can also simplify the process of creating long/nested dialogues using the [Proto Dialogue](./src/Resources/README.md#proto-dialogue) system (creates the initial skeleton of dialogues from simple free text).
