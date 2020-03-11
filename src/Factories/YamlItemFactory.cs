@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Linq;
+using Newtonsoft.Json;
 using Wanderer.Actions;
 using Wanderer.Compilation;
 using Wanderer.Dialogues;
@@ -17,7 +18,7 @@ namespace Wanderer.Factories
 
         public YamlItemFactory(string yaml, IAdjectiveFactory adjectiveFactory):base(adjectiveFactory)
         {
-            Blueprints = Compiler.Instance.Deserializer.Deserialize<ItemBlueprint[]>(yaml);
+            Blueprints = Compiler.Instance.Deserializer.Deserialize<ItemBlueprint[]>(yaml).ToList();
         }
     }
 }

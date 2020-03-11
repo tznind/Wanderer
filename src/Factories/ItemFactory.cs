@@ -1,4 +1,5 @@
-﻿using Wanderer.Actions;
+﻿using System.Collections.Generic;
+using Wanderer.Actions;
 using Wanderer.Adjectives;
 using Wanderer.Dialogues;
 using Wanderer.Factories.Blueprints;
@@ -8,7 +9,7 @@ namespace Wanderer.Factories
 {
     public class ItemFactory : HasStatsFactory<IItem>,IItemFactory
     {
-        public ItemBlueprint[] Blueprints { get; set; } = new ItemBlueprint[0];
+        public List<ItemBlueprint> Blueprints { get; set; } = new List<ItemBlueprint>();
 
         public ItemFactory(IAdjectiveFactory adjectiveFactory):base(adjectiveFactory)
         {

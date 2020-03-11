@@ -34,7 +34,7 @@ namespace Tests.Actors
 ";
 
             var factory = new YamlItemFactory(yaml, adj);
-            Assert.AreEqual(2,factory.Blueprints.Length);
+            Assert.AreEqual(2,factory.Blueprints.Count);
 
             var you = YouInARoom(out IWorld w);
             var item = factory.Create(w, factory.Blueprints[1]);

@@ -16,9 +16,9 @@ namespace Wanderer.Factories
     public class WorldFactory : IWorldFactory
     {
         public const string DialogueDirectory = "Dialogue";
-
         public const string RoomsDirectory = "Rooms";
         public const string FactionsDirectory = "Factions";
+        public const string ItemsDirectory = "Items";
 
         public string ResourcesDirectory { get; set; }
 
@@ -206,6 +206,8 @@ namespace Wanderer.Factories
                 //Don't load anything under ./Rooms/Dialogue/
                 if(sub.Name.Equals(DialogueDirectory,StringComparison.CurrentCultureIgnoreCase))
                     continue;
+                if(sub.Name.Equals(ItemsDirectory,StringComparison.CurrentCultureIgnoreCase))
+                    continue;
 
                 //But do load everything under./Rooms/DangerousRooms/
                 found.AddRange(GetRoomBlueprints(sub));
@@ -253,27 +255,12 @@ namespace Wanderer.Factories
                 }
 
                 var factionActorsFile = Path.Combine(directory, "Actors.yaml");
-                var factionItemsFile = Path.Combine(directory, "Items.yaml");
-
                 var factionSlotsFile = Path.Combine(directory, "Slots.yaml");
-                IItemFactory itemFactory;
+                IItemFactory itemFactory = GetItemFactory(directory,adjectiveFactory);
 
-                try
-                {
-                    if(File.Exists(factionItemsFile))
-                        itemFactory = new YamlItemFactory(File.ReadAllText(factionItemsFile),adjectiveFactory);
-                    else
-                        itemFactory = new ItemFactory(adjectiveFactory);
+                //All factions apparently get these as generic items
+                itemFactory.Blueprints.AddRange(_defaultItems);
 
-                    //add default items that anyone could have
-                    if (_defaultItems != null && _defaultItems.Any())
-                        itemFactory.Blueprints = itemFactory.Blueprints.Union(_defaultItems).ToArray();
-                }
-                catch (Exception e)
-                {
-                    throw new Exception($"Error Deserializing file {factionItemsFile}",e);
-                }
-                
                 try
                 {
                     string slotsYaml = null;
@@ -329,6 +316,47 @@ namespace Wanderer.Factories
                     foreach (IFaction establishment in world.Factions.Where(f=>f.Role == FactionRole.Establishment))
                         //general respect for the security (but they don't care back).
                         world.Relationships.Add(new InterFactionRelationship(f,establishment,2));
+            }
+        }
+
+        private IItemFactory GetItemFactory(string topLevelDir, AdjectiveFactory adjectiveFactory)
+        {
+            
+            var itemFactory = new ItemFactory(adjectiveFactory);
+
+            //Load ./Items.yaml
+            var itemFile = new FileInfo(Path.Combine(topLevelDir, "Items.yaml"));
+                
+            if(itemFile.Exists)
+                itemFactory.Blueprints.AddRange(GetItemBlueprints(itemFile));
+            
+            //TODO: what if someone creates an Items folder under another Items folder! inception items!
+            //load anything under an Items folder under our Faction
+            foreach (var itemDir in Directory.GetDirectories(topLevelDir,ItemsDirectory,SearchOption.AllDirectories)) 
+                itemFactory.Blueprints.AddRange(GetItemBlueprints(new DirectoryInfo(itemDir)));
+
+            return itemFactory;
+        }
+
+        protected virtual List<ItemBlueprint> GetItemBlueprints(DirectoryInfo dir)
+        {
+            List<ItemBlueprint> toReturn = new List<ItemBlueprint>();
+            
+            foreach(var fi in dir.GetFiles("*.yaml",SearchOption.AllDirectories))
+                toReturn.AddRange(GetItemBlueprints(fi));
+
+            return toReturn;
+        }
+
+        protected virtual IEnumerable<ItemBlueprint> GetItemBlueprints(FileInfo fi)
+        {
+            try
+            {
+                return Compiler.Instance.Deserializer.Deserialize<List<ItemBlueprint>>(File.ReadAllText(fi.FullName));
+            }
+            catch(Exception e)
+            {
+                throw new Exception($"Error loading ItemBlueprints in file {fi.FullName}",e);
             }
         }
 
