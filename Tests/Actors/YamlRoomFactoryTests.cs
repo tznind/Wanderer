@@ -78,7 +78,7 @@ namespace Tests.Actors
                     Color = ConsoleColor.Cyan,
                     ActorFactory = new ActorFactory(new ItemFactory(adj),adj)
                     {
-                        Blueprints = new []
+                        Blueprints = new List<ActorBlueprint> 
                         {
                             new ActorBlueprint()
                             {

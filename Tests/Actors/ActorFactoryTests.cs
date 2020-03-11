@@ -31,7 +31,7 @@ namespace Tests.Actors
             world.Factions.Add(faction);
             faction.ActorFactory = actors;
 
-            actors.Blueprints = new[] {new ActorBlueprint() {Name = "Captain Haddock"}};
+            actors.Blueprints = new List<ActorBlueprint> {new ActorBlueprint() {Name = "Captain Haddock"}};
 
             var room = new Room("Tank Bay", world, 't') {ControllingFaction = faction};
 

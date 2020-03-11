@@ -39,7 +39,7 @@ namespace Tests.Actors
 ";
          
             var actorFactory = new YamlActorFactory(yaml, null,new ItemFactory(adj), adj);
-            Assert.GreaterOrEqual(actorFactory.Blueprints.Length , 2);
+            Assert.GreaterOrEqual(actorFactory.Blueprints.Count , 2);
 
             var room = InARoom(out IWorld w);
 

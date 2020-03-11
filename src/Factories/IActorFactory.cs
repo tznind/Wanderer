@@ -2,6 +2,7 @@
 using Wanderer.Factories.Blueprints;
 using Wanderer.Rooms;
 using Wanderer.Relationships;
+using System.Collections.Generic;
 
 namespace Wanderer.Factories
 {
@@ -10,12 +11,18 @@ namespace Wanderer.Factories
         /// <summary>
         /// Npc blueprints which get stamped out by this factory
         /// </summary>
-        ActorBlueprint[] Blueprints { get; set; }
+        List<ActorBlueprint> Blueprints { get; set; }
         
         /// <summary>
         /// Factory for items which fit the actors theme of this factory
         /// </summary>
         IItemFactory ItemFactory { get; set; }
+
+        /// <summary>
+        /// Slots (1 head 2 arms etc) that Actors get when created (unless blueprint
+        /// specifically says otherwise)
+        /// </summary>
+        SlotCollection DefaultSlots { get; set; }
 
         /// <summary>
         /// Create some npcs in the room
