@@ -8,17 +8,14 @@ This file describes the relationship between classes and resource files
 | /InjurySystems/*.yaml | `InjurySystem` | Describes a method of inflicting damage upon Rooms and Actors (e.g. fire, plague, tissue damage etc)|
 | /[Main.lua](./Main.lua) | N\A | Defines custom global methods and helper functions for use in scripting blocks |
 | /[Plans.yaml](./Plans.yaml) | `Plan` | Contains AI Plans for NPC Actors.  These can be influenced by Leadership Actions of others|
+| /Actors.yaml  | `ActorBlueprint[]` | Describes how to create `Actor` instances that fit thematically with any `Faction` / `Room` |
 | /Rooms.yaml | `RoomBlueprint[]` | Contains descriptions of rooms that can be generated |
 | /Items.yaml | `ItemBlueprint[]` | Contains generic items that would fit in any room generated (regardless of `Faction` |
 | /Slots.yaml | `SlotCollection` | Contains default item slots (e.g. 1 Head, 2 Hand etc) that all `Actor` start with (unless the blueprint lists explicit slots).  Note also that this can be overridden with a faction Slots.yaml|
 | /Factions/X/Faction.yaml | `Faction` | Contains description of the faction (name, role etc) |
-| /Factions/X/Rooms.yaml  | `RoomBlueprint[]` | Describes how to create `Room` instances that fit thematically with the `Faction` whose folder they are in |
-| /Factions/X/Actors.yaml  | `ActorBlueprint[]` | Describes how to create `Actor` instances that fit thematically with the `Faction` whose folder they are in |
-| /Factions/X/Items.yaml  | `ItemBlueprint[]` | Describes how to create `Item` instances that fit thematically with the `Faction` whose folder they are in |
-| /Factions/X/Slots.yaml | `SlotCollection` | Overrides the default system wide item slots for the specific faction (used where the actor blueprint doesn't explicitly list it's own slots)|
 | /Factions/X/Forenames.txt | `NameFactory` | If present then unamed Npc generated in this faction have random selections from this list |
 | /Factions/X/Surnames.txt | `NameFactory` | As above but for surnames |
-
+| /Factions/X/Slots.yaml | `SlotCollection` | Overrides the default system wide item slots for the specific faction (used where the actor blueprint doesn't explicitly list it's own slots)|
 
 ## Subdirectories
 
@@ -29,21 +26,27 @@ Once a project gets too big it can help to use subdirectories.  To this end you 
 ./Rooms/Level1/MyCoolRoom.yaml
 ./Rooms/Tutorial/MyOtherRoom.yaml
 ```
-_Anywhere you could have Rooms.yaml you can also have a Rooms directory.  Files under this directory are loaded as rooms_
 
-You can also create a folder `Dialogue` under any `Rooms` directory:
+Anywhere you could have a given yaml file (e.g. `Dialogue.yaml`, `Actors.yaml`, `Rooms.yaml` or `Items.yaml`) you can instead/aswell have a directory.
+
+All directories are evaluated and the Type of blueprint is infered from the last named folder in the hierarchy e.g.
 
 ```
-./Rooms.yaml
-./Rooms/Level1/MyCoolRoom.yaml
-./Rooms/Level1/Dialogue/SomeoneCool.yaml
-./Rooms/Level1/Dialogue/DescriptionOfMyCoolRoom.yaml
-./Rooms/Tutorial/MyOtherRoom.yaml
-./Rooms/Tutorial/Dialogue/Descripions/RoomDescriptionDialogue.yaml
-./Rooms/Tutorial/Dialogue/Actors/Dude1.yaml
-./Rooms/Tutorial/Dialogue/Actors/Dude2.yaml
+#Would be interpreted as Items
+./Level1/Rooms/MyCoolRoom/Items/Torch.yaml
+
+#Would be interpreted as Room(s)
+./Level1/Rooms/MyCoolRoom/CoolRoom.yaml
 ```
-_Any file under a folder called 'Dialogue' will be loaded as Dialogue_
+
+This lets you group your objects together however you wish e.g. keep room specific Dialogue in the same area as the Room definition.
+
+
+## Faction Specific Rooms/Items/Actors
+
+If yaml file or directory (e.g. `Rooms.yaml`) exists under a faction e.g. (`./Factions/Lowlifes/Rooms/Bar.yaml`) then the room will be associated with the `Faction` (in this case `LowLifes`).  This feature requires a `Faction.yaml` to exist (e.g. `./Factions/Lowlifes/Faction.yaml`).
+
+Being associated with a specific Faction ensures that NPC appear in places thematically appropriate to them (e.g. wild monsters don't appear in the middle of towns - unless you want them to!)
 
 
 ## Proto Dialogue
