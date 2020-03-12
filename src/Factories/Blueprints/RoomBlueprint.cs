@@ -41,7 +41,9 @@ namespace Wanderer.Factories.Blueprints
         /// </summary>
         public ItemBlueprint[] OptionalItems { get; set; } = new ItemBlueprint[0];
 
-
-
+        public override string ToString()
+        {
+            return Name ?? Identifier?.ToString() ?? "Unamed Room Blueprint";
+        }
     }
 }

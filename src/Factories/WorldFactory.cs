@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Wanderer.Actors;
@@ -34,6 +35,11 @@ namespace Wanderer.Factories
         List<ItemBlueprint> _defaultItems = new List<ItemBlueprint>();
 
         List<ActorBlueprint> _defaultActors = new List<ActorBlueprint>();
+        
+        /// <summary>
+        /// Mapping between directories and the factions which were created from them
+        /// </summary>
+        private Dictionary<string,Faction> _factionDirs = new Dictionary<string, Faction>();
 
         public virtual IWorld Create()
         {
@@ -57,18 +63,14 @@ namespace Wanderer.Factories
             foreach(var fi in Directory.GetFiles(ResourcesDirectory,"*.yaml",SearchOption.AllDirectories).Select(f=>new FileInfo(f)))
             {
                 //is a faction dir
-                var dirs = fi.FullName.Split(Path.DirectorySeparatorChar);
+                var dirs = fi.Directory.FullName.Split(Path.DirectorySeparatorChar);
                 IFaction faction = null;
 
-                for(int i=0 ; i<dirs.Length;i++)
-                {
-                    //Figure out if we are in a faction subdirectory
-                    if(dirs[i].Equals(FactionsDirectory,StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        if(i+1 < dirs.Length)
-                            faction = world.Factions.FirstOrDefault(f=>f.Name.Equals(dirs[i+1]));
-                    }
-                }
+                var factionDir = _factionDirs.Keys.FirstOrDefault(k =>
+                fi.Directory.FullName.StartsWith(k, StringComparison.CurrentCultureIgnoreCase));
+
+                if (factionDir != null)
+                    faction = _factionDirs[factionDir];
 
                 if(IsRoomsFile(fi,dirs))
                     (faction?.RoomFactory ?? world.RoomFactory).Blueprints.AddRange(GetRoomBlueprints(fi));
@@ -81,9 +83,8 @@ namespace Wanderer.Factories
 
                 if(IsDialogueFile(fi,dirs))
                     world.Dialogue.AllDialogues.AddRange(GetDialogue(fi));
-
             }
-
+            
             var zero = new Point3(0, 0, 0);
             var startingRoom = world.RoomFactory.Create(world,zero);
             startingRoom.IsExplored = true;
@@ -228,7 +229,6 @@ namespace Wanderer.Factories
 
             foreach (var directory in dirs)
             {
-                
                 Faction f;
                 var factionFile = Path.Combine(directory, "Faction.yaml");
                 var factionSlotsFile = Path.Combine(directory, "Slots.yaml");
@@ -271,6 +271,7 @@ namespace Wanderer.Factories
                 //TODO: Really all factions just are mates with thier faction buddies and can't control that from yaml?
                 world.Relationships.Add(new IntraFactionRelationship(f,5));
 
+                _factionDirs.Add(directory,f);
                 world.Factions.Add(f);
             }
 

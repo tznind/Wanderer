@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Wanderer.Extensions;
 using Wanderer.Factories.Blueprints;
+using Wanderer.Relationships;
 using Wanderer.Rooms;
 
 namespace Wanderer.Factories
@@ -42,10 +43,16 @@ namespace Wanderer.Factories
                 return new Room("Empty Room",world,'e');
             
             //pick blueprint faction (or random one if it isn't themed to a specific faction)
-            var faction = blueprint.Faction != null
-                ? world.Factions.Single(f => f.Identifier == blueprint.Faction)
-                : world.Factions.GetRandomFaction(world.R);
+            IFaction faction;
 
+            if (blueprint.Faction != null)
+            {
+                var match = world.Factions.SingleOrDefault(f => f.Identifier == blueprint.Faction);
+                faction = match ?? throw new Exception($"Could not find Faction {blueprint.Faction} listed by blueprint {blueprint}");
+            }
+            else 
+                faction = world.Factions.GetRandomFaction(world.R);
+            
             var room = new Room(blueprint.Name, world, blueprint.Tile) {ControllingFaction = faction};
 
             AddBasicProperties(room,blueprint,world,"look");
