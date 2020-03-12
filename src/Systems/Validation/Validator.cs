@@ -52,11 +52,6 @@ namespace Wanderer.Systems.Validation
         public void Validate(IWorld world)
         {
             Validate(world,world.RoomFactory, "World RoomFactory");
-
-            foreach (IFaction faction in world.Factions)
-            {
-                Validate(world,faction.RoomFactory,$"Faction <{faction}> RoomFactory");
-            }
         }
 
         protected virtual Npc GetTestActor(IRoom room)
@@ -132,8 +127,9 @@ namespace Wanderer.Systems.Validation
 
                 foreach(var plan in world.PlanningSystem.Plans)
                     Validate(world,plan,actor);
-
             }
+
+            Console.WriteLine($"Validated {room}");
         }
 
         public void Validate(IWorld world, Plan plan, IActor actor)

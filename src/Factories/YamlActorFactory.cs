@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 using Wanderer.Actors;
 using Wanderer.Compilation;
 using Wanderer.Factories.Blueprints;
@@ -19,7 +20,7 @@ namespace Wanderer.Factories
             IAdjectiveFactory adjectiveFactory) : base(itemFactory, adjectiveFactory)
         {
             
-            Blueprints = Compiler.Instance.Deserializer.Deserialize<ActorBlueprint[]>(yaml);
+            Blueprints = Compiler.Instance.Deserializer.Deserialize<List<ActorBlueprint>>(yaml);
 
             if(!string.IsNullOrWhiteSpace(yamlDefaultSlots))
                 DefaultSlots = Compiler.Instance.Deserializer.Deserialize<SlotCollection>(yamlDefaultSlots);

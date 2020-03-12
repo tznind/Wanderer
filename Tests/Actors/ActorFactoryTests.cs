@@ -29,9 +29,9 @@ namespace Tests.Actors
             var world = new World();
             var faction = new Faction("Fish overloards",FactionRole.Wildlife);
             world.Factions.Add(faction);
-            faction.ActorFactory = actors;
+            world.ActorFactory = actors;
 
-            actors.Blueprints = new[] {new ActorBlueprint() {Name = "Captain Haddock"}};
+            actors.Blueprints = new List<ActorBlueprint> {new ActorBlueprint() {Name = "Captain Haddock"}};
 
             var room = new Room("Tank Bay", world, 't') {ControllingFaction = faction};
 

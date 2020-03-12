@@ -76,10 +76,5 @@ namespace Wanderer.Plans
             DijkstraPathing pathing = new DijkstraPathing(args.World.Map,from,to);
             return pathing.GetShortestPathDijkstra();
         }
-
-        public bool IsMet(IWorld world,object o)
-        {
-            return IsMet(world,(SystemArgs) o);
-        }
     }
 }

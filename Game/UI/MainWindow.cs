@@ -252,7 +252,9 @@ namespace Game.UI
                 else
                     dlg.Add(text);
             }
-            
+
+            int i = 1;
+
             foreach (var value in options)
             {
                 T v1 = (T) value;

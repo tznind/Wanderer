@@ -1,4 +1,5 @@
-﻿using Wanderer.Factories;
+﻿using Wanderer.Actors;
+using Wanderer.Factories;
 using YamlDotNet.Serialization;
 
 namespace Wanderer.Relationships
@@ -10,9 +11,7 @@ namespace Wanderer.Relationships
         [YamlIgnore]
         public INameFactory NameFactory { get; set; }
 
-        public IActorFactory ActorFactory { get; set; }
-
-        public IRoomFactory RoomFactory { get; set; }
+        public SlotCollection DefaultSlots { get; set; } = new SlotCollection();
 
         public Faction()
         {

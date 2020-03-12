@@ -20,10 +20,9 @@ namespace Tests
                 ResourcesDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory,"Resources")
             };
 
-            var dialogue = f.GetDialogue();
-            Assert.IsNotNull(dialogue);
+            var world = f.Create();
 
-            Assert.Greater(dialogue.AllDialogues.Count,0);
+            Assert.Greater(world.Dialogue.AllDialogues.Count,0);
         }
 
         [Test]

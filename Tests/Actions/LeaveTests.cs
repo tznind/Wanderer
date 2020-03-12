@@ -35,13 +35,12 @@ namespace Tests.Actions
         public void LeaveAndComeBack()
         {
             YouInARoom(out IWorld world);
-            var factory = new Mock<IRoomFactory>();
-
-            factory.SetupSequence(f => f.Create(It.IsAny<IWorld>()))
-                .Returns(new Room("North Room",world,'-'))
-                .Throws<Exception>();
-            
-            world.RoomFactory = factory.Object;
+            world.RoomFactory = new RoomFactory(new AdjectiveFactory());
+            world.RoomFactory.Blueprints.Add(new RoomBlueprint(){
+                Name = "North Room",
+                Tile = '-',
+                FixedLocation = new Point3(0,1,0)
+            });
             
             Assert.AreEqual(new Point3(0,0,0),world.Map.GetPoint(world.Player.CurrentLocation));
             
@@ -69,18 +68,14 @@ namespace Tests.Actions
         [Test]
         public void WalkInCircle()
         {
-
-            var factory = new Mock<IRoomFactory>();
             YouInARoom(out IWorld world);
-
-            factory.SetupSequence(f => f.Create(It.IsAny<IWorld>()))
-                .Returns(new Room("NorthRoom",world,'-')) 
-                .Returns(new Room("NorthEastRoom",world,'-'))
-                .Returns(new Room( "EastRoom",world,'-'));
-            //next return will be null and should not be invoked.  After all going West
-            //from the EastRoom should result in being back in StartingRoom
-            
-            world.RoomFactory = factory.Object;
+            world.RoomFactory = new RoomFactory(new AdjectiveFactory());
+            world.RoomFactory.Blueprints.Add(new RoomBlueprint(){Name = "NorthRoom", Tile = '-',
+                FixedLocation = new Point3(0,1,0)});
+            world.RoomFactory.Blueprints.Add(new RoomBlueprint(){Name = "NorthEastRoom", Tile = '-',
+                FixedLocation = new Point3(1,1,0)});
+            world.RoomFactory.Blueprints.Add(new RoomBlueprint(){Name = "EastRoom", Tile = '-',
+                FixedLocation = new Point3(1,0,0)});
 
             var leave = new LeaveAction();
 
@@ -103,9 +98,7 @@ namespace Tests.Actions
 
             stack.RunStack(world,GetUI(Direction.West),leave,world.Player,new IBehaviour[0]);
             Assert.AreEqual("TestRoom", world.Player.CurrentLocation.Name);
-
-            factory.Verify();
-
+            
             Assert.AreSame(room1, world.Player.CurrentLocation,"Should be back in the first room again");
         }
 
@@ -116,42 +109,39 @@ namespace Tests.Actions
         [Test]
         public void WalkUpThenDownAgain()
         {
-            var factory = new Mock<IRoomFactory>();
             YouInARoom(out IWorld world);
+            world.RoomFactory = new RoomFactory(new AdjectiveFactory());
 
-            //notice that this room normally doesn't allow going down
-            var upperRoom = new Room("UpperRoom", world, '-');
-            Assert.IsFalse(upperRoom.LeaveDirections.Contains(Direction.Down));
-            
-            factory.SetupSequence(f => f.Create(It.IsAny<IWorld>()))
-                .Returns(upperRoom);
-            
-            world.RoomFactory = factory.Object;
-            //let the player go up from here
-            ((Room) world.Player.CurrentLocation).AllowUpDown(true);
-
+            world.RoomFactory.Blueprints.Add(new RoomBlueprint(){Name = "Start", Tile = '-',
+                FixedLocation = new Point3(0,0,0),
+                
+                //let the player go up from here (normally only horizontal movement is allowed)
+                LeaveDirections = new []{Direction.Up}
+            });
+            world.RoomFactory.Blueprints.Add(new RoomBlueprint(){Name = "UpperRoom", Tile = '-',
+                FixedLocation = new Point3(0,0,1)
+            });
+                        
             var leave = new LeaveAction();
-
+            
+            var stack = new ActionStack();
+            world.Map[new Point3(0, 0, 0)] = world.GetNewRoom(new Point3(0, 0, 0));
+            world.Player.CurrentLocation = world.Map[new Point3(0, 0, 0)];
             var room1 = world.Player.CurrentLocation;
             Assert.IsNotNull(room1);
 
-            var stack = new ActionStack();
-
-            Assert.AreEqual("TestRoom", world.Player.CurrentLocation.Name);
+            //should start in the starting room
+            Assert.AreEqual("Start", world.Player.CurrentLocation.Name);
 
             //up
             stack.RunStack(world,GetUI(Direction.Up),leave,world.Player,new IBehaviour[0]);
             Assert.AreEqual("UpperRoom", world.Player.CurrentLocation.Name);
             
-            Assert.Contains(Direction.Down,upperRoom.LeaveDirections.ToArray());
-
             //down
             stack.RunStack(world,GetUI(Direction.Down),leave,world.Player,new IBehaviour[0]);
-            Assert.AreEqual("TestRoom", world.Player.CurrentLocation.Name);
+            Assert.AreEqual("Start", world.Player.CurrentLocation.Name);
 
             
-            factory.Verify();
-
             Assert.AreSame(room1, world.Player.CurrentLocation,"Should be back in the first room again");
         }
 
@@ -187,7 +177,7 @@ namespace Tests.Actions
 
             var f = new RoomFactory(new AdjectiveFactory())
             {
-                Blueprints = new[] {start, west}
+                Blueprints = new List<RoomBlueprint> {start, west}
             };
             
             var world = new World();
@@ -229,7 +219,7 @@ namespace Tests.Actions
 
             var f = new RoomFactory(new AdjectiveFactory())
             {
-                Blueprints = new[] {start, west}
+                Blueprints = new List<RoomBlueprint> {start, west}
             };
             
             var world = new World();

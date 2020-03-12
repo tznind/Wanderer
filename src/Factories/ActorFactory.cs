@@ -6,12 +6,13 @@ using Wanderer.Factories.Blueprints;
 using Wanderer.Items;
 using Wanderer.Rooms;
 using Wanderer.Relationships;
+using System.Collections.Generic;
 
 namespace Wanderer.Factories
 {
     public class ActorFactory : HasStatsFactory<IActor> ,IActorFactory
     {
-        public ActorBlueprint[] Blueprints { get; set; }
+        public List<ActorBlueprint> Blueprints { get; set; } = new List<ActorBlueprint>();
         
         public IItemFactory ItemFactory { get; set; }
 
@@ -29,7 +30,7 @@ namespace Wanderer.Factories
             var pickFrom = Blueprints;
 
             if (roomBlueprintIfAny != null)
-                pickFrom = pickFrom.Union(roomBlueprintIfAny.OptionalActors).ToArray();
+                pickFrom = pickFrom.Union(roomBlueprintIfAny.OptionalActors).ToList();
 
             if(pickFrom.Any())
                 for (int i = 0; i < numberOfNpc; i++)

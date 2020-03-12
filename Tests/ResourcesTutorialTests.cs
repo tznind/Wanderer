@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using Wanderer.Factories;
@@ -12,9 +14,16 @@ namespace Tests
         [Test]
         public void TestEmpty()
         {
+            var dir = new DirectoryInfo(Path.Combine(TestContext.CurrentContext.WorkDirectory, "EmptyDir"));
+
+            if(dir.Exists)
+                dir.Delete(true);
+
+            dir.Create();
+
             var f = new WorldFactory()
             {
-                ResourcesDirectory = TestContext.CurrentContext.WorkDirectory
+                ResourcesDirectory = dir.FullName
             };
 
             f.Create();

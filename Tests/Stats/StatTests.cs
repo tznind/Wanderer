@@ -32,7 +32,36 @@ namespace Tests.Stats
 
             s1[Stat.Fight] = 10;
             Assert.IsTrue(s1.AreIdentical(s2));
+        }   
+        
+        [Test]
+        public void TestStats_IsEmpty()
+        {
+            var s1 = new StatsCollection();
+            
+            Assert.IsTrue(s1.IsEmpty());
+            s1[Stat.Fight] = 0.0000000000001;
+            Assert.IsTrue(s1.IsEmpty());
+            s1[Stat.Fight] = 1;
+            Assert.IsFalse(s1.IsEmpty());
+        }
 
+        
+        [Test]
+        public void TestStats_Decrease()
+        {
+            var s1 = new StatsCollection();
+            Assert.AreEqual(0,s1[Stat.Fight]);
+            s1.Decrease(Stat.Fight,10);
+            Assert.AreEqual(-10,s1[Stat.Fight]);
+        }
+        [Test]
+        public void TestStats_Increase()
+        {
+            var s1 = new StatsCollection();
+            Assert.AreEqual(0,s1[Stat.Fight]);
+            s1.Increase(Stat.Fight,10);
+            Assert.AreEqual(10,s1[Stat.Fight]);
         }
     }
 }

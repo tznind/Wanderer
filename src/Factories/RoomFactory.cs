@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Wanderer.Actors;
 using Wanderer.Extensions;
 using Wanderer.Factories.Blueprints;
+using Wanderer.Relationships;
 using Wanderer.Rooms;
 
 namespace Wanderer.Factories
 {
     public class RoomFactory: HasStatsFactory<IRoom>, IRoomFactory
     {
-        public RoomBlueprint[] Blueprints { get; set; } = new RoomBlueprint[0];
+        public List<RoomBlueprint> Blueprints { get; set; } = new List<RoomBlueprint>();
 
         public ActorFactory GenericActorFactory { get; set; }
         public ItemFactory GenericItemFactory { get; set; }
@@ -42,20 +44,34 @@ namespace Wanderer.Factories
                 return new Room("Empty Room",world,'e');
             
             //pick blueprint faction (or random one if it isn't themed to a specific faction)
-            var faction = blueprint.Faction != null
-                ? world.Factions.Single(f => f.Identifier == blueprint.Faction)
-                : world.Factions.GetRandomFaction(world.R);
+            IFaction faction;
 
+            if (blueprint.Faction != null)
+            {
+                var match = world.Factions.SingleOrDefault(f => f.Identifier == blueprint.Faction);
+                faction = match ?? throw new Exception($"Could not find Faction {blueprint.Faction} listed by blueprint {blueprint}");
+            }
+            else 
+                faction = world.Factions.GetRandomFaction(world.R);
+            
             var room = new Room(blueprint.Name, world, blueprint.Tile) {ControllingFaction = faction};
+
+            //does the blueprint override the leave directions?
+            if (blueprint.LeaveDirections != null && blueprint.LeaveDirections.Any())
+            {
+                room.LeaveDirections.Clear();
+                room.LeaveDirections = new HashSet<Direction>(blueprint.LeaveDirections);
+            }
 
             AddBasicProperties(room,blueprint,world,"look");
 
+            //get some actors for the room
             if (faction != null)
             {
                 //create some random NPCs
-                faction.ActorFactory?.Create(world, room, faction,blueprint);
+                world.ActorFactory.Create(world, room, faction,blueprint);
 
-                var itemFactory = faction.ActorFactory?.ItemFactory;
+                var itemFactory = world.ActorFactory.ItemFactory;
 
                 if (itemFactory != null && itemFactory.Blueprints.Any())
                 {

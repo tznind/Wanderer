@@ -1,4 +1,5 @@
-﻿using Wanderer.Factories.Blueprints;
+﻿using System.Collections.Generic;
+using Wanderer.Factories.Blueprints;
 using Wanderer.Rooms;
 
 namespace Wanderer.Factories
@@ -9,7 +10,7 @@ namespace Wanderer.Factories
         IRoom Create(IWorld world, RoomBlueprint blueprint);
         IRoom Create(World world, Point3 location);
 
-        RoomBlueprint[] Blueprints { get; set; }
+        List<RoomBlueprint> Blueprints { get; set; }
 
         bool Spawnable(HasStatsBlueprint b);
     }

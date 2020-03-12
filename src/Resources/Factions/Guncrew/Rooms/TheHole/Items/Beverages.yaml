@@ -1,0 +1,5 @@
+﻿- Name: Mould Ale
+  Identifier: 5a6709ae-898e-4586-94b0-0e291d96cd4b
+  Dialogue: 
+    Verb: drink
+    Next: f2db3b48-d5fc-4aa5-88c4-984986278747

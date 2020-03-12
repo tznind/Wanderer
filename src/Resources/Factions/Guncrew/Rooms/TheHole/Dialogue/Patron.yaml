@@ -1,0 +1,57 @@
+- Identifier: 8c3bb452-d6fc-4954-8593-7601fd58543b
+  Body:
+  - Text: What's your pleasure?
+  Options:
+  - Text: I'm looking for quests, you know hero stuff
+    Destination: adb10b46-87be-4fee-b55a-6e9e17ce6e49
+  - Text: Dice is my vice, shall we play?
+    Destination: b7ed08d3-6ab1-4c8b-9b85-68f15e566590
+  - Text: I'm looking for a drink
+    Destination: c59718d6-0922-4245-9b75-ecb68d4a55eb
+
+  #Looking for quests
+- Identifier: adb10b46-87be-4fee-b55a-6e9e17ce6e49
+  Body:
+  - Text: We are floating through the void in a decayed hulk of rotting space garbage.  Entire generations live and die as we wait for it to one day crash into a sun or an asteroid big enough to end this nightmare.  Tell me do you think there is any room for heroes here?
+  Options:
+  - Text: I guess that's a no then
+    Destination: 8c3bb452-d6fc-4954-8593-7601fd58543b
+  - Text: No need to be rude
+    Destination: 2fb39f3c-c3ac-477a-95c5-3e35e38b6341
+  - Text: Wow we are so done here
+    SingleUse: true
+    Attitude: 5
+
+  #No need to be rude
+- Identifier: 2fb39f3c-c3ac-477a-95c5-3e35e38b6341
+  Body:
+  - Text: Ask stupid questions, get rude answers.
+  Options:
+  - Text: Fair enough 
+    Destination: 8c3bb452-d6fc-4954-8593-7601fd58543b
+  - Text: I'm gonna put you in the ground [Attack]
+    Attitude: -100
+
+    # Shall we play dice
+- Identifier: b7ed08d3-6ab1-4c8b-9b85-68f15e566590
+  Body:
+  - Text: Music to my ears cutter
+
+  #Drink please
+- Identifier: c59718d6-0922-4245-9b75-ecb68d4a55eb
+  Body:
+  - Text: Best ask him over there
+    Condition:
+      - "return Room:Has(Guid('185f63cc-5c64-400e-aefd-e0a16ea358e8'))"
+  #- Text: Bar keeps dead, ain't nobody drinking again.  least ways not till someone works out how to operate the auto still
+  - Text: Bar keep ain't here... maybe he will come back
+    Condition:
+      - "return Room:Has(Guid('185f63cc-5c64-400e-aefd-e0a16ea358e8')) ~= true"
+  Options:
+  - Text: Approach bar keeper
+    # TODO: this needs to update the Recipient to point to the Barman 
+    # TODO: Also you shouldn't be able to pick this option if he isn't here
+    Destination: c9d833c6-c9d2-4821-a5e9-36e21867fc05
+
+  - Text: I've changed my mind
+    Destination: 8c3bb452-d6fc-4954-8593-7601fd58543b

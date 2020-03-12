@@ -76,18 +76,18 @@ namespace Tests.Actors
                 {
                     Identifier = new Guid("bb70f169-e0f7-40e8-927b-1c181eb8740b"),
                     Color = ConsoleColor.Cyan,
-                    ActorFactory = new ActorFactory(new ItemFactory(adj),adj)
-                    {
-                        Blueprints = new []
-                        {
-                            new ActorBlueprint()
-                            {
-                                Name = "Sandman"
-                            }, 
-                        }
-                    }
                 }
             );
+            w.ActorFactory = new ActorFactory(new ItemFactory(adj), adj)
+            {
+                Blueprints = new List<ActorBlueprint>
+                {
+                    new ActorBlueprint()
+                    {
+                        Name = "Sandman"
+                    },
+                }
+            };
 
             var yaml = 
                 @$"
@@ -131,6 +131,36 @@ namespace Tests.Actors
 
             Assert.AreEqual(99,rooms.Count(r=>r.Name.Equals("RegularRoom")));
             Assert.AreEqual(1,rooms.Count(r=>r.Name.Equals("BossRoom")));
+        }
+
+        [Test]
+        public void SpawnItem_NotFound()
+        {
+            var you = YouInARoom(out IWorld w);
+
+            Assert.IsEmpty(w.ActorFactory.ItemFactory.Blueprints);
+
+            var g = Guid.NewGuid();
+            var ex = Assert.Throws<GuidNotFoundException>(()=>you.SpawnItem(g));
+            Assert.AreEqual(g,ex.Guid);
+        }
+        [Test]
+        public void SpawnItem_Found()
+        {
+            var you = YouInARoom(out IWorld w);
+            Assert.IsEmpty(you.Items);
+            
+            var g = Guid.NewGuid();
+            w.ActorFactory.ItemFactory.Blueprints.Add(new ItemBlueprint()
+            {
+                Name = "Grenade Pin",
+                Identifier = g
+            });
+
+            you.SpawnItem(g);
+
+            Assert.AreEqual("Grenade Pin",you.Items.Single().Name);
+            Assert.AreEqual(g,you.Items.Single().Identifier);
         }
     }
 }

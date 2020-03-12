@@ -69,21 +69,5 @@ namespace Wanderer.Rooms
         {
             return Adjectives.Any(a => a is T t && condition(t));
         }
-
-        public Room AllowUpDown(bool allow)
-        {
-            if (allow)
-            {
-                LeaveDirections.Add(Direction.Up);
-                LeaveDirections.Add(Direction.Down);
-            }
-            else
-            {
-                LeaveDirections.Remove(Direction.Up);
-                LeaveDirections.Remove(Direction.Down);
-            }
-
-            return this;
-        }
     }
 }

@@ -15,13 +15,9 @@ namespace Wanderer.Relationships
         public INameFactory NameFactory { get; set; }
 
         /// <summary>
-        /// Create actors that fit thematically with this faction
+        /// Custom slots for the faction e.g. 1 tail 8 legs for the Spider Kingdom
         /// </summary>
-        IActorFactory ActorFactory { get; set; }
+        SlotCollection DefaultSlots { get; set; } 
 
-        /// <summary>
-        /// Creates rooms that fit thematically with this faction
-        /// </summary>
-        IRoomFactory RoomFactory { get; set; }
     }
 }

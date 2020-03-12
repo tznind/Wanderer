@@ -41,13 +41,12 @@ dotnet publish -r win-x64
 ```
 __Substitute win-x64 for linux-x64 etc depending on your OS__
 
-After publishing you can run the game from the Game project bin directory
+Alternatively you can build and run the game with the dotnet command
 
+```bash
+dotnet build
+dotnet ./Game/bin/Debug/netcoreapp3.1/Game.dll
 ```
-cd ./Game/bin/Debug/netcoreapp3.1/win-x64/publish/
-./Game.exe
-```
-__For linux drop the .exe extension__
 
 ## Dependencies
 

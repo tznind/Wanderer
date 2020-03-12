@@ -35,6 +35,10 @@ namespace Wanderer
 
         public IRoomFactory RoomFactory { get; set; }
 
+        public IActorFactory ActorFactory { get; set; }
+
+        public IAdjectiveFactory  AdjectiveFactory { get; set; }
+
         public Random R { get; set; } = new Random(100);
 
         [JsonIgnore]
@@ -176,19 +180,11 @@ namespace Wanderer
 
         public virtual IRoom GetNewRoom(Point3 newPoint)
         {
-            // pick a room factory that has a blueprint for this exact point
-            foreach (var potential in Factions.Select(f=>f.RoomFactory).Union(new[] {RoomFactory}))
-            {
-                if (potential.Blueprints.Any(b => Equals(newPoint, b.FixedLocation)))
-                    return potential.Create(this, newPoint);
-            }
-
-            //otherwise create a random room
-            var factionRooms = Factions.Select(f => f.RoomFactory)
-                .Where(b => b.Blueprints.Any(b.Spawnable))
-                .ToList();
-
-            return factionRooms.Union(new[] {RoomFactory}).ToArray().GetRandom(R).Create(this);
+            var exactMatch = RoomFactory.Blueprints.FirstOrDefault(b => Equals(newPoint, b.FixedLocation));
+            return RoomFactory.Create(this,
+                exactMatch ??
+                RoomFactory.Blueprints.Where(b=>RoomFactory.Spawnable(b)).ToArray().GetRandom(R)
+                );
         }
 
         public IRoom Reveal(Point3 location)
