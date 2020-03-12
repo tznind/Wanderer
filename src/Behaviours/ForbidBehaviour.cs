@@ -7,9 +7,9 @@ namespace Wanderer.Behaviours
 {
     public class ForbidBehaviour<T> : Behaviour where T:Action
     {
-        public ICondition Condition { get; set; }
+        public ICondition<Frame> Condition { get; set; }
 
-        public ForbidBehaviour(ICondition condition, IActor owner):base(owner)
+        public ForbidBehaviour(ICondition<Frame> condition, IActor owner):base(owner)
         {
             Condition = condition;
         }

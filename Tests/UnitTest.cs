@@ -14,11 +14,15 @@ namespace Tests
         {
             world = new World();
             var room = new Room("TestRoom", world,'-');
-            world.RoomFactory = new RoomFactory(new AdjectiveFactory());
+            world.AdjectiveFactory = new AdjectiveFactory();
+            world.RoomFactory = new RoomFactory(world.AdjectiveFactory);
+            world.ActorFactory = new ActorFactory(new ItemFactory(world.AdjectiveFactory),world.AdjectiveFactory);
+
             world.Map.Add(new Point3(0,0,0),room );
 
             var wf = new WorldFactory();
             world.InjurySystems = wf.GetInjurySystems();
+            
 
             return room;
         }

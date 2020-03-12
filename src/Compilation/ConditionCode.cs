@@ -20,10 +20,5 @@ namespace Wanderer.Compilation
                 throw new Exception($"Error executing '{GetType().Name}' script code '{Script}'.  T was typeof({typeof(T)}) and had value '{forObject}'",ex);
             }
         }
-
-        public bool IsMet(IWorld world,object o)
-        {
-            return IsMet(world,(T) o);
-        }
     }
 }
