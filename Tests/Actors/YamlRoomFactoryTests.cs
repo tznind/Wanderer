@@ -76,18 +76,18 @@ namespace Tests.Actors
                 {
                     Identifier = new Guid("bb70f169-e0f7-40e8-927b-1c181eb8740b"),
                     Color = ConsoleColor.Cyan,
-                    ActorFactory = new ActorFactory(new ItemFactory(adj),adj)
-                    {
-                        Blueprints = new List<ActorBlueprint> 
-                        {
-                            new ActorBlueprint()
-                            {
-                                Name = "Sandman"
-                            }, 
-                        }
-                    }
                 }
             );
+            w.ActorFactory = new ActorFactory(new ItemFactory(adj), adj)
+            {
+                Blueprints = new List<ActorBlueprint>
+                {
+                    new ActorBlueprint()
+                    {
+                        Name = "Sandman"
+                    },
+                }
+            };
 
             var yaml = 
                 @$"

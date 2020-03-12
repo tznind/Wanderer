@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Wanderer.Actions;
 using Wanderer.Adjectives;
 using Wanderer.Dialogues;
@@ -33,7 +35,17 @@ namespace Wanderer.Factories
             return item;
         }
 
-        
+        public IItem Create(IWorld world, Guid guid)
+        {
+            var blue = Blueprints.FirstOrDefault(b => b.Identifier == guid);
+
+            if(blue == null)
+                throw new GuidNotFoundException("Could not find Item " + guid ,guid);
+
+            return Create(world, blue);
+        }
+
+
         public IItemStack CreateStack<T>(string name, int size) where T : IAdjective
         {
             var item = new ItemStack(name,size);

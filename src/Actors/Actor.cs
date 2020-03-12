@@ -265,5 +265,12 @@ namespace Wanderer.Actors
                             .Where(a=>relationships.SumBetween(this,a) < threshold)
                             .FirstOrDefault();
         }
+
+        public IItem SpawnItem(Guid g)
+        {
+            var item = CurrentLocation.World.ActorFactory.ItemFactory.Create(CurrentLocation.World,g);
+            Items.Add(item);
+            return item;
+        }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Wanderer.Actors;
@@ -32,9 +31,6 @@ namespace Wanderer.Factories
         }
 
         SlotCollection _defaultSlots;
-        List<ItemBlueprint> _defaultItems = new List<ItemBlueprint>();
-
-        List<ActorBlueprint> _defaultActors = new List<ActorBlueprint>();
         
         /// <summary>
         /// Mapping between directories and the factions which were created from them
@@ -54,10 +50,10 @@ namespace Wanderer.Factories
 
             GenerateFactions(world);
 
-           var adjectiveFactory = GetAdjectiveFactory();
-
+            world.AdjectiveFactory = GetAdjectiveFactory();
             world.Dialogue = new DialogueSystem();
-            world.RoomFactory = new RoomFactory(adjectiveFactory);
+            world.RoomFactory = new RoomFactory(world.AdjectiveFactory);
+            world.ActorFactory = new ActorFactory(new ItemFactory(world.AdjectiveFactory),world.AdjectiveFactory);
 
             //Get every yaml file under the resources dir
             foreach(var fi in Directory.GetFiles(ResourcesDirectory,"*.yaml",SearchOption.AllDirectories).Select(f=>new FileInfo(f)))
@@ -73,13 +69,13 @@ namespace Wanderer.Factories
                     faction = _factionDirs[factionDir];
 
                 if(IsRoomsFile(fi,dirs))
-                    (faction?.RoomFactory ?? world.RoomFactory).Blueprints.AddRange(GetRoomBlueprints(fi));
+                    world.RoomFactory.Blueprints.AddRange(AssignFaction(GetRoomBlueprints(fi),faction));
 
                 if(IsItemsFile(fi,dirs))
-                    (faction?.ActorFactory?.ItemFactory?.Blueprints ?? _defaultItems).AddRange(GetItemBlueprints(fi));
+                    world.ActorFactory.ItemFactory.Blueprints.AddRange(AssignFaction(GetItemBlueprints(fi),faction));
 
                 if(IsActorsFile(fi,dirs))
-                    (faction?.ActorFactory?.Blueprints ?? _defaultActors).AddRange(GetActorBlueprints(fi));
+                    world.ActorFactory.Blueprints.AddRange(AssignFaction(GetActorBlueprints(fi),faction));
 
                 if(IsDialogueFile(fi,dirs))
                     world.Dialogue.AllDialogues.AddRange(GetDialogue(fi));
@@ -92,6 +88,17 @@ namespace Wanderer.Factories
             world.Population.Add(GetPlayer(startingRoom));
             
             return world;
+        }
+
+        private IEnumerable<T> AssignFaction<T>(IEnumerable<T> blueprints, IFaction f) where T: HasStatsBlueprint
+        {
+            foreach (var blue in blueprints)
+            {
+                if (blue.Faction != null && f?.Identifier != null)
+                    blue.Faction = f.Identifier;
+
+                yield return blue;
+            }
         }
 
         private bool IsRoomsFile(FileInfo fi,string[] path)
@@ -242,8 +249,6 @@ namespace Wanderer.Factories
                     throw new Exception($"Error Deserializing file {factionFile}",e);
                 }
 
-                f.ActorFactory = new ActorFactory(new ItemFactory(adjectiveFactory),adjectiveFactory);
-                f.RoomFactory = new RoomFactory(adjectiveFactory);
 
                 try
                 {
@@ -253,15 +258,14 @@ namespace Wanderer.Factories
                         slotsYaml = File.ReadAllText(factionSlotsFile);
 
                     //if there are no faction specific slots use the defaults
-                    if (string.IsNullOrWhiteSpace(slotsYaml) && f.ActorFactory.DefaultSlots.Count == 0)
-                        f.ActorFactory.DefaultSlots = _defaultSlots.Clone();
+                    if (string.IsNullOrWhiteSpace(slotsYaml))
+                        f.DefaultSlots = _defaultSlots.Clone();
                 }
                 catch (Exception e)
                 {
                     throw new Exception($"Error Deserializing faction actors/slots file in dir '{directory}'",e);
                 }
-
-
+                
                 var forenames = new FileInfo(Path.Combine(directory,"Forenames.txt"));
                 var surnames = new FileInfo(Path.Combine(directory, "Surnames.txt"));
 

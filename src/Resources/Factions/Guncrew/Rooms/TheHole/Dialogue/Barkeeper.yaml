@@ -4,6 +4,8 @@
   Options:
   - Text: Ill have a mould ale
     Destination: 8482f515-8797-4d5f-a7d7-cea904a9ec40
+    Effect:
+      - AggressorIfAny:SpawnItem(Guid('5a6709ae-898e-4586-94b0-0e291d96cd4b'))
   - Text: Make it moonshine, sunshine
     Destination: 3265fbfe-ec71-4036-b1da-64c539efe572
   - Text: What’s a ‘cutter’?

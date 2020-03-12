@@ -49,7 +49,6 @@ namespace Tests.Actors
                 Body = new List<TextBlock>
                 {
                     new TextBlock( "Welcome to the ship")
-
                 }
 
             });

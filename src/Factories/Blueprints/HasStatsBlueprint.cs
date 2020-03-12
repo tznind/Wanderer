@@ -2,6 +2,7 @@
 using Wanderer.Actions;
 using Wanderer.Adjectives;
 using Wanderer.Dialogues;
+using Wanderer.Relationships;
 using Wanderer.Stats;
 
 namespace Wanderer.Factories.Blueprints
@@ -13,6 +14,11 @@ namespace Wanderer.Factories.Blueprints
         /// </summary>
         public Guid? Identifier { get; set; }
         
+        /// <summary>
+        /// Null if the object thematically fits any faction, otherwise the <see cref="IFaction.Identifier"/>
+        /// </summary>
+        public Guid? Faction { get; set; }
+
         /// <summary>
         /// True to only ever generate one of this thing
         /// </summary>

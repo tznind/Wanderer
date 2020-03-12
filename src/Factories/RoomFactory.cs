@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Wanderer.Actors;
 using Wanderer.Extensions;
 using Wanderer.Factories.Blueprints;
 using Wanderer.Relationships;
@@ -55,14 +56,22 @@ namespace Wanderer.Factories
             
             var room = new Room(blueprint.Name, world, blueprint.Tile) {ControllingFaction = faction};
 
+            //does the blueprint override the leave directions?
+            if (blueprint.LeaveDirections != null && blueprint.LeaveDirections.Any())
+            {
+                room.LeaveDirections.Clear();
+                room.LeaveDirections = new HashSet<Direction>(blueprint.LeaveDirections);
+            }
+
             AddBasicProperties(room,blueprint,world,"look");
 
+            //get some actors for the room
             if (faction != null)
             {
                 //create some random NPCs
-                faction.ActorFactory?.Create(world, room, faction,blueprint);
+                world.ActorFactory.Create(world, room, faction,blueprint);
 
-                var itemFactory = faction.ActorFactory?.ItemFactory;
+                var itemFactory = world.ActorFactory.ItemFactory;
 
                 if (itemFactory != null && itemFactory.Blueprints.Any())
                 {

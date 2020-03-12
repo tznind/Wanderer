@@ -30,7 +30,7 @@ namespace Tests
             }.Create();
 
             var faction = world1.Factions.First();
-            var actorFactory = faction.ActorFactory;
+            var actorFactory = world1.ActorFactory;
             var npc = 
                 actorFactory.Create(world1,world1.Player.CurrentLocation,faction,
                     new ActorBlueprint()

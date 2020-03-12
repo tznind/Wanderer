@@ -9,12 +9,7 @@ namespace Wanderer.Factories.Blueprints
         /// Makes the room only appear in the given location
         /// </summary>
         public Point3 FixedLocation { get; set; }
-
-        /// <summary>
-        /// Null if the room thematically fits any faction, otherwise the <see cref="IFaction.Identifier"/>
-        /// </summary>
-        public Guid? Faction { get; set; }
-
+        
         /// <summary>
         /// The digit to render in maps for this room
         /// </summary>
@@ -29,7 +24,13 @@ namespace Wanderer.Factories.Blueprints
         /// Special thematic actors that fit the room that random actors can be chosen from
         /// </summary>
         public ActorBlueprint[] OptionalActors { get; set; } = new ActorBlueprint[0];
+        
 
+        /// <summary>
+        /// Leave null for the default (horizontal movement).  Specify explicit directions to allow
+        /// only those directions of movement out of the room
+        /// </summary>
+        public Direction[] LeaveDirections { get; set; }
         
         /// <summary>
         /// MandatoryItems that should definitely be in the room

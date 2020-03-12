@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Wanderer.Actions;
 using Wanderer.Actors;
+using Wanderer.Adjectives;
 using Wanderer.Behaviours;
 using Wanderer.Factories;
 using Wanderer.Factories.Blueprints;
@@ -23,8 +24,21 @@ namespace Wanderer
         Random R { get; set; }
 
         You Player { get; }
-
+        
+        /// <summary>
+        /// Creates <see cref="IRoom"/>
+        /// </summary>
         IRoomFactory RoomFactory { get; set; }
+        
+        /// <summary>
+        /// Creates <see cref="IActor"/>
+        /// </summary>
+        IActorFactory ActorFactory { get; set; }
+
+        /// <summary>
+        /// Creates <see cref="IAdjective"/>
+        /// </summary>
+        IAdjectiveFactory AdjectiveFactory { get; set; }
 
         Map Map { get; }
 

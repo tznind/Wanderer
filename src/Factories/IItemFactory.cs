@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Wanderer.Actors;
 using Wanderer.Factories.Blueprints;
 using Wanderer.Items;
@@ -11,5 +12,6 @@ namespace Wanderer.Factories
         List<ItemBlueprint> Blueprints { get; set; }
         IItem Create(IWorld world, ItemBlueprint blueprint);
 
+        IItem Create(IWorld world, Guid blueprint);
     }
 }
