@@ -389,6 +389,7 @@ namespace Game.UI
                         try
                         {
                             World.RunRound(this, action);
+                            this.Refresh();
                         }
                         catch (Exception e)
                         {

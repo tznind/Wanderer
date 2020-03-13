@@ -150,8 +150,6 @@ namespace Wanderer
                 var results = GetPlayerVisibleLogResults(ui).ToArray();
                 if(results.Any())
                     ui.ShowMessage("Round Results",string.Join('\n',results));
-
-                ui.Refresh();
             }
         }
 

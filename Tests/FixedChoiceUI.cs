@@ -75,19 +75,10 @@ namespace Tests
                 throw new OptionNotAvailableException($"Chosen test answer was not one of the listed options for GetChoice of:{title} ({body})");
             return true;
         }
-
-        public void Refresh()
-        {
-        }
-
+        
         public void ShowMessage(string title, string body)
         {
             MessagesShown.Add(body);
-        }
-
-        public void ShowMessage(string title, LogEntry showThenLog)
-        {
-            Log.Info(showThenLog);
         }
     }
 }

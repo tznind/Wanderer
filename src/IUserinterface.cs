@@ -23,21 +23,12 @@ namespace Wanderer
         /// <param name="options"></param>
         /// <returns></returns>
         bool GetChoice<T>(string title, string body, out T chosen, params T[] options);
-
-        void Refresh();
-
+        
         /// <summary>
         /// Explicitly brings the message to the users attention (do not use for spammed messages, use <see cref="Log"/> instead
         /// </summary>
         /// <param name="title"></param>
         /// <param name="body"></param>
         void ShowMessage(string title, string body);
-
-        /// <summary>
-        /// Explicitly brings the message to the users attention the logs it in the event log
-        /// </summary>
-        /// <param name="title"></param>
-        /// <param name="showThenLog"></param>
-        void ShowMessage(string title, LogEntry showThenLog);
     }
 }

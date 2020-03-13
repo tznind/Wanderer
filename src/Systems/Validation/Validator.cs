@@ -289,17 +289,8 @@ namespace Wanderer.Systems.Validation
                 return true;
             }
 
-            public void Refresh()
-            {
-                
-            }
 
             public void ShowMessage(string title, string body)
-            {
-                
-            }
-
-            public void ShowMessage(string title, LogEntry showThenLog)
             {
                 
             }
