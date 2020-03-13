@@ -34,6 +34,11 @@ namespace Wanderer
         /// Creates <see cref="IActor"/>
         /// </summary>
         IActorFactory ActorFactory { get; set; }
+        
+        /// <summary>
+        /// Factory for items which fit the actors theme of this factory
+        /// </summary>
+        IItemFactory ItemFactory { get; set; }
 
         /// <summary>
         /// Creates <see cref="IAdjective"/>
