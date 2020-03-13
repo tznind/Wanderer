@@ -20,23 +20,23 @@ namespace Wanderer.Factories
         {
         }
         
-        public virtual void Create(IWorld world, IRoom place, IFaction faction, RoomBlueprint roomBlueprintIfAny)
+        public virtual void Create(IWorld world, IRoom room, IFaction faction, RoomBlueprint roomBlueprintIfAny)
         {
             int numberOfNpc = Math.Max(1,world.R.Next(5));
 
-            var pickFrom = Blueprints;
+            var pickFrom = Blueprints.Where(b=>b.SuitsFaction(faction)).ToList();
 
             if (roomBlueprintIfAny != null)
                 pickFrom = pickFrom.Union(roomBlueprintIfAny.OptionalActors).ToList();
 
             if(pickFrom.Any())
                 for (int i = 0; i < numberOfNpc; i++)
-                    Create(world, place, faction, pickFrom.GetRandom(world.R),roomBlueprintIfAny);
+                    Create(world, room, faction, pickFrom.GetRandom(world.R),roomBlueprintIfAny);
         }
 
-        public IActor Create(IWorld world, IRoom place, IFaction faction, ActorBlueprint blueprint, RoomBlueprint roomBlueprintIfAny)
+        public IActor Create(IWorld world, IRoom room, IFaction faction, ActorBlueprint blueprint, RoomBlueprint roomBlueprintIfAny)
         {
-            var npc = new Npc(blueprint.Name, place);
+            var npc = new Npc(blueprint.Name, room);
 
             AddBasicProperties(npc, blueprint, world,"talk");
 
@@ -47,7 +47,7 @@ namespace Wanderer.Factories
                 npc.Name = faction?.NameFactory?.GenerateName(world.R) ?? "Unnamed Npc";
 
             foreach (var blue in blueprint.MandatoryItems) 
-                SpawnItem(world,npc, blue);
+                npc.Equip(npc.SpawnItem(blue));
 
             //plus give them one more random thing that fits the faction / actor
             var pickFrom = world.ItemFactory.Blueprints.Union(blueprint.OptionalItems).ToArray();
@@ -56,20 +56,11 @@ namespace Wanderer.Factories
                 pickFrom = pickFrom.Union(roomBlueprintIfAny.OptionalItems).ToArray();
             
             if (pickFrom.Any()) 
-                SpawnItem(world,npc, pickFrom.GetRandom(world.R));
-
-            npc.AvailableSlots = (blueprint.Slots ?? DefaultSlots)?.Clone() ?? new SlotCollection();
+                npc.Equip(npc.SpawnItem(pickFrom.GetRandom(world.R)));
+            
+            npc.AvailableSlots = (blueprint.Slots ?? faction?.DefaultSlots ?? DefaultSlots)?.Clone() ?? new SlotCollection();
             
             return npc;
-        }
-
-        private void SpawnItem(IWorld world,IActor actor, ItemBlueprint blue)
-        {
-            var item = world.ItemFactory.Create(world, blue);
-            actor.Items.Add(item);
-
-            if (actor.CanEquip(item, out _))
-                item.IsEquipped = true;
         }
     }
 }

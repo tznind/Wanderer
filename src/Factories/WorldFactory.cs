@@ -105,7 +105,8 @@ namespace Wanderer.Factories
         {
             foreach (var blue in blueprints)
             {
-                if (blue.Faction != null && f?.Identifier != null)
+                //if the blueprint doesn't have a specific faction listed, assign it one
+                if (blue.Faction == null && f?.Identifier != null)
                     blue.Faction = f.Identifier;
 
                 yield return blue;

@@ -33,12 +33,12 @@ namespace Wanderer
         public IList<IInjurySystem> InjurySystems { get; set; } = new List<IInjurySystem>();
         public IList<INegotiationSystem> NegotiationSystems { get; set; } = new List<INegotiationSystem>(new []{new NegotiationSystem()});
 
-        public IRoomFactory RoomFactory { get; set; }
+        public IRoomFactory RoomFactory { get; set; } = new RoomFactory(new AdjectiveFactory());
 
-        public IActorFactory ActorFactory { get; set; }
-        public IItemFactory ItemFactory { get; set; }
+        public IActorFactory ActorFactory { get; set; } = new ActorFactory(new AdjectiveFactory());
+        public IItemFactory ItemFactory { get; set; } = new ItemFactory(new AdjectiveFactory());
 
-        public IAdjectiveFactory  AdjectiveFactory { get; set; }
+        public IAdjectiveFactory  AdjectiveFactory { get; set; } = new AdjectiveFactory();
 
         public Random R { get; set; } = new Random(100);
 

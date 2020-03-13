@@ -22,10 +22,5 @@ namespace Wanderer.Factories.Blueprints
         /// <see cref="IItemStack"/> of the given size
         /// </summary>
         public int? Stack { get; set; }
-
-        public override string ToString()
-        {
-            return Name ?? Identifier?.ToString() ?? "Unamed Item";
-        }
     }
 }

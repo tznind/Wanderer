@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Wanderer.Actions;
 using Wanderer.Adjectives;
 using Wanderer.Behaviours;
+using Wanderer.Factories.Blueprints;
 using Wanderer.Items;
 using Wanderer.Rooms;
 using Wanderer.Relationships;
@@ -143,5 +144,37 @@ namespace Wanderer.Actors
 
         IActor BestFriend(bool inSameLocation, double threshold);
         IActor WorstEnemy(bool inSameLocation, double threshold);
+
+
+        /// <summary>
+        /// Spawn a new item for the <see cref="IActor"/>
+        /// </summary>
+        /// <param name="blue"></param>
+        /// <returns></returns>
+        IItem SpawnItem(ItemBlueprint blue);
+
+        
+        /// <summary>
+        /// Spawn a new item for the <see cref="IActor"/>.
+        /// </summary>
+        /// <param name="g"></param>
+        /// <exception cref="GuidNotFoundException"></exception>
+        /// <returns></returns>
+        IItem SpawnItem(Guid g);
+        
+        /// <summary>
+        /// Spawn a new item for the <see cref="IActor"/>
+        /// </summary>
+        /// <param name="name"></param>
+        ///  <exception cref="NamedObjectNotFoundException"></exception>
+        /// <returns></returns>
+        IItem SpawnItem(string name);
+
+        /// <summary>
+        /// Automatically equips the given <paramref name="item"/> if possible
+        /// without performing any formal actions (e.g. <see cref="EquipmentAction"/>)
+        /// </summary>
+        /// <param name="item"></param>
+        void Equip(IItem item);
     }
 }

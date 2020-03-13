@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using Wanderer.Actions;
 using Wanderer.Adjectives;
 using Wanderer.Behaviours;
+using Wanderer.Factories.Blueprints;
 using Wanderer.Items;
 using Wanderer.Rooms;
 using Wanderer.Relationships;
@@ -266,6 +267,11 @@ namespace Wanderer.Actors
                             .FirstOrDefault();
         }
 
+        public IItem SpawnItem(ItemBlueprint blue)
+        {
+            return SpawnItem(CurrentLocation.World.ItemFactory.Create(CurrentLocation.World,blue));
+        }
+
         public IItem SpawnItem(Guid g)
         {
             return SpawnItem(CurrentLocation.World.ItemFactory.Create(CurrentLocation.World,g));
@@ -279,6 +285,12 @@ namespace Wanderer.Actors
         {
             Items.Add(item);
             return item;
+        }
+        
+        public void Equip(IItem item)
+        {
+            if (CanEquip(item, out _))
+                item.IsEquipped = true;
         }
     }
 }

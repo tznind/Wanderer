@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Wanderer.Actors;
 using Wanderer.Adjectives;
+using Wanderer.Factories.Blueprints;
 using Wanderer.Items;
 using Wanderer.Relationships;
 
@@ -68,6 +69,27 @@ namespace Wanderer.Rooms
         public bool Has<T>(Func<T, bool> condition) where T : IAdjective
         {
             return Adjectives.Any(a => a is T t && condition(t));
+        }
+        
+
+        public IItem SpawnItem(ItemBlueprint blue)
+        {
+            return SpawnItem(World.ItemFactory.Create(World,blue));
+        }
+
+        public IItem SpawnItem(Guid g)
+        {
+            return SpawnItem(World.ItemFactory.Create(World,g));
+        }
+        public IItem SpawnItem(string name)
+        {
+            return SpawnItem(World.ItemFactory.Create(World,name));
+        }
+        
+        protected virtual IItem SpawnItem(IItem item)
+        {
+            Items.Add(item);
+            return item;
         }
     }
 }

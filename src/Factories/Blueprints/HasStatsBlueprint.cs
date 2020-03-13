@@ -79,5 +79,41 @@ namespace Wanderer.Factories.Blueprints
         /// replacing any existing actions they might otherwise get)
         /// </summary>
         public ActionCollection Actions { get; set; } = new ActionCollection();
+
+        /// <summary>
+        /// Returns true if the blueprint is appropriate for the supplied
+        /// <paramref name="f"/>.  Generic objects are always suitable for any
+        /// faction but faction specific items only suit when their specific <paramref name="f"/>
+        /// is supplied
+        /// </summary>
+        /// <param name="f"></param>
+        /// <returns></returns>
+        public bool SuitsFaction(IFaction f)
+        {
+            return SuitsFaction(f?.Identifier);
+        }
+
+        /// <summary>
+        /// Returns true if the blueprint is appropriate for the supplied
+        /// <paramref name="factionIdentifier"/>.  Generic objects are always suitable for any
+        /// faction but faction specific items only suit when their specific <paramref name="factionIdentifier"/>
+        /// is supplied.
+        ///
+        /// <para>Passing null (no specific faction) always returns true</para>
+        /// </summary>
+        /// <param name="factionIdentifier"></param>
+        /// <returns></returns>
+        public bool SuitsFaction(Guid? factionIdentifier)
+        {
+            
+            return Faction == null || Equals(factionIdentifier , Faction);
+        }
+
+        
+
+        public override string ToString()
+        {
+            return Name ?? Identifier?.ToString() ?? "Unamed " + GetType().Name;
+        }
     }
 }

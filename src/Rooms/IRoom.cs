@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Wanderer.Actions;
 using Wanderer.Actors;
 using Wanderer.Adjectives;
+using Wanderer.Factories.Blueprints;
 using Wanderer.Items;
 using Wanderer.Relationships;
 
@@ -46,5 +47,29 @@ namespace Wanderer.Rooms
         /// Determines which directions you can leave the room in
         /// </summary>
         HashSet<Direction> LeaveDirections { get; set; }
+        
+        /// <summary>
+        /// Spawn a new item in the <see cref="IRoom"/>
+        /// </summary>
+        /// <param name="blue"></param>
+        /// <returns></returns>
+        IItem SpawnItem(ItemBlueprint blue);
+
+        
+        /// <summary>
+        /// Spawn a new item in the <see cref="IRoom"/>
+        /// </summary>
+        /// <param name="g"></param>
+        /// <exception cref="GuidNotFoundException"></exception>
+        /// <returns></returns>
+        IItem SpawnItem(Guid g);
+        
+        /// <summary>
+        /// Spawn a new item in the <see cref="IRoom"/>
+        /// </summary>
+        /// <param name="name"></param>
+        ///  <exception cref="NamedObjectNotFoundException"></exception>
+        /// <returns></returns>
+        IItem SpawnItem(string name);
     }
 }
