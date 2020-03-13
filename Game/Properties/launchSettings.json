@@ -1,7 +1,8 @@
 {
   "profiles": {
     "Game": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "commandLineArgs": "-v"
     }
   }
 }

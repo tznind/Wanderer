@@ -8,6 +8,9 @@ using CommandLine;
 using Wanderer.Systems.Validation;
 using Wanderer.Editor;
 using System.IO;
+using NLog;
+using NLog.Fluent;
+using NLog.Targets;
 
 namespace Game
 {
@@ -85,6 +88,9 @@ namespace Game
                        }
                        else
                        {
+                            //Don't log to the console when Console Gui is running 
+                            LogManager.Configuration.RemoveTarget("Console");
+
                             Application.Init();
                             var mainWindow = new MainWindow(f);
                             Application.Top.Add(mainWindow);

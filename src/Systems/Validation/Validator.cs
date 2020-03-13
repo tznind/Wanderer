@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using NLog;
 using Wanderer.Actors;
 using Wanderer.Compilation;
 using Wanderer.Dialogues;
@@ -14,9 +14,6 @@ using Wanderer.Relationships;
 
 namespace Wanderer.Systems.Validation
 {
-
-    
-
     public class WorldValidator
     {
         public int ErrorCount {get;set;} = 0;
@@ -32,7 +29,8 @@ namespace Wanderer.Systems.Validation
         List<Guid> _alreadyValidated = new List<Guid>();
 
         private IUserinterface _ui = new ValidatorUI();
-
+        private readonly Logger _log = LogManager.GetCurrentClassLogger();
+        
         public void Validate(WorldFactory worldFactory)
         {
             IWorld w;
@@ -129,7 +127,7 @@ namespace Wanderer.Systems.Validation
                     Validate(world,plan,actor);
             }
 
-            Console.WriteLine($"Validated {room}");
+            _log?.Info($"Validated {room}");
         }
 
         public void Validate(IWorld world, Plan plan, IActor actor)
