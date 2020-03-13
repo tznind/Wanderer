@@ -23,13 +23,13 @@ namespace Tests.Actors
         {
             var adj = new AdjectiveFactory();
             var items = new ItemFactory(adj);
-
-            var actors = new ActorFactory(items, adj);
+            var actors = new ActorFactory(adj);
             
             var world = new World();
             var faction = new Faction("Fish overloards",FactionRole.Wildlife);
             world.Factions.Add(faction);
             world.ActorFactory = actors;
+            world.ItemFactory = items;
 
             actors.Blueprints = new List<ActorBlueprint> {new ActorBlueprint() {Name = "Captain Haddock"}};
 
@@ -63,7 +63,7 @@ Chest: 1
     Legs: 6
 ";
             var room = InARoom(out IWorld w);
-            var actorFactory = new YamlActorFactory(yaml,yamlDefaultSlots, new ItemFactory(new AdjectiveFactory()), new AdjectiveFactory());
+            var actorFactory = new YamlActorFactory(yaml,yamlDefaultSlots, new AdjectiveFactory());
             var scorpion = actorFactory.Create(w, room, null, actorFactory.Blueprints[1],null);
 
             Assert.AreEqual(1,scorpion.AvailableSlots["Head"]);
@@ -93,7 +93,7 @@ Chest: 1
     - FightAction
 ";
             var room = InARoom(out IWorld w);
-            var actorFactory = new YamlActorFactory(yaml,null, new ItemFactory(new AdjectiveFactory()), new AdjectiveFactory());
+            var actorFactory = new YamlActorFactory(yaml,null, new AdjectiveFactory());
             var scorpion = actorFactory.Create(w, room, null, actorFactory.Blueprints[0],null);
 
             Assert.IsInstanceOf<FightAction>(scorpion.BaseActions.Single(),"Expected Scorpion to be capable of nothing but fighting");

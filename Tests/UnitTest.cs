@@ -16,7 +16,8 @@ namespace Tests
             var room = new Room("TestRoom", world,'-');
             world.AdjectiveFactory = new AdjectiveFactory();
             world.RoomFactory = new RoomFactory(world.AdjectiveFactory);
-            world.ActorFactory = new ActorFactory(new ItemFactory(world.AdjectiveFactory),world.AdjectiveFactory);
+            world.ActorFactory = new ActorFactory(world.AdjectiveFactory);
+            world.ItemFactory = new ItemFactory(world.AdjectiveFactory);
 
             world.Map.Add(new Point3(0,0,0),room );
 

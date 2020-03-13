@@ -268,7 +268,7 @@ namespace Wanderer.Actors
 
         public IItem SpawnItem(Guid g)
         {
-            var item = CurrentLocation.World.ActorFactory.ItemFactory.Create(CurrentLocation.World,g);
+            var item = CurrentLocation.World.ItemFactory.Create(CurrentLocation.World,g);
             Items.Add(item);
             return item;
         }

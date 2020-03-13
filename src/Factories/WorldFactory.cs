@@ -61,7 +61,8 @@ namespace Wanderer.Factories
             world.AdjectiveFactory = GetAdjectiveFactory();
             world.Dialogue = new DialogueSystem();
             world.RoomFactory = new RoomFactory(world.AdjectiveFactory);
-            world.ActorFactory = new ActorFactory(new ItemFactory(world.AdjectiveFactory),world.AdjectiveFactory);
+            world.ActorFactory = new ActorFactory(world.AdjectiveFactory);
+            world.ItemFactory = new ItemFactory(world.AdjectiveFactory);
 
             //Get every yaml file under the resources dir
             foreach(var fi in Directory.GetFiles(ResourcesDirectory,"*.yaml",SearchOption.AllDirectories).Select(f=>new FileInfo(f)))
@@ -82,7 +83,7 @@ namespace Wanderer.Factories
                     world.RoomFactory.Blueprints.AddRange(AssignFaction(GetRoomBlueprints(fi),faction));
 
                 if(IsItemsFile(fi,dirs))
-                    world.ActorFactory.ItemFactory.Blueprints.AddRange(AssignFaction(GetItemBlueprints(fi),faction));
+                    world.ItemFactory.Blueprints.AddRange(AssignFaction(GetItemBlueprints(fi),faction));
 
                 if(IsActorsFile(fi,dirs))
                     world.ActorFactory.Blueprints.AddRange(AssignFaction(GetActorBlueprints(fi),faction));

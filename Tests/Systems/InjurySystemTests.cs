@@ -180,7 +180,7 @@ namespace Tests.Systems
             you.BaseStats[Stat.Savvy] = 50;
 
             var adj = new AdjectiveFactory();
-            var them = new ActorFactory(new ItemFactory(adj),adj);
+            var them = new ActorFactory(adj);
             them.Add<Giant>(you);
 
             var badInjury = new Injured("Cut Lip", you, 80, InjuryRegion.Leg,world.InjurySystems.First(i=>i.IsDefault));

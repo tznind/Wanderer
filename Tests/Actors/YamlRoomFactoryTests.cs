@@ -78,7 +78,7 @@ namespace Tests.Actors
                     Color = ConsoleColor.Cyan,
                 }
             );
-            w.ActorFactory = new ActorFactory(new ItemFactory(adj), adj)
+            w.ActorFactory = new ActorFactory(adj)
             {
                 Blueprints = new List<ActorBlueprint>
                 {
@@ -88,6 +88,7 @@ namespace Tests.Actors
                     },
                 }
             };
+            w.ItemFactory = new ItemFactory(adj);
 
             var yaml = 
                 @$"
@@ -138,7 +139,7 @@ namespace Tests.Actors
         {
             var you = YouInARoom(out IWorld w);
 
-            Assert.IsEmpty(w.ActorFactory.ItemFactory.Blueprints);
+            Assert.IsEmpty(w.ItemFactory.Blueprints);
 
             var g = Guid.NewGuid();
             var ex = Assert.Throws<GuidNotFoundException>(()=>you.SpawnItem(g));
@@ -151,7 +152,7 @@ namespace Tests.Actors
             Assert.IsEmpty(you.Items);
             
             var g = Guid.NewGuid();
-            w.ActorFactory.ItemFactory.Blueprints.Add(new ItemBlueprint()
+            w.ItemFactory.Blueprints.Add(new ItemBlueprint()
             {
                 Name = "Grenade Pin",
                 Identifier = g

@@ -36,6 +36,7 @@ namespace Wanderer
         public IRoomFactory RoomFactory { get; set; }
 
         public IActorFactory ActorFactory { get; set; }
+        public IItemFactory ItemFactory { get; set; }
 
         public IAdjectiveFactory  AdjectiveFactory { get; set; }
 

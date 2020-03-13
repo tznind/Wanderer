@@ -11,13 +11,13 @@ namespace Wanderer.Factories
     {
 
         [JsonConstructor]
-        private YamlActorFactory(IItemFactory itemFactory, IAdjectiveFactory adjectiveFactory):base(itemFactory,adjectiveFactory)
+        private YamlActorFactory(IAdjectiveFactory adjectiveFactory):base(adjectiveFactory)
         {
 
         }
 
-        public YamlActorFactory(string yaml, string yamlDefaultSlots, IItemFactory itemFactory,
-            IAdjectiveFactory adjectiveFactory) : base(itemFactory, adjectiveFactory)
+        public YamlActorFactory(string yaml, string yamlDefaultSlots,
+            IAdjectiveFactory adjectiveFactory) : base(adjectiveFactory)
         {
             
             Blueprints = Compiler.Instance.Deserializer.Deserialize<List<ActorBlueprint>>(yaml);

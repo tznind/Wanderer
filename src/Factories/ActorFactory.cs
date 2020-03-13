@@ -14,13 +14,10 @@ namespace Wanderer.Factories
     {
         public List<ActorBlueprint> Blueprints { get; set; } = new List<ActorBlueprint>();
         
-        public IItemFactory ItemFactory { get; set; }
-
         public SlotCollection DefaultSlots { get; set; } = new SlotCollection();
 
-        public ActorFactory(IItemFactory itemFactory, IAdjectiveFactory adjectiveFactory):base(adjectiveFactory)
+        public ActorFactory(IAdjectiveFactory adjectiveFactory):base(adjectiveFactory)
         {
-            ItemFactory = itemFactory;
         }
         
         public virtual void Create(IWorld world, IRoom place, IFaction faction, RoomBlueprint roomBlueprintIfAny)
@@ -53,7 +50,7 @@ namespace Wanderer.Factories
                 SpawnItem(world,npc, blue);
 
             //plus give them one more random thing that fits the faction / actor
-            var pickFrom = ItemFactory.Blueprints.Union(blueprint.OptionalItems).ToArray();
+            var pickFrom = world.ItemFactory.Blueprints.Union(blueprint.OptionalItems).ToArray();
 
             if (roomBlueprintIfAny != null)
                 pickFrom = pickFrom.Union(roomBlueprintIfAny.OptionalItems).ToArray();
@@ -68,7 +65,7 @@ namespace Wanderer.Factories
 
         private void SpawnItem(IWorld world,IActor actor, ItemBlueprint blue)
         {
-            var item = ItemFactory.Create(world, blue);
+            var item = world.ItemFactory.Create(world, blue);
             actor.Items.Add(item);
 
             if (actor.CanEquip(item, out _))

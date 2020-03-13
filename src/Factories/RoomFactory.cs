@@ -12,17 +12,11 @@ namespace Wanderer.Factories
     public class RoomFactory: HasStatsFactory<IRoom>, IRoomFactory
     {
         public List<RoomBlueprint> Blueprints { get; set; } = new List<RoomBlueprint>();
-
-        public ActorFactory GenericActorFactory { get; set; }
-        public ItemFactory GenericItemFactory { get; set; }
-
+        
         public RoomFactory(IAdjectiveFactory adjectiveFactory):base(adjectiveFactory)
         {
-            GenericItemFactory = new ItemFactory(adjectiveFactory);
-            GenericActorFactory = new ActorFactory(GenericItemFactory,adjectiveFactory);
         }
-
-
+        
         public IRoom Create(IWorld world)
         {
             return Create(world,Blueprints.Where(Spawnable).ToArray().GetRandom(world.R));
@@ -71,7 +65,7 @@ namespace Wanderer.Factories
                 //create some random NPCs
                 world.ActorFactory.Create(world, room, faction,blueprint);
 
-                var itemFactory = world.ActorFactory.ItemFactory;
+                var itemFactory = world.ItemFactory;
 
                 if (itemFactory != null && itemFactory.Blueprints.Any())
                 {
@@ -88,10 +82,10 @@ namespace Wanderer.Factories
             }
 
             foreach(var a in blueprint.MandatoryActors)
-                GenericActorFactory.Create(world, room, room.ControllingFaction, a,blueprint);
+                world.ActorFactory.Create(world, room, room.ControllingFaction, a,blueprint);
             
             foreach(var i in blueprint.MandatoryItems)
-                room.Items.Add(GenericItemFactory.Create(world,i));
+                room.Items.Add(world.ItemFactory.Create(world,i));
 
             return room;
         }
