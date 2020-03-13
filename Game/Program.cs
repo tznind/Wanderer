@@ -89,7 +89,7 @@ namespace Game
                        else
                        {
                             //Don't log to the console when Console Gui is running 
-                            LogManager.Configuration.RemoveTarget("Console");
+                            LogManager.Configuration.RemoveTarget("logconsole");
 
                             Application.Init();
                             var mainWindow = new MainWindow(f);
