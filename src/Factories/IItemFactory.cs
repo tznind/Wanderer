@@ -13,5 +13,6 @@ namespace Wanderer.Factories
         IItem Create(IWorld world, ItemBlueprint blueprint);
 
         IItem Create(IWorld world, Guid blueprint);
+        IItem Create(IWorld world, string name);
     }
 }

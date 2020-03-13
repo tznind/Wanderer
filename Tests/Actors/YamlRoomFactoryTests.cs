@@ -135,7 +135,7 @@ namespace Tests.Actors
         }
 
         [Test]
-        public void SpawnItem_NotFound()
+        public void SpawnItem_NotFoundGuid()
         {
             var you = YouInARoom(out IWorld w);
 
@@ -146,7 +146,7 @@ namespace Tests.Actors
             Assert.AreEqual(g,ex.Guid);
         }
         [Test]
-        public void SpawnItem_Found()
+        public void SpawnItem_FoundGuid()
         {
             var you = YouInARoom(out IWorld w);
             Assert.IsEmpty(you.Items);
@@ -162,6 +162,32 @@ namespace Tests.Actors
 
             Assert.AreEqual("Grenade Pin",you.Items.Single().Name);
             Assert.AreEqual(g,you.Items.Single().Identifier);
+        }
+
+        [Test]
+        public void SpawnItem_NotFoundName()
+        {
+            var you = YouInARoom(out IWorld w);
+
+            Assert.IsEmpty(w.ItemFactory.Blueprints);
+
+            var ex = Assert.Throws<NamedObjectNotFoundException>(()=>you.SpawnItem("Knife"));
+            Assert.AreEqual("Knife",ex.Name);
+        }
+        [Test]
+        public void SpawnItem_FoundName()
+        {
+            var you = YouInARoom(out IWorld w);
+            Assert.IsEmpty(you.Items);
+            
+            w.ItemFactory.Blueprints.Add(new ItemBlueprint()
+            {
+                Name = "Grenade Pin"
+            });
+
+            you.SpawnItem("Grenade Pin");
+
+            Assert.AreEqual("Grenade Pin",you.Items.Single().Name);
         }
     }
 }

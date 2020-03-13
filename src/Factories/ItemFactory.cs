@@ -45,6 +45,16 @@ namespace Wanderer.Factories
             return Create(world, blue);
         }
 
+        public IItem Create(IWorld world, string name)
+        {
+            var blue = Blueprints.FirstOrDefault(b =>string.Equals(b.Name , name , StringComparison.CurrentCultureIgnoreCase));
+
+            if(blue == null)
+                throw new NamedObjectNotFoundException("Could not find Item Named" + name ,name);
+
+            return Create(world, blue);
+        }
+
 
         public IItemStack CreateStack<T>(string name, int size) where T : IAdjective
         {
