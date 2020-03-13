@@ -7,13 +7,13 @@
     <Position X="12.094" Y="0.5" Height="0.312" Width="5.325" />
   </Comment>
   <Comment CommentText="Factories">
-    <Position X="9" Y="6.5" Height="0.365" Width="3.992" />
+    <Position X="8.729" Y="5.531" Height="0.291" Width="3.565" />
   </Comment>
   <Comment CommentText="Conditions and Effects scriptable through Lua">
     <Position X="17.583" Y="7.708" Height="0.365" Width="3.034" />
   </Comment>
   <Class Name="Wanderer.Stats.StatsCollection" Collapsed="true">
-    <Position X="17.75" Y="2" Width="2" />
+    <Position X="17.75" Y="1.75" Width="2" />
     <TypeIdentifier>
       <HashCode>BAJAEAAgAAABAAAAAAACAAAAAAAAAAAAAAAAAAAAABA=</HashCode>
       <FileName>Stats\StatsCollection.cs</FileName>
@@ -62,28 +62,28 @@
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
       <Field Name="Options" />
-      <Property Name="Require" />
       <Property Name="Body" />
+      <Property Name="Require" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Wanderer.Factories.Blueprints.RoomBlueprint" Collapsed="true">
-    <Position X="11.5" Y="7.25" Width="1.5" />
+    <Position X="11.25" Y="6" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAEQAAAACAAAAAAAgAAAAAAAQAAAAAAAIQA=</HashCode>
+      <HashCode>AAAAAAAAAAEQAAAEKAAAAAAAgAAAAAAAAAAAAAAAIQA=</HashCode>
       <FileName>Factories\Blueprints\RoomBlueprint.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Wanderer.Factories.Blueprints.ActorBlueprint" Collapsed="true">
-    <Position X="11.5" Y="8" Width="1.5" />
+    <Position X="11.25" Y="6.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAQAAAAAAAAEAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Factories\Blueprints\ActorBlueprint.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Wanderer.Factories.Blueprints.ItemBlueprint" Collapsed="true">
-    <Position X="11.5" Y="8.75" Width="1.5" />
+    <Position X="11.25" Y="7.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAABAAAAAAAgA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAgAAAAAAAABAAAAAAAgA=</HashCode>
       <FileName>Factories\Blueprints\ItemBlueprint.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -99,12 +99,14 @@
   </Class>
   <Interface Name="Wanderer.IWorld">
     <Position X="10.25" Y="1.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAQBAAAAQIAAAAAEAADgAgAAAAQgIAIQKAAQA=</HashCode>
+      <HashCode>AAAAAAAAQBAgAAQIBAAAAEAADgAgAAAAQgIAIQKAAQA=</HashCode>
       <FileName>IWorld.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="RoomFactory" />
       <Property Name="Factions" />
     </ShowAsAssociation>
   </Interface>
@@ -119,7 +121,7 @@
     </ShowAsAssociation>
   </Interface>
   <Interface Name="Wanderer.Adjectives.IAdjective">
-    <Position X="17.75" Y="3" Width="1.5" />
+    <Position X="17.75" Y="2.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAACAAAAAAAAAIAAAAAAAAAAAQAAAAAAAAAAAAAA=</HashCode>
       <FileName>Adjectives\IAdjective.cs</FileName>
@@ -171,7 +173,7 @@
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAQAAAAAAAFAAAAAAAAAAAAAAAAAAAAAAAAQA=</HashCode>
+      <HashCode>AAAAAAAAYAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Relationships\IFaction.cs</FileName>
     </TypeIdentifier>
   </Interface>
@@ -227,7 +229,7 @@
     </TypeIdentifier>
   </Interface>
   <Interface Name="Wanderer.Factories.IRoomFactory" Collapsed="true">
-    <Position X="9" Y="7.25" Width="1.5" />
+    <Position X="8.75" Y="6" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAgAAAAAQAAAAEAAAAAAAAAAAAA=</HashCode>
       <FileName>Factories\IRoomFactory.cs</FileName>
@@ -237,9 +239,9 @@
     </ShowAsCollectionAssociation>
   </Interface>
   <Interface Name="Wanderer.Factories.IActorFactory" Collapsed="true">
-    <Position X="9" Y="8" Width="1.5" />
+    <Position X="8.75" Y="6.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAABAAAAAAAAAAAgAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAABAIAAAAAAAAAgAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
       <FileName>Factories\IActorFactory.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
@@ -247,7 +249,7 @@
     </ShowAsCollectionAssociation>
   </Interface>
   <Interface Name="Wanderer.Factories.IItemFactory" Collapsed="true">
-    <Position X="9" Y="8.75" Width="1.5" />
+    <Position X="8.75" Y="7.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAgAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
       <FileName>Factories\IItemFactory.cs</FileName>
@@ -292,14 +294,14 @@
     </TypeIdentifier>
   </Interface>
   <Interface Name="Wanderer.Factories.IAdjectiveFactory" Collapsed="true">
-    <Position X="9" Y="9.5" Width="1.5" />
+    <Position X="8.75" Y="8.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAACAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
       <FileName>Factories\IAdjectiveFactory.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Enum Name="Wanderer.Stats.Stat">
-    <Position X="19.75" Y="2" Width="1.25" />
+    <Position X="19.75" Y="1.75" Width="1.25" />
     <TypeIdentifier>
       <HashCode>AAAAAACAAAALgAAAEAAAAAAAAAAAAAAAAACgAAEAAgA=</HashCode>
       <FileName>Stats\Stat.cs</FileName>

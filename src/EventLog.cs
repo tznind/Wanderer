@@ -8,15 +8,19 @@ namespace Wanderer
 {
     public class EventLog
     {
-        public readonly MemoryTarget Target = new MemoryTarget();
+        public MemoryTarget Target;
         private Logger _log;
 
         public void Register()
         {
-            Target.Layout = "${message}";
-            NLog.Config.SimpleConfigurator.ConfigureForTargetLogging(Target, LogLevel.Debug);
+            var config = LogManager.Configuration ?? new NLog.Config.LoggingConfiguration();
+            Target = new MemoryTarget {Layout = "${message}"};
 
-            _log = NLog.LogManager.GetCurrentClassLogger();
+            // Message format
+            config.AddRuleForAllLevels(Target);
+            LogManager.Configuration = config;
+
+            _log = LogManager.GetCurrentClassLogger();
         }
 
         /// <summary>

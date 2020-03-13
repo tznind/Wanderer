@@ -252,12 +252,10 @@ namespace Game.UI
                 else
                     dlg.Add(text);
             }
-
-            int i = 1;
-
+            
             foreach (var value in options)
             {
-                T v1 = (T) value;
+                T v1 = value;
 
                 string name = value is IAction a ? GetActionButtonName(a) : value.ToString();
 

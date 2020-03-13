@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using NLog;
 using Wanderer.Actors;
 using Wanderer.Compilation;
 using Wanderer.Dialogues;
@@ -25,9 +26,12 @@ namespace Wanderer.Factories
 
         public string ResourcesDirectory { get; set; }
 
+        private readonly Logger _log;
+
         public WorldFactory()
         {
             ResourcesDirectory = Compiler.GetDefaultResourcesDirectory();
+            _log = LogManager.GetCurrentClassLogger();
         }
 
         SlotCollection _defaultSlots;
@@ -37,10 +41,14 @@ namespace Wanderer.Factories
         /// </summary>
         private Dictionary<string,Faction> _factionDirs = new Dictionary<string, Faction>();
 
+        
+
         public virtual IWorld Create()
         {
             var world = new World();
             world.ResourcesDirectory = ResourcesDirectory;
+
+            _log.Info($"Resources Directory Is: {ResourcesDirectory}");
 
             world.InjurySystems = GetInjurySystems();
 
@@ -58,6 +66,8 @@ namespace Wanderer.Factories
             //Get every yaml file under the resources dir
             foreach(var fi in Directory.GetFiles(ResourcesDirectory,"*.yaml",SearchOption.AllDirectories).Select(f=>new FileInfo(f)))
             {
+                _log.Info($"Loading {fi.FullName.Substring(ResourcesDirectory.Length)}");
+
                 //is a faction dir
                 var dirs = fi.Directory.FullName.Split(Path.DirectorySeparatorChar);
                 IFaction faction = null;
@@ -227,7 +237,6 @@ namespace Wanderer.Factories
         protected virtual void GenerateFactions(World world)
         {
             var factionsDir = Path.Combine(ResourcesDirectory, FactionsDirectory);
-            var adjectiveFactory = GetAdjectiveFactory();
 
             if (!Directory.Exists(factionsDir))
                 return;
