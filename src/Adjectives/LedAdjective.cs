@@ -10,10 +10,5 @@ namespace Wanderer.Adjectives
         {
             Led = led;
         }
-
-        public override IEnumerable<string> GetDescription()
-        {
-            yield return "Changes plan priorities";
-        }
     }
 }

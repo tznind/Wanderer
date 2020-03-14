@@ -63,12 +63,12 @@ namespace Tests.BehaviourTests
             string yaml = @"
 - Name: Apple
   MandatoryAdjectives:
-    - Type: SingleUse
+    - SingleUse
   Actions:
     - EatAction
 ";
             
-            var itemFactory = new YamlItemFactory(yaml, new AdjectiveFactory());
+            var itemFactory = new YamlItemFactory(yaml);
             you.Items.Add(itemFactory.Create(world, itemFactory.Blueprints[0]));
 
             Assert.AreEqual(1,you.Items.Count);

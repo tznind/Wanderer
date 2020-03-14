@@ -44,7 +44,15 @@ namespace Wanderer.Systems
 
         public DialogueNode GetDialogue(Guid? g)
         {
-            return g.HasValue ? AllDialogues.SingleOrDefault(d => d.Identifier == g) : null;
+            if (!g.HasValue)
+                return null;
+
+            var matches = AllDialogues.Where(d => d.Identifier == g).ToArray();
+
+            if(matches.Length > 1)
+                throw new Exception($"Found {matches.Length} Dialogues with the Guid {g}");
+            
+            return matches.SingleOrDefault();
         }
         
         public IEnumerable<DialogueNode> GetDialogues(Guid[] guids)

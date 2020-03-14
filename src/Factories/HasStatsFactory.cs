@@ -2,39 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using Wanderer.Actions;
-using Wanderer.Adjectives;
-using Wanderer.Extensions;
 using Wanderer.Factories.Blueprints;
-using Wanderer.Rooms;
 
 namespace Wanderer.Factories
 {
-    public abstract class HasStatsFactory<T> where T : IHasStats
+    public abstract class HasStatsFactory<T1,T2> where T1:HasStatsBlueprint where T2 : IHasStats
     {
-        public IAdjectiveFactory AdjectiveFactory { get; set; }
         public HashSet<Guid> UniquesSpawned = new HashSet<Guid>();
-
-        protected HasStatsFactory(IAdjectiveFactory adjectiveFactory)
-        {
-            AdjectiveFactory = adjectiveFactory;
-        }
         
-        public void Add<T2>(T o) where T2 : IAdjective
-        {
-            var match = AdjectiveFactory.GetAvailableAdjectives(o).OfType<T2>().FirstOrDefault();
+        public List<T1> Blueprints { get; set; } = new List<T1>();
 
-            if (match == null)
-                throw new ArgumentException($"AdjectiveFactory did not know how to make an item {typeof(T)}.  Try adding it to AdjectiveFactory.GetAvailableAdjectives(IItem)");
-
-            o.Adjectives.Add(match);
-        }
-        
         /// <summary>
         /// True if the blueprint should be included in randomization choices
         /// </summary>
         /// <param name="b"></param>
         /// <returns></returns>
-        public bool Spawnable(HasStatsBlueprint b)
+        public virtual bool Spawnable(HasStatsBlueprint b)
         {
             //don't return fixed location stuff as a random choice
             if (b is RoomBlueprint r && r.FixedLocation != null)
@@ -51,9 +34,8 @@ namespace Wanderer.Factories
         /// </summary>
         /// <param name="onto"></param>
         /// <param name="blueprint"></param>
-        /// <param name="world"></param>
         /// <param name="defaultDialogueVerb">What do you do to initiate dialogue with this T, e.g. talk, read, look around etc</param>
-        protected virtual void AddBasicProperties(T onto, HasStatsBlueprint blueprint,IWorld world, string defaultDialogueVerb)
+        protected virtual void AddBasicProperties(T2 onto, T1 blueprint, string defaultDialogueVerb)
         {
             if (blueprint.Unique)
                 UniquesSpawned.Add(blueprint.Identifier ?? Guid.Empty);
@@ -66,18 +48,7 @@ namespace Wanderer.Factories
 
             if (blueprint.Identifier.HasValue)
                 onto.Identifier = blueprint.Identifier;
-
-            //Adjectives the user definitely wants included
-            if (blueprint.MandatoryAdjectives.Any())
-                foreach (var a in blueprint.MandatoryAdjectives)
-                    onto.Adjectives.Add(AdjectiveFactory.Create(onto, a));
             
-            //pick 1 random adjective if blueprint lists any to pick from
-            if (blueprint.OptionalAdjectives.Any())
-                onto.Adjectives.Add(
-                    AdjectiveFactory.Create(onto, blueprint.OptionalAdjectives.GetRandom(world.R))
-                );
-
             if (blueprint.Stats != null)
                 onto.BaseStats.Add(blueprint.Stats.Clone());
 
@@ -92,5 +63,23 @@ namespace Wanderer.Factories
                     onto.BaseActions.Add(new DialogueAction());
             }
         }
+        
+        protected virtual T1 GetBlueprint(Guid guid)
+        {
+            return Blueprints.FirstOrDefault(b => b.Identifier == guid) ??
+                   throw new GuidNotFoundException($"Could not find {typeof(T1).Name} with Guid {guid}",guid);
+        }
+
+        protected virtual T1 GetBlueprint(string name)
+        {
+            //if the user passed a string that was actually a Guid
+            if (Guid.TryParse(name, out Guid g))
+                return GetBlueprint(g);
+
+            return Blueprints.FirstOrDefault(
+                       b => string.Equals(b.Name, name, StringComparison.CurrentCultureIgnoreCase)) ??
+                   throw new NamedObjectNotFoundException($"Could not find {typeof(T1).Name} Named {name}", name);
+        }
+
     }
 }

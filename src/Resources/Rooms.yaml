@@ -15,8 +15,8 @@
     - Name: Chef
       Identifier: 6fa349e4-aefe-4ebc-9922-e3476ea1dba7
       OptionalAdjectives:
-        - Type: Strong
-        - Type: Tough
+        - Strong
+        - Tough
       Stats:
         Fight: 20
         Loyalty: 20
@@ -24,7 +24,7 @@
       MandatoryItems:
         - Name: Spiced Rat
           MandatoryAdjectives:
-            - Type: SingleUse
+            - SingleUse
           Actions:
             - EatAction
 - Name: Shanty Town
@@ -34,9 +34,9 @@
   OptionalActors:
     - Name: Dog
       OptionalAdjectives:
-        - Type: Strong
-        - Type: Tough
-        - Type: Giant
+        - Strong
+        - Tough
+        - Giant
       Stats:
         Fight: 30
         Loyalty: 5

@@ -21,11 +21,5 @@ namespace Wanderer.Adjectives
 
             return base.GetFinalStats(forActor);
         }
-
-        public override IEnumerable<string> GetDescription()
-        {
-            yield return "Improves Coercion";
-            yield return "Cancelled by Head Injuries";
-        }
     }
 }

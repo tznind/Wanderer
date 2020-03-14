@@ -20,10 +20,5 @@ namespace Wanderer.Adjectives.RoomOnly
 
             return base.GetFinalStats(forActor);
         }
-
-        public override IEnumerable<string> GetDescription()
-        {
-            yield return "Reduces Fight";
-        }
     }
 }

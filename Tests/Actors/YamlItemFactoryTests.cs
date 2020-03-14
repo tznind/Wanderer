@@ -18,10 +18,6 @@ namespace Tests.Actors
         [Test]
         public void TestCreatingItem_FromBlueprint()
         {
-            var adj = new AdjectiveFactory();
-
-            //   var path = Path.Combine(TestContext.CurrentContext.TestDirectory, "./Resources/Factions/Guncrew/Actors.yaml");
-
             var yaml = @"
 - Name: Crumpled Pamphlet
   Dialogue: 
@@ -33,7 +29,7 @@ namespace Tests.Actors
     Next: f1909b20-80c3-4af4-b098-b6bf22bf5ca8
 ";
 
-            var factory = new YamlItemFactory(yaml, adj);
+            var factory = new YamlItemFactory(yaml);
             Assert.AreEqual(2,factory.Blueprints.Count);
 
             var you = YouInARoom(out IWorld w);
@@ -87,7 +83,7 @@ namespace Tests.Actors
                 }
             });
 
-            var itemFactory = new YamlItemFactory(yaml, new AdjectiveFactory());
+            var itemFactory = new YamlItemFactory(yaml);
 
             you.Items.Add(itemFactory.Create(w, itemFactory.Blueprints.Single()));
             var ui = GetUI("read:Encrypted Manual");
@@ -115,7 +111,7 @@ namespace Tests.Actors
 - Name: Silver Bell";
 
             InARoom(out IWorld w);
-            var itemFactory = new YamlItemFactory(yaml, new AdjectiveFactory()); 
+            var itemFactory = new YamlItemFactory(yaml); 
             var item = itemFactory.Create(w, itemFactory.Blueprints[0]);
 
             Assert.IsInstanceOf<IItemStack>(item);

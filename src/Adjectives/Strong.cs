@@ -9,10 +9,5 @@ namespace Wanderer.Adjectives
         {
             BaseStats[Stat.Fight] = 10;
         }
-
-        public override IEnumerable<string> GetDescription()
-        {
-            yield return "Improves Fight";
-        }
     }
 }

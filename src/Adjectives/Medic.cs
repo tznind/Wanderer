@@ -14,9 +14,5 @@ namespace Wanderer.Adjectives
             BaseActions.Add(new HealAction());
         }
         
-        public override IEnumerable<string> GetDescription()
-        {
-            yield return "Allows healing injuries";
-        }
     }
 }

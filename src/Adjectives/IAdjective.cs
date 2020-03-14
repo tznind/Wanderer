@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Wanderer.Stats;
 
 namespace Wanderer.Adjectives
 {
@@ -14,13 +15,10 @@ namespace Wanderer.Adjectives
         /// </summary>
         bool IsPrefix { get; set; }
 
-
         /// <summary>
-        /// Describes the effects (positive and negative) of the <see cref="IAdjective"/>
+        /// Multiplicative modifiers to the decorated object.  e.g. Value 2 would
+        /// multiply the Value of any object the adjective is on by 2
         /// </summary>
-        /// <returns></returns>
-        IEnumerable<string> GetDescription();
-
-
+        public StatsCollection StatsRatio { get; set; }
     }
 }

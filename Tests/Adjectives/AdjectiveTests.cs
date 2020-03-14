@@ -14,19 +14,6 @@ namespace Tests.Adjectives
 {
     class AdjectiveTests : UnitTest
     {
-        [Test]
-        public void TestAllAdjectives_HaveDescriptions()
-        {
-            var f = new AdjectiveFactory();
-
-            foreach (var adj in 
-                f.GetAvailableAdjectives(Mock.Of<IHasStats>())
-                    .Union(f.GetAvailableAdjectives(Mock.Of<IRoom>()))
-                    .Union(f.GetAvailableAdjectives(Mock.Of<IActor>()))
-                    .Union(f.GetAvailableAdjectives(Mock.Of<IItem>()))
-                ) 
-                Assert.IsNotEmpty(adj.GetDescription().ToArray(),$"Adjective {adj} was missing GetDescription text");
-        }
 
         [Test]
         public void TestAttractive()

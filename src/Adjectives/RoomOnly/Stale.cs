@@ -9,10 +9,5 @@ namespace Wanderer.Adjectives.RoomOnly
         {
 
         }
-
-        public override IEnumerable<string> GetDescription()
-        {
-            yield return "Wounds become infected faster";
-        }
     }
 }

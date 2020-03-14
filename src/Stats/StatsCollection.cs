@@ -6,13 +6,23 @@ namespace Wanderer.Stats
 {
     public class StatsCollection: Dictionary<Stat,double>, IAreIdentical<StatsCollection>
     {
-        public StatsCollection()
+        /// <summary>
+        /// Creates a new stat collection with all stats initialized to 0
+        /// </summary>
+        public StatsCollection():this(0)
+        {
+        }
+        
+        
+        /// <summary>
+        /// Creates a new stat collection with all stats initialized to <paramref name="startingValue"/>
+        /// </summary>
+        public StatsCollection(double startingValue)
         {
             foreach (Stat stat in Enum.GetValues(typeof(Stat))) 
                 if(stat != Stat.None)
-                    Add(stat, 0);
+                    Add(stat, startingValue);
         }
-
         /// <summary>
         /// Creates a new copy with the same values
         /// </summary>
@@ -109,6 +119,26 @@ namespace Wanderer.Stats
         {
             return this.All(v => Math.Abs(v.Value) < 0.0001);
 
+        }
+
+        /// <summary>
+        /// Multiply each stat by the given <paramref name="ratios"/>.
+        /// </summary>
+        /// <param name="ratios"></param>
+        /// <param name="invertForNegatives">true to invert the ratio for negative stats e.g. ratio of 0.5 would make 10 become 5
+        /// but -10 would become -20 (instead of -5).)</param>
+        /// <returns></returns>
+        public StatsCollection Multiply(StatsCollection ratios,bool invertForNegatives)
+        {
+            foreach (var s in ratios)
+            {
+                if(invertForNegatives && this[s.Key] < 0)
+                    this[s.Key] *= 1/s.Value;
+                else
+                    this[s.Key] *= s.Value;
+            }
+
+            return this;
         }
     }
 }

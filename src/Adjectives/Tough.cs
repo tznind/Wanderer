@@ -8,10 +8,5 @@ namespace Wanderer.Adjectives
         public Tough(IHasStats owner) : base(owner)
         {
         }
-
-        public override IEnumerable<string> GetDescription()
-        {
-            yield return "Wounds do not get infected";
-        }
     }
 }

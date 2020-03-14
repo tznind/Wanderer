@@ -24,7 +24,7 @@ namespace Tests.ConditionTests
   Require: 
     - {condition}
 ";
-            var itemFactory = new YamlItemFactory(yaml,new AdjectiveFactory());
+            var itemFactory = new YamlItemFactory(yaml);
             var createdInstance = itemFactory.Blueprints.Single().Require.Single();
 
             Assert.AreEqual(condition == "return true", createdInstance.IsMet(new World(),Mock.Of<IActor>()));

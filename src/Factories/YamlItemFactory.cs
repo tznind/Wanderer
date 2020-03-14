@@ -11,12 +11,12 @@ namespace Wanderer.Factories
     public class YamlItemFactory : ItemFactory
     {
         [JsonConstructor]
-        private YamlItemFactory(IAdjectiveFactory adjectiveFactory):base(adjectiveFactory)
+        private YamlItemFactory()
         {
             
         }
 
-        public YamlItemFactory(string yaml, IAdjectiveFactory adjectiveFactory):base(adjectiveFactory)
+        public YamlItemFactory(string yaml)
         {
             Blueprints = Compiler.Instance.Deserializer.Deserialize<ItemBlueprint[]>(yaml).ToList();
         }

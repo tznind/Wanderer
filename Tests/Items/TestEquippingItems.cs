@@ -22,7 +22,7 @@ namespace Tests.Items
             you.BaseStats[Stat.Fight] = 0;
             you.AvailableSlots.Add("Hand",2);
 
-            var itemFactory = new ItemFactory(new AdjectiveFactory());
+            var itemFactory = new ItemFactory();
 
             //you have 2 giant hammers
             var twoHanded = new ItemSlot("Hand", 2, InjuryRegion.Hand,InjuryRegion.Arm);
@@ -30,8 +30,13 @@ namespace Tests.Items
             IItem item1;
             IItem item2;
 
-            you.Items.Add(item1 = itemFactory.Create<Giant>("Hammer").With(twoHanded));
-            you.Items.Add(item2 = itemFactory.Create<Giant>("Hammer").With(twoHanded));
+            you.Items.Add(item1 = new Item("Hammer")
+                .With(world.AdjectiveFactory,typeof(Giant))
+                .With(twoHanded));
+
+            you.Items.Add(item2 = new Item("Hammer")
+                .With(world.AdjectiveFactory,typeof(Giant))
+                .With(twoHanded));
 
             Assert.AreEqual(0,you.GetFinalStats()[Stat.Fight],"Expected hammers to be of no help because they were not equipped");
 
@@ -65,13 +70,28 @@ namespace Tests.Items
         {
             var you = YouInARoom(out IWorld world);
             var room = you.CurrentLocation;
-            room.Adjectives.Add(new Rusty(room));
+            room.Adjectives.Add(new Adjective(room)
+            {
+                Name = "Rusty",
+                IsPrefix = true,
+                StatsRatio = new StatsCollection(0.5)
+            });
 
             you.BaseStats[Stat.Fight] = 20;
             you.AvailableSlots.Add("Hand",2);
 
-            var itemFactory = new ItemFactory(new AdjectiveFactory());
-            IItem item1 = itemFactory.Create<Rusty>("Pistol").With(Stat.Fight,20).With(new ItemSlot("Hand",1,InjuryRegion.Hand));
+            IItem item1 = new Item("Pistol")
+                .With(Stat.Fight,20)
+                .With(new ItemSlot("Hand",1,InjuryRegion.Hand));
+           
+             item1.Adjectives.Add(
+                 new Adjective(item1)
+                 {
+                     Name = "Rusty",
+                     IsPrefix = true,
+                     StatsRatio = new StatsCollection(0.5)
+                 });           
+            
             you.Items.Add(item1);
 
             Assert.AreEqual(20,you.GetFinalStats()[Stat.Fight],"Did not expect rusty room to be a problem");
@@ -98,7 +118,7 @@ namespace Tests.Items
                 var you = YouInARoom(out IWorld w);
                 you.AvailableSlots.Add("Chest",1);
 
-                var itemFactory = new YamlItemFactory(yaml, new AdjectiveFactory());
+                var itemFactory = new YamlItemFactory(yaml);
 
                 var shirt = itemFactory.Create(w, itemFactory.Blueprints.Single());
 

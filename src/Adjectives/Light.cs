@@ -10,9 +10,5 @@ namespace Wanderer.Adjectives
         {
         }
 
-        public override IEnumerable<string> GetDescription()
-        {
-            yield return "Cancels Dark";
-        }
     }
 }
