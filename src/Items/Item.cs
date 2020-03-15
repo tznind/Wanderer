@@ -101,6 +101,9 @@ namespace Wanderer.Items
             foreach (var adjective in Adjectives) 
                 clone.Add(adjective.GetFinalStats(forActor));
 
+            foreach(var adjective in Adjectives)
+                clone = adjective.Modify(clone);
+                
             return clone;
         }
 

@@ -20,5 +20,9 @@ namespace Wanderer.Adjectives
         /// multiply the Value of any object the adjective is on by 2
         /// </summary>
         public StatsCollection StatsRatio { get; set; }
+
+        //TODO: Modify for other collections
+        StatsCollection Modify(StatsCollection stats);
+
     }
 }

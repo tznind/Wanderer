@@ -97,6 +97,19 @@ namespace Wanderer.Stats
 
             return this;
         }
+        /// <summary>
+        /// Performs the <paramref name="modify"/> function on all stats in the collection.
+        ///  (changes permanently this class)
+        /// </summary>
+        /// <returns></returns>
+        public StatsCollection SetAll(Func<Stat,double,double> modify)
+        {   
+            foreach (Stat s in Enum.GetValues(typeof(Stat)))
+                if(s != Stat.None)
+                    this[s] = modify(s,this[s]);
+
+            return this;
+        }
 
         public bool AreIdentical(StatsCollection other)
         {
@@ -124,8 +137,7 @@ namespace Wanderer.Stats
         /// <summary>
         /// Multiply each stat by the given <paramref name="ratios"/>.
         /// </summary>
-        /// <param name="ratios"></param>
-        /// <param name="invertForNegatives">true to invert the ratio for negative stats e.g. ratio of 0.5 would make 10 become 5
+        /// <param name="ratios"></param>   /// <param name="invertForNegatives">true to invert the ratio for negative stats e.g. ratio of 0.5 would make 10 become 5
         /// but -10 would become -20 (instead of -5).)</param>
         /// <returns></returns>
         public StatsCollection Multiply(StatsCollection ratios,bool invertForNegatives)

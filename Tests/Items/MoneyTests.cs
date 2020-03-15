@@ -37,10 +37,11 @@ namespace Tests.Items
         {
             var you = new You("Dave", new Room("SomeRoom",new World(), 'f'));
 
-            var cog = new Adjective(new Item("CursedCog").With(Stat.Value, -10))
+            var cog = new Item("CursedCog").With(Stat.Value, -10);
+            cog.Adjectives.Add(new Adjective(cog)
             {
                 Name = "Rusty", StatsRatio = {[Stat.Value] = 0.5},
-            };
+            });
 
             Assert.AreEqual(-20, cog.GetFinalStats(you)[Stat.Value]);
         }

@@ -29,20 +29,10 @@ namespace Wanderer.Adjectives
             return this.AreIdentical((IHasStats)other);
         }
 
-        public override StatsCollection GetFinalStats(IActor forActor)
+        
+        public StatsCollection Modify(StatsCollection stats)
         {
-            //the owners base stats are returned separately, we need to apply an offset to that where appropriate
-            var clone = Owner.BaseStats.Clone();
-            
-            //what it currently is
-            var offset = clone.Clone();
-
-            //what we would like it to be
-            clone.Multiply(StatsRatio,true);
-
-            offset = clone.Subtract(offset);
-
-            return offset;
+            return stats.Clone().Multiply(StatsRatio,true);
         }
 
         /// <summary>
