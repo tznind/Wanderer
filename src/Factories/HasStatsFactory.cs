@@ -41,7 +41,7 @@ namespace Wanderer.Factories
                 UniquesSpawned.Add(blueprint.Identifier ?? Guid.Empty);
 
             if (blueprint.Actions.Any())
-                onto.BaseActions = blueprint.Actions;
+                onto.BaseActions = blueprint.Actions.Clone();
 
             onto.Color = blueprint.Color;
             onto.Unique = blueprint.Unique;

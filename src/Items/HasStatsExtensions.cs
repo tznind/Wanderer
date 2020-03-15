@@ -33,6 +33,13 @@ namespace Wanderer.Items
 
             return i;
         }
+        public static T With<T>(this T i, IAdjectiveFactory adj, params string[] adjectives) where T:IHasStats
+        {
+            foreach (var s in adjectives) 
+                i.Adjectives.Add(adj.Create(i, s));
+
+            return i;
+        }
         
     }
 }

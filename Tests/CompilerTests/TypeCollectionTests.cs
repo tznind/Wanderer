@@ -17,7 +17,7 @@ namespace Tests.CompilerTests
 
             //no interfaces
             Assert.IsFalse(adjectives.Contains(typeof(IAdjective)));
-            Assert.Contains(typeof(Strong),adjectives);
+            Assert.Contains(typeof(Injured),adjectives);
 
             var actors = factory.Create<IActor>(true,true);
 

@@ -49,12 +49,6 @@ namespace Wanderer.Adjectives
             return stats.Clone().Multiply(StatsRatio,true);
         }
 
-        /// <summary>
-        /// Adds an <see cref="ExpiryBehaviour"/> to this <see cref="IAdjective"/>
-        /// </summary>
-        /// <param name="duration">How long it lasts, expiry happens at the end of the
-        /// round. Set to 1 for an effect that only lasts for the current round</param>
-        /// <returns></returns>
         public IAdjective WithExpiry(int duration)
         {
             BaseBehaviours.Add(new ExpiryBehaviour(this, duration));

@@ -58,14 +58,14 @@ namespace Tests.Actions
             Assert.IsTrue(ui.MessagesShown.Any(m=>m.Contains("a fought Test Wanderer")));
             Assert.IsTrue(ui.MessagesShown.Any(m=>m.Contains("b fought Test Wanderer")));
 
-            Assert.AreEqual(2,you.Adjectives.OfType<Tired>().Count());
+            Assert.AreEqual(2,you.Adjectives.Count(j=>j.Name.Equals("Tired")));
 
             a.Kill(ui,Guid.Empty,"Meteor");
             b.Kill(ui,Guid.Empty,"Meteor");
             w.RunRound(GetUI(),new LoadGunsAction());
             
             //should have worn off
-            Assert.IsEmpty(you.Adjectives.OfType<Tired>().ToArray());
+            Assert.IsEmpty(you.Adjectives.Where(a=>a.Name.Equals("Tired")).ToArray());
 
         }
     }

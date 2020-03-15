@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Wanderer.Behaviours;
 using Wanderer.Stats;
 using Wanderer.Systems;
 
@@ -12,7 +13,7 @@ namespace Wanderer.Adjectives
         IHasStats Owner { get; set; }
 
         /// <summary>
-        /// True if the world should form part of the name of the object (e.g. "Dark Room")
+        /// True if the <see cref="IHasStats.Name"/> should form part of the name of the object (e.g. "Dark Room")
         /// </summary>
         bool IsPrefix { get; set; }
 
@@ -31,6 +32,14 @@ namespace Wanderer.Adjectives
         /// effect
         /// </summary>
         Resistances Resist { get; set; }
+        
+        /// <summary>
+        /// Adds an <see cref="ExpiryBehaviour"/> to this <see cref="IAdjective"/>
+        /// </summary>
+        /// <param name="duration">How long it lasts, expiry happens at the end of the
+        /// round. Set to 1 for an effect that only lasts for the current round</param>
+        /// <returns></returns>
+        IAdjective WithExpiry(int duration);
 
     }
 }

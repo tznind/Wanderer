@@ -30,6 +30,8 @@ namespace Wanderer.Factories
             if (blueprint.Resist != null)
                 adj.Resist = blueprint.Resist;
 
+            adj.IsPrefix = blueprint.IsPrefix;
+
             return adj;
         }
 

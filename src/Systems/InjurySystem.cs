@@ -183,7 +183,7 @@ namespace Wanderer.Systems
 
             //harder to heal giant things
             if(injured.Owner is IActor a)
-                if (a.Has<Giant>(false))
+                if (a.Adjectives.Any(j=>j.Is("Giant")))
                     requiredStat *= 1.5;
 
             if (actor.GetFinalStats()[HealerStat.Value] > requiredStat)

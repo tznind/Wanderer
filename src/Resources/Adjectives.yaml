@@ -8,11 +8,39 @@
     Suave: 0.5
     Value: 0.5
 
+# Vulnerable to wounds getting worse
 - Name: Stale
+
+# Resist wounds getting worse
+- Name: Tough
+
 - Name: Light
+
+- Name: Strong
+  Stats:
+    Fight: 10
+
+- Name: Tired
+  Identifier: 378449b2-2b29-4849-81b6-04433dba02a9
+  Stats:
+    Fight: 10
+
+- Name: Medic
+  Actions:
+    - HealAction
+
 - Name: Dark
   Stats:
     Fight: -10
   Resist:
     Immune:
      - Light
+
+- Name: Attractive
+  Stats:
+    Coerce: 15
+
+- Name: Giant
+  IsPrefix: true
+  Stats:
+    Fight: 30

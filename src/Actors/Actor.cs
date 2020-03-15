@@ -110,6 +110,14 @@ namespace Wanderer.Actors
         {
             return CurrentLocation.World.Population.Where(o => o.CurrentLocation == CurrentLocation && o != this && (!o.Dead || includeDead)).ToArray();
         }
+        
+        public bool Has(string name, bool includeItems)
+        {
+            if (includeItems)
+                return Has(name);
+            
+            return Is(name) || Adjectives.Any(a => a.Is(name)) || FactionMembership.Any(f=>f.Has(name));
+        }
 
         public bool Has<T>(bool includeItems) where T : IAdjective
         {

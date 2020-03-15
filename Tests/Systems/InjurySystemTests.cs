@@ -66,7 +66,7 @@ namespace Tests.Systems
             you.Adjectives.Add(injury);
 
             if (isTough)
-                you.Adjectives.Add(new Tough(you));
+                you.Adjectives.Add(world.AdjectiveFactory.Create(you,"Tough"));
 
             for (int i = 0; i < 10; i++)
             {
@@ -114,9 +114,9 @@ namespace Tests.Systems
 
             //you cannot heal yet
             Assert.IsFalse(you.GetFinalActions().OfType<HealAction>().Any());
-
+            
             //you are a medic
-            you.Adjectives.Add(new Medic(you));
+            you.Adjectives.Add(new Adjective(you){Name = "Medic",BaseActions = {new HealAction()}});
             
             //now you can heal stuff
             Assert.IsTrue(you.GetFinalActions().OfType<HealAction>().Any());
@@ -139,7 +139,7 @@ namespace Tests.Systems
             var you = YouInARoom(out IWorld world);
 
             //you are a medic
-            you.Adjectives.Add(new Medic(you));
+            you.Adjectives.Add(new Adjective(Mock.Of<IActor>()){Name = "Medic",BaseActions = {new HealAction()}});
             you.BaseStats[Stat.Savvy] = 20;
 
             //give them an injury
@@ -174,12 +174,11 @@ namespace Tests.Systems
         public void Test_GiantsAreHarderToHeal()
         {
             var you = YouInARoom(out IWorld world);
-            var adj = new AdjectiveFactory();
 
             //you are a medic
-            you.Adjectives.Add(new Medic(you));
+            you.Adjectives.Add(new Adjective(you){Name = "Medic",BaseActions = {new HealAction()}});
             you.BaseStats[Stat.Savvy] = 50;
-            you.With(adj, typeof(Giant));
+            you.With(world.AdjectiveFactory, "Giant");
             
             var badInjury = new Injured("Cut Lip", you, 80, InjuryRegion.Leg,world.InjurySystems.First(i=>i.IsDefault));
             you.Adjectives.Add(badInjury);
@@ -195,7 +194,7 @@ namespace Tests.Systems
                 ui.Log.RoundResults.Select(l=>l.ToString()).ToArray());
 
             //shrink you back down again and presto you are healed!
-            you.Adjectives.Remove(you.Adjectives.OfType<Giant>().Single());
+            you.Adjectives.Remove(you.Adjectives.Single(a => a.Name.Equals("Giant")));
 
             Assert.IsTrue(stack.RunStack(world,new FixedChoiceUI(you, badInjury),
                 you.GetFinalActions().OfType<HealAction>().Single(), you, you.GetFinalBehaviours()));
@@ -205,23 +204,19 @@ namespace Tests.Systems
         [Test]
         public void Test_HealingAnInjury_WithSingleUseItem()
         {
-            var itemFactory = new ItemFactory();
-            var adj = new AdjectiveFactory();
-
             var you = YouInARoom(out IWorld world);
             you.BaseStats[Stat.Savvy] = 50;
             
-
             //you cannot heal as a base action
             Assert.IsFalse(you.GetFinalActions().OfType<HealAction>().Any());
 
             
             //give you 2 kits
-            var kit1= itemFactory.Create(world, new ItemBlueprint() {Name = "Kit"})
-                .With(adj,typeof(Medic),typeof(SingleUse));
+            var kit1= world.ItemFactory.Create(world, new ItemBlueprint() {Name = "Kit"})
+                .With(world.AdjectiveFactory,"Medic","SingleUse");
             you.Items.Add(kit1);
-            var kit2 = itemFactory.Create(world,new ItemBlueprint() {Name = "Kit"})
-                .With(adj,typeof(Medic),typeof(SingleUse));
+            var kit2 = world.ItemFactory.Create(world,new ItemBlueprint() {Name = "Kit"})
+                .With(world.AdjectiveFactory,"Medic","SingleUse");
             you.Items.Add(kit2);
 
             //now you can heal stuff
@@ -248,13 +243,10 @@ namespace Tests.Systems
         [Test]
         public void Test_HealingAnInjury_WithSingleUseItemStack()
         {
-            var itemFactory = new ItemFactory();
-            var adj = new AdjectiveFactory();
-
             var you = YouInARoom(out IWorld world);
             you.BaseStats[Stat.Savvy] = 50;
-            var kitStack = (ItemStack)itemFactory.Create(world, new ItemBlueprint {Name = "Kit", Stack = 2})
-                .With(adj, typeof(SingleUse), typeof(Medic));
+            var kitStack = (ItemStack)world.ItemFactory.Create(world, new ItemBlueprint {Name = "Kit", Stack = 2})
+                .With(world.AdjectiveFactory, "SingleUse", "Medic");
             you.Items.Add(kitStack);
 
             Assert.AreEqual(2,kitStack.StackSize);

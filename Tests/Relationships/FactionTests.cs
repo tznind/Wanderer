@@ -42,18 +42,18 @@ namespace Tests.Relationships
 
             var f = new Faction();
             f.Name = "Medical Corp";
-            f.Adjectives.Add(new Medic(f));
+            f.Adjectives.Add(new Adjective(f){Name = "Medic", BaseActions = {new HealAction()}});
             
-            Assert.IsFalse(you.Has<Medic>(false));
+            Assert.IsFalse(you.Has("Medic",false));
 
             you.FactionMembership.Add(f);
             
-            Assert.IsTrue(you.Has<Medic>(false));
+            Assert.IsTrue(you.Has("Medic",false));
             Assert.AreEqual(1,you.GetFinalActions().OfType<HealAction>().Count());
             
             you.FactionMembership.Clear();
 
-            Assert.IsFalse(you.Has<Medic>(false));
+            Assert.IsFalse(you.Has("Medic",false));
 
         }
     }

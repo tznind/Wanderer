@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Wanderer.Actors;
 using Wanderer.Adjectives;
 using Wanderer.Behaviours;
@@ -53,7 +54,8 @@ namespace Wanderer.Actions
                 //fighting makes you tired
                 a.Adjectives.Add(
                     //expires at the end of the next round
-                    new Tired(a).WithExpiry(2));
+                    world.AdjectiveFactory.Create(a,new Guid("378449b2-2b29-4849-81b6-04433dba02a9") )
+                        .WithExpiry(2));
             }
             
         }
