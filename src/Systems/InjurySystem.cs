@@ -155,18 +155,18 @@ namespace Wanderer.Systems
 
             double ratio = 1;
 
-            var haveTypes = injury.Owner.GetAllHaves().Select(h=>h.GetType()).Distinct();
+            var has = injury.Owner.GetAllHaves().Distinct();
 
             //If you have something that makes you immune to worsening
-            if(ResistWorsen.Immune.Intersect(haveTypes).Any())
+            if(ResistWorsen.Immune.Any(i=>has.Any(h=>h.Is(i))))
                 return false;
             
             //If you have something that makes you resist worsening
-            if(ResistWorsen.Resist.Intersect(haveTypes).Any())
+            if(ResistWorsen.Resist.Any(i=>has.Any(h=>h.Is(i))))
                 ratio *= 2;
             
             //If you have something that makes you vulnerable to worsening
-            if(ResistWorsen.Vulnerable.Intersect(haveTypes).Any())
+            if(ResistWorsen.Vulnerable.Any(i=>has.Any(h=>h.Is(i))))
                 ratio *= 0.5;
 
             return roundsSeen > ratio * WorsenRate;

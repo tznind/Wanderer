@@ -60,7 +60,7 @@ namespace Tests.Systems
             var room = you.CurrentLocation;
 
             if (roomIsStale)
-                room.Adjectives.Add(new Stale(room));
+                room.Adjectives.Add(world.AdjectiveFactory.Create(room,"Stale"));
 
             //give them an injury
             var injury = new Injured("Cut Lip", you, 2, InjuryRegion.Leg,world.InjurySystems.First(i=>i.IsDefault));

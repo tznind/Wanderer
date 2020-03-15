@@ -129,6 +129,14 @@ namespace Wanderer
             return false;
         }
 
+        public bool Is(string s)
+        {
+            if (Guid.TryParse(s, out Guid g))
+                return Equals(g, Identifier);
+
+            return string.Equals(Name, s, StringComparison.CurrentCultureIgnoreCase);
+        }
+
         public bool Has(string typename)
         {
             var types = Compiler.Instance.TypeFactory.Create<IHasStats>(true,true);

@@ -5,11 +5,11 @@ namespace Wanderer.Systems
 {
     public class Resistances
     {
-        public List<Type> Vulnerable {get; set; } = new List<Type>();
+        public List<string> Vulnerable {get; set; } = new List<string>();
 
-        public List<Type> Resist {get; set; } = new List<Type>();
+        public List<string> Resist {get; set; } = new List<string>();
         
-        public List<Type> Immune {get; set; } = new List<Type>();
+        public List<string> Immune {get; set; } = new List<string>();
         
     }
 }
