@@ -9,3 +9,10 @@
     Value: 0.5
 
 - Name: Stale
+- Name: Light
+- Name: Dark
+  Stats:
+    Fight: -10
+  Resist:
+    Immune:
+     - Light

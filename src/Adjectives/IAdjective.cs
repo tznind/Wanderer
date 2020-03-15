@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Wanderer.Stats;
+using Wanderer.Systems;
 
 namespace Wanderer.Adjectives
 {
@@ -23,6 +24,13 @@ namespace Wanderer.Adjectives
 
         //TODO: Modify for other collections
         StatsCollection Modify(StatsCollection stats);
+
+        
+        /// <summary>
+        /// Describes effects which reduce, eliminate or amplify the impact of this
+        /// effect
+        /// </summary>
+        Resistances Resist { get; set; }
 
     }
 }

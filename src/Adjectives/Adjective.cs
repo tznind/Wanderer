@@ -4,6 +4,7 @@ using System.Linq;
 using Wanderer.Actors;
 using Wanderer.Behaviours;
 using Wanderer.Stats;
+using Wanderer.Systems;
 
 namespace Wanderer.Adjectives
 {
@@ -16,6 +17,12 @@ namespace Wanderer.Adjectives
         public StatsCollection StatsRatio { get; set; } = new StatsCollection(1);
 
         /// <summary>
+        /// Describes effects which reduce, eliminate or amplify the impact of this
+        /// effect
+        /// </summary>
+        public Resistances Resist { get; set; }
+
+        /// <summary>
         /// Creates a new adjective with name based on Type name
         /// </summary>
         public Adjective(IHasStats owner)
@@ -23,7 +30,14 @@ namespace Wanderer.Adjectives
             Owner = owner;
             Name = GetType().Name;
         }
-        
+
+        public override StatsCollection GetFinalStats(IActor forActor)
+        {
+            var effect = Resist?.Calculate(forActor) ?? 1;
+
+            return base.GetFinalStats(forActor).Clone().SetAll(v=>v*effect);
+        }
+
         public bool AreIdentical(IAdjective other)
         {
             return this.AreIdentical((IHasStats)other);

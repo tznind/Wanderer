@@ -24,7 +24,11 @@ namespace Wanderer.Factories
             };
             base.AddBasicProperties(adj,blueprint,"inspect");
 
-            adj.StatsRatio = blueprint.StatsRatio;
+            if(blueprint.StatsRatio != null)
+                adj.StatsRatio = blueprint.StatsRatio;
+
+            if (blueprint.Resist != null)
+                adj.Resist = blueprint.Resist;
 
             return adj;
         }

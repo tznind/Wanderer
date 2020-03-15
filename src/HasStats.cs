@@ -121,32 +121,35 @@ namespace Wanderer
 
         public bool Has(Guid? g)
         {
-            if (g.HasValue)
-                return 
-                    Identifier == g ||
-                    GetAllHaves().Any(a => a.Identifier == g);
-
-            return false;
+            return g.HasValue && GetAllHaves().Any(h=>h.Is(g));
         }
 
-        public bool Is(string s)
+        public bool Has(string name)
         {
-            if (Guid.TryParse(s, out Guid g))
-                return Equals(g, Identifier);
+            if (string.IsNullOrWhiteSpace(name))
+                return false;
 
-            return string.Equals(Name, s, StringComparison.CurrentCultureIgnoreCase);
+            if (Guid.TryParse(name, out Guid g))
+                return Has(g);
+
+            return GetAllHaves().Any(h=>h.Is(name));
         }
 
-        public bool Has(string typename)
+        public bool Is(string name)
         {
-            var types = Compiler.Instance.TypeFactory.Create<IHasStats>(true,true);
-            return Has(types.GetTypeNamed(typename));
+            if (string.IsNullOrWhiteSpace(name))
+                return false;
+
+            if (Guid.TryParse(name, out Guid g))
+                return Is(g);
+
+            return string.Equals(Name, name, StringComparison.CurrentCultureIgnoreCase);
         }
 
-        public bool Has(Type type)
+        public bool Is(Guid? g)
         {
-            return this.GetType() == type ||
-            GetAllHaves().Any(a => a.GetType() == type);
+            return g.HasValue && Equals(Identifier, g);
         }
+
     }
 }

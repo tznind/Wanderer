@@ -8,7 +8,6 @@ using Wanderer;
 using Wanderer.Actions;
 using Wanderer.Actors;
 using Wanderer.Adjectives;
-using Wanderer.Adjectives.RoomOnly;
 using Wanderer.Behaviours;
 using Wanderer.Factories;
 using Wanderer.Items;

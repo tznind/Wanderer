@@ -1,7 +1,6 @@
 ﻿using Moq;
 using NUnit.Framework;
 using Wanderer;
-using Wanderer.Adjectives.RoomOnly;
 using Wanderer.Factories;
 using Wanderer.Factories.Blueprints;
 using Wanderer.Rooms;
@@ -22,8 +21,8 @@ namespace Tests.Adjectives
         [TestCase("Dark")]
         public void TestCreateRoomOnly_AdjectiveBlueprint(string typeName)
         {
-            var adj = new AdjectiveFactory();
-            Assert.IsNotNull(adj.Create(Mock.Of<IRoom>(),typeof(Dark)));
+            InARoom(out IWorld w);
+            Assert.IsNotNull(w.AdjectiveFactory.Create(Mock.Of<IRoom>(),"Dark"));
         }
     }
 }
