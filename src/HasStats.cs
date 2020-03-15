@@ -121,7 +121,7 @@ namespace Wanderer
 
         public bool Has(Guid? g)
         {
-            return g.HasValue && GetAllHaves().Any(h=>h.Is(g));
+            return g.HasValue && (Is(g) || GetAllHaves().Any(h=>h.Is(g)));
         }
 
         public bool Has(string name)
@@ -132,7 +132,7 @@ namespace Wanderer
             if (Guid.TryParse(name, out Guid g))
                 return Has(g);
 
-            return GetAllHaves().Any(h=>h.Is(name));
+            return Is(name) || GetAllHaves().Any(h=>h.Is(name));
         }
 
         public bool Is(string name)
