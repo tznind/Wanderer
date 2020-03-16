@@ -40,7 +40,7 @@ namespace Wanderer.Factories
         /// <summary>
         /// Mapping between directories and the factions which were created from them
         /// </summary>
-        private Dictionary<string,Faction> _factionDirs = new Dictionary<string, Faction>();
+        private readonly Dictionary<DirectoryInfo, Faction> _factionDirs = new Dictionary<DirectoryInfo, Faction>();
 
         /// <summary>
         /// True to skip loading items, actors, dialogue etc.  This leaves
@@ -81,7 +81,8 @@ namespace Wanderer.Factories
                 IFaction faction = null;
 
                 var factionDir = _factionDirs.Keys.FirstOrDefault(k =>
-                fi.Directory.FullName.StartsWith(k, StringComparison.CurrentCultureIgnoreCase));
+                    
+                fi.Directory.FullName.StartsWith(k.FullName, StringComparison.CurrentCultureIgnoreCase));
 
                 if (factionDir != null)
                     faction = _factionDirs[factionDir];
@@ -123,7 +124,7 @@ namespace Wanderer.Factories
             _log.Info("-----------------------------");
 
             foreach(var blue in blueprints)
-                _log.Info($"{blue} {(blue.Faction != null ? "(" + blue.Faction +")" : "")}");
+                _log.Info($"{blue} {(blue.Faction != null ? "(" + blue.Faction.ToString().Substring(0,8) +")" : "")}");
         }
 
         private IEnumerable<T> AssignFaction<T>(IEnumerable<T> blueprints, IFaction f) where T: HasStatsBlueprint
@@ -315,7 +316,7 @@ namespace Wanderer.Factories
                 //TODO: Really all factions just are mates with thier faction buddies and can't control that from yaml?
                 world.Relationships.Add(new IntraFactionRelationship(f,5));
 
-                _factionDirs.Add(directory,f);
+                _factionDirs.Add(new DirectoryInfo(directory),f);
                 world.Factions.Add(f);
             }
 
