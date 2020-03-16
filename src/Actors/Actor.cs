@@ -119,18 +119,6 @@ namespace Wanderer.Actors
             return Is(name) || Adjectives.Any(a => a.Is(name)) || FactionMembership.Any(f=>f.Has(name));
         }
 
-        public bool Has<T>(bool includeItems) where T : IAdjective
-        {
-            return Adjectives.Union(FactionMembership.SelectMany(f=>f.Adjectives)).Any(a => a is T)
-                || includeItems && Items.Any(i=> i.Has<T>(this));
-        }
-
-        public bool Has<T>(bool includeItems, Func<T, bool> condition) where T : IAdjective
-        {
-            return Adjectives.Any(a => a is T t  && condition(t))
-                || includeItems && Items.Any(i => i.Has<T>(this,condition));
-        }
-
         public override IBehaviourCollection GetFinalBehaviours(IActor forActor)
         {
             //the dead have no behaviours
@@ -149,15 +137,15 @@ namespace Wanderer.Actors
             var clone = BaseStats.Clone();
 
             foreach (var adjective in Adjectives) 
-                clone.Add(adjective.GetFinalStats(forActor));
+                clone.Increase(adjective.GetFinalStats(forActor));
 
-            clone.Add(CurrentLocation.GetFinalStats(forActor));
+            clone.Increase(CurrentLocation.GetFinalStats(forActor));
 
             foreach (var faction in FactionMembership) 
-                clone.Add(faction.GetFinalStats(forActor));
+                clone.Increase(faction.GetFinalStats(forActor));
 
             foreach (var item in Items) 
-                clone.Add(item.GetFinalStats(forActor));
+                clone.Increase(item.GetFinalStats(forActor));
 
             return clone;
         }

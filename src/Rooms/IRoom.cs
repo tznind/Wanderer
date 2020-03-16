@@ -38,11 +38,7 @@ namespace Wanderer.Rooms
         IEnumerable<IActor> Actors { get; }
 
         Point3 GetPoint();
-
-        bool Has<T>() where T:IAdjective;
-
-        bool Has<T>(Func<T,bool> condition) where T : IAdjective;
-
+        
         /// <summary>
         /// Determines which directions you can leave the room in
         /// </summary>

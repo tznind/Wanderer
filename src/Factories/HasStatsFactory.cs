@@ -50,7 +50,7 @@ namespace Wanderer.Factories
                 onto.Identifier = blueprint.Identifier;
             
             if (blueprint.Stats != null)
-                onto.BaseStats.Add(blueprint.Stats.Clone());
+                onto.BaseStats.Increase(blueprint.Stats.Clone());
 
             if (blueprint.Dialogue != null)
             {

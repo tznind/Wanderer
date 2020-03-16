@@ -42,7 +42,7 @@ namespace Wanderer.Stats
         /// this class)
         /// </summary>
         /// <param name="other"></param>
-        public StatsCollection Add(StatsCollection other)
+        public StatsCollection Increase(StatsCollection other)
         {
             foreach (Stat s in Enum.GetValues(typeof(Stat)))
                 if(s != Stat.None)
@@ -76,7 +76,7 @@ namespace Wanderer.Stats
         /// this class)
         /// </summary>
         /// <param name="other"></param>
-        public StatsCollection Subtract(StatsCollection other)
+        public StatsCollection Decrease(StatsCollection other)
         {
             foreach (Stat s in Enum.GetValues(typeof(Stat)))
                 if(s != Stat.None)

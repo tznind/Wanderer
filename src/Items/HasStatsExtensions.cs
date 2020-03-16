@@ -26,13 +26,6 @@ namespace Wanderer.Items
             i.Slot = slot;
             return i;
         }
-        public static T With<T>(this T i, IAdjectiveFactory adj, params Type[] adjectives) where T:IHasStats
-        {
-            foreach (Type t in adjectives) 
-                i.Adjectives.Add(adj.Create(i, t));
-
-            return i;
-        }
         public static T With<T>(this T i, IAdjectiveFactory adj, params string[] adjectives) where T:IHasStats
         {
             foreach (var s in adjectives) 

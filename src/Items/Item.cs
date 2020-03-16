@@ -44,16 +44,7 @@ namespace Wanderer.Items
             ui.Log.Info(new LogEntry($"{owner} dropped {this}", round,owner));
         }
 
-        public bool Has<T>(IActor owner) where T : IAdjective
-        {
-            return Adjectives.Any(a => a is T);
-        }
-
-        public bool Has<T>(IActor owner, Func<T, bool> condition) where T : IAdjective
-        {
-            return Adjectives.Any(a => a is T t && condition(t));
-        }
-
+        
         public bool CanUse(IActor actor,out string reason)
         {
             if (IsErased)
@@ -99,7 +90,7 @@ namespace Wanderer.Items
             var clone = BaseStats.Clone();
 
             foreach (var adjective in Adjectives) 
-                clone.Add(adjective.GetFinalStats(forActor));
+                clone.Increase(adjective.GetFinalStats(forActor));
 
             foreach(var adjective in Adjectives)
                 clone = adjective.Modify(clone);

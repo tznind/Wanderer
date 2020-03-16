@@ -84,27 +84,6 @@ namespace Wanderer.Actors
         
         /// <summary>
         /// Returns true if the <see cref="IActor"/> has the supplied adjective (or optionally
-        /// an item).
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="includeItems"></param>
-        /// <returns></returns>
-        bool Has<T>( bool includeItems) where T:IAdjective;
-
-
-        /// <summary>
-        /// Returns true if the <see cref="IActor"/> has the supplied adjective (or optionally
-        /// an item) that matches the <paramref name="condition"/>.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="includeItems"></param>
-        /// <param name="condition"></param>
-        /// <returns></returns>
-        bool Has<T>(bool includeItems,Func<T,bool> condition) where T : IAdjective;
-
-        
-        /// <summary>
-        /// Returns true if the <see cref="IActor"/> has the supplied adjective (or optionally
         /// an item) that matches the <paramref name="name"/> which can be an <see cref="IHasStats.Identifier"/>.
         /// </summary>
         /// <returns></returns>

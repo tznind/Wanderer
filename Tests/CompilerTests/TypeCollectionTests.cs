@@ -27,6 +27,8 @@ namespace Tests.CompilerTests
             Assert.Contains(typeof(You),actors);
             Assert.Contains(typeof(Npc),actors);
 
+            Assert.AreEqual(typeof(IAdjective),adjectives.BaseType);
+            Assert.AreEqual(typeof(Injured),adjectives.GetTypeNamed("Injured"));
         }
     }
 }

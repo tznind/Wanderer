@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Globalization;
 using System.Text;
+using Moq;
 using NUnit.Framework;
 using Wanderer;
 
@@ -51,6 +54,22 @@ namespace Tests.Rooms
             Assert.IsTrue(Math.Abs(3.74 - new Point3(1, 1, 1).Distance(new Point3(2, 3, 4))) < 0.01);
 
             Assert.IsTrue(Math.Abs(46.50d - new Point3(-11, -22, -33).Distance(new Point3(2, 3, 4))) < 0.01);
+        }
+
+        [Test]
+        public void TestConversion()
+        {
+            var converter = new Point3Converter();
+
+            Assert.IsFalse(converter.CanConvertFrom(Mock.Of<ITypeDescriptorContext>(),typeof(int)));
+            Assert.IsTrue(converter.CanConvertFrom(Mock.Of<ITypeDescriptorContext>(),typeof(string)));
+
+
+            Assert.AreEqual(new Point3(1,2,3),converter.ConvertFrom(Mock.Of<ITypeDescriptorContext>(),CultureInfo.CurrentCulture, "1,2,3"));
+            Assert.Throws<NotSupportedException>(()=>converter.ConvertFrom(Mock.Of<ITypeDescriptorContext>(),CultureInfo.CurrentCulture,5555));
+
+            Assert.AreEqual("3,2,1",converter.ConvertTo(Mock.Of<ITypeDescriptorContext>(),CultureInfo.CurrentCulture, new Point3(3,2,1),typeof(string)));
+            Assert.Throws<NotSupportedException>(()=>converter.ConvertTo(Mock.Of<ITypeDescriptorContext>(),CultureInfo.CurrentCulture, new Point3(3,2,1),typeof(int)));
         }
     }
 }

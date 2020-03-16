@@ -58,14 +58,14 @@ namespace Tests.Actions
             var b = new Npc("B",you.CurrentLocation).With(Stat.Initiative,0);
             
             Assert.IsTrue(new CoerceAction().HasTargets(you));
-            Assert.IsFalse(b.Has<Injured>(false));
+            Assert.IsFalse(b.Has("Injured",false));
 
             var ui = GetUI(a, a.GetFinalActions().OfType<FightAction>().Single(), b);
             world.RunRound(ui,world.Player.BaseActions.OfType<CoerceAction>().Single());
             
             //a should have been injured
             Assert.Contains(a,world.Population.ToArray());
-            Assert.IsTrue(b.Has<Injured>(false));
+            Assert.IsTrue(b.Has("Injured",false));
 
             Assert.Contains("Test Wanderer coerced A to perform Fight", ui.Log.RoundResults.Select(r=>r.Message).ToArray());
             

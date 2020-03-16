@@ -35,7 +35,7 @@ namespace Wanderer.Actions
 
         private IActor[] GetTargets(IActor performer)
         {
-            return performer.CurrentLocation.Actors.Where(a => a.Has<Injured>(false) && !a.Dead).ToArray();
+            return performer.CurrentLocation.Actors.Where(a => a.Adjectives.OfType<IInjured>().Any() && !a.Dead).ToArray();
         }
     }
 }

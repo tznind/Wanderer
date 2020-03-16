@@ -72,7 +72,7 @@ namespace Wanderer
         {
             var clone = BaseStats.Clone();
             foreach (var adjective in Adjectives) 
-                clone.Add(adjective.GetFinalStats(forActor));
+                clone.Increase(adjective.GetFinalStats(forActor));
 
             return clone;
         }
@@ -143,7 +143,10 @@ namespace Wanderer
             if (Guid.TryParse(name, out Guid g))
                 return Is(g);
 
-            return string.Equals(Name, name, StringComparison.CurrentCultureIgnoreCase);
+            return
+            string.Equals(GetType().Name,name,StringComparison.CurrentCultureIgnoreCase)
+            ||
+             string.Equals(Name, name, StringComparison.CurrentCultureIgnoreCase);
         }
 
         public bool Is(Guid? g)
