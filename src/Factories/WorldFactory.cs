@@ -69,6 +69,9 @@ namespace Wanderer.Factories
             world.ActorFactory = new ActorFactory();
             world.ItemFactory = new ItemFactory();
 
+            if(!Directory.Exists(ResourcesDirectory))
+                throw new DirectoryNotFoundException($"Resources directory did not exist '{ResourcesDirectory}'");
+
             //Get every yaml file under the resources dir
             foreach(var fi in Directory.GetFiles(ResourcesDirectory,"*.yaml",SearchOption.AllDirectories).Select(f=>new FileInfo(f)))
             {

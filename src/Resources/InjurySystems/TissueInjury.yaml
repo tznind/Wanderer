@@ -10,6 +10,10 @@ ResistWorsen:
   - Stale
   Immune:
   - Tough
+ResistHeal:
+  #Giants are harder to heal
+  Resist: 
+    - Giant
 
 NaturalHealThreshold: 20
 NaturalHealRate: 10

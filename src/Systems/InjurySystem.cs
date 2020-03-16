@@ -10,6 +10,7 @@ namespace Wanderer.Systems
 {
     public class InjurySystem : IInjurySystem
     {
+        private const double Tolerance = 0.0001;
         public Guid Identifier { get; set; }
 
         public string Name { get; set; }
@@ -40,13 +41,19 @@ namespace Wanderer.Systems
         /// <summary>
         /// Types of <see cref="IAdjective"/> which make you resistant to this type of damage
         /// </summary>
-        public Resistances ResistInflict { get; set; } = new Resistances();
+        public Resistances Resist { get; set; } = new Resistances();
 
         /// <summary>
         /// Types of <see cref="IAdjective"/> which make you resistant to this type of damage
         /// getting worse.
         /// </summary>
         public Resistances ResistWorsen { get; set; } = new Resistances();
+
+        /// <summary>
+        /// Types of <see cref="IAdjective"/> prevent (immune) or ease/complicate healing injuries inflicted
+        /// by this system
+        /// </summary>
+        public Resistances ResistHeal { get; set; } = new Resistances();
 
         /// <summary>
         /// Blueprints for all injuries that can be caused by this system
@@ -152,23 +159,13 @@ namespace Wanderer.Systems
             if (injury.Owner is IActor a && a.Dead)
                 return false;
 
-            double ratio = 1;
+            double ratio = ResistWorsen.Calculate(injury.Owner);
 
-            var has = injury.Owner.GetAllHaves().Distinct();
-
-            //If you have something that makes you immune to worsening
-            if(ResistWorsen.Immune.Any(i=>has.Any(h=>h.Is(i))))
+            //immune
+            if (Math.Abs(ratio) < Tolerance)
                 return false;
-            
-            //If you have something that makes you resist worsening
-            if(ResistWorsen.Resist.Any(i=>has.Any(h=>h.Is(i))))
-                ratio *= 2;
-            
-            //If you have something that makes you vulnerable to worsening
-            if(ResistWorsen.Vulnerable.Any(i=>has.Any(h=>h.Is(i))))
-                ratio *= 0.5;
 
-            return roundsSeen > ratio * WorsenRate;
+            return roundsSeen > (1/ratio) * WorsenRate;
         }
 
         public virtual bool IsHealableBy(IActor actor, Injured injured, out string reason)
@@ -181,11 +178,22 @@ namespace Wanderer.Systems
                 
             var requiredStat = injured.Severity * HealerStatMultiplier;
 
-            //harder to heal giant things
-            if(injured.Owner is IActor a)
-                if (a.Adjectives.Any(j=>j.Is("Giant")))
-                    requiredStat *= 1.5;
 
+            var result = 
+                injured.Owner is IActor i ? 
+                ResistHeal.Calculate(i,false):
+                ResistHeal.Calculate(injured.Owner);
+            
+            //result == 0
+            if (Math.Abs(result) < Tolerance)
+            {
+                reason = $"{injured.Owner} is immune to healing (this injury type)";
+                return false;
+            }
+
+            //vulnerable to healing makes you easier to heal.  Resist healing makes you harder to heal
+            requiredStat *= 1/result;
+            
             if (actor.GetFinalStats()[HealerStat.Value] > requiredStat)
             {
                 reason = null;

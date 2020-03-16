@@ -102,6 +102,14 @@ namespace Wanderer.Actors
         /// <returns></returns>
         bool Has<T>(bool includeItems,Func<T,bool> condition) where T : IAdjective;
 
+        
+        /// <summary>
+        /// Returns true if the <see cref="IActor"/> has the supplied adjective (or optionally
+        /// an item) that matches the <paramref name="name"/> which can be an <see cref="IHasStats.Identifier"/>.
+        /// </summary>
+        /// <returns></returns>
+        bool Has(string name, bool includeItems);
+
         StatsCollection GetFinalStats();
 
         IEnumerable<IAction> GetFinalActions();

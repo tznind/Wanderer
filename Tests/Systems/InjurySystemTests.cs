@@ -170,8 +170,9 @@ namespace Tests.Systems
                 you.GetFinalActions().OfType<HealAction>().Single(), you, you.GetFinalBehaviours()));
         }
 
-        [Test]
-        public void Test_GiantsAreHarderToHeal()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Test_GiantsAreHarderToHeal(bool withGiantItem)
         {
             var you = YouInARoom(out IWorld world);
 
@@ -180,6 +181,13 @@ namespace Tests.Systems
             you.BaseStats[Stat.Savvy] = 50;
             you.With(world.AdjectiveFactory, "Giant");
             
+
+            if(withGiantItem)
+            {
+                var hammer = new Item("Hammer").With(world.AdjectiveFactory, "Giant");
+                you.Items.Add(hammer);
+            }
+
             var badInjury = new Injured("Cut Lip", you, 80, InjuryRegion.Leg,world.InjurySystems.First(i=>i.IsDefault));
             you.Adjectives.Add(badInjury);
 
@@ -190,7 +198,7 @@ namespace Tests.Systems
             Assert.IsFalse(stack.RunStack(world,ui,
                 you.GetFinalActions().OfType<HealAction>().Single(), you, you.GetFinalBehaviours()));
             
-            Assert.Contains("Test Wanderer was unable to heal Test Wanderer's Cut Lip because Savvy was too low (required 60)",
+            Assert.Contains("Test Wanderer was unable to heal Test Wanderer's Cut Lip because Savvy was too low (required 80)",
                 ui.Log.RoundResults.Select(l=>l.ToString()).ToArray());
 
             //shrink you back down again and presto you are healed!
