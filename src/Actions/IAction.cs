@@ -41,5 +41,11 @@ namespace Wanderer.Actions
         /// <param name="performer"></param>
         /// <returns></returns>
         bool HasTargets(IActor performer);
+
+        /// <summary>
+        /// Creates a new copy of this action
+        /// </summary>
+        /// <returns></returns>
+        IAction Clone();
     }
 }

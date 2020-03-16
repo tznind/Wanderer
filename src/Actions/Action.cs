@@ -52,6 +52,11 @@ namespace Wanderer.Actions
 
         public abstract bool HasTargets(IActor performer);
 
+        public virtual IAction Clone()
+        {
+            return (IAction) Activator.CreateInstance(GetType());
+        }
+
         public bool AreIdentical(IAction other)
         {
             if (other == null)

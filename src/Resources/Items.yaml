@@ -7,12 +7,9 @@
     Next: f2bdb6d3-f793-4374-a198-de6b8ac91488
 - Name: Saucepan
   OptionalAdjectives:
-   - Type: Attractive
-   - Type: Strong
-     AdjustStats:
-       Fight: 4
-       Value: 4
-   - Type: Rusty
+   - Attractive
+   - Strong
+   - Rusty
   Stats: 
     Fight: 2
     Value: 2
@@ -37,7 +34,7 @@
     NumberRequired: 1
 - Name: Section of Hull Plating
   OptionalAdjectives:
-    - Type: Rusty
+    - Rusty
   Stats:
     Fight: 3
     Value: 3
@@ -49,20 +46,20 @@
   Stats:
     Value: 5
   MandatoryAdjectives:
-  - Type: SingleUse
+  - SingleUse
   Actions:
     - EatAction
 - Name: Mushrooms
   Stats:
     Value: 7
   MandatoryAdjectives:
-  - Type: SingleUse
+  - SingleUse
   Actions:
     - EatAction
 - Name: Fungus
   Stats:
     Value: 5
   MandatoryAdjectives:
-  - Type: SingleUse
+  - SingleUse
   Actions:
     - EatAction

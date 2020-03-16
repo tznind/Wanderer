@@ -14,55 +14,13 @@ namespace Tests.Adjectives
 {
     class AdjectiveTests : UnitTest
     {
-        [Test]
-        public void TestAllAdjectives_HaveDescriptions()
-        {
-            var f = new AdjectiveFactory();
-
-            foreach (var adj in 
-                f.GetAvailableAdjectives(Mock.Of<IHasStats>())
-                    .Union(f.GetAvailableAdjectives(Mock.Of<IRoom>()))
-                    .Union(f.GetAvailableAdjectives(Mock.Of<IActor>()))
-                    .Union(f.GetAvailableAdjectives(Mock.Of<IItem>()))
-                ) 
-                Assert.IsNotEmpty(adj.GetDescription().ToArray(),$"Adjective {adj} was missing GetDescription text");
-        }
-
-        [Test]
-        public void TestAttractive()
-        {
-            var room = InARoom(out IWorld w);
-            var d  = new Npc("Dave",room).With(Stat.Fight,20).With(Stat.Coerce,20);
-            
-            Assert.AreEqual(20,d.GetFinalStats()[Stat.Coerce]);
-            Assert.AreEqual(20,d.GetFinalStats()[Stat.Fight]);
-
-            var attractive = new Attractive(d);
-            d.Adjectives.Add(attractive);
-
-            Assert.AreEqual(35,d.GetFinalStats()[Stat.Coerce]);
-            Assert.AreEqual(20,d.GetFinalStats()[Stat.Fight]);
-
-            var injury = new Injured("Broken Ribs",d,20,InjuryRegion.Head,w.InjurySystems.First(i=>i.IsDefault));
-            d.Adjectives.Add(injury);
-
-            //now injured
-            Assert.AreEqual(20,d.GetFinalStats()[Stat.Coerce]);
-            Assert.AreEqual(10,d.GetFinalStats()[Stat.Fight]);
-
-            d.Adjectives.Remove(injury);
-            
-            Assert.AreEqual(35,d.GetFinalStats()[Stat.Coerce]);
-            Assert.AreEqual(20,d.GetFinalStats()[Stat.Fight]);
-
-        }
 
         [Test]
         public void Test_AdjectiveEquality()
         {
-            var a1 = new Attractive(Mock.Of<IActor>());
+            var a1 = new Adjective(Mock.Of<IActor>()){Name = "Attractive"};
 
-            var a2 = new Attractive(Mock.Of<IActor>());
+            var a2 = new Adjective(Mock.Of<IActor>()){Name = "Attractive"};
             Assert.AreNotEqual(a1,a2);
 
             var ac1 = new AdjectiveCollection {a1};

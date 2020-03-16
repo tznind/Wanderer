@@ -22,7 +22,7 @@ namespace Tests.ConditionTests
     - return false";  //<- sunglasses are about to be in fashion but not yet
 
             
-            var itemFactory = new YamlItemFactory(yaml,new AdjectiveFactory());
+            var itemFactory = new YamlItemFactory(yaml);
             var item = itemFactory.Create(new World(), itemFactory.Blueprints.Single());
 
             var you = YouInARoom(out _);

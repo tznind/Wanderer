@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using NUnit.Framework;
 using Wanderer;
+using Wanderer.Actions;
 using Wanderer.Actors;
 using Wanderer.Factories;
 using Wanderer.Rooms;
@@ -12,19 +13,19 @@ namespace Tests
     {
         protected IRoom InARoom(out IWorld world)
         {
-            world = new World();
-            var room = new Room("TestRoom", world,'-');
-            world.AdjectiveFactory = new AdjectiveFactory();
-            world.RoomFactory = new RoomFactory(world.AdjectiveFactory);
-            world.ActorFactory = new ActorFactory(world.AdjectiveFactory);
-            world.ItemFactory = new ItemFactory(world.AdjectiveFactory);
-
-            world.Map.Add(new Point3(0,0,0),room );
-
             var wf = new WorldFactory();
-            world.InjurySystems = wf.GetInjurySystems();
-            
+            world = wf.Create();
+            world.Population.Clear();
+            world.Relationships.Clear();
+            world.RoomFactory.Blueprints.Clear();
+            world.ItemFactory.Blueprints.Clear();
+            world.ActorFactory.Blueprints.Clear();
+            world.Dialogue.AllDialogues.Clear();
 
+            var room = new Room("TestRoom", world,'-');
+            world.Map.Clear();
+            world.Map.Add(new Point3(0,0,0),room );
+            
             return room;
         }
 
@@ -44,6 +45,9 @@ namespace Tests
             you = YouInARoom(out w);
 
             them = new Npc("Chaos Sam", you.CurrentLocation);
+
+            //don't wonder off Chaos Sam
+            them.BaseActions.Remove(new LeaveAction());
         }
         /// <summary>
         /// Creates a relationship of strength <paramref name="intensity"/> which is how strongly

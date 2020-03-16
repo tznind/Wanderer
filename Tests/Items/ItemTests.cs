@@ -7,7 +7,6 @@ using Wanderer;
 using Wanderer.Actions;
 using Wanderer.Actors;
 using Wanderer.Adjectives;
-using Wanderer.Adjectives.RoomOnly;
 using Wanderer.Behaviours;
 using Wanderer.Factories;
 using Wanderer.Items;
@@ -22,17 +21,18 @@ namespace Tests.Items
         [Test]
         public void Test_DarkRoom()
         {
-            var world = new World();
+            InARoom(out IWorld world);
+
             var darkRoom = new Room("Dark Room", world,'-');
-            darkRoom.Adjectives.Add(new Dark(darkRoom));
+            darkRoom.Adjectives.Add(world.AdjectiveFactory.Create(darkRoom, "Dark"));
 
-            Assert.IsTrue(darkRoom.Has<Dark>());
+            Assert.IsTrue(darkRoom.Has("Dark"));
 
+            world.Map.Clear();
             world.Map.Add(new Point3(0,0,0),darkRoom);
 
             var globe = new Item("Glo Globe");
-            globe.Adjectives.Add(new Light(globe));
-
+            globe.Adjectives.Add(world.AdjectiveFactory.Create(globe, "Light"));
             darkRoom.Items.Add(globe);
 
             var you = new You("Wanderer",darkRoom);
@@ -51,7 +51,7 @@ namespace Tests.Items
 
             //2+ light globes shouldn't boost your fight above the baseline
             var globe2 = new Item("Glo Globe");
-            globe2.Adjectives.Add(new Light(globe));
+            globe2.Adjectives.Add(world.AdjectiveFactory.Create(globe2, "Light"));
 
             you.Items.Add(globe2);
 
@@ -99,18 +99,6 @@ namespace Tests.Items
             Assert.IsEmpty(npc.Items);
         }
         
-        [Test]
-        public void Test_RustyMakesNegativeModifiersWorse()
-        {
-            var itemFactory = new ItemFactory(new AdjectiveFactory());
-
-            var you = new You("Dave", new Room("SomeRoom",new World(), 'f'));
-            
-            //This mask makes you less convincing.  When its rusty it should be even less convincing!
-            Assert.Less(
-                itemFactory.Create<Rusty>("Mask").With(Stat.Coerce,-10).GetFinalStats(you)[Stat.Coerce],
-                new Item("Mask").With(Stat.Coerce,-10).GetFinalStats(you)[Stat.Coerce]);
-        }
     }
 
 }

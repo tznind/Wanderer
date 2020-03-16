@@ -121,5 +121,29 @@ namespace Wanderer
         /// <param name="g"></param>
         /// <returns></returns>
         bool Has(Guid? g);
+
+        /// <summary>
+        /// Returns true if the object or a child of it's has an object named <paramref name="s"/>
+        /// or of a Type named <paramref name="s"/>
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        bool Has(string s);
+
+        /// <summary>
+        /// Returns true if the supplied string matches the current object (but not children,
+        /// use Has) for that.
+        /// </summary>
+        /// <param name="s"><see cref="Identifier"/> or <see cref="Name"/> to check for</param>
+        /// <returns></returns>
+        bool Is(string s);
+
+        /// <summary>
+        /// Returns true if the supplied <see cref="Identifier"/> matches the current object (but not children,
+        /// use <see cref="Has(System.Nullable{System.Guid})"/> for that).
+        /// </summary>
+        /// <param name="s"><see cref="Identifier"/> or <see cref="Name"/> to check for</param>
+        /// <returns></returns>
+        bool Is(Guid? g);
     }
 }

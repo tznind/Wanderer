@@ -10,15 +10,10 @@ using System.Collections.Generic;
 
 namespace Wanderer.Factories
 {
-    public class ActorFactory : HasStatsFactory<IActor> ,IActorFactory
+    public class ActorFactory : HasStatsFactory<ActorBlueprint,IActor> ,IActorFactory
     {
-        public List<ActorBlueprint> Blueprints { get; set; } = new List<ActorBlueprint>();
         
         public SlotCollection DefaultSlots { get; set; } = new SlotCollection();
-
-        public ActorFactory(IAdjectiveFactory adjectiveFactory):base(adjectiveFactory)
-        {
-        }
         
         public virtual void Create(IWorld world, IRoom room, IFaction faction, RoomBlueprint roomBlueprintIfAny)
         {
@@ -38,7 +33,8 @@ namespace Wanderer.Factories
         {
             var npc = new Npc(blueprint.Name, room);
 
-            AddBasicProperties(npc, blueprint, world,"talk");
+            AddBasicProperties(npc, blueprint,"talk");
+            world.AdjectiveFactory.AddAdjectives(npc, blueprint,world.R);
 
             if (faction != null)
                 npc.FactionMembership.Add(faction);

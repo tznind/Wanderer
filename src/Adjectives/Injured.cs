@@ -69,12 +69,6 @@ namespace Wanderer.Adjectives
                 InjurySystem.Kill(this, ui,round, reason);
         }
         
-        public override IEnumerable<string> GetDescription()
-        {
-            yield return "Reduces Stats";
-            yield return "Leads to Death";
-        }
-
         public bool IsHealableBy(IActor actor, out string reason)
         {
             return InjurySystem.IsHealableBy(actor, this, out reason);

@@ -57,17 +57,17 @@ namespace Wanderer.Factories.Blueprints
         public DialogueInitiation Dialogue { get; set; }
 
         /// <summary>
-        /// List of <see cref="IAdjective"/> type names (which must be supported by
-        /// <see cref="IAdjectiveFactory"/>) from which to pick at random when creating
+        /// List of <see cref="IAdjective"/> from which to pick at random when creating.
+        /// These can be either Guids, Names or Type names
         /// </summary>
-        public AdjectiveBlueprint[] OptionalAdjectives { get;set; } = new AdjectiveBlueprint[0];
+        public string[] OptionalAdjectives { get;set; } = new string[0];
 
         /// <summary>
         /// By default a subset of <see cref="OptionalAdjectives"/> are written to the
         /// objects created by this blueprint (e.g. depending on difficulty, luck etc).
-        /// Set those that MUST always be added
+        /// Set those that MUST always be added. These can be either Guids, Names or Type names
         /// </summary>
-        public AdjectiveBlueprint[] MandatoryAdjectives { get; set; } = new AdjectiveBlueprint[0];
+        public string [] MandatoryAdjectives { get; set; } = new string[0];
 
         /// <summary>
         /// The BaseStats to give the object

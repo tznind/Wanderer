@@ -40,5 +40,9 @@ namespace Wanderer.Actions
             );
         }
 
+        public IActionCollection Clone()
+        {
+            return new ActionCollection(this.Select(a=>a.Clone()));
+        }
     }
 }

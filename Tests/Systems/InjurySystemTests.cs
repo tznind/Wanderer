@@ -8,7 +8,6 @@ using Wanderer;
 using Wanderer.Actions;
 using Wanderer.Actors;
 using Wanderer.Adjectives;
-using Wanderer.Adjectives.RoomOnly;
 using Wanderer.Behaviours;
 using Wanderer.Factories;
 using Wanderer.Items;
@@ -16,6 +15,7 @@ using Wanderer.Rooms;
 using Wanderer.Stats;
 using Wanderer.Systems;
 using Tests.Actions;
+using Wanderer.Factories.Blueprints;
 using YamlDotNet.Serialization;
 using Enumerable = System.Linq.Enumerable;
 
@@ -59,14 +59,14 @@ namespace Tests.Systems
             var room = you.CurrentLocation;
 
             if (roomIsStale)
-                room.Adjectives.Add(new Stale(room));
+                room.Adjectives.Add(world.AdjectiveFactory.Create(room,"Stale"));
 
             //give them an injury
             var injury = new Injured("Cut Lip", you, 2, InjuryRegion.Leg,world.InjurySystems.First(i=>i.IsDefault));
             you.Adjectives.Add(injury);
 
             if (isTough)
-                you.Adjectives.Add(new Tough(you));
+                you.Adjectives.Add(world.AdjectiveFactory.Create(you,"Tough"));
 
             for (int i = 0; i < 10; i++)
             {
@@ -114,9 +114,9 @@ namespace Tests.Systems
 
             //you cannot heal yet
             Assert.IsFalse(you.GetFinalActions().OfType<HealAction>().Any());
-
+            
             //you are a medic
-            you.Adjectives.Add(new Medic(you));
+            you.Adjectives.Add(new Adjective(you){Name = "Medic",BaseActions = {new HealAction()}});
             
             //now you can heal stuff
             Assert.IsTrue(you.GetFinalActions().OfType<HealAction>().Any());
@@ -139,7 +139,7 @@ namespace Tests.Systems
             var you = YouInARoom(out IWorld world);
 
             //you are a medic
-            you.Adjectives.Add(new Medic(you));
+            you.Adjectives.Add(new Adjective(Mock.Of<IActor>()){Name = "Medic",BaseActions = {new HealAction()}});
             you.BaseStats[Stat.Savvy] = 20;
 
             //give them an injury
@@ -176,13 +176,10 @@ namespace Tests.Systems
             var you = YouInARoom(out IWorld world);
 
             //you are a medic
-            you.Adjectives.Add(new Medic(you));
+            you.Adjectives.Add(new Adjective(you){Name = "Medic",BaseActions = {new HealAction()}});
             you.BaseStats[Stat.Savvy] = 50;
-
-            var adj = new AdjectiveFactory();
-            var them = new ActorFactory(adj);
-            them.Add<Giant>(you);
-
+            you.With(world.AdjectiveFactory, "Giant");
+            
             var badInjury = new Injured("Cut Lip", you, 80, InjuryRegion.Leg,world.InjurySystems.First(i=>i.IsDefault));
             you.Adjectives.Add(badInjury);
 
@@ -197,7 +194,7 @@ namespace Tests.Systems
                 ui.Log.RoundResults.Select(l=>l.ToString()).ToArray());
 
             //shrink you back down again and presto you are healed!
-            you.Adjectives.Remove(you.Adjectives.OfType<Giant>().Single());
+            you.Adjectives.Remove(you.Adjectives.Single(a => a.Name.Equals("Giant")));
 
             Assert.IsTrue(stack.RunStack(world,new FixedChoiceUI(you, badInjury),
                 you.GetFinalActions().OfType<HealAction>().Single(), you, you.GetFinalBehaviours()));
@@ -207,18 +204,19 @@ namespace Tests.Systems
         [Test]
         public void Test_HealingAnInjury_WithSingleUseItem()
         {
-            var itemFactory = new ItemFactory(new AdjectiveFactory());
             var you = YouInARoom(out IWorld world);
             you.BaseStats[Stat.Savvy] = 50;
             
-
             //you cannot heal as a base action
             Assert.IsFalse(you.GetFinalActions().OfType<HealAction>().Any());
 
+            
             //give you 2 kits
-            var kit1 = itemFactory.Create<SingleUse, Medic>("Kit");
+            var kit1= world.ItemFactory.Create(world, new ItemBlueprint() {Name = "Kit"})
+                .With(world.AdjectiveFactory,"Medic","SingleUse");
             you.Items.Add(kit1);
-            var kit2 = itemFactory.Create<SingleUse, Medic>("Kit");
+            var kit2 = world.ItemFactory.Create(world,new ItemBlueprint() {Name = "Kit"})
+                .With(world.AdjectiveFactory,"Medic","SingleUse");
             you.Items.Add(kit2);
 
             //now you can heal stuff
@@ -245,12 +243,10 @@ namespace Tests.Systems
         [Test]
         public void Test_HealingAnInjury_WithSingleUseItemStack()
         {
-            var itemFactory = new ItemFactory(new AdjectiveFactory());
-            
             var you = YouInARoom(out IWorld world);
             you.BaseStats[Stat.Savvy] = 50;
-                      
-            var kitStack = itemFactory.CreateStack<SingleUse, Medic>("Kit",2);
+            var kitStack = (ItemStack)world.ItemFactory.Create(world, new ItemBlueprint {Name = "Kit", Stack = 2})
+                .With(world.AdjectiveFactory, "SingleUse", "Medic");
             you.Items.Add(kitStack);
 
             Assert.AreEqual(2,kitStack.StackSize);

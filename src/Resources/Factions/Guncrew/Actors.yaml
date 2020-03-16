@@ -1,8 +1,8 @@
 ﻿- Name: Servitor
   OptionalAdjectives:
-    - Type: Rusty
-    - Type: Strong
-    - Type: Tough
+    - Rusty
+    - Strong
+    - Tough
   Stats:
     Fight: 30
     Loyalty: 20
@@ -16,9 +16,9 @@
         Value: 10
 - Name: 
   OptionalAdjectives:
-    - Type: Strong
-    - Type: Medic
-    - Type: Tough
+    - Strong
+    - Medic
+    - Tough
   Stats:
     Fight: 10
     Loyalty: 10

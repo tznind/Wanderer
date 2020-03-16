@@ -8,9 +8,9 @@
     - Identifier: 92320a7c-a7d3-4abb-933c-45a4450f778e
       Name: The Rat Queen
       MandatoryAdjectives:
-        - Type: Strong
-        - Type: Tough
-        - Type: Medic
+        - Strong
+        - Tough
+        - Medic
       Stats:
         Fight: 40
         Loyalty: 20

@@ -35,7 +35,7 @@ namespace Tests.Actions
         public void LeaveAndComeBack()
         {
             YouInARoom(out IWorld world);
-            world.RoomFactory = new RoomFactory(new AdjectiveFactory());
+            world.RoomFactory = new RoomFactory();
             world.RoomFactory.Blueprints.Add(new RoomBlueprint(){
                 Name = "North Room",
                 Tile = '-',
@@ -69,7 +69,7 @@ namespace Tests.Actions
         public void WalkInCircle()
         {
             YouInARoom(out IWorld world);
-            world.RoomFactory = new RoomFactory(new AdjectiveFactory());
+            world.RoomFactory = new RoomFactory();
             world.RoomFactory.Blueprints.Add(new RoomBlueprint(){Name = "NorthRoom", Tile = '-',
                 FixedLocation = new Point3(0,1,0)});
             world.RoomFactory.Blueprints.Add(new RoomBlueprint(){Name = "NorthEastRoom", Tile = '-',
@@ -110,7 +110,7 @@ namespace Tests.Actions
         public void WalkUpThenDownAgain()
         {
             YouInARoom(out IWorld world);
-            world.RoomFactory = new RoomFactory(new AdjectiveFactory());
+            world.RoomFactory = new RoomFactory();
 
             world.RoomFactory.Blueprints.Add(new RoomBlueprint(){Name = "Start", Tile = '-',
                 FixedLocation = new Point3(0,0,0),
@@ -175,7 +175,7 @@ namespace Tests.Actions
                 FixedLocation = new Point3(-1, 0, 0)
             };
 
-            var f = new RoomFactory(new AdjectiveFactory())
+            var f = new RoomFactory()
             {
                 Blueprints = new List<RoomBlueprint> {start, west}
             };
@@ -217,7 +217,7 @@ namespace Tests.Actions
                 FixedLocation = new Point3(-1, 0, 0)
             };
 
-            var f = new RoomFactory(new AdjectiveFactory())
+            var f = new RoomFactory()
             {
                 Blueprints = new List<RoomBlueprint> {start, west}
             };

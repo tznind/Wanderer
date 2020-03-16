@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Wanderer.Actors;
 using Wanderer.Adjectives;
-using Wanderer.Adjectives.RoomOnly;
 using Wanderer.Factories.Blueprints;
 using Wanderer.Stats;
 
@@ -155,18 +154,18 @@ namespace Wanderer.Systems
 
             double ratio = 1;
 
-            var haveTypes = injury.Owner.GetAllHaves().Select(h=>h.GetType()).Distinct();
+            var has = injury.Owner.GetAllHaves().Distinct();
 
             //If you have something that makes you immune to worsening
-            if(ResistWorsen.Immune.Intersect(haveTypes).Any())
+            if(ResistWorsen.Immune.Any(i=>has.Any(h=>h.Is(i))))
                 return false;
             
             //If you have something that makes you resist worsening
-            if(ResistWorsen.Resist.Intersect(haveTypes).Any())
+            if(ResistWorsen.Resist.Any(i=>has.Any(h=>h.Is(i))))
                 ratio *= 2;
             
             //If you have something that makes you vulnerable to worsening
-            if(ResistWorsen.Vulnerable.Intersect(haveTypes).Any())
+            if(ResistWorsen.Vulnerable.Any(i=>has.Any(h=>h.Is(i))))
                 ratio *= 0.5;
 
             return roundsSeen > ratio * WorsenRate;
@@ -184,7 +183,7 @@ namespace Wanderer.Systems
 
             //harder to heal giant things
             if(injured.Owner is IActor a)
-                if (a.Has<Giant>(false))
+                if (a.Adjectives.Any(j=>j.Is("Giant")))
                     requiredStat *= 1.5;
 
             if (actor.GetFinalStats()[HealerStat.Value] > requiredStat)

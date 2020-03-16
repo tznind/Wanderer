@@ -23,6 +23,7 @@ namespace Wanderer.Factories
         public const string RoomsDirectory = "Rooms";
         public const string ItemsDirectory = "Items";
         public const string ActorsDirectory = "Actors";
+        public const string AdjectivesDirectory = "Adjectives";
 
         public string ResourcesDirectory { get; set; }
 
@@ -60,9 +61,9 @@ namespace Wanderer.Factories
 
             world.AdjectiveFactory = GetAdjectiveFactory();
             world.Dialogue = new DialogueSystem();
-            world.RoomFactory = new RoomFactory(world.AdjectiveFactory);
-            world.ActorFactory = new ActorFactory(world.AdjectiveFactory);
-            world.ItemFactory = new ItemFactory(world.AdjectiveFactory);
+            world.RoomFactory = new RoomFactory();
+            world.ActorFactory = new ActorFactory();
+            world.ItemFactory = new ItemFactory();
 
             //Get every yaml file under the resources dir
             foreach(var fi in Directory.GetFiles(ResourcesDirectory,"*.yaml",SearchOption.AllDirectories).Select(f=>new FileInfo(f)))
@@ -80,13 +81,16 @@ namespace Wanderer.Factories
                     faction = _factionDirs[factionDir];
 
                 if(IsRoomsFile(fi,dirs))
-                    world.RoomFactory.Blueprints.AddRange(AssignFaction(GetRoomBlueprints(fi),faction));
+                    world.RoomFactory.Blueprints.AddRange(AssignFaction(GetBlueprints<RoomBlueprint>(fi),faction));
 
                 if(IsItemsFile(fi,dirs))
-                    world.ItemFactory.Blueprints.AddRange(AssignFaction(GetItemBlueprints(fi),faction));
+                    world.ItemFactory.Blueprints.AddRange(AssignFaction(GetBlueprints<ItemBlueprint>(fi),faction));
 
                 if(IsActorsFile(fi,dirs))
-                    world.ActorFactory.Blueprints.AddRange(AssignFaction(GetActorBlueprints(fi),faction));
+                    world.ActorFactory.Blueprints.AddRange(AssignFaction(GetBlueprints<ActorBlueprint>(fi),faction));
+
+                if(IsAdjectivesFile(fi,dirs))
+                    world.AdjectiveFactory.Blueprints.AddRange(AssignFaction(GetBlueprints<AdjectiveBlueprint>(fi),faction));
 
                 if(IsDialogueFile(fi,dirs))
                     world.Dialogue.AllDialogues.AddRange(GetDialogue(fi));
@@ -120,6 +124,10 @@ namespace Wanderer.Factories
         private bool IsActorsFile(FileInfo fi,string[] path)
         {
             return Is(fi,path,ActorsDirectory);
+        }
+        private bool IsAdjectivesFile(FileInfo fi,string[] path)
+        {
+            return Is(fi,path,AdjectivesDirectory);
         }
         private bool IsItemsFile(FileInfo fi,string[] path)
         {
@@ -311,42 +319,18 @@ namespace Wanderer.Factories
                         world.Relationships.Add(new InterFactionRelationship(f,establishment,2));
             }
         }
-        protected virtual IEnumerable<RoomBlueprint> GetRoomBlueprints(FileInfo fi)
+
+        protected virtual IEnumerable<T> GetBlueprints<T>(FileInfo fi) where T:HasStatsBlueprint
         {
             try
             {
-                return Compiler.Instance.Deserializer.Deserialize<RoomBlueprint[]>(File.ReadAllText(fi.FullName));
+                return Compiler.Instance.Deserializer.Deserialize<List<T>>(File.ReadAllText(fi.FullName));
             }
             catch(Exception e)
             {
-                throw new Exception($"Error loading Rooms in file {fi.FullName}",e);
+                throw new Exception($"Error loading {typeof(T).Name} in file {fi.FullName}",e);
             }
         }
-
-        protected virtual IEnumerable<ItemBlueprint> GetItemBlueprints(FileInfo fi)
-        {
-            try
-            {
-                return Compiler.Instance.Deserializer.Deserialize<List<ItemBlueprint>>(File.ReadAllText(fi.FullName));
-            }
-            catch(Exception e)
-            {
-                throw new Exception($"Error loading ItemBlueprints in file {fi.FullName}",e);
-            }
-        }
-
-        protected virtual IEnumerable<ActorBlueprint> GetActorBlueprints(FileInfo fi)
-        {
-            try
-            {
-                return Compiler.Instance.Deserializer.Deserialize<List<ActorBlueprint>>(File.ReadAllText(fi.FullName));
-            }
-            catch(Exception e)
-            {
-                throw new Exception($"Error loading ActorBlueprint in file {fi.FullName}",e);
-            }
-        }
-
         protected virtual IEnumerable<DialogueNode> GetDialogue(FileInfo fi)
         {
                 try

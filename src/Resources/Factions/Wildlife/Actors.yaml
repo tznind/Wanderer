@@ -7,10 +7,10 @@
     Banter: 
       - 339271e0-7b11-4aba-a9e2-2776f6c5a197
   OptionalAdjectives:
-    - Type: Giant
-    - Type: Rusty
-    - Type: Strong
-    - Type: Tough
+    - Giant
+    - Rusty
+    - Strong
+    - Tough
   Stats:
     Fight: 20
 - Name: Crab
@@ -22,6 +22,6 @@
     Banter: 
       - 339271e0-7b11-4aba-a9e2-2776f6c5a197
   OptionalAdjectives:
-    - Type: Strong
+    - Strong
   Stats:
     Fight: 15

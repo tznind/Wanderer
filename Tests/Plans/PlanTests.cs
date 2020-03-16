@@ -98,6 +98,10 @@ namespace Tests.Plans
             world.RunRound(GetUI(Direction.North),new LeaveAction());
             Assert.AreNotEqual(you.CurrentLocation,them.CurrentLocation);
 
+            //make sure they have the leave action so that they can
+            //follow you
+            them.BaseActions.Add(new LeaveAction());
+            
             //give them a plan to follow you!
             world.PlanningSystem.Plans.Add(new FollowPlan(world.Player));
 
