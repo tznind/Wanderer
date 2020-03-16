@@ -71,6 +71,7 @@ namespace Wanderer.Systems.Validation
         private void AddError(string msg)
         {
             Errors.AppendLine(msg);
+            ErrorCount++;
         }
 
 

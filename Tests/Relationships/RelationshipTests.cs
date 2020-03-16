@@ -38,6 +38,15 @@ namespace Tests.Relationships
         }
 
         [Test]
+        public void TestRelationshipToString()
+        {
+            var you = YouInARoom(out IWorld world);
+
+            var bob = new Npc("Bob", you.CurrentLocation);
+            var relationship = new PersonalRelationship(bob, you) {Attitude = 500};
+            Assert.AreEqual("Bob to Test Wanderer of 500",relationship.ToString());
+        }
+        [Test]
         public void Test_NpcDontFightFriends()
         {
             IWorld world = new World();

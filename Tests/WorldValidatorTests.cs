@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using Moq;
 using NUnit.Framework;
 using Wanderer;
@@ -39,6 +40,8 @@ namespace Tests
 
             w.Dialogue.AllDialogues.Clear();
             v.Validate(w);
+
+            Assert.GreaterOrEqual(v.ErrorCount,10);
             
             StringAssert.Contains("Could not find Dialogue",v.Errors.ToString());
         }
@@ -248,6 +251,37 @@ namespace Tests
             v.Validate(Mock.Of<IWorld>(),plan, Mock.Of<IActor>());
 
             StringAssert.Contains(@"Failed to validate DoFrame of Plan 'Do something nefarious'",v.Warnings.ToString());
+        }
+
+        
+        [Test]
+        public void TestWorldValidator_BadYaml()
+        {
+            var dir = new DirectoryInfo(Path.Combine(TestContext.CurrentContext.WorkDirectory, "BadYamlDir"));
+
+            if(dir.Exists)
+                dir.Delete(true);
+
+            dir.Create();
+
+            var f = new WorldFactory()
+            {
+                ResourcesDirectory = dir.FullName
+            };
+
+            File.WriteAllText(Path.Combine(dir.FullName,"Rooms.yaml"),"ffffff");
+            
+            var v = new WorldValidator();
+            v.Validate(f);
+            StringAssert.Contains("Error Creating World",v.Errors.ToString());
+            StringAssert.Contains("Error loading RoomBlueprint in file",v.Errors.ToString());
+            StringAssert.Contains("Rooms.yaml",v.Errors.ToString());
+            
+
+            Assert.IsEmpty(v.Warnings.ToString());
+            Assert.AreEqual(1,v.ErrorCount);
+            Assert.AreEqual(0,v.WarningCount);
+        
         }
     }
 }

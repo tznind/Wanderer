@@ -17,6 +17,22 @@ namespace Tests.Relationships
     class FactionTests : UnitTest
     {
         [Test]
+        public void TestFactionName()
+        {
+            var faction = new Faction("Cult", FactionRole.Opposition);
+
+            StringAssert.AreEqualIgnoringCase("Cult",faction.Name);
+            faction.Adjectives.Add(new Adjective(faction)
+            {
+                Name = "Dark",
+                IsPrefix = true
+            });
+
+            StringAssert.AreEqualIgnoringCase("Cult",faction.Name,"Even though the adjective has a prefix we should not be putting it at the front every time this faction is mentioned!");
+
+        }
+
+        [Test]
         public void BeingInFactionGrantsStats()
         {
             var you = YouInARoom(out IWorld _);
