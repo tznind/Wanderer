@@ -62,6 +62,8 @@ namespace Tests.Relationships
         [TestCase(1)]
         [TestCase(2)]
         [TestCase(3)]
+        [TestCase(4)]
+        [TestCase(5)]
         public void TestRoomFactory_SpawnFactionAppropriateActors(int overload)
         {
             InARoom(out IWorld world);
@@ -98,6 +100,9 @@ namespace Tests.Relationships
             {
                 IRoom room = null;
                 
+                //only used by ActorFactory cases
+                var f = world.Factions.GetRandomFaction(world.R);
+                
                 switch (overload)
                 {
                     
@@ -107,6 +112,12 @@ namespace Tests.Relationships
                              break;
                     case 3 : room = world.RoomFactory.Create(world,location: new Point3(0,1,2));
                              break;
+                    case 4 : room = new Room("Somewhere",world,'d'){ControllingFaction = f};
+                            world.ActorFactory.Create(world,room,f,world.RoomFactory.Blueprints.Single());
+                            break;
+                    case 5 : room = new Room("Somewhere",world,'d'){ControllingFaction = f};
+                            world.ActorFactory.Create(world,room,f,world.ActorFactory.Blueprints.Single(b=>b.SuitsFaction(f)),world.RoomFactory.Blueprints.Single());
+                            break;
                 }
 
                 Assert.IsNotNull(room.ControllingFaction);

@@ -49,6 +49,10 @@ namespace Wanderer.Systems.Validation
 
         public void Validate(IWorld world)
         {
+
+            _log.Info("-----------------------------");
+            _log.Info("Validating World");
+            _log.Info("-----------------------------");
             Validate(world,world.RoomFactory, "World RoomFactory");
         }
 

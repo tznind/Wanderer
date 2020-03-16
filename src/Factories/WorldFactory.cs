@@ -72,7 +72,9 @@ namespace Wanderer.Factories
             //Get every yaml file under the resources dir
             foreach(var fi in Directory.GetFiles(ResourcesDirectory,"*.yaml",SearchOption.AllDirectories).Select(f=>new FileInfo(f)))
             {
-                _log.Info($"Loading {fi.FullName.Substring(ResourcesDirectory.Length)}");
+                var dir = new DirectoryInfo(ResourcesDirectory);
+
+                _log.Info($"Loading ./{fi.FullName.Substring(dir.FullName.Length)}");
 
                 //is a faction dir
                 var dirs = fi.Directory.FullName.Split(Path.DirectorySeparatorChar);
@@ -100,6 +102,11 @@ namespace Wanderer.Factories
                     world.Dialogue.AllDialogues.AddRange(GetDialogue(fi));
             }
             
+            LogBlueprints(world.RoomFactory.Blueprints);
+            LogBlueprints(world.ActorFactory.Blueprints);
+            LogBlueprints(world.ItemFactory.Blueprints);
+            LogBlueprints(world.AdjectiveFactory.Blueprints);
+
             var zero = new Point3(0, 0, 0);
             var startingRoom = world.RoomFactory.Create(world,zero);
             startingRoom.IsExplored = true;
@@ -107,6 +114,16 @@ namespace Wanderer.Factories
             world.Population.Add(GetPlayer(startingRoom));
             
             return world;
+        }
+
+        private void LogBlueprints<T>(List<T> blueprints) where T: HasStatsBlueprint
+        {
+            _log.Info("-----------------------------");
+            _log.Info($"Found {blueprints.Count()} {typeof(T).Name}");
+            _log.Info("-----------------------------");
+
+            foreach(var blue in blueprints)
+                _log.Info($"{blue} {(blue.Faction != null ? "(" + blue.Faction +")" : "")}");
         }
 
         private IEnumerable<T> AssignFaction<T>(IEnumerable<T> blueprints, IFaction f) where T: HasStatsBlueprint
