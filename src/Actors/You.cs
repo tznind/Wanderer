@@ -39,8 +39,6 @@ namespace Wanderer.Actors
 
             //player can coerce Npc
             BaseActions.Add(new CoerceAction(this));
-            //player can inspect Npc
-            BaseActions.Add(new InspectAction(this));
 
             //for now lets not confuse the player by having Npc countermand their orders
             BaseActions.Add(new LeadershipAction(this));

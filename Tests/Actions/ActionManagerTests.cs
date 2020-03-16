@@ -28,8 +28,8 @@ namespace Tests.Actions
             you.Items.Add(hook);
             you.Items.Add(wood);
             
-            Assert.AreEqual("Fight",manager.GetTypes(you,false).Single().Name);
-            Assert.AreEqual(2,manager.GetInstances(you,manager.GetTypes(you,false).Single(),false).Count);
+            Assert.Contains("Fight",manager.GetTypes(you,false).Select(a=>a.Name).ToArray());
+            Assert.AreEqual(2,manager.GetInstances(you,manager.GetTypes(you,false).Where(t=>t.Name == "Fight").Single(),false).Count);
         }
 
         [Test]
@@ -53,14 +53,13 @@ namespace Tests.Actions
             you.Items.Add(hook);
             you.Items.Add(wood);
 
-            Assert.IsEmpty(manager.GetTypes(you,true));
-            Assert.IsEmpty(manager.GetInstances(you,manager.GetTypes(you,true).SingleOrDefault(),true));
+            Assert.IsEmpty(manager.GetTypes(you,true).Where(a=>a.Name.Equals("Fight")));
 
             //now that there is someone in your room you can fight
             var dummy = new Npc("TargetDummy", you.CurrentLocation);
 
-            Assert.IsNotEmpty(manager.GetTypes(you,true));
-            Assert.IsNotEmpty(manager.GetInstances(you,manager.GetTypes(you,true).SingleOrDefault(),true));
+            Assert.Contains("Fight",manager.GetTypes(you,true).Select(a=>a.Name).ToArray());
+            Assert.AreEqual(2,manager.GetInstances(you,manager.GetTypes(you,true).Where(t=>t.Name == "Fight").Single(),false).Count);
         }
     }
 }
