@@ -52,6 +52,11 @@ namespace Wanderer.Actions
             return (IAction) Activator.CreateInstance(GetType());
         }
 
+        public virtual ActionDescription ToActionDescription()
+        {
+            return new ActionDescription(){HotKey = HotKey, Name = Name};
+        }
+
         public bool AreIdentical(IAction other)
         {
             if (other == null)
@@ -85,25 +90,6 @@ namespace Wanderer.Actions
         {
             return Enum.GetValues(typeof(T)).Cast<T>()
                 .Where(t => !string.Equals(t.ToString(), "None", StringComparison.CurrentCultureIgnoreCase)).ToArray();
-        }
-
-
-        protected bool Equals(Action other)
-        {
-            return other.GetType() == GetType();
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
-            return Equals((Action) obj);
-        }
-
-        public override int GetHashCode()
-        {
-            return GetType().GetHashCode();
         }
     }
 }

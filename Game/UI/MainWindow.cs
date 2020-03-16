@@ -31,7 +31,7 @@ namespace Game.UI
         private HasStatsView _detail;
         private MapView _mapView;
         private RoomContentsRenderer _roomContentsRenderer = new RoomContentsRenderer();
-
+        ActionManager _actionManager = new ActionManager();
         public bool ShowMap => World?.Map != null && _detail == null;
         
         public MainWindow(WorldFactory worldFactory):base("Game")
@@ -257,7 +257,7 @@ namespace Game.UI
             {
                 T v1 = value;
 
-                string name = value is IAction a ? GetActionButtonName(a) : value.ToString();
+                string name = value is IAction a ? GetActionButtonName(a.ToActionDescription()) : value.ToString();
 
                 var btn = new Button(0, line++, name)
                 {
@@ -355,10 +355,6 @@ namespace Game.UI
 
         };
 
-        
-
-        
-        
         public void UpdateActions()
         {
             Title = $"Map ({World.Player.CurrentLocation.GetPoint()})";
@@ -370,13 +366,10 @@ namespace Game.UI
 
             int buttonLoc = 0;
 
-            var allActions = World.Player.GetFinalActions().Where(a=>a.HasTargets(World.Player));
-
             //don't run out of UI spaces! (maybe we can page this later on if we get too many unique actions to render)
-            foreach (var action in allActions.Take(_buttonLocations.Count))
+            foreach (var actionDescription in _actionManager.GetTypes(World.Player,true).Take(_buttonLocations.Count))
             {
-
-                var name = GetActionButtonName(action);
+                var name = GetActionButtonName(actionDescription);
 
                 var btn = new Button( name, false)
                 {
@@ -388,7 +381,7 @@ namespace Game.UI
                     {
                         try
                         {
-                            World.RunRound(this, action);
+                            RunRound(actionDescription);
                             this.Refresh();
                         }
                         catch (Exception e)
@@ -404,7 +397,21 @@ namespace Game.UI
             }
         }
 
-        private string GetActionButtonName(IAction action)
+        private void RunRound(ActionDescription actionDescription)
+        {
+            var instances = _actionManager.GetInstances(World.Player, actionDescription, true);
+
+            if(instances.Count == 1)
+                World.RunRound(this, instances.Single());
+            else
+            if(instances.Count == 0)
+                ShowMessage("No targets","No valid targets");
+            else
+            if (GetChoice("Action", null, out IAction chosen, instances.ToArray())) 
+                World.RunRound(this, chosen);
+        }
+
+        private string GetActionButtonName(ActionDescription action)
         {
             //indicate hotkey by using underscore
             var idx = action.Name.ToLower().IndexOf(char.ToLower(action.HotKey));

@@ -228,7 +228,7 @@ namespace Tests.Systems
             you.Items.Add(kit2);
 
             //now you can heal stuff
-            Assert.AreEqual(1,you.GetFinalActions().OfType<HealAction>().Count());
+            Assert.AreEqual(2,you.GetFinalActions().OfType<HealAction>().Count());
             //you have 2 kits
             Assert.AreEqual(2,you.Items.Count(i=>i.Name.Equals("Kit")));
             
@@ -239,7 +239,7 @@ namespace Tests.Systems
             var stack = new ActionStack();
 
             Assert.Contains(injury, you.Adjectives.ToArray());
-            stack.RunStack(world,new FixedChoiceUI(you, injury), you.GetFinalActions().OfType<HealAction>().Single(), you, you.GetFinalBehaviours());
+            stack.RunStack(world,new FixedChoiceUI(you, injury), you.GetFinalActions().OfType<HealAction>().First(), you, you.GetFinalBehaviours());
             
             //injury is gone
             Assert.IsFalse(you.Adjectives.Contains(injury));

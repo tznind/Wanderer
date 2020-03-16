@@ -42,5 +42,13 @@ namespace Wanderer.Actions
         /// </summary>
         /// <returns></returns>
         IAction Clone();
+
+        /// <summary>
+        /// Returns the shared user understandable common description of all instances
+        /// of this action.  E.g. each FightAction is separate but they share the same
+        /// description.
+        /// </summary>
+        /// <returns></returns>
+        ActionDescription ToActionDescription();
     }
 }
