@@ -15,6 +15,8 @@ namespace Wanderer.Dialogues
 
         public List<IEffect> Effect = new List<IEffect>();
 
+        public List<ICondition<SystemArgs>> Condition { get; set; } = new List<ICondition<SystemArgs>>();
+
         /// <summary>
         /// Set to true to allow user to select this option only once
         /// </summary>

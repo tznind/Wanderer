@@ -52,7 +52,7 @@ namespace Tests
             var d = new DialogueNode()
             {
                 Identifier = new Guid("1cf15faf-837b-4629-84c5-bdfa7631a905"),
-                Require = {new ConditionCode<SystemArgs>("Tr oll oll = 1")}
+                Condition = {new ConditionCode<SystemArgs>("Tr oll oll = 1")}
             };
             w.Dialogue.AllDialogues.Add(d);
 
