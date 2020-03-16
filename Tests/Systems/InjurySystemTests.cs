@@ -38,7 +38,7 @@ namespace Tests.Systems
             for (int i = 0; i < 11; i++)
             {
                 var stack = new ActionStack();
-                stack.RunStack(world,GetUI(typeof(object)), new LoadGunsAction(), a, a.GetFinalBehaviours());
+                stack.RunStack(world,GetUI(typeof(object)), new LoadGunsAction(you), a, a.GetFinalBehaviours());
 
                 //after 9 round you should still be injured                
                 if(i <10)
@@ -71,7 +71,7 @@ namespace Tests.Systems
             for (int i = 0; i < 10; i++)
             {
                 var stack = new ActionStack();
-                stack.RunStack(world,GetUI(typeof(object)), new LoadGunsAction(), you, you.GetFinalBehaviours());
+                stack.RunStack(world,GetUI(typeof(object)), new LoadGunsAction(you), you, you.GetFinalBehaviours());
 
                 //after 2 rounds (0 and 1) you should still be injured                
                 if(i == 0 )
@@ -116,7 +116,9 @@ namespace Tests.Systems
             Assert.IsFalse(you.GetFinalActions().OfType<HealAction>().Any());
             
             //you are a medic
-            you.Adjectives.Add(new Adjective(you){Name = "Medic",BaseActions = {new HealAction()}});
+            var medic = new Adjective(you) {Name = "Medic"};
+            medic.BaseActions.Add(new HealAction(you));
+            you.Adjectives.Add(medic);
             
             //now you can heal stuff
             Assert.IsTrue(you.GetFinalActions().OfType<HealAction>().Any());
@@ -139,7 +141,10 @@ namespace Tests.Systems
             var you = YouInARoom(out IWorld world);
 
             //you are a medic
-            you.Adjectives.Add(new Adjective(Mock.Of<IActor>()){Name = "Medic",BaseActions = {new HealAction()}});
+            var medic = new Adjective(Mock.Of<IActor>()) {Name = "Medic"};
+            medic.BaseActions.Add(new HealAction(you));
+            you.Adjectives.Add(medic);
+
             you.BaseStats[Stat.Savvy] = 20;
 
             //give them an injury
@@ -177,7 +182,10 @@ namespace Tests.Systems
             var you = YouInARoom(out IWorld world);
 
             //you are a medic
-            you.Adjectives.Add(new Adjective(you){Name = "Medic",BaseActions = {new HealAction()}});
+            var medic = new Adjective(you) {Name = "Medic"};
+            medic.BaseActions.Add(new HealAction(medic));
+            you.Adjectives.Add(medic);
+
             you.BaseStats[Stat.Savvy] = 50;
             you.With(world.AdjectiveFactory, "Giant");
             
@@ -308,7 +316,8 @@ namespace Tests.Systems
         [Test]
         public void TestTooManyInjuries_IsFatal()
         {
-            var you = YouInARoom(out IWorld w).With(new LoadGunsAction());
+            var you = YouInARoom(out IWorld w);
+            you.With(new LoadGunsAction(you));
 
             //give them an injury
             var injury = new Injured("Cut Lip", you, 20, InjuryRegion.Leg,w.InjurySystems.First(i=>i.IsDefault));

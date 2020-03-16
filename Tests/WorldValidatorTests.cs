@@ -20,7 +20,7 @@ namespace Tests
         public void TestWorldValidator_Success()
         {
             var v = new WorldValidator();
-
+            v.IncludeStackTraces = true;
             v.Validate(new WorldFactory());
 
             Assert.IsEmpty(v.Errors.ToString());

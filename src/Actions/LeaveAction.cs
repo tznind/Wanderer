@@ -8,7 +8,14 @@ namespace Wanderer.Actions
 {
     public class LeaveAction : Action
     {
+        
+        public LeaveAction(IHasStats owner) : base(owner)
+        {
+        }
 
+        private LeaveAction() : base(null)
+        {
+        }
         public override char HotKey => 'l';
         
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
@@ -57,5 +64,6 @@ namespace Wanderer.Actions
         {
             return GetTargets(performer).Any();
         }
+
     }
 }

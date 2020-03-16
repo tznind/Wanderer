@@ -48,7 +48,7 @@ namespace Tests
             them = new Npc("Chaos Sam", you.CurrentLocation);
 
             //don't wonder off Chaos Sam
-            them.BaseActions.Remove(new LeaveAction());
+            them.BaseActions.Remove(new LeaveAction(you));
         }
         /// <summary>
         /// Creates a relationship of strength <paramref name="intensity"/> which is how strongly

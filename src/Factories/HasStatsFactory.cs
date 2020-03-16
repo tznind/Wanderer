@@ -58,9 +58,9 @@ namespace Wanderer.Factories
                 if (onto.Dialogue.Verb == null)
                     onto.Dialogue.Verb = defaultDialogueVerb;
 
-                //if you couldn't 'talk' to it before you can now
+                //you can talk to it
                 if(!onto.BaseActions.OfType<DialogueAction>().Any())
-                    onto.BaseActions.Add(new DialogueAction());
+                    onto.BaseActions.Add(new DialogueAction(onto));
             }
         }
         

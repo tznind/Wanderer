@@ -59,18 +59,14 @@ namespace Wanderer.Actors
             CurrentLocation.World.Population.Add(this);
             
             //basic actions everyone can do (by default)
-            BaseActions.Add(new LeaveAction());
+            BaseActions.Add(new LeaveAction(this));
 
             //if there are ways to be injured then there are ways to fight
             if(currentLocation.World.InjurySystems.Any())
-                BaseActions.Add(new FightAction());
-
-            BaseActions.Add(new PickUpAction());
-            BaseActions.Add(new DropAction());
-            BaseActions.Add(new GiveAction());
-            BaseActions.Add(new DialogueAction());
-            BaseActions.Add(new EquipmentAction());
-
+                BaseActions.Add(new FightAction(this));
+            
+            BaseActions.Add(new EquipmentAction(this));
+            BaseActions.Add(new PickUpAction(this));
             BaseBehaviours.Add(new MergeStacksBehaviour(this));
 
             //TODO: this is a reference to the hunger system which means this behaviour should go into yaml too

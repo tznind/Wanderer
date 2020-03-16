@@ -20,7 +20,7 @@ namespace Tests.Actions
         {
             var you = YouInARoom(out IWorld w);
 
-            var f = new FightAction();
+            var f = new FightAction(you);
 
             Assert.IsFalse(f.HasTargets(you));
 
@@ -48,12 +48,12 @@ namespace Tests.Actions
 
                 //and all they can do is fight!
                 enemy.BaseActions.Clear();
-                enemy.BaseActions.Add(new FightAction());
+                enemy.BaseActions.Add(new FightAction(you));
             }
 
             var ui = GetUI();
             
-            w.RunRound(ui,new LoadGunsAction());
+            w.RunRound(ui,new LoadGunsAction(you));
 
             Assert.IsTrue(ui.MessagesShown.Any(m=>m.Contains("a fought Test Wanderer")));
             Assert.IsTrue(ui.MessagesShown.Any(m=>m.Contains("b fought Test Wanderer")));
@@ -62,7 +62,7 @@ namespace Tests.Actions
 
             a.Kill(ui,Guid.Empty,"Meteor");
             b.Kill(ui,Guid.Empty,"Meteor");
-            w.RunRound(GetUI(),new LoadGunsAction());
+            w.RunRound(GetUI(),new LoadGunsAction(you));
             
             //should have worn off
             Assert.IsEmpty(you.Adjectives.Where(a=>a.Name.Equals("Tired")).ToArray());

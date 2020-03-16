@@ -28,7 +28,13 @@ namespace Wanderer.Items
 
 
         public List<ICondition<IHasStats>> Require { get; set; } = new List<ICondition<IHasStats>>();
-
+        
+        public Item(string name)
+        {
+            Name = name;
+            BaseActions.Add(new GiveAction(this));
+            BaseActions.Add(new DropAction(this));
+        }
 
         public void Drop(IUserinterface ui, IActor owner, Guid round)
         {
@@ -39,7 +45,7 @@ namespace Wanderer.Items
             
             //hes not wearing it anymore
             IsEquipped = false;
-
+            
             //log it
             ui.Log.Info(new LogEntry($"{owner} dropped {this}", round,owner));
         }
@@ -64,11 +70,6 @@ namespace Wanderer.Items
             return true;
         }
 
-
-        public Item(string name)
-        {
-            Name = name;
-        }
 
         public bool RequirementsMet(IActor forActor)
         {

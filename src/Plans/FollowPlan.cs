@@ -45,7 +45,7 @@ namespace Wanderer.Plans
             if (toMove == Direction.None)
                 return null;
 
-            return new LeaveFrame((IActor) args.Recipient, new LeaveAction(),toMove,0);
+            return new LeaveFrame((IActor) args.Recipient, new LeaveAction(args.Recipient),toMove,0);
         }
 
 

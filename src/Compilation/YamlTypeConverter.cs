@@ -50,7 +50,7 @@ namespace Wanderer.Compilation
             if(found == null)
                 throw new ParseException($"Could not find Type '{scalar}' (either it does not exist or it is not a {typeof(T).Name})");
             
-            return Activator.CreateInstance(found);
+            return Activator.CreateInstance(found,true);
         }
 
         public void WriteYaml(IEmitter emitter, object value, Type type)

@@ -55,7 +55,7 @@ namespace Tests.Systems
 
             var ui = GetUI("talk:Chaos Sam",pickFriendly ? o1 : o2);
 
-            w.RunRound(ui,new DialogueAction());
+            w.RunRound(ui,new DialogueAction(you));
 
             var r = w.Relationships.OfType<PersonalRelationship>().Single(r => r.AppliesTo(them, you));
 
@@ -100,7 +100,7 @@ namespace Tests.Systems
             w.Dialogue.AllDialogues.Add(foe);
             
             var ui = GetUI("talk:Chaos Sam");
-            w.RunRound(ui,new DialogueAction());
+            w.RunRound(ui,new DialogueAction(you));
 
             Assert.Contains(areFriends ? "Hello Friend" : "Hello Foe",ui.MessagesShown);
 

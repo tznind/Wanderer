@@ -62,8 +62,8 @@ namespace Tests.Items
             room.Items.Add(money2);
 
             //pick both up
-            world.RunRound(new FixedChoiceUI((IItem)money),you.GetFinalActions().OfType<PickUpAction>().Single());
-            world.RunRound(new FixedChoiceUI((IItem)money2),you.GetFinalActions().OfType<PickUpAction>().Single());
+            world.RunRound(new FixedChoiceUI((IItem)money),you.GetFinalActions().OfType<PickUpAction>().First());
+            world.RunRound(new FixedChoiceUI((IItem)money2),you.GetFinalActions().OfType<PickUpAction>().First());
 
             // you only have 1 item which has all the Money
             Assert.AreSame(money,you.Items.Single());

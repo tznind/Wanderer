@@ -10,13 +10,16 @@ namespace Wanderer.Actions
     {
         [JsonIgnore]
         public abstract char HotKey {get;}
+        
+        public IHasStats Owner { get; set; }
 
         /// <summary>
-        /// Initializes action with a default <see cref="Name"/> based on the class name
+        /// Initializes action with a default <see cref="HasStats.Name"/> based on the class name
         /// </summary>
-        protected Action()
+        protected Action(IHasStats owner)
         {
             Name = GetType().Name.Replace("Action", "");
+            Owner = owner;
         }
 
         /// <summary>
@@ -49,7 +52,8 @@ namespace Wanderer.Actions
 
         public virtual IAction Clone()
         {
-            return (IAction) Activator.CreateInstance(GetType());
+            //TODO preserve Owner
+            return (IAction) Activator.CreateInstance(GetType(),true);
         }
 
         public virtual ActionDescription ToActionDescription()

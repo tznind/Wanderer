@@ -14,7 +14,8 @@ namespace Wanderer.Actions
         {
             return aggressor.GetFinalActions(aggressor)
                 .Where(a=>!mustHaveTargets || a.HasTargets(aggressor))
-                .Select(a=>a.ToActionDescription()).Distinct().ToList();
+                .Select(a=>a.ToActionDescription())
+                .Distinct().ToList();
         }
         public List<IAction> GetInstances(IActor aggressor,ActionDescription type, bool mustHaveTargets)
         {

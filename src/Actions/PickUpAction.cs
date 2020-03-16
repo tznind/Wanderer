@@ -6,6 +6,14 @@ namespace Wanderer.Actions
 {
     public class PickUpAction : Action
     {
+        private PickUpAction():base(null)
+        {
+            
+        }
+        public PickUpAction(IHasStats owner) : base(owner)
+        {
+        }
+
         public override char HotKey => 'p';
 
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)

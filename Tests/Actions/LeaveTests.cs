@@ -23,18 +23,18 @@ namespace Tests.Actions
         {
             var you =YouInARoom(out _);
 
-            Assert.IsTrue(new LeaveAction().HasTargets(you));
+            Assert.IsTrue(new LeaveAction(you).HasTargets(you));
 
             you.CurrentLocation.LeaveDirections.Clear();
 
-            Assert.IsFalse(new LeaveAction().HasTargets(you));
+            Assert.IsFalse(new LeaveAction(you).HasTargets(you));
 
         }
 
         [Test]
         public void LeaveAndComeBack()
         {
-            YouInARoom(out IWorld world);
+            var you = YouInARoom(out IWorld world);
             world.RoomFactory = new RoomFactory();
             world.RoomFactory.Blueprints.Add(new RoomBlueprint(){
                 Name = "North Room",
@@ -44,7 +44,7 @@ namespace Tests.Actions
             
             Assert.AreEqual(new Point3(0,0,0),world.Map.GetPoint(world.Player.CurrentLocation));
             
-            var leave = new LeaveAction();
+            var leave = new LeaveAction(you);
 
             var room1 = world.Player.CurrentLocation;
             Assert.IsNotNull(room1);
@@ -77,7 +77,7 @@ namespace Tests.Actions
             world.RoomFactory.Blueprints.Add(new RoomBlueprint(){Name = "EastRoom", Tile = '-',
                 FixedLocation = new Point3(1,0,0)});
 
-            var leave = new LeaveAction();
+            var leave = new LeaveAction(world.Player);
 
             var room1 = world.Player.CurrentLocation;
             Assert.IsNotNull(room1);
@@ -109,7 +109,7 @@ namespace Tests.Actions
         [Test]
         public void WalkUpThenDownAgain()
         {
-            YouInARoom(out IWorld world);
+            var you = YouInARoom(out IWorld world);
             world.RoomFactory = new RoomFactory();
 
             world.RoomFactory.Blueprints.Add(new RoomBlueprint(){Name = "Start", Tile = '-',
@@ -122,7 +122,7 @@ namespace Tests.Actions
                 FixedLocation = new Point3(0,0,1)
             });
                         
-            var leave = new LeaveAction();
+            var leave = new LeaveAction(you);
             
             var stack = new ActionStack();
             world.Map[new Point3(0, 0, 0)] = world.GetNewRoom(new Point3(0, 0, 0));
@@ -152,7 +152,7 @@ namespace Tests.Actions
             var guard = new Npc("Guard",room);
             guard.BaseBehaviours.Add(new ForbidBehaviour<LeaveAction>(new ConditionCode<Frame>("return true"),guard));
             
-            var leave = new LeaveAction();
+            var leave = new LeaveAction(world.Player);
 
             var stack = new ActionStack();
 
@@ -190,15 +190,15 @@ namespace Tests.Actions
 
             //go north
             var stack = new ActionStack();
-            stack.RunStack(world,GetUI(Direction.North),new LeaveAction(), world.Player,new IBehaviour[0]);
+            stack.RunStack(world,GetUI(Direction.North),new LeaveAction(world.Player), world.Player,new IBehaviour[0]);
             Assert.AreEqual("Empty Room",world.Player.CurrentLocation.Name);
 
             //go west 
-            stack.RunStack(world,GetUI(Direction.West),new LeaveAction(), world.Player,new IBehaviour[0]);
+            stack.RunStack(world,GetUI(Direction.West),new LeaveAction(world.Player), world.Player,new IBehaviour[0]);
             Assert.AreEqual("Empty Room",world.Player.CurrentLocation.Name);
 
             //go south 
-            stack.RunStack(world,GetUI(Direction.South),new LeaveAction(), world.Player,new IBehaviour[0]);
+            stack.RunStack(world,GetUI(Direction.South),new LeaveAction(world.Player), world.Player,new IBehaviour[0]);
             Assert.AreEqual("West",world.Player.CurrentLocation.Name);
         }
 

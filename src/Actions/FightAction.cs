@@ -11,7 +11,14 @@ namespace Wanderer.Actions
 {
     public class FightAction : Action
     {
-
+        private FightAction() :base(null)
+        {
+            
+        }
+        public FightAction(IHasStats owner):base(owner)
+        {
+            
+        }
         public override char HotKey => 'f';
         
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack,IActor actor)

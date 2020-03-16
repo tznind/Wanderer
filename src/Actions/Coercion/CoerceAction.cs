@@ -5,7 +5,13 @@ namespace Wanderer.Actions.Coercion
 {
     public class CoerceAction : Action
     {
-
+        
+        private CoerceAction() : base(null)
+        {
+        }
+        public CoerceAction(IHasStats owner) : base(owner)
+        {
+        }
         public override char HotKey => 'c';
         
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
@@ -38,5 +44,6 @@ namespace Wanderer.Actions.Coercion
         {
             return performer.GetCurrentLocationSiblings(false).OfType<Npc>().ToArray();
         }
+
     }
 }

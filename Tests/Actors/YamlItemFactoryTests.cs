@@ -90,14 +90,14 @@ namespace Tests.Actors
             you.Items.Add(itemFactory.Create(w, itemFactory.Blueprints.Single()));
             var ui = GetUI("read:Encrypted Manual");
 
-            w.RunRound(ui,new DialogueAction());
+            w.RunRound(ui,new DialogueAction(you.Items.First()));
 
             Assert.Contains(@"Item requirements not met:return BaseStats[Stat.Savvy] > 50",ui.MessagesShown);
 
             you.BaseStats[Stat.Savvy] = 51;
 
             ui = GetUI("read:Encrypted Manual");
-            w.RunRound(ui,new DialogueAction());
+            w.RunRound(ui,new DialogueAction(you.Items.First()));
 
             Assert.Contains("The book is filled with magic secrets",ui.MessagesShown);
         }

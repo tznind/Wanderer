@@ -10,6 +10,14 @@ namespace Wanderer.Actions
 {
     public class DropAction : Action
     {
+        private DropAction():base(null)
+        {
+
+        }
+
+        public DropAction(IHasStats owner) : base(owner)
+        {
+        }
 
         public override char HotKey => 'd';
 
@@ -42,5 +50,6 @@ namespace Wanderer.Actions
             //value of item is total value of the item to the recipient
             return toDrop.GetFinalStats(dropper)[Stat.Value];
         }
+
     }
 }

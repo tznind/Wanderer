@@ -2,12 +2,22 @@ using System;
 using System.Linq;
 using Wanderer.Actors;
 using Wanderer.Adjectives;
+using Wanderer.Items;
 using Wanderer.Systems;
 
 namespace Wanderer.Actions
 {
     public class EatAction : Action
     {
+        
+        private EatAction():base(null)
+        {
+        }
+
+        public EatAction(IHasStats owner):base(owner)
+        {
+            Owner = owner;
+        }
 
         public override char HotKey => 'e';
 
@@ -32,6 +42,11 @@ namespace Wanderer.Actions
         public override bool HasTargets(IActor performer)
         {
             return true;
+        }
+
+        public override string ToString()
+        {
+            return $"{Name} [{Owner}]";
         }
     }
 }

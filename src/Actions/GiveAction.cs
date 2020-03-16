@@ -7,7 +7,14 @@ namespace Wanderer.Actions
 {
     public class GiveAction : Action
     {
-
+        private GiveAction():base(null)
+        {
+            
+        }
+        public GiveAction(IHasStats owner):base(owner)
+        {
+            
+        }
         public override char HotKey => 'g';
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
         {

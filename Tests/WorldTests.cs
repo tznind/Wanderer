@@ -79,9 +79,9 @@ namespace Tests
             var behaviour = omg.GetFinalBehaviours().OfType<ForbidBehaviour<LeaveAction>>().Single();
 
             //we don't forbid going north
-            Assert.IsFalse(behaviour.Condition.IsMet(world1,new LeaveFrame(omg,new LeaveAction(),Direction.North,0)));
+            Assert.IsFalse(behaviour.Condition.IsMet(world1,new LeaveFrame(omg,new LeaveAction(omg),Direction.North,0)));
             //we DO forbid going down
-            Assert.IsTrue(behaviour.Condition.IsMet(world1,new LeaveFrame(omg,new LeaveAction(),Direction.Down,0)));
+            Assert.IsTrue(behaviour.Condition.IsMet(world1,new LeaveFrame(omg,new LeaveAction(omg),Direction.Down,0)));
             
             var config = World.GetJsonSerializerSettings();
 
@@ -92,9 +92,9 @@ namespace Tests
             var behaviour2 = omg2.GetFinalBehaviours().OfType<ForbidBehaviour<LeaveAction>>().Single();
 
             //we don't forbid going north
-            Assert.IsFalse(behaviour2.Condition.IsMet(world1,new LeaveFrame(omg,new LeaveAction(),Direction.North,0)));
+            Assert.IsFalse(behaviour2.Condition.IsMet(world1,new LeaveFrame(omg,new LeaveAction(omg),Direction.North,0)));
             //we DO forbid going down
-            Assert.IsTrue(behaviour2.Condition.IsMet(world1,new LeaveFrame(omg,new LeaveAction(),Direction.Down,0)));
+            Assert.IsTrue(behaviour2.Condition.IsMet(world1,new LeaveFrame(omg,new LeaveAction(omg),Direction.Down,0)));
 
         }
     }
