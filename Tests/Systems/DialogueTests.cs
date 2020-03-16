@@ -118,7 +118,8 @@ namespace Tests.Systems
   Body: 
     - Text: ""Greetings {AggressorIfAny} I am {Recipient}""";
          
-            var dlg = new YamlDialogueSystem(yaml);
+            
+            var dlg = new DialogueSystem{AllDialogues = Compiler.Instance.Deserializer.Deserialize<List<DialogueNode>>(yaml)};
 
             var ui = GetUI();
             dlg.Apply(new SystemArgs(world,ui,0,you,npc,Guid.Empty));
@@ -137,7 +138,7 @@ namespace Tests.Systems
   Body: 
     - Text: ""I really hate {Recipient:WorstEnemy(false,-10)}""";
          
-            var dlg = new YamlDialogueSystem(yaml);
+            var dlg = new DialogueSystem{AllDialogues = Compiler.Instance.Deserializer.Deserialize<List<DialogueNode>>(yaml)};
 
             var ui = GetUI();
             dlg.Apply(new SystemArgs(world,ui,0,you,npc,Guid.Empty));
@@ -166,7 +167,7 @@ namespace Tests.Systems
       Condition: 
         - return Recipient:AttitudeTo(AggressorIfAny) == 0";
             
-            var dlg = new YamlDialogueSystem(yaml);
+            var dlg = new DialogueSystem{AllDialogues = Compiler.Instance.Deserializer.Deserialize<List<DialogueNode>>(yaml)};
 
             var ui = GetUI();
             dlg.Apply(new SystemArgs(world,ui,0,you,them,Guid.Empty));
@@ -191,7 +192,7 @@ namespace Tests.Systems
       Condition: 
         - return Room:Has('Light')";
 
-            var system = new YamlDialogueSystem(yaml);
+            var system = new DialogueSystem{AllDialogues = Compiler.Instance.Deserializer.Deserialize<List<DialogueNode>>(yaml)};
             Assert.IsNotNull(system);
 
             var ui = GetUI();
@@ -227,7 +228,7 @@ namespace Tests.Systems
       Condition: 
         - return AggressorIfAny:GetFinalStats()[Stat.Corruption] > 5";
 
-            var system = new YamlDialogueSystem(yaml);
+            var system = new DialogueSystem{AllDialogues = Compiler.Instance.Deserializer.Deserialize<List<DialogueNode>>(yaml)};
             Assert.IsNotNull(system);
 
             var ui = GetUI();
@@ -258,7 +259,7 @@ namespace Tests.Systems
       SingleUse: true
     - Text: Sure give me 1";
 
-                var system = new YamlDialogueSystem(yaml);
+                var system = new DialogueSystem{AllDialogues = Compiler.Instance.Deserializer.Deserialize<List<DialogueNode>>(yaml)};
                 Assert.IsNotNull(system);
                 var ui = GetUI("Yes give me 500");
                 var you = YouInARoom(out IWorld world);
