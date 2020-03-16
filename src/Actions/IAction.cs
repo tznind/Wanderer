@@ -3,13 +3,8 @@ using Wanderer.Behaviours;
 
 namespace Wanderer.Actions
 {
-    public interface IAction : IAreIdentical<IAction>
+    public interface IAction : IHasStats,IAreIdentical<IAction>
     {
-        /// <summary>
-        /// The human readable name of the action which can be undertaken
-        /// </summary>
-        string Name { get; set; }
-
         /// <summary>
         /// The hotkey for the action, should be a letter in the Name
         /// </summary>

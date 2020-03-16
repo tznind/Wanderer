@@ -111,12 +111,17 @@ namespace Wanderer
 
         public virtual IEnumerable<IHasStats> GetAllHaves()
         {
-            return Adjectives;
+            return Adjectives.Cast<IHasStats>().Union(BaseActions);
         }
 
-        public IEnumerable<IHasStats> GetAllHaves(Guid guid)
+        public List<IHasStats> Get(Guid? guid)
         {
-            return GetAllHaves().Where(h => Equals(h.Identifier , guid));
+            return GetAllHaves().Where(h => h.Is(guid)).ToList();
+        }
+        
+        public List<IHasStats> Get(string name)
+        {
+            return GetAllHaves().Where(h => h.Is(name)).ToList();
         }
 
         public bool Has(Guid? g)
@@ -153,6 +158,5 @@ namespace Wanderer
         {
             return g.HasValue && Equals(Identifier, g);
         }
-
     }
 }

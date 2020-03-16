@@ -44,7 +44,7 @@ namespace Tests.Systems
             Assert.IsFalse(otherRoom.Has(system.Identifier));
 
             //make the injury worse (also triggers spreading)
-            system.Worsen((Injured) you.CurrentLocation.GetAllHaves(system.Identifier).Single(),GetUI(),Guid.Empty);
+            system.Worsen((Injured) you.CurrentLocation.Get(system.Identifier).Single(),GetUI(),Guid.Empty);
 
             //room should still have it
             Assert.AreEqual(true,you.CurrentLocation.Has(system.Identifier));
@@ -91,7 +91,7 @@ namespace Tests.Systems
             Assert.IsEmpty(you.CurrentLocation.Adjectives);
 
             //make the injury worse (also triggers spreading)
-            system.Worsen((Injured) you.GetAllHaves(system.Identifier).Single(),GetUI(),Guid.Empty);
+            system.Worsen((Injured) you.Get(system.Identifier).Single(),GetUI(),Guid.Empty);
 
             //you should still have it
             Assert.AreEqual(true,you.Has(system.Identifier));

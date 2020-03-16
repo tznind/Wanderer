@@ -6,13 +6,8 @@ using Wanderer.Behaviours;
 
 namespace Wanderer.Actions
 {
-
-    /// <inheritdoc/>
-    public abstract class Action : IAction
+    public abstract class Action : HasStats,IAction
     {
-        /// <inheritdoc/>
-        public string Name { get; set; }
-
         [JsonIgnore]
         public abstract char HotKey {get;}
 

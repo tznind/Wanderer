@@ -1,39 +1,39 @@
 - Name: Eat if hungry
   Condition:
-    - return Recipient:Has(Guid("89c18233-5250-4445-8799-faa9a888fb7f"))
-    - return Recipient:GetFinalActions():HasAction('Eat')
+    - return Recipient:Has('89c18233-5250-4445-8799-faa9a888fb7f')
+    - return Recipient:Has('EatAction')
 
   Do: |
         return
             Frame(
                Recipient,
-               Recipient:GetFinalActions():GetAction('Eat'),
+               FirstOrDefault(Recipient:Get('EatAction')),
                0)
 - Name: Pick stuff up
   Condition:
     - return Room.Items.Count > 0
-    - return Recipient:GetFinalActions():HasAction('PickUp')
-  Do: return PickUpFrame(Recipient,Recipient:GetFinalActions():GetAction('PickUp'),FirstOrDefault(Room.Items),Room,0)
+    - return Recipient:Has('PickUp')
+  Do: return PickUpFrame(Recipient,FirstOrDefault(Recipient:Get('PickUp')),FirstOrDefault(Room.Items),Room,0)
 - Name: Equip Stuff
   Condition:
     - return GetFirstEquippableItem(Recipient) ~= nil
-    - return Recipient:GetFinalActions():HasAction('Equipment')
+    - return Recipient:Has('EquipmentAction')
   Do: |
         return EquipmentFrame(
            Recipient,
-           Recipient:GetFinalActions():GetAction('Equipment'),
+           FirstOrDefault(Recipient:Get('EquipmentAction')),
            EquipmentActionToPerform.PutOn,
            GetFirstEquippableItem(Recipient)
         )
 - Name: Fight Enemies
   Condition: 
     - return Recipient:WorstEnemy(true,-20) ~= nil
-    - return Recipient:GetFinalActions():HasAction('Fight')
+    - return Recipient:Has('Fight')
   Do: |
         return FightFrame(
            Recipient,
            Recipient:WorstEnemy(true,-20),
-           Recipient:GetFinalActions():GetAction('Fight'),
+           FirstOrDefault(Recipient:Get('Fight')),
            World.InjurySystems[0],
            -20)
 

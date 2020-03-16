@@ -3,16 +3,38 @@ using System.Linq;
 using NUnit.Framework;
 using Wanderer;
 using Wanderer.Actions;
+using Wanderer.Actors;
 using Wanderer.Adjectives;
 using Wanderer.Behaviours;
 using Wanderer.Compilation;
 using Wanderer.Factories;
 using Wanderer.Factories.Blueprints;
+using Wanderer.Items;
 
 namespace Tests.BehaviourTests
 {
     public class GetsHungryBehaviourTests : UnitTest
     {
+        [TestCase(true)]
+        [TestCase(false)]
+        public void TestGetEatAction(bool longName)
+        {
+            string name = longName ? "EatAction" : "Eat";
+
+            var you = YouInARoom(out IWorld w);
+
+            Assert.IsFalse(you.Has(name));
+
+            you.Items.Add(new Item("Apple")
+            {
+                BaseActions = { new EatAction()}
+            });
+
+            Assert.IsTrue(you.Has(name));
+
+            Assert.IsInstanceOf<EatAction>(you.Get(name).Single());
+        }
+
         [Test]
         public void TestHunger_Appears()
         {
