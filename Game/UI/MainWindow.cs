@@ -382,7 +382,6 @@ namespace Game.UI
                         try
                         {
                             RunRound(actionDescription);
-                            this.Refresh();
                         }
                         catch (Exception e)
                         {
@@ -409,6 +408,9 @@ namespace Game.UI
             else
             if (GetChoice("Action", null, out IAction chosen, instances.ToArray())) 
                 World.RunRound(this, chosen);
+
+
+            this.Refresh();
         }
 
         private string GetActionButtonName(ActionDescription action)
@@ -473,7 +475,25 @@ namespace Game.UI
             if (keyEvent.Key == Key.Enter && _roomContents != null && _roomContents.HasFocus)
             {
                 if(_roomContents.SelectedItem < _roomContentsObjects.Count)
-                    ShowStats(_roomContentsObjects[_roomContents.SelectedItem]);
+                {
+                     var target = _roomContentsObjects[_roomContents.SelectedItem];
+
+                    var options = World.Player.GetFinalActions()
+                    .Where(a=> a.Owner == target ||
+                    ( a is FightAction f && f.GetTargets(World.Player).Contains(target as IActor))
+                    )
+                    .ToArray();
+
+                    if(options.Any() && GetChoice("Action",null,out IAction chosen,options))
+                    {
+                        if(chosen is FightAction f)
+                            f.PrimeWithTarget = target as IActor;
+
+                        World.RunRound(this, chosen);
+                        Refresh();
+                    }
+
+                }
             }
 
             if (keyEvent.Key == Key.Esc && _detail != null )

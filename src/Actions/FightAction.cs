@@ -21,15 +21,19 @@ namespace Wanderer.Actions
         }
         public override char HotKey => 'f';
         
+        public IActor PrimeWithTarget {get;set;}
+
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack,IActor actor)
         {
             const int fightAttitude = -20;
 
             var injurySystem = actor.CurrentLocation.World.InjurySystems.OrderByDescending(i=>i.IsDefault).FirstOrDefault();
 
+            IActor toFight = PrimeWithTarget;
+
             //does the world support injuries
             if(injurySystem != null)
-                if (actor.Decide(ui,"Fight", null, out IActor toFight, GetTargets(actor),fightAttitude)) 
+                if (toFight != null || actor.Decide(ui,"Fight", null, out toFight, GetTargets(actor),fightAttitude)) 
                     stack.Push(new FightFrame(actor, toFight, this,injurySystem,fightAttitude));
         }
 
@@ -72,7 +76,7 @@ namespace Wanderer.Actions
             return GetTargets(performer).Any();
         }
 
-        private IActor[] GetTargets(IActor performer)
+        public IActor[] GetTargets(IActor performer)
         {
             return performer.GetCurrentLocationSiblings(false);
         }

@@ -30,6 +30,9 @@ namespace Wanderer.Actors
         
         private ConsoleColor _explicitColor = DefaultColor;
 
+        public bool CanInitiateDialogue {get;set;}
+        public bool CanInspect {get;set;}
+
         public override ConsoleColor Color
         {
             //use the faction color unless we have an explicit room color set
@@ -97,6 +100,9 @@ namespace Wanderer.Actors
         {
             var toReturn = new List<IAction>();
 
+            if(!CanInitiateDialogue)
+                return toReturn;
+
             toReturn.Add(BuildDialogueTarget(forActor.CurrentLocation));
 
             toReturn.AddRange(forActor.GetCurrentLocationSiblings(false).Select(BuildDialogueTarget));
@@ -117,6 +123,10 @@ namespace Wanderer.Actors
         private IEnumerable<IAction> BuildInspectTargets(IActor forActor)
         {
             var toReturn = new List<IAction>();
+
+
+            if(!CanInspect)
+                return toReturn;
 
             toReturn.Add(new InspectAction(forActor));
             toReturn.Add(new InspectAction(forActor.CurrentLocation));
