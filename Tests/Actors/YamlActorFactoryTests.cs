@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using Wanderer;
 using Wanderer.Actors;
 using Wanderer.Adjectives;
+using Wanderer.Compilation;
 using Wanderer.Factories;
+using Wanderer.Factories.Blueprints;
 using Wanderer.Items;
 using Wanderer.Stats;
 
@@ -38,7 +41,7 @@ namespace Tests.Actors
     Fight: 40
 ";
          
-            var actorFactory = new YamlActorFactory(yaml, null);
+            var actorFactory = new ActorFactory{Blueprints = Compiler.Instance.Deserializer.Deserialize<List<ActorBlueprint>>(yaml)};
             Assert.GreaterOrEqual(actorFactory.Blueprints.Count , 2);
 
             var room = InARoom(out IWorld w);
@@ -73,7 +76,7 @@ namespace Tests.Actors
         Value: 10";
 
             var room = InARoom(out IWorld w);
-            var actorFactory = new YamlActorFactory(yaml, null);
+            var actorFactory = new ActorFactory{Blueprints = Compiler.Instance.Deserializer.Deserialize<List<ActorBlueprint>>(yaml)};
             var servitor = actorFactory.Create(w, room, null,actorFactory.Blueprints.Single(),null);
 
             Assert.AreEqual("Servitor",servitor.Name);

@@ -8,6 +8,8 @@ using Wanderer.Relationships;
 
 namespace Tests.Relationships
 {
+    [TestFixture]
+    [Parallelizable(ParallelScope.Fixtures)]
     public class FactionRelationshipTests : UnitTest
     {
         IRoom _room;

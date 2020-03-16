@@ -1,10 +1,13 @@
+using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using Wanderer;
 using Wanderer.Actions;
 using Wanderer.Adjectives;
 using Wanderer.Behaviours;
+using Wanderer.Compilation;
 using Wanderer.Factories;
+using Wanderer.Factories.Blueprints;
 
 namespace Tests.BehaviourTests
 {
@@ -68,7 +71,7 @@ namespace Tests.BehaviourTests
     - EatAction
 ";
             
-            var itemFactory = new YamlItemFactory(yaml);
+            var itemFactory = new ItemFactory{Blueprints = Compiler.Instance.Deserializer.Deserialize<List<ItemBlueprint>>(yaml)};
             you.Items.Add(itemFactory.Create(world, itemFactory.Blueprints[0]));
 
             Assert.AreEqual(1,you.Items.Count);

@@ -6,7 +6,9 @@ using NUnit.Framework;
 using Wanderer;
 using Wanderer.Actions;
 using Wanderer.Adjectives;
+using Wanderer.Compilation;
 using Wanderer.Factories;
+using Wanderer.Factories.Blueprints;
 using Wanderer.Items;
 using Wanderer.Stats;
 
@@ -117,7 +119,7 @@ namespace Tests.Items
                 var you = YouInARoom(out IWorld w);
                 you.AvailableSlots.Add("Chest",1);
 
-                var itemFactory = new YamlItemFactory(yaml);
+                var itemFactory = new ItemFactory{Blueprints = Compiler.Instance.Deserializer.Deserialize<List<ItemBlueprint>>(yaml)};
 
                 var shirt = itemFactory.Create(w, itemFactory.Blueprints.Single());
 

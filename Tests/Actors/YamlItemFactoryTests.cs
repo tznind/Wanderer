@@ -5,8 +5,10 @@ using NUnit.Framework;
 using NUnit.Framework.Constraints;
 using Wanderer;
 using Wanderer.Actions;
+using Wanderer.Compilation;
 using Wanderer.Dialogues;
 using Wanderer.Factories;
+using Wanderer.Factories.Blueprints;
 using Wanderer.Items;
 using Wanderer.Stats;
 using Wanderer.Systems;
@@ -29,7 +31,7 @@ namespace Tests.Actors
     Next: f1909b20-80c3-4af4-b098-b6bf22bf5ca8
 ";
 
-            var factory = new YamlItemFactory(yaml);
+            var factory = new ItemFactory{Blueprints = Compiler.Instance.Deserializer.Deserialize<List<ItemBlueprint>>(yaml)};
             Assert.AreEqual(2,factory.Blueprints.Count);
 
             var you = YouInARoom(out IWorld w);
@@ -83,7 +85,7 @@ namespace Tests.Actors
                 }
             });
 
-            var itemFactory = new YamlItemFactory(yaml);
+            var itemFactory = new ItemFactory{Blueprints = Compiler.Instance.Deserializer.Deserialize<List<ItemBlueprint>>(yaml)};
 
             you.Items.Add(itemFactory.Create(w, itemFactory.Blueprints.Single()));
             var ui = GetUI("read:Encrypted Manual");
@@ -111,7 +113,7 @@ namespace Tests.Actors
 - Name: Silver Bell";
 
             InARoom(out IWorld w);
-            var itemFactory = new YamlItemFactory(yaml); 
+            var itemFactory = new ItemFactory{Blueprints = Compiler.Instance.Deserializer.Deserialize<List<ItemBlueprint>>(yaml)}; 
             var item = itemFactory.Create(w, itemFactory.Blueprints[0]);
 
             Assert.IsInstanceOf<IItemStack>(item);

@@ -1,9 +1,12 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Moq;
 using NUnit.Framework;
 using Wanderer;
 using Wanderer.Actors;
+using Wanderer.Compilation;
 using Wanderer.Factories;
+using Wanderer.Factories.Blueprints;
 using Wanderer.Stats;
 
 namespace Tests.ConditionTests
@@ -22,7 +25,7 @@ namespace Tests.ConditionTests
     - return false";  //<- sunglasses are about to be in fashion but not yet
 
             
-            var itemFactory = new YamlItemFactory(yaml);
+            var itemFactory = new ItemFactory{Blueprints = Compiler.Instance.Deserializer.Deserialize<List<ItemBlueprint>>(yaml)};
             var item = itemFactory.Create(new World(), itemFactory.Blueprints.Single());
 
             var you = YouInARoom(out _);
