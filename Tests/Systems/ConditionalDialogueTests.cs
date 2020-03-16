@@ -39,7 +39,7 @@ namespace Tests.Systems
             them.Dialogue.Next = g1;
             them.Dialogue.Verb = "talk";
             
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 10; i++)
             {
                 var ui = new FixedChoiceUI("talk:Chaos Sam");
                 w.RunRound(ui,new DialogueAction());

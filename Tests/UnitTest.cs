@@ -14,6 +14,7 @@ namespace Tests
         protected IRoom InARoom(out IWorld world)
         {
             var wf = new WorldFactory();
+            wf.SkipContent = true;
             world = wf.Create();
             world.Population.Clear();
             world.Relationships.Clear();

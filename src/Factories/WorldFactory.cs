@@ -42,7 +42,11 @@ namespace Wanderer.Factories
         /// </summary>
         private Dictionary<string,Faction> _factionDirs = new Dictionary<string, Faction>();
 
-        
+        /// <summary>
+        /// True to skip loading items, actors, dialogue etc.  This leaves
+        /// Only systems, adjectives etc being loaded
+        /// </summary>
+        public bool SkipContent {get;set;}
 
         public virtual IWorld Create()
         {
@@ -80,19 +84,19 @@ namespace Wanderer.Factories
                 if (factionDir != null)
                     faction = _factionDirs[factionDir];
 
-                if(IsRoomsFile(fi,dirs))
+                if(!SkipContent && IsRoomsFile(fi,dirs))
                     world.RoomFactory.Blueprints.AddRange(AssignFaction(GetBlueprints<RoomBlueprint>(fi),faction));
 
-                if(IsItemsFile(fi,dirs))
+                if(!SkipContent && IsItemsFile(fi,dirs))
                     world.ItemFactory.Blueprints.AddRange(AssignFaction(GetBlueprints<ItemBlueprint>(fi),faction));
 
-                if(IsActorsFile(fi,dirs))
+                if(!SkipContent && IsActorsFile(fi,dirs))
                     world.ActorFactory.Blueprints.AddRange(AssignFaction(GetBlueprints<ActorBlueprint>(fi),faction));
 
                 if(IsAdjectivesFile(fi,dirs))
                     world.AdjectiveFactory.Blueprints.AddRange(AssignFaction(GetBlueprints<AdjectiveBlueprint>(fi),faction));
 
-                if(IsDialogueFile(fi,dirs))
+                if(!SkipContent && IsDialogueFile(fi,dirs))
                     world.Dialogue.AllDialogues.AddRange(GetDialogue(fi));
             }
             
