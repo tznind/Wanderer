@@ -257,7 +257,7 @@ namespace Game.UI
             {
                 T v1 = value;
 
-                string name = value is IAction a ? GetActionButtonName(a.ToActionDescription()) : value.ToString();
+                string name = value.ToString();
 
                 var btn = new Button(0, line++, name)
                 {
@@ -401,7 +401,7 @@ namespace Game.UI
         {
             var instances = _actionManager.GetInstances(World.Player, actionDescription, true);
 
-            if(instances.Count == 1)
+            if(instances.Count == 1 && !(instances[0] is DialogueAction)) /* Always ask for this*/
                 World.RunRound(this, instances.Single());
             else
             if(instances.Count == 0)

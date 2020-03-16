@@ -88,7 +88,28 @@ namespace Wanderer.Actors
                 .Union(Adjectives.SelectMany(a => a.GetFinalActions(forActor)))
                 .Union(CurrentLocation.GetFinalActions(forActor))
                 .Union(FactionMembership.SelectMany(f=>f.GetFinalActions(forActor)))
-                .Union(Items.SelectMany(i => i.GetFinalActions(forActor))));
+                .Union(Items.SelectMany(i => i.GetFinalActions(forActor)))
+                .Union(BuildDialogueTargets(forActor)));
+        }
+
+        private IEnumerable<IAction> BuildDialogueTargets(IActor forActor)
+        {
+            var toReturn = new List<IAction>();
+
+            toReturn.Add(BuildDialogueTarget(forActor.CurrentLocation));
+
+            toReturn.AddRange(forActor.GetCurrentLocationSiblings(false).Select(BuildDialogueTarget));
+        
+            toReturn.AddRange(forActor.Items.Select(BuildDialogueTarget));
+
+            return toReturn.Where(a=>a!=null);
+        }
+        private DialogueAction BuildDialogueTarget(IHasStats possibleTarget)
+        {
+            if(possibleTarget == null || possibleTarget.Dialogue.IsEmpty)
+                return null;
+
+            return new DialogueAction(possibleTarget);
         }
 
         public abstract bool Decide<T>(IUserinterface ui, string title, string body, out T chosen, T[] options,

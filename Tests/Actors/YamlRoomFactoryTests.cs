@@ -39,7 +39,7 @@ namespace Tests.Actors
 
             var ui = GetUI("look:Gun Bay");
 
-            w.RunRound(ui,new DialogueAction(you));
+            w.RunRound(ui,you.GetFinalActions().OfType<DialogueAction>().Single());
 
             Assert.Contains("This room is rank",ui.MessagesShown);
 

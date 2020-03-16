@@ -43,10 +43,5 @@ namespace Wanderer.Actions
         {
             return true;
         }
-
-        public override string ToString()
-        {
-            return $"{Name} [{Owner}]";
-        }
     }
 }

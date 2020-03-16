@@ -57,11 +57,11 @@ namespace Wanderer.Factories
                 onto.Dialogue = blueprint.Dialogue;
                 if (onto.Dialogue.Verb == null)
                     onto.Dialogue.Verb = defaultDialogueVerb;
-
-                //you can talk to it
-                if(!onto.BaseActions.OfType<DialogueAction>().Any())
-                    onto.BaseActions.Add(new DialogueAction(onto));
             }
+
+            foreach (IAction a in onto.BaseActions)
+                if (a.Owner == null)
+                    a.Owner = onto;
         }
         
         protected virtual T1 GetBlueprint(Guid guid)

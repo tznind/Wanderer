@@ -6,6 +6,11 @@ namespace Wanderer.Actions
     public interface IAction : IHasStats,IAreIdentical<IAction>
     {
         /// <summary>
+        /// The person or object granting the action
+        /// </summary>
+        IHasStats Owner { get; set; }
+
+        /// <summary>
         /// The hotkey for the action, should be a letter in the Name
         /// </summary>
         char HotKey {get;}

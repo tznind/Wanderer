@@ -69,13 +69,9 @@ namespace Wanderer.Actions
             return this.Name == other.Name;
         }
 
-        /// <summary>
-        /// Returns <see cref="Name"/>
-        /// </summary>
-        /// <returns></returns>
         public override string ToString()
         {
-            return Name;
+            return $"{Name} [{Owner}]";
         }
 
         

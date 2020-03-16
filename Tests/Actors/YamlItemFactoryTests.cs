@@ -38,7 +38,6 @@ namespace Tests.Actors
             var item = factory.Create(w, factory.Blueprints[1]);
 
             Assert.AreEqual("Torn Pamphlet",item.Name);
-            Assert.AreEqual(1,item.BaseActions.OfType<DialogueAction>().Count());
             Assert.AreEqual(new Guid("f1909b20-80c3-4af4-b098-b6bf22bf5ca8"), item.Dialogue.Next);
 
             w.Dialogue.AllDialogues.Add(new DialogueNode()

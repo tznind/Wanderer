@@ -25,15 +25,12 @@ namespace Wanderer.Actions
 
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
         {
-            var targets = GetTargets(actor);
-            
-            if(actor.Decide(ui,"Talk To","Pick target",out string chosen, targets.Keys.ToArray(),0))
-                if(ValidatePick(actor,targets[chosen],out string reason))
-                    stack.Push(new DialogueFrame(actor,this,targets[chosen],0));
-                else
-                    ui.ShowMessage("Not Possible", reason);
+            if(ValidatePick(actor,Owner,out string reason))
+                stack.Push(new DialogueFrame(actor,this,Owner,0));
+            else
+                ui.ShowMessage("Not Possible", reason);
         }
-
+        
         private bool ValidatePick(IActor actor, IHasStats target,out string reason)
         {
             if (target is IItem i && !i.CanUse(actor, out reason))
@@ -43,7 +40,7 @@ namespace Wanderer.Actions
             return true;
         }
 
-
+        
         public override void Pop(IWorld world1, IUserinterface ui, ActionStack stack, Frame frame)
         {
             var f = (DialogueFrame) frame;
@@ -54,39 +51,15 @@ namespace Wanderer.Actions
 
         public override bool HasTargets(IActor performer)
         {
-            return GetTargets(performer).Any();
+            return Owner?.Dialogue.Next != null;
         }
-        private Dictionary<string, IHasStats> GetTargets(IActor actor)
+
+        public override string ToString()
         {
-            var targets = new Dictionary<string, IHasStats>();
+            if(Owner?.Dialogue!= null)
+                return Owner.Dialogue.Verb + ":" + Owner.Name;
 
-            AddTarget(actor,targets, actor.CurrentLocation);
-
-            foreach (var a in actor.GetCurrentLocationSiblings(false))
-                AddTarget(actor,targets, a);
-            
-            foreach (var i in actor.Items) 
-                AddTarget(actor,targets, i);
-
-            return targets;
-        }
-        private void AddTarget(IActor actor, Dictionary<string, IHasStats> targets, IHasStats possibleTarget)
-        {
-            if(possibleTarget == null || possibleTarget.Dialogue.IsEmpty)
-                return;
-            
-            string option = possibleTarget.Dialogue.Verb + ":" + possibleTarget.Name;
-
-            if(!targets.ContainsKey(option))
-                targets.Add(option,possibleTarget);
-            else
-            {
-                int duplicate = 2;
-                while (targets.ContainsKey(option + duplicate)) 
-                    duplicate++;
-                
-                targets.Add(option + duplicate,possibleTarget);
-            }
+            return base.ToString();
         }
     }
 }
