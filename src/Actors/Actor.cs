@@ -347,7 +347,9 @@ namespace Wanderer.Actors
                 //injury system of your currently equipped item
                 system?.InjurySystem ?? 
                 //your innate injury system
-                InjurySystem;
+                InjurySystem ??
+                //the default world injury system
+                CurrentLocation.World.GetDefaultInjurySystem();
         }
         
         

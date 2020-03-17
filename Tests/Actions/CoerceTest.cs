@@ -82,7 +82,7 @@ namespace Tests.Actions
             var copper = new Item("Copper Coin").With(Stat.Value, 1);
 
             them.Items.Add(copper);
-            var giveCopper = GetUI(them, them.GetFinalActions().OfType<GiveAction>().Single(), copper, you);
+            var giveCopper = GetUI(them, "Give", you);
             w.RunRound(giveCopper,new CoerceAction(you));
 
             //when you coerce them to give you something cheap it works
@@ -92,7 +92,7 @@ namespace Tests.Actions
 
             var platinum = new Item("Platinum Coin").With(Stat.Value, 100);
             them.Items.Add(platinum);
-            var givePlatinum = GetUI(them, them.GetFinalActions().OfType<GiveAction>().Single(), platinum, you);
+            var givePlatinum = GetUI(them, "Give", you);
             w.RunRound(givePlatinum,new CoerceAction(you));
 
             //when you coerce them to give you something expensive it doesnt work
@@ -110,7 +110,7 @@ namespace Tests.Actions
             var platinum = new Item("Platinum Coin").With(Stat.Value, 100);
 
             them.Items.Add(platinum);
-            var givePlatinum = GetUI(them, them.GetFinalActions().OfType<GiveAction>().Single(), platinum, you);
+            var givePlatinum = GetUI(them, "Give [Platinum Coin]", you);
             w.RunRound(givePlatinum,new CoerceAction(you));
 
             //when you coerce them to give you something expensive it doesn't work
@@ -122,7 +122,7 @@ namespace Tests.Actions
             w.Relationships.Add(new PersonalRelationship(them,you){Attitude=110});
 
             //try now
-            givePlatinum = GetUI(them, them.GetFinalActions().OfType<GiveAction>().Single(), platinum, you);
+            givePlatinum = GetUI(them, "Give [Platinum Coin]", you);
             w.RunRound(givePlatinum,new CoerceAction(you));
 
             Assert.IsTrue(you.Items.Contains(platinum),"Expected them to give you the platinum now you are friends");

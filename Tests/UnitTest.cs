@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using NUnit.Framework;
 using Wanderer;
 using Wanderer.Actions;
@@ -14,6 +15,7 @@ namespace Tests
         protected IRoom InARoom(out IWorld world)
         {
             var wf = new WorldFactory();
+            wf.ResourcesDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources");
             wf.SkipContent = true;
             world = wf.Create();
             world.Population.Clear();
