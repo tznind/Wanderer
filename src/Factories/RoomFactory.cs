@@ -51,8 +51,8 @@ namespace Wanderer.Factories
                 room.LeaveDirections = new HashSet<Direction>(blueprint.LeaveDirections);
             }
 
-            AddBasicProperties(room,blueprint,"look");
-            world.AdjectiveFactory.AddAdjectives(room, blueprint,world.R);
+            AddBasicProperties(world,room,blueprint,"look");
+            world.AdjectiveFactory.AddAdjectives(world,room, blueprint);
 
             //get some actors for the room
             world.ActorFactory.Create(world, room, faction,blueprint);

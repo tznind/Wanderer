@@ -1,9 +1,11 @@
 ﻿using System;
 using Wanderer.Actions;
+using Wanderer.Actors;
 using Wanderer.Adjectives;
 using Wanderer.Dialogues;
 using Wanderer.Relationships;
 using Wanderer.Stats;
+using Wanderer.Systems;
 
 namespace Wanderer.Factories.Blueprints
 {
@@ -49,6 +51,12 @@ namespace Wanderer.Factories.Blueprints
         /// a random name from the faction <see cref="NameFactory"/> (null Name works for npc only)
         /// </summary>
         public string Name { get; set; }
+        
+        /// <summary>
+        /// Injury system of any <see cref="FightAction"/> the blueprint spawns (and for <see cref="IActor"/> the
+        /// innate weapons of the actor (leave null to use the <see cref="IInjurySystem.IsDefault"/>)
+        /// </summary>
+        public Guid? InjurySystem { get; set; }
 
         /// <summary>
         /// Things the object has to say, if multiple then one is picked at random.

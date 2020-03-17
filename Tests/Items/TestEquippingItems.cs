@@ -32,11 +32,11 @@ namespace Tests.Items
             IItem item2;
 
             you.Items.Add(item1 = new Item("Hammer")
-                .With(world.AdjectiveFactory,"Giant")
+                .With(world,world.AdjectiveFactory,"Giant")
                 .With(twoHanded));
 
             you.Items.Add(item2 = new Item("Hammer")
-                .With(world.AdjectiveFactory,"Giant")
+                .With(world,world.AdjectiveFactory,"Giant")
                 .With(twoHanded));
 
             Assert.AreEqual(0,you.GetFinalStats()[Stat.Fight],"Expected hammers to be of no help because they were not equipped");

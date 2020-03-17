@@ -205,7 +205,7 @@ namespace Tests.Systems
 
             Assert.Contains("This room is Pitch Black",ui.MessagesShown);
 
-            room.Adjectives.Add(world.AdjectiveFactory.Create(room,"Light"));
+            room.Adjectives.Add(world.AdjectiveFactory.Create(world,room,"Light"));
 
             system.Run(new SystemArgs(world,ui,0,
                 Mock.Of<IActor>(a=> a.CurrentLocation == room),room,

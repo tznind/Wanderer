@@ -21,6 +21,8 @@ namespace Wanderer.Actors
         public bool Dead { get; set; }
         public string FightVerb { get; set; } = "Fists";
 
+        public IInjurySystem InjurySystem { get; set; }
+
         /// <inheritdoc/>
         public IRoom CurrentLocation { get; set; }
         
@@ -30,6 +32,7 @@ namespace Wanderer.Actors
         public SlotCollection AvailableSlots { get; set; } = new SlotCollection();
         
         private ConsoleColor _explicitColor = DefaultColor;
+
 
         public bool CanInitiateDialogue {get;set;}
         public bool CanInspect {get;set;}
@@ -332,5 +335,21 @@ namespace Wanderer.Actors
             if (CanEquip(item, out _))
                 item.IsEquipped = true;
         }
+
+        public IInjurySystem GetBestInjurySystem()
+        {
+            var system = Items.Where(i => i.IsEquipped)
+                .SelectMany(i => i.GetFinalActions(this))
+                .OfType<FightAction>()
+                .FirstOrDefault(i=>i.InjurySystem != null);
+
+            return 
+                //injury system of your currently equipped item
+                system?.InjurySystem ?? 
+                //your innate injury system
+                InjurySystem;
+        }
+        
+        
     }
 }

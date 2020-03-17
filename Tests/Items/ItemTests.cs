@@ -24,7 +24,7 @@ namespace Tests.Items
             InARoom(out IWorld world);
 
             var darkRoom = new Room("Dark Room", world,'-');
-            darkRoom.Adjectives.Add(world.AdjectiveFactory.Create(darkRoom, "Dark"));
+            darkRoom.Adjectives.Add(world.AdjectiveFactory.Create(world,darkRoom, "Dark"));
 
             Assert.IsTrue(darkRoom.Has("Dark"));
 
@@ -32,7 +32,7 @@ namespace Tests.Items
             world.Map.Add(new Point3(0,0,0),darkRoom);
 
             var globe = new Item("Glo Globe");
-            globe.Adjectives.Add(world.AdjectiveFactory.Create(globe, "Light"));
+            globe.Adjectives.Add(world.AdjectiveFactory.Create(world,globe, "Light"));
             darkRoom.Items.Add(globe);
 
             var you = new You("Wanderer",darkRoom);
@@ -51,7 +51,7 @@ namespace Tests.Items
 
             //2+ light globes shouldn't boost your fight above the baseline
             var globe2 = new Item("Glo Globe");
-            globe2.Adjectives.Add(world.AdjectiveFactory.Create(globe2, "Light"));
+            globe2.Adjectives.Add(world.AdjectiveFactory.Create(world,globe2, "Light"));
 
             you.Items.Add(globe2);
 

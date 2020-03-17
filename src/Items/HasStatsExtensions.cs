@@ -26,10 +26,10 @@ namespace Wanderer.Items
             i.Slot = slot;
             return i;
         }
-        public static T With<T>(this T i, IAdjectiveFactory adj, params string[] adjectives) where T:IHasStats
+        public static T With<T>(this T i,IWorld world, IAdjectiveFactory adj, params string[] adjectives) where T:IHasStats
         {
             foreach (var s in adjectives) 
-                i.Adjectives.Add(adj.Create(i, s));
+                i.Adjectives.Add(adj.Create(world,i, s));
 
             return i;
         }

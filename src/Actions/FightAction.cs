@@ -11,7 +11,14 @@ namespace Wanderer.Actions
 {
     public class FightAction : Action
     {
-        private FightAction() :base(null)
+        /// <summary>
+        /// Specifies a specific kind of damage inflicted when performing this
+        /// fight action (e.g. for a flame weapon).  This overrides the
+        /// <see cref="IActor.InjurySystem"/>
+        /// </summary>
+        public IInjurySystem InjurySystem { get; set; }
+
+        private FightAction() :this(null)
         {
             
         }
@@ -27,34 +34,38 @@ namespace Wanderer.Actions
         {
             const int fightAttitude = -20;
 
-            var injurySystem = actor.CurrentLocation.World.InjurySystems.OrderByDescending(i=>i.IsDefault).FirstOrDefault();
-
             IActor toFight = PrimeWithTarget;
 
+            //explicit injury system of this fight action or your current best
+            var system = InjurySystem ?? actor.GetBestInjurySystem();
+
             //does the world support injuries
-            if(injurySystem != null)
+            if(system != null)
                 if (toFight != null || actor.Decide(ui,"Fight", null, out toFight, GetTargets(actor),fightAttitude)) 
-                    stack.Push(new FightFrame(actor, toFight, this,injurySystem,fightAttitude));
+                    stack.Push(new FightFrame(actor, toFight, this,system,fightAttitude));
         }
 
         public override void Pop(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
         {
             var f = (FightFrame) frame;
-            
+
+            if (f.InjurySystem == null)
+                f.InjurySystem = f.PerformedBy.GetBestInjurySystem();
+
             var attackerAdvantage = f.PerformedBy.GetFinalStats()[Stat.Fight] - f.TargetIfAny.GetFinalStats()[Stat.Fight];
             
             ui.Log.Info(new LogEntry($"{f.PerformedBy} fought {f.TargetIfAny}",stack.Round,f.PerformedBy));
             
             //inflict damage on the target
-            f.InjurySystem.Apply(new SystemArgs(world,ui,
+            f.InjurySystem?.Apply(new SystemArgs(world,ui,
                 attackerAdvantage + 20, //Even fighting someone of lower Fight results in injury so add 20
 
                 f.PerformedBy,
                 f.TargetIfAny,
                 stack.Round));
-
+            
             //inflict damage back again
-            f.InjurySystem.Apply(new SystemArgs(world,ui,
+            f.TargetIfAny.GetBestInjurySystem()?.Apply(new SystemArgs(world,ui,
                 -attackerAdvantage + 20,
                 f.TargetIfAny,
                 f.PerformedBy,
@@ -65,7 +76,7 @@ namespace Wanderer.Actions
                 //fighting makes you tired
                 a.Adjectives.Add(
                     //expires at the end of the next round
-                    world.AdjectiveFactory.Create(a,new Guid("378449b2-2b29-4849-81b6-04433dba02a9") )
+                    world.AdjectiveFactory.Create(world,a,new Guid("378449b2-2b29-4849-81b6-04433dba02a9") )
                         .WithExpiry(2));
             }
             

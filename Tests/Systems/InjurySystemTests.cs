@@ -59,14 +59,14 @@ namespace Tests.Systems
             var room = you.CurrentLocation;
 
             if (roomIsStale)
-                room.Adjectives.Add(world.AdjectiveFactory.Create(room,"Stale"));
+                room.Adjectives.Add(world.AdjectiveFactory.Create(world,room,"Stale"));
 
             //give them an injury
             var injury = new Injured("Cut Lip", you, 2, InjuryRegion.Leg,world.InjurySystems.First(i=>i.IsDefault));
             you.Adjectives.Add(injury);
 
             if (isTough)
-                you.Adjectives.Add(world.AdjectiveFactory.Create(you,"Tough"));
+                you.Adjectives.Add(world.AdjectiveFactory.Create(world,you,"Tough"));
 
             for (int i = 0; i < 10; i++)
             {
@@ -187,12 +187,12 @@ namespace Tests.Systems
             you.Adjectives.Add(medic);
 
             you.BaseStats[Stat.Savvy] = 50;
-            you.With(world.AdjectiveFactory, "Giant");
+            you.With(world,world.AdjectiveFactory, "Giant");
             
 
             if(withGiantItem)
             {
-                var hammer = new Item("Hammer").With(world.AdjectiveFactory, "Giant");
+                var hammer = new Item("Hammer").With(world,world.AdjectiveFactory, "Giant");
                 you.Items.Add(hammer);
             }
 
@@ -229,10 +229,10 @@ namespace Tests.Systems
             
             //give you 2 kits
             var kit1= world.ItemFactory.Create(world, new ItemBlueprint() {Name = "Kit"})
-                .With(world.AdjectiveFactory,"Medic","SingleUse");
+                .With(world,world.AdjectiveFactory,"Medic","SingleUse");
             you.Items.Add(kit1);
             var kit2 = world.ItemFactory.Create(world,new ItemBlueprint() {Name = "Kit"})
-                .With(world.AdjectiveFactory,"Medic","SingleUse");
+                .With(world,world.AdjectiveFactory,"Medic","SingleUse");
             you.Items.Add(kit2);
 
             //now you can heal stuff
@@ -262,7 +262,7 @@ namespace Tests.Systems
             var you = YouInARoom(out IWorld world);
             you.BaseStats[Stat.Savvy] = 50;
             var kitStack = (ItemStack)world.ItemFactory.Create(world, new ItemBlueprint {Name = "Kit", Stack = 2})
-                .With(world.AdjectiveFactory, "SingleUse", "Medic");
+                .With(world,world.AdjectiveFactory, "SingleUse", "Medic");
             you.Items.Add(kitStack);
 
             Assert.AreEqual(2,kitStack.StackSize);

@@ -14,8 +14,8 @@ namespace Wanderer.Factories
                 new ItemStack(blueprint.Name,blueprint.Stack.Value):
                 new Item(blueprint.Name);
 
-            AddBasicProperties(item,blueprint,"read");
-            world.AdjectiveFactory.AddAdjectives(item, blueprint,world.R);
+            AddBasicProperties(world,item,blueprint,"read");
+            world.AdjectiveFactory.AddAdjectives(world,item, blueprint);
 
             if(blueprint.Require != null)
                 item.Require = blueprint.Require;

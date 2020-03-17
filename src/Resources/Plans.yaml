@@ -34,6 +34,6 @@
            Recipient,
            Recipient:WorstEnemy(true,-20),
            FirstOrDefault(Recipient:Get('Fight')),
-           World.InjurySystems[0],
+           nil,
            -20)
 

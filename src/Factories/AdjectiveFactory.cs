@@ -16,13 +16,13 @@ namespace Wanderer.Factories
         {
             _adjectiveTypes = Compiler.Instance.TypeFactory.Create<IAdjective>();
         }
-        public IAdjective Create(IHasStats s, AdjectiveBlueprint blueprint)
+        public IAdjective Create(IWorld world,IHasStats s, AdjectiveBlueprint blueprint)
         {
             var adj = new Adjective(s)
             {
                 Name = blueprint.Name
             };
-            base.AddBasicProperties(adj,blueprint,"inspect");
+            base.AddBasicProperties(world,adj,blueprint,"inspect");
 
             if(blueprint.StatsRatio != null)
                 adj.StatsRatio = blueprint.StatsRatio;
@@ -50,32 +50,32 @@ namespace Wanderer.Factories
             throw new ArgumentException("Could not find a valid constructor for IAdjective Type " + adjectiveType);
         }
 
-        public void AddAdjectives(IHasStats owner, HasStatsBlueprint ownerBlueprint, Random r)
+        public void AddAdjectives(IWorld world,IHasStats owner, HasStatsBlueprint ownerBlueprint)
         {
             
             //Adjectives the user definitely wants included
             if (ownerBlueprint.MandatoryAdjectives.Any())
                 foreach (var a in ownerBlueprint.MandatoryAdjectives)
-                    owner.Adjectives.Add(Create(owner, a));
+                    owner.Adjectives.Add(Create(world,owner, a));
             
             //pick 1 random adjective if blueprint lists any to pick from
             if (ownerBlueprint.OptionalAdjectives.Any())
                 owner.Adjectives.Add(
-                    Create(owner, ownerBlueprint.OptionalAdjectives.GetRandom(r))
+                    Create(world,owner, ownerBlueprint.OptionalAdjectives.GetRandom(world.R))
                 );
         }
 
-        public IAdjective Create(IHasStats s, Guid guid)
+        public IAdjective Create(IWorld world,IHasStats s, Guid guid)
         {
-            return Create(s, GetBlueprint(guid));
+            return Create(world,s, GetBlueprint(guid));
         }
 
-        public IAdjective Create(IHasStats s, string name)
+        public IAdjective Create(IWorld world,IHasStats s, string name)
         {
             //when creating by name allow type names too
             var type = _adjectiveTypes.FirstOrDefault(t => t.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase));
 
-            return type != null ? Create(s, type) : Create(s, GetBlueprint(name));
+            return type != null ? Create(s, type) : Create(world,s, GetBlueprint(name));
         }
     }
 }

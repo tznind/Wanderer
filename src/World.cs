@@ -205,5 +205,10 @@ namespace Wanderer
             return InjurySystems.FirstOrDefault(i=>i.Identifier == g);
         }
 
+        public IInjurySystem GetDefaultInjurySystem()
+        {
+            return InjurySystems.OrderByDescending(i => i.IsDefault)
+                .FirstOrDefault();
+        }
     }
 }

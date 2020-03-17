@@ -28,5 +28,6 @@ namespace Wanderer.Factories.Blueprints
         /// Items which the actor may be carrying when created
         /// </summary>
         public ItemBlueprint[] OptionalItems { get; set;} = new ItemBlueprint[0];
+
     }
 }
