@@ -24,6 +24,12 @@ namespace Wanderer.Actors
         bool Dead { get; set; }
 
         /// <summary>
+        /// The word that describes how the actor fights when not
+        /// equipped with a weapon e.g. fisticuffs
+        /// </summary>
+        string FightVerb { get; set; }
+
+        /// <summary>
         /// Where the <see cref="Actor"/> currently is
         /// </summary>
         IRoom CurrentLocation { get; set; }

@@ -64,6 +64,14 @@ namespace Wanderer.Actions
         {
             return GetTargets(performer).Any();
         }
+        
+        public override string ToString()
+        {
+            if(Owner is IActor)
+                return $"{Name}";
 
+            //leave via item? what is this a teleporter?
+            return base.ToString();
+        }
     }
 }

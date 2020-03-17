@@ -80,5 +80,13 @@ namespace Wanderer.Actions
         {
             return performer.GetCurrentLocationSiblings(false);
         }
+
+        public override string ToString()
+        {
+            if(Owner is IActor a)
+                return $"{Name} [{a.FightVerb}]";
+
+            return base.ToString();
+        }
     }
 }

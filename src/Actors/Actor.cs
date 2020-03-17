@@ -19,6 +19,7 @@ namespace Wanderer.Actors
     public abstract class Actor : HasStats,IActor
     {
         public bool Dead { get; set; }
+        public string FightVerb { get; set; } = "Fists";
 
         /// <inheritdoc/>
         public IRoom CurrentLocation { get; set; }

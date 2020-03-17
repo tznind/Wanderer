@@ -32,8 +32,6 @@ namespace Wanderer.Items
         public Item(string name)
         {
             Name = name;
-            BaseActions.Add(new GiveAction(this));
-            BaseActions.Add(new DropAction(this));
         }
 
         public void Drop(IUserinterface ui, IActor owner, Guid round)
@@ -103,11 +101,21 @@ namespace Wanderer.Items
 
         public override IActionCollection GetFinalActions(IActor forActor)
         {
+            
+            List<IAction> alwaysActions = new List<IAction>
+            {
+                new GiveAction(this),
+                new DropAction(this)
+            };
+
             //if it requires equipping
             if(!RequirementsMet(forActor))
-                return new ActionCollection();
+                return new ActionCollection(alwaysActions);
 
-            return new ActionCollection(BaseActions.Union(Adjectives.SelectMany(a => a.GetFinalActions(forActor))));
+            return new ActionCollection(alwaysActions
+                    .Union(BaseActions)
+                    .Union(Adjectives.SelectMany(a => a.GetFinalActions(forActor)))
+                );
         }
 
         public override IBehaviourCollection GetFinalBehaviours(IActor forActor)
