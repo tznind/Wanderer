@@ -1,4 +1,5 @@
-﻿using Wanderer.Actions;
+﻿using System.Collections.Generic;
+using Wanderer.Actions;
 using Wanderer.Actors;
 
 namespace Wanderer.Behaviours
@@ -30,6 +31,11 @@ namespace Wanderer.Behaviours
         public override bool HasTargets(IActor performer)
         {
             return true;
+        }
+
+        public override IEnumerable<IHasStats> GetTargets(IActor performer)
+        {
+            yield break;
         }
     }
 }

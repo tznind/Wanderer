@@ -11,6 +11,7 @@ using Wanderer.Actors;
 using Wanderer.Factories;
 using Terminal.Gui;
 using Wanderer.Actions;
+using Wanderer.Items;
 
 namespace Game.UI
 {
@@ -88,6 +89,7 @@ namespace Game.UI
             var dlg = new ModalDialog(this,"Factions",v);
             Application.Run(dlg);
         }
+
 
         public void NewGame()
         {
@@ -472,15 +474,15 @@ namespace Game.UI
 
         public override bool ProcessColdKey(KeyEvent keyEvent)
         {
-            if (keyEvent.Key == Key.Enter && _roomContents != null && _roomContents.HasFocus)
+            if (keyEvent.Key == Key.Enter && _roomContents != null)
             {
                 if(_roomContents.SelectedItem < _roomContentsObjects.Count)
                 {
-                     var target = _roomContentsObjects[_roomContents.SelectedItem];
+                    var target = _roomContentsObjects[_roomContents.SelectedItem];
 
                     var options = World.Player.GetFinalActions()
                     .Where(a=> a.Owner == target ||
-                    ( a is FightAction f && f.GetTargets(World.Player).Contains(target as IActor))
+                    a.GetTargets(World.Player).Contains(target)
                     )
                     .ToArray();
 
@@ -488,11 +490,15 @@ namespace Game.UI
                     {
                         if(chosen is FightAction f)
                             f.PrimeWithTarget = target as IActor;
+                        if (chosen is PickUpAction p)
+                            p.PrimeWithTarget = target as IItem;
 
                         World.RunRound(this, chosen);
                         Refresh();
-                    }
 
+                        SetFocus(_roomContents);
+                        _roomContents.SelectedItem = 0;
+                    }
                 }
             }
 
@@ -531,7 +537,7 @@ namespace Game.UI
 
                 var o = _roomContentsObjects[selected];
 
-                _detail.InitializeComponent(o as IActor ?? World.Player,o,DlgWidth,DlgHeight);
+                _detail.InitializeComponent(o as IActor ?? World.Player,o,Bounds.Width,Bounds.Height-3);
                 _detail.X = 1;
                 _detail.Y = 1;
                 _detail.Width = Dim.Percent(70);

@@ -1,4 +1,5 @@
-﻿using Wanderer.Actors;
+﻿using System.Collections.Generic;
+using Wanderer.Actors;
 using Wanderer.Behaviours;
 
 namespace Wanderer.Actions
@@ -41,6 +42,12 @@ namespace Wanderer.Actions
         /// <param name="performer"></param>
         /// <returns></returns>
         bool HasTargets(IActor performer);
+        /// <summary>
+        /// Returns true if there are legal targets for the ability.
+        /// </summary>
+        /// <param name="performer"></param>
+        /// <returns></returns>
+        IEnumerable<IHasStats> GetTargets(IActor performer);
 
         /// <summary>
         /// Creates a new copy of this action

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Wanderer.Actors;
 
 namespace Wanderer.Actions.Coercion
@@ -17,7 +18,7 @@ namespace Wanderer.Actions.Coercion
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
         {
             //pick a target 
-            if(actor.Decide(ui,"Coerce Target", null, out Npc toCoerce, GetTargets(actor),-20))
+            if(actor.Decide(ui,"Coerce Target", null, out Npc toCoerce, GetTargets(actor).Cast<Npc>().ToArray(),-20))
                 //pick an action to perform
                 if (actor.Decide(ui, "Coerce Action", $"Pick an action you want {toCoerce} to perform",
                     out IAction actionToCoerce,
@@ -40,10 +41,13 @@ namespace Wanderer.Actions.Coercion
         {
             return GetTargets(performer).Any();
         }
-        private Npc[] GetTargets(IActor performer)
+        public override IEnumerable<IHasStats> GetTargets(IActor performer)
         {
             return performer.GetCurrentLocationSiblings(false).OfType<Npc>().ToArray();
         }
-
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

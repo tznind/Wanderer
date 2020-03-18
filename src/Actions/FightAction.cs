@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Wanderer.Actors;
 using Wanderer.Adjectives;
@@ -41,7 +42,7 @@ namespace Wanderer.Actions
 
             //does the world support injuries
             if(system != null)
-                if (toFight != null || actor.Decide(ui,"Fight", null, out toFight, GetTargets(actor),fightAttitude)) 
+                if (toFight != null || actor.Decide(ui,"Fight", null, out toFight, GetTargets(actor).Cast<IActor>().ToArray(),fightAttitude)) 
                     stack.Push(new FightFrame(actor, toFight, this,system,fightAttitude));
         }
 
@@ -87,7 +88,7 @@ namespace Wanderer.Actions
             return GetTargets(performer).Any();
         }
 
-        public IActor[] GetTargets(IActor performer)
+        public override IEnumerable<IHasStats> GetTargets(IActor performer)
         {
             return performer.GetCurrentLocationSiblings(false);
         }

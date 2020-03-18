@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using Wanderer.Actors;
@@ -49,6 +50,8 @@ namespace Wanderer.Actions
         }
 
         public abstract bool HasTargets(IActor performer);
+        
+        public abstract IEnumerable<IHasStats> GetTargets(IActor performer);
 
         public virtual IAction Clone()
         {

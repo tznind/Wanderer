@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Wanderer.Actors;
 using Wanderer.Behaviours;
@@ -21,11 +22,11 @@ namespace Wanderer.Actions
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
         {
             //ask actor to pick a direction
-            if (actor.Decide<Direction>(ui, "LeaveAction Direction", null, out var direction,GetTargets(actor), 0))
+            if (actor.Decide<Direction>(ui, "LeaveAction Direction", null, out var direction,GetLeaveDirections(actor), 0))
                 stack.Push(new LeaveFrame(actor,this,direction,0));
         }
 
-        private Direction[] GetTargets(IActor performer)
+        private Direction[] GetLeaveDirections(IActor performer)
         {
             return performer.CurrentLocation.LeaveDirections.ToArray();
         }
@@ -62,9 +63,14 @@ namespace Wanderer.Actions
 
         public override bool HasTargets(IActor performer)
         {
-            return GetTargets(performer).Any();
+            return GetLeaveDirections(performer).Any();
         }
-        
+
+        public override IEnumerable<IHasStats> GetTargets(IActor performer)
+        {
+            yield break;
+        }
+
         public override string ToString()
         {
             if(Owner is IActor)

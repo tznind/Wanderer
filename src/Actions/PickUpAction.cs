@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Wanderer.Actors;
 using Wanderer.Items;
 
@@ -16,9 +17,13 @@ namespace Wanderer.Actions
 
         public override char HotKey => 'p';
 
+        public IItem PrimeWithTarget { get; set; }
+
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
-        {            
-            if(actor.Decide(ui,"Pick Up", null, out IItem chosen, GetTargets(actor),0))
+        {
+            var chosen = PrimeWithTarget;
+
+            if(chosen != null || actor.Decide(ui,"Pick Up", null, out chosen, GetTargets(actor).Cast<IItem>().ToArray() ,0))
                 stack.Push(new PickUpFrame(actor,this,chosen,actor.CurrentLocation,0));
         }
 
@@ -45,9 +50,14 @@ namespace Wanderer.Actions
             return GetTargets(performer).Any();
         }
 
-        private IItem[] GetTargets(IActor performer)
+        public override IEnumerable<IHasStats> GetTargets(IActor performer)
         {
             return performer.CurrentLocation.Items.ToArray();
+        }
+
+        public override string ToString()
+        {
+            return Name;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 using Wanderer.Actors;
 using Wanderer.Behaviours;
 using Wanderer.Stats;
@@ -46,6 +47,12 @@ namespace Wanderer.Actions
         public override bool HasTargets(IActor performer)
         {
             return true;
+        }
+
+        public override IEnumerable<IHasStats> GetTargets(IActor performer)
+        {
+            if (Owner != null)
+                yield return Owner;
         }
     }
 }

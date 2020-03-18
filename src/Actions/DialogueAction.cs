@@ -54,6 +54,12 @@ namespace Wanderer.Actions
             return Owner?.Dialogue.Next != null;
         }
 
+        public override IEnumerable<IHasStats> GetTargets(IActor performer)
+        {
+            if(Owner?.Dialogue != null)
+                yield return Owner;
+        }
+
         public override string ToString()
         {
             if(Owner?.Dialogue!= null)

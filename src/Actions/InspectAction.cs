@@ -28,6 +28,11 @@ namespace Wanderer.Actions
         {
             return Owner != null;
         }
-        
+
+        public override IEnumerable<IHasStats> GetTargets(IActor performer)
+        {
+            if (Owner != null)
+                yield return Owner;
+        }
     }
 }
