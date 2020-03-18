@@ -9,7 +9,7 @@ namespace Wanderer.Behaviours
 
         private readonly Frame _toForbid;
 
-        public ForbidAction(Frame toForbid)
+        public ForbidAction(Frame toForbid):base(null)
         {
             _toForbid = toForbid;
         }

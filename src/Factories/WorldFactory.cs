@@ -261,7 +261,8 @@ namespace Wanderer.Factories
         {
             return new You("Wanderer", startingRoom)
             {
-                AvailableSlots = _defaultSlots.Clone()
+                AvailableSlots = _defaultSlots.Clone(),
+                InjurySystem = startingRoom.World.GetDefaultInjurySystem()
             };
         }
 

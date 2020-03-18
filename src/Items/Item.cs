@@ -28,7 +28,11 @@ namespace Wanderer.Items
 
 
         public List<ICondition<IHasStats>> Require { get; set; } = new List<ICondition<IHasStats>>();
-
+        
+        public Item(string name)
+        {
+            Name = name;
+        }
 
         public void Drop(IUserinterface ui, IActor owner, Guid round)
         {
@@ -39,7 +43,7 @@ namespace Wanderer.Items
             
             //hes not wearing it anymore
             IsEquipped = false;
-
+            
             //log it
             ui.Log.Info(new LogEntry($"{owner} dropped {this}", round,owner));
         }
@@ -64,11 +68,6 @@ namespace Wanderer.Items
             return true;
         }
 
-
-        public Item(string name)
-        {
-            Name = name;
-        }
 
         public bool RequirementsMet(IActor forActor)
         {
@@ -102,11 +101,21 @@ namespace Wanderer.Items
 
         public override IActionCollection GetFinalActions(IActor forActor)
         {
+            
+            List<IAction> alwaysActions = new List<IAction>
+            {
+                new GiveAction(this),
+                new DropAction(this)
+            };
+
             //if it requires equipping
             if(!RequirementsMet(forActor))
-                return new ActionCollection();
+                return new ActionCollection(alwaysActions);
 
-            return new ActionCollection(BaseActions.Union(Adjectives.SelectMany(a => a.GetFinalActions(forActor))));
+            return new ActionCollection(alwaysActions
+                    .Union(BaseActions)
+                    .Union(Adjectives.SelectMany(a => a.GetFinalActions(forActor)))
+                );
         }
 
         public override IBehaviourCollection GetFinalBehaviours(IActor forActor)

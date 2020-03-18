@@ -56,7 +56,7 @@ namespace Tests.Relationships
             var you = new You("wanderer", room);
             var bob = new Npc("Bob", room); 
             bob.BaseActions.Clear();
-            bob.BaseActions.Add(new FightAction());
+            bob.BaseActions.Add(new FightAction(you));
             
             //the only thing bob does is fight
             Assert.AreEqual(1,bob.BaseActions.Count);
@@ -64,7 +64,7 @@ namespace Tests.Relationships
             world.Relationships.Add(new PersonalRelationship(bob, you){Attitude = 500});
 
             var ui = GetUI();
-            world.RunRound(ui, new LoadGunsAction());
+            world.RunRound(ui, new LoadGunsAction(you));
 
             Assert.IsNull(ui.Log.RoundResults.FirstOrDefault(r => r.Message.Contains("fought")),"Did not expect bob to fight you because they have a good relationship");
         }
@@ -85,7 +85,7 @@ namespace Tests.Relationships
             var ui = new FixedChoiceUI(bob,bob);
 
             //fight each other
-            world.RunRound(ui, new FightAction());
+            world.RunRound(ui, new FightAction(you));
 
             var youAndBob = world.Relationships.OfType<PersonalRelationship>()
                 .SingleOrDefault(r => r.AppliesTo(bob, you) && r.Attitude < 0);
@@ -95,7 +95,7 @@ namespace Tests.Relationships
             var attitudeBefore = youAndBob.Attitude;
 
             //fight again
-            world.RunRound(ui, new FightAction());
+            world.RunRound(ui, new FightAction(you));
 
             Assert.Greater(attitudeBefore,youAndBob.Attitude,"Expected continuing to fight to make matters worse");
         }
@@ -124,7 +124,7 @@ namespace Tests.Relationships
             var ui = new FixedChoiceUI(bob);
 
             //fight each other
-            world.RunRound(ui, new FightAction());
+            world.RunRound(ui, new FightAction(you));
 
             var youAndBob = world.Relationships.OfType<PersonalRelationship>()
                 .SingleOrDefault(r => r.AppliesTo(bob, you) && r.Attitude < 0);
@@ -157,7 +157,7 @@ namespace Tests.Relationships
             var ui = new FixedChoiceUI(them);
 
             //fight each other
-            world.RunRound(ui, new FightAction());
+            world.RunRound(ui, new FightAction(you));
 
             //not only do you hate each other now but your factions should also hate each other
             var newRelationship = world.Relationships.OfType<FactionRelationship>().Single();

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using NUnit.Framework;
 using Wanderer;
 using Wanderer.Actions;
@@ -14,6 +15,7 @@ namespace Tests
         protected IRoom InARoom(out IWorld world)
         {
             var wf = new WorldFactory();
+            wf.ResourcesDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources");
             wf.SkipContent = true;
             world = wf.Create();
             world.Population.Clear();
@@ -48,7 +50,7 @@ namespace Tests
             them = new Npc("Chaos Sam", you.CurrentLocation);
 
             //don't wonder off Chaos Sam
-            them.BaseActions.Remove(new LeaveAction());
+            them.BaseActions.Remove(new LeaveAction(you));
         }
         /// <summary>
         /// Creates a relationship of strength <paramref name="intensity"/> which is how strongly

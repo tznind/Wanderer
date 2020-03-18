@@ -53,9 +53,9 @@ namespace Tests.Systems
             var yaml = new Serializer().Serialize(new DialogueNode[]{tree});
             TestContext.Out.Write(yaml);
 
-            var ui = GetUI("talk:Chaos Sam",pickFriendly ? o1 : o2);
+            var ui = GetUI(pickFriendly ? o1 : o2);
 
-            w.RunRound(ui,new DialogueAction());
+            w.RunRound(ui,you.GetFinalActions().OfType<DialogueAction>().Single());
 
             var r = w.Relationships.OfType<PersonalRelationship>().Single(r => r.AppliesTo(them, you));
 
@@ -100,7 +100,7 @@ namespace Tests.Systems
             w.Dialogue.AllDialogues.Add(foe);
             
             var ui = GetUI("talk:Chaos Sam");
-            w.RunRound(ui,new DialogueAction());
+            w.RunRound(ui,you.GetFinalActions().OfType<DialogueAction>().Single());
 
             Assert.Contains(areFriends ? "Hello Friend" : "Hello Foe",ui.MessagesShown);
 
@@ -205,7 +205,7 @@ namespace Tests.Systems
 
             Assert.Contains("This room is Pitch Black",ui.MessagesShown);
 
-            room.Adjectives.Add(world.AdjectiveFactory.Create(room,"Light"));
+            room.Adjectives.Add(world.AdjectiveFactory.Create(world,room,"Light"));
 
             system.Run(new SystemArgs(world,ui,0,
                 Mock.Of<IActor>(a=> a.CurrentLocation == room),room,

@@ -32,23 +32,23 @@ namespace Tests.Items
             IItem item2;
 
             you.Items.Add(item1 = new Item("Hammer")
-                .With(world.AdjectiveFactory,"Giant")
+                .With(world,world.AdjectiveFactory,"Giant")
                 .With(twoHanded));
 
             you.Items.Add(item2 = new Item("Hammer")
-                .With(world.AdjectiveFactory,"Giant")
+                .With(world,world.AdjectiveFactory,"Giant")
                 .With(twoHanded));
 
             Assert.AreEqual(0,you.GetFinalStats()[Stat.Fight],"Expected hammers to be of no help because they were not equipped");
 
             ActionStack s = new ActionStack();
 
-            Assert.IsTrue(s.RunStack(world,new FixedChoiceUI(EquipmentActionToPerform.PutOn, item1), new EquipmentAction(), you, null));
+            Assert.IsTrue(s.RunStack(world,new FixedChoiceUI(EquipmentActionToPerform.PutOn, item1), new EquipmentAction(item1), you, null));
 
             Assert.AreEqual(30,you.GetFinalStats()[Stat.Fight],"Expected hammer to be boosting your fight");
 
             //cannot equip it because it is already equipped
-            Assert.IsFalse(s.RunStack(world,new FixedChoiceUI(EquipmentActionToPerform.PutOn, item2), new EquipmentAction(), you, null),"Expected attempt to wield 2 hammers to have failed");
+            Assert.IsFalse(s.RunStack(world,new FixedChoiceUI(EquipmentActionToPerform.PutOn, item2), new EquipmentAction(item2), you, null),"Expected attempt to wield 2 hammers to have failed");
             
             Assert.AreEqual(30,you.GetFinalStats()[Stat.Fight],"Expected you to still be wielding 1");
 
@@ -56,12 +56,12 @@ namespace Tests.Items
             you.AvailableSlots["Hand"] = 4;
 
             //now you can equip it!
-            Assert.IsTrue(s.RunStack(world,new FixedChoiceUI(EquipmentActionToPerform.PutOn, item2), new EquipmentAction(), you, null),"Now you have 4 arms 2 hammers should be fine!");
+            Assert.IsTrue(s.RunStack(world,new FixedChoiceUI(EquipmentActionToPerform.PutOn, item2), new EquipmentAction(item2), you, null),"Now you have 4 arms 2 hammers should be fine!");
 
             Assert.AreEqual(60,you.GetFinalStats()[Stat.Fight]);
 
             //take it off again
-            Assert.IsTrue(s.RunStack(world,new FixedChoiceUI(EquipmentActionToPerform.TakeOff, item2), new EquipmentAction(), you, null));
+            Assert.IsTrue(s.RunStack(world,new FixedChoiceUI(EquipmentActionToPerform.TakeOff, item2), new EquipmentAction(item2), you, null));
 
             //stats should return to before value
             Assert.AreEqual(30,you.GetFinalStats()[Stat.Fight]);
@@ -99,7 +99,7 @@ namespace Tests.Items
 
             ActionStack s = new ActionStack();
 
-            Assert.IsTrue(s.RunStack(world,new FixedChoiceUI(EquipmentActionToPerform.PutOn, item1), new EquipmentAction(), you, null));
+            Assert.IsTrue(s.RunStack(world,new FixedChoiceUI(EquipmentActionToPerform.PutOn, item1), new EquipmentAction(item1), you, null));
 
             Assert.AreEqual(30,you.GetFinalStats()[Stat.Fight],"Expected hammer to be boosting your fight");
         }
@@ -126,7 +126,7 @@ namespace Tests.Items
                 you.Items.Add(shirt);
                 var ui = GetUI(EquipmentActionToPerform.PutOn,shirt);
 
-                w.RunRound(ui,new EquipmentAction());
+                w.RunRound(ui,new EquipmentAction(shirt));
 
                 Assert.IsFalse(shirt.IsEquipped);
 
@@ -136,7 +136,7 @@ namespace Tests.Items
             
                 ui = GetUI(EquipmentActionToPerform.PutOn,shirt);
 
-                w.RunRound(ui,new EquipmentAction());
+                w.RunRound(ui,new EquipmentAction(shirt));
                 Assert.IsTrue(shirt.IsEquipped);
         }
     }

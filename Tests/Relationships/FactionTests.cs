@@ -60,7 +60,9 @@ namespace Tests.Relationships
 
             var f = new Faction();
             f.Name = "Medical Corp";
-            f.Adjectives.Add(new Adjective(f){Name = "Medic", BaseActions = {new HealAction()}});
+            var medic = new Adjective(f) {Name = "Medic"};
+            medic.BaseActions.Add(new HealAction(medic));
+            f.Adjectives.Add(medic);
             
             Assert.IsFalse(you.Has("Medic",false));
 

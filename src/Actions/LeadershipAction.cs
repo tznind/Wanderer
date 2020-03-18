@@ -10,6 +10,13 @@ namespace Wanderer.Actions
     {
         public override char HotKey => 'a';
 
+        private LeadershipAction():base(null)
+        {
+            
+        }
+        public LeadershipAction(IHasStats owner) : base(owner)
+        {
+        }
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
         {
             if(actor.Decide(ui,"Leadership",null,out IActor chosen,GetTargets(actor).ToArray(),0))

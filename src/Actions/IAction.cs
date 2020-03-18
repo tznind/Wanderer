@@ -3,12 +3,12 @@ using Wanderer.Behaviours;
 
 namespace Wanderer.Actions
 {
-    public interface IAction : IAreIdentical<IAction>
+    public interface IAction : IHasStats,IAreIdentical<IAction>
     {
         /// <summary>
-        /// The human readable name of the action which can be undertaken
+        /// The person or object granting the action
         /// </summary>
-        string Name { get; set; }
+        IHasStats Owner { get; set; }
 
         /// <summary>
         /// The hotkey for the action, should be a letter in the Name
@@ -47,5 +47,13 @@ namespace Wanderer.Actions
         /// </summary>
         /// <returns></returns>
         IAction Clone();
+
+        /// <summary>
+        /// Returns the shared user understandable common description of all instances
+        /// of this action.  E.g. each FightAction is separate but they share the same
+        /// description.
+        /// </summary>
+        /// <returns></returns>
+        ActionDescription ToActionDescription();
     }
 }

@@ -7,6 +7,7 @@ using Wanderer.Items;
 using Wanderer.Rooms;
 using Wanderer.Relationships;
 using System.Collections.Generic;
+using Wanderer.Systems;
 
 namespace Wanderer.Factories
 {
@@ -33,8 +34,8 @@ namespace Wanderer.Factories
         {
             var npc = new Npc(blueprint.Name, room);
 
-            AddBasicProperties(npc, blueprint,"talk");
-            world.AdjectiveFactory.AddAdjectives(npc, blueprint,world.R);
+            AddBasicProperties(world,npc, blueprint,"talk");
+            world.AdjectiveFactory.AddAdjectives(world,npc, blueprint);
 
             if (faction != null)
                 npc.FactionMembership.Add(faction);
@@ -55,7 +56,7 @@ namespace Wanderer.Factories
                 npc.Equip(npc.SpawnItem(pickFrom.GetRandom(world.R)));
             
             npc.AvailableSlots = (blueprint.Slots ?? faction?.DefaultSlots ?? DefaultSlots)?.Clone() ?? new SlotCollection();
-            
+
             return npc;
         }
     }

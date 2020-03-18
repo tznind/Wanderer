@@ -17,3 +17,11 @@
         - FightAction
         - EatAction
         - LoadGunsAction
+  MandatoryItems:
+    - Name: Flame Projector
+      InjurySystem: "3c0dd6d7-1f84-44ad-b446-323bd747b09b"
+      Actions: 
+        - FightAction
+      Slot: 
+        Name: Hand
+        NumberRequired: 2

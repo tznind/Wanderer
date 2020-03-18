@@ -27,7 +27,7 @@ namespace Tests.Actions
             Assert.Contains(hot,you.Items.ToArray());
             Assert.IsEmpty(you.CurrentLocation.Items);
             
-            w.RunRound(GetUI(hot),new DropAction());
+            w.RunRound(GetUI(hot),new DropAction(hot));
 
             Assert.IsEmpty(you.Items);
             Assert.Contains(hot,you.CurrentLocation.Items.ToArray());

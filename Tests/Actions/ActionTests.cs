@@ -19,7 +19,7 @@ namespace Tests.Actions
                 if(a == typeof(ForbidAction))
                     continue;
 
-                Assert.IsNotNull(Activator.CreateInstance(a),$"Could not find default constructor on {a}");
+                Assert.IsNotNull(Activator.CreateInstance(a,true),$"Could not find default constructor on {a}");
             }
         }
         [Test]
@@ -33,7 +33,7 @@ namespace Tests.Actions
                 if(a == typeof(ForbidAction))
                     continue;
 
-                var inst = ((IAction)Activator.CreateInstance(a));
+                var inst = ((IAction)Activator.CreateInstance(a,true));
                 var key = inst.HotKey;
                 
                 if(actionKeys.ContainsKey(key))

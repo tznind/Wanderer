@@ -7,7 +7,15 @@ namespace Wanderer.Actions
 {
     public class EquipmentAction : Action
     {
+        private EquipmentAction():base(null)
+        {
+            
+        }
 
+        public EquipmentAction(IHasStats owner):base(owner)
+        {
+            
+        }
         public override char HotKey => 'q';
         
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)

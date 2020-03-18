@@ -7,6 +7,15 @@ namespace Wanderer.Actions
 {
     public class LoadGunsAction : Action
     {
+        private LoadGunsAction():base(null)
+        {
+            
+        }
+
+        public LoadGunsAction(IHasStats owner):base(owner)
+        {
+            
+        }
 
         public override char HotKey => 'n';
 

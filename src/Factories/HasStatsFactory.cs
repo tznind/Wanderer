@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Wanderer.Actions;
+using Wanderer.Actors;
 using Wanderer.Factories.Blueprints;
+using Wanderer.Systems;
 
 namespace Wanderer.Factories
 {
@@ -35,7 +37,7 @@ namespace Wanderer.Factories
         /// <param name="onto"></param>
         /// <param name="blueprint"></param>
         /// <param name="defaultDialogueVerb">What do you do to initiate dialogue with this T, e.g. talk, read, look around etc</param>
-        protected virtual void AddBasicProperties(T2 onto, T1 blueprint, string defaultDialogueVerb)
+        protected virtual void AddBasicProperties(IWorld world,T2 onto, T1 blueprint, string defaultDialogueVerb)
         {
             if (blueprint.Unique)
                 UniquesSpawned.Add(blueprint.Identifier ?? Guid.Empty);
@@ -57,10 +59,31 @@ namespace Wanderer.Factories
                 onto.Dialogue = blueprint.Dialogue;
                 if (onto.Dialogue.Verb == null)
                     onto.Dialogue.Verb = defaultDialogueVerb;
+            }
 
-                //if you couldn't 'talk' to it before you can now
-                if(!onto.BaseActions.OfType<DialogueAction>().Any())
-                    onto.BaseActions.Add(new DialogueAction());
+            foreach (IAction a in onto.BaseActions)
+                if (a.Owner == null)
+                    a.Owner = onto;
+
+            if (blueprint.InjurySystem != null)
+            {
+                IInjurySystem system;
+                try
+                {
+                    system = (IInjurySystem) world.GetSystem(blueprint.InjurySystem.Value);
+                }
+                catch (Exception e)
+                {
+                    throw new GuidNotFoundException(
+                        $"Error looking up Injury System {blueprint.InjurySystem} for {blueprint}", e,
+                        blueprint.InjurySystem.Value);
+                }
+
+                foreach (var fightAction in onto.BaseActions.OfType<FightAction>()) 
+                    fightAction.InjurySystem = system;
+
+                if (onto is IActor a)
+                    a.InjurySystem = system;
             }
         }
         

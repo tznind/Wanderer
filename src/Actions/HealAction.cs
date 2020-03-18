@@ -6,6 +6,13 @@ namespace Wanderer.Actions
 {
     public class HealAction : Action
     {
+        private HealAction():base(null)
+        {
+            
+        }
+        public HealAction(IHasStats owner) : base(owner)
+        {
+        }
 
         public override char HotKey => 'h';
 
@@ -37,5 +44,6 @@ namespace Wanderer.Actions
         {
             return performer.CurrentLocation.Actors.Where(a => a.Adjectives.OfType<IInjured>().Any() && !a.Dead).ToArray();
         }
+
     }
 }

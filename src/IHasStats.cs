@@ -106,13 +106,17 @@ namespace Wanderer
         IEnumerable<IHasStats> GetAllHaves();
 
         /// <summary>
-        /// Returns all the other things that the object has where the <see cref="IHasStats.Identifier"/>
-        /// is <paramref name="guid"/>
+        /// Returns all objects that you have that match <paramref name="name"/>
         /// </summary>
-        /// <param name="guid"></param>
         /// <returns></returns>
-        IEnumerable<IHasStats> GetAllHaves(Guid guid);
-
+        List<IHasStats> Get(string name);
+        
+        /// <summary>
+        /// Returns all the other things that the object has where the <see cref="IHasStats.Identifier"/>
+        /// is <paramref name="g"/>
+        /// </summary>
+        /// <returns></returns>
+        List<IHasStats> Get(Guid? g);
 
         /// <summary>
         /// Returns true if the object or a child of it's has the uniquely identified

@@ -59,7 +59,11 @@ namespace Tests
 
                 //allow test harness users to specify strings instead of objects if so desired (e.g. to select a DialogueOption)
                 if (oChosen is string)
-                    oChosen = options.SingleOrDefault(o => o.ToString().Equals(oChosen)) ?? oChosen;
+                    oChosen = options.SingleOrDefault(o => 
+                          //allow picking by Name        
+                        (o is IHasStats s && s.Name.Equals(oChosen))
+                        //allow picking by ToString
+                        || o.ToString().Equals(oChosen)) ?? oChosen;
 
                 chosen = (T)oChosen;
 

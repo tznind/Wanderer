@@ -26,22 +26,22 @@ namespace Tests.Actions
 
             var ui = GetUI(null);
 
-            Assert.IsFalse(new ActionStack().RunStack(world,ui,new CoerceAction(), you,null));
+            Assert.IsFalse(new ActionStack().RunStack(world,ui,new CoerceAction(you), you,null));
             
             ui = GetUI(them, null);
-            Assert.IsFalse(new ActionStack().RunStack(world,ui,new CoerceAction(), you,null));
+            Assert.IsFalse(new ActionStack().RunStack(world,ui,new CoerceAction(you), you,null));
 
             //Its too late to cancel.  You have successfully coerced you have to pick targets for the NPC on their go
             ui = GetUI(them, them.GetFinalActions().OfType<FightAction>().Single(), null);
-            Assert.IsTrue(new ActionStack().RunStack(world,ui,new CoerceAction(), you,null));
+            Assert.IsTrue(new ActionStack().RunStack(world,ui,new CoerceAction(you), you,null));
             
             ui = GetUI(them, them.GetFinalActions().OfType<FightAction>().Single(), you);
-            world.RunRound(ui, new CoerceAction());
+            world.RunRound(ui, new CoerceAction(you));
             Assert.IsTrue(ui.IsExhausted);
 
             //can't get them to hit themselves!
             ui = GetUI(them, them.GetFinalActions().OfType<FightAction>().Single(), them);
-            Assert.Throws<OptionNotAvailableException>(()=>world.RunRound(ui,new CoerceAction()));
+            Assert.Throws<OptionNotAvailableException>(()=>world.RunRound(ui,new CoerceAction(you)));
 
         }
 
@@ -51,13 +51,13 @@ namespace Tests.Actions
             var you = YouInARoom(out IWorld world);
             you.BaseStats[Stat.Coerce] = 100;
 
-            Assert.IsFalse(new CoerceAction().HasTargets(you));
+            Assert.IsFalse(new CoerceAction(you).HasTargets(you));
 
             //create two npcs that can both fight
             var a = new Npc("A",you.CurrentLocation).With(Stat.Initiative,10);
             var b = new Npc("B",you.CurrentLocation).With(Stat.Initiative,0);
             
-            Assert.IsTrue(new CoerceAction().HasTargets(you));
+            Assert.IsTrue(new CoerceAction(you).HasTargets(you));
             Assert.IsFalse(b.Has("Injured",false));
 
             var ui = GetUI(a, a.GetFinalActions().OfType<FightAction>().Single(), b);
@@ -80,9 +80,10 @@ namespace Tests.Actions
 
             you.BaseStats[Stat.Coerce] = 20;
             var copper = new Item("Copper Coin").With(Stat.Value, 1);
+
             them.Items.Add(copper);
-            var giveCopper = GetUI(them, them.GetFinalActions().OfType<GiveAction>().Single(), copper, you);
-            w.RunRound(giveCopper,new CoerceAction());
+            var giveCopper = GetUI(them, "Give", you);
+            w.RunRound(giveCopper,new CoerceAction(you));
 
             //when you coerce them to give you something cheap it works
             Assert.Contains(copper,you.Items.ToArray());
@@ -91,8 +92,8 @@ namespace Tests.Actions
 
             var platinum = new Item("Platinum Coin").With(Stat.Value, 100);
             them.Items.Add(platinum);
-            var givePlatinum = GetUI(them, them.GetFinalActions().OfType<GiveAction>().Single(), platinum, you);
-            w.RunRound(givePlatinum,new CoerceAction());
+            var givePlatinum = GetUI(them, "Give", you);
+            w.RunRound(givePlatinum,new CoerceAction(you));
 
             //when you coerce them to give you something expensive it doesnt work
             Assert.IsFalse(you.Items.Contains(platinum),"Expected them to refuse to give you the platinum");
@@ -107,9 +108,10 @@ namespace Tests.Actions
             TwoInARoom(out You you,out IActor them,out IWorld w);
 
             var platinum = new Item("Platinum Coin").With(Stat.Value, 100);
+
             them.Items.Add(platinum);
-            var givePlatinum = GetUI(them, them.GetFinalActions().OfType<GiveAction>().Single(), platinum, you);
-            w.RunRound(givePlatinum,new CoerceAction());
+            var givePlatinum = GetUI(them, "Give [Platinum Coin]", you);
+            w.RunRound(givePlatinum,new CoerceAction(you));
 
             //when you coerce them to give you something expensive it doesn't work
             Assert.IsFalse(you.Items.Contains(platinum),"Expected them to refuse to give you the platinum");
@@ -120,8 +122,8 @@ namespace Tests.Actions
             w.Relationships.Add(new PersonalRelationship(them,you){Attitude=110});
 
             //try now
-            givePlatinum = GetUI(them, them.GetFinalActions().OfType<GiveAction>().Single(), platinum, you);
-            w.RunRound(givePlatinum,new CoerceAction());
+            givePlatinum = GetUI(them, "Give [Platinum Coin]", you);
+            w.RunRound(givePlatinum,new CoerceAction(you));
 
             Assert.IsTrue(you.Items.Contains(platinum),"Expected them to give you the platinum now you are friends");
             Assert.IsFalse(them.Items.Contains(platinum));

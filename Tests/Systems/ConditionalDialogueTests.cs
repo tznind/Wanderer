@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using Wanderer;
 using Wanderer.Actions;
@@ -42,7 +43,7 @@ namespace Tests.Systems
             for (int i = 0; i < 10; i++)
             {
                 var ui = new FixedChoiceUI("talk:Chaos Sam");
-                w.RunRound(ui,new DialogueAction());
+                w.RunRound(ui,you.GetFinalActions().OfType<DialogueAction>().Single());
 
                 if(friends)
                     Assert.Contains("Hey I want to give you all the space bucks!",ui.MessagesShown);

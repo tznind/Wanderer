@@ -38,7 +38,7 @@ namespace Tests.Systems
             for (int i = 0; i < 11; i++)
             {
                 var stack = new ActionStack();
-                stack.RunStack(world,GetUI(typeof(object)), new LoadGunsAction(), a, a.GetFinalBehaviours());
+                stack.RunStack(world,GetUI(typeof(object)), new LoadGunsAction(you), a, a.GetFinalBehaviours());
 
                 //after 9 round you should still be injured                
                 if(i <10)
@@ -59,19 +59,19 @@ namespace Tests.Systems
             var room = you.CurrentLocation;
 
             if (roomIsStale)
-                room.Adjectives.Add(world.AdjectiveFactory.Create(room,"Stale"));
+                room.Adjectives.Add(world.AdjectiveFactory.Create(world,room,"Stale"));
 
             //give them an injury
             var injury = new Injured("Cut Lip", you, 2, InjuryRegion.Leg,world.InjurySystems.First(i=>i.IsDefault));
             you.Adjectives.Add(injury);
 
             if (isTough)
-                you.Adjectives.Add(world.AdjectiveFactory.Create(you,"Tough"));
+                you.Adjectives.Add(world.AdjectiveFactory.Create(world,you,"Tough"));
 
             for (int i = 0; i < 10; i++)
             {
                 var stack = new ActionStack();
-                stack.RunStack(world,GetUI(typeof(object)), new LoadGunsAction(), you, you.GetFinalBehaviours());
+                stack.RunStack(world,GetUI(typeof(object)), new LoadGunsAction(you), you, you.GetFinalBehaviours());
 
                 //after 2 rounds (0 and 1) you should still be injured                
                 if(i == 0 )
@@ -116,7 +116,9 @@ namespace Tests.Systems
             Assert.IsFalse(you.GetFinalActions().OfType<HealAction>().Any());
             
             //you are a medic
-            you.Adjectives.Add(new Adjective(you){Name = "Medic",BaseActions = {new HealAction()}});
+            var medic = new Adjective(you) {Name = "Medic"};
+            medic.BaseActions.Add(new HealAction(you));
+            you.Adjectives.Add(medic);
             
             //now you can heal stuff
             Assert.IsTrue(you.GetFinalActions().OfType<HealAction>().Any());
@@ -139,7 +141,10 @@ namespace Tests.Systems
             var you = YouInARoom(out IWorld world);
 
             //you are a medic
-            you.Adjectives.Add(new Adjective(Mock.Of<IActor>()){Name = "Medic",BaseActions = {new HealAction()}});
+            var medic = new Adjective(Mock.Of<IActor>()) {Name = "Medic"};
+            medic.BaseActions.Add(new HealAction(you));
+            you.Adjectives.Add(medic);
+
             you.BaseStats[Stat.Savvy] = 20;
 
             //give them an injury
@@ -177,14 +182,17 @@ namespace Tests.Systems
             var you = YouInARoom(out IWorld world);
 
             //you are a medic
-            you.Adjectives.Add(new Adjective(you){Name = "Medic",BaseActions = {new HealAction()}});
+            var medic = new Adjective(you) {Name = "Medic"};
+            medic.BaseActions.Add(new HealAction(medic));
+            you.Adjectives.Add(medic);
+
             you.BaseStats[Stat.Savvy] = 50;
-            you.With(world.AdjectiveFactory, "Giant");
+            you.With(world,world.AdjectiveFactory, "Giant");
             
 
             if(withGiantItem)
             {
-                var hammer = new Item("Hammer").With(world.AdjectiveFactory, "Giant");
+                var hammer = new Item("Hammer").With(world,world.AdjectiveFactory, "Giant");
                 you.Items.Add(hammer);
             }
 
@@ -221,14 +229,14 @@ namespace Tests.Systems
             
             //give you 2 kits
             var kit1= world.ItemFactory.Create(world, new ItemBlueprint() {Name = "Kit"})
-                .With(world.AdjectiveFactory,"Medic","SingleUse");
+                .With(world,world.AdjectiveFactory,"Medic","SingleUse");
             you.Items.Add(kit1);
             var kit2 = world.ItemFactory.Create(world,new ItemBlueprint() {Name = "Kit"})
-                .With(world.AdjectiveFactory,"Medic","SingleUse");
+                .With(world,world.AdjectiveFactory,"Medic","SingleUse");
             you.Items.Add(kit2);
 
             //now you can heal stuff
-            Assert.AreEqual(1,you.GetFinalActions().OfType<HealAction>().Count());
+            Assert.AreEqual(2,you.GetFinalActions().OfType<HealAction>().Count());
             //you have 2 kits
             Assert.AreEqual(2,you.Items.Count(i=>i.Name.Equals("Kit")));
             
@@ -239,7 +247,7 @@ namespace Tests.Systems
             var stack = new ActionStack();
 
             Assert.Contains(injury, you.Adjectives.ToArray());
-            stack.RunStack(world,new FixedChoiceUI(you, injury), you.GetFinalActions().OfType<HealAction>().Single(), you, you.GetFinalBehaviours());
+            stack.RunStack(world,new FixedChoiceUI(you, injury), you.GetFinalActions().OfType<HealAction>().First(), you, you.GetFinalBehaviours());
             
             //injury is gone
             Assert.IsFalse(you.Adjectives.Contains(injury));
@@ -254,7 +262,7 @@ namespace Tests.Systems
             var you = YouInARoom(out IWorld world);
             you.BaseStats[Stat.Savvy] = 50;
             var kitStack = (ItemStack)world.ItemFactory.Create(world, new ItemBlueprint {Name = "Kit", Stack = 2})
-                .With(world.AdjectiveFactory, "SingleUse", "Medic");
+                .With(world,world.AdjectiveFactory, "SingleUse", "Medic");
             you.Items.Add(kitStack);
 
             Assert.AreEqual(2,kitStack.StackSize);
@@ -308,7 +316,8 @@ namespace Tests.Systems
         [Test]
         public void TestTooManyInjuries_IsFatal()
         {
-            var you = YouInARoom(out IWorld w).With(new LoadGunsAction());
+            var you = YouInARoom(out IWorld w);
+            you.With(new LoadGunsAction(you));
 
             //give them an injury
             var injury = new Injured("Cut Lip", you, 20, InjuryRegion.Leg,w.InjurySystems.First(i=>i.IsDefault));

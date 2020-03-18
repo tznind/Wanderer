@@ -13,18 +13,18 @@ namespace Tests.BehaviourTests
         [Test]
         public void TestForbidDirection()
         {
-            TwoInARoom(out _, out IActor them, out IWorld w);
+            TwoInARoom(out You you, out IActor them, out IWorld w);
 
             them.BaseBehaviours.Add(new ForbidBehaviour<LeaveAction>(new ConditionCode<Frame>("return LeaveDirection == Direction.South"), them));
             var behaviour = them.GetFinalBehaviours().OfType<ForbidBehaviour<LeaveAction>>().Single();
             
             //we don't forbid going north
-            Assert.IsFalse(behaviour.Condition.IsMet(w,new LeaveFrame(them,new LeaveAction(),Direction.North,0)));
+            Assert.IsFalse(behaviour.Condition.IsMet(w,new LeaveFrame(them,new LeaveAction(you),Direction.North,0)));
             //we DO forbid going South
-            Assert.IsTrue(behaviour.Condition.IsMet(w,new LeaveFrame(them,new LeaveAction(),Direction.South,0)));
+            Assert.IsTrue(behaviour.Condition.IsMet(w,new LeaveFrame(them,new LeaveAction(you),Direction.South,0)));
 
             var ui = GetUI(Direction.South);
-            w.RunRound(ui,new LeaveAction());
+            w.RunRound(ui,new LeaveAction(you));
 
             Assert.Contains("Chaos Sam prevented Test Wanderer from performing action Leave",ui.MessagesShown);
 

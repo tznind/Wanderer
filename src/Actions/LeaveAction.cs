@@ -8,7 +8,14 @@ namespace Wanderer.Actions
 {
     public class LeaveAction : Action
     {
+        
+        public LeaveAction(IHasStats owner) : base(owner)
+        {
+        }
 
+        private LeaveAction() : base(null)
+        {
+        }
         public override char HotKey => 'l';
         
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
@@ -56,6 +63,15 @@ namespace Wanderer.Actions
         public override bool HasTargets(IActor performer)
         {
             return GetTargets(performer).Any();
+        }
+        
+        public override string ToString()
+        {
+            if(Owner is IActor)
+                return $"{Name}";
+
+            //leave via item? what is this a teleporter?
+            return base.ToString();
         }
     }
 }
