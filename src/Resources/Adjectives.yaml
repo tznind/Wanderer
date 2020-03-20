@@ -23,7 +23,7 @@
 - Name: Tired
   Identifier: 378449b2-2b29-4849-81b6-04433dba02a9
   Stats:
-    Fight: 10
+    Fight: -10
 
 - Name: Medic
   Actions:
