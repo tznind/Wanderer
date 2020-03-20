@@ -107,6 +107,14 @@ namespace Wanderer.Systems
         /// </summary>
         public string FatalVerb { get; set; } = "injuries";
 
+
+        /// <summary>
+        /// Should seperate applications of the injury be merged e.g. if your on fire
+        /// and you get a bit hotter then it makes sense just to beef up the original
+        //  instance
+        /// </summary>
+        public bool MergeInstances {get;set;}
+
         public virtual void Apply(SystemArgs args)
         {
             if(args.Intensity < 0 )
@@ -114,6 +122,17 @@ namespace Wanderer.Systems
 
             if (args.Recipient == null)
                 return;
+
+            if(MergeInstances)
+            {
+                var existing = args.Recipient.Adjectives.OfType<IInjured>().Where(i=>i.InjurySystem.Equals(this)).FirstOrDefault();
+                
+                if(existing != null)
+                {
+                    Amplify(existing,args.Intensity,args.UserInterface,args.Round);
+                    return;
+                }
+            }
 
             var candidate = GetBlueprintFor(args.Intensity);
 
@@ -220,17 +239,8 @@ namespace Wanderer.Systems
 
         public virtual void Worsen(Injured injured, IUserinterface ui, Guid round)
         {
-            injured.Severity+=10;
+            Amplify(injured,10,ui,round);
 
-            //if injury names should be updated with severity
-            if(SyncDescriptions)
-            {
-                var newInjury = GetBlueprintFor(injured.Severity);
-
-                if(newInjury != null)
-                    injured.Name = newInjury.Name;
-            }
-            
             //if wounds can become infected
             if (!injured.IsInfected && Infection)
             {
@@ -247,7 +257,23 @@ namespace Wanderer.Systems
             }
         }
 
-        
+        private void Amplify(IInjured injured, double value, IUserinterface ui, Guid round)
+        {
+            injured.Severity+=10;
+
+            //if injury names should be updated with severity
+            if(SyncDescriptions)
+            {
+                var newInjury = GetBlueprintFor(injured.Severity);
+
+                if(newInjury != null && injured.Name != newInjury.Name)
+                {
+                    ui.Log.Info(new LogEntry($"{injured.Owner} {injured.Name} became a {newInjury.Name}",round,injured.Owner as IActor));
+                    injured.Name = newInjury.Name;
+                }
+            }
+        }
+
         public virtual void Heal(Injured injured, IUserinterface ui, Guid round)
         {
             injured.Owner.Adjectives.Remove(injured);
