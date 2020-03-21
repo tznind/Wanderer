@@ -30,6 +30,7 @@ namespace Wanderer.Actions
         public override void Pop(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
         {
             var f = (PickUpFrame)frame;
+            PrimeWithTarget = null;
 
             if (f.FromRoom.Items.Contains(f.Item))
             {

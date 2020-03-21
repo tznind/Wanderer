@@ -49,6 +49,7 @@ namespace Wanderer.Actions
         public override void Pop(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
         {
             var f = (FightFrame) frame;
+            PrimeWithTarget = null;
 
             if (f.InjurySystem == null)
                 f.InjurySystem = f.PerformedBy.GetBestInjurySystem();

@@ -35,6 +35,7 @@ namespace Wanderer.Actions.Coercion
         public override void Pop(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
         {
             var f = (CoerceFrame)frame ;
+            PrimeWithTarget = null;
             ((Npc)f.TargetIfAny).NextAction = f;
             f.TargetIfAny.Adjectives.Add(new Coerced(f));
 
