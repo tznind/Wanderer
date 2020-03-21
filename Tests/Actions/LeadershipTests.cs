@@ -21,7 +21,7 @@ namespace Tests.Actions
             var you = YouInARoom(out IWorld w);
 
             //nobody else in room
-            Assert.IsFalse(new LeadershipAction().HasTargets(you));
+            Assert.IsFalse(new LeadershipAction(you).HasTargets(you));
 
             //enemy in room
             var npc = new Npc("Chaos Bob",you.CurrentLocation);
@@ -30,11 +30,11 @@ namespace Tests.Actions
             var rel = new PersonalRelationship(npc,you){Attitude = -10};
             w.Relationships.Add(rel);
 
-            Assert.IsFalse(new LeadershipAction().HasTargets(you));
+            Assert.IsFalse(new LeadershipAction(you).HasTargets(you));
 
             //he is your friend
             rel.Attitude = 10;
-            Assert.IsTrue(new LeadershipAction().HasTargets(you));
+            Assert.IsTrue(new LeadershipAction(you).HasTargets(you));
         }
 
 
@@ -44,18 +44,18 @@ namespace Tests.Actions
             TwoInARoomWithRelationship(10,false,out You you, out IActor them,out IWorld world);
 
             // they must have the actions for the plans to be viable
-            them.BaseActions.Add(new LoadGunsAction());
-            them.BaseActions.Add(new InspectAction());
+            them.BaseActions.Add(new LoadGunsAction(them));
+            them.BaseActions.Add(new InspectAction(them));
 
             var plan1 = new Plan()
                 {
                     Weight = 10,
-                    Do = Mock.Of<IFrameSource>(f=>f.GetFrame(It.IsAny<SystemArgs>()) == new Frame(them,new InspectAction(),0))
+                    Do = Mock.Of<IFrameSource>(f=>f.GetFrame(It.IsAny<SystemArgs>()) == new Frame(them,new InspectAction(you),0))
                 };
             var plan2 = new Plan()
                 {
                     Weight = 0,
-                    Do = Mock.Of<IFrameSource>(f=>f.GetFrame(It.IsAny<SystemArgs>()) == new Frame(them,new LoadGunsAction(),0))
+                    Do = Mock.Of<IFrameSource>(f=>f.GetFrame(It.IsAny<SystemArgs>()) == new Frame(them,new LoadGunsAction(you),0))
                 };
 
                 Assert.IsNull(((Npc)them).Plan);
@@ -70,7 +70,7 @@ namespace Tests.Actions
             Assert.IsEmpty(them.Adjectives.OfType<LedAdjective>().ToArray());
 
             //now give them some friendly leadership advice to go with plan2 instead
-            world.RunRound(GetUI(them,plan2,30d),new LeadershipAction());
+            world.RunRound(GetUI(them,plan2,30d),new LeadershipAction(you));
 
             //they should now be being led by your guidance
             Assert.AreEqual(1,them.Adjectives.OfType<LedAdjective>().Count());

@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using Wanderer;
 using Wanderer.Actors;
 using Wanderer.Adjectives;
+using Wanderer.Compilation;
 using Wanderer.Factories;
+using Wanderer.Factories.Blueprints;
 using Wanderer.Items;
 using Wanderer.Stats;
 
@@ -21,10 +24,10 @@ namespace Tests.Actors
          var yaml = @"
 - Name: Centipede
   OptionalAdjectives:
-    - Type: Giant
-    - Type: Rusty
-    - Type: Strong
-    - Type: Tough
+    - Giant
+    - Rusty
+    - Strong
+    - Tough
   Stats:
     Fight: 30
 - Name: Crab
@@ -33,12 +36,12 @@ namespace Tests.Actors
     Verb: talk
     Next: 566ae926-a1fe-4209-9a15-fce026dbc5d1
   OptionalAdjectives:
-    - Type: Strong
+    - Strong
   Stats:
     Fight: 40
 ";
          
-            var actorFactory = new YamlActorFactory(yaml, null, adj);
+            var actorFactory = new ActorFactory{Blueprints = Compiler.Instance.Deserializer.Deserialize<List<ActorBlueprint>>(yaml)};
             Assert.GreaterOrEqual(actorFactory.Blueprints.Count , 2);
 
             var room = InARoom(out IWorld w);
@@ -61,9 +64,9 @@ namespace Tests.Actors
 
             string yaml = @"- Name: Servitor
   MandatoryAdjectives:
-    - Type: Rusty
-    - Type: Strong
-    - Type: Tough
+    - Rusty
+    - Strong
+    - Tough
   Stats:
     Fight: 30
     Loyalty: 20
@@ -73,8 +76,7 @@ namespace Tests.Actors
         Value: 10";
 
             var room = InARoom(out IWorld w);
-            var adj = new AdjectiveFactory();
-            var actorFactory = new YamlActorFactory(yaml, null,adj);
+            var actorFactory = new ActorFactory{Blueprints = Compiler.Instance.Deserializer.Deserialize<List<ActorBlueprint>>(yaml)};
             var servitor = actorFactory.Create(w, room, null,actorFactory.Blueprints.Single(),null);
 
             Assert.AreEqual("Servitor",servitor.Name);

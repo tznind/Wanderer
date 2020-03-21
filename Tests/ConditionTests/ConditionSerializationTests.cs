@@ -6,7 +6,9 @@ using Moq;
 using NUnit.Framework;
 using Wanderer;
 using Wanderer.Actors;
+using Wanderer.Compilation;
 using Wanderer.Factories;
+using Wanderer.Factories.Blueprints;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 
@@ -24,7 +26,7 @@ namespace Tests.ConditionTests
   Require: 
     - {condition}
 ";
-            var itemFactory = new YamlItemFactory(yaml,new AdjectiveFactory());
+            var itemFactory = new ItemFactory{Blueprints = Compiler.Instance.Deserializer.Deserialize<List<ItemBlueprint>>(yaml)};
             var createdInstance = itemFactory.Blueprints.Single().Require.Single();
 
             Assert.AreEqual(condition == "return true", createdInstance.IsMet(new World(),Mock.Of<IActor>()));

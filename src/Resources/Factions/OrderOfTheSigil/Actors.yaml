@@ -1,10 +1,10 @@
 ﻿- Name: 
   OptionalAdjectives:
-    - Type: Strong
-    - Type: Tough
+    - Strong
+    - Tough
 - Name: # Gets a random name
   OptionalAdjectives:
-    - Type: Strong
+    - Strong
   Stats:
     Fight: 20
     Loyalty: -10

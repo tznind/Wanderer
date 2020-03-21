@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 using Wanderer.Actors;
 using Wanderer.Behaviours;
 using Wanderer.Stats;
@@ -7,6 +8,15 @@ namespace Wanderer.Actions
 {
     public class LoadGunsAction : Action
     {
+        private LoadGunsAction():base(null)
+        {
+            
+        }
+
+        public LoadGunsAction(IHasStats owner):base(owner)
+        {
+            
+        }
 
         public override char HotKey => 'n';
 
@@ -37,6 +47,12 @@ namespace Wanderer.Actions
         public override bool HasTargets(IActor performer)
         {
             return true;
+        }
+
+        public override IEnumerable<IHasStats> GetTargets(IActor performer)
+        {
+            if (Owner != null)
+                yield return Owner;
         }
     }
 }

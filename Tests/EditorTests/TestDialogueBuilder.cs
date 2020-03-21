@@ -12,6 +12,8 @@ using YamlDotNet.Serialization;
 
 namespace Tests.EditorTests
 {
+    [TestFixture]
+    [Parallelizable(ParallelScope.Fixtures)]
     class TestDialogueBuilder
     {
         [Test]

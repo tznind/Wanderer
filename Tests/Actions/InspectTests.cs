@@ -16,7 +16,7 @@ namespace Tests.Actions
             var stack = new ActionStack();
             var ui = GetUI(them);
 
-            var action = new InspectAction();
+            var action = new InspectAction(them);
             //you can pick them as a target
             Assert.IsTrue(action.HasTargets(you));
 

@@ -6,9 +6,9 @@
     NumberRequired: 2
 - Name: Hammer
   OptionalAdjectives:
-    - Type: Strong
-    - Type: Rusty
-    - Type: Giant
+    - Strong
+    - Rusty
+    - Giant
   Stats: 
     Fight: 5
   Slot:
@@ -16,7 +16,7 @@
     NumberRequired: 2
 - Name: Pistol
   OptionalAdjectives:
-    - Type: Rusty
+    - Rusty
   Stats: 
     Fight: 20
   Slot:
@@ -24,7 +24,7 @@
     NumberRequired: 1
 - Name: Kit
   MandatoryAdjectives:
-    - Type: SingleUse
-    - Type: Medic
+    - SingleUse
+    - Medic
   Stats:
     Value: 10

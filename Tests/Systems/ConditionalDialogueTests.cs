@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using Wanderer;
 using Wanderer.Actions;
@@ -29,7 +30,7 @@ namespace Tests.Systems
             {
                 Identifier = g1,
                 Body = new List<TextBlock>{new TextBlock("Hey I want to give you all the space bucks!") },
-                Require = new List<ICondition<SystemArgs>>()
+                Condition = new List<ICondition<SystemArgs>>()
                 {
                     new ConditionCode<SystemArgs>("return Recipient:AttitudeTo(AggressorIfAny) > 5")
                 } 
@@ -39,10 +40,10 @@ namespace Tests.Systems
             them.Dialogue.Next = g1;
             them.Dialogue.Verb = "talk";
             
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 10; i++)
             {
                 var ui = new FixedChoiceUI("talk:Chaos Sam");
-                w.RunRound(ui,new DialogueAction());
+                w.RunRound(ui,you.GetFinalActions().OfType<DialogueAction>().Single());
 
                 if(friends)
                     Assert.Contains("Hey I want to give you all the space bucks!",ui.MessagesShown);

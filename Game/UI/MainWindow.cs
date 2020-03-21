@@ -11,6 +11,7 @@ using Wanderer.Actors;
 using Wanderer.Factories;
 using Terminal.Gui;
 using Wanderer.Actions;
+using Wanderer.Items;
 
 namespace Game.UI
 {
@@ -31,7 +32,7 @@ namespace Game.UI
         private HasStatsView _detail;
         private MapView _mapView;
         private RoomContentsRenderer _roomContentsRenderer = new RoomContentsRenderer();
-
+        ActionManager _actionManager = new ActionManager();
         public bool ShowMap => World?.Map != null && _detail == null;
         
         public MainWindow(WorldFactory worldFactory):base("Game")
@@ -88,6 +89,7 @@ namespace Game.UI
             var dlg = new ModalDialog(this,"Factions",v);
             Application.Run(dlg);
         }
+
 
         public void NewGame()
         {
@@ -257,7 +259,7 @@ namespace Game.UI
             {
                 T v1 = value;
 
-                string name = value is IAction a ? GetActionButtonName(a) : value.ToString();
+                string name = value.ToString();
 
                 var btn = new Button(0, line++, name)
                 {
@@ -355,10 +357,6 @@ namespace Game.UI
 
         };
 
-        
-
-        
-        
         public void UpdateActions()
         {
             Title = $"Map ({World.Player.CurrentLocation.GetPoint()})";
@@ -370,13 +368,10 @@ namespace Game.UI
 
             int buttonLoc = 0;
 
-            var allActions = World.Player.GetFinalActions().Where(a=>a.HasTargets(World.Player));
-
             //don't run out of UI spaces! (maybe we can page this later on if we get too many unique actions to render)
-            foreach (var action in allActions.Take(_buttonLocations.Count))
+            foreach (var actionDescription in _actionManager.GetTypes(World.Player,true).Take(_buttonLocations.Count))
             {
-
-                var name = GetActionButtonName(action);
+                var name = GetActionButtonName(actionDescription);
 
                 var btn = new Button( name, false)
                 {
@@ -388,8 +383,7 @@ namespace Game.UI
                     {
                         try
                         {
-                            World.RunRound(this, action);
-                            this.Refresh();
+                            RunRound(actionDescription);
                         }
                         catch (Exception e)
                         {
@@ -404,7 +398,24 @@ namespace Game.UI
             }
         }
 
-        private string GetActionButtonName(IAction action)
+        private void RunRound(ActionDescription actionDescription)
+        {
+            var instances = _actionManager.GetInstances(World.Player, actionDescription, true);
+
+            if(instances.Count == 1 && !(instances[0] is DialogueAction)) /* Always ask for this*/
+                World.RunRound(this, instances.Single());
+            else
+            if(instances.Count == 0)
+                ShowMessage("No targets","No valid targets");
+            else
+            if (GetChoice("Action", null, out IAction chosen, instances.ToArray())) 
+                World.RunRound(this, chosen);
+
+
+            this.Refresh();
+        }
+
+        private string GetActionButtonName(ActionDescription action)
         {
             //indicate hotkey by using underscore
             var idx = action.Name.ToLower().IndexOf(char.ToLower(action.HotKey));
@@ -463,10 +474,32 @@ namespace Game.UI
 
         public override bool ProcessColdKey(KeyEvent keyEvent)
         {
-            if (keyEvent.Key == Key.Enter && _roomContents != null && _roomContents.HasFocus)
+            if (keyEvent.Key == Key.Enter && _roomContents != null)
             {
                 if(_roomContents.SelectedItem < _roomContentsObjects.Count)
-                    ShowStats(_roomContentsObjects[_roomContents.SelectedItem]);
+                {
+                    var target = _roomContentsObjects[_roomContents.SelectedItem];
+
+                    var options = World.Player.GetFinalActions()
+                    .Where(a=> a.Owner == target ||
+                    a.GetTargets(World.Player).Contains(target)
+                    )
+                    .ToArray();
+
+                    if(options.Any() && GetChoice("Action",null,out IAction chosen,options))
+                    {
+                        if(chosen is FightAction f)
+                            f.PrimeWithTarget = target as IActor;
+                        if (chosen is PickUpAction p)
+                            p.PrimeWithTarget = target as IItem;
+
+                        World.RunRound(this, chosen);
+                        Refresh();
+
+                        SetFocus(_roomContents);
+                        _roomContents.SelectedItem = 0;
+                    }
+                }
             }
 
             if (keyEvent.Key == Key.Esc && _detail != null )
@@ -504,7 +537,7 @@ namespace Game.UI
 
                 var o = _roomContentsObjects[selected];
 
-                _detail.InitializeComponent(o as IActor ?? World.Player,o,DlgWidth,DlgHeight);
+                _detail.InitializeComponent(o as IActor ?? World.Player,o,Bounds.Width,Bounds.Height-3);
                 _detail.X = 1;
                 _detail.Y = 1;
                 _detail.Width = Dim.Percent(70);

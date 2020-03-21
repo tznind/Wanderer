@@ -7,9 +7,13 @@ HealerStatMultiplier: 0.5
 WorsenRate: 10
 ResistWorsen:
   Vulnerable:
-  - Wanderer.Adjectives.RoomOnly.Stale, Wanderer, Version=0.0.6.0, Culture=neutral, PublicKeyToken=null
+  - Stale
   Immune:
-  - Wanderer.Adjectives.Tough, Wanderer, Version=0.0.6.0, Culture=neutral, PublicKeyToken=null
+  - Tough
+ResistHeal:
+  #Giants are harder to heal
+  Resist: 
+    - Giant
 
 NaturalHealThreshold: 20
 NaturalHealRate: 10

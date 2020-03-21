@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using Moq;
 using NUnit.Framework;
 using Wanderer;
@@ -15,12 +16,24 @@ namespace Tests
 {
     class WorldValidatorTests
     {
+        public string EmptyDir => Path.Combine(TestContext.CurrentContext.WorkDirectory, "EmptyDir");
+        public string NormalResourcesDirectory => Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources");
+
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
+        {
+            Directory.CreateDirectory(EmptyDir);
+        }
+
         [Test]
         public void TestWorldValidator_Success()
         {
             var v = new WorldValidator();
-
-            v.Validate(new WorldFactory());
+            v.IncludeStackTraces = true;
+            v.Validate(new WorldFactory()
+            {
+                ResourcesDirectory = NormalResourcesDirectory
+            });
 
             Assert.IsEmpty(v.Errors.ToString());
             Assert.IsEmpty(v.Warnings.ToString());
@@ -29,16 +42,23 @@ namespace Tests
             Assert.AreEqual(0,v.ErrorCount);
         }
 
+        
+
         [Test]
         public void TestWorldValidator_MissingDialogue()
         {
             var v = new WorldValidator();
-            var f = new WorldFactory();
+            var f = new WorldFactory
+            {
+                ResourcesDirectory = NormalResourcesDirectory
+            };
 
             var w = f.Create();
 
             w.Dialogue.AllDialogues.Clear();
             v.Validate(w);
+
+            Assert.GreaterOrEqual(v.ErrorCount,10);
             
             StringAssert.Contains("Could not find Dialogue",v.Errors.ToString());
         }
@@ -46,13 +66,13 @@ namespace Tests
         [Test]
         public void TestWorldValidator_BadConditionCode()
         {
-            var w = new WorldFactory().Create();
+            var w = new WorldFactory {ResourcesDirectory = EmptyDir}.Create();
             var v = new WorldValidator();
 
             var d = new DialogueNode()
             {
                 Identifier = new Guid("1cf15faf-837b-4629-84c5-bdfa7631a905"),
-                Require = {new ConditionCode<SystemArgs>("Tr oll oll = 1")}
+                Condition = {new ConditionCode<SystemArgs>("Tr oll oll = 1")}
             };
             w.Dialogue.AllDialogues.Add(d);
 
@@ -69,7 +89,7 @@ namespace Tests
         [Test]
         public void TestWorldValidator_DialogueWithNoText()
         {
-            var w = new WorldFactory().Create();
+            var w = new WorldFactory{ResourcesDirectory = EmptyDir}.Create();
             var v = new WorldValidator();
 
             var d = new DialogueNode()
@@ -93,7 +113,10 @@ namespace Tests
         [Test]
         public void TestWorldValidator_DialogueOptionWithNoText()
         {
-            var w = new WorldFactory().Create();
+            var world = 
+                new WorldFactory {ResourcesDirectory = EmptyDir}
+                    .Create();
+
             var v = new WorldValidator();
 
             var d = new DialogueNode()
@@ -105,22 +128,23 @@ namespace Tests
                 },
                 Options = {new DialogueOption()}
             };
-            w.Dialogue.AllDialogues.Add(d);
+            world.Dialogue.AllDialogues.Add(d);
 
-            v.Validate(w,w.Player,new DialogueInitiation()
+            v.Validate(world,world.Player,new DialogueInitiation()
             {
                 Next = new Guid("1cf15faf-837b-4629-84c5-bdfa7631a905")
 
-            },w.Player.CurrentLocation );
+            },world.Player.CurrentLocation );
             
             StringAssert.Contains("A Dialogue Option of Dialogue '1cf15faf-837b-4629-84c5-bdfa7631a905' has no Text",v.Errors.ToString());
         }
 
 
+
         [TestCase("sdf sdf sdf","syntax error near 'sdf'")] // bad compile time value
         public void TestWorldValidator_DialogueOptionWithBadEffectCode(string badCode, string expectedError)
         {
-            var w = new WorldFactory().Create();
+            var w = new WorldFactory{ResourcesDirectory = EmptyDir}.Create();
             var v = new WorldValidator();
 
             var d = new DialogueNode()
@@ -157,7 +181,7 @@ namespace Tests
                 [Test]
         public void TestWorldValidator_DialogueOptionWithMissingDestination()
         {
-            var w = new WorldFactory().Create();
+            var w = new WorldFactory{ResourcesDirectory = EmptyDir}.Create();
             var v = new WorldValidator();
 
             var d = new DialogueNode()
@@ -248,6 +272,37 @@ namespace Tests
             v.Validate(Mock.Of<IWorld>(),plan, Mock.Of<IActor>());
 
             StringAssert.Contains(@"Failed to validate DoFrame of Plan 'Do something nefarious'",v.Warnings.ToString());
+        }
+
+        
+        [Test]
+        public void TestWorldValidator_BadYaml()
+        {
+            var dir = new DirectoryInfo(Path.Combine(TestContext.CurrentContext.WorkDirectory, "BadYamlDir"));
+
+            if(dir.Exists)
+                dir.Delete(true);
+
+            dir.Create();
+
+            var f = new WorldFactory()
+            {
+                ResourcesDirectory = dir.FullName
+            };
+
+            File.WriteAllText(Path.Combine(dir.FullName,"Rooms.yaml"),"ffffff");
+            
+            var v = new WorldValidator();
+            v.Validate(f);
+            StringAssert.Contains("Error Creating World",v.Errors.ToString());
+            StringAssert.Contains("Error loading RoomBlueprint in file",v.Errors.ToString());
+            StringAssert.Contains("Rooms.yaml",v.Errors.ToString());
+            
+
+            Assert.IsEmpty(v.Warnings.ToString());
+            Assert.AreEqual(1,v.ErrorCount);
+            Assert.AreEqual(0,v.WarningCount);
+        
         }
     }
 }

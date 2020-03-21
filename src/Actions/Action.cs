@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using Wanderer.Actors;
@@ -6,22 +7,20 @@ using Wanderer.Behaviours;
 
 namespace Wanderer.Actions
 {
-
-    /// <inheritdoc/>
-    public abstract class Action : IAction
+    public abstract class Action : HasStats,IAction
     {
-        /// <inheritdoc/>
-        public string Name { get; set; }
-
         [JsonIgnore]
         public abstract char HotKey {get;}
+        
+        public IHasStats Owner { get; set; }
 
         /// <summary>
-        /// Initializes action with a default <see cref="Name"/> based on the class name
+        /// Initializes action with a default <see cref="HasStats.Name"/> based on the class name
         /// </summary>
-        protected Action()
+        protected Action(IHasStats owner)
         {
             Name = GetType().Name.Replace("Action", "");
+            Owner = owner;
         }
 
         /// <summary>
@@ -51,6 +50,19 @@ namespace Wanderer.Actions
         }
 
         public abstract bool HasTargets(IActor performer);
+        
+        public abstract IEnumerable<IHasStats> GetTargets(IActor performer);
+
+        public virtual IAction Clone()
+        {
+            //TODO preserve Owner
+            return (IAction) Activator.CreateInstance(GetType(),true);
+        }
+
+        public virtual ActionDescription ToActionDescription()
+        {
+            return new ActionDescription(){HotKey = HotKey, Name = Name};
+        }
 
         public bool AreIdentical(IAction other)
         {
@@ -60,13 +72,9 @@ namespace Wanderer.Actions
             return this.Name == other.Name;
         }
 
-        /// <summary>
-        /// Returns <see cref="Name"/>
-        /// </summary>
-        /// <returns></returns>
         public override string ToString()
         {
-            return Name;
+            return $"{Name} [{Owner}]";
         }
 
         
@@ -85,25 +93,6 @@ namespace Wanderer.Actions
         {
             return Enum.GetValues(typeof(T)).Cast<T>()
                 .Where(t => !string.Equals(t.ToString(), "None", StringComparison.CurrentCultureIgnoreCase)).ToArray();
-        }
-
-
-        protected bool Equals(Action other)
-        {
-            return other.GetType() == GetType();
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
-            return Equals((Action) obj);
-        }
-
-        public override int GetHashCode()
-        {
-            return GetType().GetHashCode();
         }
     }
 }

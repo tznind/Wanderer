@@ -38,12 +38,13 @@ namespace Wanderer.Actors
             BaseStats[Stat.Savvy] = 20;
 
             //player can coerce Npc
-            BaseActions.Add(new CoerceAction());
-            //player can inspect Npc
-            BaseActions.Add(new InspectAction());
+            BaseActions.Add(new CoerceAction(this));
 
             //for now lets not confuse the player by having Npc countermand their orders
-            BaseActions.Add(new LeadershipAction());
+            BaseActions.Add(new LeadershipAction(this));
+
+            CanInitiateDialogue = true;
+            CanInspect = true;
         }
 
         public override bool Decide<T>(IUserinterface ui, string title, string body, out T chosen, T[] options, double attitude)

@@ -8,30 +8,31 @@
       - AggressorIfAny:SpawnItem('Mould Ale')
   - Text: Make it moonshine, sunshine
     Destination: 3265fbfe-ec71-4036-b1da-64c539efe572
-  - Text: What’s a ‘cutter’?
+  - Text: What's a 'cutter'?
     Destination: 72c7a965-6b87-4043-9a87-2db3f65897bf
   - Text: Heard any rumours lately?
     Destination: b15c43e2-8b00-4c67-bbe8-b0f2dde27761
-  - Text: What’s there to do in a hole like this?
+  - Text: What's there to do in a hole like this?
     Destination: 97ddb94f-3968-451b-b597-121479dffc8a
+  - Text: Leave
 
 #Mould Ale Pls
 - Identifier: 8482f515-8797-4d5f-a7d7-cea904a9ec40
   Body:
-  - Text: Hrumph. Whatever, here’s your drink
+  - Text: Hrumph. Whatever, here's your drink
 
 #Moonshine
 - Identifier: 3265fbfe-ec71-4036-b1da-64c539efe572
   Body:
-  - Text: What’s that [sunshine]?
+  - Text: What's that [sunshine]?
   Options:
   - Text: Nevermind
-  - Text: It’s bright and glows... dunno really
+  - Text: It's bright and glows... dunno really
     Destination: 559ff191-45dd-4913-95a1-c5a1e0fd73f7
 #Whats sunshine
 - Identifier: 559ff191-45dd-4913-95a1-c5a1e0fd73f7
   Body:
-  - Text: Sounds like a stab light. But here you go, here’s your drink
+  - Text: Sounds like a stab light. But here you go, here's your drink
 
 #whats cutter
 - Identifier: 72c7a965-6b87-4043-9a87-2db3f65897bf
@@ -53,7 +54,7 @@
 #What to do?
 - Identifier: 97ddb94f-3968-451b-b597-121479dffc8a
   Body:
-  - Text: Drinking, rutting and chukin dice. What’s your pleasure?
+  - Text: Drinking, rutting and chukin dice. What's your pleasure?
   Options:
   - Text: Drinking
     Destination: 2ce9e104-97e8-451e-ab79-58f75932a892
@@ -67,17 +68,17 @@
 #Drinking
 - Identifier: 2ce9e104-97e8-451e-ab79-58f75932a892
   Body:
-  - Text: What’ll it be? Moonshine or mould
+  - Text: What'll it be? Moonshine or mould
 
 #Rutting
 - Identifier: bf174bb7-ce3f-48bf-8b23-ea7f4d3c27ea
   Body:
-  - Text: Better try your luck with one of the patrons then, you ain’t my type
+  - Text: Better try your luck with one of the patrons then, you ain't my type
 
 #Dice
 - Identifier: cf5a7f30-60cc-4ce9-a6e3-c349d54c396c
   Body:
-  - Text: Then go talk to Scrag over there she’s always up for a game
+  - Text: Then go talk to Scrag over there she's always up for a game
 
 #Death sticks
 - Identifier: 55cba8c8-d7f0-41f8-846e-5227e87c86ef

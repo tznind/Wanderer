@@ -5,8 +5,10 @@ using NUnit.Framework;
 using NUnit.Framework.Constraints;
 using Wanderer;
 using Wanderer.Actions;
+using Wanderer.Compilation;
 using Wanderer.Dialogues;
 using Wanderer.Factories;
+using Wanderer.Factories.Blueprints;
 using Wanderer.Items;
 using Wanderer.Stats;
 using Wanderer.Systems;
@@ -18,10 +20,6 @@ namespace Tests.Actors
         [Test]
         public void TestCreatingItem_FromBlueprint()
         {
-            var adj = new AdjectiveFactory();
-
-            //   var path = Path.Combine(TestContext.CurrentContext.TestDirectory, "./Resources/Factions/Guncrew/Actors.yaml");
-
             var yaml = @"
 - Name: Crumpled Pamphlet
   Dialogue: 
@@ -33,14 +31,13 @@ namespace Tests.Actors
     Next: f1909b20-80c3-4af4-b098-b6bf22bf5ca8
 ";
 
-            var factory = new YamlItemFactory(yaml, adj);
+            var factory = new ItemFactory{Blueprints = Compiler.Instance.Deserializer.Deserialize<List<ItemBlueprint>>(yaml)};
             Assert.AreEqual(2,factory.Blueprints.Count);
 
             var you = YouInARoom(out IWorld w);
             var item = factory.Create(w, factory.Blueprints[1]);
 
             Assert.AreEqual("Torn Pamphlet",item.Name);
-            Assert.AreEqual(1,item.BaseActions.OfType<DialogueAction>().Count());
             Assert.AreEqual(new Guid("f1909b20-80c3-4af4-b098-b6bf22bf5ca8"), item.Dialogue.Next);
 
             w.Dialogue.AllDialogues.Add(new DialogueNode()
@@ -87,19 +84,19 @@ namespace Tests.Actors
                 }
             });
 
-            var itemFactory = new YamlItemFactory(yaml, new AdjectiveFactory());
+            var itemFactory = new ItemFactory{Blueprints = Compiler.Instance.Deserializer.Deserialize<List<ItemBlueprint>>(yaml)};
 
             you.Items.Add(itemFactory.Create(w, itemFactory.Blueprints.Single()));
             var ui = GetUI("read:Encrypted Manual");
 
-            w.RunRound(ui,new DialogueAction());
+            w.RunRound(ui,new DialogueAction(you.Items.First()));
 
             Assert.Contains(@"Item requirements not met:return BaseStats[Stat.Savvy] > 50",ui.MessagesShown);
 
             you.BaseStats[Stat.Savvy] = 51;
 
             ui = GetUI("read:Encrypted Manual");
-            w.RunRound(ui,new DialogueAction());
+            w.RunRound(ui,new DialogueAction(you.Items.First()));
 
             Assert.Contains("The book is filled with magic secrets",ui.MessagesShown);
         }
@@ -115,7 +112,7 @@ namespace Tests.Actors
 - Name: Silver Bell";
 
             InARoom(out IWorld w);
-            var itemFactory = new YamlItemFactory(yaml, new AdjectiveFactory()); 
+            var itemFactory = new ItemFactory{Blueprints = Compiler.Instance.Deserializer.Deserialize<List<ItemBlueprint>>(yaml)}; 
             var item = itemFactory.Create(w, itemFactory.Blueprints[0]);
 
             Assert.IsInstanceOf<IItemStack>(item);

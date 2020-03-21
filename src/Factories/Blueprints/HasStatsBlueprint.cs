@@ -1,9 +1,11 @@
 ﻿using System;
 using Wanderer.Actions;
+using Wanderer.Actors;
 using Wanderer.Adjectives;
 using Wanderer.Dialogues;
 using Wanderer.Relationships;
 using Wanderer.Stats;
+using Wanderer.Systems;
 
 namespace Wanderer.Factories.Blueprints
 {
@@ -49,6 +51,12 @@ namespace Wanderer.Factories.Blueprints
         /// a random name from the faction <see cref="NameFactory"/> (null Name works for npc only)
         /// </summary>
         public string Name { get; set; }
+        
+        /// <summary>
+        /// Injury system of any <see cref="FightAction"/> the blueprint spawns (and for <see cref="IActor"/> the
+        /// innate weapons of the actor (leave null to use the <see cref="IInjurySystem.IsDefault"/>)
+        /// </summary>
+        public Guid? InjurySystem { get; set; }
 
         /// <summary>
         /// Things the object has to say, if multiple then one is picked at random.
@@ -57,17 +65,17 @@ namespace Wanderer.Factories.Blueprints
         public DialogueInitiation Dialogue { get; set; }
 
         /// <summary>
-        /// List of <see cref="IAdjective"/> type names (which must be supported by
-        /// <see cref="IAdjectiveFactory"/>) from which to pick at random when creating
+        /// List of <see cref="IAdjective"/> from which to pick at random when creating.
+        /// These can be either Guids, Names or Type names
         /// </summary>
-        public AdjectiveBlueprint[] OptionalAdjectives { get;set; } = new AdjectiveBlueprint[0];
+        public string[] OptionalAdjectives { get;set; } = new string[0];
 
         /// <summary>
         /// By default a subset of <see cref="OptionalAdjectives"/> are written to the
         /// objects created by this blueprint (e.g. depending on difficulty, luck etc).
-        /// Set those that MUST always be added
+        /// Set those that MUST always be added. These can be either Guids, Names or Type names
         /// </summary>
-        public AdjectiveBlueprint[] MandatoryAdjectives { get; set; } = new AdjectiveBlueprint[0];
+        public string [] MandatoryAdjectives { get; set; } = new string[0];
 
         /// <summary>
         /// The BaseStats to give the object

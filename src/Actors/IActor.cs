@@ -24,6 +24,18 @@ namespace Wanderer.Actors
         bool Dead { get; set; }
 
         /// <summary>
+        /// The word that describes how the actor fights when not
+        /// equipped with a weapon e.g. fisticuffs
+        /// </summary>
+        string FightVerb { get; set; }
+
+        /// <summary>
+        /// The injury system of your innate weapons e.g. fists, claws
+        /// flaming breath etc.  Does not include items wielded by you
+        /// </summary>
+        IInjurySystem InjurySystem { get; set; }
+
+        /// <summary>
         /// Where the <see cref="Actor"/> currently is
         /// </summary>
         IRoom CurrentLocation { get; set; }
@@ -84,23 +96,10 @@ namespace Wanderer.Actors
         
         /// <summary>
         /// Returns true if the <see cref="IActor"/> has the supplied adjective (or optionally
-        /// an item).
+        /// an item) that matches the <paramref name="name"/> which can be an <see cref="IHasStats.Identifier"/>.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="includeItems"></param>
         /// <returns></returns>
-        bool Has<T>( bool includeItems) where T:IAdjective;
-
-
-        /// <summary>
-        /// Returns true if the <see cref="IActor"/> has the supplied adjective (or optionally
-        /// an item) that matches the <paramref name="condition"/>.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="includeItems"></param>
-        /// <param name="condition"></param>
-        /// <returns></returns>
-        bool Has<T>(bool includeItems,Func<T,bool> condition) where T : IAdjective;
+        bool Has(string name, bool includeItems);
 
         StatsCollection GetFinalStats();
 
@@ -176,5 +175,13 @@ namespace Wanderer.Actors
         /// </summary>
         /// <param name="item"></param>
         void Equip(IItem item);
+
+
+        /// <summary>
+        /// Returns the injury system of your currently held weapon
+        /// or innate action (i.e. <see cref="InjurySystem"/>)
+        /// </summary>
+        /// <returns></returns>
+        IInjurySystem GetBestInjurySystem();
     }
 }

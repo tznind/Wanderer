@@ -1,14 +1,15 @@
-﻿using Wanderer.Actors;
+﻿using System.Collections.Generic;
+using Wanderer.Actors;
 using Wanderer.Behaviours;
 
 namespace Wanderer.Actions
 {
-    public interface IAction : IAreIdentical<IAction>
+    public interface IAction : IHasStats,IAreIdentical<IAction>
     {
         /// <summary>
-        /// The human readable name of the action which can be undertaken
+        /// The person or object granting the action
         /// </summary>
-        string Name { get; set; }
+        IHasStats Owner { get; set; }
 
         /// <summary>
         /// The hotkey for the action, should be a letter in the Name
@@ -41,5 +42,25 @@ namespace Wanderer.Actions
         /// <param name="performer"></param>
         /// <returns></returns>
         bool HasTargets(IActor performer);
+        /// <summary>
+        /// Returns true if there are legal targets for the ability.
+        /// </summary>
+        /// <param name="performer"></param>
+        /// <returns></returns>
+        IEnumerable<IHasStats> GetTargets(IActor performer);
+
+        /// <summary>
+        /// Creates a new copy of this action
+        /// </summary>
+        /// <returns></returns>
+        IAction Clone();
+
+        /// <summary>
+        /// Returns the shared user understandable common description of all instances
+        /// of this action.  E.g. each FightAction is separate but they share the same
+        /// description.
+        /// </summary>
+        /// <returns></returns>
+        ActionDescription ToActionDescription();
     }
 }

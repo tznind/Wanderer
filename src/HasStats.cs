@@ -72,7 +72,7 @@ namespace Wanderer
         {
             var clone = BaseStats.Clone();
             foreach (var adjective in Adjectives) 
-                clone.Add(adjective.GetFinalStats(forActor));
+                clone.Increase(adjective.GetFinalStats(forActor));
 
             return clone;
         }
@@ -111,34 +111,52 @@ namespace Wanderer
 
         public virtual IEnumerable<IHasStats> GetAllHaves()
         {
-            return Adjectives;
+            return Adjectives.Cast<IHasStats>().Union(BaseActions);
         }
 
-        public IEnumerable<IHasStats> GetAllHaves(Guid guid)
+        public List<IHasStats> Get(Guid? guid)
         {
-            return GetAllHaves().Where(h => Equals(h.Identifier , guid));
+            return GetAllHaves().Where(h => h.Is(guid)).ToList();
+        }
+        
+        public List<IHasStats> Get(string name)
+        {
+            return GetAllHaves().Where(h => h.Is(name)).ToList();
         }
 
         public bool Has(Guid? g)
         {
-            if (g.HasValue)
-                return 
-                    Identifier == g ||
-                    GetAllHaves().Any(a => a.Identifier == g);
-
-            return false;
+            return g.HasValue && (Is(g) || GetAllHaves().Any(h=>h.Is(g)));
         }
 
-        public bool Has(string typename)
+        public bool Has(string name)
         {
-            var types = Compiler.Instance.TypeFactory.Create<IHasStats>(true,true);
-            return Has(types.GetTypeNamed(typename));
+            if (string.IsNullOrWhiteSpace(name))
+                return false;
+
+            if (Guid.TryParse(name, out Guid g))
+                return Has(g);
+
+            return Is(name) || GetAllHaves().Any(h=>h.Is(name));
         }
 
-        public bool Has(Type type)
+        public bool Is(string name)
         {
-            return this.GetType() == type ||
-            GetAllHaves().Any(a => a.GetType() == type);
+            if (string.IsNullOrWhiteSpace(name))
+                return false;
+
+            if (Guid.TryParse(name, out Guid g))
+                return Is(g);
+
+            return
+            string.Equals(GetType().Name,name,StringComparison.CurrentCultureIgnoreCase)
+            ||
+             string.Equals(Name, name, StringComparison.CurrentCultureIgnoreCase);
+        }
+
+        public bool Is(Guid? g)
+        {
+            return g.HasValue && Equals(Identifier, g);
         }
     }
 }

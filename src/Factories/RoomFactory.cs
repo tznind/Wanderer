@@ -9,19 +9,13 @@ using Wanderer.Rooms;
 
 namespace Wanderer.Factories
 {
-    public class RoomFactory: HasStatsFactory<IRoom>, IRoomFactory
+    public class RoomFactory: HasStatsFactory<RoomBlueprint,IRoom>, IRoomFactory
     {
-        public List<RoomBlueprint> Blueprints { get; set; } = new List<RoomBlueprint>();
-        
-        public RoomFactory(IAdjectiveFactory adjectiveFactory):base(adjectiveFactory)
-        {
-        }
-        
         public IRoom Create(IWorld world)
         {
             return Create(world,Blueprints.Where(Spawnable).ToArray().GetRandom(world.R));
         }
-        public IRoom Create(World world, Point3 location)
+        public IRoom Create(IWorld world, Point3 location)
         {
             var exact = Blueprints.FirstOrDefault(b => Equals(location, b.FixedLocation));
 
@@ -57,7 +51,8 @@ namespace Wanderer.Factories
                 room.LeaveDirections = new HashSet<Direction>(blueprint.LeaveDirections);
             }
 
-            AddBasicProperties(room,blueprint,world,"look");
+            AddBasicProperties(world,room,blueprint,"look");
+            world.AdjectiveFactory.AddAdjectives(world,room, blueprint);
 
             //get some actors for the room
             world.ActorFactory.Create(world, room, faction,blueprint);

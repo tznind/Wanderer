@@ -16,10 +16,5 @@ namespace Wanderer.Actions.Coercion
             BaseStats[Stat.Initiative] = 10000;
             BaseBehaviours.Add(new CoercedBehaviour(this));
         }
-
-        public override IEnumerable<string> GetDescription()
-        {
-            yield return "Forced to perform a specific action";
-        }
     }
 }

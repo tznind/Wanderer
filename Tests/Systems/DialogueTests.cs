@@ -53,9 +53,9 @@ namespace Tests.Systems
             var yaml = new Serializer().Serialize(new DialogueNode[]{tree});
             TestContext.Out.Write(yaml);
 
-            var ui = GetUI("talk:Chaos Sam",pickFriendly ? o1 : o2);
+            var ui = GetUI(pickFriendly ? o1 : o2);
 
-            w.RunRound(ui,new DialogueAction());
+            w.RunRound(ui,you.GetFinalActions().OfType<DialogueAction>().Single());
 
             var r = w.Relationships.OfType<PersonalRelationship>().Single(r => r.AppliesTo(them, you));
 
@@ -73,7 +73,7 @@ namespace Tests.Systems
             {
                 Identifier = new Guid("4abbc8e5-880c-44d3-ba0e-a9f13a0522d0"),
                 Body = new List<TextBlock>{new TextBlock("Hello Friend") },
-                Require = new List<ICondition<SystemArgs>>()
+                Condition = new List<ICondition<SystemArgs>>()
                 {
                     new ConditionCode<SystemArgs>("return Recipient:AttitudeTo(AggressorIfAny) > 5")
                 }
@@ -83,7 +83,7 @@ namespace Tests.Systems
             {
                 Identifier = new Guid("00d77067-da1c-4c34-96ee-8a74353e4839"),
                 Body = new List<TextBlock>{new TextBlock("Hello Foe") },
-                Require = new List<ICondition<SystemArgs>>()
+                Condition = new List<ICondition<SystemArgs>>()
                 {
                     new ConditionCode<SystemArgs>("return Recipient:AttitudeTo(AggressorIfAny) < -4")
                 }
@@ -100,7 +100,7 @@ namespace Tests.Systems
             w.Dialogue.AllDialogues.Add(foe);
             
             var ui = GetUI("talk:Chaos Sam");
-            w.RunRound(ui,new DialogueAction());
+            w.RunRound(ui,you.GetFinalActions().OfType<DialogueAction>().Single());
 
             Assert.Contains(areFriends ? "Hello Friend" : "Hello Foe",ui.MessagesShown);
 
@@ -118,7 +118,8 @@ namespace Tests.Systems
   Body: 
     - Text: ""Greetings {AggressorIfAny} I am {Recipient}""";
          
-            var dlg = new YamlDialogueSystem(yaml);
+            
+            var dlg = new DialogueSystem{AllDialogues = Compiler.Instance.Deserializer.Deserialize<List<DialogueNode>>(yaml)};
 
             var ui = GetUI();
             dlg.Apply(new SystemArgs(world,ui,0,you,npc,Guid.Empty));
@@ -137,7 +138,7 @@ namespace Tests.Systems
   Body: 
     - Text: ""I really hate {Recipient:WorstEnemy(false,-10)}""";
          
-            var dlg = new YamlDialogueSystem(yaml);
+            var dlg = new DialogueSystem{AllDialogues = Compiler.Instance.Deserializer.Deserialize<List<DialogueNode>>(yaml)};
 
             var ui = GetUI();
             dlg.Apply(new SystemArgs(world,ui,0,you,npc,Guid.Empty));
@@ -166,7 +167,7 @@ namespace Tests.Systems
       Condition: 
         - return Recipient:AttitudeTo(AggressorIfAny) == 0";
             
-            var dlg = new YamlDialogueSystem(yaml);
+            var dlg = new DialogueSystem{AllDialogues = Compiler.Instance.Deserializer.Deserialize<List<DialogueNode>>(yaml)};
 
             var ui = GetUI();
             dlg.Apply(new SystemArgs(world,ui,0,you,them,Guid.Empty));
@@ -191,7 +192,7 @@ namespace Tests.Systems
       Condition: 
         - return Room:Has('Light')";
 
-            var system = new YamlDialogueSystem(yaml);
+            var system = new DialogueSystem{AllDialogues = Compiler.Instance.Deserializer.Deserialize<List<DialogueNode>>(yaml)};
             Assert.IsNotNull(system);
 
             var ui = GetUI();
@@ -204,7 +205,7 @@ namespace Tests.Systems
 
             Assert.Contains("This room is Pitch Black",ui.MessagesShown);
 
-            room.Adjectives.Add(new Light(room));
+            room.Adjectives.Add(world.AdjectiveFactory.Create(world,room,"Light"));
 
             system.Run(new SystemArgs(world,ui,0,
                 Mock.Of<IActor>(a=> a.CurrentLocation == room),room,
@@ -227,7 +228,7 @@ namespace Tests.Systems
       Condition: 
         - return AggressorIfAny:GetFinalStats()[Stat.Corruption] > 5";
 
-            var system = new YamlDialogueSystem(yaml);
+            var system = new DialogueSystem{AllDialogues = Compiler.Instance.Deserializer.Deserialize<List<DialogueNode>>(yaml)};
             Assert.IsNotNull(system);
 
             var ui = GetUI();
@@ -258,7 +259,7 @@ namespace Tests.Systems
       SingleUse: true
     - Text: Sure give me 1";
 
-                var system = new YamlDialogueSystem(yaml);
+                var system = new DialogueSystem{AllDialogues = Compiler.Instance.Deserializer.Deserialize<List<DialogueNode>>(yaml)};
                 Assert.IsNotNull(system);
                 var ui = GetUI("Yes give me 500");
                 var you = YouInARoom(out IWorld world);

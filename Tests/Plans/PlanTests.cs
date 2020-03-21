@@ -34,7 +34,7 @@ namespace Tests.Plans
             world.PlanningSystem.Plans.Add(ifHungryEatPlan);
             
             //let a round pass
-            world.RunRound(GetUI(),new LoadGunsAction());
+            world.RunRound(GetUI(),new LoadGunsAction(you));
 
             //they should have no plans
             Assert.IsNull(((Npc)them).Plan);
@@ -52,17 +52,17 @@ namespace Tests.Plans
             Assert.AreEqual(1,them.Adjectives.OfType<IInjured>().Count());
 
             //let a round pass
-            world.RunRound(GetUI(),new LoadGunsAction());
+            world.RunRound(GetUI(),new LoadGunsAction(you));
 
             //they cannot eat yet so will still be hungry with no plan
             Assert.IsNull(((Npc)them).Plan);
             Assert.AreEqual(1,them.Adjectives.OfType<IInjured>().Count());
 
-            //give them something to eat (magically! normally this would be on an item)
-            them.BaseActions.Add(new EatAction());
+            //they can eat themselves!
+            them.BaseActions.Add(new EatAction(them));
             
             //let a round pass
-            world.RunRound(GetUI(),new LoadGunsAction());
+            world.RunRound(GetUI(),new LoadGunsAction(you));
 
             //they should no longer be hungry
             Assert.AreEqual(0,them.Adjectives.OfType<IInjured>().Count());
@@ -95,15 +95,19 @@ namespace Tests.Plans
 
             //move out of their room
             Assert.AreEqual(you.CurrentLocation,them.CurrentLocation);
-            world.RunRound(GetUI(Direction.North),new LeaveAction());
+            world.RunRound(GetUI(Direction.North),new LeaveAction(you));
             Assert.AreNotEqual(you.CurrentLocation,them.CurrentLocation);
 
+            //make sure they have the leave action so that they can
+            //follow you
+            them.BaseActions.Add(new LeaveAction(you));
+            
             //give them a plan to follow you!
             world.PlanningSystem.Plans.Add(new FollowPlan(world.Player));
 
             //kill some time
             var ui = GetUI();
-            world.RunRound(ui,new LoadGunsAction());
+            world.RunRound(ui,new LoadGunsAction(you));
             
             //they should follow you
             Assert.AreEqual(you.CurrentLocation,them.CurrentLocation);
@@ -115,7 +119,7 @@ namespace Tests.Plans
         {
             var code = new FrameSourceCode(@"return EquipmentFrame(
            Recipient,
-           Recipient:GetFinalActions():GetAction('Equipment'),
+           FirstOrDefault(Recipient:Get('Equipment')),
            EquipmentActionToPerform.PutOn,
            nil
         )");
@@ -125,7 +129,7 @@ namespace Tests.Plans
             var args = new SystemArgs(world,GetUI(),0,null,you,Guid.Empty);
 
             using(var lua = code.Factory.Create(world,args))
-                Assert.IsInstanceOf(typeof(IAction),lua.DoString("return Recipient:GetFinalActions():GetAction('Equipment')")[0]);
+                Assert.IsInstanceOf(typeof(IAction),lua.DoString("return FirstOrDefault(Recipient:Get('Equipment'))")[0]);
 
             using(var lua = code.Factory.Create(world,args))
                 Assert.IsInstanceOf(typeof(EquipmentActionToPerform),lua.DoString("return EquipmentActionToPerform.PutOn")[0]);

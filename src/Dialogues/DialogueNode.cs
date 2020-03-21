@@ -12,7 +12,7 @@ namespace Wanderer.Dialogues
 
         public List<TextBlock> Body { get; set; } = new List<TextBlock>();
 
-        public List<ICondition<SystemArgs>> Require { get; set; } = new List<ICondition<SystemArgs>>();
+        public List<ICondition<SystemArgs>> Condition { get; set; } = new List<ICondition<SystemArgs>>();
 
         public List<DialogueOption> Options = new List<DialogueOption>();
 

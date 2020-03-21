@@ -19,6 +19,9 @@ namespace Wanderer.Actors
     public abstract class Actor : HasStats,IActor
     {
         public bool Dead { get; set; }
+        public string FightVerb { get; set; } = "Fists";
+
+        public IInjurySystem InjurySystem { get; set; }
 
         /// <inheritdoc/>
         public IRoom CurrentLocation { get; set; }
@@ -29,6 +32,10 @@ namespace Wanderer.Actors
         public SlotCollection AvailableSlots { get; set; } = new SlotCollection();
         
         private ConsoleColor _explicitColor = DefaultColor;
+
+
+        public bool CanInitiateDialogue {get;set;}
+        public bool CanInspect {get;set;}
 
         public override ConsoleColor Color
         {
@@ -59,18 +66,14 @@ namespace Wanderer.Actors
             CurrentLocation.World.Population.Add(this);
             
             //basic actions everyone can do (by default)
-            BaseActions.Add(new LeaveAction());
+            BaseActions.Add(new LeaveAction(this));
 
             //if there are ways to be injured then there are ways to fight
             if(currentLocation.World.InjurySystems.Any())
-                BaseActions.Add(new FightAction());
-
-            BaseActions.Add(new PickUpAction());
-            BaseActions.Add(new DropAction());
-            BaseActions.Add(new GiveAction());
-            BaseActions.Add(new DialogueAction());
-            BaseActions.Add(new EquipmentAction());
-
+                BaseActions.Add(new FightAction(this));
+            
+            BaseActions.Add(new EquipmentAction(this));
+            BaseActions.Add(new PickUpAction(this));
             BaseBehaviours.Add(new MergeStacksBehaviour(this));
 
             //TODO: this is a reference to the hunger system which means this behaviour should go into yaml too
@@ -92,7 +95,51 @@ namespace Wanderer.Actors
                 .Union(Adjectives.SelectMany(a => a.GetFinalActions(forActor)))
                 .Union(CurrentLocation.GetFinalActions(forActor))
                 .Union(FactionMembership.SelectMany(f=>f.GetFinalActions(forActor)))
-                .Union(Items.SelectMany(i => i.GetFinalActions(forActor))));
+                .Union(Items.SelectMany(i => i.GetFinalActions(forActor)))
+                .Union(BuildDialogueTargets(forActor))
+                .Union(BuildInspectTargets(forActor)));
+        }
+
+        private IEnumerable<IAction> BuildDialogueTargets(IActor forActor)
+        {
+            var toReturn = new List<IAction>();
+
+            if(!CanInitiateDialogue)
+                return toReturn;
+
+            toReturn.Add(BuildDialogueTarget(forActor.CurrentLocation));
+
+            toReturn.AddRange(forActor.GetCurrentLocationSiblings(false).Select(BuildDialogueTarget));
+        
+            toReturn.AddRange(forActor.Items.Select(BuildDialogueTarget));
+
+            return toReturn.Where(a=>a!=null);
+        }
+        private DialogueAction BuildDialogueTarget(IHasStats possibleTarget)
+        {
+            if(possibleTarget == null || possibleTarget.Dialogue.IsEmpty)
+                return null;
+
+            return new DialogueAction(possibleTarget);
+        }
+
+
+        private IEnumerable<IAction> BuildInspectTargets(IActor forActor)
+        {
+            var toReturn = new List<IAction>();
+
+
+            if(!CanInspect)
+                return toReturn;
+
+            toReturn.Add(new InspectAction(forActor));
+            toReturn.Add(new InspectAction(forActor.CurrentLocation));
+
+            toReturn.AddRange(forActor.GetCurrentLocationSiblings(false).Select(o=>new InspectAction(o)));
+        
+            toReturn.AddRange(forActor.Items.Select(o=>new InspectAction(o)));
+
+            return toReturn.Where(a=>a!=null);
         }
 
         public abstract bool Decide<T>(IUserinterface ui, string title, string body, out T chosen, T[] options,
@@ -110,17 +157,13 @@ namespace Wanderer.Actors
         {
             return CurrentLocation.World.Population.Where(o => o.CurrentLocation == CurrentLocation && o != this && (!o.Dead || includeDead)).ToArray();
         }
-
-        public bool Has<T>(bool includeItems) where T : IAdjective
+        
+        public bool Has(string name, bool includeItems)
         {
-            return Adjectives.Union(FactionMembership.SelectMany(f=>f.Adjectives)).Any(a => a is T)
-                || includeItems && Items.Any(i=> i.Has<T>(this));
-        }
-
-        public bool Has<T>(bool includeItems, Func<T, bool> condition) where T : IAdjective
-        {
-            return Adjectives.Any(a => a is T t  && condition(t))
-                || includeItems && Items.Any(i => i.Has<T>(this,condition));
+            if (includeItems)
+                return Has(name);
+            
+            return Is(name) || Adjectives.Any(a => a.Is(name)) || FactionMembership.Any(f=>f.Has(name));
         }
 
         public override IBehaviourCollection GetFinalBehaviours(IActor forActor)
@@ -141,15 +184,15 @@ namespace Wanderer.Actors
             var clone = BaseStats.Clone();
 
             foreach (var adjective in Adjectives) 
-                clone.Add(adjective.GetFinalStats(forActor));
+                clone.Increase(adjective.GetFinalStats(forActor));
 
-            clone.Add(CurrentLocation.GetFinalStats(forActor));
+            clone.Increase(CurrentLocation.GetFinalStats(forActor));
 
             foreach (var faction in FactionMembership) 
-                clone.Add(faction.GetFinalStats(forActor));
+                clone.Increase(faction.GetFinalStats(forActor));
 
             foreach (var item in Items) 
-                clone.Add(item.GetFinalStats(forActor));
+                clone.Increase(item.GetFinalStats(forActor));
 
             return clone;
         }
@@ -292,5 +335,23 @@ namespace Wanderer.Actors
             if (CanEquip(item, out _))
                 item.IsEquipped = true;
         }
+
+        public IInjurySystem GetBestInjurySystem()
+        {
+            var system = Items.Where(i => i.IsEquipped)
+                .SelectMany(i => i.GetFinalActions(this))
+                .OfType<FightAction>()
+                .FirstOrDefault(i=>i.InjurySystem != null);
+
+            return 
+                //injury system of your currently equipped item
+                system?.InjurySystem ?? 
+                //your innate injury system
+                InjurySystem ??
+                //the default world injury system
+                CurrentLocation.World.GetDefaultInjurySystem();
+        }
+        
+        
     }
 }

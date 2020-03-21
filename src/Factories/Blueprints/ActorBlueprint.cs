@@ -18,10 +18,16 @@ namespace Wanderer.Factories.Blueprints
         /// </summary>
         public ItemBlueprint[] MandatoryItems { get; set;} = new ItemBlueprint[0];
 
+        /// <summary>
+        /// The word that describes how the actor fights when not
+        /// equipped with a weapon e.g. fisticuffs
+        /// </summary>
+        public string FightVerb { get; set; }
         
         /// <summary>
         /// Items which the actor may be carrying when created
         /// </summary>
         public ItemBlueprint[] OptionalItems { get; set;} = new ItemBlueprint[0];
+
     }
 }

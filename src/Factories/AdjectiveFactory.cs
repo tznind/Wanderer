@@ -1,69 +1,38 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using Wanderer.Actors;
 using Wanderer.Adjectives;
-using Wanderer.Adjectives.RoomOnly;
+using Wanderer.Compilation;
+using Wanderer.Extensions;
 using Wanderer.Factories.Blueprints;
 using Wanderer.Items;
-using Wanderer.Rooms;
 
 namespace Wanderer.Factories
 {
-    public class AdjectiveFactory : IAdjectiveFactory
+    public class AdjectiveFactory : HasStatsFactory<AdjectiveBlueprint,IAdjective>,IAdjectiveFactory
     {
-        public Type[] KnownAdjectives { get; }
+        private readonly TypeCollection _adjectiveTypes;
 
         public AdjectiveFactory()
         {
-            KnownAdjectives = typeof(IAdjective).Assembly.GetTypes().Where(t =>
-                typeof(IAdjective).IsAssignableFrom(t) && !t.IsAbstract && !t.IsInterface).ToArray();
+            _adjectiveTypes = Compiler.Instance.TypeFactory.Create<IAdjective>();
         }
-
-        public IEnumerable<IAdjective> GetAvailableAdjectives<T>(T o) where T : IHasStats
+        public IAdjective Create(IWorld world,IHasStats s, AdjectiveBlueprint blueprint)
         {
-            if (o is IRoom place)
+            var adj = new Adjective(s)
             {
-                yield return new Dark(place);
-                yield return new Stale(place);
-                yield return new Rusty(place);
-            }
+                Name = blueprint.Name
+            };
+            base.AddBasicProperties(world,adj,blueprint,"inspect");
 
-            if (o is IActor actor)
-            {
-                yield return new Attractive(actor);
-                yield return new Strong(actor);
-                yield return new Tough(actor);
-                yield return new Medic(actor);
-                yield return new Giant(actor);
-                yield return new Tired(actor);
-            }
+            if(blueprint.StatsRatio != null)
+                adj.StatsRatio = blueprint.StatsRatio;
 
-            if (o is IItem item)
-            {
-                yield return new Light(item);
-                yield return new Strong(item);
-                yield return new SingleUse(item);
-                yield return new Medic(item);
-                yield return new Tough(item);
-                yield return new Rusty(item);
-                yield return new Giant(item);
-            }
-        }
+            if (blueprint.Resist != null)
+                adj.Resist = blueprint.Resist;
 
-        public IAdjective Create(IHasStats s, AdjectiveBlueprint blueprint)
-        {
-            var type = KnownAdjectives.SingleOrDefault(t=>t.Name.Equals(blueprint.Type)) ?? throw new ArgumentException($"Could not find IAdjective of Type '{blueprint.Type}'");
+            adj.IsPrefix = blueprint.IsPrefix;
 
-            var adjective = Create(s, type);
-
-            if (blueprint.Name != null)
-                adjective.Name = blueprint.Name;
-
-            if (blueprint.AdjustStats != null)
-                adjective.BaseStats.Add(blueprint.AdjustStats);
-
-            return adjective;
+            return adj;
         }
 
         public IAdjective Create(IHasStats s, Type adjectiveType)
@@ -79,6 +48,34 @@ namespace Wanderer.Factories
             }
 
             throw new ArgumentException("Could not find a valid constructor for IAdjective Type " + adjectiveType);
+        }
+
+        public void AddAdjectives(IWorld world,IHasStats owner, HasStatsBlueprint ownerBlueprint)
+        {
+            
+            //Adjectives the user definitely wants included
+            if (ownerBlueprint.MandatoryAdjectives.Any())
+                foreach (var a in ownerBlueprint.MandatoryAdjectives)
+                    owner.Adjectives.Add(Create(world,owner, a));
+            
+            //pick 1 random adjective if blueprint lists any to pick from
+            if (ownerBlueprint.OptionalAdjectives.Any())
+                owner.Adjectives.Add(
+                    Create(world,owner, ownerBlueprint.OptionalAdjectives.GetRandom(world.R))
+                );
+        }
+
+        public IAdjective Create(IWorld world,IHasStats s, Guid guid)
+        {
+            return Create(world,s, GetBlueprint(guid));
+        }
+
+        public IAdjective Create(IWorld world,IHasStats s, string name)
+        {
+            //when creating by name allow type names too
+            var type = _adjectiveTypes.FirstOrDefault(t => t.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase));
+
+            return type != null ? Create(s, type) : Create(world,s, GetBlueprint(name));
         }
     }
 }

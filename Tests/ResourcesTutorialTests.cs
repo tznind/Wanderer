@@ -32,6 +32,8 @@ namespace Tests
             v.Validate(f);
             Assert.IsEmpty(v.Errors.ToString());
             Assert.IsEmpty(v.Warnings.ToString());
+            Assert.AreEqual(0,v.ErrorCount);
+            Assert.AreEqual(0,v.WarningCount);
         }
     }
 }

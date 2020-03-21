@@ -5,6 +5,7 @@ using NUnit.Framework;
 using Wanderer;
 using Wanderer.Actions;
 using Wanderer.Actors;
+using Wanderer.Compilation;
 using Wanderer.Dialogues;
 using Wanderer.Factories;
 using Wanderer.Factories.Blueprints;
@@ -22,7 +23,7 @@ namespace Tests.Actors
   Dialogue:
     Next: 193506ab-11bc-4de2-963e-e2f55a38d006";
 
-            var roomFactory = new YamlRoomFactory(yaml, new AdjectiveFactory());
+            var roomFactory = new RoomFactory{Blueprints = Compiler.Instance.Deserializer.Deserialize<List<RoomBlueprint>>(yaml)};
 
             var w = new World();
             w.Dialogue.AllDialogues.Add(new DialogueNode()
@@ -38,7 +39,7 @@ namespace Tests.Actors
 
             var ui = GetUI("look:Gun Bay");
 
-            w.RunRound(ui,new DialogueAction());
+            w.RunRound(ui,you.GetFinalActions().OfType<DialogueAction>().Single());
 
             Assert.Contains("This room is rank",ui.MessagesShown);
 
@@ -54,7 +55,7 @@ namespace Tests.Actors
 @"
 - Name: Tunnels
 ";
-            var roomFactory = new YamlRoomFactory(yaml, new AdjectiveFactory());
+            var roomFactory = new RoomFactory {Blueprints = Compiler.Instance.Deserializer.Deserialize<List<RoomBlueprint>>(yaml)};
             var room = roomFactory.Create(w);
 
             Assert.IsNotNull(room);
@@ -78,7 +79,7 @@ namespace Tests.Actors
                     Color = ConsoleColor.Cyan,
                 }
             );
-            w.ActorFactory = new ActorFactory(adj)
+            w.ActorFactory = new ActorFactory()
             {
                 Blueprints = new List<ActorBlueprint>
                 {
@@ -88,7 +89,7 @@ namespace Tests.Actors
                     },
                 }
             };
-            w.ItemFactory = new ItemFactory(adj);
+            w.ItemFactory = new ItemFactory();
 
             var yaml = 
                 @$"
@@ -96,7 +97,7 @@ namespace Tests.Actors
   {(explicitRoomColor ? "Color: 2" : "")}
   Faction: bb70f169-e0f7-40e8-927b-1c181eb8740b
 ";
-            var roomFactory = new YamlRoomFactory(yaml, new AdjectiveFactory());
+            var roomFactory = new RoomFactory{Blueprints = Compiler.Instance.Deserializer.Deserialize<List<RoomBlueprint>>(yaml)};;
             var room = roomFactory.Create(w);
 
             Assert.IsNotNull(room);
@@ -122,7 +123,7 @@ namespace Tests.Actors
 - Name: RegularRoom
 
 ";
-            var room =  new YamlRoomFactory(yaml, new AdjectiveFactory());
+            var room =  new RoomFactory{Blueprints = Compiler.Instance.Deserializer.Deserialize<List<RoomBlueprint>>(yaml)};
 
             var w = new World();
 

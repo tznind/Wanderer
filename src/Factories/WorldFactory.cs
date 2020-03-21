@@ -23,6 +23,7 @@ namespace Wanderer.Factories
         public const string RoomsDirectory = "Rooms";
         public const string ItemsDirectory = "Items";
         public const string ActorsDirectory = "Actors";
+        public const string AdjectivesDirectory = "Adjectives";
 
         public string ResourcesDirectory { get; set; }
 
@@ -39,9 +40,13 @@ namespace Wanderer.Factories
         /// <summary>
         /// Mapping between directories and the factions which were created from them
         /// </summary>
-        private Dictionary<string,Faction> _factionDirs = new Dictionary<string, Faction>();
+        private readonly Dictionary<DirectoryInfo, Faction> _factionDirs = new Dictionary<DirectoryInfo, Faction>();
 
-        
+        /// <summary>
+        /// True to skip loading items, actors, dialogue etc.  This leaves
+        /// Only systems, adjectives etc being loaded
+        /// </summary>
+        public bool SkipContent {get;set;}
 
         public virtual IWorld Create()
         {
@@ -60,38 +65,52 @@ namespace Wanderer.Factories
 
             world.AdjectiveFactory = GetAdjectiveFactory();
             world.Dialogue = new DialogueSystem();
-            world.RoomFactory = new RoomFactory(world.AdjectiveFactory);
-            world.ActorFactory = new ActorFactory(world.AdjectiveFactory);
-            world.ItemFactory = new ItemFactory(world.AdjectiveFactory);
+            world.RoomFactory = new RoomFactory();
+            world.ActorFactory = new ActorFactory();
+            world.ItemFactory = new ItemFactory();
+
+            if(!Directory.Exists(ResourcesDirectory))
+                throw new DirectoryNotFoundException($"Resources directory did not exist '{ResourcesDirectory}'");
 
             //Get every yaml file under the resources dir
             foreach(var fi in Directory.GetFiles(ResourcesDirectory,"*.yaml",SearchOption.AllDirectories).Select(f=>new FileInfo(f)))
             {
-                _log.Info($"Loading {fi.FullName.Substring(ResourcesDirectory.Length)}");
+                var dir = new DirectoryInfo(ResourcesDirectory);
+
+                _log.Info($"Loading ./{fi.FullName.Substring(dir.FullName.Length)}");
 
                 //is a faction dir
                 var dirs = fi.Directory.FullName.Split(Path.DirectorySeparatorChar);
                 IFaction faction = null;
 
                 var factionDir = _factionDirs.Keys.FirstOrDefault(k =>
-                fi.Directory.FullName.StartsWith(k, StringComparison.CurrentCultureIgnoreCase));
+                    
+                fi.Directory.FullName.StartsWith(k.FullName, StringComparison.CurrentCultureIgnoreCase));
 
                 if (factionDir != null)
                     faction = _factionDirs[factionDir];
 
-                if(IsRoomsFile(fi,dirs))
-                    world.RoomFactory.Blueprints.AddRange(AssignFaction(GetRoomBlueprints(fi),faction));
+                if(!SkipContent && IsRoomsFile(fi,dirs))
+                    world.RoomFactory.Blueprints.AddRange(AssignFaction(GetBlueprints<RoomBlueprint>(fi),faction));
 
-                if(IsItemsFile(fi,dirs))
-                    world.ItemFactory.Blueprints.AddRange(AssignFaction(GetItemBlueprints(fi),faction));
+                if(!SkipContent && IsItemsFile(fi,dirs))
+                    world.ItemFactory.Blueprints.AddRange(AssignFaction(GetBlueprints<ItemBlueprint>(fi),faction));
 
-                if(IsActorsFile(fi,dirs))
-                    world.ActorFactory.Blueprints.AddRange(AssignFaction(GetActorBlueprints(fi),faction));
+                if(!SkipContent && IsActorsFile(fi,dirs))
+                    world.ActorFactory.Blueprints.AddRange(AssignFaction(GetBlueprints<ActorBlueprint>(fi),faction));
 
-                if(IsDialogueFile(fi,dirs))
+                if(IsAdjectivesFile(fi,dirs))
+                    world.AdjectiveFactory.Blueprints.AddRange(AssignFaction(GetBlueprints<AdjectiveBlueprint>(fi),faction));
+
+                if(!SkipContent && IsDialogueFile(fi,dirs))
                     world.Dialogue.AllDialogues.AddRange(GetDialogue(fi));
             }
             
+            LogBlueprints(world.RoomFactory.Blueprints);
+            LogBlueprints(world.ActorFactory.Blueprints);
+            LogBlueprints(world.ItemFactory.Blueprints);
+            LogBlueprints(world.AdjectiveFactory.Blueprints);
+
             var zero = new Point3(0, 0, 0);
             var startingRoom = world.RoomFactory.Create(world,zero);
             startingRoom.IsExplored = true;
@@ -99,6 +118,16 @@ namespace Wanderer.Factories
             world.Population.Add(GetPlayer(startingRoom));
             
             return world;
+        }
+
+        private void LogBlueprints<T>(List<T> blueprints) where T: HasStatsBlueprint
+        {
+            _log.Info("-----------------------------");
+            _log.Info($"Found {blueprints.Count()} {typeof(T).Name}");
+            _log.Info("-----------------------------");
+
+            foreach(var blue in blueprints)
+                _log.Info($"{blue} {(blue.Faction != null ? "(" + blue.Faction.ToString().Substring(0,8) +")" : "")}");
         }
 
         private IEnumerable<T> AssignFaction<T>(IEnumerable<T> blueprints, IFaction f) where T: HasStatsBlueprint
@@ -120,6 +149,10 @@ namespace Wanderer.Factories
         private bool IsActorsFile(FileInfo fi,string[] path)
         {
             return Is(fi,path,ActorsDirectory);
+        }
+        private bool IsAdjectivesFile(FileInfo fi,string[] path)
+        {
+            return Is(fi,path,AdjectivesDirectory);
         }
         private bool IsItemsFile(FileInfo fi,string[] path)
         {
@@ -228,7 +261,8 @@ namespace Wanderer.Factories
         {
             return new You("Wanderer", startingRoom)
             {
-                AvailableSlots = _defaultSlots.Clone()
+                AvailableSlots = _defaultSlots.Clone(),
+                InjurySystem = startingRoom.World.GetDefaultInjurySystem()
             };
         }
 
@@ -286,7 +320,7 @@ namespace Wanderer.Factories
                 //TODO: Really all factions just are mates with thier faction buddies and can't control that from yaml?
                 world.Relationships.Add(new IntraFactionRelationship(f,5));
 
-                _factionDirs.Add(directory,f);
+                _factionDirs.Add(new DirectoryInfo(directory),f);
                 world.Factions.Add(f);
             }
 
@@ -311,42 +345,18 @@ namespace Wanderer.Factories
                         world.Relationships.Add(new InterFactionRelationship(f,establishment,2));
             }
         }
-        protected virtual IEnumerable<RoomBlueprint> GetRoomBlueprints(FileInfo fi)
+
+        protected virtual IEnumerable<T> GetBlueprints<T>(FileInfo fi) where T:HasStatsBlueprint
         {
             try
             {
-                return Compiler.Instance.Deserializer.Deserialize<RoomBlueprint[]>(File.ReadAllText(fi.FullName));
+                return Compiler.Instance.Deserializer.Deserialize<List<T>>(File.ReadAllText(fi.FullName));
             }
             catch(Exception e)
             {
-                throw new Exception($"Error loading Rooms in file {fi.FullName}",e);
+                throw new Exception($"Error loading {typeof(T).Name} in file {fi.FullName}",e);
             }
         }
-
-        protected virtual IEnumerable<ItemBlueprint> GetItemBlueprints(FileInfo fi)
-        {
-            try
-            {
-                return Compiler.Instance.Deserializer.Deserialize<List<ItemBlueprint>>(File.ReadAllText(fi.FullName));
-            }
-            catch(Exception e)
-            {
-                throw new Exception($"Error loading ItemBlueprints in file {fi.FullName}",e);
-            }
-        }
-
-        protected virtual IEnumerable<ActorBlueprint> GetActorBlueprints(FileInfo fi)
-        {
-            try
-            {
-                return Compiler.Instance.Deserializer.Deserialize<List<ActorBlueprint>>(File.ReadAllText(fi.FullName));
-            }
-            catch(Exception e)
-            {
-                throw new Exception($"Error loading ActorBlueprint in file {fi.FullName}",e);
-            }
-        }
-
         protected virtual IEnumerable<DialogueNode> GetDialogue(FileInfo fi)
         {
                 try

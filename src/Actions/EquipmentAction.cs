@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Wanderer.Actors;
 using Wanderer.Items;
@@ -7,7 +8,15 @@ namespace Wanderer.Actions
 {
     public class EquipmentAction : Action
     {
+        private EquipmentAction():base(null)
+        {
+            
+        }
 
+        public EquipmentAction(IHasStats owner):base(owner)
+        {
+            
+        }
         public override char HotKey => 'q';
         
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
@@ -65,7 +74,12 @@ namespace Wanderer.Actions
 
         public override bool HasTargets(IActor performer)
         {
-            return performer.Items.Any(i=>i.IsEquipped || i.Slot != null);
+            return GetTargets(performer).Any();
+        }
+
+        public override IEnumerable<IHasStats> GetTargets(IActor performer)
+        {
+            return performer.Items.Where(i => i.IsEquipped || i.Slot != null);
         }
     }
 

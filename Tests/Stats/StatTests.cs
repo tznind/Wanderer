@@ -63,5 +63,34 @@ namespace Tests.Stats
             s1.Increase(Stat.Fight,10);
             Assert.AreEqual(10,s1[Stat.Fight]);
         }
+        [Test]
+        public void TestStats_IncreaseAll()
+        {
+            var s1 = new StatsCollection();
+            Assert.AreEqual(0,s1[Stat.Fight]);
+            s1.Increase(new StatsCollection(10));
+            Assert.AreEqual(10,s1[Stat.Fight]);
+            Assert.IsTrue(s1.All(v => v.Value == 10));
+        }
+        [Test]
+        public void TestStats_DecreaseAll()
+        {
+            var s1 = new StatsCollection();
+            Assert.AreEqual(0,s1[Stat.Fight]);
+            s1.Decrease(new StatsCollection(10));
+            Assert.AreEqual(-10,s1[Stat.Fight]);
+            Assert.IsTrue(s1.All(v => v.Value == -10));
+        }
+        [Test]
+        public void TestStats_SetAll()
+        {
+            var s1 = new StatsCollection(5);
+            Assert.AreEqual(5,s1[Stat.Fight]);
+            Assert.AreEqual(5,s1[Stat.Savvy]);
+
+            s1.SetAll((s,v)=> v * (s == Stat.Fight ? 2 : 1));
+            Assert.AreEqual(10,s1[Stat.Fight]);
+            Assert.AreEqual(5,s1[Stat.Savvy]);
+        }
     }
 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Wanderer.Actors;
 using Wanderer.Adjectives;
-using Wanderer.Adjectives.RoomOnly;
 using Wanderer.Factories.Blueprints;
 using Wanderer.Stats;
 
@@ -11,6 +10,7 @@ namespace Wanderer.Systems
 {
     public class InjurySystem : IInjurySystem
     {
+        private const double Tolerance = 0.0001;
         public Guid Identifier { get; set; }
 
         public string Name { get; set; }
@@ -41,13 +41,19 @@ namespace Wanderer.Systems
         /// <summary>
         /// Types of <see cref="IAdjective"/> which make you resistant to this type of damage
         /// </summary>
-        public Resistances ResistInflict { get; set; } = new Resistances();
+        public Resistances Resist { get; set; } = new Resistances();
 
         /// <summary>
         /// Types of <see cref="IAdjective"/> which make you resistant to this type of damage
         /// getting worse.
         /// </summary>
         public Resistances ResistWorsen { get; set; } = new Resistances();
+
+        /// <summary>
+        /// Types of <see cref="IAdjective"/> prevent (immune) or ease/complicate healing injuries inflicted
+        /// by this system
+        /// </summary>
+        public Resistances ResistHeal { get; set; } = new Resistances();
 
         /// <summary>
         /// Blueprints for all injuries that can be caused by this system
@@ -101,6 +107,14 @@ namespace Wanderer.Systems
         /// </summary>
         public string FatalVerb { get; set; } = "injuries";
 
+
+        /// <summary>
+        /// Should seperate applications of the injury be merged e.g. if your on fire
+        /// and you get a bit hotter then it makes sense just to beef up the original
+        //  instance
+        /// </summary>
+        public bool MergeInstances {get;set;}
+
         public virtual void Apply(SystemArgs args)
         {
             if(args.Intensity < 0 )
@@ -108,6 +122,17 @@ namespace Wanderer.Systems
 
             if (args.Recipient == null)
                 return;
+
+            if(MergeInstances)
+            {
+                var existing = args.Recipient.Adjectives.OfType<IInjured>().Where(i=>i.InjurySystem.Equals(this)).FirstOrDefault();
+                
+                if(existing != null)
+                {
+                    Amplify(existing,args.Intensity,args.UserInterface,args.Round);
+                    return;
+                }
+            }
 
             var candidate = GetBlueprintFor(args.Intensity);
 
@@ -153,23 +178,13 @@ namespace Wanderer.Systems
             if (injury.Owner is IActor a && a.Dead)
                 return false;
 
-            double ratio = 1;
+            double ratio = ResistWorsen.Calculate(injury.Owner);
 
-            var haveTypes = injury.Owner.GetAllHaves().Select(h=>h.GetType()).Distinct();
-
-            //If you have something that makes you immune to worsening
-            if(ResistWorsen.Immune.Intersect(haveTypes).Any())
+            //immune
+            if (Math.Abs(ratio) < Tolerance)
                 return false;
-            
-            //If you have something that makes you resist worsening
-            if(ResistWorsen.Resist.Intersect(haveTypes).Any())
-                ratio *= 2;
-            
-            //If you have something that makes you vulnerable to worsening
-            if(ResistWorsen.Vulnerable.Intersect(haveTypes).Any())
-                ratio *= 0.5;
 
-            return roundsSeen > ratio * WorsenRate;
+            return roundsSeen > (1/ratio) * WorsenRate;
         }
 
         public virtual bool IsHealableBy(IActor actor, Injured injured, out string reason)
@@ -182,11 +197,22 @@ namespace Wanderer.Systems
                 
             var requiredStat = injured.Severity * HealerStatMultiplier;
 
-            //harder to heal giant things
-            if(injured.Owner is IActor a)
-                if (a.Has<Giant>(false))
-                    requiredStat *= 1.5;
 
+            var result = 
+                injured.Owner is IActor i ? 
+                ResistHeal.Calculate(i,false):
+                ResistHeal.Calculate(injured.Owner);
+            
+            //result == 0
+            if (Math.Abs(result) < Tolerance)
+            {
+                reason = $"{injured.Owner} is immune to healing (this injury type)";
+                return false;
+            }
+
+            //vulnerable to healing makes you easier to heal.  Resist healing makes you harder to heal
+            requiredStat *= 1/result;
+            
             if (actor.GetFinalStats()[HealerStat.Value] > requiredStat)
             {
                 reason = null;
@@ -213,17 +239,8 @@ namespace Wanderer.Systems
 
         public virtual void Worsen(Injured injured, IUserinterface ui, Guid round)
         {
-            injured.Severity+=10;
+            Amplify(injured,10,ui,round);
 
-            //if injury names should be updated with severity
-            if(SyncDescriptions)
-            {
-                var newInjury = GetBlueprintFor(injured.Severity);
-
-                if(newInjury != null)
-                    injured.Name = newInjury.Name;
-            }
-            
             //if wounds can become infected
             if (!injured.IsInfected && Infection)
             {
@@ -240,7 +257,23 @@ namespace Wanderer.Systems
             }
         }
 
-        
+        private void Amplify(IInjured injured, double value, IUserinterface ui, Guid round)
+        {
+            injured.Severity+=10;
+
+            //if injury names should be updated with severity
+            if(SyncDescriptions)
+            {
+                var newInjury = GetBlueprintFor(injured.Severity);
+
+                if(newInjury != null && injured.Name != newInjury.Name)
+                {
+                    ui.Log.Info(new LogEntry($"{injured.Owner} {injured.Name} became a {newInjury.Name}",round,injured.Owner as IActor));
+                    injured.Name = newInjury.Name;
+                }
+            }
+        }
+
         public virtual void Heal(Injured injured, IUserinterface ui, Guid round)
         {
             injured.Owner.Adjectives.Remove(injured);

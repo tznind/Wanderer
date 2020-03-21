@@ -5,7 +5,7 @@ namespace Wanderer.Actions
 {
     public class FightFrame : Frame
     {
-        public IInjurySystem InjurySystem { get; }
+        public IInjurySystem InjurySystem { get; set; }
 
         public FightFrame(IActor performedBy,IActor fightTarget, IAction action, IInjurySystem injurySystem,double attitude) : base(performedBy, action,attitude)
         {

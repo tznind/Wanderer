@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Wanderer.Actors;
 using Wanderer.Adjectives;
 
@@ -6,12 +7,19 @@ namespace Wanderer.Actions
 {
     public class HealAction : Action
     {
+        private HealAction():base(null)
+        {
+            
+        }
+        public HealAction(IHasStats owner) : base(owner)
+        {
+        }
 
         public override char HotKey => 'h';
 
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
         {
-            if (actor.Decide(ui, "Heal", "Choose who to heal", out IActor target, GetTargets(actor), 10))
+            if (actor.Decide(ui, "Heal", "Choose who to heal", out IActor target, GetTargets(actor).Cast<IActor>().ToArray(), 10))
                 if(actor.Decide(ui,"Injury", "Choose an Injury",out Injured toHeal, target.Adjectives.OfType<Injured>().ToArray(),10))
                     if (toHeal.IsHealableBy(actor,out string reason))
                         stack.Push(new HealFrame(actor, this, target, toHeal, 10));
@@ -33,9 +41,10 @@ namespace Wanderer.Actions
             return GetTargets(performer).Any();
         }
 
-        private IActor[] GetTargets(IActor performer)
+        public override IEnumerable<IHasStats> GetTargets(IActor performer)
         {
-            return performer.CurrentLocation.Actors.Where(a => a.Has<Injured>(false) && !a.Dead).ToArray();
+            return performer.CurrentLocation.Actors.Where(a => a.Adjectives.OfType<IInjured>().Any() && !a.Dead).ToArray();
         }
+
     }
 }

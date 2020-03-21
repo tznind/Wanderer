@@ -49,6 +49,10 @@ namespace Wanderer.Systems.Validation
 
         public void Validate(IWorld world)
         {
+
+            _log.Info("-----------------------------");
+            _log.Info("Validating World");
+            _log.Info("-----------------------------");
             Validate(world,world.RoomFactory, "World RoomFactory");
         }
 
@@ -67,6 +71,7 @@ namespace Wanderer.Systems.Validation
         private void AddError(string msg)
         {
             Errors.AppendLine(msg);
+            ErrorCount++;
         }
 
 
@@ -216,7 +221,7 @@ namespace Wanderer.Systems.Validation
             if(node.Body == null || node.Body.Count == 0 || node.Body.All(b=>string.IsNullOrWhiteSpace(b.Text)))
                 AddError($"Dialogue '{node.Identifier}' has no Body Text");
                 
-            foreach (ICondition<SystemArgs> condition in node.Require)
+            foreach (ICondition<SystemArgs> condition in node.Condition)
             {
                 try
                 {
@@ -259,9 +264,21 @@ namespace Wanderer.Systems.Validation
                 }
                 catch (Exception e)
                 {
-                    AddWarning($"Error testing EffectCode of Option '{option.Text}' of Dialogue '{dialogue.Identifier}' for test actor interacting with '{recipient}'",e);
+                    AddWarning($"Error testing EffectCode of Option '{option.Text}' of Dialogue '{dialogue.Identifier}' for test actor interacting with '{recipient}'  Bad code was:{effect}",e);
                 }
             }
+
+            foreach (ICondition<SystemArgs> condition in option.Condition)
+                {
+                    try
+                    {
+                        condition.IsMet(world,new SystemArgs(world,_ui, 0, GetTestActor(room), recipient, Guid.Empty));
+                    }
+                    catch (Exception e)
+                    {
+                        AddWarning($"Error testing Condition Code of Option '{option.Text}' of Dialogue '{dialogue.Identifier}' for test actor interacting with '{recipient}'.  Bad code was:{condition}",e);
+                    }
+                }
 
             if(option.Destination != null)
             {

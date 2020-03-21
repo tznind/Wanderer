@@ -21,3 +21,4 @@ Spreads:
 NaturalHealThreshold: 0
 WorsenRate: 1
 SyncDescriptions: true
+MergeInstances: true

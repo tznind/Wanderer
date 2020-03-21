@@ -25,7 +25,7 @@ namespace Tests.Rooms
             Assert.IsFalse(you.CurrentLocation.GetAllHaves().Select(h=>h.Identifier).Contains(g2));
             Assert.IsFalse(you.CurrentLocation.GetAllHaves().Select(h=>h.Identifier).Contains(g3));
             
-            you.Adjectives.Add( new Attractive(you){Identifier = g2});
+            you.Adjectives.Add( new Adjective(you){Identifier = g2});
 
             you.Items.Add(new Item("orb") 
             {
@@ -33,7 +33,7 @@ namespace Tests.Rooms
 
             });
 
-            you.Items.Single().Adjectives.Add( new Attractive(you){Identifier = g3});
+            you.Items.Single().Adjectives.Add( new Adjective(you){Identifier = g3});
 
             Assert.Contains(g1,you.CurrentLocation.GetAllHaves().Select(h=>h.Identifier).ToArray());
             Assert.Contains(g2,you.CurrentLocation.GetAllHaves().Select(h=>h.Identifier).ToArray());

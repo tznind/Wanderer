@@ -17,7 +17,7 @@ namespace Tests.CompilerTests
 
             //no interfaces
             Assert.IsFalse(adjectives.Contains(typeof(IAdjective)));
-            Assert.Contains(typeof(Strong),adjectives);
+            Assert.Contains(typeof(Injured),adjectives);
 
             var actors = factory.Create<IActor>(true,true);
 
@@ -27,6 +27,8 @@ namespace Tests.CompilerTests
             Assert.Contains(typeof(You),actors);
             Assert.Contains(typeof(Npc),actors);
 
+            Assert.AreEqual(typeof(IAdjective),adjectives.BaseType);
+            Assert.AreEqual(typeof(Injured),adjectives.GetTypeNamed("Injured"));
         }
     }
 }

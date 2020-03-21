@@ -23,15 +23,17 @@ namespace Tests.Actions
             var them = new Npc("Mort", you.CurrentLocation);
             them.BaseActions.Clear();
 
-            Assert.IsFalse(new GiveAction().HasTargets(you));
+            Assert.IsFalse(new GiveAction(you).HasTargets(you));
 
             var grenade = new Item("Grenade");
             you.Items.Add(grenade);
+            grenade.BaseActions.Clear();
             
-            Assert.IsTrue(new GiveAction().HasTargets(you));
+            Assert.IsTrue(new GiveAction(grenade).HasTargets(you));
 
+            var stack = new ActionStack();
             //when you chose to give them the grenade
-            world.RunRound(GetUI(grenade, them), you.BaseActions.OfType<GiveAction>().Single());
+            stack.RunStack(world,GetUI(them), you.GetFinalActions().OfType<GiveAction>().Single(),you,null);
 
             Assert.IsFalse(you.Items.Contains(grenade));
             Assert.Contains(grenade,them.Items.ToArray());
@@ -55,13 +57,13 @@ namespace Tests.Actions
             Assert.IsNull(relationship,"Expected no relationship between you");
 
             //when you chose to give them the small stack
-            world.RunRound(GetUI(smallStackOfCash, them), you.BaseActions.OfType<GiveAction>().Single());
+            world.RunRound(GetUI(them), you.GetFinalActions().OfType<GiveAction>().Single(a=>a.Owner == smallStackOfCash));
 
             var afterSmall = world.Relationships.OfType<PersonalRelationship>().Single(r=>r.AppliesTo(them, you)).Attitude;
             Assert.AreEqual(20,afterSmall);
 
             //when you chose to give them the small stack
-            world.RunRound(GetUI(bigStackOfCash, them), you.BaseActions.OfType<GiveAction>().Single());
+            world.RunRound(GetUI(them), you.GetFinalActions().OfType<GiveAction>().Single(a=>a.Owner == bigStackOfCash));
 
             var afterBig = world.Relationships.OfType<PersonalRelationship>().Single(r=>r.AppliesTo(them, you)).Attitude;
             Assert.AreEqual(60,afterBig);

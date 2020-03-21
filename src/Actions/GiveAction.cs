@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Wanderer.Actors;
 using Wanderer.Items;
 using Wanderer.Stats;
@@ -7,11 +8,18 @@ namespace Wanderer.Actions
 {
     public class GiveAction : Action
     {
-
+        private GiveAction():base(null)
+        {
+            
+        }
+        public GiveAction(IHasStats owner):base(owner)
+        {
+            
+        }
         public override char HotKey => 'g';
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
         {
-            if(actor.Decide(ui,"Give","Select an item to give",out IItem toGive, GetTargets(actor),-10))
+            if(Owner is IItem toGive || actor.Decide(ui,"Give","Select an item to give",out toGive, GetTargets(actor).Cast<IItem>().ToArray(),-10))
                 if(actor.Decide(ui,"To whom",$"Select who to give {toGive}",out IActor toGiveTo, actor.GetCurrentLocationSiblings(false),10))
                     stack.Push(new GiveFrame(actor,this,toGive,toGiveTo,GetItemWorthInAttitude(actor,toGive,toGiveTo)));
         }
@@ -41,7 +49,7 @@ namespace Wanderer.Actions
             return GetTargets(performer).Any();
         }
 
-        private IItem[] GetTargets(IActor performer)
+        public override IEnumerable<IHasStats> GetTargets(IActor performer)
         {
             return performer.Items.ToArray();
         }

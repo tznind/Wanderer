@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <None Remove="README.md" />
+    <None Remove="Resources\Adjectives.yaml" />
     <None Remove="Resources\Factions\Guncrew\Rooms\TheHole\Dialogue\Beverages.yaml" />
     <None Remove="Resources\Factions\Guncrew\Rooms\TheHole\Items\Beverages.yaml" />
   </ItemGroup>

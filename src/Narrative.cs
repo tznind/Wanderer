@@ -33,12 +33,7 @@ namespace Wanderer
 
             Add(fluff,technical);
         }
-
-        public void Add(string fluff)
-        {
-            _text.Add(Tuple.Create(fluff,true));
-        }
-
+        
         public void Add(string fluff, string technical)
         {
             if(!string.IsNullOrWhiteSpace(fluff))

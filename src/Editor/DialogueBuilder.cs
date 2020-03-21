@@ -182,7 +182,7 @@ namespace Wanderer.Editor
             //do not serialize empty arrays
             foreach(var n in nodes)
             {
-                n.Require = null;
+                n.Condition = null;
 
                 foreach(var b in n.Body)
                     b.Condition = null;

@@ -113,5 +113,13 @@ namespace Wanderer
         IRoom Reveal(Point3 location);
 
         ISystem GetSystem(Guid g);
+
+        /// <summary>
+        /// Default injury system for allocating injuries during Fight actions (<see cref="IInjurySystem.IsDefault"/>).
+        /// Can return null if no injury systems are defined.  If none are <see cref="IInjurySystem.IsDefault"/> then first
+        /// is returned
+        /// </summary>
+        /// <returns></returns>
+        IInjurySystem GetDefaultInjurySystem();
     }
 }

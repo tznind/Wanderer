@@ -10,12 +10,20 @@ namespace Wanderer.Actions
 {
     public class DropAction : Action
     {
+        private DropAction():base(null)
+        {
+
+        }
+
+        public DropAction(IHasStats owner) : base(owner)
+        {
+        }
 
         public override char HotKey => 'd';
 
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
         {
-            if(actor.Decide(ui,"Drop","Select an item to drop",out IItem toDrop, GetTargets(actor),-10))
+            if(actor.Decide(ui,"Drop","Select an item to drop",out IItem toDrop, GetTargets(actor).Cast<IItem>().ToArray(),-10))
                 stack.Push(new DropFrame(actor,this,toDrop,- GetItemWorthInAttitude(actor,toDrop)));
         }
 
@@ -32,7 +40,7 @@ namespace Wanderer.Actions
         {
             return GetTargets(performer).Any();
         }
-        private IItem[] GetTargets(IActor performer)
+        public override IEnumerable<IHasStats> GetTargets(IActor performer)
         {
             return performer.Items.ToArray();
         }
@@ -42,5 +50,6 @@ namespace Wanderer.Actions
             //value of item is total value of the item to the recipient
             return toDrop.GetFinalStats(dropper)[Stat.Value];
         }
+
     }
 }

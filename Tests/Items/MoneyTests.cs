@@ -7,7 +7,6 @@ using Wanderer;
 using Wanderer.Actions;
 using Wanderer.Actors;
 using Wanderer.Adjectives;
-using Wanderer.Adjectives.RoomOnly;
 using Wanderer.Factories;
 using Wanderer.Items;
 using Wanderer.Rooms;
@@ -21,15 +20,30 @@ namespace Tests.Items
         [Test]
         public void Test_RustyReducesValue()
         {
-            var itemFactory = new ItemFactory(new AdjectiveFactory());
-
             var you = new You("Dave", new Room("SomeRoom",new World(), 'f'));
-            
-            Assert.Less(
-            itemFactory.Create<Rusty>("Cog").With(Stat.Value,10).GetFinalStats(you)[Stat.Value],
-            new Item("Cog").With(Stat.Value,10).GetFinalStats(you)[Stat.Value]);
-        }
 
+            var cog = new Item("Cog").With(Stat.Value, 10);
+            cog.Adjectives.Add( new Adjective(cog)
+            {
+                Name = "Rusty", StatsRatio = {[Stat.Value] = 0.5},
+            });
+
+            Assert.AreEqual(5, cog.GetFinalStats(you)[Stat.Value]);
+        }
+        
+        [Test]
+        public void Test_RustyDoesNotImproveNegativeValue()
+        {
+            var you = new You("Dave", new Room("SomeRoom",new World(), 'f'));
+
+            var cog = new Item("CursedCog").With(Stat.Value, -10);
+            cog.Adjectives.Add(new Adjective(cog)
+            {
+                Name = "Rusty", StatsRatio = {[Stat.Value] = 0.5},
+            });
+
+            Assert.AreEqual(-20, cog.GetFinalStats(you)[Stat.Value]);
+        }
         [Test]
         public void Test_MoneyStacking()
         {
@@ -48,8 +62,8 @@ namespace Tests.Items
             room.Items.Add(money2);
 
             //pick both up
-            world.RunRound(new FixedChoiceUI((IItem)money),you.GetFinalActions().OfType<PickUpAction>().Single());
-            world.RunRound(new FixedChoiceUI((IItem)money2),you.GetFinalActions().OfType<PickUpAction>().Single());
+            world.RunRound(new FixedChoiceUI((IItem)money),you.GetFinalActions().OfType<PickUpAction>().First());
+            world.RunRound(new FixedChoiceUI((IItem)money2),you.GetFinalActions().OfType<PickUpAction>().First());
 
             // you only have 1 item which has all the Money
             Assert.AreSame(money,you.Items.Single());
@@ -65,8 +79,13 @@ namespace Tests.Items
             var world = new World();
             var you = new You("Dave", new Room("SomeRoom",world, 'f'));
 
-            var factory = new ItemFactory(new AdjectiveFactory());
-            var money = factory.CreateStack<Rusty>("Money",10).With(Stat.Value, 1);
+            var money = new ItemStack("money",10).With(Stat.Value, 1);
+            money.Adjectives.Add(new Adjective(money)
+            {
+                Name = "Rusty",
+                IsPrefix = true,
+                StatsRatio = new StatsCollection(0.5)
+            }) ;
             
             Assert.AreEqual(5,money.GetFinalStats(you)[Stat.Value],"Money has worth depending on stack size");
         }

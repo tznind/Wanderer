@@ -1,14 +1,14 @@
 ﻿- Name: Guard
   OptionalAdjectives:
-    - Type: Strong
-    - Type: Tough
+    - Strong
+    - Tough
   Stats:
     Fight: 30
     Loyalty: 20
 - Name: Overseer
   OptionalAdjectives:
-    - Type: Strong
-    - Type: Medic
+    - Strong
+    - Medic
   Stats:
     Fight: 10
     Loyalty: 30

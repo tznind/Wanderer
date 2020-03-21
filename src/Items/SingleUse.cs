@@ -16,12 +16,6 @@ namespace Wanderer.Items
             BaseBehaviours.Add(this);
             IsPrefix = false;
         }
-        
-        public override IEnumerable<string> GetDescription()
-        {
-            yield return "Can only be used once";
-        }
-
         public void OnPush(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
         {
         }

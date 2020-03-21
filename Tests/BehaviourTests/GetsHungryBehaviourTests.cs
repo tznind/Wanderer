@@ -1,15 +1,39 @@
+using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using Wanderer;
 using Wanderer.Actions;
+using Wanderer.Actors;
 using Wanderer.Adjectives;
 using Wanderer.Behaviours;
+using Wanderer.Compilation;
 using Wanderer.Factories;
+using Wanderer.Factories.Blueprints;
+using Wanderer.Items;
 
 namespace Tests.BehaviourTests
 {
     public class GetsHungryBehaviourTests : UnitTest
     {
+        [TestCase(true)]
+        [TestCase(false)]
+        public void TestGetEatAction(bool longName)
+        {
+            string name = longName ? "EatAction" : "Eat";
+
+            var you = YouInARoom(out IWorld w);
+
+            Assert.IsFalse(you.Has(name));
+
+            var apple = new Item("Apple");
+            apple.BaseActions.Add(new EatAction(apple));
+            you.Items.Add(apple);
+
+            Assert.IsTrue(you.Has(name));
+
+            Assert.IsInstanceOf<EatAction>(you.Get(name).Single());
+        }
+
         [Test]
         public void TestHunger_Appears()
         {
@@ -20,7 +44,7 @@ namespace Tests.BehaviourTests
             Assert.AreEqual(1,you.BaseBehaviours.OfType<GetsHungryBehaviour>().Count());
 
             for(int i=0;i<6;i++)
-                world.RunRound(GetUI(),new LoadGunsAction());
+                world.RunRound(GetUI(),new LoadGunsAction(you));
 
             Assert.AreEqual("Peckish",you.Adjectives.OfType<IInjured>().Single().Name);
 
@@ -40,7 +64,7 @@ namespace Tests.BehaviourTests
                 if(you.Dead)
                     break;
                 else
-                    world.RunRound(GetUI(),new LoadGunsAction());
+                    world.RunRound(GetUI(),new LoadGunsAction(you));
 
             Assert.IsTrue(you.Dead);
 
@@ -56,19 +80,19 @@ namespace Tests.BehaviourTests
             var you = YouInARoom(out IWorld world);
             
             for(int i=0;i<6;i++)
-                world.RunRound(GetUI(),new LoadGunsAction());
+                world.RunRound(GetUI(),new LoadGunsAction(you));
 
             Assert.AreEqual("Peckish",you.Adjectives.OfType<IInjured>().Single().Name);
 
             string yaml = @"
 - Name: Apple
   MandatoryAdjectives:
-    - Type: SingleUse
+    - SingleUse
   Actions:
     - EatAction
 ";
             
-            var itemFactory = new YamlItemFactory(yaml, new AdjectiveFactory());
+            var itemFactory = new ItemFactory{Blueprints = Compiler.Instance.Deserializer.Deserialize<List<ItemBlueprint>>(yaml)};
             you.Items.Add(itemFactory.Create(world, itemFactory.Blueprints[0]));
 
             Assert.AreEqual(1,you.Items.Count);

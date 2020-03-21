@@ -16,29 +16,9 @@ namespace Wanderer.Actions
             AddRange(actions);
         }
 
-
-        public bool HasAction(Type t)
+        public IActionCollection Clone()
         {
-            return GetAction(t) != null;
+            return new ActionCollection(this.Select(a=>a.Clone()));
         }
-        public bool HasAction(string typename)
-        {
-            return GetAction(typename) != null;
-        }
-
-        public IAction GetAction(Type t)
-        {
-            return this.FirstOrDefault(a=>a.GetType() == t);
-        }
-        public IAction GetAction(string typename)
-        {
-            string withSuffix = typename + "Action";
-
-            return this.FirstOrDefault(a=>
-                        a.GetType().Name == typename ||
-                        a.GetType().Name == withSuffix
-            );
-        }
-
     }
 }
