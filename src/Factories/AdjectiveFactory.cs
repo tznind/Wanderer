@@ -32,6 +32,8 @@ namespace Wanderer.Factories
 
             adj.IsPrefix = blueprint.IsPrefix;
 
+            s.Adjectives.Add(adj);
+
             return adj;
         }
 
@@ -44,8 +46,14 @@ namespace Wanderer.Factories
             {
                 var parameters = constructor.GetParameters();
                 if(parameters.Length == 1 && parameters[0].ParameterType.IsInstanceOfType(s))
-                    return (IAdjective) constructor.Invoke(new object[]{s});
+                    {
+
+                        var adj = (IAdjective) constructor.Invoke(new object[]{s});
+                        s.Adjectives.Add(adj);
+                        return adj;
+                    }
             }
+
 
             throw new ArgumentException("Could not find a valid constructor for IAdjective Type " + adjectiveType);
         }
@@ -56,13 +64,11 @@ namespace Wanderer.Factories
             //Adjectives the user definitely wants included
             if (ownerBlueprint.MandatoryAdjectives.Any())
                 foreach (var a in ownerBlueprint.MandatoryAdjectives)
-                    owner.Adjectives.Add(Create(world,owner, a));
+                    Create(world,owner, a);
             
             //pick 1 random adjective if blueprint lists any to pick from
             if (ownerBlueprint.OptionalAdjectives.Any())
-                owner.Adjectives.Add(
-                    Create(world,owner, ownerBlueprint.OptionalAdjectives.GetRandom(world.R))
-                );
+                Create(world,owner, ownerBlueprint.OptionalAdjectives.GetRandom(world.R));
         }
 
         public IAdjective Create(IWorld world,IHasStats s, Guid guid)

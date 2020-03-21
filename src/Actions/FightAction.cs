@@ -76,10 +76,9 @@ namespace Wanderer.Actions
             foreach (var a in new []{f.TargetIfAny, f.PerformedBy})
             {
                 //fighting makes you tired
-                a.Adjectives.Add(
+                world.AdjectiveFactory.Create(world,a,new Guid("378449b2-2b29-4849-81b6-04433dba02a9") )
                     //expires at the end of the next round
-                    world.AdjectiveFactory.Create(world,a,new Guid("378449b2-2b29-4849-81b6-04433dba02a9") )
-                        .WithExpiry(2));
+                    .WithExpiry(2);
             }
             
         }
