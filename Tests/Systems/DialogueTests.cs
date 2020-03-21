@@ -335,6 +335,12 @@ namespace Tests.Systems
           //now you are chatting to the goblin
           Assert.AreEqual(goblin,args.Recipient);
 
+          //if they are dead don't allow transitions either!
+          goblin.Dead = true;
+
+          //goblin has nothing to say so still should not be offered
+          Assert.Throws<OptionNotAvailableException>(()=>w.Dialogue.Run(new SystemArgs(w, GetUI("Talk to Hobgoblin"),0,you,you.CurrentLocation,Guid.Empty),node));
+
         }
     }
 }
