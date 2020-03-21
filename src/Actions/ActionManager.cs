@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Wanderer.Actions.Coercion;
 using Wanderer.Actors;
+using Wanderer.Items;
 
 namespace Wanderer.Actions
 {
@@ -25,6 +28,16 @@ namespace Wanderer.Actions
             return aggressor.GetFinalActions(aggressor)
                 .Where(a=>!mustHaveTargets || a.HasTargets(aggressor))
                 .Where(type.Matches).ToList();
+        }
+
+        public void PrimeCommandWithTarget(IAction chosen, IHasStats target)
+        {
+            if(chosen is FightAction f)
+                f.PrimeWithTarget = target as IActor;
+            if (chosen is PickUpAction p)
+                p.PrimeWithTarget = target as IItem;
+            if (chosen is CoerceAction c)
+                c.PrimeWithTarget = target as IActor;
         }
     }
 }

@@ -14,16 +14,20 @@ namespace Wanderer.Actions.Coercion
         {
         }
         public override char HotKey => 'c';
-        
+
+        public IActor PrimeWithTarget { get; internal set; }
+
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
         {
+            IActor toCoerce = PrimeWithTarget;
+
             //pick a target 
-            if(actor.Decide(ui,"Coerce Target", null, out Npc toCoerce, GetTargets(actor).Cast<Npc>().ToArray(),-20))
+            if(toCoerce != null || actor.Decide(ui,"Coerce Target", null, out toCoerce, GetTargets(actor).Cast<Npc>().ToArray(),-20))
                 //pick an action to perform
                 if (actor.Decide(ui, "Coerce Action", $"Pick an action you want {toCoerce} to perform",
                     out IAction actionToCoerce,
                     toCoerce.GetFinalActions(toCoerce).Where(a => a.HasTargets(toCoerce)).ToArray(), 0))
-                    stack.Push(new CoerceFrame(actor, this, toCoerce, actionToCoerce, ui,
+                    stack.Push(new CoerceFrame(actor, this, (Npc)toCoerce, actionToCoerce, ui,
                         actor.CurrentLocation.World.NegotiationSystems.First(), -10));
         }
 

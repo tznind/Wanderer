@@ -488,10 +488,7 @@ namespace Game.UI
 
                     if(options.Any() && GetChoice("Action",null,out IAction chosen,options))
                     {
-                        if(chosen is FightAction f)
-                            f.PrimeWithTarget = target as IActor;
-                        if (chosen is PickUpAction p)
-                            p.PrimeWithTarget = target as IItem;
+                        _actionManager.PrimeCommandWithTarget(chosen,target);
 
                         World.RunRound(this, chosen);
                         Refresh();
