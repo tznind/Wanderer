@@ -274,7 +274,8 @@ namespace Wanderer.Actors
             return 
                 base.GetAllHaves()
                     .Union(Items)
-                    .Union(Items.SelectMany(i=>i.GetAllHaves()));
+                    .Union(Items.SelectMany(i=>i.GetAllHaves())
+                    .Union(FactionMembership));
         }
 
         public double DistanceTo(IActor actor)
