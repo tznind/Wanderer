@@ -13,9 +13,6 @@ namespace Wanderer.Factories
 
             if (o != null)
             {
-                //e.g. create a key of "SystemArgs" which has value o
-                lua[o.GetType().Name] = o;
-
                 foreach(var prop in o.GetType().GetProperties())
                 {
                     var val = prop.GetValue(o);
