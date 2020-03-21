@@ -15,7 +15,7 @@ namespace Tests.Cookbook
         [Test]
         public void ConfirmRecipe()
         {
-            var world = Setup(roomYaml);
+            var world = SetupRoom(roomYaml);
             Assert.AreEqual("Somewhere Cool",world.Player.CurrentLocation.Name);
             GoWest(world);
             Assert.AreEqual("Empty Room",world.Player.CurrentLocation.Name);
