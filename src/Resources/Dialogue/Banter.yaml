@@ -67,6 +67,7 @@
    - Text: Approach
      Destination: 6ea074f9-ebd2-44e5-880d-de48b674fc3b
    - Text: Kick Over Barrel
+     SingleUse: true
      Effect: 
               #Get Fire system and apply it to the room
             - |
