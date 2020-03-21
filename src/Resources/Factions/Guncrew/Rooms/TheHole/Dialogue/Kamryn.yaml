@@ -1,0 +1,84 @@
+- Identifier: bc4f83cc-162e-4f5b-99cd-fcc5a0423c96
+  Body:
+  - Text: A dishevelled figure sits stooped over her glass apparent lost in thought.
+  Options:
+  - Text: A Chip for your thoughts
+    Destination: dc8946c1-12cd-4d38-b16a-6a024c514903
+  - Text: Got something on your mind?
+    Destination: 497b1574-0ded-4945-b62a-8dc7713a1a31
+  - Text: Want some company
+    Destination: 44a13a89-bf5b-40e4-82c2-ff612bfc546f
+  - Text: Fancy a game of dice?
+    Destination: 69a6facf-9008-4eba-b71d-2547e9c4c443
+    
+- Identifier: dc8946c1-12cd-4d38-b16a-6a024c514903
+  Body:
+  - Text: My thoughts ain't for sale
+  Options:
+  - Text: tell me anyway?
+    Destination: 497b1574-0ded-4945-b62a-8dc7713a1a31
+    Attitude: 5
+  - Text: you selling anything else?
+    Destination: 288e2894-1fa9-43ad-a3bc-7535b0af1e6f
+    Attitude: -5
+    
+  # Selling?
+- Identifier: 288e2894-1fa9-43ad-a3bc-7535b0af1e6f
+  Body:
+  - Text: No, and I ain't looking to buy either
+  
+- Identifier: 44a13a89-bf5b-40e4-82c2-ff612bfc546f
+  Body:
+  - Text: Depends on the kind, what you bothering me for?
+  Options:
+  - Text: Rutting
+    Destination: fa5fe5e9-f2f0-4cb9-a60a-95ed2ca63cdc
+  - Text: Just a spot of human kindness, care for the company?
+    Destination: a07aab0c-d784-48a4-91fc-ff388a4f87c2
+  - Text: Nevermind
+    
+  # Propositioned
+- Identifier: fa5fe5e9-f2f0-4cb9-a60a-95ed2ca63cdc
+  Body:
+  - Text: Really? That's your opener? Best sling your hook someplace else
+  
+  
+- Identifier: a07aab0c-d784-48a4-91fc-ff388a4f87c2
+  Body:
+  - Text: You've a strange way about you but sure drag up a seat.  Kamryn sips her drink and a comfortable silence descends.  After a while she looks hesitant as if she wants to get something off her chest
+  Options:
+  - Text: What's up?
+    Destination: 497b1574-0ded-4945-b62a-8dc7713a1a31
+    Attitude: 5
+  - Text: Finish drink in silence
+    
+  # play dice?
+- Identifier: 69a6facf-9008-4eba-b71d-2547e9c4c443
+  Body:
+  - Text: That's more Scrag scene than mine.  I've lost enough already for one day.
+  Options:
+  - Text: Look for Skrag
+    Transition: 1ec36f39-e705-4b0e-850a-49d827b5550b
+  - Text: What have you lost?
+    Destination: 497b1574-0ded-4945-b62a-8dc7713a1a31
+    
+  # what lost? / how feeling?
+- Identifier: 497b1574-0ded-4945-b62a-8dc7713a1a31
+  Body:
+  - Text: Saw a cutter slip into a machine press today. Didn't even slow it down.  It kept on pressing.  Up and down, up and down.  And the worst part.... the worst part is that everyone else just kept on working, didn't even break stride.
+  Options:
+  - Text: That's dark
+    Destination: cc61d8b1-41a8-4678-8fca-cd04eec8b8c0
+  - Text: Wow I only came for some light entertainment
+    Destination: 32cf4462-a075-48f9-9e0d-9315cf108038
+    Attitude: -5
+    
+  # thats dark
+- Identifier: cc61d8b1-41a8-4678-8fca-cd04eec8b8c0
+  Body:
+  - Text: Yup... dark as.... drek I'm all out of metaphors.  What do you want anyway?
+
+  # Came for light entertainment
+- Identifier: 32cf4462-a075-48f9-9e0d-9315cf108038
+  Body:
+  - Text: Then best look some place else
