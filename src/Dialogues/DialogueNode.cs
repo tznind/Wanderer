@@ -21,9 +21,15 @@ namespace Wanderer.Dialogues
             return Identifier.ToString();
         }
 
-        public DialogueOption[] GetOptionsToShow()
+        public DialogueOption[] GetOptionsToShow(IWorld world, SystemArgs args)
         {
-            return Options.Where(o => !o.Exhausted).ToArray();
+            return Options.Where(o =>
+             !o.Exhausted && o.AllConditionsMet(world,args)).ToArray();
+        }
+
+        internal bool AllConditionsMet(IWorld world, SystemArgs args)
+        {
+            return Condition.All(c=>c.IsMet(args.World,args));
         }
     }
 }

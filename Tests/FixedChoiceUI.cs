@@ -72,7 +72,7 @@ namespace Tests
             }
             catch (InvalidCastException)
             {
-                throw new Exception($"Chosen answer for Test did not match Type requested for GetChoice of:{title} ({body}).  Required Type was {typeof(T)}");
+                throw new OptionNotAvailableException($"Chosen answer for Test did not match Type requested for GetChoice of:{title} ({body}).  Required Type was {typeof(T)}");
             }
 
             if(!options.Contains(chosen))
