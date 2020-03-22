@@ -46,5 +46,15 @@ namespace Wanderer.Factories
             onto.BaseActions.Add(action);
             return action;
         }
+
+        public IAction Create(IWorld world, IHasStats onto, string name)
+        {
+            return Create(world, onto, GetBlueprint(name));
+        }
+
+        public IAction Create(IWorld world, IHasStats onto, Guid g)
+        {
+            return Create(world, onto, GetBlueprint(g));
+        }
     }
 }

@@ -1,13 +1,13 @@
 - Name: Eat if hungry
   Condition:
     - return Recipient:Has('89c18233-5250-4445-8799-faa9a888fb7f')
-    - return Recipient:Has('EatAction')
+    - return Recipient:Has('Eat')
 
   Do: |
         return
             Frame(
                Recipient,
-               FirstOrDefault(Recipient:Get('EatAction')),
+               FirstOrDefault(Recipient:Get('Eat')),
                0)
 - Name: Pick stuff up
   Condition:

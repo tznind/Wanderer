@@ -3,4 +3,4 @@
   HotKey: e
   Effect: 
       # Removes hunger
-    - Recipient.Heal('89c18233-5250-4445-8799-faa9a888fb7f')
+    - AggressorIfAny:Heal(UserInterface,Round,'89c18233-5250-4445-8799-faa9a888fb7f')

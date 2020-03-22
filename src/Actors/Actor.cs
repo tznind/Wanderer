@@ -352,7 +352,10 @@ namespace Wanderer.Actors
                 //the default world injury system
                 CurrentLocation.World.GetDefaultInjurySystem();
         }
-        
-        
+
+        public void Heal(IUserinterface ui, Guid round,string s)
+        {
+            Adjectives.OfType<IInjured>().FirstOrDefault(i=>i.Is(s))?.Heal(ui,round);
+        }
     }
 }

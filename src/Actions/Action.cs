@@ -56,10 +56,10 @@ namespace Wanderer.Actions
         /// <param name="ui"></param>
         /// <param name="stack"></param>
         /// <param name="frame"></param>
-        public void Pop(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
+        public virtual void Pop(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
         {
             foreach (var e in Effect) 
-                e.Apply(new SystemArgs(world, ui, 0, null, Owner, stack.Round));
+                e.Apply(new SystemArgs(world, ui, 0, frame.PerformedBy, frame.TargetIfAny ?? Owner, stack.Round));
 
             PopImpl(world, ui, stack, frame);
         }

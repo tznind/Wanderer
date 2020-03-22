@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Wanderer.Actions;
@@ -120,8 +121,17 @@ namespace Wanderer.Factories
                 
                 //copy properties from the base blueprint
                 foreach (var prop in typeof(T1).GetProperties())
-                    if (prop.GetValue(blueprint) == null)
-                        prop.SetValue(blueprint, prop.GetValue(baseBlue));
+                {
+                    var currentVal = prop.GetValue(blueprint);
+                    var baseVal = prop.GetValue(baseBlue);
+
+                    //where the current blueprint doesn't have a value for it yet (is null/empty)
+                    if (currentVal == null)
+                        prop.SetValue(blueprint, baseVal);
+                    else
+                    if(currentVal is IList l && l.Count == 0 && baseVal != null)
+                        prop.SetValue(blueprint, baseVal);
+                }
             }
         }
     }
