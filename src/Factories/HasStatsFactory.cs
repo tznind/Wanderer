@@ -104,5 +104,20 @@ namespace Wanderer.Factories
                    throw new NamedObjectNotFoundException($"Could not find {typeof(T1).Name} Named {name}", name);
         }
 
+        protected void HandleInheritance(HasStatsBlueprint blueprint)
+        {
+            if (blueprint.Base != null)
+            {
+                var baseBlue = GetBlueprint(blueprint.Base.Value);
+
+                if(baseBlue.Base.HasValue)
+                    throw new NotSupportedException($"Base blueprints cannot have their own base blueprint (maximum inheritance depth is 1).  Bad base blueprint was '{baseBlue}'");
+                
+                //copy properties from the base blueprint
+                foreach (var prop in typeof(T1).GetProperties())
+                    if (prop.GetValue(blueprint) == null)
+                        prop.SetValue(blueprint, prop.GetValue(baseBlue));
+            }
+        }
     }
 }

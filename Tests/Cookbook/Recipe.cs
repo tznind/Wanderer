@@ -18,6 +18,11 @@ namespace Tests.Cookbook
         {
             return Setup("Rooms.yaml", roomYaml);
         }
+
+        protected IWorld SetupRoom(string roomYaml, string itemsYaml)
+        {
+            return Setup("Rooms.yaml", roomYaml,"Items.yaml",itemsYaml);
+        }
         
         protected IWorld SetupDialogue(string dialogueYaml)
         {

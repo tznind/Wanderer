@@ -18,6 +18,8 @@ namespace Wanderer.Factories
         }
         public IAdjective Create(IWorld world,IHasStats s, AdjectiveBlueprint blueprint)
         {
+            HandleInheritance(blueprint);
+
             var adj = new Adjective(s)
             {
                 Name = blueprint.Name

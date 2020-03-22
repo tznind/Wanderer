@@ -9,6 +9,8 @@ namespace Wanderer.Factories
     {
         public IItem Create(IWorld world,ItemBlueprint blueprint)
         {
+            HandleInheritance(blueprint);
+
             var item = 
                 blueprint.Stack.HasValue ?
                 new ItemStack(blueprint.Name,blueprint.Stack.Value):

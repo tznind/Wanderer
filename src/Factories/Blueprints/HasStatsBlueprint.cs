@@ -12,6 +12,12 @@ namespace Wanderer.Factories.Blueprints
     public abstract class HasStatsBlueprint
     {
         /// <summary>
+        /// Inherit all properties from another blueprint of the
+        /// same type
+        /// </summary>
+        public Guid? Base { get; set; }
+
+        /// <summary>
         /// Uniquely identifies instances created from this blueprint
         /// </summary>
         public Guid? Identifier { get; set; }

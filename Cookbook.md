@@ -6,6 +6,7 @@ This page contains simple recipes for common level building tasks.
 
 - [Room Recipes](#room-recipes)
   - [Starting room](#starting-room)
+  - [Add same item to many rooms](#add-same-item-to-many-rooms)
 - [Item Recipes](#item-recipes)
   - [Equippable weapon](#equippable-weapon)
 - [Dialogue Recipes](#dialogue-recipes)
@@ -21,6 +22,27 @@ The [Player] always starts at 0,0,0.  The following recipy creates a unique star
   Unique: true
 ```
 _[[View Test]](./Tests/Cookbook/StartingRoom.cs)_
+
+### Add same item to many rooms
+
+You can use the blueprint inheritence system to create multiple references to the same master blueprint.  For example in `Rooms.yaml`
+
+```yaml
+- Name: Armoury
+  MandatoryItems:
+   - Base: e4ff5be4-233a-46b5-bb57-63831376b81d
+   - Base: e4ff5be4-233a-46b5-bb57-63831376b81d
+   - Base: e4ff5be4-233a-46b5-bb57-63831376b81d
+```
+
+Then create the base item in `Items.yaml`
+
+```yaml
+- Name: Rose
+  Identifier: e4ff5be4-233a-46b5-bb57-63831376b81d
+```
+
+_[[View Test]](./Tests/Cookbook/SameItemToManyRooms.cs)_
 
 ## Item Recipes
 
