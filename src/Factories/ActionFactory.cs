@@ -2,6 +2,7 @@ using System;
 using Wanderer.Actions;
 using Wanderer.Compilation;
 using Wanderer.Factories.Blueprints;
+using Action = Wanderer.Actions.Action;
 
 namespace Wanderer.Factories
 {
@@ -20,6 +21,9 @@ namespace Wanderer.Factories
             HandleInheritance(blueprint);
             IAction action;
 
+            if(string.IsNullOrWhiteSpace(blueprint.Type))
+                action = new Action(onto);
+            else
             try
             {
                 var type = _types.GetTypeNamed(blueprint.Type);
@@ -32,6 +36,9 @@ namespace Wanderer.Factories
             }
 
             AddBasicProperties(world,action,blueprint,"use");
+
+            action.HotKey = blueprint.HotKey;
+            action.Effect = blueprint.Effect;
 
             onto.BaseActions.Add(action);
         }

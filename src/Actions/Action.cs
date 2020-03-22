@@ -4,20 +4,28 @@ using System.Linq;
 using Newtonsoft.Json;
 using Wanderer.Actors;
 using Wanderer.Behaviours;
+using Wanderer.Compilation;
 
 namespace Wanderer.Actions
 {
-    public abstract class Action : HasStats,IAction
+    public class Action : HasStats,IAction
     {
-        [JsonIgnore]
-        public abstract char HotKey {get;}
+        public char HotKey {get; set;}
         
         public IHasStats Owner { get; set; }
 
+
+        /// <summary>
+        /// How kind is the action? before picking any targets
+        /// </summary>
+        public double Attitude {get;set;}
+
+        public List<IEffect> Effect {get;set;} = new List<IEffect>();
+        
         /// <summary>
         /// Initializes action with a default <see cref="HasStats.Name"/> based on the class name
         /// </summary>
-        protected Action(IHasStats owner)
+        public Action(IHasStats owner)
         {
             Name = GetType().Name.Replace("Action", "");
             Owner = owner;
@@ -34,7 +42,10 @@ namespace Wanderer.Actions
         /// <param name="ui"></param>
         /// <param name="stack"></param>
         /// <param name="actor"></param>
-        public abstract void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor);
+        public virtual void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
+        {
+            stack.Push(new Frame(actor,this,Attitude));
+        }
 
 
         /// <summary>
@@ -49,9 +60,16 @@ namespace Wanderer.Actions
 
         }
 
-        public abstract bool HasTargets(IActor performer);
+        public virtual bool HasTargets(IActor performer)
+        {
+            return true;
+        }
         
-        public abstract IEnumerable<IHasStats> GetTargets(IActor performer);
+        public virtual IEnumerable<IHasStats> GetTargets(IActor performer)
+        {
+            if(Owner != null)
+                yield return Owner;
+        }
 
         public virtual IAction Clone()
         {

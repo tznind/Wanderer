@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Moq;
 using NUnit.Framework;
 using Wanderer.Actions;
+using Wanderer.Actors;
 using Wanderer.Behaviours;
 using Wanderer.Compilation;
 
@@ -19,7 +21,7 @@ namespace Tests.Actions
                 if(a == typeof(ForbidAction))
                     continue;
 
-                Assert.IsNotNull(Activator.CreateInstance(a,true),$"Could not find default constructor on {a}");
+                Assert.IsNotNull(Activator.CreateInstance(a,Mock.Of<IActor>()),$"Could not find default constructor on {a}");
             }
         }
         [Test]
@@ -33,7 +35,7 @@ namespace Tests.Actions
                 if(a == typeof(ForbidAction))
                     continue;
 
-                var inst = ((IAction)Activator.CreateInstance(a,true));
+                var inst = ((IAction)Activator.CreateInstance(a,Mock.Of<IActor>()));
                 var key = inst.HotKey;
                 
                 if(actionKeys.ContainsKey(key))

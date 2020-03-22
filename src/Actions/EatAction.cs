@@ -10,17 +10,11 @@ namespace Wanderer.Actions
 {
     public class EatAction : Action
     {
-        
-        private EatAction():base(null)
-        {
-        }
-
         public EatAction(IHasStats owner):base(owner)
         {
             Owner = owner;
+            HotKey = 'e';
         }
-
-        public override char HotKey => 'e';
 
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
         {

@@ -11,16 +11,10 @@ namespace Wanderer.Actions
     public class DialogueAction:Action
     {
 
-        public override char HotKey => 'o';
-
-        private DialogueAction():base(null)
-        {
-            Name = "Other";
-        }
-
         public DialogueAction(IHasStats owner):base(owner)
         {
             Name = "Other";
+            HotKey = 'o';
         }
 
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)

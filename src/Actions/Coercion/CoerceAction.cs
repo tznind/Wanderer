@@ -6,14 +6,10 @@ namespace Wanderer.Actions.Coercion
 {
     public class CoerceAction : Action
     {
-        
-        private CoerceAction() : base(null)
-        {
-        }
         public CoerceAction(IHasStats owner) : base(owner)
         {
+            HotKey = 'c';
         }
-        public override char HotKey => 'c';
 
         public IActor PrimeWithTarget { get; internal set; }
 

@@ -10,16 +10,10 @@ namespace Wanderer.Actions
 {
     public class DropAction : Action
     {
-        private DropAction():base(null)
-        {
-
-        }
-
         public DropAction(IHasStats owner) : base(owner)
         {
+            HotKey = 'd';
         }
-
-        public override char HotKey => 'd';
 
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
         {

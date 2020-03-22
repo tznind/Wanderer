@@ -8,15 +8,11 @@ namespace Wanderer.Actions
 {
     public class GiveAction : Action
     {
-        private GiveAction():base(null)
-        {
-            
-        }
         public GiveAction(IHasStats owner):base(owner)
         {
-            
+            HotKey = 'g';
         }
-        public override char HotKey => 'g';
+        
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
         {
             if(Owner is IItem toGive || actor.Decide(ui,"Give","Select an item to give",out toGive, GetTargets(actor).Cast<IItem>().ToArray(),-10))

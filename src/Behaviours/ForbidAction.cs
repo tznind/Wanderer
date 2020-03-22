@@ -6,13 +6,12 @@ namespace Wanderer.Behaviours
 {
     public class ForbidAction : Action
     {
-        public override char HotKey => '-';
-
         private readonly Frame _toForbid;
 
         public ForbidAction(Frame toForbid):base(null)
         {
             _toForbid = toForbid;
+            HotKey = '-';
         }
 
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)

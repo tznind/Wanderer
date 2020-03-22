@@ -8,17 +8,10 @@ namespace Wanderer.Actions
 {
     public class LoadGunsAction : Action
     {
-        private LoadGunsAction():base(null)
-        {
-            
-        }
-
         public LoadGunsAction(IHasStats owner):base(owner)
         {
-            
+            HotKey = 'n';
         }
-
-        public override char HotKey => 'n';
 
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
         {

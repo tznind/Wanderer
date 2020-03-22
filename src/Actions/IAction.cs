@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Wanderer.Actors;
 using Wanderer.Behaviours;
+using Wanderer.Compilation;
 
 namespace Wanderer.Actions
 {
@@ -14,7 +15,9 @@ namespace Wanderer.Actions
         /// <summary>
         /// The hotkey for the action, should be a letter in the Name
         /// </summary>
-        char HotKey {get;}
+        char HotKey {get; set;}
+
+        List<IEffect> Effect {get;set;}
 
         /// <summary>
         /// When implemented results in pushing the current command onto the <paramref name="stack"/>

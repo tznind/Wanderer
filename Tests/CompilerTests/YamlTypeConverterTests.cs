@@ -11,12 +11,6 @@ namespace Tests.CompilerTests
     class YamlTypeConverterTests
     {
         [Test]
-        public void TestExistingClass_InstanceGenerated()
-        {
-            var converter = new YamlTypeConverter<IAction>();
-            Assert.IsInstanceOf(typeof(LoadGunsAction),converter.ParseScalar("LoadGunsAction", typeof(IAction)));
-        }
-        [Test]
         public void TestBadClass_NonExistant()
         {
             var converter = new YamlTypeConverter<IAction>();

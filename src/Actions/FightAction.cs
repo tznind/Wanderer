@@ -19,15 +19,10 @@ namespace Wanderer.Actions
         /// </summary>
         public IInjurySystem InjurySystem { get; set; }
 
-        private FightAction() :this(null)
-        {
-            
-        }
         public FightAction(IHasStats owner):base(owner)
         {
-            
+            HotKey = 'f';
         }
-        public override char HotKey => 'f';
         
         public IActor PrimeWithTarget {get;set;}
 

@@ -7,15 +7,10 @@ namespace Wanderer.Actions
 {
     public class PickUpAction : Action
     {
-        private PickUpAction():base(null)
-        {
-            
-        }
         public PickUpAction(IHasStats owner) : base(owner)
         {
+            HotKey = 'p';
         }
-
-        public override char HotKey => 'p';
 
         public IItem PrimeWithTarget { get; set; }
 

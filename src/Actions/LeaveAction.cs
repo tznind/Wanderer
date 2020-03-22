@@ -12,12 +12,8 @@ namespace Wanderer.Actions
         
         public LeaveAction(IHasStats owner) : base(owner)
         {
+            HotKey = 'l';
         }
-
-        private LeaveAction() : base(null)
-        {
-        }
-        public override char HotKey => 'l';
         
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
         {

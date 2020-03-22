@@ -8,14 +8,10 @@ namespace Wanderer.Actions
 {
     public class LeadershipAction : Action
     {
-        public override char HotKey => 'a';
 
-        private LeadershipAction():base(null)
-        {
-            
-        }
         public LeadershipAction(IHasStats owner) : base(owner)
         {
+            HotKey = 'a';
         }
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
         {
