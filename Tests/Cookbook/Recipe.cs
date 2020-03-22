@@ -23,13 +23,19 @@ namespace Tests.Cookbook
         {
             return Setup("Dialogue.yaml", dialogueYaml);
         }
-
-        private IWorld Setup(string filename, string yaml)
+        
+        protected IWorld SetupItem(string slotsYaml, string itemYaml)
+        {
+            return Setup("Slots.yaml", slotsYaml,"Items.yaml",itemYaml);
+        }
+        private IWorld Setup(params string[] pairs)
         {
             var dir = Path.Combine(TestContext.CurrentContext.WorkDirectory, Path.GetRandomFileName());
             Directory.CreateDirectory(dir);
 
-            File.WriteAllText(Path.Combine(dir,filename),yaml);
+            for(int i=0;i<pairs.Length;i+=2) 
+                File.WriteAllText(Path.Combine(dir, pairs[i]), pairs[i + 1]);
+
 
             var wf = new WorldFactory() {ResourcesDirectory = dir};
 
@@ -51,5 +57,6 @@ namespace Tests.Cookbook
 
             return string.Join(Environment.NewLine,ui.MessagesShown);
         }
+
     }
 }
