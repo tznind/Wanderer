@@ -70,7 +70,7 @@ namespace Tests.BehaviourTests
   MandatoryAdjectives:
     - SingleUse
   Actions:
-    - Base: 39014d98-d679-4458-9b38-7dbb58a178db
+    - Ref: 39014d98-d679-4458-9b38-7dbb58a178db
 ";
             
             var itemFactory = new ItemFactory{Blueprints = Compiler.Instance.Deserializer.Deserialize<List<ItemBlueprint>>(yaml)};

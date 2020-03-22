@@ -16,7 +16,7 @@ namespace Wanderer.Factories.Blueprints
         /// Inherit all properties from another blueprint of the
         /// same type
         /// </summary>
-        public Guid? Base { get; set; }
+        public Guid? Ref { get; set; }
 
         /// <summary>
         /// Uniquely identifies instances created from this blueprint

@@ -30,9 +30,9 @@ You can use the blueprint inheritence system to create multiple references to th
 ```yaml
 - Name: Armoury
   MandatoryItems:
-   - Base: e4ff5be4-233a-46b5-bb57-63831376b81d
-   - Base: e4ff5be4-233a-46b5-bb57-63831376b81d
-   - Base: e4ff5be4-233a-46b5-bb57-63831376b81d
+   - Ref: e4ff5be4-233a-46b5-bb57-63831376b81d
+   - Ref: e4ff5be4-233a-46b5-bb57-63831376b81d
+   - Ref: e4ff5be4-233a-46b5-bb57-63831376b81d
 ```
 
 Then create the base item in `Items.yaml`

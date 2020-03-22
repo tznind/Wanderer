@@ -15,7 +15,7 @@
         Next: fa7e55d3-b086-4e35-b816-c2d79fe66ac2
       Actions:
         - Type: FightAction
-        - Base: 39014d98-d679-4458-9b38-7dbb58a178db
+        - Ref: 39014d98-d679-4458-9b38-7dbb58a178db
         - Type: LoadGunsAction
   MandatoryItems:
     - Name: Flame Projector

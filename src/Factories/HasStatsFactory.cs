@@ -112,12 +112,12 @@ namespace Wanderer.Factories
 
         protected void HandleInheritance(HasStatsBlueprint blueprint)
         {
-            if (blueprint.Base != null)
+            if (blueprint.Ref != null)
             {
-                var baseBlue = GetBlueprint(blueprint.Base.Value);
+                var baseBlue = GetBlueprint(blueprint.Ref.Value);
 
-                if(baseBlue.Base.HasValue)
-                    throw new NotSupportedException($"Base blueprints cannot have their own base blueprint (maximum inheritance depth is 1).  Bad base blueprint was '{baseBlue}'");
+                if(baseBlue.Ref.HasValue)
+                    throw new NotSupportedException($"Ref blueprints cannot have their own base blueprint (maximum inheritance depth is 1).  Bad base blueprint was '{baseBlue}'");
                 
                 //copy properties from the base blueprint
                 foreach (var prop in typeof(T1).GetProperties())
