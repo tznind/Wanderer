@@ -89,7 +89,7 @@ namespace Tests.BehaviourTests
   MandatoryAdjectives:
     - SingleUse
   Actions:
-    - EatAction
+    - Type: EatAction
 ";
             
             var itemFactory = new ItemFactory{Blueprints = Compiler.Instance.Deserializer.Deserialize<List<ItemBlueprint>>(yaml)};

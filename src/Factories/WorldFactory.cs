@@ -23,6 +23,7 @@ namespace Wanderer.Factories
         public const string RoomsDirectory = "Rooms";
         public const string ItemsDirectory = "Items";
         public const string ActorsDirectory = "Actors";
+        public const string ActionsDirectory = "Actions";
         public const string AdjectivesDirectory = "Adjectives";
 
         public string ResourcesDirectory { get; set; }
@@ -68,6 +69,7 @@ namespace Wanderer.Factories
             world.RoomFactory = new RoomFactory();
             world.ActorFactory = new ActorFactory();
             world.ItemFactory = new ItemFactory();
+            world.ActionFactory = new ActionFactory();
 
             if(!Directory.Exists(ResourcesDirectory))
                 throw new DirectoryNotFoundException($"Resources directory did not exist '{ResourcesDirectory}'");
@@ -101,6 +103,9 @@ namespace Wanderer.Factories
 
                 if(IsAdjectivesFile(fi,dirs))
                     world.AdjectiveFactory.Blueprints.AddRange(AssignFaction(GetBlueprints<AdjectiveBlueprint>(fi),faction));
+
+                if(IsActionsFile(fi,dirs))
+                    world.ActionFactory.Blueprints.AddRange(AssignFaction(GetBlueprints<ActionBlueprint>(fi),faction));
 
                 if(!SkipContent && IsDialogueFile(fi,dirs))
                     world.Dialogue.AllDialogues.AddRange(GetDialogue(fi));
@@ -153,6 +158,10 @@ namespace Wanderer.Factories
         private bool IsAdjectivesFile(FileInfo fi,string[] path)
         {
             return Is(fi,path,AdjectivesDirectory);
+        }
+        private bool IsActionsFile(FileInfo fi,string[] path)
+        {
+            return Is(fi,path,ActionsDirectory);
         }
         private bool IsItemsFile(FileInfo fi,string[] path)
         {

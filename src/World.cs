@@ -40,6 +40,8 @@ namespace Wanderer
 
         public IAdjectiveFactory  AdjectiveFactory { get; set; } = new AdjectiveFactory();
 
+        public IActionFactory ActionFactory { get;  set; } = new ActionFactory();
+
         public Random R { get; set; } = new Random(100);
 
         [JsonIgnore]

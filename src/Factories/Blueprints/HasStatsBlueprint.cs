@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Wanderer.Actions;
 using Wanderer.Actors;
 using Wanderer.Adjectives;
@@ -92,7 +93,7 @@ namespace Wanderer.Factories.Blueprints
         /// Option, if specified this list becomes the actions of the object
         /// replacing any existing actions they might otherwise get)
         /// </summary>
-        public ActionCollection Actions { get; set; } = new ActionCollection();
+        public List<ActionBlueprint> Actions { get; set; } = new List<ActionBlueprint>();
 
         /// <summary>
         /// Returns true if the blueprint is appropriate for the supplied

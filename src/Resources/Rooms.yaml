@@ -26,7 +26,7 @@
           MandatoryAdjectives:
             - SingleUse
           Actions:
-            - EatAction
+            - Type: EatAction
 - Name: Shanty Town
   Tile: T
   Dialogue:

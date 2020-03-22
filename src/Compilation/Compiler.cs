@@ -28,7 +28,6 @@ namespace Wanderer.Compilation
         public IDeserializer Deserializer =>
             new DeserializerBuilder()
                 .WithTypeConverter(new YamlTypeConverter<ICondition>())
-                .WithTypeConverter(new YamlTypeConverter<IAction>())
                 .WithTypeConverter(new YamlTypeConverter<IEffect>())
                 .WithTypeConverter(new YamlTypeConverter<IFrameSource>())
                 .Build();

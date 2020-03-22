@@ -17,9 +17,9 @@
         Coerce: 60
         Savvy: 60
       Actions:
-        - FightAction
-        - GiveAction
-        - PickUpAction
-        - EquipmentAction
+        - Type: FightAction
+        - Type: GiveAction
+        - Type: PickUpAction
+        - Type: EquipmentAction
       Dialogue: 
         Next: 354a62e1-fcdd-40ed-8cb9-b86de09efdbe

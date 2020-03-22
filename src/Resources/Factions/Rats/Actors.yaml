@@ -13,4 +13,4 @@
   Stats:
     Fight: 10
   Actions:
-    - FightAction
+    - Type: FightAction

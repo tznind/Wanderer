@@ -43,7 +43,12 @@ namespace Wanderer.Factories
                 UniquesSpawned.Add(blueprint.Identifier ?? Guid.Empty);
 
             if (blueprint.Actions.Any())
-                onto.BaseActions = blueprint.Actions.Clone();
+            {
+                onto.BaseActions = new ActionCollection();
+
+                foreach(var actionBlueprint in blueprint.Actions)
+                    world.ActionFactory.Create(world,onto,actionBlueprint);
+            }
 
             onto.Color = blueprint.Color;
             onto.Unique = blueprint.Unique;

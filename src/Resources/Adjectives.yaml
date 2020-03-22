@@ -27,7 +27,7 @@
 
 - Name: Medic
   Actions:
-    - HealAction
+    - Type: HealAction
 
 - Name: Dark
   Stats:

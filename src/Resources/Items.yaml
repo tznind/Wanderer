@@ -48,18 +48,18 @@
   MandatoryAdjectives:
   - SingleUse
   Actions:
-    - EatAction
+    - Type: EatAction
 - Name: Mushrooms
   Stats:
     Value: 7
   MandatoryAdjectives:
   - SingleUse
   Actions:
-    - EatAction
+    - Type: EatAction
 - Name: Fungus
   Stats:
     Value: 5
   MandatoryAdjectives:
   - SingleUse
   Actions:
-    - EatAction
+    - Type: EatAction

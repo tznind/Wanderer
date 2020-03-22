@@ -14,9 +14,9 @@
         Coerce: 60
         Savvy: 60
       Actions:
-        - FightAction
-        - GiveAction
-        - EquipmentAction
+        - Type: FightAction
+        - Type: GiveAction
+        - Type: EquipmentAction
     - Name: Barkeep
       Identifier: 185f63cc-5c64-400e-aefd-e0a16ea358e8
       Dialogue: 
