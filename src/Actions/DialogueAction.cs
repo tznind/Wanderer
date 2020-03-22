@@ -35,7 +35,7 @@ namespace Wanderer.Actions
         }
 
         
-        public override void Pop(IWorld world1, IUserinterface ui, ActionStack stack, Frame frame)
+        protected override void PopImpl(IWorld world1, IUserinterface ui, ActionStack stack, Frame frame)
         {
             var f = (DialogueFrame) frame;
             var world = frame.PerformedBy.CurrentLocation.World;

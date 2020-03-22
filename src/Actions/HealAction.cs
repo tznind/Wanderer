@@ -23,7 +23,7 @@ namespace Wanderer.Actions
         }
 
 
-        public override void Pop(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
+        protected override void PopImpl(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
         {
             var f = (HealFrame)frame;
 

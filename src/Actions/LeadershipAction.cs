@@ -32,7 +32,7 @@ namespace Wanderer.Actions
             yield return new FollowPlan(actor){Name = "Follow Me"};
         }
 
-        public override void Pop(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
+        protected override void PopImpl(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
         {
             var f = (LeadershipFrame)frame;
             var led = new LedAdjective(f);

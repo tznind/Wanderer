@@ -41,7 +41,7 @@ namespace Wanderer.Actions
                     stack.Push(new FightFrame(actor, toFight, this,system,fightAttitude));
         }
 
-        public override void Pop(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
+        protected override void PopImpl(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
         {
             var f = (FightFrame) frame;
             PrimeWithTarget = null;

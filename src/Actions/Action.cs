@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Wanderer.Actors;
 using Wanderer.Behaviours;
 using Wanderer.Compilation;
+using Wanderer.Systems;
 
 namespace Wanderer.Actions
 {
@@ -55,9 +56,17 @@ namespace Wanderer.Actions
         /// <param name="ui"></param>
         /// <param name="stack"></param>
         /// <param name="frame"></param>
-        public virtual void Pop(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
+        public void Pop(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
         {
+            foreach (var e in Effect) 
+                e.Apply(new SystemArgs(world, ui, 0, null, Owner, stack.Round));
 
+            PopImpl(world, ui, stack, frame);
+        }
+
+        protected virtual void PopImpl(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
+        {
+            
         }
 
         public virtual bool HasTargets(IActor performer)

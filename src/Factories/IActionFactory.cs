@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Wanderer.Actions;
 using Wanderer.Factories.Blueprints;
 
 namespace Wanderer.Factories
@@ -10,6 +11,6 @@ namespace Wanderer.Factories
         /// </summary>
         List<ActionBlueprint> Blueprints { get; set; }
 
-        void Create(IWorld world, IHasStats onto, ActionBlueprint blueprint);
+        IAction Create(IWorld world, IHasStats onto, ActionBlueprint blueprint);
     }
 }

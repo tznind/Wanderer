@@ -19,7 +19,7 @@ namespace Wanderer.Behaviours
             stack.Push(new Frame(actor,this,0));
         }
 
-        public override void Pop(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
+        protected override void PopImpl(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
         {
             _toForbid.Cancelled = true;
             ui.Log.Info(new LogEntry(

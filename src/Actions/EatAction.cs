@@ -21,7 +21,7 @@ namespace Wanderer.Actions
             stack.Push(new Frame(actor,this,5));
         }
 
-        public override void Pop(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
+        protected override void PopImpl(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
         {
             var hunger = frame.PerformedBy.Adjectives.OfType<IInjured>()
                 //TODO: this is a reference to Hunger.yaml once actions are yamled too then this should move there

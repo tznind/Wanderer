@@ -22,7 +22,7 @@ namespace Wanderer.Actions
                 stack.Push(new PickUpFrame(actor,this,chosen,actor.CurrentLocation,0));
         }
 
-        public override void Pop(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
+        protected override void PopImpl(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
         {
             var f = (PickUpFrame)frame;
             PrimeWithTarget = null;

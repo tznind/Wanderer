@@ -16,7 +16,7 @@ namespace Wanderer.Factories
             _types = Compilation.Compiler.Instance.TypeFactory.Create<IAction>();
         }
 
-        public void Create(IWorld world, IHasStats onto, ActionBlueprint blueprint)
+        public IAction Create(IWorld world, IHasStats onto, ActionBlueprint blueprint)
         {
             HandleInheritance(blueprint);
             IAction action;
@@ -37,10 +37,14 @@ namespace Wanderer.Factories
 
             AddBasicProperties(world,action,blueprint,"use");
 
+            if(!string.IsNullOrWhiteSpace(blueprint.Name))
+                action.Name = blueprint.Name;
+
             action.HotKey = blueprint.HotKey;
             action.Effect = blueprint.Effect;
 
             onto.BaseActions.Add(action);
+            return action;
         }
     }
 }
