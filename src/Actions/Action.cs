@@ -60,7 +60,18 @@ namespace Wanderer.Actions
                 if(!actor.Decide(ui,Name,"Target",out target, targets,Attitude))
                     return;
             
-            stack.Push(new Frame(actor,this,Attitude){TargetIfAny = target});
+            stack.Push(new Frame(actor,this,GetAttitude(actor,target) ?? Attitude){TargetIfAny = target});
+        }
+
+        /// <summary>
+        /// Return the attitude given the picked <paramref name="target"/> (if null is returned then fallback of <see cref="Attitude"/> is used)
+        /// </summary>
+        /// <param name="performer"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        protected virtual double? GetAttitude(IActor performer, IHasStats target)
+        {
+            return null;
         }
 
 
