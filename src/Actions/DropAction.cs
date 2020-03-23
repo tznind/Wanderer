@@ -12,7 +12,11 @@ namespace Wanderer.Actions
         {
             HotKey = 'd';
             Attitude = -10;
-            Targets = new List<IActionTarget> {new FuncTarget(a => a.AggressorIfAny.Items)};
+        }
+
+        public override void Push(IWorld world, IUserinterface ui, ActionStack stack, IActor actor)
+        {
+            stack.Push(new Frame(actor,this,GetAttitude(actor,Owner) ?? Attitude){TargetIfAny = Owner});
         }
 
         protected override void PopImpl(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
@@ -24,15 +28,11 @@ namespace Wanderer.Actions
                 ((IItem)f.TargetIfAny).Drop(ui, f.PerformedBy,stack.Round);
         }
 
-        public override bool HasTargets(IActor performer)
-        {
-            return GetTargets(performer).Any();
-        }
         public override IEnumerable<IHasStats> GetTargets(IActor performer)
         {
-            return performer.Items.ToArray();
+            return new []{Owner};
         }
-
+        
         protected override double? GetAttitude(IActor performer, IHasStats target)
         {
             //value of item is total value of the item to the recipient

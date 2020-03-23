@@ -13,7 +13,7 @@ namespace Wanderer.Factories
 
         public ActionFactory()
         {
-            _types = Compilation.Compiler.Instance.TypeFactory.Create<IAction>();
+            _types = Compiler.Instance.TypeFactory.Create<IAction>();
         }
 
         public IAction Create(IWorld world, IHasStats onto, ActionBlueprint blueprint)
@@ -43,6 +43,7 @@ namespace Wanderer.Factories
             action.HotKey = blueprint.HotKey;
             action.Effect = blueprint.Effect;
             action.Targets = blueprint.Targets;
+            action.TargetPrompt = blueprint.TargetPrompt;
 
             onto.BaseActions.Add(action);
             return action;

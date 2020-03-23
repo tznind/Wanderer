@@ -24,6 +24,12 @@ namespace Wanderer.Factories.Blueprints
         public List<IActionTarget>  Targets {get;set;}
 
         /// <summary>
+        /// If there are <see cref="Targets"/> configured then this
+        /// is the message to show when prompting to pick them
+        /// </summary>
+        public string TargetPrompt { get; set; }
+
+        /// <summary>
         /// What happens when the action is performed.
         /// </summary>
         public List<IEffect> Effect { get; set; } = new List<IEffect>();

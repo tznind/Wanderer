@@ -27,6 +27,8 @@ namespace Wanderer.Actions
         /// </summary>
         public List<IActionTarget>  Targets {get;set;}
         
+        public string TargetPrompt { get; set; }
+
         public List<IEffect> Effect {get;set;} = new List<IEffect>();
         
         /// <summary>
@@ -52,12 +54,10 @@ namespace Wanderer.Actions
         public virtual void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
         {
             var targets = GetTargets(actor).ToArray();
-            IHasStats target = null;
+            IHasStats target = Owner;
 
-            if(targets.Length == 1)
-                target = targets[0];
-            else if(targets.Length >= 1)
-                if(!actor.Decide(ui,Name,"Target",out target, targets,Attitude))
+            if(targets.Length >= 1)
+                if(!actor.Decide(ui,Name,TargetPrompt,out target, targets,Attitude))
                     return;
             
             stack.Push(new Frame(actor,this,GetAttitude(actor,target) ?? Attitude){TargetIfAny = target});
@@ -102,16 +102,9 @@ namespace Wanderer.Actions
         
         public virtual IEnumerable<IHasStats> GetTargets(IActor performer)
         {
-            if(Targets == null || !Targets.Any())
+            if(Targets != null && Targets.Any())
             {
-                if(Owner != null)
-                    return new []{Owner};
-            }
-            else
-            {
-
                 var args = new SystemArgs(performer.CurrentLocation.World,null,0,performer,Owner,Guid.Empty);
-
                 return Targets.SelectMany(t=>t.Get(args)).Distinct();
             }
 

@@ -23,6 +23,12 @@ namespace Wanderer.Actions
         /// What can be targetted by the action
         /// </summary>
         List<IActionTarget> Targets { get; set; }
+        
+        /// <summary>
+        /// If there are <see cref="Targets"/> configured then this
+        /// is the message to show when prompting to pick them
+        /// </summary>
+        string TargetPrompt { get; set; }
 
         /// <summary>
         /// When implemented results in pushing the current command onto the <paramref name="stack"/>
