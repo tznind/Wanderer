@@ -14,7 +14,7 @@ namespace Wanderer
 
         public IActor PerformedBy { get; set; }
 
-        public IActor TargetIfAny { get; set; }
+        public IHasStats TargetIfAny { get; set; }
 
         public IAction Action { get; set; }
         public bool Cancelled { get; set; }

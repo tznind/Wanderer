@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Wanderer.Actors;
 using Wanderer.Behaviours;
 using Wanderer.Compilation;
+using Wanderer.Factories.Blueprints;
 using Wanderer.Systems;
 
 namespace Wanderer.Actions
@@ -21,6 +22,11 @@ namespace Wanderer.Actions
         /// </summary>
         public double Attitude {get;set;}
 
+        /// <summary>
+        /// What can be targetted by the action
+        /// </summary>
+        public List<IActionTarget>  Targets {get;set;}
+        
         public List<IEffect> Effect {get;set;} = new List<IEffect>();
         
         /// <summary>
@@ -45,7 +51,16 @@ namespace Wanderer.Actions
         /// <param name="actor"></param>
         public virtual void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
         {
-            stack.Push(new Frame(actor,this,Attitude));
+            var targets = GetTargets(actor).ToArray();
+            IHasStats target = null;
+
+            if(targets.Length == 1)
+                target = targets[0];
+            else if(targets.Length >= 1)
+                if(!actor.Decide(ui,Name,"Target",out target, targets,Attitude))
+                    return;
+            
+            stack.Push(new Frame(actor,this,Attitude){TargetIfAny = target});
         }
 
 
@@ -71,13 +86,25 @@ namespace Wanderer.Actions
 
         public virtual bool HasTargets(IActor performer)
         {
-            return true;
+            return GetTargets(performer).Any();
         }
         
         public virtual IEnumerable<IHasStats> GetTargets(IActor performer)
         {
-            if(Owner != null)
-                yield return Owner;
+            if(Targets == null || !Targets.Any())
+            {
+                if(Owner != null)
+                    return new []{Owner};
+            }
+            else
+            {
+
+                var args = new SystemArgs(performer.CurrentLocation.World,null,0,performer,Owner,Guid.Empty);
+
+                return Targets.SelectMany(t=>t.Get(args)).Distinct();
+            }
+
+            return new IHasStats[0];
         }
 
         public virtual IAction Clone()

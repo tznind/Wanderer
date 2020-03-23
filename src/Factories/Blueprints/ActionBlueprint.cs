@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Wanderer.Actions;
 using Wanderer.Compilation;
 
 namespace Wanderer.Factories.Blueprints
@@ -17,6 +18,11 @@ namespace Wanderer.Factories.Blueprints
         /// </summary>
         public double Attitude {get;set;}
         
+        /// <summary>
+        /// What can be targetted by the action
+        /// </summary>
+        public List<IActionTarget>  Targets {get;set;}
+
         /// <summary>
         /// What happens when the action is performed.
         /// </summary>

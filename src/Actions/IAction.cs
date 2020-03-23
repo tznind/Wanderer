@@ -20,6 +20,11 @@ namespace Wanderer.Actions
         List<IEffect> Effect {get;set;}
 
         /// <summary>
+        /// What can be targetted by the action
+        /// </summary>
+        List<IActionTarget> Targets { get; set; }
+
+        /// <summary>
         /// When implemented results in pushing the current command onto the <paramref name="stack"/>
         /// Can result in no change to <paramref name="stack"/> if the action is cancelled e.g. as
         /// a result of asking the user a question through <paramref name="ui"/>.

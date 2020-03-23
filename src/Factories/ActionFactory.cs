@@ -42,6 +42,7 @@ namespace Wanderer.Factories
 
             action.HotKey = blueprint.HotKey;
             action.Effect = blueprint.Effect;
+            action.Targets = blueprint.Targets;
 
             onto.BaseActions.Add(action);
             return action;

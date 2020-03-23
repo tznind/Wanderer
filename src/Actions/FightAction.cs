@@ -49,7 +49,7 @@ namespace Wanderer.Actions
             if (f.InjurySystem == null)
                 f.InjurySystem = f.PerformedBy.GetBestInjurySystem();
 
-            var attackerAdvantage = f.PerformedBy.GetFinalStats()[Stat.Fight] - f.TargetIfAny.GetFinalStats()[Stat.Fight];
+            var attackerAdvantage = f.PerformedBy.GetFinalStats()[Stat.Fight] - ((IActor)f.TargetIfAny).GetFinalStats()[Stat.Fight];
             
             ui.Log.Info(new LogEntry($"{f.PerformedBy} fought {f.TargetIfAny}",stack.Round,f.PerformedBy));
             
@@ -62,9 +62,9 @@ namespace Wanderer.Actions
                 stack.Round));
             
             //inflict damage back again
-            f.TargetIfAny.GetBestInjurySystem()?.Apply(new SystemArgs(world,ui,
+            ((IActor)f.TargetIfAny).GetBestInjurySystem()?.Apply(new SystemArgs(world,ui,
                 -attackerAdvantage + 20,
-                f.TargetIfAny,
+                ((IActor)f.TargetIfAny),
                 f.PerformedBy,
                 stack.Round));
 
