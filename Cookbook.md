@@ -18,6 +18,7 @@ This page contains simple recipes for common level building tasks.
   - [Ammo](#ammo)
 - [Dialogue Recipes](#dialogue-recipes)
   - [Remark about injury](#remark-about-injury)
+
 ## Room Recipes
 
 ### Starting room
@@ -28,11 +29,13 @@ The [Player] always starts at 0,0,0.  The following recipy creates a unique star
   FixedLocation: 0,0,0
   Unique: true
 ```
+_./Rooms.yaml_
+
 _[[View Test]](./Tests/Cookbook/StartingRoom.cs)_
 
 ### Add same item to many rooms
 
-You can use the blueprint inheritence system to create multiple references to the same master blueprint.  For example in `Rooms.yaml`
+You can use the blueprint inheritence system to create multiple references to the same master blueprint:
 
 ```yaml
 - Name: Armoury
@@ -41,13 +44,15 @@ You can use the blueprint inheritence system to create multiple references to th
    - Ref: e4ff5be4-233a-46b5-bb57-63831376b81d
    - Ref: e4ff5be4-233a-46b5-bb57-63831376b81d
 ```
+_./Rooms.yaml_
 
-Then create the base item in `Items.yaml`
+Then create the base item:
 
 ```yaml
 - Name: Rose
   Identifier: e4ff5be4-233a-46b5-bb57-63831376b81d
 ```
+_./Items.yaml_
 
 _[[View Test]](./Tests/Cookbook/SameItemToManyRooms.cs)_
 
@@ -60,8 +65,9 @@ Items are equippable only if they have defined 'slots'.  To do this we first hav
 ```
 Wrist: 2
 ```
+_./Slots.yaml_
 
-This defines that by default all actors have 2 wrists.  Next create `Items.yaml` with the following:
+This defines that by default all actors have 2 wrists.  Next create the item:
 
 ```yaml
 - Name: Wrist blade
@@ -71,6 +77,8 @@ This defines that by default all actors have 2 wrists.  Next create `Items.yaml`
    Name: Wrist
    NumberRequired: 1
 ```
+_./Items.yaml_
+
 _[[View Test]](./Tests/Cookbook/EquippableWeapon.cs)_
 
 
@@ -78,7 +86,7 @@ _[[View Test]](./Tests/Cookbook/EquippableWeapon.cs)_
 
 This will cover creating a laser pistol.  For this recipe we are going to need entries in 4 files.
 
-- An injury system (for laser burns).  Create `./InjurySystems/Lasers.yaml`
+- An injury system (for laser burns):
 
 ```yaml
 Identifier: 3bfc44ce-28ba-4fa8-951a-f97ec6dddf0f
@@ -91,20 +99,23 @@ Injuries:
 - Name: Laser Burn
   Severity: 10
 ```
+_./InjurySystems/Lasers.yaml_
 
-- Default slots (give the player some hands! - `./Slots.yaml`)
+- Give the player some hands!
 
 ```yaml
 Hand: 2
 ```
+_Slots.yaml_
 
-Now we need an adjective that ties the ammo clip to the weapon.  Create `./Adjectives.yaml`
+
+- Now we need an adjective that ties the ammo clip to the weapon.  Create `./Adjectives.yaml`
 
 ```yaml
 - Name: LaserPowered
 ```
 
-Finally we can create our items `./Items.yaml`
+- Finally we can create our items
 
 ```yaml
 - Name: Laser Clip
@@ -126,6 +137,7 @@ Finally we can create our items `./Items.yaml`
   MandatoryAdjectives:
     - LaserPowered
 ```
+ _./Items.yaml_
 
 The item (Laser Clip) works by requiring the player to have an item with the "LaserPowered" adjective.  This will only happen when the Laser Pistol is equipped.  The SingleUse and Stack properties ensure that each time FightAction occurs
 on the clip it runs down.
@@ -145,10 +157,11 @@ Each [DialogueNode] is made up of 1 or more blocks of text.  You can apply condi
      Condition: 
        - return AggressorIfAny:Has('Injured')
 ```
+_./Dialogue.yaml_
+
 _[[View Test]](./Tests/Cookbook/RemarkAboutInjury.cs)_
 
 If you have multiple injury systems e.g. fire, cold, tissue damage etc and want to restrict your condition to only one of them then you can pass the injury system Guid instead e.g. return `AggressorIfAny:Has('7cc7a784-949b-4c26-9b99-c1ea7834619e')`
-
 
 
 [DialogueNode]: ./src/Dialogues/DialogueNode.cs
