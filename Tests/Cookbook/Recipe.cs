@@ -33,14 +33,31 @@ namespace Tests.Cookbook
         {
             return Setup("Slots.yaml", slotsYaml,"Items.yaml",itemYaml);
         }
+
+        protected IWorld SetupItem(string slotsYaml, string itemYaml,string adjectivesYaml)
+        {
+            return Setup("Slots.yaml", slotsYaml,"Items.yaml",itemYaml,"Adjectives.yaml",adjectivesYaml);
+        }
+
+        protected IWorld SetupItem(string slotsYaml, string itemYaml,string adjectivesYaml, string injurySystemYaml)
+        {
+            return Setup("Slots.yaml", slotsYaml,"Items.yaml",itemYaml,"Adjectives.yaml",adjectivesYaml,"InjurySystems/system1.yaml",injurySystemYaml);
+        }
         private IWorld Setup(params string[] pairs)
         {
             var dir = Path.Combine(TestContext.CurrentContext.WorkDirectory, Path.GetRandomFileName());
             Directory.CreateDirectory(dir);
 
             for(int i=0;i<pairs.Length;i+=2) 
-                File.WriteAllText(Path.Combine(dir, pairs[i]), pairs[i + 1]);
+            {
 
+                var fi = new FileInfo(Path.Combine(dir, pairs[i]));
+
+                if(!fi.Directory.Exists)
+                    fi.Directory.Create();
+
+                File.WriteAllText(fi.FullName, pairs[i + 1]);
+            }
 
             var wf = new WorldFactory() {ResourcesDirectory = dir};
 
@@ -61,6 +78,22 @@ namespace Tests.Cookbook
                 world.Dialogue.AllDialogues.First());
 
             return string.Join(Environment.NewLine,ui.MessagesShown);
+        }
+
+        public void RunRound(IWorld world, string actionName,params object[] uiChoices)
+        {
+            var actions = world.Player.GetFinalActions();
+
+            Assert.AreEqual(1,actions.Count(a=>a.ToString() == actionName),$"Failed to find action {actionName}.  Player actions included: {string.Join(Environment.NewLine,actions)}");
+            
+            var ui = GetUI(uiChoices);
+            world.RunRound(ui,actions.Single(a=>a.ToString() == actionName));
+
+            if(ui.MessagesShown.Count == 0)
+                TestContext.Out.WriteLine("Round Run but no messages shown");
+
+            foreach(var msg in ui.MessagesShown)
+                TestContext.Out.WriteLine(msg);
         }
 
     }

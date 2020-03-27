@@ -3,6 +3,7 @@ using Wanderer;
 
 namespace Tests.Cookbook
 {
+
     class StartingRoom : Recipe
     {
         private string roomYaml =

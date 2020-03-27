@@ -36,9 +36,11 @@ namespace Wanderer.Actions
             var system = InjurySystem ?? actor.GetBestInjurySystem();
 
             //does the world support injuries
-            if(system != null)
-                if (toFight != null || actor.Decide(ui,"Fight", null, out toFight, GetTargets(actor).Cast<IActor>().ToArray(),fightAttitude)) 
-                    stack.Push(new FightFrame(actor, toFight, this,system,fightAttitude));
+            if(system == null)
+                throw new Exception("No Injury Systems defined for FightAction " + this);
+
+            if (toFight != null || actor.Decide(ui,"Fight", null, out toFight, GetTargets(actor).Cast<IActor>().ToArray(),fightAttitude)) 
+                stack.Push(new FightFrame(actor, toFight, this,system,fightAttitude));
         }
 
         protected override void PopImpl(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
@@ -71,9 +73,13 @@ namespace Wanderer.Actions
             foreach (var a in new []{f.TargetIfAny, f.PerformedBy})
             {
                 //fighting makes you tired
-                world.AdjectiveFactory.Create(world,a,new Guid("378449b2-2b29-4849-81b6-04433dba02a9") )
-                    //expires at the end of the next round
-                    .WithExpiry(2);
+                //TODO: this is janky as hell! needs to be part of injury system or FightAction yaml
+                var tiredBlue = world.AdjectiveFactory.Blueprints.FirstOrDefault(b=>b.Identifier == new Guid("378449b2-2b29-4849-81b6-04433dba02a9"));
+                
+                if(tiredBlue != null)
+                    world.AdjectiveFactory.Create(world,a,tiredBlue)
+                        //expires at the end of the next round
+                        .WithExpiry(2);
             }
             
         }

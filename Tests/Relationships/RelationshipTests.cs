@@ -49,19 +49,15 @@ namespace Tests.Relationships
         [Test]
         public void Test_NpcDontFightFriends()
         {
-            IWorld world = new World();
-            var room = new Room("Test Room", world,'-');
-            world.Map.Add(new Point3(0,0,0), room);
-
-            var you = new You("wanderer", room);
-            var bob = new Npc("Bob", room); 
-            bob.BaseActions.Clear();
-            bob.BaseActions.Add(new FightAction(you));
+            TwoInARoom(out You you, out IActor them, out IWorld world);
+            var room = you.CurrentLocation;
+            them.BaseActions.Clear();
+            them.BaseActions.Add(new FightAction(you));
             
             //the only thing bob does is fight
-            Assert.AreEqual(1,bob.BaseActions.Count);
+            Assert.AreEqual(1,them.BaseActions.Count);
 
-            world.Relationships.Add(new PersonalRelationship(bob, you){Attitude = 500});
+            world.Relationships.Add(new PersonalRelationship(them, you){Attitude = 500});
 
             var ui = GetUI();
             world.RunRound(ui, new LoadGunsAction(you));

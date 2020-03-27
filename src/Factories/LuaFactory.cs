@@ -11,6 +11,8 @@ namespace Wanderer.Factories
         {
             var lua = Create();
 
+            lua["this"] = o;
+
             if (o != null)
             {
                 foreach(var prop in o.GetType().GetProperties())

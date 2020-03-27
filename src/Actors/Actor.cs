@@ -273,9 +273,19 @@ namespace Wanderer.Actors
 
             return 
                 base.GetAllHaves()
-                    .Union(Items)
-                    .Union(Items.SelectMany(i=>i.GetAllHaves())
+                    .Union(Items.Where(IncludeInHaves))
+                    .Union(Items.Where(IncludeInHaves).SelectMany(i=>i.GetAllHaves())
                     .Union(FactionMembership));
+        }
+
+        private bool IncludeInHaves(IItem item)
+        {
+
+            //if it requires equipping
+            return item.Slot == null || item.IsEquipped;
+
+            //Note that we cannot use item.RequirementsMet because we would
+            //rapidly run into stack overflows e.g. where requirement is that player Has something!
         }
 
         public double DistanceTo(IActor actor)
