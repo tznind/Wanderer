@@ -2,6 +2,10 @@
 
 This page contains simple recipes for common level building tasks.
 
+> TODO:
+> AggressorIfAny should probably be Initiator
+> Move every code block to use SystemArgs if possible? (for consistency of script blocks)
+
 ## Contents
 
 - [Room Recipes](#room-recipes)
@@ -9,6 +13,7 @@ This page contains simple recipes for common level building tasks.
   - [Add same item to many rooms](#add-same-item-to-many-rooms)
 - [Item Recipes](#item-recipes)
   - [Equippable weapon](#equippable-weapon)
+  - [Ammo](#ammo)
 - [Dialogue Recipes](#dialogue-recipes)
   - [Remark about injury](#remark-about-injury)
 ## Room Recipes
@@ -66,6 +71,64 @@ This defines that by default all actors have 2 wrists.  Next create `Items.yaml`
 ```
 _[[View Test]](./Tests/Cookbook/EquippableWeapon.cs)_
 
+
+## Ammo
+
+This will cover creating a laser pistol.  For this recipe we are going to need entries in 4 files.
+
+- An injury system (for laser burns).  Create `./InjurySystems/Lasers.yaml`
+
+```yaml
+Identifier: 3bfc44ce-28ba-4fa8-951a-f97ec6dddf0f
+Name: Laser Damage
+IsDefault: true
+FatalThreshold: 100
+FatalVerb: injuries
+
+Injuries:
+- Name: Laser Burn
+  Severity: 10
+```
+
+- Default slots (give the player some hands! - `./Slots.yaml`)
+
+```yaml
+Hand: 2
+```
+
+Now we need an adjective that ties the ammo clip to the weapon.  Create `./Adjectives.yaml`
+
+```yaml
+- Name: LaserPowered
+```
+
+Finally we can create our items `./Items.yaml`
+
+```yaml
+- Name: Laser Clip
+  Stack: 2
+  MandatoryAdjectives:
+    - SingleUse
+  Actions: 
+    - Type: FightAction
+      InjurySystem: 3bfc44ce-28ba-4fa8-951a-f97ec6dddf0f
+      Stats: 
+         Fight: 20
+  Require:
+    - return this:Has('LaserPowered')
+
+- Name: Laser Pistol
+  Slot:
+    Name: Hand
+    NumberRequired: 1
+  MandatoryAdjectives:
+    - LaserPowered
+```
+
+The item (Laser Clip) works by requiring the player to have an item with the "LaserPowered" adjective.  This will only happen when the Laser Pistol is equipped.  The SingleUse and Stack properties ensure that each time FightAction occurs
+on the clip it runs down.
+
+_[[View Test]](./Tests/Cookbook/Ammo.cs)_
 
 ## Dialogue Recipes
 

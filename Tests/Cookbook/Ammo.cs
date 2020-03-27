@@ -20,6 +20,7 @@ Hand: 2
     - SingleUse
   Actions: 
     - Type: FightAction
+      InjurySystem: 3bfc44ce-28ba-4fa8-951a-f97ec6dddf0f
       Stats: 
          Fight: 20
   Require:
