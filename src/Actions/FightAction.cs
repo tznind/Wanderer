@@ -51,7 +51,12 @@ namespace Wanderer.Actions
             if (f.InjurySystem == null)
                 f.InjurySystem = f.PerformedBy.GetBestInjurySystem();
 
-            var attackerAdvantage = f.PerformedBy.GetFinalStats()[Stat.Fight] - ((IActor)f.TargetIfAny).GetFinalStats()[Stat.Fight];
+            var attackerFight = f.PerformedBy.GetFinalStats().Increase(f.Action.BaseStats)[Stat.Fight];
+            
+            // TODO: should this not consider thier weapon FightAction bonus?
+            var defenderFight = ((IActor)f.TargetIfAny).GetFinalStats()[Stat.Fight];
+            
+            var attackerAdvantage =  attackerFight - defenderFight;
             
             ui.Log.Info(new LogEntry($"{f.PerformedBy} fought {f.TargetIfAny}",stack.Round,f.PerformedBy));
             
