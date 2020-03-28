@@ -80,21 +80,6 @@ namespace Tests.Cookbook
             return string.Join(Environment.NewLine,ui.MessagesShown);
         }
 
-        public void RunRound(IWorld world, string actionName,params object[] uiChoices)
-        {
-            var actions = world.Player.GetFinalActions();
-
-            Assert.AreEqual(1,actions.Count(a=>a.ToString() == actionName),$"Failed to find action {actionName}.  Player actions included: {string.Join(Environment.NewLine,actions)}");
-            
-            var ui = GetUI(uiChoices);
-            world.RunRound(ui,actions.Single(a=>a.ToString() == actionName));
-
-            if(ui.MessagesShown.Count == 0)
-                TestContext.Out.WriteLine("Round Run but no messages shown");
-
-            foreach(var msg in ui.MessagesShown)
-                TestContext.Out.WriteLine(msg);
-        }
 
     }
 }

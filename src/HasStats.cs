@@ -77,6 +77,12 @@ namespace Wanderer
             return clone;
         }
 
+        public StatsCollection GetFinalStats(Frame frame)
+        {
+            return GetFinalStats(frame.PerformedBy)
+                .Increase(frame.Action.BaseStats);
+        }
+
         public virtual IActionCollection GetFinalActions(IActor forActor)
         {
             return new ActionCollection(BaseActions.Union(Adjectives.SelectMany(a=>a.GetFinalActions(forActor))));

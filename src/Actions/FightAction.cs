@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Wanderer.Actors;
-using Wanderer.Adjectives;
-using Wanderer.Behaviours;
-using Wanderer.Items;
 using Wanderer.Stats;
 using Wanderer.Systems;
 
@@ -51,7 +48,7 @@ namespace Wanderer.Actions
             if (f.InjurySystem == null)
                 f.InjurySystem = f.PerformedBy.GetBestInjurySystem();
 
-            var attackerFight = f.PerformedBy.GetFinalStats().Increase(f.Action.BaseStats)[Stat.Fight];
+            var attackerFight = f.PerformedBy.GetFinalStats(f)[Stat.Fight];
             
             // TODO: should this not consider thier weapon FightAction bonus?
             var defenderFight = ((IActor)f.TargetIfAny).GetFinalStats()[Stat.Fight];

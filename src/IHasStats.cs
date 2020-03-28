@@ -82,6 +82,14 @@ namespace Wanderer
         StatsCollection GetFinalStats(IActor forActor);
 
         /// <summary>
+        /// Overload that sums <see cref="Frame.PerformedBy"/> with any modifiers on the
+        /// <see cref="Frame.Action"/>
+        /// </summary>
+        /// <param name="frame"></param>
+        /// <returns></returns>
+        StatsCollection GetFinalStats(Frame frame);
+
+        /// <summary>
         /// Returns the <see cref="BaseActions"/> plus any allowed by child objects, gear, <see cref="Adjectives"/> etc
         /// </summary>
         /// <param name="forActor"></param>
