@@ -6,7 +6,7 @@ namespace Wanderer.Factories.Blueprints
 {
     public class ActionBlueprint : HasStatsBlueprint
     {
-        public char HotKey {get;set;}
+        public char? HotKey {get;set;}
 
         /// <summary>
         /// Name of the root Action type to base the blueprint on e.g. FightAction

@@ -2,6 +2,7 @@ using System;
 using Wanderer.Actions;
 using Wanderer.Compilation;
 using Wanderer.Factories.Blueprints;
+using Wanderer.Systems;
 using Action = Wanderer.Actions.Action;
 
 namespace Wanderer.Factories
@@ -40,10 +41,15 @@ namespace Wanderer.Factories
             if(!string.IsNullOrWhiteSpace(blueprint.Name))
                 action.Name = blueprint.Name;
 
-            action.HotKey = blueprint.HotKey;
+            if(blueprint.HotKey.HasValue)
+                action.HotKey = blueprint.HotKey.Value;
+
             action.Effect = blueprint.Effect;
             action.Targets = blueprint.Targets;
             action.TargetPrompt = blueprint.TargetPrompt;
+
+            if (action is FightAction fight && blueprint.InjurySystem.HasValue)
+                fight.InjurySystem = (IInjurySystem) world.GetSystem(blueprint.InjurySystem.Value);
 
             onto.BaseActions.Add(action);
             return action;

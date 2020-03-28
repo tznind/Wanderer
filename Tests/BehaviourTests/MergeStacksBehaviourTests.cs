@@ -1,7 +1,11 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
+using NUnit.Framework.Constraints;
 using Wanderer;
 using Wanderer.Actions;
+using Wanderer.Factories.Blueprints;
 using Wanderer.Items;
 using Wanderer.Stats;
 
@@ -23,6 +27,43 @@ namespace Tests.BehaviourTests
             Assert.AreEqual(1,you.Items.Count);
             Assert.AreEqual(4,((IItemStack)you.Items.Single()).StackSize);
         }
+
+        
+        [Test]
+        public void TestMerging_StacksWithActions()
+        {
+            var you = YouInARoom(out IWorld world);
+
+            Guid g = Guid.NewGuid();
+
+            var master = new ItemBlueprint()
+            {
+                Name = "Laser Clip",
+                Stack = 5,
+                Identifier = g,
+                MandatoryAdjectives = new []{"SingleUse"},
+                Actions = new List<ActionBlueprint>{new ActionBlueprint(){Type = "FightAction"}},
+                Stats = new StatsCollection(20)
+            };
+
+            var ref2 = new ItemBlueprint()
+            {
+                Ref = g
+            };
+
+
+            var ref1 = new ItemBlueprint()
+            {
+                Ref = g
+            };
+
+            world.ItemFactory.Blueprints.Add(master);
+            var item1 = world.ItemFactory.Create(world, ref1);
+            var item2 = world.ItemFactory.Create(world, ref2);
+
+            Assert.IsTrue(item1.AreIdentical(item2));
+        }
+
         [Test]
         public void TestMerging_DoNotMergeNonIdenticalStacks()
         {

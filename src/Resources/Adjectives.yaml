@@ -14,6 +14,9 @@
 # Resist wounds getting worse
 - Name: Tough
 
+# Resist laser damage
+- Name: Mirrored
+
 - Name: Light
 
 - Name: Strong
@@ -39,6 +42,22 @@
 - Name: Attractive
   Stats:
     Coerce: 15
+    
+- Name: Antique
+  StatsRatio: 
+    Value: 1.5
+  Stats:
+    Coerce: 5
+    
+- Name: Valuable
+  StatsRatio: 
+    Value: 1.5
+
+# Takes laser ammo
+- Name: Laser
+  IsPrefix: true
+  StatsRatio: 
+    Value: 1.5
 
 - Name: Giant
   IsPrefix: true

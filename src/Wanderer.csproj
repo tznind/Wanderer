@@ -18,6 +18,7 @@
     <None Remove="Resources\Adjectives.yaml" />
     <None Remove="Resources\Factions\Guncrew\Rooms\TheHole\Dialogue\Beverages.yaml" />
     <None Remove="Resources\Factions\Guncrew\Rooms\TheHole\Items\Beverages.yaml" />
+    <None Remove="Resources\InjurySystems\LaserInjury.yaml" />
   </ItemGroup>
 
   <ItemGroup>

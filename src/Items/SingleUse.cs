@@ -43,7 +43,7 @@ namespace Wanderer.Items
 
         public bool AreIdentical(IBehaviour other)
         {
-            return other is IAdjective oa && this.AreIdentical(oa);
+            return other is SingleUse;
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NLog;
+using Wanderer.Actions;
 using Wanderer.Actors;
 using Wanderer.Compilation;
 using Wanderer.Dialogues;
@@ -54,6 +55,7 @@ namespace Wanderer.Systems.Validation
             _log.Info("Validating World");
             _log.Info("-----------------------------");
             Validate(world,world.RoomFactory, "World RoomFactory");
+            Validate(world,world.ItemFactory, "World ItemFactory");
         }
 
         protected virtual Npc GetTestActor(IRoom room)
@@ -108,6 +110,22 @@ namespace Wanderer.Systems.Validation
                 catch (Exception e)
                 {
                     AddError($"Error creating RoomBlueprint for RoomFactory '{title}'.  Error was in {blue.Identifier?.ToString() ?? "Unamed Blueprint"}"  ,e);
+                }
+            }
+        }
+        public void Validate(IWorld world,IItemFactory itemFactory,string title)
+        {
+
+            foreach (var blue in itemFactory.Blueprints)
+            {
+                try
+                {
+                    var item = itemFactory.Create(world, blue);
+                    Validate(world,item, new Room("Test Room",world,'t'));
+                }
+                catch (Exception e)
+                {
+                    AddError($"Error creating ItemBlueprint for ItemFactory '{title}'.  Error was in {blue}"  ,e);
                 }
             }
         }
@@ -179,11 +197,9 @@ namespace Wanderer.Systems.Validation
             }
             catch (Exception e)
             {
-                AddWarning($"Error testing conditions of item '{item}' in room '{room.Name}' with test actor", e);
+                AddWarning($"Error testing conditions of itemFactory '{item}' in room '{room.Name}' with test actor", e);
             }
         }
-
-
 
         public void Validate(IWorld world, IHasStats recipient, DialogueInitiation dialogue, IRoom room)
         {

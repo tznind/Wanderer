@@ -204,7 +204,9 @@ namespace Wanderer
         public ISystem GetSystem(Guid g)
         {
             //TODO: This should return other systems too
-            return InjurySystems.FirstOrDefault(i=>i.Identifier == g);
+            return 
+                InjurySystems.FirstOrDefault(i=>i.Identifier == g) 
+                ?? throw new GuidNotFoundException($"Could not find any System with Guid {g}",g);
         }
 
         public IInjurySystem GetDefaultInjurySystem()

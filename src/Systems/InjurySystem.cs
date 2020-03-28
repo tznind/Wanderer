@@ -41,7 +41,7 @@ namespace Wanderer.Systems
         /// <summary>
         /// Types of <see cref="IAdjective"/> which make you resistant to this type of damage
         /// </summary>
-        public Resistances Resist { get; set; } = new Resistances();
+        public Resistances ResistInflict { get; set; } = new Resistances();
 
         /// <summary>
         /// Types of <see cref="IAdjective"/> which make you resistant to this type of damage
@@ -210,7 +210,7 @@ namespace Wanderer.Systems
                 return false;
             }
 
-            //vulnerable to healing makes you easier to heal.  Resist healing makes you harder to heal
+            //vulnerable to healing makes you easier to heal.  ResistInflict healing makes you harder to heal
             requiredStat *= 1/result;
             
             if (actor.GetFinalStats()[HealerStat.Value] > requiredStat)
