@@ -22,6 +22,8 @@ This page contains simple recipes for common level building tasks.
 ## Room Recipes
 
 ### Starting room
+<sup>[[View Test]](./Tests/Cookbook/StartingRoom.cs)</sup>
+
 The [Player] always starts at 0,0,0.  The following recipy creates a unique starting room that will not spawn anywhere else:
 
 ```yaml
@@ -31,9 +33,9 @@ The [Player] always starts at 0,0,0.  The following recipy creates a unique star
 ```
 <sup>./Rooms.yaml</sup>
 
-_[[View Test]](./Tests/Cookbook/StartingRoom.cs)_
 
 ### Add same item to many rooms
+<sup>[[View Test]](./Tests/Cookbook/SameItemToManyRooms.cs)</sup>
 
 You can use the blueprint inheritence system to create multiple references to the same master blueprint:
 
@@ -54,11 +56,11 @@ Then create the base item:
 ```
 <sup>./Items.yaml</sup>
 
-_[[View Test]](./Tests/Cookbook/SameItemToManyRooms.cs)_
 
 ## Item Recipes
 
 ### Equippable Weapon
+<sup>[[View Test]](./Tests/Cookbook/EquippableWeapon.cs)</sup>
 
 Items are equippable only if they have defined 'slots'.  To do this we first have to declare some default slots.  Create a file `slots.yaml` in the root of your resources folder:
 
@@ -79,10 +81,9 @@ This defines that by default all actors have 2 wrists.  Next create the item:
 ```
 <sup>./Items.yaml</sup>
 
-_[[View Test]](./Tests/Cookbook/EquippableWeapon.cs)_
-
 
 ## Ammo
+<sup>[[View Test]](./Tests/Cookbook/Ammo.cs)</sup>
 
 This will cover creating a laser pistol.  For this recipe we are going to need entries in 4 files.
 
@@ -107,7 +108,6 @@ Injuries:
 Hand: 2
 ```
 <sup>./Slots.yaml</sup>
-
 
 - Now we need an adjective that ties the ammo clip to the weapon:
 
@@ -143,11 +143,10 @@ Hand: 2
 The item (Laser Clip) works by requiring the player to have an item with the "LaserPowered" adjective.  This will only happen when the Laser Pistol is equipped.  The SingleUse and Stack properties ensure that each time FightAction occurs
 on the clip it runs down.
 
-_[[View Test]](./Tests/Cookbook/Ammo.cs)_
-
 ## Dialogue Recipes
 
 ### Remark about injury
+<sup>[[View Test]](./Tests/Cookbook/RemarkAboutInjury.cs)</sup>
 
 Each [DialogueNode] is made up of 1 or more blocks of text.  You can apply conditional operations to them.  For example if we want the Npc to remark on the players injured status we could write the following:
 
@@ -159,8 +158,6 @@ Each [DialogueNode] is made up of 1 or more blocks of text.  You can apply condi
        - return AggressorIfAny:Has('Injured')
 ```
 <sup>./Dialogue.yaml</sup>
-
-_[[View Test]](./Tests/Cookbook/RemarkAboutInjury.cs)_
 
 If you have multiple injury systems e.g. fire, cold, tissue damage etc and want to restrict your condition to only one of them then you can pass the injury system Guid instead e.g. return `AggressorIfAny:Has('7cc7a784-949b-4c26-9b99-c1ea7834619e')`
 
