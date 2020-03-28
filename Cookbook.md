@@ -29,7 +29,7 @@ The [Player] always starts at 0,0,0.  The following recipy creates a unique star
   FixedLocation: 0,0,0
   Unique: true
 ```
-_./Rooms.yaml_
+<sup>./Rooms.yaml</sup>
 
 _[[View Test]](./Tests/Cookbook/StartingRoom.cs)_
 
@@ -44,7 +44,7 @@ You can use the blueprint inheritence system to create multiple references to th
    - Ref: e4ff5be4-233a-46b5-bb57-63831376b81d
    - Ref: e4ff5be4-233a-46b5-bb57-63831376b81d
 ```
-_./Rooms.yaml_
+<sup>./Rooms.yaml</sup>
 
 Then create the base item:
 
@@ -52,7 +52,7 @@ Then create the base item:
 - Name: Rose
   Identifier: e4ff5be4-233a-46b5-bb57-63831376b81d
 ```
-_./Items.yaml_
+<sup>./Items.yaml</sup>
 
 _[[View Test]](./Tests/Cookbook/SameItemToManyRooms.cs)_
 
@@ -65,7 +65,7 @@ Items are equippable only if they have defined 'slots'.  To do this we first hav
 ```
 Wrist: 2
 ```
-_./Slots.yaml_
+<sup>./Slots.yaml</sup>
 
 This defines that by default all actors have 2 wrists.  Next create the item:
 
@@ -77,7 +77,7 @@ This defines that by default all actors have 2 wrists.  Next create the item:
    Name: Wrist
    NumberRequired: 1
 ```
-_./Items.yaml_
+<sup>./Items.yaml</sup>
 
 _[[View Test]](./Tests/Cookbook/EquippableWeapon.cs)_
 
@@ -99,21 +99,22 @@ Injuries:
 - Name: Laser Burn
   Severity: 10
 ```
-_./InjurySystems/Lasers.yaml_
+<sup>./InjurySystems/Lasers.yaml</sup>
 
 - Give the player some hands!
 
 ```yaml
 Hand: 2
 ```
-_Slots.yaml_
+<sup>./Slots.yaml</sup>
 
 
-- Now we need an adjective that ties the ammo clip to the weapon.  Create `./Adjectives.yaml`
+- Now we need an adjective that ties the ammo clip to the weapon:
 
 ```yaml
 - Name: LaserPowered
 ```
+<sup>./Adjectives.yaml</sup>
 
 - Finally we can create our items
 
@@ -137,7 +138,7 @@ _Slots.yaml_
   MandatoryAdjectives:
     - LaserPowered
 ```
- _./Items.yaml_
+ <sup>./Items.yaml</sup>
 
 The item (Laser Clip) works by requiring the player to have an item with the "LaserPowered" adjective.  This will only happen when the Laser Pistol is equipped.  The SingleUse and Stack properties ensure that each time FightAction occurs
 on the clip it runs down.
@@ -157,7 +158,7 @@ Each [DialogueNode] is made up of 1 or more blocks of text.  You can apply condi
      Condition: 
        - return AggressorIfAny:Has('Injured')
 ```
-_./Dialogue.yaml_
+<sup>./Dialogue.yaml</sup>
 
 _[[View Test]](./Tests/Cookbook/RemarkAboutInjury.cs)_
 
