@@ -18,7 +18,7 @@ Stalk the abandoned corridors and burned out machine rooms of a city sized stars
 
 Technical Goals:
 
-1. [Simple yaml/lua game files](./Resources.md)
+1. Simple yaml/lua game files (See [Cookbook](./Cookbook.md) and [Tutorial](./Resources.md) )
 2. [Super thin interface layer](./src/IUserinterface.cs)
 3. [Maximum Test coverage](https://codecov.io/gh/tznind/Wanderer)
 
