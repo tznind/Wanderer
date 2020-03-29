@@ -13,6 +13,8 @@ Injuries:
     Severity: 50
 
 NaturalHealThreshold: 0
+# Every 10 rounds you get hungrier
+WorsenRate: 10
 SyncDescriptions: true
 FatalThreshold: 60
 FatalVerb: starvation

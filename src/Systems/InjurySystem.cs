@@ -172,6 +172,9 @@ namespace Wanderer.Systems
 
         public bool ShouldWorsen(Injured injury, int roundsSeen)
         {
+            if (WorsenRate <= 0)
+                return false;
+
             if (IsWithinNaturalHealingThreshold(injury))
                 return false;
 
@@ -245,16 +248,13 @@ namespace Wanderer.Systems
             if (!injured.IsInfected && Infection)
             {
                 injured.IsInfected = true;
-                ui.Log.Info(new LogEntry($"{injured.Name} became infected",round,injured.Owner as IActor));
+                ui.Log.Info(new LogEntry($"{injured.Owner} {injured.Name} became infected",round,injured.Owner as IActor));
                 injured.Name = "Infected " + injured.Name;
             }
             else
-                ui.Log.Info(new LogEntry($"{injured.Name} {WorsenVerb}", round,injured.Owner as IActor));
+                ui.Log.Info(new LogEntry($"{injured.Owner} {injured.Name} {WorsenVerb}", round,injured.Owner as IActor));
 
-            if(Spreads != null)
-            {
-                Spreads.HandleSpreading(injured,this,ui,round);
-            }
+            Spreads?.HandleSpreading(injured,this,ui,round);
         }
 
         private void Amplify(IInjured injured, double value, IUserinterface ui, Guid round)

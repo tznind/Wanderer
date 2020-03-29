@@ -25,7 +25,7 @@ namespace Wanderer.Actions
         /// <summary>
         /// What can be targetted by the action
         /// </summary>
-        public List<IActionTarget>  Targets {get;set;}
+        public List<IActionTarget>  Targets {get;set;} = new List<IActionTarget>();
         
         public string TargetPrompt { get; set; }
 
@@ -97,12 +97,15 @@ namespace Wanderer.Actions
 
         public virtual bool HasTargets(IActor performer)
         {
+            if (!Targets.Any())
+                return true;
+
             return GetTargets(performer).Any();
         }
         
         public virtual IEnumerable<IHasStats> GetTargets(IActor performer)
         {
-            if(Targets != null && Targets.Any())
+            if(Targets.Any())
             {
                 var args = new SystemArgs(performer.CurrentLocation.World,null,0,performer,Owner,Guid.Empty);
                 return Targets.SelectMany(t=>t.Get(args)).Distinct();

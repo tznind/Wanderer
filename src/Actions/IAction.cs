@@ -20,7 +20,8 @@ namespace Wanderer.Actions
         List<IEffect> Effect {get;set;}
 
         /// <summary>
-        /// What can be targetted by the action
+        /// What can be targeted by the action.  If an action has no targets then
+        /// it is assumed to always be available
         /// </summary>
         List<IActionTarget> Targets { get; set; }
         

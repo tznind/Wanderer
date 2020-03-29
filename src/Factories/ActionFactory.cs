@@ -45,7 +45,10 @@ namespace Wanderer.Factories
                 action.HotKey = blueprint.HotKey.Value;
 
             action.Effect = blueprint.Effect;
-            action.Targets = blueprint.Targets;
+            
+            if(blueprint.Targets != null)
+                action.Targets = blueprint.Targets;
+
             action.TargetPrompt = blueprint.TargetPrompt;
 
             if (action is FightAction fight && blueprint.InjurySystem.HasValue)
