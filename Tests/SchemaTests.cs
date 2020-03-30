@@ -70,7 +70,7 @@ namespace Tests
         [Test]
         public void InjurySystemSchema()
         {
-            CheckSchema<List<InjurySystem>>("injury.schema.json");
+            CheckSchema<InjurySystem>("injury.schema.json");
         }
 
         private void CheckSchema<T>(string filename)
