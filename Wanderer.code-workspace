@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		
+		"yaml.schemas": {
+        	"./src/Resources/Schemas/inj.schema.json": ["/**/*.inj.yaml"],
+		}
+    }
+}
