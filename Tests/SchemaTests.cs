@@ -10,6 +10,7 @@ using Wanderer.Actors;
 using Wanderer.Compilation;
 using Wanderer.Dialogues;
 using Wanderer.Factories.Blueprints;
+using Wanderer.Stats;
 using Wanderer.Systems;
 
 namespace Tests
@@ -25,17 +26,17 @@ namespace Tests
                 {
                     new PrimitiveTypeMapper(typeof(ICondition<IActor>), s => s.Type = JsonObjectType.String),
                     new PrimitiveTypeMapper(typeof(ICondition<SystemArgs>), s => s.Type = JsonObjectType.String),
-                    new PrimitiveTypeMapper(typeof(IEffect), s => s.Type = JsonObjectType.String)
+                    new PrimitiveTypeMapper(typeof(IEffect), s => s.Type = JsonObjectType.String),
+                    new ObjectTypeMapper(typeof(StatsCollection),StatsDictionary)
                 }
             });
-        
-
 
         [Test]
         public void ActionBlueprintSchema()
         {
             CheckSchema<List<ActionBlueprint>>("actions.schema.json");
         }
+
 
         [Test]
         public void AdjectivesBlueprintSchema()
@@ -87,6 +88,11 @@ namespace Tests
                     .Equals(File.ReadAllText(f).Trim().Replace("\r","").Replace('\n',' '),
                         StringComparison.CurrentCultureIgnoreCase),"schema is out of date for '" + filename +"'");
         }
+        private static JsonSchema StatsDictionary(JsonSchemaGenerator arg1, JsonSchemaResolver arg2)
+        {
+            return arg1.Generate(typeof(Dictionary<Stat, double>));
+        }
+
 
     }
 }
