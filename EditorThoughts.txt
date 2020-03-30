@@ -32,3 +32,4 @@ Install YAML redhat
         "/home/thomas/Wanderer/src/Resources/Schemas/inj.schema.json": ["/**/*.inj.yaml"],
     }
 ```
+_Set this up with workspace settings(https://code.visualstudio.com/docs/getstarted/settings)_
