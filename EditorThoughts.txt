@@ -13,3 +13,22 @@ https://atom.io/packages/autocomplete-lua
 Naming:
 
 Lets rename files .d.yaml (dialogue) then .i.yaml (items) .a.yaml (actors) .r.yaml(rooms)
+
+
+
+## Installing
+
+- Install vscode
+
+Install YAML redhat
+
+- Ctrl + P 
+- ext install redhat.vscode-yaml
+
+- edit usersettings.json
+
+```json
+    "yaml.schemas": {
+        "/home/thomas/Wanderer/src/Resources/Schemas/inj.schema.json": ["/**/*.inj.yaml"],
+    }
+```

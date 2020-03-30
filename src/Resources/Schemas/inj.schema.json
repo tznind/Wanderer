@@ -1,0 +1,256 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "InjurySystem",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "Identifier": {
+      "type": "string",
+      "format": "guid"
+    },
+    "Name": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "IsDefault": {
+      "type": "boolean"
+    },
+    "HealVerb": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "HealerStat": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/definitions/Stat"
+        }
+      ]
+    },
+    "HealerStatMultiplier": {
+      "type": "number",
+      "format": "double"
+    },
+    "WorsenRate": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "ResistInflict": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/definitions/Resistances"
+        }
+      ]
+    },
+    "ResistWorsen": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/definitions/Resistances"
+        }
+      ]
+    },
+    "ResistHeal": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/definitions/Resistances"
+        }
+      ]
+    },
+    "Injuries": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/definitions/InjuryBlueprint"
+      }
+    },
+    "NaturalHealThreshold": {
+      "type": "number",
+      "format": "double"
+    },
+    "NaturalHealRate": {
+      "type": "number",
+      "format": "double"
+    },
+    "SyncDescriptions": {
+      "type": "boolean"
+    },
+    "WorsenVerb": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "Infection": {
+      "type": "boolean"
+    },
+    "Spreads": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/definitions/Spreading"
+        }
+      ]
+    },
+    "FatalThreshold": {
+      "type": "number",
+      "format": "double"
+    },
+    "FatalVerb": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "MergeInstances": {
+      "type": "boolean"
+    }
+  },
+  "definitions": {
+    "Stat": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "None",
+        "Loyalty",
+        "Corruption",
+        "Fight",
+        "Coerce",
+        "Savvy",
+        "Suave",
+        "Leadership",
+        "Initiative",
+        "Value"
+      ],
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    "Resistances": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Vulnerable": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "Resist": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "Immune": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "InjuryBlueprint": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Region": {
+          "$ref": "#/definitions/InjuryRegion"
+        },
+        "Name": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "Severity": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
+    "InjuryRegion": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "None",
+        "Head",
+        "Eye",
+        "Jaw",
+        "Neck",
+        "Ribs",
+        "Arm",
+        "Hand",
+        "OffHand",
+        "Leg",
+        "Foot"
+      ],
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    "Spreading": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "RoomsToRooms": {
+          "type": "boolean"
+        },
+        "RoomsToActors": {
+          "type": "boolean"
+        },
+        "ActorsToActors": {
+          "type": "boolean"
+        },
+        "ActorsToRooms": {
+          "type": "boolean"
+        }
+      }
+    }
+  } 
