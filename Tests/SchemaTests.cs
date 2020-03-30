@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using NUnit.Framework;
 using NJsonSchema.Generation;
@@ -11,7 +12,12 @@ namespace Tests
 {
     class SchemaTests
     {
-        readonly JsonSchemaGenerator _generator = new JsonSchemaGenerator(new JsonSchemaGeneratorSettings());
+        readonly JsonSchemaGenerator _generator = 
+            new JsonSchemaGenerator(new JsonSchemaGeneratorSettings()
+            {
+                FlattenInheritanceHierarchy = true,
+                GenerateEnumMappingDescription = true
+            });
         
 
 
