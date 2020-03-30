@@ -15,12 +15,14 @@
             "array",
             "null"
           ],
+          "description": "Responses that can be picked, can include conditional options (e.g. only available if a stat is above a threshold)",
           "items": {
             "$ref": "#/definitions/DialogueOption"
           }
         },
         "Identifier": {
           "type": "string",
+          "description": "Unique identifier for this branch/leaf of the dialogue tree",
           "format": "guid"
         },
         "Body": {
@@ -28,6 +30,7 @@
             "array",
             "null"
           ],
+          "description": "Collection of  which will be concatenated to create a single piece of text  that gets displayed for this node (includes support for conditional bits of text).",
           "items": {
             "$ref": "#/definitions/TextBlock"
           }
@@ -37,6 +40,7 @@
             "array",
             "null"
           ],
+          "description": "Conditions which should be true before this tree will be run.  Only applies to the Root  of a dialogue tree (i.e. initiating Dialogue).  To control conditional navigation set conditions on the Options instead",
           "items": {
             "$ref": "#/definitions/IConditionOfSystemArgs"
           }
@@ -52,6 +56,7 @@
             "array",
             "null"
           ],
+          "description": "Lua code effects which happen if this dialogue option is picked (spawn items etc)",
           "items": {
             "$ref": "#/definitions/IEffect"
           }
@@ -61,6 +66,7 @@
             "null",
             "string"
           ],
+          "description": "Determines which DialogueNode should follow from this option if it is picked. Leave null to terminate dialogue",
           "format": "guid"
         },
         "Attitude": {
@@ -68,19 +74,22 @@
             "integer",
             "null"
           ],
+          "description": "How angry / happy this dialogue option makes the person you are talk to (as the perceive you). Positive for happy negative for angry.",
           "format": "int32"
         },
         "Text": {
           "type": [
             "null",
             "string"
-          ]
+          ],
+          "description": "The human readable text for the option"
         },
         "Condition": {
           "type": [
             "array",
             "null"
           ],
+          "description": "Lua code that determines if the option should be presented to the user or not.  Should start with  \"return \".  If multiple then they are combined with AND.  If none then option will always be presented\nreturn AggressorIfAny:Has('Pistol')",
           "items": {
             "$ref": "#/definitions/IConditionOfSystemArgs"
           }
@@ -98,7 +107,7 @@
             "null",
             "string"
           ],
-          "description": "Makes dialogue option transition from talking to one room / actor to \nanother (who must be present).  This combines a condition of the guid being\npresent and the state update if the option is picked",
+          "description": "Makes dialogue option transition from talking to one room / actor to \nanother (who must be present).  This combines a condition of the guid being\npresent and the state update if the option is picked.\n            \nSetting a  overrides  as\nthe option (if picked) will instead go to the  of\nthe referenced object",
           "format": "guid"
         }
       }

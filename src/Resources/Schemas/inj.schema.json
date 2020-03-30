@@ -6,23 +6,26 @@
   "properties": {
     "Identifier": {
       "type": "string",
+      "description": "Unique identifier for this injury system.  By default IInjured adjectives created by the system will also have this Guid",
       "format": "guid"
     },
     "Name": {
       "type": [
         "null",
         "string"
-      ]
+      ],
+      "description": "Human readable name for this injury system e.g. Flame, Hunger etc"
     },
     "IsDefault": {
-      "type": "boolean"
+      "type": "boolean",
+      "description": "True if the injury system should be the default if none is defined (e.g. when not armed with a specific weapon - with it's own injury system)."
     },
     "HealVerb": {
       "type": [
         "null",
         "string"
       ],
-      "description": "Describes how the injuries inflicted by this system are healed e.g.\n\"healed\", \"put out\", \"solved by eating\""
+      "description": "Describes how the injuries inflicted by this system are healed e.g. \"healed\", \"put out\", \"solved by eating\""
     },
     "HealerStat": {
       "description": "If set then actors with this stat can attempt to heal",
@@ -42,7 +45,7 @@
     },
     "WorsenRate": {
       "type": "integer",
-      "description": "The number of rounds it takes for a wound to get worse",
+      "description": "The number of rounds it takes for a wound to get worse.  0 for injuries that never get worse once inflicted.",
       "format": "int32"
     },
     "ResistInflict": {
@@ -57,7 +60,7 @@
       ]
     },
     "ResistWorsen": {
-      "description": "Types of IAdjective which make you resistant to this type of damage\ngetting worse.",
+      "description": "Types of IAdjective which make you resistant to this type of damage getting worse.",
       "oneOf": [
         {
           "type": "null"
@@ -68,7 +71,7 @@
       ]
     },
     "ResistHeal": {
-      "description": "Types of IAdjective prevent (immune) or ease/complicate healing injuries inflicted\nby this system",
+      "description": "Types of IAdjective prevent (immune) or ease/complicate healing injuries inflicted by this system",
       "oneOf": [
         {
           "type": "null"
@@ -90,17 +93,17 @@
     },
     "NaturalHealThreshold": {
       "type": "number",
-      "description": "How bad an injury can be before it will no longer heal by itself.\nSet to 0 to make wounds that never heal (by themselves) ",
+      "description": "How bad an injury can be before it will no longer heal by itself.  Set to 0 to make wounds that never heal (by themselves) ",
       "format": "double"
     },
     "NaturalHealRate": {
       "type": "number",
-      "description": "The number of rounds that must pass before a wound below the\nNaturalHealThreshold heals itself",
+      "description": "The number of rounds that must pass before a wound below the NaturalHealThreshold heals itself",
       "format": "double"
     },
     "SyncDescriptions": {
       "type": "boolean",
-      "description": "If true then injuries change name as they get better/worse e.g.\n\"smoking\" becomes \"burning\".  False to stick with original wording\ne.g. don't graduate \"bruised shin\" into \"broken elbow\""
+      "description": "If true then injuries change name as they get better/worse e.g. \"smoking\" becomes \"burning\".  False to stick with original wording e.g. don't graduate \"bruised shin\" into \"broken elbow\""
     },
     "WorsenVerb": {
       "type": [
@@ -114,7 +117,7 @@
       "description": "True if injuries should become IsInfected"
     },
     "Spreads": {
-      "description": "Controls how/if the injuries can spread to other actors/rooms\ne.g. fire, plague etc.",
+      "description": "Controls how/if the injuries can spread to other actors/rooms e.g. fire, plague etc.",
       "oneOf": [
         {
           "type": "null"
@@ -126,7 +129,7 @@
     },
     "FatalThreshold": {
       "type": "number",
-      "description": "Combined total number of injuries created by this system that\nshould result in death",
+      "description": "Combined total number of injuries created by this system that should result in death",
       "format": "double"
     },
     "FatalVerb": {
@@ -137,7 +140,8 @@
       "description": "How to describe death from reaching the FatalThreshold"
     },
     "MergeInstances": {
-      "type": "boolean"
+      "type": "boolean",
+      "description": "Should separate applications of the injury be merged e.g. if your on fire and you get a bit hotter then it makes sense just to beef up the original instance"
     }
   },
   "definitions": {

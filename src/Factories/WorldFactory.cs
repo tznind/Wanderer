@@ -169,7 +169,7 @@ namespace Wanderer.Factories
         }
         private bool IsDialogueFile(FileInfo fi,string[] path)
         {
-            return Is(fi,path,DialogueDirectory);
+            return fi.FullName.EndsWith(".d.yaml") || Is(fi,path,DialogueDirectory);
         }
         private bool Is(FileInfo fi, string[] path, string typeOfFile)
         {

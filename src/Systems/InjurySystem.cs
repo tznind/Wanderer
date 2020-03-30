@@ -11,14 +11,24 @@ namespace Wanderer.Systems
     public class InjurySystem : IInjurySystem
     {
         private const double Tolerance = 0.0001;
+
+        /// <summary>
+        /// Unique identifier for this injury system.  By default <see cref="IInjured"/> adjectives created by the system will also have this Guid
+        /// </summary>
         public Guid Identifier { get; set; }
 
+        /// <summary>
+        /// Human readable name for this injury system e.g. Flame, Hunger etc
+        /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// True if the injury system should be the default if none is defined (e.g. when not armed with a specific weapon - with it's own injury system).
+        /// </summary>
         public bool IsDefault { get; set; }
 
         /// <summary>
-        /// Describes how the injuries inflicted by this system are healed e.g.
-        /// "healed", "put out", "solved by eating"
+        /// Describes how the injuries inflicted by this system are healed e.g. "healed", "put out", "solved by eating"
         /// </summary>
         public string HealVerb { get; set; } = "healed";
 
@@ -33,7 +43,7 @@ namespace Wanderer.Systems
         public double HealerStatMultiplier { get; set; } = 1.0;
 
         /// <summary>
-        /// The number of rounds it takes for a wound to get worse
+        /// The number of rounds it takes for a wound to get worse.  0 for injuries that never get worse once inflicted.
         /// </summary>
         public int WorsenRate { get; set; } = 10;
 
@@ -44,14 +54,12 @@ namespace Wanderer.Systems
         public Resistances ResistInflict { get; set; } = new Resistances();
 
         /// <summary>
-        /// Types of <see cref="IAdjective"/> which make you resistant to this type of damage
-        /// getting worse.
+        /// Types of <see cref="IAdjective"/> which make you resistant to this type of damage getting worse.
         /// </summary>
         public Resistances ResistWorsen { get; set; } = new Resistances();
 
         /// <summary>
-        /// Types of <see cref="IAdjective"/> prevent (immune) or ease/complicate healing injuries inflicted
-        /// by this system
+        /// Types of <see cref="IAdjective"/> prevent (immune) or ease/complicate healing injuries inflicted by this system
         /// </summary>
         public Resistances ResistHeal { get; set; } = new Resistances();
 
@@ -62,21 +70,17 @@ namespace Wanderer.Systems
 
 
         /// <summary>
-        /// How bad an injury can be before it will no longer heal by itself.
-        /// Set to 0 to make wounds that never heal (by themselves) 
+        /// How bad an injury can be before it will no longer heal by itself.  Set to 0 to make wounds that never heal (by themselves) 
         /// </summary>
         public double NaturalHealThreshold {get;set;} = 20;
 
         /// <summary>
-        /// The number of rounds that must pass before a wound below the
-        /// <see cref="NaturalHealThreshold"/> heals itself
+        /// The number of rounds that must pass before a wound below the <see cref="NaturalHealThreshold"/> heals itself
         /// </summary>
         public double NaturalHealRate {get;set;} = 10;
 
         /// <summary>
-        /// If true then injuries change name as they get better/worse e.g.
-        /// "smoking" becomes "burning".  False to stick with original wording
-        /// e.g. don't graduate "bruised shin" into "broken elbow"
+        /// If true then injuries change name as they get better/worse e.g. "smoking" becomes "burning".  False to stick with original wording e.g. don't graduate "bruised shin" into "broken elbow"
         /// </summary>
         public bool SyncDescriptions{get;set;}
 
@@ -91,14 +95,12 @@ namespace Wanderer.Systems
         public bool Infection {get;set;}
 
         /// <summary>
-        /// Controls how/if the injuries can spread to other actors/rooms
-        /// e.g. fire, plague etc.
+        /// Controls how/if the injuries can spread to other actors/rooms e.g. fire, plague etc.
         /// </summary>
         public Spreading Spreads{get;set;}
 
         /// <summary>
-        /// Combined total number of injuries created by this system that
-        /// should result in death
+        /// Combined total number of injuries created by this system that should result in death
         /// </summary>
         public double FatalThreshold {get;set;} = 100;
 
@@ -109,9 +111,7 @@ namespace Wanderer.Systems
 
 
         /// <summary>
-        /// Should seperate applications of the injury be merged e.g. if your on fire
-        /// and you get a bit hotter then it makes sense just to beef up the original
-        //  instance
+        /// Should separate applications of the injury be merged e.g. if your on fire and you get a bit hotter then it makes sense just to beef up the original instance
         /// </summary>
         public bool MergeInstances {get;set;}
 
