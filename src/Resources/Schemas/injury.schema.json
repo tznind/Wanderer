@@ -1,153 +1,159 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "InjurySystem",
-  "type": "object",
-  "additionalProperties": false,
-  "properties": {
-    "Identifier": {
-      "type": "string",
-      "description": "Unique identifier for this injury system.  By default IInjured adjectives created by the system will also have this Guid",
-      "format": "guid"
-    },
-    "Name": {
-      "type": [
-        "null",
-        "string"
-      ],
-      "description": "Human readable name for this injury system e.g. Flame, Hunger etc"
-    },
-    "IsDefault": {
-      "type": "boolean",
-      "description": "True if the injury system should be the default if none is defined (e.g. when not armed with a specific weapon - with it's own injury system)."
-    },
-    "HealVerb": {
-      "type": [
-        "null",
-        "string"
-      ],
-      "description": "Describes how the injuries inflicted by this system are healed e.g. \"healed\", \"put out\", \"solved by eating\""
-    },
-    "HealerStat": {
-      "description": "If set then actors with this stat can attempt to heal",
-      "oneOf": [
-        {
-          "type": "null"
-        },
-        {
-          "$ref": "#/definitions/Stat"
-        }
-      ]
-    },
-    "HealerStatMultiplier": {
-      "type": "number",
-      "description": "How much HealerStat is required for each point of Injury Severity",
-      "format": "double"
-    },
-    "WorsenRate": {
-      "type": "integer",
-      "description": "The number of rounds it takes for a wound to get worse.  0 for injuries that never get worse once inflicted.",
-      "format": "int32"
-    },
-    "ResistInflict": {
-      "description": "Types of IAdjective which make you resistant to this type of damage",
-      "oneOf": [
-        {
-          "type": "null"
-        },
-        {
-          "$ref": "#/definitions/Resistances"
-        }
-      ]
-    },
-    "ResistWorsen": {
-      "description": "Types of IAdjective which make you resistant to this type of damage getting worse.",
-      "oneOf": [
-        {
-          "type": "null"
-        },
-        {
-          "$ref": "#/definitions/Resistances"
-        }
-      ]
-    },
-    "ResistHeal": {
-      "description": "Types of IAdjective prevent (immune) or ease/complicate healing injuries inflicted by this system",
-      "oneOf": [
-        {
-          "type": "null"
-        },
-        {
-          "$ref": "#/definitions/Resistances"
-        }
-      ]
-    },
-    "Injuries": {
-      "type": [
-        "array",
-        "null"
-      ],
-      "description": "Blueprints for all injuries that can be caused by this system",
-      "items": {
-        "$ref": "#/definitions/InjuryBlueprint"
-      }
-    },
-    "NaturalHealThreshold": {
-      "type": "number",
-      "description": "How bad an injury can be before it will no longer heal by itself.  Set to 0 to make wounds that never heal (by themselves) ",
-      "format": "double"
-    },
-    "NaturalHealRate": {
-      "type": "number",
-      "description": "The number of rounds that must pass before a wound below the NaturalHealThreshold heals itself",
-      "format": "double"
-    },
-    "SyncDescriptions": {
-      "type": "boolean",
-      "description": "If true then injuries change name as they get better/worse e.g. \"smoking\" becomes \"burning\".  False to stick with original wording e.g. don't graduate \"bruised shin\" into \"broken elbow\""
-    },
-    "WorsenVerb": {
-      "type": [
-        "null",
-        "string"
-      ],
-      "description": "How to describe the injury getting worse"
-    },
-    "Infection": {
-      "type": "boolean",
-      "description": "True if injuries should become IsInfected"
-    },
-    "Spreads": {
-      "description": "Controls how/if the injuries can spread to other actors/rooms e.g. fire, plague etc.",
-      "oneOf": [
-        {
-          "type": "null"
-        },
-        {
-          "$ref": "#/definitions/Spreading"
-        }
-      ]
-    },
-    "FatalThreshold": {
-      "type": "number",
-      "description": "Combined total number of injuries created by this system that should result in death",
-      "format": "double"
-    },
-    "FatalVerb": {
-      "type": [
-        "null",
-        "string"
-      ],
-      "description": "How to describe death from reaching the FatalThreshold"
-    },
-    "MergeInstances": {
-      "type": "boolean",
-      "description": "Should separate applications of the injury be merged e.g. if your on fire and you get a bit hotter then it makes sense just to beef up the original instance"
-    }
+  "title": "ListOfInjurySystem",
+  "type": "array",
+  "items": {
+    "$ref": "#/definitions/InjurySystem"
   },
   "definitions": {
+    "InjurySystem": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Identifier": {
+          "type": "string",
+          "description": "Unique identifier for this injury system.  By default IInjured adjectives created by the system will also have this Guid",
+          "format": "guid"
+        },
+        "Name": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Human readable name for this injury system e.g. Flame, Hunger etc"
+        },
+        "IsDefault": {
+          "type": "boolean",
+          "description": "True if the injury system should be the default if none is defined (e.g. when not armed with a specific weapon - with it's own injury system)."
+        },
+        "HealVerb": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Describes how the injuries inflicted by this system are healed e.g. \"healed\", \"put out\", \"solved by eating\""
+        },
+        "HealerStat": {
+          "description": "If set then actors with this stat can attempt to heal",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/Stat"
+            }
+          ]
+        },
+        "HealerStatMultiplier": {
+          "type": "number",
+          "description": "How much HealerStat is required for each point of Injury Severity",
+          "format": "double"
+        },
+        "WorsenRate": {
+          "type": "integer",
+          "description": "The number of rounds it takes for a wound to get worse.  0 for injuries that never get worse once inflicted.",
+          "format": "int32"
+        },
+        "ResistInflict": {
+          "description": "Types of IAdjective which make you resistant to this type of damage",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/Resistances"
+            }
+          ]
+        },
+        "ResistWorsen": {
+          "description": "Types of IAdjective which make you resistant to this type of damage getting worse.",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/Resistances"
+            }
+          ]
+        },
+        "ResistHeal": {
+          "description": "Types of IAdjective prevent (immune) or ease/complicate healing injuries inflicted by this system",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/Resistances"
+            }
+          ]
+        },
+        "Injuries": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "Blueprints for all injuries that can be caused by this system",
+          "items": {
+            "$ref": "#/definitions/InjuryBlueprint"
+          }
+        },
+        "NaturalHealThreshold": {
+          "type": "number",
+          "description": "How bad an injury can be before it will no longer heal by itself.  Set to 0 to make wounds that never heal (by themselves) ",
+          "format": "double"
+        },
+        "NaturalHealRate": {
+          "type": "number",
+          "description": "The number of rounds that must pass before a wound below the NaturalHealThreshold heals itself",
+          "format": "double"
+        },
+        "SyncDescriptions": {
+          "type": "boolean",
+          "description": "If true then injuries change name as they get better/worse e.g. \"smoking\" becomes \"burning\".  False to stick with original wording e.g. don't graduate \"bruised shin\" into \"broken elbow\""
+        },
+        "WorsenVerb": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "How to describe the injury getting worse"
+        },
+        "Infection": {
+          "type": "boolean",
+          "description": "True if injuries should become IsInfected"
+        },
+        "Spreads": {
+          "description": "Controls how/if the injuries can spread to other actors/rooms e.g. fire, plague etc.",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/Spreading"
+            }
+          ]
+        },
+        "FatalThreshold": {
+          "type": "number",
+          "description": "Combined total number of injuries created by this system that should result in death",
+          "format": "double"
+        },
+        "FatalVerb": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "How to describe death from reaching the FatalThreshold"
+        },
+        "MergeInstances": {
+          "type": "boolean",
+          "description": "Should separate applications of the injury be merged e.g. if your on fire and you get a bit hotter then it makes sense just to beef up the original instance"
+        }
+      }
+    },
     "Stat": {
       "type": "integer",
-      "description": "",
+      "description": "0 = None\n1 = Loyalty\n2 = Corruption\n3 = Fight\n4 = Coerce\n5 = Savvy\n6 = Suave\n7 = Leadership\n8 = Initiative\n9 = Value",
       "x-enumNames": [
         "None",
         "Loyalty",
@@ -227,7 +233,7 @@
     },
     "InjuryRegion": {
       "type": "integer",
-      "description": "",
+      "description": "0 = None\n1 = Head\n2 = Eye\n3 = Jaw\n4 = Neck\n5 = Ribs\n6 = Arm\n7 = Hand\n8 = OffHand\n9 = Leg\n10 = Foot",
       "x-enumNames": [
         "None",
         "Head",

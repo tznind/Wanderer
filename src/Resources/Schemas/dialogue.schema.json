@@ -42,7 +42,7 @@
           ],
           "description": "Conditions which should be true before this tree will be run.  Only applies to the Root  of a dialogue tree (i.e. initiating Dialogue).  To control conditional navigation set conditions on the Options instead",
           "items": {
-            "$ref": "#/definitions/IConditionOfSystemArgs"
+            "type": "string"
           }
         }
       }
@@ -58,7 +58,7 @@
           ],
           "description": "Lua code effects which happen if this dialogue option is picked (spawn items etc)",
           "items": {
-            "$ref": "#/definitions/IEffect"
+            "type": "string"
           }
         },
         "Destination": {
@@ -91,7 +91,7 @@
           ],
           "description": "Lua code that determines if the option should be presented to the user or not.  Should start with  \"return \".  If multiple then they are combined with AND.  If none then option will always be presented\nreturn AggressorIfAny:Has('Pistol')",
           "items": {
-            "$ref": "#/definitions/IConditionOfSystemArgs"
+            "type": "string"
           }
         },
         "SingleUse": {
@@ -112,16 +112,6 @@
         }
       }
     },
-    "IEffect": {
-      "type": "object",
-      "x-abstract": true,
-      "additionalProperties": false
-    },
-    "IConditionOfSystemArgs": {
-      "type": "object",
-      "x-abstract": true,
-      "additionalProperties": false
-    },
     "TextBlock": {
       "type": "object",
       "additionalProperties": false,
@@ -132,7 +122,7 @@
             "null"
           ],
           "items": {
-            "$ref": "#/definitions/IConditionOfSystemArgs"
+            "type": "string"
           }
         },
         "Text": {

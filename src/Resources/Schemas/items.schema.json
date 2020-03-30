@@ -15,7 +15,7 @@
             "null",
             "string"
           ],
-          "description": "Inherit all properties from another blueprint of the\nsame type",
+          "description": "Inherit all properties from another blueprint of the same type",
           "format": "guid"
         },
         "Identifier": {
@@ -51,18 +51,18 @@
             "null",
             "string"
           ],
-          "description": "Explicit name for this e.g. Centipede otherwise leave null to generate\na random name from the faction NameFactory (null Name works for npc only)"
+          "description": "Explicit name for this object.  For actors this can be left null to generate a random name from the faction NameFactory"
         },
         "InjurySystem": {
           "type": [
             "null",
             "string"
           ],
-          "description": "Injury system of any FightAction the blueprint spawns (and for IActor the\ninnate weapons of the actor (leave null to use the IsDefault)",
+          "description": "Injury system of any FightAction the blueprint spawns (and for IActor the innate weapons of the actor (leave null to use the IsDefault)",
           "format": "guid"
         },
         "Dialogue": {
-          "description": "Things the object has to say, if multiple then one is picked at random.\nThese guids map to DialogueNode",
+          "description": "Things the object has to say e.g. when a creature is talked to or a room examined",
           "oneOf": [
             {
               "type": "null"
@@ -77,7 +77,7 @@
             "array",
             "null"
           ],
-          "description": "List of IAdjective from which to pick at random when creating.\nThese can be either Guids, Names or Type names",
+          "description": "List of IAdjective from which to pick at random when creating.  These can be either Guids, Names or Type names",
           "items": {
             "type": "string"
           }
@@ -87,7 +87,7 @@
             "array",
             "null"
           ],
-          "description": "By default a subset of OptionalAdjectives are written to the\nobjects created by this blueprint (e.g. depending on difficulty, luck etc).\nSet those that MUST always be added. These can be either Guids, Names or Type names",
+          "description": "By default a subset of OptionalAdjectives are written to the objects created by this blueprint (e.g. depending on difficulty, luck etc). Set those that MUST always be added. These can be either Guids, Names or Type names",
           "items": {
             "type": "string"
           }
@@ -108,7 +108,7 @@
             "array",
             "null"
           ],
-          "description": "Option, if specified this list becomes the actions of the object\nreplacing any existing actions they might otherwise get)",
+          "description": "Option, if specified this list becomes the actions of the object replacing any existing actions they might otherwise get)",
           "items": {
             "$ref": "#/definitions/ActionBlueprint"
           }
@@ -139,7 +139,7 @@
             "integer",
             "null"
           ],
-          "description": "Null for an item that cannot be stacked, 1+ for a\nIItemStack of the given size",
+          "description": "Null for an item that cannot be stacked, 1+ for a IItemStack of the given size",
           "format": "int32"
         }
       }
@@ -233,7 +233,7 @@
             "null",
             "string"
           ],
-          "description": "Inherit all properties from another blueprint of the\nsame type",
+          "description": "Inherit all properties from another blueprint of the same type",
           "format": "guid"
         },
         "Identifier": {
@@ -269,18 +269,18 @@
             "null",
             "string"
           ],
-          "description": "Explicit name for this e.g. Centipede otherwise leave null to generate\na random name from the faction NameFactory (null Name works for npc only)"
+          "description": "Explicit name for this object.  For actors this can be left null to generate a random name from the faction NameFactory"
         },
         "InjurySystem": {
           "type": [
             "null",
             "string"
           ],
-          "description": "Injury system of any FightAction the blueprint spawns (and for IActor the\ninnate weapons of the actor (leave null to use the IsDefault)",
+          "description": "Injury system of any FightAction the blueprint spawns (and for IActor the innate weapons of the actor (leave null to use the IsDefault)",
           "format": "guid"
         },
         "Dialogue": {
-          "description": "Things the object has to say, if multiple then one is picked at random.\nThese guids map to DialogueNode",
+          "description": "Things the object has to say e.g. when a creature is talked to or a room examined",
           "oneOf": [
             {
               "type": "null"
@@ -295,7 +295,7 @@
             "array",
             "null"
           ],
-          "description": "List of IAdjective from which to pick at random when creating.\nThese can be either Guids, Names or Type names",
+          "description": "List of IAdjective from which to pick at random when creating.  These can be either Guids, Names or Type names",
           "items": {
             "type": "string"
           }
@@ -305,7 +305,7 @@
             "array",
             "null"
           ],
-          "description": "By default a subset of OptionalAdjectives are written to the\nobjects created by this blueprint (e.g. depending on difficulty, luck etc).\nSet those that MUST always be added. These can be either Guids, Names or Type names",
+          "description": "By default a subset of OptionalAdjectives are written to the objects created by this blueprint (e.g. depending on difficulty, luck etc). Set those that MUST always be added. These can be either Guids, Names or Type names",
           "items": {
             "type": "string"
           }
@@ -326,7 +326,7 @@
             "array",
             "null"
           ],
-          "description": "Option, if specified this list becomes the actions of the object\nreplacing any existing actions they might otherwise get)",
+          "description": "Option, if specified this list becomes the actions of the object replacing any existing actions they might otherwise get)",
           "items": {
             "$ref": "#/definitions/ActionBlueprint"
           }
@@ -373,17 +373,12 @@
           ],
           "description": "What happens when the action is performed.",
           "items": {
-            "$ref": "#/definitions/IEffect"
+            "type": "string"
           }
         }
       }
     },
     "IActionTarget": {
-      "type": "object",
-      "x-abstract": true,
-      "additionalProperties": false
-    },
-    "IEffect": {
       "type": "object",
       "x-abstract": true,
       "additionalProperties": false

@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using NJsonSchema;
 using NUnit.Framework;
 using NJsonSchema.Generation;
+using NJsonSchema.Generation.TypeMappers;
+using Wanderer.Actors;
+using Wanderer.Compilation;
 using Wanderer.Dialogues;
 using Wanderer.Factories.Blueprints;
 using Wanderer.Systems;
@@ -16,7 +20,13 @@ namespace Tests
             new JsonSchemaGenerator(new JsonSchemaGeneratorSettings()
             {
                 FlattenInheritanceHierarchy = true,
-                GenerateEnumMappingDescription = true
+                GenerateEnumMappingDescription = true,
+                TypeMappers =
+                {
+                    new PrimitiveTypeMapper(typeof(ICondition<IActor>), s => s.Type = JsonObjectType.String),
+                    new PrimitiveTypeMapper(typeof(ICondition<SystemArgs>), s => s.Type = JsonObjectType.String),
+                    new PrimitiveTypeMapper(typeof(IEffect), s => s.Type = JsonObjectType.String)
+                }
             });
         
 
@@ -24,43 +34,59 @@ namespace Tests
         [Test]
         public void ActionBlueprintSchema()
         {
-            TestContext.Out.WriteLine(_generator.Generate(typeof(List<ActionBlueprint>)).ToJson());
+            CheckSchema<List<ActionBlueprint>>("actions.schema.json");
         }
-
 
         [Test]
         public void AdjectivesBlueprintSchema()
         {
-            TestContext.Out.WriteLine(_generator.Generate(typeof(List<AdjectiveBlueprint>)).ToJson());
+            CheckSchema<List<AdjectiveBlueprint>>("adjectives.schema.json");
         }
 
         [Test]
         public void ItemBlueprintSchema()
         {
-            TestContext.Out.WriteLine(_generator.Generate(typeof(List<ItemBlueprint>)).ToJson());
+            CheckSchema<List<ItemBlueprint>>("items.schema.json");
         }
         [Test]
         public void ActorBlueprintSchema()
         {
-            TestContext.Out.WriteLine(_generator.Generate(typeof(List<ActorBlueprint>)).ToJson());
+            CheckSchema<List<ActorBlueprint>>("actors.schema.json");
         }
         
         [Test]
         public void RoomBlueprintSchema()
         {
-            TestContext.Out.WriteLine(_generator.Generate(typeof(List<RoomBlueprint>)).ToJson());
+            CheckSchema<List<RoomBlueprint>>("rooms.schema.json");
         }
 
         [Test]
         public void DialogueSchema()
         {
-            TestContext.Out.WriteLine(_generator.Generate(typeof(List<DialogueNode>)).ToJson());
+            CheckSchema<List<DialogueNode>>("dialogue.schema.json");
         }
 
         [Test]
         public void InjurySystemSchema()
         {
-            TestContext.Out.WriteLine(_generator.Generate(typeof(InjurySystem)).ToJson());
+            CheckSchema<List<InjurySystem>>("injury.schema.json");
         }
+
+        private void CheckSchema<T>(string filename)
+        {
+            var f = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources/Schemas", filename);
+            FileAssert.Exists(f);
+
+            var schema = _generator.Generate(typeof(T));
+            string schemaJson = schema.ToJson();
+            
+            TestContext.Out.WriteLine(schemaJson);
+
+            Assert.IsTrue(
+                schemaJson.Trim().Replace("\r","").Replace('\n',' ')
+                    .Equals(File.ReadAllText(f).Trim().Replace("\r","").Replace('\n',' '),
+                        StringComparison.CurrentCultureIgnoreCase),"schema is out of date for '" + filename +"'");
+        }
+
     }
 }
