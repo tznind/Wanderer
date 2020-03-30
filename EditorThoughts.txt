@@ -1,0 +1,15 @@
+# TODO 
+- Define yaml syntaxes
+
+
+## Figure out how to associate with autocomplet:
+
+https://github.com/redhat-developer/vscode-yaml
+
+## For scripting investigate:
+
+https://atom.io/packages/autocomplete-lua
+
+Naming:
+
+Lets rename files .d.yaml (dialogue) then .i.yaml (items) .a.yaml (actors) .r.yaml(rooms)
