@@ -21,9 +21,11 @@
       "type": [
         "null",
         "string"
-      ]
+      ],
+      "description": "Describes how the injuries inflicted by this system are healed e.g.\n\"healed\", \"put out\", \"solved by eating\""
     },
     "HealerStat": {
+      "description": "If set then actors with this stat can attempt to heal",
       "oneOf": [
         {
           "type": "null"
@@ -35,13 +37,16 @@
     },
     "HealerStatMultiplier": {
       "type": "number",
+      "description": "How much HealerStat is required for each point of Injury Severity",
       "format": "double"
     },
     "WorsenRate": {
       "type": "integer",
+      "description": "The number of rounds it takes for a wound to get worse",
       "format": "int32"
     },
     "ResistInflict": {
+      "description": "Types of IAdjective which make you resistant to this type of damage",
       "oneOf": [
         {
           "type": "null"
@@ -52,6 +57,7 @@
       ]
     },
     "ResistWorsen": {
+      "description": "Types of IAdjective which make you resistant to this type of damage\ngetting worse.",
       "oneOf": [
         {
           "type": "null"
@@ -62,6 +68,7 @@
       ]
     },
     "ResistHeal": {
+      "description": "Types of IAdjective prevent (immune) or ease/complicate healing injuries inflicted\nby this system",
       "oneOf": [
         {
           "type": "null"
@@ -76,31 +83,38 @@
         "array",
         "null"
       ],
+      "description": "Blueprints for all injuries that can be caused by this system",
       "items": {
         "$ref": "#/definitions/InjuryBlueprint"
       }
     },
     "NaturalHealThreshold": {
       "type": "number",
+      "description": "How bad an injury can be before it will no longer heal by itself.\nSet to 0 to make wounds that never heal (by themselves) ",
       "format": "double"
     },
     "NaturalHealRate": {
       "type": "number",
+      "description": "The number of rounds that must pass before a wound below the\nNaturalHealThreshold heals itself",
       "format": "double"
     },
     "SyncDescriptions": {
-      "type": "boolean"
+      "type": "boolean",
+      "description": "If true then injuries change name as they get better/worse e.g.\n\"smoking\" becomes \"burning\".  False to stick with original wording\ne.g. don't graduate \"bruised shin\" into \"broken elbow\""
     },
     "WorsenVerb": {
       "type": [
         "null",
         "string"
-      ]
+      ],
+      "description": "How to describe the injury getting worse"
     },
     "Infection": {
-      "type": "boolean"
+      "type": "boolean",
+      "description": "True if injuries should become IsInfected"
     },
     "Spreads": {
+      "description": "Controls how/if the injuries can spread to other actors/rooms\ne.g. fire, plague etc.",
       "oneOf": [
         {
           "type": "null"
@@ -112,13 +126,15 @@
     },
     "FatalThreshold": {
       "type": "number",
+      "description": "Combined total number of injuries created by this system that\nshould result in death",
       "format": "double"
     },
     "FatalVerb": {
       "type": [
         "null",
         "string"
-      ]
+      ],
+      "description": "How to describe death from reaching the FatalThreshold"
     },
     "MergeInstances": {
       "type": "boolean"
@@ -253,4 +269,5 @@
         }
       }
     }
-  } 
+  }
+}
