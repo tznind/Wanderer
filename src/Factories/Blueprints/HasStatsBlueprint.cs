@@ -24,7 +24,7 @@ namespace Wanderer.Factories.Blueprints
         public Guid? Identifier { get; set; }
         
         /// <summary>
-        /// Null if the object thematically fits any faction, otherwise the <see cref="IFaction.Identifier"/>
+        /// Null if the object thematically fits any faction, otherwise the <see cref="IHasStats.Identifier"/> of the faction
         /// </summary>
         public Guid? Faction { get; set; }
 

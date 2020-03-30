@@ -7,12 +7,14 @@
 	"settings": {
 
 		"yaml.schemas": {
-			"./src/Resources/Schemas/inj.schema.json": [ "/**/*.inj.yaml" ],
-			"./src/Resources/Schemas/d.schema.json": [ "/**/*.d.yaml" ],
+			"./src/Resources/Schemas/injury.schema.json": [ "/**/*injury.yaml" ],
+			"./src/Resources/Schemas/dialogue.schema.json": [ "/**/*dialogue.yaml" ],
+			"./src/Resources/Schemas/adjectives.schema.json": [ "/**/*adjectives.yaml" ],
+			"./src/Resources/Schemas/actions.schema.json": [ "/**/*actions.yaml" ],
+			"./src/Resources/Schemas/items.schema.json": [ "/**/*items.yaml" ],
+			"./src/Resources/Schemas/rooms.schema.json": [ "/**/*rooms.yaml" ],
+			"./src/Resources/Schemas/actors.schema.json": [ "/**/*actors.yaml" ]
 
-			"./src/Resources/Schemas/a.schema.json": [ "/**/*.a.yaml" ],
-			"./src/Resources/Schemas/i.schema.json": [ "/**/*.i.yaml" ],
-      "./src/Resources/Schemas/r.schema.json": [ "/**/*.r.yaml" ]
 		}
     }
 }

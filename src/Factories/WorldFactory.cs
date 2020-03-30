@@ -19,12 +19,6 @@ namespace Wanderer.Factories
         //These are the types of directories/yaml files we expect to find
         
         public const string FactionsDirectory = "Factions";
-        public const string DialogueDirectory = "Dialogue";
-        public const string RoomsDirectory = "Rooms";
-        public const string ItemsDirectory = "Items";
-        public const string ActorsDirectory = "Actors";
-        public const string ActionsDirectory = "Actions";
-        public const string AdjectivesDirectory = "Adjectives";
 
         public string ResourcesDirectory { get; set; }
 
@@ -149,45 +143,27 @@ namespace Wanderer.Factories
 
         private bool IsRoomsFile(FileInfo fi,string[] path)
         {
-            return fi.Name.EndsWith(".r.yaml",StringComparison.CurrentCultureIgnoreCase) || Is(fi,path,RoomsDirectory);
+            return fi.Name.EndsWith("rooms.yaml",StringComparison.CurrentCultureIgnoreCase);
         }
         private bool IsActorsFile(FileInfo fi,string[] path)
         {
-            return fi.Name.EndsWith(".a.yaml",StringComparison.CurrentCultureIgnoreCase) || Is(fi,path,ActorsDirectory);
+            return fi.Name.EndsWith("actors.yaml",StringComparison.CurrentCultureIgnoreCase);
         }
         private bool IsAdjectivesFile(FileInfo fi,string[] path)
         {
-            return fi.Name.EndsWith(".adjectives.yaml",StringComparison.CurrentCultureIgnoreCase) || Is(fi,path,AdjectivesDirectory);
+            return fi.Name.EndsWith("adjectives.yaml",StringComparison.CurrentCultureIgnoreCase);
         }
         private bool IsActionsFile(FileInfo fi,string[] path)
         {
-            return fi.Name.EndsWith(".actions.yaml",StringComparison.CurrentCultureIgnoreCase) || Is(fi,path,ActionsDirectory);
+            return fi.Name.EndsWith("actions.yaml",StringComparison.CurrentCultureIgnoreCase);
         }
         private bool IsItemsFile(FileInfo fi,string[] path)
         {
-            return fi.Name.EndsWith(".i.yaml",StringComparison.CurrentCultureIgnoreCase) || Is(fi,path,ItemsDirectory);
+            return fi.Name.EndsWith("items.yaml",StringComparison.CurrentCultureIgnoreCase);
         }
         private bool IsDialogueFile(FileInfo fi,string[] path)
         {
-            return fi.Name.EndsWith(".d.yaml",StringComparison.CurrentCultureIgnoreCase) || Is(fi,path,DialogueDirectory);
-        }
-        private bool Is(FileInfo fi, string[] path, string typeOfFile)
-        {
-
-            if(fi.Name.Equals(typeOfFile + ".yaml",StringComparison.CurrentCultureIgnoreCase))
-                return true;
-
-            return string.Equals(GetLowestRecognizedDir(path) , typeOfFile,StringComparison.CurrentCultureIgnoreCase);
-        }
-        private string GetLowestRecognizedDir(string[] path)
-        {
-            
-            return path.Reverse().FirstOrDefault(d=>
-                d.Equals(RoomsDirectory,StringComparison.CurrentCultureIgnoreCase) ||
-                d.Equals(ItemsDirectory,StringComparison.CurrentCultureIgnoreCase) ||
-                d.Equals(ActorsDirectory,StringComparison.CurrentCultureIgnoreCase)||
-                d.Equals(DialogueDirectory,StringComparison.CurrentCultureIgnoreCase)
-            );
+            return fi.Name.EndsWith("dialogue.yaml",StringComparison.CurrentCultureIgnoreCase);
         }
 
         public virtual IList<IInjurySystem> GetInjurySystems()

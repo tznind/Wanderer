@@ -36,6 +36,7 @@ namespace Wanderer.Actions
         /// Can result in no change to <paramref name="stack"/> if the action is cancelled e.g. as
         /// a result of asking the user a question through <paramref name="ui"/>.
         /// </summary>
+        /// <param name="world"></param>
         /// <param name="ui"></param>
         /// <param name="stack"></param>
         /// <param name="performer"></param>

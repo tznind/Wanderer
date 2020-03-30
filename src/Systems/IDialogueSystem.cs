@@ -11,8 +11,7 @@ namespace Wanderer.Systems
         List<DialogueNode> AllDialogues { get; set; }
         
         /// <summary>
-        /// Run an explicit piece of dialogue out of the blue.  Use <see cref="CanTalk"/>
-        /// and <see cref="ISystem.Apply"/> instead for normal talking e.g. to an <see cref="IActor"/>
+        /// Run an explicit piece of dialogue out of the blue. <see cref="ISystem.Apply"/> instead for normal talking e.g. to an <see cref="IActor"/>
         /// </summary>
         /// <param name="args"></param>
         /// <param name="node"></param>

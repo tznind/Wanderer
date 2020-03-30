@@ -32,6 +32,7 @@ namespace Wanderer.Adjectives
         /// <paramref name="actor"/>
         /// </summary>
         /// <param name="actor"></param>
+        /// <param name="reason"></param>
         /// <returns></returns>
         bool IsHealableBy(IActor actor, out string reason);
     }
