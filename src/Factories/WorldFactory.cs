@@ -149,27 +149,27 @@ namespace Wanderer.Factories
 
         private bool IsRoomsFile(FileInfo fi,string[] path)
         {
-            return Is(fi,path,RoomsDirectory);
+            return fi.Name.EndsWith(".r.yaml",StringComparison.CurrentCultureIgnoreCase) || Is(fi,path,RoomsDirectory);
         }
         private bool IsActorsFile(FileInfo fi,string[] path)
         {
-            return Is(fi,path,ActorsDirectory);
+            return fi.Name.EndsWith(".a.yaml",StringComparison.CurrentCultureIgnoreCase) || Is(fi,path,ActorsDirectory);
         }
         private bool IsAdjectivesFile(FileInfo fi,string[] path)
         {
-            return Is(fi,path,AdjectivesDirectory);
+            return fi.Name.EndsWith(".adjectives.yaml",StringComparison.CurrentCultureIgnoreCase) || Is(fi,path,AdjectivesDirectory);
         }
         private bool IsActionsFile(FileInfo fi,string[] path)
         {
-            return Is(fi,path,ActionsDirectory);
+            return fi.Name.EndsWith(".actions.yaml",StringComparison.CurrentCultureIgnoreCase) || Is(fi,path,ActionsDirectory);
         }
         private bool IsItemsFile(FileInfo fi,string[] path)
         {
-            return Is(fi,path,ItemsDirectory);
+            return fi.Name.EndsWith(".i.yaml",StringComparison.CurrentCultureIgnoreCase) || Is(fi,path,ItemsDirectory);
         }
         private bool IsDialogueFile(FileInfo fi,string[] path)
         {
-            return fi.FullName.EndsWith(".d.yaml") || Is(fi,path,DialogueDirectory);
+            return fi.Name.EndsWith(".d.yaml",StringComparison.CurrentCultureIgnoreCase) || Is(fi,path,DialogueDirectory);
         }
         private bool Is(FileInfo fi, string[] path, string typeOfFile)
         {
