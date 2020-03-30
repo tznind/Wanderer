@@ -1,0 +1,138 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "ListOfDialogueNode",
+  "type": "array",
+  "items": {
+    "$ref": "#/definitions/DialogueNode"
+  },
+  "definitions": {
+    "DialogueNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Options": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/DialogueOption"
+          }
+        },
+        "Identifier": {
+          "type": "string",
+          "format": "guid"
+        },
+        "Body": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/TextBlock"
+          }
+        },
+        "Condition": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/IConditionOfSystemArgs"
+          }
+        }
+      }
+    },
+    "DialogueOption": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Effect": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/IEffect"
+          }
+        },
+        "Destination": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "format": "guid"
+        },
+        "Attitude": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "int32"
+        },
+        "Text": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "Condition": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/IConditionOfSystemArgs"
+          }
+        },
+        "SingleUse": {
+          "type": "boolean",
+          "description": "Set to true to allow user to select this option only once"
+        },
+        "Exhausted": {
+          "type": "boolean",
+          "description": "Set to true to indicate that the option shouldn't be offered again\n(e.g. for SingleUse options)"
+        },
+        "Transition": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Makes dialogue option transition from talking to one room / actor to \nanother (who must be present).  This combines a condition of the guid being\npresent and the state update if the option is picked",
+          "format": "guid"
+        }
+      }
+    },
+    "IEffect": {
+      "type": "object",
+      "x-abstract": true,
+      "additionalProperties": false
+    },
+    "IConditionOfSystemArgs": {
+      "type": "object",
+      "x-abstract": true,
+      "additionalProperties": false
+    },
+    "TextBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Condition": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/IConditionOfSystemArgs"
+          }
+        },
+        "Text": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    }
+  }
+}

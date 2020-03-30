@@ -14,6 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 		Cookbook.md = Cookbook.md
 		README.md = README.md
 		Resources.md = Resources.md
+		Wanderer.code-workspace = Wanderer.code-workspace
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game", "Game\Game.csproj", "{CDC4BDF3-5150-44D1-A326-17C063441AD3}"

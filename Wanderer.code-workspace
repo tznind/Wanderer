@@ -5,9 +5,10 @@
 		}
 	],
 	"settings": {
-		
+
 		"yaml.schemas": {
-        	"./src/Resources/Schemas/inj.schema.json": ["/**/*.inj.yaml"],
-		}
+			"./src/Resources/Schemas/inj.schema.json": [ "/**/*.inj.yaml" ],
+			"./src/Resources/Schemas/d.schema.json": [ "/**/*.d.yaml" ]
+		  }
     }
 }
