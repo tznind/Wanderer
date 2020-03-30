@@ -13,6 +13,21 @@ namespace Tests
     {
         readonly JsonSchemaGenerator _generator = new JsonSchemaGenerator(new JsonSchemaGeneratorSettings());
         
+
+
+        [Test]
+        public void ActionBlueprintSchema()
+        {
+            TestContext.Out.WriteLine(_generator.Generate(typeof(List<ActionBlueprint>)).ToJson());
+        }
+
+
+        [Test]
+        public void AdjectivesBlueprintSchema()
+        {
+            TestContext.Out.WriteLine(_generator.Generate(typeof(List<AdjectiveBlueprint>)).ToJson());
+        }
+
         [Test]
         public void ItemBlueprintSchema()
         {
