@@ -73,14 +73,13 @@ Now when we validate the world we should get an error:
 Could not find Dialogue 'a218081b-6d32-4101-8f2f-a0621fec50be'
 ```
 
-Create a new folder `Dialogue` with a file in it called `SomeTalking.yaml`
+Create a new file in it called `SomeTalking.dialogue.yaml`
 
 ```bash
- mkdir /home/thomas/myworld/Dialogue
- nano /home/thomas/myworld/Dialogue/SomeTalking.yaml
+ nano /home/thomas/myworld/Dialogue/SomeTalking.dialogue.yaml
 ```
 
-In `SomeTalking.yaml` add the following:
+In `SomeTalking.dialogue.yaml` add the following:
 
 ```yaml
 - Identifier: a218081b-6d32-4101-8f2f-a0621fec50be

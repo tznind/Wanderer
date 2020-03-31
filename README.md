@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/tznind/Wanderer.svg?branch=master)](https://travis-ci.org/tznind/Wanderer) [![codecov](https://codecov.io/gh/tznind/Wanderer/branch/master/graph/badge.svg)](https://codecov.io/gh/tznind/Wanderer) [![Coverage Status](https://coveralls.io/repos/github/tznind/Wanderer/badge.svg?branch=master)](https://coveralls.io/github/tznind/Wanderer?branch=master) [![Total alerts](https://img.shields.io/lgtm/alerts/g/tznind/Wanderer.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/tznind/Wanderer/alerts/)
+[![Build Status](https://travis-ci.com/tznind/Wanderer.svg?branch=master)](https://travis-ci.org/tznind/Wanderer) [![codecov](https://codecov.io/gh/tznind/Wanderer/branch/master/graph/badge.svg)](https://codecov.io/gh/tznind/Wanderer) [![Coverage Status](https://coveralls.io/repos/github/tznind/Wanderer/badge.svg?branch=master)](https://coveralls.io/github/tznind/Wanderer?branch=master) [![Total alerts](https://img.shields.io/lgtm/alerts/g/tznind/Wanderer.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/tznind/Wanderer/alerts/)
 
 
 
@@ -18,12 +18,24 @@ Stalk the abandoned corridors and burned out machine rooms of a city sized stars
 
 Technical Goals:
 
-1. Simple yaml/lua game files (See [Cookbook](./Cookbook.md) and [Tutorial](./Resources.md) )
+1. Simple yaml/lua game files (See [Cookbook] and [Tutorial])
 2. [Super thin interface layer](./src/IUserinterface.cs)
 3. [Maximum Test coverage](https://codecov.io/gh/tznind/Wanderer)
 
 ![Screenshot of gameplay showing map][screenshot1]
 ![Screenshot of gameplay showing map][screenshot2]
+
+## Contributing
+
+Creating content is designed to be as simple as possible (see below):
+
+![Screenshot of gameplay showing map][coding]
+
+Autocomplete is supported via yaml schemas.  The easiest way to get this working is to use Visual Studio Code and install the [Redhat YAML plugin](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml).  When you open the [workspace](./Wanderer.code-workspace) autocomplete and hover comments should automatically appear.
+
+You can validate your new content by running the [validator script](./validate.sh) (or by running the unit tests).
+
+A good place to start is the [Tutorial] and/or [Cookbook].
 
 ## Download
 
@@ -64,3 +76,6 @@ dotnet ./Game/bin/Debug/netcoreapp3.1/Game.dll
 [screenshot1]: ./src/Screen1.png
 [screenshot2]: ./src/Screen2.png
 [screenshot3]: ./src/Screen3.png
+[coding]: ./WandererCoding.gif
+[Cookbook]: ./Cookbook.md
+[Tutorial]: ./Resources.md
