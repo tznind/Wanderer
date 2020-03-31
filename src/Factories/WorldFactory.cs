@@ -19,12 +19,6 @@ namespace Wanderer.Factories
         //These are the types of directories/yaml files we expect to find
         
         public const string FactionsDirectory = "Factions";
-        public const string DialogueDirectory = "Dialogue";
-        public const string RoomsDirectory = "Rooms";
-        public const string ItemsDirectory = "Items";
-        public const string ActorsDirectory = "Actors";
-        public const string ActionsDirectory = "Actions";
-        public const string AdjectivesDirectory = "Adjectives";
 
         public string ResourcesDirectory { get; set; }
 
@@ -149,57 +143,34 @@ namespace Wanderer.Factories
 
         private bool IsRoomsFile(FileInfo fi,string[] path)
         {
-            return Is(fi,path,RoomsDirectory);
+            return fi.Name.EndsWith("rooms.yaml",StringComparison.CurrentCultureIgnoreCase);
         }
         private bool IsActorsFile(FileInfo fi,string[] path)
         {
-            return Is(fi,path,ActorsDirectory);
+            return fi.Name.EndsWith("actors.yaml",StringComparison.CurrentCultureIgnoreCase);
         }
         private bool IsAdjectivesFile(FileInfo fi,string[] path)
         {
-            return Is(fi,path,AdjectivesDirectory);
+            return fi.Name.EndsWith("adjectives.yaml",StringComparison.CurrentCultureIgnoreCase);
         }
         private bool IsActionsFile(FileInfo fi,string[] path)
         {
-            return Is(fi,path,ActionsDirectory);
+            return fi.Name.EndsWith("actions.yaml",StringComparison.CurrentCultureIgnoreCase);
         }
         private bool IsItemsFile(FileInfo fi,string[] path)
         {
-            return Is(fi,path,ItemsDirectory);
+            return fi.Name.EndsWith("items.yaml",StringComparison.CurrentCultureIgnoreCase);
         }
         private bool IsDialogueFile(FileInfo fi,string[] path)
         {
-            return Is(fi,path,DialogueDirectory);
-        }
-        private bool Is(FileInfo fi, string[] path, string typeOfFile)
-        {
-
-            if(fi.Name.Equals(typeOfFile + ".yaml",StringComparison.CurrentCultureIgnoreCase))
-                return true;
-
-            return string.Equals(GetLowestRecognizedDir(path) , typeOfFile,StringComparison.CurrentCultureIgnoreCase);
-        }
-        private string GetLowestRecognizedDir(string[] path)
-        {
-            
-            return path.Reverse().FirstOrDefault(d=>
-                d.Equals(RoomsDirectory,StringComparison.CurrentCultureIgnoreCase) ||
-                d.Equals(ItemsDirectory,StringComparison.CurrentCultureIgnoreCase) ||
-                d.Equals(ActorsDirectory,StringComparison.CurrentCultureIgnoreCase)||
-                d.Equals(DialogueDirectory,StringComparison.CurrentCultureIgnoreCase)
-            );
+            return fi.Name.EndsWith("dialogue.yaml",StringComparison.CurrentCultureIgnoreCase);
         }
 
         public virtual IList<IInjurySystem> GetInjurySystems()
         {
             var toReturn = new List<IInjurySystem>();
-
-            var dir = Path.Combine(ResourcesDirectory, "InjurySystems");
-
-            if (!Directory.Exists(dir))
-                return toReturn;
-
-            foreach (var file in Directory.GetFiles(dir,"*.yaml",SearchOption.AllDirectories))
+            
+            foreach (var file in Directory.GetFiles(ResourcesDirectory,"*injury.yaml",SearchOption.AllDirectories))
             {
                 try
                 {
@@ -222,7 +193,7 @@ namespace Wanderer.Factories
 
         public PlanningSystem GeneratePlans(IWorld world)
         {
-            string defaultPlans = Path.Combine(ResourcesDirectory, "Plans.yaml");
+            string defaultPlans = Path.Combine(ResourcesDirectory, "plans.yaml");
             var planning = new PlanningSystem();
 
             if (File.Exists(defaultPlans))
@@ -244,7 +215,7 @@ namespace Wanderer.Factories
 
         protected virtual SlotCollection GetDefaultSlots()
         {
-            string defaultSlots = Path.Combine(ResourcesDirectory, "Slots.yaml");
+            string defaultSlots = Path.Combine(ResourcesDirectory, "slots.yaml");
 
             if (File.Exists(defaultSlots))
             {
@@ -291,8 +262,8 @@ namespace Wanderer.Factories
             foreach (var directory in dirs)
             {
                 Faction f;
-                var factionFile = Path.Combine(directory, "Faction.yaml");
-                var factionSlotsFile = Path.Combine(directory, "Slots.yaml");
+                var factionFile = Path.Combine(directory, "faction.yaml");
+                var factionSlotsFile = Path.Combine(directory, "slots.yaml");
 
                 try
                 {
@@ -320,8 +291,8 @@ namespace Wanderer.Factories
                     throw new Exception($"Error Deserializing faction actors/slots file in dir '{directory}'",e);
                 }
                 
-                var forenames = new FileInfo(Path.Combine(directory,"Forenames.txt"));
-                var surnames = new FileInfo(Path.Combine(directory, "Surnames.txt"));
+                var forenames = new FileInfo(Path.Combine(directory,"forenames.txt"));
+                var surnames = new FileInfo(Path.Combine(directory, "surnames.txt"));
 
                 f.NameFactory = new NameFactory(forenames.Exists ? File.ReadAllLines(forenames.FullName) : new string[0],
                     surnames.Exists ? File.ReadAllLines(surnames.FullName) : new string[0]);

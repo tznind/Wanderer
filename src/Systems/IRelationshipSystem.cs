@@ -10,7 +10,7 @@ namespace Wanderer.Systems
         /// <summary>
         /// Returns the total attitude in all relationships that apply when
         /// the <paramref name="observer"/> considers how he feels about the
-        /// <param name="observed"></param>
+        /// <paramref name="observed"/>
         /// </summary>
         /// <param name="observer"></param>
         /// <param name="observed"></param>

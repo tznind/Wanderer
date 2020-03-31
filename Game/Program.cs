@@ -31,6 +31,9 @@ namespace Game
             [Option('c', "compile", Required = false, HelpText = "Compile a simple proto dialogue tree into yaml")]
             public string CompileDialogue { get; set; }
             
+
+            [Option("stack-traces", Required = false, HelpText = "Include Stack Traces when running validator")]
+            public bool StackTraces{get;set;}
         }
 
         static void Main(string[] args)
@@ -65,7 +68,7 @@ namespace Game
                        if (o.Validate)
                        {
                            var validator = new WorldValidator();
-                            validator.IncludeStackTraces = false;
+                            validator.IncludeStackTraces = o.StackTraces;
                             validator.Validate(f);
                             
 

@@ -1,53 +1,42 @@
 ﻿# Resources
 
-This file describes the relationship between classes and resource files
+This file describes the relationship between classes and resource files.  The filename determines how it is processed.  For example all files ending in `dialogue.yaml` are processed as dialogue.  This would include `myroom.dialogue.yaml`, `banter.dialogue.yaml` but also `dialogue.yaml` (i.e. with no prefix).
+
+|   Yaml File      |  Class           | Subdirectory Support |  Notes                   |
+|------------------|------------------|-----------------|---------------------------|
+| *dialogue.yaml | `DialogueNode[]` | yes |Contains unique dialogue trees.  Each node consists of 1 main piece of text and 0 or more options which can lead to other nodes or end dialogue |
+| *injury.yaml | `InjurySystem` | yes | Describes a method of inflicting damage upon Rooms and Actors (e.g. fire, plague, tissue damage etc)|
+| *actors.yaml  | `ActorBlueprint[]` | yes | Describes how to create `Actor` instances that fit thematically with any `Faction` / `Room` |
+| *rooms.yaml | `RoomBlueprint[]` | yes | Contains descriptions of rooms that can be generated |
+| *items.yaml | `ItemBlueprint[]` | yes | Contains generic items that would fit in any room generated (regardless of `Faction` |
+| /[Main.lua](./Main.lua) | N\A | no | Defines custom global methods and helper functions for use in scripting blocks |
+| /slots.yaml | `SlotCollection` | no | Contains default item slots (e.g. 1 Head, 2 Hand etc) that all `Actor` start with (unless the blueprint lists explicit slots).  Note also that this can be overridden with a [faction slots.yaml](#factions-directory) |
+| /[plans.yaml](./plans.yaml) | `Plan` | no | Contains AI Plans for NPC Actors.  These can be influenced by Leadership Actions of others|
+
+## Factions directory
+
+The `/Factions` directory is special.  Any folder under this directory should contain a `faction.yaml` which describes the faction (name, role in game etc).  All yaml files under this directory (including subdirectories) are automatically assigned to thematically fit the parent Faction.  For example creating `cultists.rooms.yaml` in a subdirectory of `/Factions/Cult` would associate the rooms declared inside with the Cult faction (assuming `/Factions/Cult/faction.yaml` exists).
+
+Being associated with a specific Faction ensures that NPC appear in places thematically appropriate to them (e.g. wild monsters don't appear in the middle of towns - unless you want them to!)
 
 |   Yaml File      |  Class           |   Notes                   |
 |------------------|------------------|---------------------------|
-| /Dialogue/*.yaml | `DialogueNode[]` | Contains unique dialogue trees.  Each node consists of 1 main piece of text and 0 or more options which can lead to other nodes or end dialogue |
-| /InjurySystems/*.yaml | `InjurySystem` | Describes a method of inflicting damage upon Rooms and Actors (e.g. fire, plague, tissue damage etc)|
-| /[Main.lua](./Main.lua) | N\A | Defines custom global methods and helper functions for use in scripting blocks |
-| /[Plans.yaml](./Plans.yaml) | `Plan` | Contains AI Plans for NPC Actors.  These can be influenced by Leadership Actions of others|
-| /Actors.yaml  | `ActorBlueprint[]` | Describes how to create `Actor` instances that fit thematically with any `Faction` / `Room` |
-| /Rooms.yaml | `RoomBlueprint[]` | Contains descriptions of rooms that can be generated |
-| /Items.yaml | `ItemBlueprint[]` | Contains generic items that would fit in any room generated (regardless of `Faction` |
-| /Slots.yaml | `SlotCollection` | Contains default item slots (e.g. 1 Head, 2 Hand etc) that all `Actor` start with (unless the blueprint lists explicit slots).  Note also that this can be overridden with a faction Slots.yaml|
-| /Factions/X/Faction.yaml | `Faction` | Contains description of the faction (name, role etc) |
-| /Factions/X/Forenames.txt | `NameFactory` | If present then unamed Npc generated in this faction have random selections from this list |
-| /Factions/X/Surnames.txt | `NameFactory` | As above but for surnames |
-| /Factions/X/Slots.yaml | `SlotCollection` | Overrides the default system wide item slots for the specific faction (used where the actor blueprint doesn't explicitly list it's own slots)|
+| /Factions/X/faction.yaml | `Faction` | Contains description of the faction (name, role etc) |
+| /Factions/X/forenames.txt | `NameFactory` | If present then unamed Npc generated in this faction have random selections from this list |
+| /Factions/X/surnames.txt | `NameFactory` | As above but for surnames |
+| /Factions/X/slots.yaml | `SlotCollection` | Overrides the default system wide item slots for the specific faction (used where the actor blueprint doesn't explicitly list it's own slots)|
 
 ## Subdirectories
 
 Once a project gets too big it can help to use subdirectories.  To this end you can have:
 
 ```
-./Rooms.yaml
-./Rooms/Level1/MyCoolRoom.yaml
-./Rooms/Tutorial/MyOtherRoom.yaml
+./rooms.yaml
+./Level1/MyCoolRoom.rooms.yaml
+./Tutorial/MyOtherRoom.rooms.yaml
 ```
 
-Anywhere you could have a given yaml file (e.g. `Dialogue.yaml`, `Actors.yaml`, `Rooms.yaml` or `Items.yaml`) you can instead/aswell have a directory.
-
-All directories are evaluated and the Type of blueprint is infered from the last named folder in the hierarchy e.g.
-
-```
-#Would be interpreted as Items
-./Level1/Rooms/MyCoolRoom/Items/Torch.yaml
-
-#Would be interpreted as Room(s)
-./Level1/Rooms/MyCoolRoom/CoolRoom.yaml
-```
-
-This lets you group your objects together however you wish e.g. keep room specific Dialogue in the same area as the Room definition.
-
-
-## Faction Specific Rooms/Items/Actors
-
-If yaml file or directory (e.g. `Rooms.yaml`) exists under a faction e.g. (`./Factions/Lowlifes/Rooms/Bar.yaml`) then the room will be associated with the `Faction` (in this case `LowLifes`).  This feature requires a `Faction.yaml` to exist (e.g. `./Factions/Lowlifes/Faction.yaml`).
-
-Being associated with a specific Faction ensures that NPC appear in places thematically appropriate to them (e.g. wild monsters don't appear in the middle of towns - unless you want them to!)
-
+All that matters is the file extension.  The only exception to this rule are the fixed directory files e.g. `slots.yaml` (See table above)
 
 ## Proto Dialogue
 

@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+
+		"yaml.schemas": {
+			"./src/Resources/Schemas/injury.schema.json": [ "/**/*injury.yaml" ],
+			"./src/Resources/Schemas/dialogue.schema.json": [ "/**/*dialogue.yaml" ],
+			"./src/Resources/Schemas/adjectives.schema.json": [ "/**/*adjectives.yaml" ],
+			"./src/Resources/Schemas/actions.schema.json": [ "/**/*actions.yaml" ],
+			"./src/Resources/Schemas/items.schema.json": [ "/**/*items.yaml" ],
+			"./src/Resources/Schemas/rooms.schema.json": [ "/**/*rooms.yaml" ],
+			"./src/Resources/Schemas/actors.schema.json": [ "/**/*actors.yaml" ]
+
+		}
+    }
+}

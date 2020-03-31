@@ -290,13 +290,13 @@ namespace Tests
                 ResourcesDirectory = dir.FullName
             };
 
-            File.WriteAllText(Path.Combine(dir.FullName,"Rooms.yaml"),"ffffff");
+            File.WriteAllText(Path.Combine(dir.FullName,"rooms.yaml"),"ffffff");
             
             var v = new WorldValidator();
             v.Validate(f);
             StringAssert.Contains("Error Creating World",v.Errors.ToString());
             StringAssert.Contains("Error loading RoomBlueprint in file",v.Errors.ToString());
-            StringAssert.Contains("Rooms.yaml",v.Errors.ToString());
+            StringAssert.Contains("rooms.yaml",v.Errors.ToString());
             
 
             Assert.IsEmpty(v.Warnings.ToString());

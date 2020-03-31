@@ -154,7 +154,7 @@ namespace Wanderer
         /// Returns true if the supplied <see cref="Identifier"/> matches the current object (but not children,
         /// use <see cref="Has(System.Nullable{System.Guid})"/> for that).
         /// </summary>
-        /// <param name="s"><see cref="Identifier"/> or <see cref="Name"/> to check for</param>
+        /// <param name="g"><see cref="Identifier"/> or <see cref="Name"/> to check for</param>
         /// <returns></returns>
         bool Is(Guid? g);
     }

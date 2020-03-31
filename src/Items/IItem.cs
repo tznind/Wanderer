@@ -50,11 +50,12 @@ namespace Wanderer.Items
         /// <param name="owner"></param>
         /// <param name="round"></param>
         void Drop(IUserinterface ui, IActor owner, Guid round);
-        
+
         /// <summary>
         /// Returns true if the <paramref name="actor"/> can use this item
         /// </summary>
         /// <param name="actor"></param>
+        /// <param name="reason"></param>
         /// <returns></returns>
         bool CanUse(IActor actor, out string reason);
     }

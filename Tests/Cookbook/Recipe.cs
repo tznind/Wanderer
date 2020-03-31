@@ -16,32 +16,32 @@ namespace Tests.Cookbook
     {
         protected IWorld SetupRoom(string roomYaml)
         {
-            return Setup("Rooms.yaml", roomYaml);
+            return Setup("rooms.yaml", roomYaml);
         }
 
         protected IWorld SetupRoom(string roomYaml, string itemsYaml)
         {
-            return Setup("Rooms.yaml", roomYaml,"Items.yaml",itemsYaml);
+            return Setup("rooms.yaml", roomYaml,"items.yaml",itemsYaml);
         }
         
         protected IWorld SetupDialogue(string dialogueYaml)
         {
-            return Setup("Dialogue.yaml", dialogueYaml);
+            return Setup("dialogue.yaml", dialogueYaml);
         }
         
         protected IWorld SetupItem(string slotsYaml, string itemYaml)
         {
-            return Setup("Slots.yaml", slotsYaml,"Items.yaml",itemYaml);
+            return Setup("slots.yaml", slotsYaml,"items.yaml",itemYaml);
         }
 
         protected IWorld SetupItem(string slotsYaml, string itemYaml,string adjectivesYaml)
         {
-            return Setup("Slots.yaml", slotsYaml,"Items.yaml",itemYaml,"Adjectives.yaml",adjectivesYaml);
+            return Setup("slots.yaml", slotsYaml,"items.yaml",itemYaml,"adjectives.yaml",adjectivesYaml);
         }
 
         protected IWorld SetupItem(string slotsYaml, string itemYaml,string adjectivesYaml, string injurySystemYaml)
         {
-            return Setup("Slots.yaml", slotsYaml,"Items.yaml",itemYaml,"Adjectives.yaml",adjectivesYaml,"InjurySystems/system1.yaml",injurySystemYaml);
+            return Setup("slots.yaml", slotsYaml,"items.yaml",itemYaml,"adjectives.yaml",adjectivesYaml,"InjurySystems/system1.injury.yaml",injurySystemYaml);
         }
         private IWorld Setup(params string[] pairs)
         {

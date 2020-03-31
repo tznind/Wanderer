@@ -23,7 +23,7 @@ namespace Wanderer.Systems
         List<InjuryBlueprint> Injuries { get; set; }
 
         /// <summary>
-        /// Returns true if the <paramref name="owner"/> is so injured (by this system)
+        /// Returns true if the <see name="Owner"/> is so injured (by this system)
         /// that they should die.
         /// </summary>
         /// <param name="injured"></param>

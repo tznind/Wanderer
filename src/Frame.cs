@@ -30,7 +30,7 @@ namespace Wanderer
         /// Returns the origin of <see cref="Action"/> or null if a frame was generated
         /// which somehow did not originate from the <see cref="PerformedBy"/> or one
         /// of his child items
-        /// <summary/>
+        /// </summary>
         internal IHasStats GetActionOwner()
         {
             return PerformedBy.GetAllHaves().FirstOrDefault(h=>

@@ -35,6 +35,7 @@ namespace Wanderer.Factories
         /// <summary>
         /// Copies the basic properties shared by all <see cref="HasStatsBlueprint"/> onto the target (<paramref name="onto"/>)
         /// </summary>
+        /// <param name="world"></param>
         /// <param name="onto"></param>
         /// <param name="blueprint"></param>
         /// <param name="defaultDialogueVerb">What do you do to initiate dialogue with this T, e.g. talk, read, look around etc</param>

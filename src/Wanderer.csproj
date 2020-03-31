@@ -5,20 +5,14 @@
 	  <LangVersion>latest</LangVersion>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <DebugType>full</DebugType>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>CS1591</NoWarn>    
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="Resources\Names\**" />
     <EmbeddedResource Remove="Resources\Names\**" />
     <None Remove="Resources\Names\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="README.md" />
-    <None Remove="Resources\Adjectives.yaml" />
-    <None Remove="Resources\Factions\Guncrew\Rooms\TheHole\Dialogue\Beverages.yaml" />
-    <None Remove="Resources\Factions\Guncrew\Rooms\TheHole\Items\Beverages.yaml" />
-    <None Remove="Resources\InjurySystems\LaserInjury.yaml" />
   </ItemGroup>
 
   <ItemGroup>
