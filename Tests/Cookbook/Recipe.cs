@@ -9,6 +9,7 @@ using Wanderer.Actions;
 using Wanderer.Actors;
 using Wanderer.Factories;
 using Wanderer.Systems;
+using Wanderer.Systems.Validation;
 
 namespace Tests.Cookbook
 {
@@ -60,6 +61,13 @@ namespace Tests.Cookbook
             }
 
             var wf = new WorldFactory() {ResourcesDirectory = dir};
+
+            //make sure that the directory setup passes validation
+            var validator = new WorldValidator();
+            validator.Validate(wf);
+
+            Assert.AreEqual(0,validator.Warnings.Length,"Recipe resulted in warnings during world validation: " + validator.Warnings);
+            Assert.AreEqual(0,validator.Errors.Length,"Recipe resulted in errors during world validation: " + validator.Errors);
 
             return wf.Create();
         }
