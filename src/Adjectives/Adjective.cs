@@ -51,7 +51,8 @@ namespace Wanderer.Adjectives
 
         public IAdjective WithExpiry(int duration)
         {
-            BaseBehaviours.Add(new ExpiryBehaviour(this, duration));
+            //add the expiry behaviour to the original owner
+            Owner.BaseBehaviours.Add(new ExpiryBehaviour(this, duration));
             return this;
         }
     }

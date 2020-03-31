@@ -13,6 +13,7 @@ using Wanderer.Behaviours;
 using Wanderer.Compilation;
 using Wanderer.Factories;
 using Wanderer.Factories.Blueprints;
+using Wanderer.Items;
 using Wanderer.Rooms;
 
 namespace Tests
@@ -95,6 +96,31 @@ namespace Tests
             Assert.IsFalse(behaviour2.Condition.IsMet(world1,new LeaveFrame(omg,new LeaveAction(omg),Direction.North,0)));
             //we DO forbid going down
             Assert.IsTrue(behaviour2.Condition.IsMet(world1,new LeaveFrame(omg,new LeaveAction(omg),Direction.Down,0)));
+
+        }
+        [Test]
+        public void Test_Serialization_OfExpire()
+        {
+            TwoInARoom(out You you, out IActor them, out IWorld world);
+
+            them.Adjectives.Add(new Adjective(them)
+            {
+                Name = "happy"
+            }.WithExpiry(10));
+            
+            
+            var config = World.GetJsonSerializerSettings();
+            var json = JsonConvert.SerializeObject(world,config);
+
+            var world2 = (World) JsonConvert.DeserializeObject(json,typeof(World),config);
+
+            var them2 = world2.Population.OfType<Npc>().Single();
+
+            Assert.IsNotNull(them.GetFinalBehaviours().OfType<ExpiryBehaviour>().Single().Owner);
+            Assert.IsNotNull(them.GetFinalBehaviours().OfType<ExpiryBehaviour>().Single().Owner);
+
+            Assert.IsNotNull(them.GetFinalBehaviours().OfType<ExpiryBehaviour>().Single().Adjective);
+            Assert.IsNotNull(them2.GetFinalBehaviours().OfType<ExpiryBehaviour>().Single().Adjective);
 
         }
     }
