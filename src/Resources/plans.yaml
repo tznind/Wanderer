@@ -1,0 +1,39 @@
+- Name: Eat if hungry
+  Condition:
+    - return Recipient:Has('89c18233-5250-4445-8799-faa9a888fb7f')
+    - return Recipient:Has('Eat')
+
+  Do: |
+        return
+            Frame(
+               Recipient,
+               FirstOrDefault(Recipient:Get('Eat')),
+               0)
+- Name: Pick stuff up
+  Condition:
+    - return Room.Items.Count > 0
+    - return Recipient:Has('PickUp')
+  Do: return PickUpFrame(Recipient,FirstOrDefault(Recipient:Get('PickUp')),FirstOrDefault(Room.Items),Room,0)
+- Name: Equip Stuff
+  Condition:
+    - return GetFirstEquippableItem(Recipient) ~= nil
+    - return Recipient:Has('EquipmentAction')
+  Do: |
+        return EquipmentFrame(
+           Recipient,
+           FirstOrDefault(Recipient:Get('EquipmentAction')),
+           EquipmentActionToPerform.PutOn,
+           GetFirstEquippableItem(Recipient)
+        )
+- Name: Fight Enemies
+  Condition: 
+    - return Recipient:WorstEnemy(true,-20) ~= nil
+    - return Recipient:Has('Fight')
+  Do: |
+        return FightFrame(
+           Recipient,
+           Recipient:WorstEnemy(true,-20),
+           FirstOrDefault(Recipient:Get('Fight')),
+           nil,
+           -20)
+

@@ -10,7 +10,7 @@ using Wanderer.Stats;
 
 namespace Wanderer
 {
-    public interface IHasStats : IAreIdentical<IHasStats>
+    public interface IHasStats : IAreIdentical
     {
         /// <summary>
         /// The guid for this type of object.  If the object was
@@ -57,12 +57,12 @@ namespace Wanderer
         /// <summary>
         /// Human readable words that describe the current state of the object
         /// </summary>
-        IAdjectiveCollection Adjectives { get; set; }
+        List<IAdjective> Adjectives { get; set; }
 
         /// <summary>
         /// The <see cref="IAction"/> that the object can undertake regardless of any child objects (gear, location etc.)
         /// </summary>
-        IActionCollection BaseActions { get; set; }
+        List<IAction> BaseActions { get; set; }
 
         /// <summary>
         /// Stats (or modifiers) before applying any external child objects (gear, location etc.)
@@ -72,7 +72,7 @@ namespace Wanderer
         /// <summary>
         /// Determines how the object responds  before applying any external child objects (gear, location etc.)
         /// </summary>
-        IBehaviourCollection BaseBehaviours { get; set; }
+        List<IBehaviour> BaseBehaviours { get; set; }
 
         /// <summary>
         /// Returns the <see cref="BaseStats"/> plus any modifiers for child objects (e.g. gear, <see cref="Adjectives"/> etc)
@@ -82,11 +82,19 @@ namespace Wanderer
         StatsCollection GetFinalStats(IActor forActor);
 
         /// <summary>
+        /// Overload that sums <see cref="Frame.PerformedBy"/> with any modifiers on the
+        /// <see cref="Frame.Action"/>
+        /// </summary>
+        /// <param name="frame"></param>
+        /// <returns></returns>
+        StatsCollection GetFinalStats(Frame frame);
+
+        /// <summary>
         /// Returns the <see cref="BaseActions"/> plus any allowed by child objects, gear, <see cref="Adjectives"/> etc
         /// </summary>
         /// <param name="forActor"></param>
         /// <returns></returns>
-        IActionCollection GetFinalActions(IActor forActor);
+        List<IAction> GetFinalActions(IActor forActor);
 
 
         /// <summary>
@@ -94,7 +102,7 @@ namespace Wanderer
         /// </summary>
         /// <param name="forActor"></param>
         /// <returns></returns>
-        IBehaviourCollection GetFinalBehaviours(IActor forActor);
+        List<IBehaviour> GetFinalBehaviours(IActor forActor);
 
         /// <summary>
         /// Returns all the other things that the object has
@@ -146,7 +154,7 @@ namespace Wanderer
         /// Returns true if the supplied <see cref="Identifier"/> matches the current object (but not children,
         /// use <see cref="Has(System.Nullable{System.Guid})"/> for that).
         /// </summary>
-        /// <param name="s"><see cref="Identifier"/> or <see cref="Name"/> to check for</param>
+        /// <param name="g"><see cref="Identifier"/> or <see cref="Name"/> to check for</param>
         /// <returns></returns>
         bool Is(Guid? g);
     }

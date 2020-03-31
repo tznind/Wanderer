@@ -272,7 +272,7 @@ namespace Tests.Systems
                 ui = GetUI("Yes give me 500");
                 
                 //next time around you shouldn't be able to pick it
-                Assert.Throws<Exception>(()=>system.Run(new SystemArgs(world,ui,0,you,you.CurrentLocation, Guid.NewGuid()),system.AllDialogues.Single()));
+                Assert.Throws<OptionNotAvailableException>(()=>system.Run(new SystemArgs(world,ui,0,you,you.CurrentLocation, Guid.NewGuid()),system.AllDialogues.Single()));
 
                 //because it is exhausted
                 Assert.IsTrue(system.AllDialogues.First().Options.First().Exhausted);
@@ -283,9 +283,64 @@ namespace Tests.Systems
                 //next time around you shouldn't be able to pick it
                 system.Run(new SystemArgs(world, ui, 0, you, you.CurrentLocation, Guid.NewGuid()),
                     system.AllDialogues.Single());
+        }
+        
+        [Test]
+        public void TestDialogue_Transition()
+        {
+          var you = YouInARoom(out IWorld w);
 
+          var node = new DialogueNode()
+          {
+            Identifier = new Guid("4f87d23d-ede9-4684-9b33-840a3e8fbc39"),
+            Body = new List<TextBlock>{new TextBlock{ Text = "Hey" }},
+            Options = new List<DialogueOption>()
+            {
+              new DialogueOption() {Text = "Leave"},
+              new DialogueOption() {Text = "Talk to Hobgoblin",
+                Transition = new Guid("071b853e-f663-4caf-98c1-951c9961a7ed")
+                }
+            }
+          };
+
+          var response = new DialogueNode()
+          {
+            Body = new List<TextBlock>{new TextBlock{ Text = "That's me, the goblin!" }},
+            Identifier = new Guid("13a20154-3ec7-43bb-841d-809f49a62ba0")
+          };
+
+          w.Dialogue.AllDialogues.Add(response);
+          w.Dialogue.AllDialogues.Add(node);
+          you.CurrentLocation.Dialogue.Next = new Guid("4f87d23d-ede9-4684-9b33-840a3e8fbc39");
+
+          w.Dialogue.Run(new SystemArgs(w, GetUI("Leave"),0,you,you.CurrentLocation,Guid.Empty),node);
+
+          //there are no goblins here!
+          Assert.Throws<OptionNotAvailableException>(()=>w.Dialogue.Run(new SystemArgs(w, GetUI("Talk to Hobgoblin"),0,you,you.CurrentLocation,Guid.Empty),node));
+
+          var goblin = new Npc("Hobgob",you.CurrentLocation){Identifier = new Guid("071b853e-f663-4caf-98c1-951c9961a7ed")};
+
+          //goblin has nothing to say so still should not be offered
+          Assert.Throws<OptionNotAvailableException>(()=>w.Dialogue.Run(new SystemArgs(w, GetUI("Talk to Hobgoblin"),0,you,you.CurrentLocation,Guid.Empty),node));
+
+          goblin.Dialogue.Next = new Guid("13a20154-3ec7-43bb-841d-809f49a62ba0");
+          
+          //now transition should work
+          var args = new SystemArgs(w, GetUI("Talk to Hobgoblin"),0,you,you.CurrentLocation,Guid.Empty);
+
+          //you were chating to the room
+          Assert.AreEqual(you.CurrentLocation,args.Recipient);
+          w.Dialogue.Run(args, node);
+
+          //now you are chatting to the goblin
+          Assert.AreEqual(goblin,args.Recipient);
+
+          //if they are dead don't allow transitions either!
+          goblin.Dead = true;
+
+          //goblin has nothing to say so still should not be offered
+          Assert.Throws<OptionNotAvailableException>(()=>w.Dialogue.Run(new SystemArgs(w, GetUI("Talk to Hobgoblin"),0,you,you.CurrentLocation,Guid.Empty),node));
 
         }
-
     }
 }

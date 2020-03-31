@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using Wanderer.Actions;
 using Wanderer.Actors;
 
@@ -7,7 +8,12 @@ namespace Wanderer.Behaviours
     public abstract class Behaviour : IBehaviour
     {
         public IHasStats Owner { get; set; }
-
+        
+        [JsonConstructor]
+        protected Behaviour()
+        {
+            
+        }
         protected Behaviour(IHasStats owner)
         {
             Owner = owner;
@@ -29,7 +35,7 @@ namespace Wanderer.Behaviours
         {
         }
 
-        public virtual bool AreIdentical(IBehaviour other)
+        public virtual bool AreIdentical(object other)
         {
             if (other == null)
                 return false;

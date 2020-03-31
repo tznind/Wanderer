@@ -402,7 +402,7 @@ namespace Game.UI
         {
             var instances = _actionManager.GetInstances(World.Player, actionDescription, true);
 
-            if(instances.Count == 1 && !(instances[0] is DialogueAction)) /* Always ask for this*/
+            if(instances.Count == 1 && !AlwaysAskFor(instances[0])) /* Always ask for this*/
                 World.RunRound(this, instances.Single());
             else
             if(instances.Count == 0)
@@ -413,6 +413,15 @@ namespace Game.UI
 
 
             this.Refresh();
+        }
+
+        private bool AlwaysAskFor(IAction instance)
+        {
+            //TODO: this is janky!
+            return
+                instance is GiveAction ||
+                instance is DialogueAction || 
+                instance is DropAction;
         }
 
         private string GetActionButtonName(ActionDescription action)
@@ -488,10 +497,7 @@ namespace Game.UI
 
                     if(options.Any() && GetChoice("Action",null,out IAction chosen,options))
                     {
-                        if(chosen is FightAction f)
-                            f.PrimeWithTarget = target as IActor;
-                        if (chosen is PickUpAction p)
-                            p.PrimeWithTarget = target as IItem;
+                        _actionManager.PrimeCommandWithTarget(chosen,target);
 
                         World.RunRound(this, chosen);
                         Refresh();

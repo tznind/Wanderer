@@ -13,6 +13,7 @@ using Wanderer.Behaviours;
 using Wanderer.Compilation;
 using Wanderer.Factories;
 using Wanderer.Factories.Blueprints;
+using Wanderer.Items;
 using Wanderer.Rooms;
 
 namespace Tests
@@ -95,6 +96,90 @@ namespace Tests
             Assert.IsFalse(behaviour2.Condition.IsMet(world1,new LeaveFrame(omg,new LeaveAction(omg),Direction.North,0)));
             //we DO forbid going down
             Assert.IsTrue(behaviour2.Condition.IsMet(world1,new LeaveFrame(omg,new LeaveAction(omg),Direction.Down,0)));
+
+        }
+        [Test]
+        public void Test_Serialization_OfExpire()
+        {
+            TwoInARoom(out You you, out IActor them, out IWorld world);
+
+            them.Adjectives.Add(new Adjective(them)
+            {
+                Name = "happy"
+            }.WithExpiry(10));
+            
+            
+            var config = World.GetJsonSerializerSettings();
+            var json = JsonConvert.SerializeObject(world,config);
+
+            var world2 = (World) JsonConvert.DeserializeObject(json,typeof(World),config);
+
+            var them2 = world2.Population.OfType<Npc>().Single();
+
+            Assert.IsNotNull(them.GetFinalBehaviours().OfType<ExpiryBehaviour>().Single().Owner);
+            Assert.IsNotNull(them2.GetFinalBehaviours().OfType<ExpiryBehaviour>().Single().Owner);
+
+            Assert.IsNotNull(them.GetFinalBehaviours().OfType<ExpiryBehaviour>().Single().Adjective);
+            Assert.IsNotNull(them2.GetFinalBehaviours().OfType<ExpiryBehaviour>().Single().Adjective);
+        }
+
+        [Test]
+        public void Test_Serialization_OfSingleUse()
+        {
+            TwoInARoom(out You you, out IActor them, out IWorld world);
+
+            var grenade1 = new Item("Grenade");
+            grenade1.Adjectives.Add(new SingleUse(grenade1));
+
+            them.Items.Add(grenade1);
+            
+            var config = World.GetJsonSerializerSettings();
+            var json = JsonConvert.SerializeObject(world,config);
+
+            var world2 = (IWorld) JsonConvert.DeserializeObject(json,typeof(World),config);
+
+            var grenade2 = world2.Population.OfType<Npc>().Single().Items.Single();
+
+            Assert.IsNotNull(grenade1.Adjectives.Single().Owner);
+            Assert.IsNotNull(grenade2.Adjectives.Single().Owner);
+            
+            Assert.IsNotNull(grenade1.Adjectives.Single().BaseBehaviours.Single().Owner);
+            Assert.IsNotNull(grenade2.Adjectives.Single().BaseBehaviours.Single().Owner);
+        }
+        [Test]
+        public void Test_Serialization_OfActorAdjectives()
+        {
+            TwoInARoom(out You you, out IActor them, out IWorld world);
+            them.Adjectives.Add(new Adjective(them){Name = "Tough"});
+
+            var config = World.GetJsonSerializerSettings();
+            var json = JsonConvert.SerializeObject(them,config);
+
+            var them2 = (Actor) JsonConvert.DeserializeObject(json,typeof(Actor),config);
+
+            Assert.IsNotNull(them.Adjectives.Single().Owner);
+            Assert.IsNotNull(them2.Adjectives.Single().Owner);
+        }
+
+        [Test]
+        public void Test_Serialization_OfItemAdjectives()
+        {
+            TwoInARoom(out You you, out IActor them, out IWorld world);
+
+            var hammer1 = new Item("Hammer");
+            hammer1.Adjectives.Add(new Adjective(hammer1){Name = "Tough"});
+
+            them.Items.Add(hammer1);
+            
+            var config = World.GetJsonSerializerSettings();
+            var json = JsonConvert.SerializeObject(world,config);
+
+            var world2 = (IWorld) JsonConvert.DeserializeObject(json,typeof(World),config);
+
+            var hammer2 = world2.Population.OfType<Npc>().Single().Items.Single();
+
+            Assert.IsNotNull(hammer1.Adjectives.Single().Owner);
+            Assert.IsNotNull(hammer2.Adjectives.Single().Owner);
 
         }
     }

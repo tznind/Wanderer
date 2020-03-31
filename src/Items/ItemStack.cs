@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Newtonsoft.Json;
 using Wanderer.Actors;
 using Wanderer.Behaviours;
 using Wanderer.Stats;
@@ -36,6 +37,15 @@ namespace Wanderer.Items
 
             StackSize += s2.StackSize;
             world.Erase(s2);
+        }
+        
+        /// <summary>
+        /// Do not use, internal constructor for JSON serialization
+        /// </summary>
+        [JsonConstructor]
+        protected ItemStack()
+        {
+
         }
 
         public ItemStack(string name,int stackSize) : base(name)

@@ -1,0 +1,25 @@
+﻿- Identifier: a9d58b24-b1f2-40f9-bd2b-c6421a5d11d1
+  Name: Rat Queen's Chamber
+  Tile: Q
+  Unique: true
+  Dialogue:
+    Next: 8f6ffb26-01ab-4d0a-8083-2fff3475187d
+  MandatoryActors:
+    - Identifier: 92320a7c-a7d3-4abb-933c-45a4450f778e
+      Name: The Rat Queen
+      MandatoryAdjectives:
+        - Strong
+        - Tough
+        - Medic
+      Stats:
+        Fight: 40
+        Loyalty: 20
+        Coerce: 60
+        Savvy: 60
+      Actions:
+        - Type: FightAction
+        - Type: GiveAction
+        - Type: PickUpAction
+        - Type: EquipmentAction
+      Dialogue: 
+        Next: 354a62e1-fcdd-40ed-8cb9-b86de09efdbe

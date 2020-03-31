@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Moq;
 using NUnit.Framework;
@@ -23,9 +24,9 @@ namespace Tests.Adjectives
             var a2 = new Adjective(Mock.Of<IActor>()){Name = "Attractive"};
             Assert.AreNotEqual(a1,a2);
 
-            var ac1 = new AdjectiveCollection {a1};
+            var ac1 = new List<Adjective> {a1};
 
-            var ac2 = new AdjectiveCollection {a2};
+            var ac2 = new List<Adjective> {a2};
 
             //they are not equal but the user would consider them identical collections
             Assert.IsTrue(ac1.AreIdentical(ac2));

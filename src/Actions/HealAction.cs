@@ -7,15 +7,10 @@ namespace Wanderer.Actions
 {
     public class HealAction : Action
     {
-        private HealAction():base(null)
-        {
-            
-        }
         public HealAction(IHasStats owner) : base(owner)
         {
+            HotKey = 'h';
         }
-
-        public override char HotKey => 'h';
 
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
         {
@@ -28,7 +23,7 @@ namespace Wanderer.Actions
         }
 
 
-        public override void Pop(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
+        protected override void PopImpl(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
         {
             var f = (HealFrame)frame;
 

@@ -40,6 +40,8 @@ namespace Wanderer
 
         public IAdjectiveFactory  AdjectiveFactory { get; set; } = new AdjectiveFactory();
 
+        public IActionFactory ActionFactory { get;  set; } = new ActionFactory();
+
         public Random R { get; set; } = new Random(100);
 
         [JsonIgnore]
@@ -48,7 +50,7 @@ namespace Wanderer
             get { return (You) Population.FirstOrDefault(p => p is You); }
         }
 
-        public IFactionCollection Factions { get; set; } = new FactionCollection();
+        public IFList<IAction> Factions { get; set; } = new FList<IAction>();
 
         public string ResourcesDirectory { get; set; } = Compiler.GetDefaultResourcesDirectory();
 
@@ -202,7 +204,9 @@ namespace Wanderer
         public ISystem GetSystem(Guid g)
         {
             //TODO: This should return other systems too
-            return InjurySystems.FirstOrDefault(i=>i.Identifier == g);
+            return 
+                InjurySystems.FirstOrDefault(i=>i.Identifier == g) 
+                ?? throw new GuidNotFoundException($"Could not find any System with Guid {g}",g);
         }
 
         public IInjurySystem GetDefaultInjurySystem()

@@ -1,0 +1,484 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "ListOfItemBlueprint",
+  "type": "array",
+  "items": {
+    "$ref": "#/definitions/ItemBlueprint"
+  },
+  "definitions": {
+    "ItemBlueprint": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Ref": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Inherit all properties from another blueprint of the same type",
+          "format": "guid"
+        },
+        "Identifier": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Uniquely identifies instances created from this blueprint",
+          "format": "guid"
+        },
+        "Faction": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Null if the object thematically fits any faction, otherwise the Identifier of the faction",
+          "format": "guid"
+        },
+        "Unique": {
+          "type": "boolean",
+          "description": "True to only ever generate one of this thing"
+        },
+        "Color": {
+          "description": "Black=0\nDarkBlue=1\nDarkGreen=2\nDarkCyan=3\nDarkRed=4\nDarkMagenta= 5\nDarkYellow=6\nGray=7\nDarkGray=8\nBlue=9\nGreen=10\nCyan=11\nRed=12\nMagenta=13 \nYellow=14\nWhite=15",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/ConsoleColor"
+            }
+          ]
+        },
+        "Name": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Explicit name for this object.  For actors this can be left null to generate a random name from the faction NameFactory"
+        },
+        "InjurySystem": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Injury system of any FightAction the blueprint spawns (and for IActor the innate weapons of the actor (leave null to use the IsDefault)",
+          "format": "guid"
+        },
+        "Dialogue": {
+          "description": "Things the object has to say e.g. when a creature is talked to or a room examined",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/DialogueInitiation"
+            }
+          ]
+        },
+        "OptionalAdjectives": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "List of IAdjective from which to pick at random when creating.  These can be either Guids, Names or Type names",
+          "items": {
+            "type": "string"
+          }
+        },
+        "MandatoryAdjectives": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "By default a subset of OptionalAdjectives are written to the objects created by this blueprint (e.g. depending on difficulty, luck etc). Set those that MUST always be added. These can be either Guids, Names or Type names",
+          "items": {
+            "type": "string"
+          }
+        },
+        "Stats": {
+          "description": "The BaseStats to give the object",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/StatsCollection"
+            }
+          ]
+        },
+        "Actions": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "Option, if specified this list becomes the actions of the object replacing any existing actions they might otherwise get)",
+          "items": {
+            "$ref": "#/definitions/ActionBlueprint"
+          }
+        },
+        "Slot": {
+          "description": "Which slots are required to equip the item.",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/ItemSlot"
+            }
+          ]
+        },
+        "Require": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "A condition that must be met before the item can be used",
+          "items": {
+            "$ref": "#/definitions/IConditionOfIHasStats"
+          }
+        },
+        "Stack": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Null for an item that cannot be stacked, 1+ for a IItemStack of the given size",
+          "format": "int32"
+        }
+      }
+    },
+    "ConsoleColor": {
+      "type": "integer",
+      "description": "0 = Black\n1 = DarkBlue\n2 = DarkGreen\n3 = DarkCyan\n4 = DarkRed\n5 = DarkMagenta\n6 = DarkYellow\n7 = Gray\n8 = DarkGray\n9 = Blue\n10 = Green\n11 = Cyan\n12 = Red\n13 = Magenta\n14 = Yellow\n15 = White",
+      "x-enumNames": [
+        "Black",
+        "DarkBlue",
+        "DarkGreen",
+        "DarkCyan",
+        "DarkRed",
+        "DarkMagenta",
+        "DarkYellow",
+        "Gray",
+        "DarkGray",
+        "Blue",
+        "Green",
+        "Cyan",
+        "Red",
+        "Magenta",
+        "Yellow",
+        "White"
+      ],
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ]
+    },
+    "DialogueInitiation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Verb": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The doing word that describes what starts the dialogue e.g. \"talk\" or \"read\""
+        },
+        "Next": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The unique identifier of the next bit of text that should be presented",
+          "format": "guid"
+        },
+        "Banter": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "Dialogues to run if there's nothing better to say (i.e. Next is null)",
+          "items": {
+            "type": "string",
+            "format": "guid"
+          }
+        },
+        "IsEmpty": {
+          "type": "boolean",
+          "description": "Returns true if there is nothing to show for this thing"
+        }
+      }
+    },
+    "StatsCollection": {
+      "title": "DictionaryOfStatAndDouble",
+      "type": "object",
+      "x-dictionaryKey": {
+        "$ref": "#/definitions/StatsCollection/definitions/Stat"
+      },
+      "additionalProperties": {
+        "type": "number",
+        "format": "double"
+      },
+      "definitions": {
+        "Stat": {
+          "type": "integer",
+          "description": "0 = None\n1 = Loyalty\n2 = Corruption\n3 = Fight\n4 = Coerce\n5 = Savvy\n6 = Suave\n7 = Leadership\n8 = Initiative\n9 = Value",
+          "x-enumNames": [
+            "None",
+            "Loyalty",
+            "Corruption",
+            "Fight",
+            "Coerce",
+            "Savvy",
+            "Suave",
+            "Leadership",
+            "Initiative",
+            "Value"
+          ],
+          "enum": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        }
+      }
+    },
+    "ActionBlueprint": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Ref": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Inherit all properties from another blueprint of the same type",
+          "format": "guid"
+        },
+        "Identifier": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Uniquely identifies instances created from this blueprint",
+          "format": "guid"
+        },
+        "Faction": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Null if the object thematically fits any faction, otherwise the Identifier of the faction",
+          "format": "guid"
+        },
+        "Unique": {
+          "type": "boolean",
+          "description": "True to only ever generate one of this thing"
+        },
+        "Color": {
+          "description": "Black=0\nDarkBlue=1\nDarkGreen=2\nDarkCyan=3\nDarkRed=4\nDarkMagenta= 5\nDarkYellow=6\nGray=7\nDarkGray=8\nBlue=9\nGreen=10\nCyan=11\nRed=12\nMagenta=13 \nYellow=14\nWhite=15",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/ConsoleColor"
+            }
+          ]
+        },
+        "Name": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Explicit name for this object.  For actors this can be left null to generate a random name from the faction NameFactory"
+        },
+        "InjurySystem": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Injury system of any FightAction the blueprint spawns (and for IActor the innate weapons of the actor (leave null to use the IsDefault)",
+          "format": "guid"
+        },
+        "Dialogue": {
+          "description": "Things the object has to say e.g. when a creature is talked to or a room examined",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/DialogueInitiation"
+            }
+          ]
+        },
+        "OptionalAdjectives": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "List of IAdjective from which to pick at random when creating.  These can be either Guids, Names or Type names",
+          "items": {
+            "type": "string"
+          }
+        },
+        "MandatoryAdjectives": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "By default a subset of OptionalAdjectives are written to the objects created by this blueprint (e.g. depending on difficulty, luck etc). Set those that MUST always be added. These can be either Guids, Names or Type names",
+          "items": {
+            "type": "string"
+          }
+        },
+        "Stats": {
+          "description": "The BaseStats to give the object",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/StatsCollection"
+            }
+          ]
+        },
+        "Actions": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "Option, if specified this list becomes the actions of the object replacing any existing actions they might otherwise get)",
+          "items": {
+            "$ref": "#/definitions/ActionBlueprint"
+          }
+        },
+        "HotKey": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "Type": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Name of the root Action type to base the blueprint on e.g. FightAction"
+        },
+        "Attitude": {
+          "type": "number",
+          "description": "How kind is the action? before picking any targets",
+          "format": "double"
+        },
+        "Targets": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "What can be targetted by the action",
+          "items": {
+            "$ref": "#/definitions/IActionTarget"
+          }
+        },
+        "TargetPrompt": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "If there are Targets configured then this\nis the message to show when prompting to pick them"
+        },
+        "Effect": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "What happens when the action is performed.",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "IActionTarget": {
+      "type": "object",
+      "x-abstract": true,
+      "additionalProperties": false
+    },
+    "ItemSlot": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Name": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "NumberRequired": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "SensitiveTo": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/InjuryRegion"
+          }
+        }
+      }
+    },
+    "InjuryRegion": {
+      "type": "integer",
+      "description": "0 = None\n1 = Head\n2 = Eye\n3 = Jaw\n4 = Neck\n5 = Ribs\n6 = Arm\n7 = Hand\n8 = OffHand\n9 = Leg\n10 = Foot",
+      "x-enumNames": [
+        "None",
+        "Head",
+        "Eye",
+        "Jaw",
+        "Neck",
+        "Ribs",
+        "Arm",
+        "Hand",
+        "OffHand",
+        "Leg",
+        "Foot"
+      ],
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    "IConditionOfIHasStats": {
+      "type": "object",
+      "x-abstract": true,
+      "additionalProperties": false
+    }
+  }
+}

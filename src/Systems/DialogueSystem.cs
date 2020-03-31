@@ -28,7 +28,7 @@ namespace Wanderer.Systems
                 var d = GetDialogue(args.Recipient.Dialogue.Next);
                     
                 //if there is no main dialogue set or its conditions are not yet met, fall back on banter
-                if(d == null || !d.Condition.All(c=>c.IsMet(args.World,args)))
+                if(d == null || !d.AllConditionsMet(args.World,args))
                     d =  GetBanter(args);
                 
                 if (d != null)
@@ -73,7 +73,7 @@ namespace Wanderer.Systems
 
         public void Run(SystemArgs args, DialogueNode node)
         {
-            var options = node.GetOptionsToShow();
+            var options = node.GetOptionsToShow(args.World,args);
 
             if(options.Any())
             {
@@ -129,10 +129,31 @@ namespace Wanderer.Systems
             foreach (IEffect effect in option.Effect) 
                 effect.Apply(args);
 
-            var d = GetDialogue(option.Destination);
+            if(option.Transition.HasValue)
+            {
+                var transitionTo = args.Room.Get(option.Transition.Value).FirstOrDefault();
 
-            if (d != null) 
-                Run(args,d);
+                if(transitionTo?.Dialogue?.Next != null )
+                {
+                    //transition to the next person to talk to
+                    args.Recipient = transitionTo;
+
+
+                    var d = GetDialogue(transitionTo.Dialogue.Next);
+
+                    if (d != null) 
+                        Run(args,d);
+
+                }
+            }
+            else
+            {
+                var d = GetDialogue(option.Destination);
+
+                if (d != null) 
+                    Run(args,d);
+            }
+
         }
 
 

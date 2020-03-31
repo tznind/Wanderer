@@ -45,11 +45,16 @@ namespace Wanderer
         /// </summary>
         IAdjectiveFactory AdjectiveFactory { get; set; }
 
+        /// <summary>
+        /// Creates <see cref="IAction"/>
+        /// </summary>
+        IActionFactory ActionFactory { get;  set; }
+
         Map Map { get; }
 
         HashSet<IActor> Population { get; }
         
-        IFactionCollection Factions { get; set; }
+        IFList<IAction> Factions { get; set; }
 
         /// <summary>
         /// All known relationships in the <see cref="Population"/>

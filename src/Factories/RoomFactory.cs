@@ -31,6 +31,8 @@ namespace Wanderer.Factories
             if (blueprint == null)
                 return new Room("Empty Room",world,'e');
             
+            HandleInheritance(blueprint);
+
             //pick blueprint faction (or random one if it isn't themed to a specific faction)
             IFaction faction;
 

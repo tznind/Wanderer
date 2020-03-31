@@ -14,7 +14,7 @@ namespace Wanderer
 
         public IActor PerformedBy { get; set; }
 
-        public IActor TargetIfAny { get; set; }
+        public IHasStats TargetIfAny { get; set; }
 
         public IAction Action { get; set; }
         public bool Cancelled { get; set; }
@@ -30,7 +30,7 @@ namespace Wanderer
         /// Returns the origin of <see cref="Action"/> or null if a frame was generated
         /// which somehow did not originate from the <see cref="PerformedBy"/> or one
         /// of his child items
-        /// <summary/>
+        /// </summary>
         internal IHasStats GetActionOwner()
         {
             return PerformedBy.GetAllHaves().FirstOrDefault(h=>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Wanderer.Actions;
@@ -34,6 +35,7 @@ namespace Wanderer.Factories
         /// <summary>
         /// Copies the basic properties shared by all <see cref="HasStatsBlueprint"/> onto the target (<paramref name="onto"/>)
         /// </summary>
+        /// <param name="world"></param>
         /// <param name="onto"></param>
         /// <param name="blueprint"></param>
         /// <param name="defaultDialogueVerb">What do you do to initiate dialogue with this T, e.g. talk, read, look around etc</param>
@@ -43,7 +45,12 @@ namespace Wanderer.Factories
                 UniquesSpawned.Add(blueprint.Identifier ?? Guid.Empty);
 
             if (blueprint.Actions.Any())
-                onto.BaseActions = blueprint.Actions.Clone();
+            {
+                onto.BaseActions = new List<IAction>();
+
+                foreach(var actionBlueprint in blueprint.Actions)
+                    world.ActionFactory.Create(world,onto,actionBlueprint);
+            }
 
             onto.Color = blueprint.Color;
             onto.Unique = blueprint.Unique;
@@ -104,5 +111,29 @@ namespace Wanderer.Factories
                    throw new NamedObjectNotFoundException($"Could not find {typeof(T1).Name} Named {name}", name);
         }
 
+        protected void HandleInheritance(HasStatsBlueprint blueprint)
+        {
+            if (blueprint.Ref != null)
+            {
+                var baseBlue = GetBlueprint(blueprint.Ref.Value);
+
+                if(baseBlue.Ref.HasValue)
+                    throw new NotSupportedException($"Ref blueprints cannot have their own base blueprint (maximum inheritance depth is 1).  Bad base blueprint was '{baseBlue}'");
+                
+                //copy properties from the base blueprint
+                foreach (var prop in typeof(T1).GetProperties())
+                {
+                    var currentVal = prop.GetValue(blueprint);
+                    var baseVal = prop.GetValue(baseBlue);
+
+                    //where the current blueprint doesn't have a value for it yet (is null/empty)
+                    if (currentVal == null)
+                        prop.SetValue(blueprint, baseVal);
+                    else
+                    if(currentVal is IList l && l.Count == 0 && baseVal != null)
+                        prop.SetValue(blueprint, baseVal);
+                }
+            }
+        }
     }
 }

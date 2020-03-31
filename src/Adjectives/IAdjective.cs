@@ -5,7 +5,7 @@ using Wanderer.Systems;
 
 namespace Wanderer.Adjectives
 {
-    public interface IAdjective : IHasStats, IAreIdentical<IAdjective>
+    public interface IAdjective : IHasStats
     {
         /// <summary>
         /// The object to which the adjective is attached

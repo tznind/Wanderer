@@ -11,16 +11,10 @@ namespace Wanderer.Actions
     public class DialogueAction:Action
     {
 
-        public override char HotKey => 'o';
-
-        private DialogueAction():base(null)
-        {
-            Name = "Other";
-        }
-
         public DialogueAction(IHasStats owner):base(owner)
         {
             Name = "Other";
+            HotKey = 'o';
         }
 
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
@@ -41,7 +35,7 @@ namespace Wanderer.Actions
         }
 
         
-        public override void Pop(IWorld world1, IUserinterface ui, ActionStack stack, Frame frame)
+        protected override void PopImpl(IWorld world1, IUserinterface ui, ActionStack stack, Frame frame)
         {
             var f = (DialogueFrame) frame;
             var world = frame.PerformedBy.CurrentLocation.World;

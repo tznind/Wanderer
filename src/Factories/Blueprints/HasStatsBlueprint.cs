@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Wanderer.Actions;
 using Wanderer.Actors;
 using Wanderer.Adjectives;
@@ -12,12 +13,17 @@ namespace Wanderer.Factories.Blueprints
     public abstract class HasStatsBlueprint
     {
         /// <summary>
+        /// Inherit all properties from another blueprint of the same type
+        /// </summary>
+        public Guid? Ref { get; set; }
+
+        /// <summary>
         /// Uniquely identifies instances created from this blueprint
         /// </summary>
         public Guid? Identifier { get; set; }
         
         /// <summary>
-        /// Null if the object thematically fits any faction, otherwise the <see cref="IFaction.Identifier"/>
+        /// Null if the object thematically fits any faction, otherwise the <see cref="IHasStats.Identifier"/> of the faction
         /// </summary>
         public Guid? Faction { get; set; }
 
@@ -47,33 +53,27 @@ namespace Wanderer.Factories.Blueprints
         public ConsoleColor Color { get; set; } = ConsoleColor.White;
 
         /// <summary>
-        /// Explicit name for this e.g. Centipede otherwise leave null to generate
-        /// a random name from the faction <see cref="NameFactory"/> (null Name works for npc only)
+        /// Explicit name for this object.  For actors this can be left null to generate a random name from the faction <see cref="NameFactory"/>
         /// </summary>
         public string Name { get; set; }
         
         /// <summary>
-        /// Injury system of any <see cref="FightAction"/> the blueprint spawns (and for <see cref="IActor"/> the
-        /// innate weapons of the actor (leave null to use the <see cref="IInjurySystem.IsDefault"/>)
+        /// Injury system of any <see cref="FightAction"/> the blueprint spawns (and for <see cref="IActor"/> the innate weapons of the actor (leave null to use the <see cref="IInjurySystem.IsDefault"/>)
         /// </summary>
         public Guid? InjurySystem { get; set; }
 
         /// <summary>
-        /// Things the object has to say, if multiple then one is picked at random.
-        /// These guids map to <see cref="DialogueNode"/>
+        /// Things the object has to say e.g. when a creature is talked to or a room examined
         /// </summary>
         public DialogueInitiation Dialogue { get; set; }
 
         /// <summary>
-        /// List of <see cref="IAdjective"/> from which to pick at random when creating.
-        /// These can be either Guids, Names or Type names
+        /// List of <see cref="IAdjective"/> from which to pick at random when creating.  These can be either Guids, Names or Type names
         /// </summary>
         public string[] OptionalAdjectives { get;set; } = new string[0];
 
         /// <summary>
-        /// By default a subset of <see cref="OptionalAdjectives"/> are written to the
-        /// objects created by this blueprint (e.g. depending on difficulty, luck etc).
-        /// Set those that MUST always be added. These can be either Guids, Names or Type names
+        /// By default a subset of <see cref="OptionalAdjectives"/> are written to the objects created by this blueprint (e.g. depending on difficulty, luck etc). Set those that MUST always be added. These can be either Guids, Names or Type names
         /// </summary>
         public string [] MandatoryAdjectives { get; set; } = new string[0];
 
@@ -83,16 +83,12 @@ namespace Wanderer.Factories.Blueprints
         public StatsCollection Stats { get; set; } = new StatsCollection();
 
         /// <summary>
-        /// Option, if specified this list becomes the actions of the object
-        /// replacing any existing actions they might otherwise get)
+        /// Option, if specified this list becomes the actions of the object replacing any existing actions they might otherwise get)
         /// </summary>
-        public ActionCollection Actions { get; set; } = new ActionCollection();
+        public List<ActionBlueprint> Actions { get; set; } = new List<ActionBlueprint>();
 
         /// <summary>
-        /// Returns true if the blueprint is appropriate for the supplied
-        /// <paramref name="f"/>.  Generic objects are always suitable for any
-        /// faction but faction specific items only suit when their specific <paramref name="f"/>
-        /// is supplied
+        /// Returns true if the blueprint is appropriate for the supplied <paramref name="f"/>.  Generic objects are always suitable for any faction but faction specific items only suit when their specific <paramref name="f"/> is supplied
         /// </summary>
         /// <param name="f"></param>
         /// <returns></returns>
@@ -102,11 +98,8 @@ namespace Wanderer.Factories.Blueprints
         }
 
         /// <summary>
-        /// Returns true if the blueprint is appropriate for the supplied
-        /// <paramref name="factionIdentifier"/>.  Generic objects are always suitable for any
-        /// faction but faction specific items only suit when their specific <paramref name="factionIdentifier"/>
-        /// is supplied.
-        ///
+        /// <para>Returns true if the blueprint is appropriate for the supplied <paramref name="factionIdentifier"/>.  Generic objects are always suitable for any faction but faction specific items only suit when their specific <paramref name="factionIdentifier"/> is supplied.</para>
+        /// 
         /// <para>Passing null (no specific faction) always returns true</para>
         /// </summary>
         /// <param name="factionIdentifier"></param>

@@ -183,5 +183,13 @@ namespace Wanderer.Actors
         /// </summary>
         /// <returns></returns>
         IInjurySystem GetBestInjurySystem();
+
+        /// <summary>
+        /// Heals the first injury of the given type
+        /// </summary>
+        /// <param name="ui"></param>
+        /// <param name="round"></param>
+        /// <param name="s"></param>
+        public void Heal(IUserinterface ui, Guid round, string s);
     }
 }

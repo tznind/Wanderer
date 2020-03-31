@@ -99,7 +99,7 @@ Chest: 1
     Tail: 1
     Legs: 6
   Actions:
-    - FightAction
+    - Type: FightAction
 ";
             var room = InARoom(out IWorld w);
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Newtonsoft.Json;
 using Wanderer.Actions;
 using Wanderer.Actors;
 using Wanderer.Adjectives;
@@ -29,6 +30,15 @@ namespace Wanderer.Items
 
         public List<ICondition<IHasStats>> Require { get; set; } = new List<ICondition<IHasStats>>();
         
+        /// <summary>
+        /// Do not use, internal constructor for JSON serialization
+        /// </summary>
+        [JsonConstructor]
+        protected Item()
+        {
+
+        }
+
         public Item(string name)
         {
             Name = name;
@@ -99,7 +109,7 @@ namespace Wanderer.Items
 
         
 
-        public override IActionCollection GetFinalActions(IActor forActor)
+        public override List<IAction> GetFinalActions(IActor forActor)
         {
             
             List<IAction> alwaysActions = new List<IAction>
@@ -110,21 +120,21 @@ namespace Wanderer.Items
 
             //if it requires equipping
             if(!RequirementsMet(forActor))
-                return new ActionCollection(alwaysActions);
+                return new List<IAction>(alwaysActions);
 
-            return new ActionCollection(alwaysActions
+            return new List<IAction>(alwaysActions
                     .Union(BaseActions)
                     .Union(Adjectives.SelectMany(a => a.GetFinalActions(forActor)))
                 );
         }
 
-        public override IBehaviourCollection GetFinalBehaviours(IActor forActor)
+        public override List<IBehaviour> GetFinalBehaviours(IActor forActor)
         {
             //if it requires equipping
             if(Slot != null && !IsEquipped)
-                return new BehaviourCollection();
+                return new List<IBehaviour>();
 
-            return new BehaviourCollection(BaseBehaviours.Union(Adjectives.SelectMany(a => a.GetFinalBehaviours(forActor))));
+            return new List<IBehaviour>(BaseBehaviours.Union(Adjectives.SelectMany(a => a.GetFinalBehaviours(forActor))));
         }
 
         public override string ToString()

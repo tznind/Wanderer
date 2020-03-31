@@ -1,0 +1,28 @@
+﻿- Name: The Hole
+  Identifier: 83db3f1a-fe3f-46c1-9b11-7d8a56ea17e6
+  Unique: true
+  Dialogue:
+    Next:   657a3842-70fa-43b8-8743-3d41a0f4ed80
+  MandatoryActors:
+    - Name: Skrag
+      Identifier: 1ec36f39-e705-4b0e-850a-49d827b5550b
+      Dialogue:
+        Next: 8c3bb452-d6fc-4954-8593-7601fd58543b
+      Stats:
+        Fight: 40
+        Loyalty: 20
+        Coerce: 60
+        Savvy: 60
+      Actions:
+        - Type: FightAction
+        - Type: GiveAction
+        - Type: EquipmentAction
+    - Name: Barkeep
+      Identifier: 185f63cc-5c64-400e-aefd-e0a16ea358e8
+      Dialogue: 
+        Next: c9d833c6-c9d2-4821-a5e9-36e21867fc05
+    - Name: Kamryn
+      Dialogue:
+        Next: bc4f83cc-162e-4f5b-99cd-fcc5a0423c96
+  Tile: o
+  FixedLocation: 2,2,0

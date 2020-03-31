@@ -24,7 +24,7 @@ namespace Tests.Plans
             var ifHungryEatPlan = new Plan()
             {
                 Do = new FrameSourceCode(
-                    @"return Frame(Recipient,EatAction(),0)"),
+                    @"return Frame(Recipient,FirstOrDefault(Recipient:Get('Eat')),0)"),
                 Condition =
                 {
                     new ConditionCode<SystemArgs>("return Recipient:Has(Guid('89c18233-5250-4445-8799-faa9a888fb7f'))")
@@ -59,7 +59,7 @@ namespace Tests.Plans
             Assert.AreEqual(1,them.Adjectives.OfType<IInjured>().Count());
 
             //they can eat themselves!
-            them.BaseActions.Add(new EatAction(them));
+            world.ActionFactory.Create(world, them, "Eat");
             
             //let a round pass
             world.RunRound(GetUI(),new LoadGunsAction(you));

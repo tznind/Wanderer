@@ -24,7 +24,7 @@ namespace Tests.Items
             InARoom(out IWorld world);
 
             var darkRoom = new Room("Dark Room", world,'-');
-            darkRoom.Adjectives.Add(world.AdjectiveFactory.Create(world,darkRoom, "Dark"));
+            world.AdjectiveFactory.Create(world,darkRoom, "Dark");
 
             Assert.IsTrue(darkRoom.Has("Dark"));
 

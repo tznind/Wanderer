@@ -8,14 +8,10 @@ namespace Wanderer.Actions
 {
     public class LeadershipAction : Action
     {
-        public override char HotKey => 'a';
 
-        private LeadershipAction():base(null)
-        {
-            
-        }
         public LeadershipAction(IHasStats owner) : base(owner)
         {
+            HotKey = 'a';
         }
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
         {
@@ -36,7 +32,7 @@ namespace Wanderer.Actions
             yield return new FollowPlan(actor){Name = "Follow Me"};
         }
 
-        public override void Pop(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
+        protected override void PopImpl(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
         {
             var f = (LeadershipFrame)frame;
             var led = new LedAdjective(f);

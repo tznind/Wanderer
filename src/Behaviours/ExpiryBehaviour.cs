@@ -41,7 +41,7 @@ namespace Wanderer.Behaviours
             } 
         }
 
-        public override bool AreIdentical(IBehaviour other)
+        public override bool AreIdentical(object other)
         {
             if (other is ExpiryBehaviour o)
             {

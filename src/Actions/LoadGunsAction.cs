@@ -8,24 +8,17 @@ namespace Wanderer.Actions
 {
     public class LoadGunsAction : Action
     {
-        private LoadGunsAction():base(null)
-        {
-            
-        }
-
         public LoadGunsAction(IHasStats owner):base(owner)
         {
-            
+            HotKey = 'n';
         }
-
-        public override char HotKey => 'n';
 
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
         {
             stack.Push(new Frame(actor,this,0));
         }
 
-        public override void Pop(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
+        protected override void PopImpl(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
         {
             var narrative = new Narrative(frame.PerformedBy,"Load Guns","You spend several hours pushing overloaded gun carriages in the sweat and smoke filled confines of the loading bay.",null,stack.Round);
 

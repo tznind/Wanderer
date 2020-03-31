@@ -1,0 +1,65 @@
+﻿- Name: Rusty
+  Identifier: 352958e3-c210-44db-8ed6-44f0005e0f26
+  StatsRatio: 
+    Fight: 0.5
+    Coerce: 0.5
+    Savvy: 0.5
+    Leadership: 0.5
+    Suave: 0.5
+    Value: 0.5
+
+# Vulnerable to wounds getting worse
+- Name: Stale
+
+# Resist wounds getting worse
+- Name: Tough
+
+# Resist laser damage
+- Name: Mirrored
+
+- Name: Light
+
+- Name: Strong
+  Stats:
+    Fight: 10
+
+- Name: Tired
+  Identifier: 378449b2-2b29-4849-81b6-04433dba02a9
+  Stats:
+    Fight: -10
+
+- Name: Medic
+  Actions:
+    - Type: HealAction
+
+- Name: Dark
+  Stats:
+    Fight: -10
+  Resist:
+    Immune:
+     - Light
+
+- Name: Attractive
+  Stats:
+    Coerce: 15
+    
+- Name: Antique
+  StatsRatio: 
+    Value: 1.5
+  Stats:
+    Coerce: 5
+    
+- Name: Valuable
+  StatsRatio: 
+    Value: 1.5
+
+# Takes laser ammo
+- Name: Laser
+  IsPrefix: true
+  StatsRatio: 
+    Value: 1.5
+
+- Name: Giant
+  IsPrefix: true
+  Stats:
+    Fight: 30

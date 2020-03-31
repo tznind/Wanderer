@@ -8,7 +8,10 @@ using Wanderer.Actors;
 using Wanderer.Compilation;
 using Wanderer.Dialogues;
 using Wanderer.Factories;
+using Wanderer.Factories.Blueprints;
+using Wanderer.Items;
 using Wanderer.Plans;
+using Wanderer.Rooms;
 using Wanderer.Systems;
 using Wanderer.Systems.Validation;
 
@@ -274,6 +277,23 @@ namespace Tests
             StringAssert.Contains(@"Failed to validate DoFrame of Plan 'Do something nefarious'",v.Warnings.ToString());
         }
 
+        [Test]
+        public void TestValidate_SlotNotFound()
+        {
+            WorldValidator v = new WorldValidator();
+
+            var w = new World();
+            var blue = new ItemBlueprint
+            {
+                Name = "Hammer",
+                Slot = new ItemSlot("Handers",5)
+            };
+
+            v.Validate(w,w.ItemFactory.Create(w,blue), Mock.Of<IRoom>());
+
+            StringAssert.Contains(@"Item Hammer lists Slot named Handers but no Actors or Default slots are listed with that name (Slots seen were '')",v.Warnings.ToString());
+        }
+
         
         [Test]
         public void TestWorldValidator_BadYaml()
@@ -290,13 +310,13 @@ namespace Tests
                 ResourcesDirectory = dir.FullName
             };
 
-            File.WriteAllText(Path.Combine(dir.FullName,"Rooms.yaml"),"ffffff");
+            File.WriteAllText(Path.Combine(dir.FullName,"rooms.yaml"),"ffffff");
             
             var v = new WorldValidator();
             v.Validate(f);
             StringAssert.Contains("Error Creating World",v.Errors.ToString());
             StringAssert.Contains("Error loading RoomBlueprint in file",v.Errors.ToString());
-            StringAssert.Contains("Rooms.yaml",v.Errors.ToString());
+            StringAssert.Contains("rooms.yaml",v.Errors.ToString());
             
 
             Assert.IsEmpty(v.Warnings.ToString());

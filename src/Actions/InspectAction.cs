@@ -8,16 +8,11 @@ namespace Wanderer.Actions
 {
     public class InspectAction : Action
     {
-        private InspectAction():base(null)
-        {
-            
-        }
         public InspectAction(IHasStats owner) : base(owner)
         {
+            HotKey = 'i';
         }
-
-        public override char HotKey => 'i';
-        
+   
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
         {
             if(Owner != null)

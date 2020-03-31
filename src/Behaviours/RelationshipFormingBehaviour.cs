@@ -17,7 +17,7 @@ namespace Wanderer.Behaviours
         {
             base.OnPop(world,ui, stack, frame);
             
-            if(frame.TargetIfAny == null)            
+            if(! (frame.TargetIfAny is IActor))
                 return;
 
             //if the target is me then I might get angry
@@ -26,7 +26,7 @@ namespace Wanderer.Behaviours
             else
             {
                 //is the target one of my friends?
-                double howMuchICare = world.Relationships.Where(r => r.AppliesTo((IActor) Owner, frame.TargetIfAny))
+                double howMuchICare = world.Relationships.Where(r => r.AppliesTo((IActor) Owner, (IActor)frame.TargetIfAny))
                     .Sum(r => r.Attitude);
 
                 //Your hurting one of my friends, im unhappy

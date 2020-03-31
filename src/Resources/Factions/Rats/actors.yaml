@@ -1,0 +1,16 @@
+﻿- Name: Rat
+  Slots:
+    Head: 1
+    Mandibles: 1
+  Dialogue: 
+    Verb: talk
+    Banter: 
+      - f240700a-2be2-43cb-a70c-c3a2696fa52b
+  OptionalAdjectives:
+    - Giant
+    - Strong
+    - Tough
+  Stats:
+    Fight: 10
+  Actions:
+    - Type: FightAction

@@ -4,7 +4,7 @@ using Wanderer.Actors;
 
 namespace Wanderer.Relationships
 {
-    public interface IFactionCollection : IList<IFaction>
+    public interface IFList<IAction> : IList<IFaction>
     {
         /// <summary>
         /// Return a random faction with the given role (or null if none fit the bill)

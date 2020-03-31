@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using Wanderer.Actors;
 using Wanderer.Behaviours;
+using Wanderer.Compilation;
 
 namespace Wanderer.Actions
 {
-    public interface IAction : IHasStats,IAreIdentical<IAction>
+    public interface IAction : IHasStats
     {
         /// <summary>
         /// The person or object granting the action
@@ -14,13 +15,28 @@ namespace Wanderer.Actions
         /// <summary>
         /// The hotkey for the action, should be a letter in the Name
         /// </summary>
-        char HotKey {get;}
+        char HotKey {get; set;}
+
+        List<IEffect> Effect {get;set;}
+
+        /// <summary>
+        /// What can be targeted by the action.  If an action has no targets then
+        /// it is assumed to always be available
+        /// </summary>
+        List<IActionTarget> Targets { get; set; }
+        
+        /// <summary>
+        /// If there are <see cref="Targets"/> configured then this
+        /// is the message to show when prompting to pick them
+        /// </summary>
+        string TargetPrompt { get; set; }
 
         /// <summary>
         /// When implemented results in pushing the current command onto the <paramref name="stack"/>
         /// Can result in no change to <paramref name="stack"/> if the action is cancelled e.g. as
         /// a result of asking the user a question through <paramref name="ui"/>.
         /// </summary>
+        /// <param name="world"></param>
         /// <param name="ui"></param>
         /// <param name="stack"></param>
         /// <param name="performer"></param>

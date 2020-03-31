@@ -1,0 +1,6 @@
+- Name: Eat
+  Identifier: 39014d98-d679-4458-9b38-7dbb58a178db
+  HotKey: e
+  Effect: 
+      # Removes hunger
+    - AggressorIfAny:Heal(UserInterface,Round,'89c18233-5250-4445-8799-faa9a888fb7f')

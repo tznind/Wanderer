@@ -8,15 +8,11 @@ namespace Wanderer.Actions
 {
     public class GiveAction : Action
     {
-        private GiveAction():base(null)
-        {
-            
-        }
         public GiveAction(IHasStats owner):base(owner)
         {
-            
+            HotKey = 'g';
         }
-        public override char HotKey => 'g';
+
         public override void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
         {
             if(Owner is IItem toGive || actor.Decide(ui,"Give","Select an item to give",out toGive, GetTargets(actor).Cast<IItem>().ToArray(),-10))
@@ -30,7 +26,7 @@ namespace Wanderer.Actions
             return toGive.GetFinalStats(toGiveTo)[Stat.Value];
         }
 
-        public override void Pop(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
+        protected override void PopImpl(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
         {
             var f = (GiveFrame) frame;
 
@@ -39,7 +35,7 @@ namespace Wanderer.Actions
             {
                 f.ItemToGive.IsEquipped = false;
                 f.PerformedBy.Items.Remove(f.ItemToGive);
-                f.TargetIfAny.Items.Add(f.ItemToGive);
+                ((IActor)f.TargetIfAny).Items.Add(f.ItemToGive);
                 ui.Log.Info(new LogEntry($"{f.PerformedBy} gave {f.ItemToGive} to {f.TargetIfAny}",stack.Round,f.PerformedBy));
             }
         }

@@ -1,5 +1,7 @@
 # Using Resource Files
 
+This is a tutorial for creating content for Wanderer, for specific recipies see [Cookbook](./Cookbook.md).
+
 Wanderer is almost completely driven by config files.  This page covers how to write/replace these files.  The format for the files is yaml which is a 'human readable' format.  If you haven't used yaml before it is a good idea to read a [tutorial on the format](https://github.com/Animosity/CraftIRC/wiki/Complete-idiot's-introduction-to-yaml) (whitespace / line alignment is very important)
 
 ## No Resource Files
@@ -15,7 +17,7 @@ Start a new game.  You should be in a room called `Empty Room`
 
 ## Creating the first room
 
-Create a file `Rooms.yaml` in the root of `myworld` with the following text (_make sure to include the starting hyphen!_):
+Create a file `rooms.yaml` in the root of `myworld` with the following text (_make sure to include the starting hyphen!_):
 
 ```yaml
 - Name: Magical Princess Ballroom
@@ -43,7 +45,7 @@ Error Creating World
 ```
 _Example yaml error message from failing world validation_
 
-Next lets create an occupant for the room.  Update `Rooms.yaml`
+Next lets create an occupant for the room.  Update `rooms.yaml`
 
 
 ```yaml
@@ -71,14 +73,13 @@ Now when we validate the world we should get an error:
 Could not find Dialogue 'a218081b-6d32-4101-8f2f-a0621fec50be'
 ```
 
-Create a new folder `Dialogue` with a file in it called `SomeTalking.yaml`
+Create a new file in it called `SomeTalking.dialogue.yaml`
 
 ```bash
- mkdir /home/thomas/myworld/Dialogue
- nano /home/thomas/myworld/Dialogue/SomeTalking.yaml
+ nano /home/thomas/myworld/Dialogue/SomeTalking.dialogue.yaml
 ```
 
-In `SomeTalking.yaml` add the following:
+In `SomeTalking.dialogue.yaml` add the following:
 
 ```yaml
 - Identifier: a218081b-6d32-4101-8f2f-a0621fec50be
@@ -107,19 +108,32 @@ Once you have tested these options we can give them some weight in the world.  L
     - Text: You look equally radiant your... Grace?
     - Text: Alas that my radiance illuminates your wretched ugliness
       Effect:
-       - |
-           tired = Tired(Recipient)
-           tired.Name = 'Crippling Insecurity'
-           Recipient.Adjectives:Add(tired)
+       - World.AdjectiveFactory:Create(World,Recipient,'Crippling Insecurity')
 ```
 _Adding an effect to dialogue.  Make sure to align the hyphens under the above lines correctly_
 
+This effect will add a status (Adjective) to the Fae Prince (dialogue Recipient) of 'Crippling Insecurity'.  When we validate the world we get the following error:
+
+```
+Could not find AdjectiveBlueprint Named Crippling Insecurity
+```
+
+Create a `adjectives.yaml` in the world resources directory (e.g. `/home/thomas/myworld/adjectives.yaml`):
+
+```
+- Name: Crippling Insecurity
+  Identifier: 1989e780-4b98-4d92-ad2f-93a553583bb6
+  Stats:
+    Fight: -10
+```
+
 Now talk to the Fae Prince and be mean then inspect him.  He should have -10 Fight and suffer from "Crippling Insecurity".
 
-Effects (and Conditions) are coded in Lua.  This uses [NLua scripting](https://github.com/NLua/NLua) library.  This lets you do pretty much anything you want.  In this case we create a new `IAdjective` by constructing the `Tired` class and rebranding it by setting it's `Name` property.
+Effects (and Conditions) are coded in Lua.  This uses [NLua scripting](https://github.com/NLua/NLua) library.  This lets you do pretty much anything you want.  In this case we create a new `IAdjective` by calling the `Create` method on the [World](./src/World.cs) sub property [AdjectiveFactory](./src/Factories/AdjectiveFactory.cs).
+
+The Create method also supports referencing the Guid.  Change the Effect script to reference the Guid (`1989e780-4b98-4d92-ad2f-93a553583bb6`) instead of it's name (`Crippling Insecurity`).
 
 We can link dialogue together by adding a `Destination`:
-
 
 ```yaml
 - Identifier: a218081b-6d32-4101-8f2f-a0621fec50be
@@ -130,10 +144,7 @@ We can link dialogue together by adding a `Destination`:
       Destination: 0acf5870-93a1-441a-bfa7-3bd3f182dcdc
     - Text: Alas that my radiance illuminates your wretched ugliness
       Effect:
-       - |
-           tired = Tired(Recipient)
-           tired.Name = 'Crippling Insecurity'
-           Recipient.Adjectives:Add(tired)
+       - World.AdjectiveFactory:Create(World,Recipient,'1989e780-4b98-4d92-ad2f-93a553583bb6')
       Destination: bc9492f6-5205-44da-bad7-17097801b9e9
 
 - Identifier: 0acf5870-93a1-441a-bfa7-3bd3f182dcdc

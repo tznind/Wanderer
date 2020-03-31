@@ -4,20 +4,37 @@ using System.Linq;
 using Newtonsoft.Json;
 using Wanderer.Actors;
 using Wanderer.Behaviours;
+using Wanderer.Compilation;
+using Wanderer.Factories.Blueprints;
+using Wanderer.Systems;
 
 namespace Wanderer.Actions
 {
-    public abstract class Action : HasStats,IAction
+    public class Action : HasStats,IAction
     {
-        [JsonIgnore]
-        public abstract char HotKey {get;}
+        public char HotKey {get; set;}
         
         public IHasStats Owner { get; set; }
 
+
+        /// <summary>
+        /// How kind is the action? before picking any targets
+        /// </summary>
+        public double Attitude {get;set;}
+
+        /// <summary>
+        /// What can be targetted by the action
+        /// </summary>
+        public List<IActionTarget>  Targets {get;set;} = new List<IActionTarget>();
+        
+        public string TargetPrompt { get; set; }
+
+        public List<IEffect> Effect {get;set;} = new List<IEffect>();
+        
         /// <summary>
         /// Initializes action with a default <see cref="HasStats.Name"/> based on the class name
         /// </summary>
-        protected Action(IHasStats owner)
+        public Action(IHasStats owner)
         {
             Name = GetType().Name.Replace("Action", "");
             Owner = owner;
@@ -34,7 +51,28 @@ namespace Wanderer.Actions
         /// <param name="ui"></param>
         /// <param name="stack"></param>
         /// <param name="actor"></param>
-        public abstract void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor);
+        public virtual void Push(IWorld world,IUserinterface ui, ActionStack stack, IActor actor)
+        {
+            var targets = GetTargets(actor).ToArray();
+            IHasStats target = Owner;
+
+            if(targets.Length >= 1)
+                if(!actor.Decide(ui,Name,TargetPrompt,out target, targets,Attitude))
+                    return;
+            
+            stack.Push(new Frame(actor,this,GetAttitude(actor,target) ?? Attitude){TargetIfAny = target});
+        }
+
+        /// <summary>
+        /// Return the attitude given the picked <paramref name="target"/> (if null is returned then fallback of <see cref="Attitude"/> is used)
+        /// </summary>
+        /// <param name="performer"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        protected virtual double? GetAttitude(IActor performer, IHasStats target)
+        {
+            return null;
+        }
 
 
         /// <summary>
@@ -46,12 +84,35 @@ namespace Wanderer.Actions
         /// <param name="frame"></param>
         public virtual void Pop(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
         {
+            foreach (var e in Effect) 
+                e.Apply(new SystemArgs(world, ui, 0, frame.PerformedBy, frame.TargetIfAny ?? Owner, stack.Round));
 
+            PopImpl(world, ui, stack, frame);
         }
 
-        public abstract bool HasTargets(IActor performer);
+        protected virtual void PopImpl(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
+        {
+            
+        }
+
+        public virtual bool HasTargets(IActor performer)
+        {
+            if (!Targets.Any())
+                return true;
+
+            return GetTargets(performer).Any();
+        }
         
-        public abstract IEnumerable<IHasStats> GetTargets(IActor performer);
+        public virtual IEnumerable<IHasStats> GetTargets(IActor performer)
+        {
+            if(Targets.Any())
+            {
+                var args = new SystemArgs(performer.CurrentLocation.World,null,0,performer,Owner,Guid.Empty);
+                return Targets.SelectMany(t=>t.Get(args)).Distinct();
+            }
+
+            return new IHasStats[0];
+        }
 
         public virtual IAction Clone()
         {

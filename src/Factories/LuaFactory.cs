@@ -11,7 +11,10 @@ namespace Wanderer.Factories
         {
             var lua = Create();
 
-            if(o != null)
+            lua["this"] = o;
+
+            if (o != null)
+            {
                 foreach(var prop in o.GetType().GetProperties())
                 {
                     var val = prop.GetValue(o);
@@ -19,6 +22,10 @@ namespace Wanderer.Factories
                     if(val != null)
                         lua[prop.Name] = val;
                 }
+            }
+                
+
+
             var main = Path.Combine(world.ResourcesDirectory, "Main.lua");
             if (File.Exists(main)) 
                 lua.DoFile(main);

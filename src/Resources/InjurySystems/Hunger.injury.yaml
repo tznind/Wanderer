@@ -1,0 +1,20 @@
+﻿Identifier: "89c18233-5250-4445-8799-faa9a888fb7f"
+Name: Hunger
+Injuries:
+  - Name: Peckish
+    Severity: 10
+  - Name: Hungry
+    Severity: 20
+  - Name: Famished
+    Severity: 30
+  - Name: Ravenous
+    Severity: 40
+  - Name: Starved
+    Severity: 50
+
+NaturalHealThreshold: 0
+# Every 10 rounds you get hungrier
+WorsenRate: 10
+SyncDescriptions: true
+FatalThreshold: 60
+FatalVerb: starvation

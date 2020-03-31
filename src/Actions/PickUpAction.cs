@@ -7,15 +7,10 @@ namespace Wanderer.Actions
 {
     public class PickUpAction : Action
     {
-        private PickUpAction():base(null)
-        {
-            
-        }
         public PickUpAction(IHasStats owner) : base(owner)
         {
+            HotKey = 'p';
         }
-
-        public override char HotKey => 'p';
 
         public IItem PrimeWithTarget { get; set; }
 
@@ -27,9 +22,10 @@ namespace Wanderer.Actions
                 stack.Push(new PickUpFrame(actor,this,chosen,actor.CurrentLocation,0));
         }
 
-        public override void Pop(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
+        protected override void PopImpl(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
         {
             var f = (PickUpFrame)frame;
+            PrimeWithTarget = null;
 
             if (f.FromRoom.Items.Contains(f.Item))
             {

@@ -15,25 +15,6 @@ namespace Tests.BehaviourTests
 {
     public class GetsHungryBehaviourTests : UnitTest
     {
-        [TestCase(true)]
-        [TestCase(false)]
-        public void TestGetEatAction(bool longName)
-        {
-            string name = longName ? "EatAction" : "Eat";
-
-            var you = YouInARoom(out IWorld w);
-
-            Assert.IsFalse(you.Has(name));
-
-            var apple = new Item("Apple");
-            apple.BaseActions.Add(new EatAction(apple));
-            you.Items.Add(apple);
-
-            Assert.IsTrue(you.Has(name));
-
-            Assert.IsInstanceOf<EatAction>(you.Get(name).Single());
-        }
-
         [Test]
         public void TestHunger_Appears()
         {
@@ -89,7 +70,7 @@ namespace Tests.BehaviourTests
   MandatoryAdjectives:
     - SingleUse
   Actions:
-    - EatAction
+    - Ref: 39014d98-d679-4458-9b38-7dbb58a178db
 ";
             
             var itemFactory = new ItemFactory{Blueprints = Compiler.Instance.Deserializer.Deserialize<List<ItemBlueprint>>(yaml)};
@@ -99,7 +80,7 @@ namespace Tests.BehaviourTests
             var ui = GetUI();
             world.RunRound(ui,you.Items.Single().BaseActions.Single());
 
-            Assert.Contains("Test Wanderer ate Apple",ui.Log.RoundResults.Select(m=>m.Message).ToArray());
+            Assert.Contains("Peckish was healed",ui.Log.RoundResults.Select(m=>m.Message).ToArray());
 
             Assert.IsEmpty(you.Adjectives.OfType<IInjured>().ToArray());
             Assert.AreEqual(0,you.Items.Count);

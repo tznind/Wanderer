@@ -12,7 +12,7 @@ namespace Wanderer.Systems
         public bool ActorsToActors { get; set; }
         public bool ActorsToRooms { get; set; }
 
-        internal void HandleSpreading(Injured injured, InjurySystem injurySystem,IUserinterface ui,Guid round)
+        internal void HandleSpreading(IInjured injured, IInjurySystem injurySystem,IUserinterface ui,Guid round)
         {
                    
             if(injured.Owner is IRoom p)

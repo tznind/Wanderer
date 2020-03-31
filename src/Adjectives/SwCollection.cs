@@ -1,27 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Wanderer.Adjectives
 {
-    public class SwCollection<T> : List<T>, ISwCollection<T> where T : IAreIdentical<T>
+    public static class ListExtensions
     {
-        public virtual bool AreIdentical(ISwCollection<T> other)
+        public static bool AreIdentical<T>(this List<T> first, List<T> second) where T : IAreIdentical
         {
-            if (other == null)
+            if (second == null)
                 return false;
 
-            if (this == other)
+            if (first == second)
                 return true;
 
-            if (this.Count != other.Count)
+            if (first.Count != second.Count)
                 return false;
             
-            return TrueForAll(e=>other.Any(o=>o.AreIdentical(e)));
-        }
-
-        public void PruneNulls()
-        {
-            RemoveAll(v => v == null);
+            return first.TrueForAll(e=>second.Any(o=>e.AreIdentical(e)));
         }
     }
 }

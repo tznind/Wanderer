@@ -1,0 +1,49 @@
+﻿- Name: Length of Chain
+  Stats: 
+    Fight: 5
+  Slot:
+    Name: Hand
+    NumberRequired: 2
+- Name: Hammer
+  OptionalAdjectives:
+    - Strong
+    - Rusty
+    - Giant
+  Stats: 
+    Fight: 5
+  Slot:
+    Name: Hand
+    NumberRequired: 2
+
+- Name: Pistol
+  Identifier: 76e6aa45-20aa-4c7c-9653-c3903a09fabc
+  OptionalAdjectives:
+    - Rusty
+    - Antique
+    - Valuable
+    - Laser
+  Stats: 
+    Fight: 20
+  Slot:
+    Name: Hand
+    NumberRequired: 1
+
+- Name: Laser Clip
+  Stack: 5
+  Identifier: 95ee31de-dad8-4f85-92c9-2f719103cecf
+  MandatoryAdjectives:
+    - SingleUse
+  Actions: 
+    - Type: FightAction
+      InjurySystem: 4f65ce41-4333-46f5-854f-d1d4ee212670
+      Stats: 
+         Fight: 20
+  Require:
+    - return this:Has('Laser')
+
+- Name: Kit
+  MandatoryAdjectives:
+    - SingleUse
+    - Medic
+  Stats:
+    Value: 10

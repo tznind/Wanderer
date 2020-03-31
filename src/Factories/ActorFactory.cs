@@ -32,6 +32,8 @@ namespace Wanderer.Factories
 
         public IActor Create(IWorld world, IRoom room, IFaction faction, ActorBlueprint blueprint, RoomBlueprint roomBlueprintIfAny)
         {
+            HandleInheritance(blueprint);
+
             var npc = new Npc(blueprint.Name, room);
 
             AddBasicProperties(world,npc, blueprint,"talk");

@@ -1,0 +1,58 @@
+﻿- Name: Tunnels
+  Tile: "-"
+- Name: Vents
+  Tile: "-"
+
+- Name: Machine room
+  Tile: m
+  Dialogue:
+    Next: 3ca4e500-cbeb-4b7d-8a2f-4c93607d936e
+- Name: Meat processing
+  Tile: M
+  Dialogue:
+    Next: 1bc34e34-829c-4ce6-8c19-c43b942d1115
+  MandatoryActors:
+    - Name: Chef
+      Identifier: 6fa349e4-aefe-4ebc-9922-e3476ea1dba7
+      OptionalAdjectives:
+        - Strong
+        - Tough
+      Stats:
+        Fight: 20
+        Loyalty: 20
+        Coerce: 15
+      MandatoryItems:
+        - Name: Spiced Rat
+          MandatoryAdjectives:
+            - SingleUse
+          Actions:
+            - Ref: 39014d98-d679-4458-9b38-7dbb58a178db
+- Name: Shanty Town
+  Tile: T
+  Dialogue:
+    Next: 9450d237-44b6-4a86-b32e-22c25be9fcc0
+  OptionalActors:
+    - Name: Dog
+      OptionalAdjectives:
+        - Strong
+        - Tough
+        - Giant
+      Stats:
+        Fight: 30
+        Loyalty: 5
+- Name: Hull Mine
+  Tile: m
+  Dialogue:
+    Next: 7701240b-f1f4-41b9-9379-f3c572e566af
+  OptionalItems:
+    - Name: Length of Chain
+      Stats: 
+        Fight: 5
+      Slot:
+        Name: Hand
+        NumberRequired: 2
+
+- Name: Slag pit
+  Tile: p
+  Dialogue:
+    Next: 90684886-e52c-4422-8637-ea64f98d90d4

@@ -18,8 +18,7 @@ namespace Wanderer.Factories.Blueprints
         public List<ICondition<IHasStats>> Require { get; set; }
 
         /// <summary>
-        /// Null for an item that cannot be stacked, 1+ for a
-        /// <see cref="IItemStack"/> of the given size
+        /// Null for an item that cannot be stacked, 1+ for a <see cref="IItemStack"/> of the given size
         /// </summary>
         public int? Stack { get; set; }
     }

@@ -5,6 +5,7 @@ using Wanderer;
 using Wanderer.Actors;
 using Wanderer.Compilation;
 using Wanderer.Dialogues;
+using Wanderer.Relationships;
 using Wanderer.Systems;
 
 namespace Tests.ConditionTests
@@ -30,6 +31,30 @@ Condition:
 
             Assert.AreEqual(!useNot,
                 block.Condition.Single().IsMet(world, new SystemArgs(world,null, 0, you, null, Guid.Empty)));
+        }
+
+        [Test]
+        public void TestHasWithFactions()
+        {
+            var room = InARoom(out IWorld w);
+
+            var g = Guid.NewGuid();
+
+            Assert.IsFalse(room.Has(g));
+            
+            var troll = new Npc("Troll",room);
+
+            Assert.IsFalse(room.Has(g));
+
+            troll.FactionMembership.Add(new Faction("Troll Kingdom",FactionRole.Civilian){
+                Identifier = g
+            });
+
+            Assert.IsTrue(room.Has(g),"g is a Faction Identifier and troll is in that faction so room should Has the faction");
+            Assert.IsTrue(troll.Has(g),"g is a Faction Identifier and troll is in that faction");
+
+            Assert.IsTrue(room.Has("Troll Kingdom"));
+            Assert.IsTrue(troll.Has("Troll Kingdom"));
         }
     }
 }

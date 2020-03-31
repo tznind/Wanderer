@@ -89,9 +89,9 @@ namespace Wanderer.Actors
         /// </summary>
         /// <param name="forActor"></param>
         /// <returns></returns>
-        public override IActionCollection GetFinalActions(IActor forActor)
+        public override List<IAction> GetFinalActions(IActor forActor)
         {
-            return new ActionCollection(BaseActions
+            return new List<IAction>(BaseActions
                 .Union(Adjectives.SelectMany(a => a.GetFinalActions(forActor)))
                 .Union(CurrentLocation.GetFinalActions(forActor))
                 .Union(FactionMembership.SelectMany(f=>f.GetFinalActions(forActor)))
@@ -166,13 +166,13 @@ namespace Wanderer.Actors
             return Is(name) || Adjectives.Any(a => a.Is(name)) || FactionMembership.Any(f=>f.Has(name));
         }
 
-        public override IBehaviourCollection GetFinalBehaviours(IActor forActor)
+        public override List<IBehaviour> GetFinalBehaviours(IActor forActor)
         {
             //the dead have no behaviours
             if(Dead)
-                return new BehaviourCollection();
+                return new List<IBehaviour>();
 
-            return new BehaviourCollection(BaseBehaviours
+            return new List<IBehaviour>(BaseBehaviours
                 .Union(Adjectives.SelectMany(a=>a.GetFinalBehaviours(forActor)))
                 .Union(CurrentLocation.GetFinalBehaviours(forActor))
                 .Union(FactionMembership.SelectMany(f=>f.GetFinalBehaviours(forActor)))
@@ -273,8 +273,19 @@ namespace Wanderer.Actors
 
             return 
                 base.GetAllHaves()
-                    .Union(Items)
-                    .Union(Items.SelectMany(i=>i.GetAllHaves()));
+                    .Union(Items.Where(IncludeInHaves))
+                    .Union(Items.Where(IncludeInHaves).SelectMany(i=>i.GetAllHaves())
+                    .Union(FactionMembership));
+        }
+
+        private bool IncludeInHaves(IItem item)
+        {
+
+            //if it requires equipping
+            return item.Slot == null || item.IsEquipped;
+
+            //Note that we cannot use item.RequirementsMet because we would
+            //rapidly run into stack overflows e.g. where requirement is that player Has something!
         }
 
         public double DistanceTo(IActor actor)
@@ -351,7 +362,10 @@ namespace Wanderer.Actors
                 //the default world injury system
                 CurrentLocation.World.GetDefaultInjurySystem();
         }
-        
-        
+
+        public void Heal(IUserinterface ui, Guid round,string s)
+        {
+            Adjectives.OfType<IInjured>().FirstOrDefault(i=>i.Is(s))?.Heal(ui,round);
+        }
     }
 }
