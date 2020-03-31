@@ -17,7 +17,7 @@ Start a new game.  You should be in a room called `Empty Room`
 
 ## Creating the first room
 
-Create a file `Rooms.yaml` in the root of `myworld` with the following text (_make sure to include the starting hyphen!_):
+Create a file `rooms.yaml` in the root of `myworld` with the following text (_make sure to include the starting hyphen!_):
 
 ```yaml
 - Name: Magical Princess Ballroom
@@ -45,7 +45,7 @@ Error Creating World
 ```
 _Example yaml error message from failing world validation_
 
-Next lets create an occupant for the room.  Update `Rooms.yaml`
+Next lets create an occupant for the room.  Update `rooms.yaml`
 
 
 ```yaml
@@ -119,7 +119,7 @@ This effect will add a status (Adjective) to the Fae Prince (dialogue Recipient)
 Could not find AdjectiveBlueprint Named Crippling Insecurity
 ```
 
-Create a `Adjectives.yaml` in the world resources directory (e.g. `/home/thomas/myworld/Adjectives.yaml`):
+Create a `adjectives.yaml` in the world resources directory (e.g. `/home/thomas/myworld/adjectives.yaml`):
 
 ```
 - Name: Crippling Insecurity

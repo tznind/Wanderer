@@ -4,14 +4,14 @@ This file describes the relationship between classes and resource files
 
 |   Yaml File      |  Class           |   Notes                   |
 |------------------|------------------|---------------------------|
-| /Dialogue/*.yaml | `DialogueNode[]` | Contains unique dialogue trees.  Each node consists of 1 main piece of text and 0 or more options which can lead to other nodes or end dialogue |
-| /InjurySystems/*.yaml | `InjurySystem` | Describes a method of inflicting damage upon Rooms and Actors (e.g. fire, plague, tissue damage etc)|
+| *dialogue.yaml | `DialogueNode[]` | Contains unique dialogue trees.  Each node consists of 1 main piece of text and 0 or more options which can lead to other nodes or end dialogue |
+| *injury.yaml | `InjurySystem` | Describes a method of inflicting damage upon Rooms and Actors (e.g. fire, plague, tissue damage etc)|
+| *actors.yaml  | `ActorBlueprint[]` | Describes how to create `Actor` instances that fit thematically with any `Faction` / `Room` |
+| *rooms.yaml | `RoomBlueprint[]` | Contains descriptions of rooms that can be generated |
+| *items.yaml | `ItemBlueprint[]` | Contains generic items that would fit in any room generated (regardless of `Faction` |
+| slots.yaml | `SlotCollection` | Contains default item slots (e.g. 1 Head, 2 Hand etc) that all `Actor` start with (unless the blueprint lists explicit slots).  Note also that this can be overridden with a faction Slots.yaml|
 | /[Main.lua](./Main.lua) | N\A | Defines custom global methods and helper functions for use in scripting blocks |
-| /[Plans.yaml](./Plans.yaml) | `Plan` | Contains AI Plans for NPC Actors.  These can be influenced by Leadership Actions of others|
-| /Actors.yaml  | `ActorBlueprint[]` | Describes how to create `Actor` instances that fit thematically with any `Faction` / `Room` |
-| /Rooms.yaml | `RoomBlueprint[]` | Contains descriptions of rooms that can be generated |
-| /Items.yaml | `ItemBlueprint[]` | Contains generic items that would fit in any room generated (regardless of `Faction` |
-| /Slots.yaml | `SlotCollection` | Contains default item slots (e.g. 1 Head, 2 Hand etc) that all `Actor` start with (unless the blueprint lists explicit slots).  Note also that this can be overridden with a faction Slots.yaml|
+| /[plans.yaml](./Plans.yaml) | `Plan` | Contains AI Plans for NPC Actors.  These can be influenced by Leadership Actions of others|
 | /Factions/X/Faction.yaml | `Faction` | Contains description of the faction (name, role etc) |
 | /Factions/X/Forenames.txt | `NameFactory` | If present then unamed Npc generated in this faction have random selections from this list |
 | /Factions/X/Surnames.txt | `NameFactory` | As above but for surnames |

@@ -31,7 +31,7 @@ The [Player] always starts at 0,0,0.  The following recipy creates a unique star
   FixedLocation: 0,0,0
   Unique: true
 ```
-<sup>./Rooms.yaml</sup>
+<sup>./rooms.yaml</sup>
 
 
 ### Add same item to many rooms
@@ -46,7 +46,7 @@ You can use the blueprint inheritence system to create multiple references to th
    - Ref: e4ff5be4-233a-46b5-bb57-63831376b81d
    - Ref: e4ff5be4-233a-46b5-bb57-63831376b81d
 ```
-<sup>./Rooms.yaml</sup>
+<sup>./rooms.yaml</sup>
 
 Then create the base item:
 
@@ -54,7 +54,7 @@ Then create the base item:
 - Name: Rose
   Identifier: e4ff5be4-233a-46b5-bb57-63831376b81d
 ```
-<sup>./Items.yaml</sup>
+<sup>./items.yaml</sup>
 
 
 ## Item Recipes
@@ -79,7 +79,7 @@ This defines that by default all actors have 2 wrists.  Next create the item:
    Name: Wrist
    NumberRequired: 1
 ```
-<sup>./Items.yaml</sup>
+<sup>./items.yaml</sup>
 
 
 ## Ammo
@@ -100,21 +100,21 @@ Injuries:
 - Name: Laser Burn
   Severity: 10
 ```
-<sup>./InjurySystems/Lasers.yaml</sup>
+<sup>./InjurySystems/lasers.injury.yaml</sup>
 
 - Give the player some hands!
 
 ```yaml
 Hand: 2
 ```
-<sup>./Slots.yaml</sup>
+<sup>./slots.yaml</sup>
 
 - Now we need an adjective that ties the ammo clip to the weapon:
 
 ```yaml
 - Name: LaserPowered
 ```
-<sup>./Adjectives.yaml</sup>
+<sup>./adjectives.yaml</sup>
 
 - Finally we can create our items
 
@@ -138,7 +138,7 @@ Hand: 2
   MandatoryAdjectives:
     - LaserPowered
 ```
- <sup>./Items.yaml</sup>
+ <sup>./items.yaml</sup>
 
 The item (Laser Clip) works by requiring the player to have an item with the "LaserPowered" adjective.  This will only happen when the Laser Pistol is equipped.  The SingleUse and Stack properties ensure that each time FightAction occurs
 on the clip it runs down.
@@ -157,7 +157,7 @@ Each [DialogueNode] is made up of 1 or more blocks of text.  You can apply condi
      Condition: 
        - return AggressorIfAny:Has('Injured')
 ```
-<sup>./Dialogue.yaml</sup>
+<sup>./dialogue.yaml</sup>
 
 If you have multiple injury systems e.g. fire, cold, tissue damage etc and want to restrict your condition to only one of them then you can pass the injury system Guid instead e.g. return `AggressorIfAny:Has('7cc7a784-949b-4c26-9b99-c1ea7834619e')`
 

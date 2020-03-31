@@ -169,13 +169,8 @@ namespace Wanderer.Factories
         public virtual IList<IInjurySystem> GetInjurySystems()
         {
             var toReturn = new List<IInjurySystem>();
-
-            var dir = Path.Combine(ResourcesDirectory, "InjurySystems");
-
-            if (!Directory.Exists(dir))
-                return toReturn;
-
-            foreach (var file in Directory.GetFiles(dir,"*.yaml",SearchOption.AllDirectories))
+            
+            foreach (var file in Directory.GetFiles(ResourcesDirectory,"*injury.yaml",SearchOption.AllDirectories))
             {
                 try
                 {
@@ -198,7 +193,7 @@ namespace Wanderer.Factories
 
         public PlanningSystem GeneratePlans(IWorld world)
         {
-            string defaultPlans = Path.Combine(ResourcesDirectory, "Plans.yaml");
+            string defaultPlans = Path.Combine(ResourcesDirectory, "plans.yaml");
             var planning = new PlanningSystem();
 
             if (File.Exists(defaultPlans))
@@ -220,7 +215,7 @@ namespace Wanderer.Factories
 
         protected virtual SlotCollection GetDefaultSlots()
         {
-            string defaultSlots = Path.Combine(ResourcesDirectory, "Slots.yaml");
+            string defaultSlots = Path.Combine(ResourcesDirectory, "slots.yaml");
 
             if (File.Exists(defaultSlots))
             {
@@ -267,8 +262,8 @@ namespace Wanderer.Factories
             foreach (var directory in dirs)
             {
                 Faction f;
-                var factionFile = Path.Combine(directory, "Faction.yaml");
-                var factionSlotsFile = Path.Combine(directory, "Slots.yaml");
+                var factionFile = Path.Combine(directory, "faction.yaml");
+                var factionSlotsFile = Path.Combine(directory, "slots.yaml");
 
                 try
                 {
@@ -296,8 +291,8 @@ namespace Wanderer.Factories
                     throw new Exception($"Error Deserializing faction actors/slots file in dir '{directory}'",e);
                 }
                 
-                var forenames = new FileInfo(Path.Combine(directory,"Forenames.txt"));
-                var surnames = new FileInfo(Path.Combine(directory, "Surnames.txt"));
+                var forenames = new FileInfo(Path.Combine(directory,"forenames.txt"));
+                var surnames = new FileInfo(Path.Combine(directory, "surnames.txt"));
 
                 f.NameFactory = new NameFactory(forenames.Exists ? File.ReadAllLines(forenames.FullName) : new string[0],
                     surnames.Exists ? File.ReadAllLines(surnames.FullName) : new string[0]);
