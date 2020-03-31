@@ -37,7 +37,7 @@ namespace Wanderer.Systems
         /// <param name="injured"></param>
         /// <param name="roundsSeen">Number of rounds since it last got worse</param>
         /// <returns></returns>
-        bool ShouldWorsen(Injured injured, int roundsSeen);
+        bool ShouldWorsen(IInjured injured, int roundsSeen);
 
         /// <summary>
         /// True if the <paramref name="actor"/> can heal the <paramref name="injured"/>
@@ -47,8 +47,8 @@ namespace Wanderer.Systems
         /// <param name="injured"></param>
         /// <param name="reason"></param>
         /// <returns></returns>
-        bool IsHealableBy(IActor actor, Injured injured, out string reason);
-        bool ShouldNaturallyHeal(Injured injured, int roundsSeenCount);
+        bool IsHealableBy(IActor actor, IInjured injured, out string reason);
+        bool ShouldNaturallyHeal(IInjured injured, int roundsSeenCount);
         
         /// <summary>
         /// Make the given <paramref name="injured"/> worse (i.e. progress to infection,
@@ -57,7 +57,7 @@ namespace Wanderer.Systems
         /// <param name="injured"></param>
         /// <param name="ui"></param>
         /// <param name="round"></param>
-        void Worsen(Injured injured, IUserinterface ui, Guid round);
+        void Worsen(IInjured injured, IUserinterface ui, Guid round);
 
         /// <summary>
         /// Heal the given <paramref name="injured"/> condition
@@ -65,7 +65,7 @@ namespace Wanderer.Systems
         /// <param name="injured"></param>
         /// <param name="ui"></param>
         /// <param name="round"></param>
-        void Heal(Injured injured, IUserinterface ui, Guid round);
+        void Heal(IInjured injured, IUserinterface ui, Guid round);
 
         /// <summary>
         /// Kill/destroy the owner of the given <paramref name="injured"/> (usually
@@ -75,6 +75,6 @@ namespace Wanderer.Systems
         /// <param name="ui"></param>
         /// <param name="round"></param>
         /// <param name="diedOf"></param>
-        void Kill(Injured injured, IUserinterface ui, Guid round, string diedOf);
+        void Kill(IInjured injured, IUserinterface ui, Guid round, string diedOf);
     }
 }

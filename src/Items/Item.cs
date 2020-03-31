@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Newtonsoft.Json;
 using Wanderer.Actions;
 using Wanderer.Actors;
 using Wanderer.Adjectives;
@@ -29,6 +30,15 @@ namespace Wanderer.Items
 
         public List<ICondition<IHasStats>> Require { get; set; } = new List<ICondition<IHasStats>>();
         
+        /// <summary>
+        /// Do not use, internal constructor for JSON serialization
+        /// </summary>
+        [JsonConstructor]
+        protected Item()
+        {
+
+        }
+
         public Item(string name)
         {
             Name = name;

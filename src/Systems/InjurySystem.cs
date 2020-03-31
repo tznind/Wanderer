@@ -170,7 +170,7 @@ namespace Wanderer.Systems
             return false;
         }
 
-        public bool ShouldWorsen(Injured injury, int roundsSeen)
+        public bool ShouldWorsen(IInjured injury, int roundsSeen)
         {
             if (WorsenRate <= 0)
                 return false;
@@ -190,7 +190,7 @@ namespace Wanderer.Systems
             return roundsSeen > (1/ratio) * WorsenRate;
         }
 
-        public virtual bool IsHealableBy(IActor actor, Injured injured, out string reason)
+        public virtual bool IsHealableBy(IActor actor, IInjured injured, out string reason)
         {
             if (!HealerStat.HasValue)
             {
@@ -226,7 +226,7 @@ namespace Wanderer.Systems
             return false;
         }
 
-        public bool ShouldNaturallyHeal(Injured injured, int roundsSeenCount)
+        public bool ShouldNaturallyHeal(IInjured injured, int roundsSeenCount)
         {
             //if your dead you are not getting better
             if (injured.Owner is IActor a && a.Dead)
@@ -240,7 +240,7 @@ namespace Wanderer.Systems
         }
 
 
-        public virtual void Worsen(Injured injured, IUserinterface ui, Guid round)
+        public virtual void Worsen(IInjured injured, IUserinterface ui, Guid round)
         {
             Amplify(injured,10,ui,round);
 
@@ -274,7 +274,7 @@ namespace Wanderer.Systems
             }
         }
 
-        public virtual void Heal(Injured injured, IUserinterface ui, Guid round)
+        public virtual void Heal(IInjured injured, IUserinterface ui, Guid round)
         {
             injured.Owner.Adjectives.Remove(injured);
             ui.Log.Info(new LogEntry($"{injured.Name} was {HealVerb}",round,injured.Owner as IActor));
@@ -282,7 +282,7 @@ namespace Wanderer.Systems
 
         
 
-        public virtual void Kill(Injured injured, IUserinterface ui, Guid round, string diedOf)
+        public virtual void Kill(IInjured injured, IUserinterface ui, Guid round, string diedOf)
         {
             if(injured.Owner is IActor a)
                 a.Kill(ui,round, diedOf);
@@ -295,7 +295,7 @@ namespace Wanderer.Systems
         /// </summary>
         /// <param name="injured"></param>
         /// <returns></returns>
-        protected virtual bool IsWithinNaturalHealingThreshold(Injured injured)
+        protected virtual bool IsWithinNaturalHealingThreshold(IInjured injured)
         {
             return injured.Severity <= NaturalHealThreshold;
         }

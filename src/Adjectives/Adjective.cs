@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 using Wanderer.Actors;
 using Wanderer.Behaviours;
 using Wanderer.Stats;
@@ -21,6 +22,12 @@ namespace Wanderer.Adjectives
         /// effect
         /// </summary>
         public Resistances Resist { get; set; }
+        
+        [JsonConstructor]
+        protected Adjective()
+        {
+            
+        }
 
         /// <summary>
         /// Creates a new adjective with name based on Type name
@@ -30,6 +37,7 @@ namespace Wanderer.Adjectives
             Owner = owner;
             Name = GetType().Name;
         }
+
 
         public override StatsCollection GetFinalStats(IActor forActor)
         {

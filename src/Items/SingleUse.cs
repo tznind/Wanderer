@@ -1,16 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using Wanderer.Adjectives;
 
 namespace Wanderer.Items
 {
     public class SingleUse : Adjective
     {
-        public IItem OwnerItem { get; set; }
+        [JsonConstructor]
+        protected SingleUse()
+        {
+            
+        }
 
         public SingleUse(IItem owner) : base(owner)
         {
-            OwnerItem = owner;
             BaseBehaviours.Add(new SingleUseBehaviour(this));
             IsPrefix = false;
         }
