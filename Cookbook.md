@@ -67,7 +67,7 @@ Items are equippable only if they have defined 'slots'.  To do this we first hav
 ```
 Wrist: 2
 ```
-<sup>./Slots.yaml</sup>
+<sup>./slots.yaml</sup>
 
 This defines that by default all actors have 2 wrists.  Next create the item:
 

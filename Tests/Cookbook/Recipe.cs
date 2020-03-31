@@ -31,17 +31,17 @@ namespace Tests.Cookbook
         
         protected IWorld SetupItem(string slotsYaml, string itemYaml)
         {
-            return Setup("Slots.yaml", slotsYaml,"items.yaml",itemYaml);
+            return Setup("slots.yaml", slotsYaml,"items.yaml",itemYaml);
         }
 
         protected IWorld SetupItem(string slotsYaml, string itemYaml,string adjectivesYaml)
         {
-            return Setup("Slots.yaml", slotsYaml,"items.yaml",itemYaml,"adjectives.yaml",adjectivesYaml);
+            return Setup("slots.yaml", slotsYaml,"items.yaml",itemYaml,"adjectives.yaml",adjectivesYaml);
         }
 
         protected IWorld SetupItem(string slotsYaml, string itemYaml,string adjectivesYaml, string injurySystemYaml)
         {
-            return Setup("Slots.yaml", slotsYaml,"items.yaml",itemYaml,"adjectives.yaml",adjectivesYaml,"InjurySystems/system1.injury.yaml",injurySystemYaml);
+            return Setup("slots.yaml", slotsYaml,"items.yaml",itemYaml,"adjectives.yaml",adjectivesYaml,"InjurySystems/system1.injury.yaml",injurySystemYaml);
         }
         private IWorld Setup(params string[] pairs)
         {
