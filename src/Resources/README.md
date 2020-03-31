@@ -12,10 +12,10 @@ This file describes the relationship between classes and resource files
 | slots.yaml | `SlotCollection` | Contains default item slots (e.g. 1 Head, 2 Hand etc) that all `Actor` start with (unless the blueprint lists explicit slots).  Note also that this can be overridden with a faction Slots.yaml|
 | /[Main.lua](./Main.lua) | N\A | Defines custom global methods and helper functions for use in scripting blocks |
 | /[plans.yaml](./Plans.yaml) | `Plan` | Contains AI Plans for NPC Actors.  These can be influenced by Leadership Actions of others|
-| /Factions/X/Faction.yaml | `Faction` | Contains description of the faction (name, role etc) |
-| /Factions/X/Forenames.txt | `NameFactory` | If present then unamed Npc generated in this faction have random selections from this list |
-| /Factions/X/Surnames.txt | `NameFactory` | As above but for surnames |
-| /Factions/X/Slots.yaml | `SlotCollection` | Overrides the default system wide item slots for the specific faction (used where the actor blueprint doesn't explicitly list it's own slots)|
+| /Factions/X/faction.yaml | `Faction` | Contains description of the faction (name, role etc) |
+| /Factions/X/forenames.txt | `NameFactory` | If present then unamed Npc generated in this faction have random selections from this list |
+| /Factions/X/surnames.txt | `NameFactory` | As above but for surnames |
+| /Factions/X/slots.yaml | `SlotCollection` | Overrides the default system wide item slots for the specific faction (used where the actor blueprint doesn't explicitly list it's own slots)|
 
 ## Subdirectories
 
