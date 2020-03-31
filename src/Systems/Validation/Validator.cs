@@ -106,6 +106,7 @@ namespace Wanderer.Systems.Validation
                 {
                     var room = roomFactory.Create(world, blue);
                     world.Map[new Point3(0,0,0)] = room;
+                    world.Player.CurrentLocation = room;
                     Validate(world,room);
                 }
                 catch (Exception e)
@@ -124,6 +125,7 @@ namespace Wanderer.Systems.Validation
                     var item = itemFactory.Create(world, blue);
                     var room = new Room("Test Room",world,'t');
                     world.Map[new Point3(0,0,0)] = room;
+                    world.Player.CurrentLocation = room;
                     Validate(world,item, room);
                 }
                 catch (Exception e)
