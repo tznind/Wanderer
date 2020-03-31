@@ -5,7 +5,7 @@ using Wanderer.Compilation;
 
 namespace Wanderer.Actions
 {
-    public interface IAction : IHasStats,IAreIdentical<IAction>
+    public interface IAction : IHasStats
     {
         /// <summary>
         /// The person or object granting the action

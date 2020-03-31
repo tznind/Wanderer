@@ -46,7 +46,7 @@ namespace Wanderer.Factories
 
             if (blueprint.Actions.Any())
             {
-                onto.BaseActions = new ActionCollection();
+                onto.BaseActions = new List<IAction>();
 
                 foreach(var actionBlueprint in blueprint.Actions)
                     world.ActionFactory.Create(world,onto,actionBlueprint);

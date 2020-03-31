@@ -29,7 +29,7 @@ namespace Wanderer.Behaviours
         {
         }
 
-        public virtual bool AreIdentical(IBehaviour other)
+        public virtual bool AreIdentical(object other)
         {
             if (other == null)
                 return false;

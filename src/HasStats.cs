@@ -13,9 +13,9 @@ namespace Wanderer
 {
     public abstract class HasStats : IHasStats
     {
-        private IAdjectiveCollection _adjectives = new AdjectiveCollection();
-        private IBehaviourCollection _baseBehaviours = new BehaviourCollection();
-        private IActionCollection _baseActions = new ActionCollection();
+        public List<IAdjective> Adjectives { get; set; } = new List<IAdjective>();
+        public List<IBehaviour> BaseBehaviours { get; set; } = new List<IBehaviour>();
+        public List<IAction> BaseActions { get; set; } = new List<IAction>();
         public Guid? Identifier { get; set; }
         public bool Unique { get; set; }
         public string Name { get; set; }
@@ -28,45 +28,8 @@ namespace Wanderer
         /// </summary>
         public const ConsoleColor DefaultColor = ConsoleColor.White;
 
-        public IAdjectiveCollection Adjectives
-        {
-            get => _adjectives;
-            set
-            {
-                _adjectives = value;
-                value?.PruneNulls();
-
-                if(value != null)
-                    foreach (var a in value) 
-                        a.Owner = this;
-            }
-        }
-
-        public IActionCollection BaseActions
-        {
-            get => _baseActions;
-            set
-            {
-                _baseActions = value;
-                value?.PruneNulls();
-            }
-        }
 
         public StatsCollection BaseStats { get; set; } = new StatsCollection();
-
-        public IBehaviourCollection BaseBehaviours
-        {
-            get => _baseBehaviours;
-            set
-            {
-                _baseBehaviours = value;
-                value?.PruneNulls();
-
-                if(value != null)
-                    foreach (var b in value) 
-                        b.Owner = this;
-            }
-        }
         
         public virtual StatsCollection GetFinalStats(IActor forActor)
         {
@@ -83,21 +46,21 @@ namespace Wanderer
                 .Increase(frame.Action.BaseStats);
         }
 
-        public virtual IActionCollection GetFinalActions(IActor forActor)
+        public virtual List<IAction> GetFinalActions(IActor forActor)
         {
-            return new ActionCollection(BaseActions.Union(Adjectives.SelectMany(a=>a.GetFinalActions(forActor))));
+            return new List<IAction>(BaseActions.Union(Adjectives.SelectMany(a=>a.GetFinalActions(forActor))));
         }
 
-        public virtual IBehaviourCollection GetFinalBehaviours(IActor forActor)
+        public virtual List<IBehaviour> GetFinalBehaviours(IActor forActor)
         {
-            return new BehaviourCollection(BaseBehaviours.Union(Adjectives.SelectMany(a=>a.GetFinalBehaviours(forActor))));
+            return new List<IBehaviour>(BaseBehaviours.Union(Adjectives.SelectMany(a=>a.GetFinalBehaviours(forActor))));
         }
         
         public override string ToString()
         {
             return (string.Join(" ", Adjectives.Where(a=>a.IsPrefix)) + " " + (Name ?? "Unnamed Object")).Trim();
         }
-        public bool AreIdentical(IHasStats other)
+        public virtual bool AreIdentical(object other)
         {
             if (other == null)
                 return false;
@@ -105,14 +68,19 @@ namespace Wanderer
             //if they are different Types
             if (other.GetType() != GetType())
                 return false;
-            
-            if (!Equals(other.Name,Name))
-                return false;
 
-            return other.BaseStats.AreIdentical(BaseStats)
-                   && other.BaseActions.AreIdentical(BaseActions)
-                   && other.BaseBehaviours.AreIdentical(BaseBehaviours)
-                   && other.Adjectives.AreIdentical(Adjectives);
+            if (other is IHasStats hasStats)
+            {
+                if (!Equals(hasStats.Name,Name))
+                    return false;
+
+                return hasStats.BaseStats.AreIdentical(BaseStats)
+                       && hasStats.BaseActions.AreIdentical(BaseActions)
+                       && hasStats.BaseBehaviours.AreIdentical(BaseBehaviours)
+                       && hasStats.Adjectives.AreIdentical(Adjectives);
+            }
+            
+            return false;
         }
 
         public virtual IEnumerable<IHasStats> GetAllHaves()

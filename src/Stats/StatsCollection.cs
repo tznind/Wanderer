@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Wanderer.Stats
 {
-    public class StatsCollection: Dictionary<Stat,double>, IAreIdentical<StatsCollection>
+    public class StatsCollection: Dictionary<Stat,double>, IAreIdentical
     {
         /// <summary>
         /// Creates a new stat collection with all stats initialized to 0
@@ -111,21 +111,25 @@ namespace Wanderer.Stats
             return this;
         }
 
-        public bool AreIdentical(StatsCollection other)
+        public bool AreIdentical(object other)
         {
             if (other == null)
                 return false;
 
-            if (other.Count != Count)
-                return false;
+            if (other is StatsCollection otherSc)
+            {
+                if (otherSc.Count != Count)
+                    return false;
 
-            foreach (Stat s in Enum.GetValues(typeof(Stat)))
-                if (s != Stat.None)
-                    if (Math.Abs(this[s] - other[s]) > 0.001)
-                        return false;
+                foreach (Stat s in Enum.GetValues(typeof(Stat)))
+                    if (s != Stat.None)
+                        if (Math.Abs(this[s] - otherSc[s]) > 0.001)
+                            return false;
 
-            return true;
+                return true;
+            }
 
+            return false;
         }
 
         public bool IsEmpty()

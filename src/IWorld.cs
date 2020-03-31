@@ -54,7 +54,7 @@ namespace Wanderer
 
         HashSet<IActor> Population { get; }
         
-        IFactionCollection Factions { get; set; }
+        IFList<IAction> Factions { get; set; }
 
         /// <summary>
         /// All known relationships in the <see cref="Population"/>

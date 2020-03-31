@@ -4,7 +4,7 @@ using Wanderer.Actions;
 
 namespace Wanderer.Behaviours
 {
-    public interface IBehaviour : IAreIdentical<IBehaviour>
+    public interface IBehaviour : IAreIdentical
     {
         IHasStats Owner { get; set; }
 

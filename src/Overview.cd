@@ -155,11 +155,11 @@
       <FileName>Systems\IRelationshipSystem.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="Wanderer.Relationships.IFactionCollection" Collapsed="true">
+  <Interface Name="Wanderer.Relationships.IFList<IAction>" Collapsed="true">
     <Position X="12.75" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
-      <FileName>Relationships\IFactionCollection.cs</FileName>
+      <FileName>Relationships\IFList<IAction>.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="Wanderer.Relationships.IFaction">

@@ -5,7 +5,7 @@ using Wanderer.Actors;
 
 namespace Wanderer.Relationships
 {
-    public class FactionCollection : List<IFaction>,IFactionCollection
+    public class FList<IAction> : List<IFaction>,IFList<IAction>
     {
         public IFaction GetRandomFaction(Random r, params FactionRole[] withRole)
         {

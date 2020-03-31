@@ -50,7 +50,7 @@ namespace Wanderer
             get { return (You) Population.FirstOrDefault(p => p is You); }
         }
 
-        public IFactionCollection Factions { get; set; } = new FactionCollection();
+        public IFList<IAction> Factions { get; set; } = new FList<IAction>();
 
         public string ResourcesDirectory { get; set; } = Compiler.GetDefaultResourcesDirectory();
 
