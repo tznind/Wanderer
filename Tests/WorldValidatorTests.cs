@@ -8,7 +8,10 @@ using Wanderer.Actors;
 using Wanderer.Compilation;
 using Wanderer.Dialogues;
 using Wanderer.Factories;
+using Wanderer.Factories.Blueprints;
+using Wanderer.Items;
 using Wanderer.Plans;
+using Wanderer.Rooms;
 using Wanderer.Systems;
 using Wanderer.Systems.Validation;
 
@@ -272,6 +275,23 @@ namespace Tests
             v.Validate(Mock.Of<IWorld>(),plan, Mock.Of<IActor>());
 
             StringAssert.Contains(@"Failed to validate DoFrame of Plan 'Do something nefarious'",v.Warnings.ToString());
+        }
+
+        [Test]
+        public void TestValidate_SlotNotFound()
+        {
+            WorldValidator v = new WorldValidator();
+
+            var w = new World();
+            var blue = new ItemBlueprint
+            {
+                Name = "Hammer",
+                Slot = new ItemSlot("Handers",5)
+            };
+
+            v.Validate(w,w.ItemFactory.Create(w,blue), Mock.Of<IRoom>());
+
+            StringAssert.Contains(@"Item Hammer lists Slot named Handers but no Actors or Default slots are listed with that name (Slots seen were '')",v.Warnings.ToString());
         }
 
         

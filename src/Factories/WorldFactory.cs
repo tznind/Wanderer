@@ -61,7 +61,10 @@ namespace Wanderer.Factories
             world.AdjectiveFactory = GetAdjectiveFactory();
             world.Dialogue = new DialogueSystem();
             world.RoomFactory = new RoomFactory();
-            world.ActorFactory = new ActorFactory();
+            world.ActorFactory = new ActorFactory()
+            {
+                DefaultSlots = _defaultSlots
+            };
             world.ItemFactory = new ItemFactory();
             world.ActionFactory = new ActionFactory();
 

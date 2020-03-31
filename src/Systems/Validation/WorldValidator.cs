@@ -84,7 +84,11 @@ namespace Wanderer.Systems.Validation
 
             WarningCount++;
         }
-
+        private void AddWarning(string msg)
+        {
+            Warnings.AppendLine(msg);
+            WarningCount++;
+        }
         private string Flatten(Exception ex)
         {
             StringBuilder sb = new StringBuilder();
@@ -195,7 +199,18 @@ namespace Wanderer.Systems.Validation
         {
             if (item.Dialogue != null)
                 Validate(world, item, item.Dialogue,room);
-            
+
+            //if the item takes up slots
+            if (item.Slot != null && !string.IsNullOrWhiteSpace(item.Slot.Name))
+            {
+                //make sure somebody in the world can use it
+                var slots = GetAllSlots(world);
+
+                if(!slots.Contains(item.Slot.Name))
+                    AddWarning($"Item {item} lists Slot named {item.Slot.Name} but no Actors or Default slots are listed with that name (Slots seen were '{string.Join(',',slots)}')");
+
+            }
+
             try
             {
                 item.RequirementsMet(GetTestActor(room));
@@ -204,6 +219,16 @@ namespace Wanderer.Systems.Validation
             {
                 AddWarning($"Error testing conditions of itemFactory '{item}' in room '{room.Name}' with test actor", e);
             }
+        }
+
+        private List<string> GetAllSlots(IWorld world)
+        {
+            List<string> slots = new List<string>();
+
+            slots.AddRange(world.ActorFactory.DefaultSlots.Select(s => s.Key));
+            slots.AddRange(world.ActorFactory.Blueprints.Where(b => b.Slots != null && b.Slots.Any()).SelectMany(b => b.Slots.Keys));
+
+            return slots.Distinct().ToList();
         }
 
         public void Validate(IWorld world, IHasStats recipient, DialogueInitiation dialogue, IRoom room)
