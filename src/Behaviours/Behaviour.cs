@@ -1,11 +1,9 @@
 ﻿using System;
 using Newtonsoft.Json;
-using Wanderer.Actions;
-using Wanderer.Actors;
 
 namespace Wanderer.Behaviours
 {
-    public abstract class Behaviour : IBehaviour
+    public class Behaviour : HasStats,IBehaviour
     {
         public IHasStats Owner { get; set; }
         
@@ -14,7 +12,7 @@ namespace Wanderer.Behaviours
         {
             
         }
-        protected Behaviour(IHasStats owner)
+        public Behaviour(IHasStats owner)
         {
             Owner = owner;
         }
@@ -33,18 +31,6 @@ namespace Wanderer.Behaviours
 
         public virtual void OnRoundEnding(IWorld world,IUserinterface ui, Guid round)
         {
-        }
-
-        public virtual bool AreIdentical(object other)
-        {
-            if (other == null)
-                return false;
-
-            //if they are different Types
-            if (other.GetType() != GetType())
-                return false;
-
-            return true;
         }
     }
 }
