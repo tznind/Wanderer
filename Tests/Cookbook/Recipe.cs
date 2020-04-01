@@ -44,7 +44,7 @@ namespace Tests.Cookbook
         {
             return Setup("slots.yaml", slotsYaml,"items.yaml",itemYaml,"adjectives.yaml",adjectivesYaml,"InjurySystems/system1.injury.yaml",injurySystemYaml);
         }
-        private IWorld Setup(params string[] pairs)
+        protected IWorld Setup(params string[] pairs)
         {
             var dir = Path.Combine(TestContext.CurrentContext.WorkDirectory, Path.GetRandomFileName());
             Directory.CreateDirectory(dir);

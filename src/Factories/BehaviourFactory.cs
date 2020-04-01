@@ -9,11 +9,16 @@ namespace Wanderer.Factories
     {
         public IBehaviour Create(IWorld world, IHasStats onto, BehaviourBlueprint blueprint)
         {
-            var instance  = new Behaviour(onto);
-
             base.HandleInheritance(blueprint);
+
+            var instance  = new Behaviour(onto)
+            {
+                Name = blueprint.Name
+            };
             
             AddBasicProperties(world,instance,blueprint,"evaluate");
+
+            onto.BaseBehaviours.Add(instance);
 
             return instance;
         }

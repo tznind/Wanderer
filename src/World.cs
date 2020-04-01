@@ -42,6 +42,8 @@ namespace Wanderer
 
         public IActionFactory ActionFactory { get;  set; } = new ActionFactory();
 
+        public IBehaviourFactory BehaviourFactory { get; set; } = new BehaviourFactory();
+        
         public Random R { get; set; } = new Random(100);
 
         [JsonIgnore]

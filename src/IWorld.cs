@@ -50,6 +50,11 @@ namespace Wanderer
         /// </summary>
         IActionFactory ActionFactory { get;  set; }
 
+        /// <summary>
+        /// Creates <see cref="IBehaviour"/>
+        /// </summary>
+         IBehaviourFactory BehaviourFactory { get; set; } 
+
         Map Map { get; }
 
         HashSet<IActor> Population { get; }

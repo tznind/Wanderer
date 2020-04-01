@@ -67,6 +67,8 @@ namespace Wanderer.Factories
             };
             world.ItemFactory = new ItemFactory();
             world.ActionFactory = new ActionFactory();
+            world.BehaviourFactory = new BehaviourFactory();
+
 
             if(!Directory.Exists(ResourcesDirectory))
                 throw new DirectoryNotFoundException($"Resources directory did not exist '{ResourcesDirectory}'");
@@ -104,6 +106,9 @@ namespace Wanderer.Factories
                 if(IsActionsFile(fi,dirs))
                     world.ActionFactory.Blueprints.AddRange(AssignFaction(GetBlueprints<ActionBlueprint>(fi),faction));
 
+                if(IsBehavioursFile(fi,dirs))
+                    world.BehaviourFactory.Blueprints.AddRange(AssignFaction(GetBlueprints<BehaviourBlueprint>(fi),faction));
+
                 if(!SkipContent && IsDialogueFile(fi,dirs))
                     world.Dialogue.AllDialogues.AddRange(GetDialogue(fi));
             }
@@ -112,6 +117,8 @@ namespace Wanderer.Factories
             LogBlueprints(world.ActorFactory.Blueprints);
             LogBlueprints(world.ItemFactory.Blueprints);
             LogBlueprints(world.AdjectiveFactory.Blueprints);
+            LogBlueprints(world.ActionFactory.Blueprints);
+            LogBlueprints(world.BehaviourFactory.Blueprints);
 
             var zero = new Point3(0, 0, 0);
             var startingRoom = world.RoomFactory.Create(world,zero);
@@ -159,6 +166,10 @@ namespace Wanderer.Factories
         private bool IsActionsFile(FileInfo fi,string[] path)
         {
             return fi.Name.EndsWith("actions.yaml",StringComparison.CurrentCultureIgnoreCase);
+        }
+        private bool IsBehavioursFile(FileInfo fi,string[] path)
+        {
+            return fi.Name.EndsWith("behaviours.yaml",StringComparison.CurrentCultureIgnoreCase);
         }
         private bool IsItemsFile(FileInfo fi,string[] path)
         {

@@ -5,7 +5,7 @@ using Wanderer.Factories.Blueprints;
 
 namespace Wanderer.Factories
 {
-    internal interface IBehaviourFactory
+    public interface IBehaviourFactory
     {
 
         /// <summary>
