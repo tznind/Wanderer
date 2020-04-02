@@ -109,6 +109,10 @@ namespace Wanderer.Systems
         /// </summary>
         public string FatalVerb { get; set; } = "injuries";
 
+        /// <summary>
+        /// If injuries from this injury system stack with those of other system(s) to go over the <see cref="FatalThreshold"/> the other <see cref="ISystem.Identifier"/> should be listed in here.
+        /// </summary>
+        public List<Guid> FatalStacksWith { get; set; } = new List<Guid>();
 
         /// <summary>
         /// Should separate applications of the injury be merged e.g. if your on fire and you get a bit hotter then it makes sense just to beef up the original instance
@@ -160,7 +164,7 @@ namespace Wanderer.Systems
         public virtual bool HasFatalInjuries(IInjured injured, out string diedOf)
         {
             //Combined total of serious wounds (2 or higher) severity is 100
-            if (injured.Owner.Adjectives.OfType<Injured>().Where(i => i.Severity > 1).Sum(i => i.Severity) >= FatalThreshold)
+            if (injured.Owner.Adjectives.OfType<Injured>().Where(IncludeInFatalSum).Sum(i => i.Severity) >= FatalThreshold)
             {
                 diedOf = FatalVerb;
                 return true;
@@ -168,6 +172,13 @@ namespace Wanderer.Systems
 
             diedOf = null;
             return false;
+        }
+
+        private bool IncludeInFatalSum(Injured injured)
+        {
+            //only count injuries with positive severity that come from this injury system
+            return injured.Severity > 1 && 
+                   (injured.InjurySystem == this || FatalStacksWith.Contains(injured.InjurySystem.Identifier));
         }
 
         public bool ShouldWorsen(IInjured injury, int roundsSeen)

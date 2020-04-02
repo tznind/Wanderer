@@ -139,6 +139,17 @@
       ],
       "description": "How to describe death from reaching the FatalThreshold"
     },
+    "FatalStacksWith": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "description": "If injuries from this injury system stack with those of other system(s) to go over the FatalThreshold the other Identifier should be listed in here.",
+      "items": {
+        "type": "string",
+        "format": "guid"
+      }
+    },
     "MergeInstances": {
       "type": "boolean",
       "description": "Should separate applications of the injury be merged e.g. if your on fire and you get a bit hotter then it makes sense just to beef up the original instance"

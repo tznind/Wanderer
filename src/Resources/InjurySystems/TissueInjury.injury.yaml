@@ -14,6 +14,11 @@ ResistHeal:
   #Giants are harder to heal
   Resist: 
     - Giant
+    
+#Stacks with Laser injuries
+FatalStacksWith:
+  - 4f65ce41-4333-46f5-854f-d1d4ee212670
+  - 9b137f26-834d-4033-ae36-74ab578f5868
 
 NaturalHealThreshold: 20
 NaturalHealRate: 10
