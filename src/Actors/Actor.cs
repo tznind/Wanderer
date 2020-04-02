@@ -350,14 +350,13 @@ namespace Wanderer.Actors
 
         public IInjurySystem GetBestInjurySystem()
         {
-            var system = Items.Where(i => i.IsEquipped)
-                .SelectMany(i => i.GetFinalActions(this))
-                .OfType<FightAction>()
-                .FirstOrDefault(i=>i.InjurySystem != null);
+            var weaponInjurysystem = Items.Where(i => i.IsEquipped)
+                .Select(i => i.GetBestInjurySystem(this))
+                .FirstOrDefault(s => s != null);
 
             return 
                 //injury system of your currently equipped item
-                system?.InjurySystem ?? 
+                weaponInjurysystem ?? 
                 //your innate injury system
                 InjurySystem ??
                 //the default world injury system

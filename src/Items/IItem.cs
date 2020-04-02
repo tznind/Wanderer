@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Wanderer.Actions;
 using Wanderer.Actors;
 using Wanderer.Adjectives;
 using Wanderer.Compilation;
 using Wanderer.Rooms;
+using Wanderer.Systems;
 
 namespace Wanderer.Items
 {
@@ -58,5 +60,12 @@ namespace Wanderer.Items
         /// <param name="reason"></param>
         /// <returns></returns>
         bool CanUse(IActor actor, out string reason);
+
+        /// <summary>
+        /// Returns the injury system of the item, or any <see cref="FightAction"/> it grants or null 
+        /// </summary>
+        /// <param name="forActor"></param>
+        /// <returns></returns>
+        IInjurySystem GetBestInjurySystem(IActor forActor);
     }
 }

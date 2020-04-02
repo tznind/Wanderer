@@ -35,6 +35,9 @@ namespace Game.UI
             if(asActor != null)
                 lines.Add("Factions:" + string.Join(',',asActor.FactionMembership));
 
+            if(o.InjurySystem?.Name != null)
+                lines.Add("Damage:" + o.InjurySystem.Name);
+
             //output stats
             var finalStats = o.GetFinalStats(asActor ?? observer);
 
