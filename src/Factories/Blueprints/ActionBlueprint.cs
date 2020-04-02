@@ -4,6 +4,7 @@ using Wanderer.Compilation;
 
 namespace Wanderer.Factories.Blueprints
 {
+
     public class ActionBlueprint : HasStatsBlueprint
     {
         public char? HotKey {get;set;}

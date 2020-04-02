@@ -8,6 +8,7 @@ using Wanderer.Behaviours;
 using Wanderer.Compilation;
 using Wanderer.Dialogues;
 using Wanderer.Stats;
+using Wanderer.Systems;
 
 namespace Wanderer
 {
@@ -19,6 +20,8 @@ namespace Wanderer
         public Guid? Identifier { get; set; }
         public bool Unique { get; set; }
         public string Name { get; set; }
+        public IInjurySystem InjurySystem { get; set; }
+
         public DialogueInitiation Dialogue { get; set; } = new DialogueInitiation();
 
         public virtual ConsoleColor Color { get; set; } = DefaultColor;

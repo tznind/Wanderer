@@ -86,11 +86,7 @@ namespace Wanderer.Factories
                         blueprint.InjurySystem.Value);
                 }
 
-                foreach (var fightAction in onto.BaseActions.OfType<FightAction>()) 
-                    fightAction.InjurySystem = system;
-
-                if (onto is IActor a)
-                    a.InjurySystem = system;
+                onto.InjurySystem = system;
             }
         }
         
@@ -133,6 +129,9 @@ namespace Wanderer.Factories
                     if(currentVal is IList l && l.Count == 0 && baseVal != null)
                         prop.SetValue(blueprint, baseVal);
                 }
+
+                //now clear the Ref so we don't do it again later!
+                blueprint.Ref = null;
             }
         }
     }

@@ -20,6 +20,8 @@ namespace Wanderer.Factories
         
         public const string FactionsDirectory = "Factions";
 
+        public const string DefaultActorBehavioursFile = "default.actor.behaviours.yaml";
+
         public string ResourcesDirectory { get; set; }
 
         private readonly Logger _log;
@@ -65,8 +67,11 @@ namespace Wanderer.Factories
             {
                 DefaultSlots = _defaultSlots
             };
+
             world.ItemFactory = new ItemFactory();
             world.ActionFactory = new ActionFactory();
+            world.BehaviourFactory = new BehaviourFactory();
+
 
             if(!Directory.Exists(ResourcesDirectory))
                 throw new DirectoryNotFoundException($"Resources directory did not exist '{ResourcesDirectory}'");
@@ -104,6 +109,17 @@ namespace Wanderer.Factories
                 if(IsActionsFile(fi,dirs))
                     world.ActionFactory.Blueprints.AddRange(AssignFaction(GetBlueprints<ActionBlueprint>(fi),faction));
 
+                if (IsBehavioursFile(fi, dirs))
+                {
+                    var blueprints = AssignFaction(GetBlueprints<BehaviourBlueprint>(fi), faction).ToList();
+
+                    if(fi.Name.Equals(DefaultActorBehavioursFile,StringComparison.CurrentCultureIgnoreCase))
+                        world.ActorFactory.DefaultBehaviours.AddRange(blueprints);
+
+                    world.BehaviourFactory.Blueprints.AddRange(blueprints);
+                }
+                    
+
                 if(!SkipContent && IsDialogueFile(fi,dirs))
                     world.Dialogue.AllDialogues.AddRange(GetDialogue(fi));
             }
@@ -112,12 +128,17 @@ namespace Wanderer.Factories
             LogBlueprints(world.ActorFactory.Blueprints);
             LogBlueprints(world.ItemFactory.Blueprints);
             LogBlueprints(world.AdjectiveFactory.Blueprints);
+            LogBlueprints(world.ActionFactory.Blueprints);
+            LogBlueprints(world.BehaviourFactory.Blueprints);
 
             var zero = new Point3(0, 0, 0);
             var startingRoom = world.RoomFactory.Create(world,zero);
             startingRoom.IsExplored = true;
             world.Map.Add(zero,startingRoom);
-            world.Population.Add(GetPlayer(startingRoom));
+            var player = GetPlayer(startingRoom);
+            world.ActorFactory.AddDefaultBehaviours(world,player);
+
+            world.Population.Add(player);
             
             return world;
         }
@@ -159,6 +180,10 @@ namespace Wanderer.Factories
         private bool IsActionsFile(FileInfo fi,string[] path)
         {
             return fi.Name.EndsWith("actions.yaml",StringComparison.CurrentCultureIgnoreCase);
+        }
+        private bool IsBehavioursFile(FileInfo fi,string[] path)
+        {
+            return fi.Name.EndsWith("behaviours.yaml",StringComparison.CurrentCultureIgnoreCase);
         }
         private bool IsItemsFile(FileInfo fi,string[] path)
         {

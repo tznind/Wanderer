@@ -1,0 +1,4 @@
+﻿# Contains default behaviours that all actors should get
+
+# Gets Hungry
+- Ref: "da773182-a889-4b3c-a697-e8b22d0c297b"

@@ -3,11 +3,9 @@ using System.Linq;
 using Wanderer.Actors;
 using Wanderer.Extensions;
 using Wanderer.Factories.Blueprints;
-using Wanderer.Items;
 using Wanderer.Rooms;
 using Wanderer.Relationships;
 using System.Collections.Generic;
-using Wanderer.Systems;
 
 namespace Wanderer.Factories
 {
@@ -16,6 +14,8 @@ namespace Wanderer.Factories
         
         public SlotCollection DefaultSlots { get; set; } = new SlotCollection();
         
+        public List<BehaviourBlueprint> DefaultBehaviours { get; set; } = new List<BehaviourBlueprint>();
+
         public virtual void Create(IWorld world, IRoom room, IFaction faction, RoomBlueprint roomBlueprintIfAny)
         {
             int numberOfNpc = Math.Max(1,world.R.Next(5));
@@ -48,7 +48,7 @@ namespace Wanderer.Factories
             foreach (var blue in blueprint.MandatoryItems) 
                 npc.Equip(npc.SpawnItem(blue));
 
-            //plus give them one more random thing that fits the faction / actor
+            //plus give them one more random thing that fits the factions / actor
             var pickFrom = world.ItemFactory.Blueprints.Union(blueprint.OptionalItems).ToArray();
 
             if (roomBlueprintIfAny != null)
@@ -59,7 +59,18 @@ namespace Wanderer.Factories
             
             npc.AvailableSlots = (blueprint.Slots ?? faction?.DefaultSlots ?? DefaultSlots)?.Clone() ?? new SlotCollection();
 
+            AddDefaultBehaviours(world, npc);
+
             return npc;
+        }
+
+        public void AddDefaultBehaviours(IWorld world, IActor actor)
+        {
+            foreach (var blue in DefaultBehaviours)
+                //if the behaviour blueprint is un-themed or suits any factions the actor belongs to
+                if(blue.Faction == null || actor.FactionMembership.Any(f=>blue.SuitsFaction(f)))
+                    //spawn it onto them
+                    world.BehaviourFactory.Create(world, actor, blue);
         }
     }
 }

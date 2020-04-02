@@ -7,7 +7,6 @@ using Action = Wanderer.Actions.Action;
 
 namespace Wanderer.Factories
 {
-
     public class ActionFactory : HasStatsFactory<ActionBlueprint, IAction>, IActionFactory
     {
         private TypeCollection _types;

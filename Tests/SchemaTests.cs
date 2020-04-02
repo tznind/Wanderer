@@ -37,6 +37,11 @@ namespace Tests
             CheckSchema<List<ActionBlueprint>>("actions.schema.json");
         }
 
+        [Test]
+        public void BehaviourBlueprintSchema()
+        {
+            CheckSchema<List<BehaviourBlueprint>>("behaviours.schema.json");
+        }
 
         [Test]
         public void AdjectivesBlueprintSchema()

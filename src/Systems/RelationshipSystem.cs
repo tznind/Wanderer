@@ -18,6 +18,8 @@ namespace Wanderer.Systems
         /// </summary>
         double factionFraction = 0.1;
 
+        public string Name { get; set; } = "Relationship";
+
         public Guid Identifier { get; set; } = new Guid("8cfad1e6-39f9-4993-831f-57234290f558");
 
         public void Apply(SystemArgs args)

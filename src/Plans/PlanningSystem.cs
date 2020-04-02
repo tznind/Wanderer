@@ -20,6 +20,8 @@ namespace Wanderer.Plans
         /// </summary>
         public List<Plan> Plans = new List<Plan>();
 
+        public string Name { get; set; } = "Planning";
+
         public Guid Identifier { get; set; } = new Guid("3100f9db-a46b-4b6e-8e34-1222672a753c");
         
         public void Apply(SystemArgs args)

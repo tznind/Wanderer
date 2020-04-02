@@ -20,9 +20,7 @@ namespace Wanderer.Actors
     {
         public bool Dead { get; set; }
         public string FightVerb { get; set; } = "Fists";
-
-        public IInjurySystem InjurySystem { get; set; }
-
+        
         /// <inheritdoc/>
         public IRoom CurrentLocation { get; set; }
         
@@ -75,13 +73,8 @@ namespace Wanderer.Actors
             BaseActions.Add(new EquipmentAction(this));
             BaseActions.Add(new PickUpAction(this));
             BaseBehaviours.Add(new MergeStacksBehaviour(this));
-
-            //TODO: this is a reference to the hunger system which means this behaviour should go into yaml too
-            var hungerSystem = CurrentLocation.World.InjurySystems.FirstOrDefault(i=>i.Identifier == new Guid("89c18233-5250-4445-8799-faa9a888fb7f"));
-
-            if(hungerSystem != null)
-                BaseBehaviours.Add(new GetsHungryBehaviour(this,hungerSystem));
         }
+
 
         /// <summary>
         /// Returns all <see cref="IAction"/> which the <see cref="Actor"/> can undertake in it's <see cref="CurrentLocation"/> (this includes 
@@ -325,7 +318,7 @@ namespace Wanderer.Actors
         {
             return SpawnItem(CurrentLocation.World.ItemFactory.Create(CurrentLocation.World,blue));
         }
-
+        
         public IItem SpawnItem(Guid g)
         {
             return SpawnItem(CurrentLocation.World.ItemFactory.Create(CurrentLocation.World,g));
@@ -341,6 +334,14 @@ namespace Wanderer.Actors
             return item;
         }
         
+        public IBehaviour SpawnBehaviour(string name)
+        {
+            return CurrentLocation.World.BehaviourFactory.Create(CurrentLocation.World,this,name);
+        }
+        public IBehaviour SpawnBehaviour(Guid g)
+        {
+            return CurrentLocation.World.BehaviourFactory.Create(CurrentLocation.World,this,g);
+        }
         public void Equip(IItem item)
         {
             if (CanEquip(item, out _))

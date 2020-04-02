@@ -29,11 +29,6 @@ namespace Wanderer.Actors
         /// </summary>
         string FightVerb { get; set; }
 
-        /// <summary>
-        /// The injury system of your innate weapons e.g. fists, claws
-        /// flaming breath etc.  Does not include items wielded by you
-        /// </summary>
-        IInjurySystem InjurySystem { get; set; }
 
         /// <summary>
         /// Where the <see cref="Actor"/> currently is
@@ -168,6 +163,21 @@ namespace Wanderer.Actors
         ///  <exception cref="NamedObjectNotFoundException"></exception>
         /// <returns></returns>
         IItem SpawnItem(string name);
+        
+        
+        /// <summary>
+        /// Adds a new <see cref="IBehaviour"/> onto <see cref="BaseBehaviours"/>
+        /// </summary>
+        /// <param name="name">Name of <see cref="BehaviourBlueprint"/></param>
+        /// <returns></returns>
+        public IBehaviour SpawnBehaviour(string name);
+        
+        /// <summary>
+        /// Adds a new <see cref="IBehaviour"/> onto <see cref="BaseBehaviours"/>
+        /// </summary>
+        /// <param name="g">Guid of <see cref="HasStatsBlueprint.Identifier"/></param>
+        /// <returns></returns>
+        public IBehaviour SpawnBehaviour(Guid g);
 
         /// <summary>
         /// Automatically equips the given <paramref name="item"/> if possible

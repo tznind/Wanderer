@@ -9,6 +9,7 @@ namespace Wanderer.Behaviours
     {
         public MergeStacksBehaviour(IActor owner):base(owner)
         {
+            Name = "MergeStacks";
         }
 
         public override void OnRoundEnding(IWorld world,IUserinterface ui, Guid round)
