@@ -1,3 +1,4 @@
+using System.Text;
 using NUnit.Framework;
 using Tests.Cookbook;
 using Wanderer.Items;
@@ -22,20 +23,36 @@ namespace Tests.BehaviourTests
             Assert.AreEqual("DoNothing",hat.BaseBehaviours[0].Name);
         }
 
-        [Test]
-        public void TestBehaviour_Doomed()
+        [TestCase(true)]
+        [TestCase(false)]
+        [TestCase(null)]
+        public void TestBehaviour_Doomed(bool? condition)
         {
-            string behavioursYaml = 
-@"
-- Name: Doomed
-  OnRoundEnding:
-     Condition: 
-       - return true
-     Effect:
-       - Recipient:Kill(UserInterface,Round,'doom')
-";
+            var sb = new StringBuilder();
 
-            var w = Setup("behaviours.yaml",behavioursYaml);
+            
+sb.AppendLine(@"
+- Name: Doomed
+  OnRoundEnding:");
+
+
+        if(condition.HasValue)
+            if(condition.Value)
+                sb.AppendLine(@"
+    Condition:
+      - return true");
+            else
+                sb.AppendLine(@"
+    Condition:
+      - return false");
+
+sb.Append(
+@"
+    Effect:
+      - Recipient:Kill(UserInterface,Round,'doom')
+");
+
+            var w = Setup("behaviours.yaml",sb.ToString());
 
             Assert.AreEqual(1,w.BehaviourFactory.Blueprints.Count);
 
@@ -45,7 +62,7 @@ namespace Tests.BehaviourTests
             
             GoWest(w);
 
-            Assert.IsTrue(w.Player.Dead);
+            Assert.AreEqual(condition ?? true,w.Player.Dead,"Player should be dead if no Conditions or condition is true");
             
         }
 

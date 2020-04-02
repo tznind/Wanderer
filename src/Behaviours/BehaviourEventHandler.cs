@@ -13,7 +13,7 @@ namespace Wanderer.Behaviours
 
         public void Fire(SystemArgs args)
         {
-            if(Condition.All(c=>c.IsMet(args.World,args)))
+            if(Effect != null && Condition == null || Condition.All(c=>c.IsMet(args.World,args)))
                 foreach(var e in Effect)
                     e.Apply(args);
         }
