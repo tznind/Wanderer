@@ -20,6 +20,8 @@ namespace Wanderer.Factories
         
         public const string FactionsDirectory = "Factions";
 
+        public const string DefaultActorBehavioursFile = "default.actor.behaviours.yaml";
+
         public string ResourcesDirectory { get; set; }
 
         private readonly Logger _log;
@@ -65,6 +67,7 @@ namespace Wanderer.Factories
             {
                 DefaultSlots = _defaultSlots
             };
+
             world.ItemFactory = new ItemFactory();
             world.ActionFactory = new ActionFactory();
             world.BehaviourFactory = new BehaviourFactory();
@@ -106,8 +109,16 @@ namespace Wanderer.Factories
                 if(IsActionsFile(fi,dirs))
                     world.ActionFactory.Blueprints.AddRange(AssignFaction(GetBlueprints<ActionBlueprint>(fi),faction));
 
-                if(IsBehavioursFile(fi,dirs))
-                    world.BehaviourFactory.Blueprints.AddRange(AssignFaction(GetBlueprints<BehaviourBlueprint>(fi),faction));
+                if (IsBehavioursFile(fi, dirs))
+                {
+                    var blueprints = AssignFaction(GetBlueprints<BehaviourBlueprint>(fi), faction).ToList();
+
+                    if(fi.Name.Equals(DefaultActorBehavioursFile,StringComparison.CurrentCultureIgnoreCase))
+                        world.ActorFactory.DefaultBehaviours.AddRange(blueprints);
+
+                    world.BehaviourFactory.Blueprints.AddRange(blueprints);
+                }
+                    
 
                 if(!SkipContent && IsDialogueFile(fi,dirs))
                     world.Dialogue.AllDialogues.AddRange(GetDialogue(fi));
@@ -124,7 +135,10 @@ namespace Wanderer.Factories
             var startingRoom = world.RoomFactory.Create(world,zero);
             startingRoom.IsExplored = true;
             world.Map.Add(zero,startingRoom);
-            world.Population.Add(GetPlayer(startingRoom));
+            var player = GetPlayer(startingRoom);
+            world.ActorFactory.AddDefaultBehaviours(world,player);
+
+            world.Population.Add(player);
             
             return world;
         }

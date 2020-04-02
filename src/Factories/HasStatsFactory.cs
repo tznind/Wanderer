@@ -123,6 +123,10 @@ namespace Wanderer.Factories
                 //copy properties from the base blueprint
                 foreach (var prop in typeof(T1).GetProperties())
                 {
+                    //Don't copy down the Ref property or it won't work next time
+                    if (prop.Name == "Ref" || prop.Name == "Identifier")
+                        continue;
+
                     var currentVal = prop.GetValue(blueprint);
                     var baseVal = prop.GetValue(baseBlue);
 

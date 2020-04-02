@@ -205,10 +205,33 @@ namespace Wanderer
 
         public ISystem GetSystem(Guid g)
         {
-            //TODO: This should return other systems too
             return 
-                InjurySystems.FirstOrDefault(i=>i.Identifier == g) 
+                GetSystems().FirstOrDefault(i=>i.Identifier == g) 
                 ?? throw new GuidNotFoundException($"Could not find any System with Guid {g}",g);
+        }
+        
+        public ISystem GetSystem(string name)
+        {
+            //if the user passed a string that was actually a Guid
+            if (Guid.TryParse(name, out Guid g))
+                return GetSystem(g);
+
+            return GetSystems().FirstOrDefault(
+                       b => string.Equals(b.Name, name, StringComparison.CurrentCultureIgnoreCase)) ??
+                   throw new NamedObjectNotFoundException($"Could not find System Named {name}", name);
+        }
+
+        public IEnumerable<ISystem> GetSystems()
+        {
+            foreach (var s in InjurySystems)
+                yield return s;
+
+            yield return PlanningSystem;
+            yield return Dialogue;
+            yield return Relationships;
+
+            foreach (var s in NegotiationSystems)
+                yield return s;
         }
 
         public IInjurySystem GetDefaultInjurySystem()

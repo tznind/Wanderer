@@ -10,6 +10,11 @@ namespace Wanderer.Systems
     public interface ISystem
     {
         /// <summary>
+        /// Human readable name for the system
+        /// </summary>
+        string Name { get; set; }
+
+        /// <summary>
         /// The unique identifier for this system so that it can be referenced from scripts
         /// etc.  This should be a constant (Don't use NewGuid!).  When sub-classing it is
         /// permissible to use the parents guid if you are semantically the same (e.g. subclass

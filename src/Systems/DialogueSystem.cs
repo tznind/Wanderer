@@ -16,6 +16,8 @@ namespace Wanderer.Systems
     {
         public List<DialogueNode> AllDialogues { get; set; } = new List<DialogueNode>();
 
+        public string Name { get; set; } = "Dialogue";
+
         public Guid Identifier { get; set; } = new Guid("f5677833-c81a-4588-a2ad-54b0215aa926");
 
         public void Apply(SystemArgs args)

@@ -1,0 +1,16 @@
+﻿- Name: GetsHungry
+  Identifier: "da773182-a889-4b3c-a697-e8b22d0c297b"
+  InjurySystem: "89c18233-5250-4445-8799-faa9a888fb7f"
+  OnRoundEnding:
+    Condition: 
+        # If they are not hungry yet
+      - "return Behaviour.Owner:Has('89c18233-5250-4445-8799-faa9a888fb7f') == false"
+    Effect:
+        # Record how long since they last got hungry
+      - "Behaviour.Count = Behaviour.Count +1"
+        # Inflict hunger if it has been a while
+      - |
+          if Behaviour.Count > 5 then
+            World:GetSystem('89c18233-5250-4445-8799-faa9a888fb7f'):Apply(SystemArgs(World,UserInterface,10,null,Behaviour.Owner,Round))
+            Behaviour.Count = 0
+          end

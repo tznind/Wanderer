@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using Wanderer.Systems;
@@ -14,7 +15,13 @@ namespace Wanderer.Behaviours
         public BehaviourEventHandler OnPopHandler {get;set;}
 
         public BehaviourEventHandler OnRoundEndingHandler {get;set;}
-        
+
+        /// <summary>
+        /// Handy field for tracking behaviour progress e.g. getting hungry over
+        /// time, three strikes and your out that kind of thing
+        /// </summary>
+        public int Count { get; set; }
+
         [JsonConstructor]
         protected Behaviour()
         {
@@ -27,23 +34,17 @@ namespace Wanderer.Behaviours
 
         public virtual void OnPush(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
         {
-            if(OnPushHandler != null)
-                OnPushHandler.Fire(new ActionFrameSystemArgs(world,ui,stack,frame));
+            OnPushHandler?.Fire(new ActionFrameSystemArgs(this,world,ui,stack,frame));
         }
-
-
+        
         public virtual void OnPop(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
         {
-            if(OnPopHandler != null)
-                OnPopHandler.Fire(new ActionFrameSystemArgs(world,ui,stack,frame));
-
+            OnPopHandler?.Fire(new ActionFrameSystemArgs(this,world,ui,stack,frame));
         }
-
-
+        
         public virtual void OnRoundEnding(IWorld world,IUserinterface ui, Guid round)
         {
-            if(OnRoundEndingHandler != null)
-                OnRoundEndingHandler.Fire(new SystemArgs(world,ui,0,null,Owner,round));
+            OnRoundEndingHandler?.Fire(new BehaviourSystemArgs(this,world,ui,null,Owner,round));
         }
     }
 }

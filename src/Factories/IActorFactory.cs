@@ -19,6 +19,12 @@ namespace Wanderer.Factories
         /// specifically says otherwise)
         /// </summary>
         SlotCollection DefaultSlots { get; set; }
+        
+        /// <summary>
+        /// Default behaviour blueprints that get stamped onto every actor produced
+        /// by the factory.
+        /// </summary>
+        List<BehaviourBlueprint> DefaultBehaviours { get; set; }
 
         /// <summary>
         /// Create some npcs in the room
@@ -30,7 +36,7 @@ namespace Wanderer.Factories
         void Create(IWorld world, IRoom room, IFaction faction, RoomBlueprint roomBlueprintIfAny);
 
         /// <summary>
-        /// Create a new resident in <paramref name="room"/> by stamping out the actor <paramref name="blueprint"/>
+        /// Create actor new resident in <paramref name="room"/> by stamping out the actor <paramref name="blueprint"/>
         /// </summary>
         /// <param name="world"></param>
         /// <param name="room">Where to create the actor</param>
@@ -39,5 +45,12 @@ namespace Wanderer.Factories
         /// <param name="roomBlueprintIfAny">Optional blueprint which might contain thematic room items etc</param>
         /// <returns></returns>
         IActor Create(IWorld world, IRoom room, IFaction faction, ActorBlueprint blueprint, RoomBlueprint roomBlueprintIfAny);
+
+        /// <summary>
+        /// Adds all <see cref="DefaultBehaviours"/> onto <paramref name="actor"/>
+        /// </summary>
+        /// <param name="world"></param>
+        /// <param name="actor"></param>
+        void AddDefaultBehaviours(IWorld world, IActor actor);
     }
 }

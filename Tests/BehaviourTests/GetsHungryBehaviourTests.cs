@@ -22,7 +22,7 @@ namespace Tests.BehaviourTests
 
             Assert.IsEmpty(you.Adjectives.OfType<IInjured>());
 
-            Assert.AreEqual(1,you.BaseBehaviours.OfType<GetsHungryBehaviour>().Count());
+            Assert.AreEqual(1,you.BaseBehaviours.Count(b => b.Name.Equals("GetsHungry")));
 
             for(int i=0;i<6;i++)
                 world.RunRound(GetUI(),new LoadGunsAction(you));
@@ -38,7 +38,7 @@ namespace Tests.BehaviourTests
 
             Assert.IsEmpty(you.Adjectives.OfType<IInjured>());
 
-            Assert.AreEqual(1,you.BaseBehaviours.OfType<GetsHungryBehaviour>().Count());
+            Assert.AreEqual(1,you.BaseBehaviours.Count(b => b.Name.Equals("GetsHungry")));
 
             int i;
             for(i=0;i<1000;i++)

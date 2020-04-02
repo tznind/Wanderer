@@ -36,7 +36,10 @@ namespace Tests
         protected You YouInARoom(out IWorld world)
         {
             var room = InARoom(out world);
-            return new You("Test Wanderer", room);
+            var you = new You("Test Wanderer", room);
+
+            world.ActorFactory.AddDefaultBehaviours(world,you);
+            return you;
         }
         
         protected FixedChoiceUI GetUI(params object[] choiceSelection)
