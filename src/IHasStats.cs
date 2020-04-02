@@ -7,6 +7,7 @@ using Wanderer.Adjectives;
 using Wanderer.Behaviours;
 using Wanderer.Dialogues;
 using Wanderer.Stats;
+using Wanderer.Systems;
 
 namespace Wanderer
 {
@@ -48,6 +49,12 @@ namespace Wanderer
         /// White=15
         /// </summary>
         ConsoleColor Color { get; set; }
+        
+        /// <summary>
+        /// The injury system of your innate weapons e.g. fists, claws
+        /// flaming breath etc.  Does not include items wielded by you
+        /// </summary>
+        IInjurySystem InjurySystem { get; set; }
 
         /// <summary>
         /// What the thing does when you try to interact with it in a narrative manner e.g. talk, read

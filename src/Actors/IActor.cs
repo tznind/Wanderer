@@ -29,11 +29,6 @@ namespace Wanderer.Actors
         /// </summary>
         string FightVerb { get; set; }
 
-        /// <summary>
-        /// The injury system of your innate weapons e.g. fists, claws
-        /// flaming breath etc.  Does not include items wielded by you
-        /// </summary>
-        IInjurySystem InjurySystem { get; set; }
 
         /// <summary>
         /// Where the <see cref="Actor"/> currently is

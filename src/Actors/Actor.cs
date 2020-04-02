@@ -20,9 +20,7 @@ namespace Wanderer.Actors
     {
         public bool Dead { get; set; }
         public string FightVerb { get; set; } = "Fists";
-
-        public IInjurySystem InjurySystem { get; set; }
-
+        
         /// <inheritdoc/>
         public IRoom CurrentLocation { get; set; }
         

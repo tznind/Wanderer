@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <None Remove="Resources\default.actor.behaviours.yaml" />
+    <None Remove="Resources\Schemas\behaviours.schema.json" />
   </ItemGroup>
 
   <ItemGroup>
