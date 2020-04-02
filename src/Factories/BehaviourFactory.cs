@@ -18,6 +18,15 @@ namespace Wanderer.Factories
             
             AddBasicProperties(world,instance,blueprint,"evaluate");
 
+            if(blueprint.OnPop != null)
+                instance.OnPopHandler = blueprint.OnPop;
+
+            if(blueprint.OnPush != null)
+                instance.OnPushHandler = blueprint.OnPush;
+
+            if(blueprint.OnRoundEnding != null)
+                instance.OnRoundEndingHandler = blueprint.OnRoundEnding;
+
             onto.BaseBehaviours.Add(instance);
 
             return instance;
