@@ -103,6 +103,10 @@
             }
           ]
         },
+        "SkipDefaultActions": {
+          "type": "boolean",
+          "description": "True to make Actions the only actions to be given to the object (i.e. no default actions)"
+        },
         "Actions": {
           "type": [
             "array",
@@ -111,6 +115,20 @@
           "description": "Option, if specified this list becomes the actions of the object replacing any existing actions they might otherwise get)",
           "items": {
             "$ref": "#/definitions/ActionBlueprint"
+          }
+        },
+        "SkipDefaultBehaviours": {
+          "type": "boolean",
+          "description": "True to make Behaviours the only behaviours to be given to the object (i.e. no default behaviours)"
+        },
+        "Behaviours": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "Optional list of behaviours (event handlers) that should be created on the object",
+          "items": {
+            "$ref": "#/definitions/BehaviourBlueprint"
           }
         },
         "OnPush": {
@@ -359,6 +377,10 @@
             }
           ]
         },
+        "SkipDefaultActions": {
+          "type": "boolean",
+          "description": "True to make Actions the only actions to be given to the object (i.e. no default actions)"
+        },
         "Actions": {
           "type": [
             "array",
@@ -367,6 +389,20 @@
           "description": "Option, if specified this list becomes the actions of the object replacing any existing actions they might otherwise get)",
           "items": {
             "$ref": "#/definitions/ActionBlueprint"
+          }
+        },
+        "SkipDefaultBehaviours": {
+          "type": "boolean",
+          "description": "True to make Behaviours the only behaviours to be given to the object (i.e. no default behaviours)"
+        },
+        "Behaviours": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "Optional list of behaviours (event handlers) that should be created on the object",
+          "items": {
+            "$ref": "#/definitions/BehaviourBlueprint"
           }
         },
         "HotKey": {

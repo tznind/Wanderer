@@ -6,7 +6,7 @@ using Wanderer.Items;
 
 namespace Wanderer.Factories
 {
-    public interface IActionFactory
+    public interface IActionFactory: IHasStatsFactory
     {
         /// <summary>
         /// Action blueprints which get stamped out by this factory

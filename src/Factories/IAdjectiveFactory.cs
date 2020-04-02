@@ -6,7 +6,7 @@ using Wanderer.Factories.Blueprints;
 
 namespace Wanderer.Factories
 {
-    public interface IAdjectiveFactory
+    public interface IAdjectiveFactory: IHasStatsFactory
     {
         List<AdjectiveBlueprint> Blueprints { get; set; }
 

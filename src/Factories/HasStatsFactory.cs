@@ -4,16 +4,20 @@ using System.Collections.Generic;
 using System.Linq;
 using Wanderer.Actions;
 using Wanderer.Actors;
+using Wanderer.Behaviours;
 using Wanderer.Factories.Blueprints;
 using Wanderer.Systems;
 
 namespace Wanderer.Factories
 {
-    public abstract class HasStatsFactory<T1,T2> where T1:HasStatsBlueprint where T2 : IHasStats
+    public abstract class HasStatsFactory<T1,T2> : IHasStatsFactory where T1:HasStatsBlueprint where T2 : IHasStats
     {
-        public HashSet<Guid> UniquesSpawned = new HashSet<Guid>();
+        public HashSet<Guid> UniquesSpawned { get; set; } = new HashSet<Guid>();
         
         public List<T1> Blueprints { get; set; } = new List<T1>();
+       
+        public List<BehaviourBlueprint> DefaultBehaviours { get; set; } = new List<BehaviourBlueprint>();
+        public List<ActionBlueprint> DefaultActions { get; set; } = new List<ActionBlueprint>();
 
         /// <summary>
         /// True if the blueprint should be included in randomization choices
@@ -44,13 +48,9 @@ namespace Wanderer.Factories
             if (blueprint.Unique)
                 UniquesSpawned.Add(blueprint.Identifier ?? Guid.Empty);
 
-            if (blueprint.Actions.Any())
-            {
-                onto.BaseActions = new List<IAction>();
+            AddActions(world,blueprint,onto);
 
-                foreach(var actionBlueprint in blueprint.Actions)
-                    world.ActionFactory.Create(world,onto,actionBlueprint);
-            }
+            AddBehaviours(world,blueprint,onto);
 
             onto.Color = blueprint.Color;
             onto.Unique = blueprint.Unique;
@@ -67,11 +67,7 @@ namespace Wanderer.Factories
                 if (onto.Dialogue.Verb == null)
                     onto.Dialogue.Verb = defaultDialogueVerb;
             }
-
-            foreach (IAction a in onto.BaseActions)
-                if (a.Owner == null)
-                    a.Owner = onto;
-
+            
             if (blueprint.InjurySystem != null)
             {
                 IInjurySystem system;
@@ -89,7 +85,39 @@ namespace Wanderer.Factories
                 onto.InjurySystem = system;
             }
         }
-        
+
+        private void AddBehaviours(IWorld world,T1 blueprint, T2 onto)
+        {
+            //Clear defaults that come for free already on the class
+            if(blueprint.SkipDefaultBehaviours)
+                onto.BaseBehaviours = new List<IBehaviour>();
+
+            foreach(var behaviourBlueprint in blueprint.Behaviours)
+                world.BehaviourFactory.Create(world,onto,behaviourBlueprint);
+            
+            //Add default behaviours
+            if(!blueprint.SkipDefaultBehaviours)
+                foreach (var behaviourBlueprint in DefaultBehaviours)
+                    if(behaviourBlueprint.SuitsFaction(blueprint.Faction))
+                        world.BehaviourFactory.Create(world, onto, behaviourBlueprint);
+        }
+
+        private void AddActions(IWorld world,T1 blueprint, T2 onto)
+        {
+            //Clear defaults that come for free already on the class
+            if(blueprint.SkipDefaultActions)
+                onto.BaseActions = new List<IAction>();
+
+            foreach(var actionBlueprint in blueprint.Actions)
+                world.ActionFactory.Create(world,onto,actionBlueprint);
+
+            //Add default actions
+            if(!blueprint.SkipDefaultActions)
+                foreach (var actionBlueprint in DefaultActions)
+                    if(actionBlueprint.SuitsFaction(blueprint.Faction))
+                        world.ActionFactory.Create(world, onto, actionBlueprint);
+        }
+
         protected virtual T1 GetBlueprint(Guid guid)
         {
             return Blueprints.FirstOrDefault(b => b.Identifier == guid) ??

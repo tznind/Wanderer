@@ -9,12 +9,11 @@ using System.Collections.Generic;
 
 namespace Wanderer.Factories
 {
-    public class ActorFactory : HasStatsFactory<ActorBlueprint,IActor> ,IActorFactory
+    public class ActorFactory : HasStatsFactory<ActorBlueprint,IActor>,IActorFactory
     {
         
         public SlotCollection DefaultSlots { get; set; } = new SlotCollection();
         
-        public List<BehaviourBlueprint> DefaultBehaviours { get; set; } = new List<BehaviourBlueprint>();
 
         public virtual void Create(IWorld world, IRoom room, IFaction faction, RoomBlueprint roomBlueprintIfAny)
         {
@@ -59,18 +58,7 @@ namespace Wanderer.Factories
             
             npc.AvailableSlots = (blueprint.Slots ?? faction?.DefaultSlots ?? DefaultSlots)?.Clone() ?? new SlotCollection();
 
-            AddDefaultBehaviours(world, npc);
-
             return npc;
-        }
-
-        public void AddDefaultBehaviours(IWorld world, IActor actor)
-        {
-            foreach (var blue in DefaultBehaviours)
-                //if the behaviour blueprint is un-themed or suits any factions the actor belongs to
-                if(blue.Faction == null || actor.FactionMembership.Any(f=>blue.SuitsFaction(f)))
-                    //spawn it onto them
-                    world.BehaviourFactory.Create(world, actor, blue);
         }
     }
 }

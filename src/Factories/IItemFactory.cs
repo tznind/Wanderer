@@ -7,7 +7,7 @@ using Wanderer.Rooms;
 
 namespace Wanderer.Factories
 {
-    public interface IItemFactory
+    public interface IItemFactory: IHasStatsFactory
     {
         List<ItemBlueprint> Blueprints { get; set; }
         IItem Create(IWorld world, ItemBlueprint blueprint);

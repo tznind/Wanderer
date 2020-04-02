@@ -5,6 +5,7 @@ using Moq;
 using NUnit.Framework;
 using Wanderer;
 using Wanderer.Actors;
+using Wanderer.Behaviours;
 using Wanderer.Compilation;
 using Wanderer.Dialogues;
 using Wanderer.Factories;
@@ -79,7 +80,7 @@ namespace Tests
             };
             w.Dialogue.AllDialogues.Add(d);
 
-            v.Validate(w,w.Player,new DialogueInitiation()
+            v.ValidateDialogue(w,w.Player,new DialogueInitiation()
             {
                 Next = new Guid("1cf15faf-837b-4629-84c5-bdfa7631a905")
 
@@ -102,7 +103,7 @@ namespace Tests
 
             w.Dialogue.AllDialogues.Add(d);
 
-            v.Validate(w,w.Player,new DialogueInitiation()
+            v.ValidateDialogue(w,w.Player,new DialogueInitiation()
             {
                 Next = new Guid("1cf15faf-837b-4629-84c5-bdfa7631a905")
 
@@ -133,7 +134,7 @@ namespace Tests
             };
             world.Dialogue.AllDialogues.Add(d);
 
-            v.Validate(world,world.Player,new DialogueInitiation()
+            v.ValidateDialogue(world,world.Player,new DialogueInitiation()
             {
                 Next = new Guid("1cf15faf-837b-4629-84c5-bdfa7631a905")
 
@@ -170,7 +171,7 @@ namespace Tests
             };
             w.Dialogue.AllDialogues.Add(d);
 
-            v.Validate(w,w.Player,new DialogueInitiation()
+            v.ValidateDialogue(w,w.Player,new DialogueInitiation()
             {
                 Next = new Guid("1cf15faf-837b-4629-84c5-bdfa7631a905")
 
@@ -208,7 +209,7 @@ namespace Tests
             };
             w.Dialogue.AllDialogues.Add(d);
 
-            v.Validate(w,w.Player,new DialogueInitiation()
+            v.ValidateDialogue(w,w.Player,new DialogueInitiation()
             {
                 Next = new Guid("1cf15faf-837b-4629-84c5-bdfa7631a905")
 
@@ -289,11 +290,37 @@ namespace Tests
                 Slot = new ItemSlot("Handers",5)
             };
 
-            v.Validate(w,w.ItemFactory.Create(w,blue), Mock.Of<IRoom>());
+            v.ValidateItem(w,w.ItemFactory.Create(w,blue), Mock.Of<IRoom>());
 
             StringAssert.Contains(@"Item Hammer lists Slot named Handers but no Actors or Default slots are listed with that name (Slots seen were '')",v.Warnings.ToString());
         }
+        
+        [Test]
+        public void TestValidate_BadBehaviour()
+        {
+            WorldValidator v = new WorldValidator();
 
+            var w = new World();
+            var blue = new ItemBlueprint
+            {
+                Name = "Hammer",
+                Behaviours = 
+                    new List<BehaviourBlueprint>()
+                    {
+                        new BehaviourBlueprint()
+                        {
+                            OnPush = new BehaviourEventHandler()
+                            {
+                                Effect = new List<IEffect>{new EffectCode("aa + bb + cc")}
+                            }
+                        }
+                    }
+            };
+
+            v.ValidateItem(w,w.ItemFactory.Create(w,blue), new Room("Test Room",w,'t'));
+
+            StringAssert.Contains(@"Error testing OnPush of Behaviour Unnamed Object of on 'Hammer' in room 'Test Room' with test actor 'test actor'",v.Warnings.ToString());
+        }
         
         [Test]
         public void TestWorldValidator_BadYaml()

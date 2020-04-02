@@ -4,7 +4,7 @@ using Wanderer.Rooms;
 
 namespace Wanderer.Factories
 {
-    public interface IRoomFactory
+    public interface IRoomFactory: IHasStatsFactory
     {
         IRoom Create(IWorld world);
         IRoom Create(IWorld world, RoomBlueprint blueprint);

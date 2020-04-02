@@ -15,6 +15,7 @@ using Wanderer.Factories;
 using Wanderer.Factories.Blueprints;
 using Wanderer.Items;
 using Wanderer.Rooms;
+using Wanderer.Systems;
 
 namespace Tests
 {
@@ -180,6 +181,27 @@ namespace Tests
 
             Assert.IsNotNull(hammer1.Adjectives.Single().Owner);
             Assert.IsNotNull(hammer2.Adjectives.Single().Owner);
+
+        }
+
+        [Test]
+        public void Test_GetSystem()
+        {
+            var world = new World();
+            
+            Assert.Throws<NamedObjectNotFoundException>(()=>world.GetSystem("fff"));
+            Assert.Throws<GuidNotFoundException>(
+                () => world.GetSystem(new Guid("1f0c7480-d434-48ec-9872-aed16c47f2eb")));
+
+            world.InjurySystems.Add(new InjurySystem()
+            {
+                Name = "fff",
+                Identifier = new Guid("1f0c7480-d434-48ec-9872-aed16c47f2eb")
+            });
+
+            
+            Assert.AreEqual(world.InjurySystems.Single(),world.GetSystem("fff"));
+            Assert.AreEqual(world.InjurySystems.Single(),world.GetSystem(new Guid("1f0c7480-d434-48ec-9872-aed16c47f2eb")));
 
         }
     }

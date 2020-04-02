@@ -5,7 +5,7 @@ using Wanderer.Factories.Blueprints;
 
 namespace Wanderer.Factories
 {
-    public interface IBehaviourFactory
+    public interface IBehaviourFactory: IHasStatsFactory
     {
 
         /// <summary>
