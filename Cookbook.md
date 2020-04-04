@@ -118,6 +118,13 @@ Next we need to create the item.  We will make it SingleUse and give it a custom
 ```
 <sup>./items.yaml</sup>
 
+Finally getting hit by a stray grenade blast should probably make other NPCs angry.  Add another effect to the item:
+
+```yaml
+        #And make them all angry at you
+        - World.Relationships:ApplyToAll(Room.Actors,SystemArgs(World,UserInterface,-10,AggressorIfAny,null,Round))
+
+```
 
 ### Ammo
 <sup>[[View Test]](./Tests/Cookbook/Ammo.cs)</sup>
