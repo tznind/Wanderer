@@ -4,17 +4,17 @@
   "type": "object",
   "additionalProperties": false,
   "properties": {
-    "Identifier": {
-      "type": "string",
-      "description": "Unique identifier for this injury system.  By default IInjured adjectives created by the system will also have this Guid",
-      "format": "guid"
-    },
     "Name": {
       "type": [
         "null",
         "string"
       ],
-      "description": "Human readable name for this injury system e.g. Flame, Hunger etc"
+      "description": "Human readable name for the system"
+    },
+    "Identifier": {
+      "type": "string",
+      "description": "The unique identifier for this system so that it can be referenced from scripts\netc.  This should be a constant (Don't use NewGuid!).  When sub-classing it is\npermissible to use the parents guid if you are semantically the same (e.g. subclass\nmethods are alternate ways to load the system)",
+      "format": "guid"
     },
     "IsDefault": {
       "type": "boolean",

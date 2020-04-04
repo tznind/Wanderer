@@ -12,15 +12,16 @@ using Wanderer.Factories;
 
 namespace Wanderer.Systems
 {
-    public class DialogueSystem : IDialogueSystem
+    public class DialogueSystem : System, IDialogueSystem
     {
         public List<DialogueNode> AllDialogues { get; set; } = new List<DialogueNode>();
-
-        public string Name { get; set; } = "Dialogue";
-
-        public Guid Identifier { get; set; } = new Guid("f5677833-c81a-4588-a2ad-54b0215aa926");
-
-        public void Apply(SystemArgs args)
+        
+        public DialogueSystem()
+        {
+            Name = "Dialogue";
+            Identifier = new Guid("f5677833-c81a-4588-a2ad-54b0215aa926");
+        }
+        public override void Apply(SystemArgs args)
         {
             if (args.AggressorIfAny == null)
                 return;

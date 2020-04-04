@@ -13,18 +13,19 @@ namespace Wanderer.Plans
     /// System responsible for formulating a viable set of <see cref="Plan"/>s for
     /// <see cref="Npc"/>
     /// </summary>
-    public class PlanningSystem : ISystem
+    public class PlanningSystem : Systems.System
     {
         /// <summary>
         /// Plans that can be picked from
         /// </summary>
         public List<Plan> Plans = new List<Plan>();
 
-        public string Name { get; set; } = "Planning";
-
-        public Guid Identifier { get; set; } = new Guid("3100f9db-a46b-4b6e-8e34-1222672a753c");
-        
-        public void Apply(SystemArgs args)
+        public PlanningSystem()
+        {
+            Name = "Planning";
+            Identifier = new Guid("3100f9db-a46b-4b6e-8e34-1222672a753c");
+        }
+        public override void Apply(SystemArgs args)
         {
             var actor = (Npc) args.Recipient;
 

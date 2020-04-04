@@ -34,7 +34,11 @@ namespace Tests.Cookbook
         {
             return Setup("slots.yaml", slotsYaml,"items.yaml",itemYaml);
         }
-
+        
+        protected IWorld SetupItem(string itemYaml)
+        {
+            return Setup("items.yaml",itemYaml);
+        }
         protected IWorld SetupItem(string slotsYaml, string itemYaml,string adjectivesYaml)
         {
             return Setup("slots.yaml", slotsYaml,"items.yaml",itemYaml,"adjectives.yaml",adjectivesYaml);
@@ -51,7 +55,6 @@ namespace Tests.Cookbook
 
             for(int i=0;i<pairs.Length;i+=2) 
             {
-
                 var fi = new FileInfo(Path.Combine(dir, pairs[i]));
 
                 if(!fi.Directory.Exists)

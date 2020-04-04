@@ -15,6 +15,7 @@ This page contains simple recipes for common level building tasks.
   - [Add same item to many rooms](#add-same-item-to-many-rooms)
 - [Item Recipes](#item-recipes)
   - [Equippable weapon](#equippable-weapon)
+  - [Grenade](#grenade)
   - [Ammo](#ammo)
 - [Dialogue Recipes](#dialogue-recipes)
   - [Remark about injury](#remark-about-injury)
@@ -82,7 +83,43 @@ This defines that by default all actors have 2 wrists.  Next create the item:
 <sup>./items.yaml</sup>
 
 
-## Ammo
+### Grenade
+<sup>[[View Test]](./Tests/Cookbook/Grenade.cs)</sup>
+
+Everyone loves grenades! To create one we will first need an injury system for the damage inflicted (or you can reuse an existing one e.g. tissue injuries)
+
+```yaml
+Identifier: 7ccafc68-d51f-4408-861c-f1d7e4e6351a
+Name: Blast Damage
+FatalThreshold: 100
+FatalVerb: injuries
+
+Injuries:
+- Name: Wounded
+  Severity: 10";
+```
+<sup>./blast.injury.yaml</sup>
+
+Next we need to create the item.  We will make it SingleUse and give it a custom fight action that damages everyone in the room
+
+```yaml
+- Name: Grenade
+  InjurySystem: 7ccafc68-d51f-4408-861c-f1d7e4e6351a
+  Stack: 1
+  MandatoryAdjectives:
+   - SingleUse
+  Actions:
+    - Type: FightAction
+      Stats: 
+         Fight: 30
+      Effect:
+        #Injury everyone in the room
+        - World:GetSystem('7ccafc68-d51f-4408-861c-f1d7e4e6351a'):ApplyToAll(Room.Actors,SystemArgs(World,UserInterface,20,AggressorIfAny,null,Round))
+```
+<sup>./items.yaml</sup>
+
+
+### Ammo
 <sup>[[View Test]](./Tests/Cookbook/Ammo.cs)</sup>
 
 This will cover creating a laser pistol.  For this recipe we are going to need entries in 4 files.

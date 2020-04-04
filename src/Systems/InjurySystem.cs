@@ -8,20 +8,10 @@ using Wanderer.Stats;
 
 namespace Wanderer.Systems
 {
-    public class InjurySystem : IInjurySystem
+    public class InjurySystem : System, IInjurySystem
     {
         private const double Tolerance = 0.0001;
-
-        /// <summary>
-        /// Unique identifier for this injury system.  By default <see cref="IInjured"/> adjectives created by the system will also have this Guid
-        /// </summary>
-        public Guid Identifier { get; set; }
-
-        /// <summary>
-        /// Human readable name for this injury system e.g. Flame, Hunger etc
-        /// </summary>
-        public string Name { get; set; }
-
+        
         /// <summary>
         /// True if the injury system should be the default if none is defined (e.g. when not armed with a specific weapon - with it's own injury system).
         /// </summary>
@@ -119,7 +109,7 @@ namespace Wanderer.Systems
         /// </summary>
         public bool MergeInstances {get;set;}
 
-        public virtual void Apply(SystemArgs args)
+        public override void Apply(SystemArgs args)
         {
             if(args.Intensity < 0 )
                 return;
