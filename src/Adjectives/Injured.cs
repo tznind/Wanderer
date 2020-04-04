@@ -8,7 +8,6 @@ namespace Wanderer.Adjectives
 {
     public class Injured : Adjective, IInjured
     {
-        public IInjurySystem InjurySystem { get; set; }
         public InjuryRegion Region { get; set; }
         public double Severity { get; set; }
         public bool IsInfected { get; set; }

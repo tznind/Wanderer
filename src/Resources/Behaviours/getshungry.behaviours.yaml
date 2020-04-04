@@ -7,10 +7,10 @@
       - "return Behaviour.Owner:Has('89c18233-5250-4445-8799-faa9a888fb7f') == false"
     Effect:
         # Record how long since they last got hungry
-      - "Behaviour.Count = Behaviour.Count +1"
+      - "Behaviour.V['Count'] = Behaviour.V['Count'] +1"
         # Inflict hunger if it has been a while
       - |
-          if Behaviour.Count > 5 then
+          if Behaviour.V['Count'] > 5 then
             World:GetSystem('89c18233-5250-4445-8799-faa9a888fb7f'):Apply(SystemArgs(World,UserInterface,10,null,Behaviour.Owner,Round))
-            Behaviour.Count = 0
+            Behaviour.V['Count'] = 0
           end

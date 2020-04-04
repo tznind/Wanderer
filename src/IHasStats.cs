@@ -82,6 +82,11 @@ namespace Wanderer
         List<IBehaviour> BaseBehaviours { get; set; }
 
         /// <summary>
+        /// Custom variables for user scripts and tracking counts
+        /// </summary>
+        public DynamicDictionary V {get;set;}
+
+        /// <summary>
         /// Returns the <see cref="BaseStats"/> plus any modifiers for child objects (e.g. gear, <see cref="Adjectives"/> etc)
         /// </summary>
         /// <param name="forActor"></param>

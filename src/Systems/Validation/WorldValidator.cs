@@ -113,7 +113,7 @@ namespace Wanderer.Systems.Validation
                     var room = roomFactory.Create(world, blue);
                     world.Map[new Point3(0,0,0)] = room;
                     world.Player.CurrentLocation = room;
-                    Validate(world,room);
+                    ValidateRoom(world,room);
                 }
                 catch (Exception e)
                 {
@@ -141,7 +141,7 @@ namespace Wanderer.Systems.Validation
             }
         }
 
-        public void Validate(IWorld world, IRoom room)
+        public void ValidateRoom(IWorld world, IRoom room)
         {
             foreach (var item in room.Items.ToArray())
                 ValidateItem(world,item,room);
@@ -153,7 +153,10 @@ namespace Wanderer.Systems.Validation
             {
                 if (actor.Dialogue != null)
                     ValidateDialogue(world,actor, actor.Dialogue,room);
-                        
+                    
+                foreach (var behaviour in actor.BaseBehaviours)
+                    ValidateBehaviour(world,actor,behaviour,room);
+                
                 foreach (var item in actor.Items)
                     ValidateItem(world, item,room);
 

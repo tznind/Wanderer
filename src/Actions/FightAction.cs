@@ -9,13 +9,6 @@ namespace Wanderer.Actions
 {
     public class FightAction : Action
     {
-        /// <summary>
-        /// Specifies a specific kind of damage inflicted when performing this
-        /// fight action (e.g. for a flame weapon).  This overrides the
-        /// <see cref="IActor.InjurySystem"/>
-        /// </summary>
-        public IInjurySystem InjurySystem { get; set; }
-
         public FightAction(IHasStats owner):base(owner)
         {
             HotKey = 'f';

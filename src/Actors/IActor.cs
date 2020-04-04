@@ -166,14 +166,14 @@ namespace Wanderer.Actors
         
         
         /// <summary>
-        /// Adds a new <see cref="IBehaviour"/> onto <see cref="BaseBehaviours"/>
+        /// Adds a new <see cref="IBehaviour"/> onto <see cref="IHasStats.BaseBehaviours"/>
         /// </summary>
         /// <param name="name">Name of <see cref="BehaviourBlueprint"/></param>
         /// <returns></returns>
         public IBehaviour SpawnBehaviour(string name);
         
         /// <summary>
-        /// Adds a new <see cref="IBehaviour"/> onto <see cref="BaseBehaviours"/>
+        /// Adds a new <see cref="IBehaviour"/> onto <see cref="IHasStats.BaseBehaviours"/>
         /// </summary>
         /// <param name="g">Guid of <see cref="HasStatsBlueprint.Identifier"/></param>
         /// <returns></returns>

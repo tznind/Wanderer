@@ -34,6 +34,11 @@ namespace Wanderer
 
         public StatsCollection BaseStats { get; set; } = new StatsCollection();
         
+        /// <summary>
+        /// Custom variables for user scripts and tracking counts
+        /// </summary>
+        public DynamicDictionary V {get;set;} = new DynamicDictionary();
+        
         public virtual StatsCollection GetFinalStats(IActor forActor)
         {
             var clone = BaseStats.Clone();
