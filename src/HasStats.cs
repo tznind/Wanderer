@@ -31,23 +31,6 @@ namespace Wanderer
         /// </summary>
         public const ConsoleColor DefaultColor = ConsoleColor.White;
 
-        Dictionary<string,object> _variables = new Dictionary<string, object>(StringComparer.CurrentCultureIgnoreCase);
-
-        /// <summary>
-        /// Store any variables you want attached to this object (e.g. from Lua scripted behaviours)
-        /// </summary>
-        /// <param name="variable"></param>
-        /// <returns></returns>
-        public object this[string variable]
-        {
-            get { return _variables.TryGetValue(variable, out object val) ? val : null; }
-            set {
-                if(_variables.ContainsKey(variable))
-                    _variables[variable] = value;
-                else
-                    _variables.Add(variable,value);
-            }
-        }
 
         public StatsCollection BaseStats { get; set; } = new StatsCollection();
         
