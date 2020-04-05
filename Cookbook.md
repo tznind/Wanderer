@@ -100,7 +100,7 @@ Injuries:
 ```
 <sup>./blast.injury.yaml</sup>
 
-Next we need to create the item.  We will make it SingleUse and give it a custom fight action that damages everyone in the room
+Next we need to create the item.  We will make it SingleUse and give it a custom fight action that damages everyone in the room.  For the damage Effect we will get the [InjurySystem] and apply it to everyone in the room.  Note that when calling `ApplyToAll` the Recipient can be `null` because it will be assigned for each of the passed actors.
 
 ```yaml
 - Name: Grenade
@@ -118,7 +118,7 @@ Next we need to create the item.  We will make it SingleUse and give it a custom
 ```
 <sup>./items.yaml</sup>
 
-Finally getting hit by a stray grenade blast should probably make other NPCs angry.  Add another effect to the item:
+Getting hit by a stray grenade blast should probably make other NPCs angry.  Add another effect to the item.  This time we use `ApplyAll` on the [RelationshipSystem]
 
 ```yaml
         #And make them all angry at you
@@ -238,6 +238,8 @@ Each [DialogueNode] is made up of 1 or more blocks of text.  You can apply condi
 If you have multiple injury systems e.g. fire, cold, tissue damage etc and want to restrict your condition to only one of them then you can pass the injury system Guid instead e.g. return `AggressorIfAny:Has('7cc7a784-949b-4c26-9b99-c1ea7834619e')`
 
 
+[InjurySystem]: ./src/Systems/InjurySystem.cs
+[RelationshipSystem]: ./src/Systems/RelationshipSystem.cs
 [DialogueNode]: ./src/Dialogues/DialogueNode.cs
 [Player]: ./src/Actors/You.cs
 [Main.lua]: ./src/Resources/Main.lua
