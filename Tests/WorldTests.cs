@@ -185,6 +185,23 @@ namespace Tests
         }
 
         [Test]
+        public void Test_Serialization_OfDynamicDictionary()
+        {
+            TwoInARoom(out You you, out IActor them, out IWorld world);
+
+            them.V["Fish"] = 10;
+            
+            var config = World.GetJsonSerializerSettings();
+            var json = JsonConvert.SerializeObject(them,config);
+
+            var them2 = (Npc) JsonConvert.DeserializeObject(json,typeof(Npc),config);
+
+            Assert.AreEqual(10,them.V["Fish"]);
+            Assert.AreEqual(10,them2.V["Fish"]);
+
+        }
+
+        [Test]
         public void Test_GetSystem()
         {
             var world = new World();
