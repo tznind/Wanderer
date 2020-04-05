@@ -1,0 +1,37 @@
+- Identifier: 581e4df0-c69d-4583-a24f-966f6dacf014
+  Body:
+  - Text: A slumped form lies shivering in the corner, the gentle jangling of chains acompanies every movement.  Black flesh ribbed with muscle contrast with the glinting chrome of a thousand tiny chains.  A single throbbing red light blinks in what once might have passed for a head.
+  Options:
+  - Text: Inspect it up close
+    Destination: 7b534582-88e0-4784-a224-668a5c7971f9
+  - Text: Canem Subsisto
+    Destination: 8a55e839-6bdc-4e37-bd3b-dbd6da88ac7a
+  - Text: Throw a rock at it
+    Destination: 85ce2c42-f3df-4d75-b772-27831b54a304
+- Identifier: 7b534582-88e0-4784-a224-668a5c7971f9
+  Body:
+  - Text: As you approach the shivering speeds up and a panting growl begins to eminate from the beast
+  Options:
+  - Text: Continue
+    Destination: a0ea2046-3de3-4897-8592-1f33d5f6484c
+  - Text: Step back
+- Identifier: a0ea2046-3de3-4897-8592-1f33d5f6484c
+  Body:
+  - Text: The beast lunges forwards towards you in a whirl of hooks and chains
+- Identifier: 8a55e839-6bdc-4e37-bd3b-dbd6da88ac7a
+  Body:
+  - Text: Your arcane words still the beast and it sinks down onto it's haunches
+  Options:
+  - Text: Inspect it up close
+    Destination: e96e2822-dc7a-421e-a7c7-43c28add9f6a
+- Identifier: e96e2822-dc7a-421e-a7c7-43c28add9f6a
+  Body:
+  - Text: Beneath the chains the wretched creature is crawling with parasites.  Tiny black bettles scuttle back and forth while others suckle greedily.
+  Options:
+  - Text: Use Fire
+  - Text: Use Medical Kit
+  - Text: Put the creature out of it's misery
+  - Text: Leave
+- Identifier: 85ce2c42-f3df-4d75-b772-27831b54a304
+  Body:
+  - Text: You pick a piece of rubble from the floor and throw it towards the creature scoring a direct hit !!!

@@ -143,6 +143,9 @@ namespace Wanderer.Systems.Validation
 
         public void ValidateRoom(IWorld world, IRoom room)
         {
+            if(room.Unique && room.Identifier == null)
+                AddError("Unique rooms must have an Identifier");
+
             foreach (var item in room.Items.ToArray())
                 ValidateItem(world,item,room);
                     

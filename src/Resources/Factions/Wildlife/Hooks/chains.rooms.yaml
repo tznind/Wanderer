@@ -1,0 +1,15 @@
+- Name: Hall of Chains
+  Unique: true
+  Identifier: e48cb6a4-c8e1-4216-91d5-6e4ad5992e70
+  Dialogue: 
+    Next: 5328efe6-bc8e-43f4-988c-90486d0f5127
+  MandatoryActors:
+    - Name: Hook Horror
+      Identifier: b16d1441-28ea-4ab4-a388-b425aefd044e
+      Dialogue:
+        Next: 581e4df0-c69d-4583-a24f-966f6dacf014
+        Verb: Examine
+      SkipDefaultActions: true
+      Actions:
+        - Name: Fight [Hooks]
+          Type: FightAction        

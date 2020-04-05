@@ -16,12 +16,6 @@ namespace Wanderer.Behaviours
 
         public BehaviourEventHandler OnRoundEndingHandler {get;set;}
 
-        /// <summary>
-        /// Handy field for tracking behaviour progress e.g. getting hungry over
-        /// time, three strikes and your out that kind of thing
-        /// </summary>
-        public int Count { get; set; }
-
         [JsonConstructor]
         protected Behaviour()
         {
