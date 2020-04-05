@@ -6,8 +6,6 @@ namespace Wanderer.Adjectives
 {
     public interface IInjured : IAdjective
     {
-        IInjurySystem InjurySystem { get; set; }
-
         InjuryRegion Region { get; set; }
         double Severity { get; set; }
         

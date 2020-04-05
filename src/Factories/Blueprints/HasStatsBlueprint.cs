@@ -83,9 +83,24 @@ namespace Wanderer.Factories.Blueprints
         public StatsCollection Stats { get; set; } = new StatsCollection();
 
         /// <summary>
+        /// True to make <see cref="Actions"/> the only actions to be given to the object (i.e. no default actions)
+        /// </summary>
+        public bool SkipDefaultActions { get; set; }
+
+        /// <summary>
         /// Option, if specified this list becomes the actions of the object replacing any existing actions they might otherwise get)
         /// </summary>
         public List<ActionBlueprint> Actions { get; set; } = new List<ActionBlueprint>();
+        
+        /// <summary>
+        /// True to make <see cref="Behaviours"/> the only behaviours to be given to the object (i.e. no default behaviours)
+        /// </summary>
+        public bool SkipDefaultBehaviours { get; set; }
+
+        /// <summary>
+        /// Optional list of behaviours (event handlers) that should be created on the object
+        /// </summary>
+        public List<BehaviourBlueprint> Behaviours { get; set; } = new List<BehaviourBlueprint>();
 
         /// <summary>
         /// Returns true if the blueprint is appropriate for the supplied <paramref name="f"/>.  Generic objects are always suitable for any faction but faction specific items only suit when their specific <paramref name="f"/> is supplied

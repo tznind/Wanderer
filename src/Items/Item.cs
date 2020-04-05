@@ -10,6 +10,7 @@ using Wanderer.Behaviours;
 using Wanderer.Compilation;
 using Wanderer.Rooms;
 using Wanderer.Stats;
+using Wanderer.Systems;
 
 namespace Wanderer.Items
 {
@@ -76,6 +77,18 @@ namespace Wanderer.Items
 
             reason = null;
             return true;
+        }
+
+        public IInjurySystem GetBestInjurySystem(IActor forActor)
+        {
+            //get an injury system from the FightAction of a weapon
+            var system = GetFinalActions(forActor)
+                .OfType<FightAction>()
+                .FirstOrDefault(i=>i.InjurySystem != null)
+                ?.InjurySystem;
+
+            //or the injury system of the weapon itself
+            return system ?? InjurySystem;
         }
 
 

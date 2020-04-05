@@ -5,6 +5,7 @@ using System.Text;
 using NLog;
 using Wanderer.Actions;
 using Wanderer.Actors;
+using Wanderer.Behaviours;
 using Wanderer.Compilation;
 using Wanderer.Dialogues;
 using Wanderer.Factories;
@@ -12,6 +13,7 @@ using Wanderer.Items;
 using Wanderer.Rooms;
 using Wanderer.Plans;
 using Wanderer.Relationships;
+using Action = Wanderer.Actions.Action;
 
 namespace Wanderer.Systems.Validation
 {
@@ -111,7 +113,7 @@ namespace Wanderer.Systems.Validation
                     var room = roomFactory.Create(world, blue);
                     world.Map[new Point3(0,0,0)] = room;
                     world.Player.CurrentLocation = room;
-                    Validate(world,room);
+                    ValidateRoom(world,room);
                 }
                 catch (Exception e)
                 {
@@ -130,7 +132,7 @@ namespace Wanderer.Systems.Validation
                     var room = new Room("Test Room",world,'t');
                     world.Map[new Point3(0,0,0)] = room;
                     world.Player.CurrentLocation = room;
-                    Validate(world,item, room);
+                    ValidateItem(world,item, room);
                 }
                 catch (Exception e)
                 {
@@ -139,21 +141,24 @@ namespace Wanderer.Systems.Validation
             }
         }
 
-        public void Validate(IWorld world, IRoom room)
+        public void ValidateRoom(IWorld world, IRoom room)
         {
             foreach (var item in room.Items.ToArray())
-                Validate(world,item,room);
+                ValidateItem(world,item,room);
                     
             if(room.Dialogue != null)
-                Validate(world,room,room.Dialogue,room);
+                ValidateDialogue(world,room,room.Dialogue,room);
 
             foreach (var actor in room.Actors.ToArray())
             {
                 if (actor.Dialogue != null)
-                    Validate(world,actor, actor.Dialogue,room);
-                        
+                    ValidateDialogue(world,actor, actor.Dialogue,room);
+                    
+                foreach (var behaviour in actor.BaseBehaviours)
+                    ValidateBehaviour(world,actor,behaviour,room);
+                
                 foreach (var item in actor.Items)
-                    Validate(world, item,room);
+                    ValidateItem(world, item,room);
 
                 foreach(var plan in world.PlanningSystem.Plans)
                     Validate(world,plan,actor);
@@ -195,10 +200,10 @@ namespace Wanderer.Systems.Validation
             }
         }
 
-        public void Validate(IWorld world, IItem item, IRoom room)
+        public void ValidateItem(IWorld world, IItem item, IRoom room)
         {
             if (item.Dialogue != null)
-                Validate(world, item, item.Dialogue,room);
+                ValidateDialogue(world, item, item.Dialogue,room);
 
             //if the item takes up slots
             if (item.Slot != null && !string.IsNullOrWhiteSpace(item.Slot.Name))
@@ -208,8 +213,13 @@ namespace Wanderer.Systems.Validation
 
                 if(!slots.Contains(item.Slot.Name))
                     AddWarning($"Item {item} lists Slot named {item.Slot.Name} but no Actors or Default slots are listed with that name (Slots seen were '{string.Join(',',slots)}')");
-
             }
+
+            foreach (var behaviour in item.BaseBehaviours) 
+                ValidateBehaviour(world, item, behaviour, room);
+
+            foreach (var action in item.BaseActions) 
+                ValidateAction(world, item, action, room);
 
             try
             {
@@ -221,6 +231,56 @@ namespace Wanderer.Systems.Validation
             }
         }
 
+        public void ValidateBehaviour(IWorld world, IHasStats owner, IBehaviour behaviour, IRoom room)
+        {
+            var actor = owner as IActor ?? GetTestActor(room);
+
+            var testAction = new Action(actor) { Name = "Test Action"};
+            var stack = new ActionStack();
+            
+            try
+            {
+                behaviour.OnPush(world,_ui,stack,new Frame(actor,testAction,0));
+            }
+            catch (Exception e)
+            {
+                AddWarning($"Error testing OnPush of Behaviour {behaviour} of on '{owner}' in room '{room.Name}' with test actor '{actor}'", e);
+            }
+            
+            try
+            {
+                behaviour.OnPop(world,_ui,stack,new Frame(actor,testAction,0));
+            }
+            catch (Exception e)
+            {
+                AddWarning($"Error testing OnPop of Behaviour {behaviour} of on '{owner}' in room '{room.Name}' with test actor '{actor}'", e);
+            }
+            
+            try
+            {
+                behaviour.OnRoundEnding(world,_ui,Guid.NewGuid());
+            }
+            catch (Exception e)
+            {
+                AddWarning($"Error testing OnRoundEnding of Behaviour {behaviour} of on '{owner}' in room '{room.Name}' with test actor '{actor}'", e);
+            }
+        }
+        public void ValidateAction(IWorld world, IHasStats owner, IAction action, IRoom room)
+        {
+            var actor = owner as IActor ?? GetTestActor(room);
+            
+            foreach (var effect in action.Effect)
+            {
+                try
+                {
+                    effect.Apply(new ActionSystemArgs(action,world,_ui, 0, GetTestActor(room), actor, Guid.Empty));
+                }
+                catch (Exception e)
+                {
+                    AddWarning($"Error testing Effect Code of Action '{action}' of '{owner}'.  Bad code was:{effect}",e);
+                }
+            }
+        }
         private List<string> GetAllSlots(IWorld world)
         {
             List<string> slots = new List<string>();
@@ -231,7 +291,7 @@ namespace Wanderer.Systems.Validation
             return slots.Distinct().ToList();
         }
 
-        public void Validate(IWorld world, IHasStats recipient, DialogueInitiation dialogue, IRoom room)
+        public void ValidateDialogue(IWorld world, IHasStats recipient, DialogueInitiation dialogue, IRoom room)
         {
             if (dialogue.Next.HasValue)
             {
@@ -240,7 +300,7 @@ namespace Wanderer.Systems.Validation
                 if (d == null)
                     AddError($"Could not find Dialogue '{dialogue.Next}'");
                 else
-                    Validate(world, recipient, dialogue,d, room);
+                    ValidateDialogue(world, recipient, dialogue,d, room);
             }
             
             if (dialogue.Banter != null)
@@ -251,12 +311,12 @@ namespace Wanderer.Systems.Validation
                     if (d == null)
                         AddError($"Could not find Banter Dialogue '{dialogue.Next}'");
                     else
-                        Validate(world, recipient, dialogue,d, room);
+                        ValidateDialogue(world, recipient, dialogue,d, room);
                 }
         }
 
 
-        public void Validate(IWorld world, IHasStats recipient,DialogueInitiation dialogue, DialogueNode node, IRoom room)
+        public void ValidateDialogue(IWorld world, IHasStats recipient,DialogueInitiation dialogue, DialogueNode node, IRoom room)
         {
             if(_alreadyValidated.Contains(node.Identifier))
                 return;
@@ -292,10 +352,8 @@ namespace Wanderer.Systems.Validation
                     }
                 }
 
-
             foreach(var option in node.Options)
                 Validate(world,recipient,dialogue,room,node,option);
-
         }
         public void Validate(IWorld world, IHasStats recipient, DialogueInitiation initiation, IRoom room,DialogueNode dialogue, DialogueOption option)
         {
@@ -315,21 +373,21 @@ namespace Wanderer.Systems.Validation
             }
 
             foreach (ICondition<SystemArgs> condition in option.Condition)
+            {
+                try
                 {
-                    try
-                    {
-                        condition.IsMet(world,new SystemArgs(world,_ui, 0, GetTestActor(room), recipient, Guid.Empty));
-                    }
-                    catch (Exception e)
-                    {
-                        AddWarning($"Error testing Condition Code of Option '{option.Text}' of Dialogue '{dialogue.Identifier}' for test actor interacting with '{recipient}'.  Bad code was:{condition}",e);
-                    }
+                    condition.IsMet(world,new SystemArgs(world,_ui, 0, GetTestActor(room), recipient, Guid.Empty));
                 }
+                catch (Exception e)
+                {
+                    AddWarning($"Error testing Condition Code of Option '{option.Text}' of Dialogue '{dialogue.Identifier}' for test actor interacting with '{recipient}'.  Bad code was:{condition}",e);
+                }
+            }
 
             if(option.Destination != null)
             {
                 initiation.Next = option.Destination;
-                Validate(world,recipient,initiation,room);
+                ValidateDialogue(world,recipient,initiation,room);
             }
         }
         

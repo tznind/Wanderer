@@ -24,21 +24,22 @@ namespace Wanderer.Factories
             if(string.IsNullOrWhiteSpace(blueprint.Type))
                 action = new Action(onto);
             else
-            try
-            {
-                var type = _types.GetTypeNamed(blueprint.Type);
-                action = (IAction)Activator.CreateInstance(type,onto);   
-            }
-            catch (Exception ex)
-            {
-                
-                throw new Exception($"Error creating base Type for ActionBlueprint {blueprint}",ex);
-            }
+                try
+                {
+                    var type = _types.GetTypeNamed(blueprint.Type);
+                    action = (IAction)Activator.CreateInstance(type,onto);   
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error creating base Type for ActionBlueprint {blueprint}",ex);
+                }
 
             AddBasicProperties(world,action,blueprint,"use");
 
             if(!string.IsNullOrWhiteSpace(blueprint.Name))
                 action.Name = blueprint.Name;
+
+            action.Owner = onto;
 
             if(blueprint.HotKey.HasValue)
                 action.HotKey = blueprint.HotKey.Value;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Wanderer.Actors;
 
 namespace Wanderer.Systems
@@ -26,5 +27,12 @@ namespace Wanderer.Systems
         /// Apply the system to the recipient
         /// </summary>
         void Apply(SystemArgs args);
+
+        /// <summary>
+        /// Apply the system once to each of the <paramref name="recipients"/>
+        /// </summary>
+        /// <param name="recipients"></param>
+        /// <param name="args"></param>
+        void ApplyToAll(IEnumerable<IHasStats> recipients, SystemArgs args);
     }
 }

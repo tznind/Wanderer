@@ -12,29 +12,38 @@ namespace Wanderer
         /// </summary>
         public double Attitude { get; set; }
 
+        /// <summary>
+        /// The actor performing the <see cref="Action"/>
+        /// </summary>
         public IActor PerformedBy { get; set; }
 
+        /// <summary>
+        /// If the <see cref="Action"/> has a single or primary
+        /// target, this is what was targeted
+        /// </summary>
         public IHasStats TargetIfAny { get; set; }
 
+        /// <summary>
+        /// The action being <see cref="PerformedBy"/> someone.  Note that the Owner of the action may be an item or room while the <see cref="PerformedBy"/> is someone else
+        /// </summary>
         public IAction Action { get; set; }
+
+        /// <summary>
+        /// True if some point after being Pushed onto an <see cref="ActionStack"/> the frame was cancelled (before Pop)
+        /// </summary>
         public bool Cancelled { get; set; }
 
+        /// <summary>
+        /// Creates a new instance recording that a given <paramref name="action"/> is being attempted
+        /// </summary>
+        /// <param name="performedBy">The actor performing the action</param>
+        /// <param name="action">The action being performed</param>
+        /// <param name="attitude">How kind the or unkind the act is (affects relationships, changes AI etc)</param>
         public Frame(IActor performedBy, IAction action,double attitude)
         {
             PerformedBy = performedBy;
             Action = action;
             Attitude = attitude;
-        }
-
-        /// <summary> 
-        /// Returns the origin of <see cref="Action"/> or null if a frame was generated
-        /// which somehow did not originate from the <see cref="PerformedBy"/> or one
-        /// of his child items
-        /// </summary>
-        internal IHasStats GetActionOwner()
-        {
-            return PerformedBy.GetAllHaves().FirstOrDefault(h=>
-            h.GetFinalActions(PerformedBy).Contains(Action));
         }
     }
 }

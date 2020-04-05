@@ -15,6 +15,7 @@ This page contains simple recipes for common level building tasks.
   - [Add same item to many rooms](#add-same-item-to-many-rooms)
 - [Item Recipes](#item-recipes)
   - [Equippable weapon](#equippable-weapon)
+  - [Grenade](#grenade)
   - [Ammo](#ammo)
 - [Dialogue Recipes](#dialogue-recipes)
   - [Remark about injury](#remark-about-injury)
@@ -82,7 +83,82 @@ This defines that by default all actors have 2 wrists.  Next create the item:
 <sup>./items.yaml</sup>
 
 
-## Ammo
+### Grenade
+<sup>[[View Test]](./Tests/Cookbook/Grenade.cs)</sup>
+
+Everyone loves grenades! To create one we will first need an injury system for the damage inflicted (or you can reuse an existing one e.g. tissue injuries)
+
+```yaml
+Identifier: 7ccafc68-d51f-4408-861c-f1d7e4e6351a
+Name: Blast Damage
+FatalThreshold: 100
+FatalVerb: injuries
+
+Injuries:
+- Name: Wounded
+  Severity: 10
+```
+<sup>./blast.injury.yaml</sup>
+
+Next we need to create the item.  We will make it SingleUse and give it a custom fight action that damages everyone in the room.  For the damage Effect we will get the [InjurySystem] and apply it to everyone in the room.  Note that when calling `ApplyToAll` the Recipient can be `null` because it will be assigned for each of the passed actors.
+
+```yaml
+- Name: Grenade
+  InjurySystem: 7ccafc68-d51f-4408-861c-f1d7e4e6351a
+  Stack: 1
+  MandatoryAdjectives:
+   - SingleUse
+  Actions:
+    - Type: FightAction
+      Stats: 
+         Fight: 30
+      Effect:
+        #Injury everyone in the room
+        - World:GetSystem('7ccafc68-d51f-4408-861c-f1d7e4e6351a'):ApplyToAll(Room.Actors,SystemArgs(World,UserInterface,20,AggressorIfAny,null,Round))
+```
+<sup>./items.yaml</sup>
+
+Getting hit by a stray grenade blast should probably make other NPCs angry.  Add another effect to the item.  This time we use `ApplyAll` on the [RelationshipSystem]
+
+```yaml
+        #And make them all angry at you
+        - World.Relationships:ApplyToAll(Room.Actors,SystemArgs(World,UserInterface,-10,AggressorIfAny,null,Round))
+```
+<sup>./items.yaml</sup>
+
+We can make these Effects reusable by moving them to [Main.lua]
+
+```lua
+function SplashDamage(injurySystem,amount,affectsRelationships)
+
+	injurySystem:ApplyToAll(Room.Actors,SystemArgs(World,UserInterface,20,AggressorIfAny,null,Round))
+
+    if affectsRelationships then
+		World.Relationships:ApplyToAll(Room.Actors,SystemArgs(World,UserInterface,-10,AggressorIfAny,null,Round))
+	end
+end
+```
+<sup>./Main.lua</sup>
+
+This lets you call it from any item with any amount of damage with a single Effect e.g.
+
+```yaml
+- Name: Grenade
+  InjurySystem: 7ccafc68-d51f-4408-861c-f1d7e4e6351a
+  Stack: 1
+  MandatoryAdjectives:
+   - SingleUse
+  Actions:
+    - Type: FightAction
+      Stats: 
+         Fight: 30
+      Effect:
+        - SplashDamage(Action.InjurySystem,20,true)
+```
+<sup>./items.yaml</sup>
+
+
+### Ammo
 <sup>[[View Test]](./Tests/Cookbook/Ammo.cs)</sup>
 
 This will cover creating a laser pistol.  For this recipe we are going to need entries in 4 files.
@@ -162,6 +238,8 @@ Each [DialogueNode] is made up of 1 or more blocks of text.  You can apply condi
 If you have multiple injury systems e.g. fire, cold, tissue damage etc and want to restrict your condition to only one of them then you can pass the injury system Guid instead e.g. return `AggressorIfAny:Has('7cc7a784-949b-4c26-9b99-c1ea7834619e')`
 
 
+[InjurySystem]: ./src/Systems/InjurySystem.cs
+[RelationshipSystem]: ./src/Systems/RelationshipSystem.cs
 [DialogueNode]: ./src/Dialogues/DialogueNode.cs
 [Player]: ./src/Actors/You.cs
- 
+[Main.lua]: ./src/Resources/Main.lua

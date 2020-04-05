@@ -103,6 +103,10 @@
             }
           ]
         },
+        "SkipDefaultActions": {
+          "type": "boolean",
+          "description": "True to make Actions the only actions to be given to the object (i.e. no default actions)"
+        },
         "Actions": {
           "type": [
             "array",
@@ -111,6 +115,20 @@
           "description": "Option, if specified this list becomes the actions of the object replacing any existing actions they might otherwise get)",
           "items": {
             "$ref": "#/definitions/ActionBlueprint"
+          }
+        },
+        "SkipDefaultBehaviours": {
+          "type": "boolean",
+          "description": "True to make Behaviours the only behaviours to be given to the object (i.e. no default behaviours)"
+        },
+        "Behaviours": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "Optional list of behaviours (event handlers) that should be created on the object",
+          "items": {
+            "$ref": "#/definitions/BehaviourBlueprint"
           }
         },
         "Slots": {
@@ -367,6 +385,10 @@
             }
           ]
         },
+        "SkipDefaultActions": {
+          "type": "boolean",
+          "description": "True to make Actions the only actions to be given to the object (i.e. no default actions)"
+        },
         "Actions": {
           "type": [
             "array",
@@ -375,6 +397,20 @@
           "description": "Option, if specified this list becomes the actions of the object replacing any existing actions they might otherwise get)",
           "items": {
             "$ref": "#/definitions/ActionBlueprint"
+          }
+        },
+        "SkipDefaultBehaviours": {
+          "type": "boolean",
+          "description": "True to make Behaviours the only behaviours to be given to the object (i.e. no default behaviours)"
+        },
+        "Behaviours": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "Optional list of behaviours (event handlers) that should be created on the object",
+          "items": {
+            "$ref": "#/definitions/BehaviourBlueprint"
           }
         },
         "HotKey": {
@@ -418,6 +454,187 @@
             "null"
           ],
           "description": "What happens when the action is performed.",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "BehaviourBlueprint": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Ref": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Inherit all properties from another blueprint of the same type",
+          "format": "guid"
+        },
+        "Identifier": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Uniquely identifies instances created from this blueprint",
+          "format": "guid"
+        },
+        "Faction": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Null if the object thematically fits any faction, otherwise the Identifier of the faction",
+          "format": "guid"
+        },
+        "Unique": {
+          "type": "boolean",
+          "description": "True to only ever generate one of this thing"
+        },
+        "Color": {
+          "description": "Black=0\nDarkBlue=1\nDarkGreen=2\nDarkCyan=3\nDarkRed=4\nDarkMagenta= 5\nDarkYellow=6\nGray=7\nDarkGray=8\nBlue=9\nGreen=10\nCyan=11\nRed=12\nMagenta=13 \nYellow=14\nWhite=15",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/ConsoleColor"
+            }
+          ]
+        },
+        "Name": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Explicit name for this object.  For actors this can be left null to generate a random name from the faction NameFactory"
+        },
+        "InjurySystem": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Injury system of any FightAction the blueprint spawns (and for IActor the innate weapons of the actor (leave null to use the IsDefault)",
+          "format": "guid"
+        },
+        "Dialogue": {
+          "description": "Things the object has to say e.g. when a creature is talked to or a room examined",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/DialogueInitiation"
+            }
+          ]
+        },
+        "OptionalAdjectives": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "List of IAdjective from which to pick at random when creating.  These can be either Guids, Names or Type names",
+          "items": {
+            "type": "string"
+          }
+        },
+        "MandatoryAdjectives": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "By default a subset of OptionalAdjectives are written to the objects created by this blueprint (e.g. depending on difficulty, luck etc). Set those that MUST always be added. These can be either Guids, Names or Type names",
+          "items": {
+            "type": "string"
+          }
+        },
+        "Stats": {
+          "description": "The BaseStats to give the object",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/StatsCollection"
+            }
+          ]
+        },
+        "SkipDefaultActions": {
+          "type": "boolean",
+          "description": "True to make Actions the only actions to be given to the object (i.e. no default actions)"
+        },
+        "Actions": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "Option, if specified this list becomes the actions of the object replacing any existing actions they might otherwise get)",
+          "items": {
+            "$ref": "#/definitions/ActionBlueprint"
+          }
+        },
+        "SkipDefaultBehaviours": {
+          "type": "boolean",
+          "description": "True to make Behaviours the only behaviours to be given to the object (i.e. no default behaviours)"
+        },
+        "Behaviours": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "Optional list of behaviours (event handlers) that should be created on the object",
+          "items": {
+            "$ref": "#/definitions/BehaviourBlueprint"
+          }
+        },
+        "OnPush": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/BehaviourEventHandler"
+            }
+          ]
+        },
+        "OnPop": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/BehaviourEventHandler"
+            }
+          ]
+        },
+        "OnRoundEnding": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/BehaviourEventHandler"
+            }
+          ]
+        }
+      }
+    },
+    "BehaviourEventHandler": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Condition": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "Effect": {
+          "type": [
+            "array",
+            "null"
+          ],
           "items": {
             "type": "string"
           }
@@ -530,6 +747,10 @@
             }
           ]
         },
+        "SkipDefaultActions": {
+          "type": "boolean",
+          "description": "True to make Actions the only actions to be given to the object (i.e. no default actions)"
+        },
         "Actions": {
           "type": [
             "array",
@@ -538,6 +759,20 @@
           "description": "Option, if specified this list becomes the actions of the object replacing any existing actions they might otherwise get)",
           "items": {
             "$ref": "#/definitions/ActionBlueprint"
+          }
+        },
+        "SkipDefaultBehaviours": {
+          "type": "boolean",
+          "description": "True to make Behaviours the only behaviours to be given to the object (i.e. no default behaviours)"
+        },
+        "Behaviours": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "Optional list of behaviours (event handlers) that should be created on the object",
+          "items": {
+            "$ref": "#/definitions/BehaviourBlueprint"
           }
         },
         "Slot": {

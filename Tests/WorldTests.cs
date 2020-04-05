@@ -15,6 +15,7 @@ using Wanderer.Factories;
 using Wanderer.Factories.Blueprints;
 using Wanderer.Items;
 using Wanderer.Rooms;
+using Wanderer.Systems;
 
 namespace Tests
 {
@@ -180,6 +181,44 @@ namespace Tests
 
             Assert.IsNotNull(hammer1.Adjectives.Single().Owner);
             Assert.IsNotNull(hammer2.Adjectives.Single().Owner);
+
+        }
+
+        [Test]
+        public void Test_Serialization_OfDynamicDictionary()
+        {
+            TwoInARoom(out You you, out IActor them, out IWorld world);
+
+            them.V["Fish"] = 10;
+            
+            var config = World.GetJsonSerializerSettings();
+            var json = JsonConvert.SerializeObject(them,config);
+
+            var them2 = (Npc) JsonConvert.DeserializeObject(json,typeof(Npc),config);
+
+            Assert.AreEqual(10,them.V["Fish"]);
+            Assert.AreEqual(10,them2.V["Fish"]);
+
+        }
+
+        [Test]
+        public void Test_GetSystem()
+        {
+            var world = new World();
+            
+            Assert.Throws<NamedObjectNotFoundException>(()=>world.GetSystem("fff"));
+            Assert.Throws<GuidNotFoundException>(
+                () => world.GetSystem(new Guid("1f0c7480-d434-48ec-9872-aed16c47f2eb")));
+
+            world.InjurySystems.Add(new InjurySystem()
+            {
+                Name = "fff",
+                Identifier = new Guid("1f0c7480-d434-48ec-9872-aed16c47f2eb")
+            });
+
+            
+            Assert.AreEqual(world.InjurySystems.Single(),world.GetSystem("fff"));
+            Assert.AreEqual(world.InjurySystems.Single(),world.GetSystem(new Guid("1f0c7480-d434-48ec-9872-aed16c47f2eb")));
 
         }
     }

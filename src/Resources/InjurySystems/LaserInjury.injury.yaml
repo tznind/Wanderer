@@ -4,6 +4,12 @@ HealVerb: healed
 HealerStat: Savvy
 HealerStatMultiplier: 0.5
 WorsenRate: 5
+
+#Stacks with Tissue injuries
+FatalStacksWith:
+  - 4f65ce41-4333-46f5-854f-d1d4ee212670
+  - 9b137f26-834d-4033-ae36-74ab578f5868
+
 ResistInflict:
   Resist:
     - Mirrored

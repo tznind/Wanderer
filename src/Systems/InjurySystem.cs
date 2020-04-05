@@ -8,20 +8,10 @@ using Wanderer.Stats;
 
 namespace Wanderer.Systems
 {
-    public class InjurySystem : IInjurySystem
+    public class InjurySystem : System, IInjurySystem
     {
         private const double Tolerance = 0.0001;
-
-        /// <summary>
-        /// Unique identifier for this injury system.  By default <see cref="IInjured"/> adjectives created by the system will also have this Guid
-        /// </summary>
-        public Guid Identifier { get; set; }
-
-        /// <summary>
-        /// Human readable name for this injury system e.g. Flame, Hunger etc
-        /// </summary>
-        public string Name { get; set; }
-
+        
         /// <summary>
         /// True if the injury system should be the default if none is defined (e.g. when not armed with a specific weapon - with it's own injury system).
         /// </summary>
@@ -109,13 +99,17 @@ namespace Wanderer.Systems
         /// </summary>
         public string FatalVerb { get; set; } = "injuries";
 
+        /// <summary>
+        /// If injuries from this injury system stack with those of other system(s) to go over the <see cref="FatalThreshold"/> the other <see cref="ISystem.Identifier"/> should be listed in here.
+        /// </summary>
+        public List<Guid> FatalStacksWith { get; set; } = new List<Guid>();
 
         /// <summary>
         /// Should separate applications of the injury be merged e.g. if your on fire and you get a bit hotter then it makes sense just to beef up the original instance
         /// </summary>
         public bool MergeInstances {get;set;}
 
-        public virtual void Apply(SystemArgs args)
+        public override void Apply(SystemArgs args)
         {
             if(args.Intensity < 0 )
                 return;
@@ -160,7 +154,7 @@ namespace Wanderer.Systems
         public virtual bool HasFatalInjuries(IInjured injured, out string diedOf)
         {
             //Combined total of serious wounds (2 or higher) severity is 100
-            if (injured.Owner.Adjectives.OfType<Injured>().Where(i => i.Severity > 1).Sum(i => i.Severity) >= FatalThreshold)
+            if (injured.Owner.Adjectives.OfType<Injured>().Where(IncludeInFatalSum).Sum(i => i.Severity) >= FatalThreshold)
             {
                 diedOf = FatalVerb;
                 return true;
@@ -168,6 +162,13 @@ namespace Wanderer.Systems
 
             diedOf = null;
             return false;
+        }
+
+        private bool IncludeInFatalSum(Injured injured)
+        {
+            //only count injuries with positive severity that come from this injury system
+            return injured.Severity > 1 && 
+                   (injured.InjurySystem == this || FatalStacksWith.Contains(injured.InjurySystem.Identifier));
         }
 
         public bool ShouldWorsen(IInjured injury, int roundsSeen)

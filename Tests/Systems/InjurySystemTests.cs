@@ -337,5 +337,38 @@ namespace Tests.Systems
             Assert.IsTrue(you.Dead,"Expected you to die at the end of the round");
 
         }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public void TestInjuryStacking(bool shouldStack)
+        {
+            var you = YouInARoom(out IWorld world);
+
+            Guid g1 = Guid.NewGuid();
+            Guid g2 = Guid.NewGuid();
+            
+            var sys1 = new InjurySystem()
+            {
+                Identifier = g1,
+                FatalThreshold = 99
+            };
+            var sys2 = new InjurySystem()
+            {
+                Identifier = g2,
+                FatalThreshold = 99
+            };
+
+            if (shouldStack)
+                sys1.FatalStacksWith.Add(g2);
+
+            var inj1 = new Injured("sore neck", you, 50, InjuryRegion.Neck, sys1);
+            you.Adjectives.Add(inj1);
+            
+            Assert.IsFalse(sys1.HasFatalInjuries(inj1,out _));
+            
+            you.Adjectives.Add(new Injured("burnt neck",you,50,InjuryRegion.Neck,sys2));
+
+            Assert.AreEqual(shouldStack,sys1.HasFatalInjuries(inj1,out _));
+        }
     }
 }

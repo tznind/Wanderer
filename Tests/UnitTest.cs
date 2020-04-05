@@ -38,7 +38,7 @@ namespace Tests
             var room = InARoom(out world);
             var you = new You("Test Wanderer", room);
 
-            world.ActorFactory.AddDefaultBehaviours(world,you);
+            WorldFactory.AddDefaults(world,you);
             return you;
         }
         

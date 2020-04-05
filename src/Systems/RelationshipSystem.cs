@@ -52,6 +52,15 @@ namespace Wanderer.Systems
             }
         }
 
+        public void ApplyToAll(IEnumerable<IHasStats> recipients, SystemArgs args)
+        {
+            foreach (var r in recipients)
+            {
+                args.Recipient = r;
+                Apply(args);
+            }
+        }
+
         private void ApplyChangeToPersonalRelationship(IWorld world,IActor actorRecipient,SystemArgs args)
         {
 

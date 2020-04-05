@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Wanderer.Factories
 {
-    public interface IActorFactory
+    public interface IActorFactory : IHasStatsFactory
     {
         /// <summary>
         /// Npc blueprints which get stamped out by this factory
@@ -20,12 +20,6 @@ namespace Wanderer.Factories
         /// </summary>
         SlotCollection DefaultSlots { get; set; }
         
-        /// <summary>
-        /// Default behaviour blueprints that get stamped onto every actor produced
-        /// by the factory.
-        /// </summary>
-        List<BehaviourBlueprint> DefaultBehaviours { get; set; }
-
         /// <summary>
         /// Create some npcs in the room
         /// </summary>
@@ -45,12 +39,5 @@ namespace Wanderer.Factories
         /// <param name="roomBlueprintIfAny">Optional blueprint which might contain thematic room items etc</param>
         /// <returns></returns>
         IActor Create(IWorld world, IRoom room, IFaction faction, ActorBlueprint blueprint, RoomBlueprint roomBlueprintIfAny);
-
-        /// <summary>
-        /// Adds all <see cref="DefaultBehaviours"/> onto <paramref name="actor"/>
-        /// </summary>
-        /// <param name="world"></param>
-        /// <param name="actor"></param>
-        void AddDefaultBehaviours(IWorld world, IActor actor);
     }
 }

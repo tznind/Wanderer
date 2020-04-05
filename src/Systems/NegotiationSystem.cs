@@ -3,12 +3,15 @@ using Wanderer.Actors;
 
 namespace Wanderer.Systems
 {
-    class NegotiationSystem : INegotiationSystem
+    class NegotiationSystem : System, INegotiationSystem
     {
-        public string Name { get; set; } = "Negotiation";
-        public Guid Identifier { get; set; } = new Guid("76983abd-0016-47e9-891e-3988781a0fe8");
-
-        public void Apply(SystemArgs args)
+        public NegotiationSystem()
+        {
+            Name = "Negotiation";
+            Identifier = new Guid("76983abd-0016-47e9-891e-3988781a0fe8");
+            
+        }
+        public override void Apply(SystemArgs args)
         {
             var negotiation = (NegotiationSystemArgs) args;
 

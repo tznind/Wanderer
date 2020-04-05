@@ -1,8 +1,6 @@
 [![Build Status](https://travis-ci.com/tznind/Wanderer.svg?branch=master)](https://travis-ci.org/tznind/Wanderer) [![codecov](https://codecov.io/gh/tznind/Wanderer/branch/master/graph/badge.svg)](https://codecov.io/gh/tznind/Wanderer) [![Coverage Status](https://coveralls.io/repos/github/tznind/Wanderer/badge.svg?branch=master)](https://coveralls.io/github/tznind/Wanderer?branch=master) [![Total alerts](https://img.shields.io/lgtm/alerts/g/tznind/Wanderer.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/tznind/Wanderer/alerts/)
 
-
-
-# Wanderer
+![Black and white drawing of a wastelander looking at a distant spire][splash]
 
 Wanderer is a game built upon the __most powerful graphics engine in the world: your imagination!__
 
@@ -79,3 +77,4 @@ dotnet ./Game/bin/Debug/netcoreapp3.1/Game.dll
 [coding]: ./WandererCoding.gif
 [Cookbook]: ./Cookbook.md
 [Tutorial]: ./Resources.md
+[Splash]: ./src/splash.png

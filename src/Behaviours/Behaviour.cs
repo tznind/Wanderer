@@ -44,7 +44,7 @@ namespace Wanderer.Behaviours
         
         public virtual void OnRoundEnding(IWorld world,IUserinterface ui, Guid round)
         {
-            OnRoundEndingHandler?.Fire(new BehaviourSystemArgs(this,world,ui,null,Owner,round));
+            OnRoundEndingHandler?.Fire(new EventSystemArgs(this,world,ui,null,Owner,round));
         }
     }
 }

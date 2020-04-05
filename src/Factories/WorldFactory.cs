@@ -136,11 +136,23 @@ namespace Wanderer.Factories
             startingRoom.IsExplored = true;
             world.Map.Add(zero,startingRoom);
             var player = GetPlayer(startingRoom);
-            world.ActorFactory.AddDefaultBehaviours(world,player);
 
-            world.Population.Add(player);
+            AddDefaults(world,player);
             
             return world;
+        }
+
+        public static void AddDefaults(IWorld world, IActor actor)
+        {
+            //add default actions (that all other actors would get)
+            foreach (var a in world.ActorFactory.DefaultActions)
+                if (a.Faction == null || actor.FactionMembership.Any(a.SuitsFaction))
+                    world.ActionFactory.Create(world, actor, a);
+
+            //add default behaviours (that all other actors would get)
+            foreach (var b in world.ActorFactory.DefaultBehaviours)
+                if (b.Faction == null || actor.FactionMembership.Any(b.SuitsFaction))
+                    world.BehaviourFactory.Create(world, actor, b);
         }
 
         private void LogBlueprints<T>(List<T> blueprints) where T: HasStatsBlueprint

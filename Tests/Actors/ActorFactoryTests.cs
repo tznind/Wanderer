@@ -98,6 +98,7 @@ Chest: 1
     Head: 1
     Tail: 1
     Legs: 6
+  SkipDefaultActions: true
   Actions:
     - Type: FightAction
 ";
