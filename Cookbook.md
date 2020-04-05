@@ -123,8 +123,40 @@ Finally getting hit by a stray grenade blast should probably make other NPCs ang
 ```yaml
         #And make them all angry at you
         - World.Relationships:ApplyToAll(Room.Actors,SystemArgs(World,UserInterface,-10,AggressorIfAny,null,Round))
-
 ```
+<sup>./items.yaml</sup>
+
+We can make these Effects reusable by moving them to [Main.lua]
+
+```lua
+function SplashDamage(injurySystem,amount,affectsRelationships)
+
+	injurySystem:ApplyToAll(Room.Actors,SystemArgs(World,UserInterface,20,AggressorIfAny,null,Round))
+
+    if affectsRelationships then
+		World.Relationships:ApplyToAll(Room.Actors,SystemArgs(World,UserInterface,-10,AggressorIfAny,null,Round))
+	end
+end
+```
+<sup>./Main.lua</sup>
+
+This lets you call it from any item with any amount of damage with a single Effect e.g.
+
+```yaml
+- Name: Grenade
+  InjurySystem: 7ccafc68-d51f-4408-861c-f1d7e4e6351a
+  Stack: 1
+  MandatoryAdjectives:
+   - SingleUse
+  Actions:
+    - Type: FightAction
+      Stats: 
+         Fight: 30
+      Effect:
+        - SplashDamage(Action.InjurySystem,20,true)
+```
+<sup>./items.yaml</sup>
+
 
 ### Ammo
 <sup>[[View Test]](./Tests/Cookbook/Ammo.cs)</sup>
@@ -208,4 +240,4 @@ If you have multiple injury systems e.g. fire, cold, tissue damage etc and want 
 
 [DialogueNode]: ./src/Dialogues/DialogueNode.cs
 [Player]: ./src/Actors/You.cs
- 
+[Main.lua]: ./src/Resources/Main.lua

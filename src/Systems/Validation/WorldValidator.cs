@@ -215,10 +215,11 @@ namespace Wanderer.Systems.Validation
                     AddWarning($"Item {item} lists Slot named {item.Slot.Name} but no Actors or Default slots are listed with that name (Slots seen were '{string.Join(',',slots)}')");
             }
 
-            foreach (var behaviour in item.BaseBehaviours)
-            {
-                ValidateBehaviour(world,item,behaviour,room);
-            }
+            foreach (var behaviour in item.BaseBehaviours) 
+                ValidateBehaviour(world, item, behaviour, room);
+
+            foreach (var action in item.BaseActions) 
+                ValidateAction(world, item, action, room);
 
             try
             {
@@ -264,7 +265,22 @@ namespace Wanderer.Systems.Validation
                 AddWarning($"Error testing OnRoundEnding of Behaviour {behaviour} of on '{owner}' in room '{room.Name}' with test actor '{actor}'", e);
             }
         }
-
+        public void ValidateAction(IWorld world, IHasStats owner, IAction action, IRoom room)
+        {
+            var actor = owner as IActor ?? GetTestActor(room);
+            
+            foreach (var effect in action.Effect)
+            {
+                try
+                {
+                    effect.Apply(new ActionSystemArgs(action,world,_ui, 0, GetTestActor(room), actor, Guid.Empty));
+                }
+                catch (Exception e)
+                {
+                    AddWarning($"Error testing Effect Code of Action '{action}' of '{owner}'.  Bad code was:{effect}",e);
+                }
+            }
+        }
         private List<string> GetAllSlots(IWorld world)
         {
             List<string> slots = new List<string>();
@@ -357,16 +373,16 @@ namespace Wanderer.Systems.Validation
             }
 
             foreach (ICondition<SystemArgs> condition in option.Condition)
+            {
+                try
                 {
-                    try
-                    {
-                        condition.IsMet(world,new SystemArgs(world,_ui, 0, GetTestActor(room), recipient, Guid.Empty));
-                    }
-                    catch (Exception e)
-                    {
-                        AddWarning($"Error testing Condition Code of Option '{option.Text}' of Dialogue '{dialogue.Identifier}' for test actor interacting with '{recipient}'.  Bad code was:{condition}",e);
-                    }
+                    condition.IsMet(world,new SystemArgs(world,_ui, 0, GetTestActor(room), recipient, Guid.Empty));
                 }
+                catch (Exception e)
+                {
+                    AddWarning($"Error testing Condition Code of Option '{option.Text}' of Dialogue '{dialogue.Identifier}' for test actor interacting with '{recipient}'.  Bad code was:{condition}",e);
+                }
+            }
 
             if(option.Destination != null)
             {

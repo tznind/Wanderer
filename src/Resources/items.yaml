@@ -64,16 +64,13 @@
   Actions:
     - Ref: 39014d98-d679-4458-9b38-7dbb58a178db
 - Name: Grenade
-  InjurySystem: 9b137f26-834d-4033-ae36-74ab578f5868
   Stack: 1
   MandatoryAdjectives:
    - SingleUse
   Actions:
     - Type: FightAction
+      InjurySystem: 9b137f26-834d-4033-ae36-74ab578f5868
       Stats: 
          Fight: 30
       Effect:
-        #Injury everyone in the room
-        - World:GetSystem('9b137f26-834d-4033-ae36-74ab578f5868'):ApplyToAll(Room.Actors,SystemArgs(World,UserInterface,20,AggressorIfAny,null,Round))
-        #And make them all angry at you
-        - World.Relationships:ApplyToAll(Room.Actors,SystemArgs(World,UserInterface,-10,AggressorIfAny,null,Round))
+        - SplashDamage(Action.InjurySystem,20,true)

@@ -85,7 +85,7 @@ namespace Wanderer.Actions
         public virtual void Pop(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
         {
             foreach (var e in Effect) 
-                e.Apply(new SystemArgs(world, ui, 0, frame.PerformedBy, frame.TargetIfAny ?? Owner, stack.Round));
+                e.Apply(new ActionFrameSystemArgs(this,world, ui, stack, frame));
 
             PopImpl(world, ui, stack, frame);
         }
