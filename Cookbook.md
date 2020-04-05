@@ -96,7 +96,7 @@ FatalVerb: injuries
 
 Injuries:
 - Name: Wounded
-  Severity: 10";
+  Severity: 10
 ```
 <sup>./blast.injury.yaml</sup>
 
