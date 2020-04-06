@@ -31,6 +31,7 @@ The [Player] always starts at 0,0,0.  The following recipy creates a unique star
 - Name: Somewhere Cool
   FixedLocation: 0,0,0
   Unique: true
+  Identifier: b1aa5ce4-213a-46b5-aa57-63831376b81d
 ```
 <sup>./rooms.yaml</sup>
 

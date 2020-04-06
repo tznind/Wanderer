@@ -57,7 +57,7 @@ namespace Game.UI
                 string valFinal = "";
 
                 if (Math.Abs(baseStat.Value - finalStats[baseStat.Key]) > 0.0001)
-                    valFinal = " (" + finalStats[baseStat.Key] + ")";
+                    valFinal = $"({finalStats[baseStat.Key]:N0})";
 
                 int maxWidth = Math.Max(3,Math.Max(val.Length,valFinal.Length));
 
@@ -138,9 +138,9 @@ namespace Game.UI
 
                 //sometimes they are the same
                 if(Math.Abs(total - relationship.Attitude) < 0.001)
-                    yield return $"{relationship}";
+                    yield return $"To {relationship.Observed} {relationship.Attitude}";
                 else
-                    yield return $"{relationship} ({total})";
+                    yield return $"To {relationship.Observed} {relationship.Attitude} ({total:N0})";
             }
         }
     }
