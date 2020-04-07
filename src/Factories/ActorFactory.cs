@@ -22,7 +22,12 @@ namespace Wanderer.Factories
             if(max <= 0)
                 return;
 
-            int numberOfNpc = Math.Max(1,world.R.Next(max));
+            var min = roomBlueprintIfAny?.OptionalActorsMin??1;
+
+            if(min > max)
+                throw new ArgumentOutOfRangeException($"OptionalActorsMin should be lower than OptionalActorsMax for room blueprint '{roomBlueprintIfAny}'");
+
+            int numberOfNpc = world.R.Next(min,max+1);
 
             var pickFrom = Blueprints.Where(b=>b.SuitsFaction(faction)).ToList();
 

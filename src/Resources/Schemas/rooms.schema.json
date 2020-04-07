@@ -162,6 +162,22 @@
             "$ref": "#/definitions/ActorBlueprint"
           }
         },
+        "OptionalActorsMax": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "The maximum number of OptionalActors to spawn",
+          "format": "int32"
+        },
+        "OptionalActorsMin": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "The minimum number of OptionalActors to spawn",
+          "format": "int32"
+        },
         "LeaveDirections": {
           "type": [
             "array",
@@ -191,6 +207,22 @@
           "items": {
             "$ref": "#/definitions/ItemBlueprint"
           }
+        },
+        "OptionalItemsMax": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "The maximum number of OptionalItems to spawn",
+          "format": "int32"
+        },
+        "OptionalItemsMin": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "The minimum number of OptionalItems to spawn",
+          "format": "int32"
         }
       }
     },
