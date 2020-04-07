@@ -17,7 +17,12 @@ namespace Wanderer.Factories
 
         public virtual void Create(IWorld world, IRoom room, IFaction faction, RoomBlueprint roomBlueprintIfAny)
         {
-            int numberOfNpc = Math.Max(1,world.R.Next(5));
+            var max = roomBlueprintIfAny?.OptionalActorsMax ?? 5;
+
+            if(max <= 0)
+                return;
+
+            int numberOfNpc = Math.Max(1,world.R.Next(max));
 
             var pickFrom = Blueprints.Where(b=>b.SuitsFaction(faction)).ToList();
 

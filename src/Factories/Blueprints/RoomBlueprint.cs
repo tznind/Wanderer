@@ -27,6 +27,11 @@ namespace Wanderer.Factories.Blueprints
         
 
         /// <summary>
+        /// The maximum number of <see cref="OptionalActors"/> to spawn
+        /// </summary>
+        public int? OptionalActorsMax {get;set;}
+
+        /// <summary>
         /// Leave null for the default (horizontal movement).  Specify explicit directions to allow
         /// only those directions of movement out of the room
         /// </summary>
