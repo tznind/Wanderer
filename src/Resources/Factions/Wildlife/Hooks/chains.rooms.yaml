@@ -6,6 +6,8 @@
   FixedLocation: -1,0,0
   Dialogue: 
     Next: 5328efe6-bc8e-43f4-988c-90486d0f5127
+  OptionalActorsMax: 0
+  OptionalItemsMax: 0
   MandatoryActors:
     - Name: Hook Horror
       Identifier: b16d1441-28ea-4ab4-a388-b425aefd044e

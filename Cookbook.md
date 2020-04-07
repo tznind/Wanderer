@@ -13,6 +13,7 @@ This page contains simple recipes for common level building tasks.
 - [Room Recipes](#room-recipes)
   - [Starting room](#starting-room)
   - [Add same item to many rooms](#add-same-item-to-many-rooms)
+  - [Random room items](#random-room-items)
 - [Item Recipes](#item-recipes)
   - [Equippable weapon](#equippable-weapon)
   - [Grenade](#grenade)
@@ -58,6 +59,41 @@ Then create the base item:
 ```
 <sup>./items.yaml</sup>
 
+### Random Room Items
+<sup>[[View Test]](./Tests/Cookbook/RandomRoomItems.cs)</sup>
+
+Assuming an empty Resources directory, the first room you create will contain no items:
+
+```yaml
+- Name: Chamber of Horrors
+```
+<sup>./rooms.yaml</sup>
+
+Creating an items.yaml file will result in a random number of items spawning (including the possibility for duplicates)
+
+```yaml
+- Name: Rose
+- Name: Egg
+```
+<sup>./items.yaml</sup>
+
+You can control the maximum / minimum number of these items per room with the following settings:
+
+
+```yaml
+- Name: Chamber of Horrors
+  OptionalItemsMin: 4
+  OptionalItemsMax: 10
+```
+<sup>./rooms.yaml</sup>
+
+You can create a room with no random items by setting the max to 0:
+
+```yaml
+- Name: Chamber of Horrors
+  OptionalItemsMax: 0
+```
+<sup>./rooms.yaml</sup>
 
 ## Item Recipes
 
