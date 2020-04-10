@@ -8,6 +8,8 @@
     Next: 5328efe6-bc8e-43f4-988c-90486d0f5127
   OptionalActorsMax: 0
   OptionalItemsMax: 0
+  Behaviours:
+    - Ref: 6ac0f722-2c2d-4e14-8c36-21b249d657d0
   MandatoryActors:
     - Name: Hook Horror
       Identifier: b16d1441-28ea-4ab4-a388-b425aefd044e
