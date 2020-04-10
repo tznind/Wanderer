@@ -2,12 +2,6 @@
 
 This page contains simple recipes for common level building tasks.
 
-> TODO:
-
-> AggressorIfAny should probably be Initiator
-
-> Move every code block to use SystemArgs if possible? (for consistency of script blocks)
-
 ## Contents
 
 - [Room Recipes](#room-recipes)
