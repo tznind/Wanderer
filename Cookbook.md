@@ -19,18 +19,20 @@ This page contains simple recipes for common level building tasks.
 
 ## Foreword Script Blocks
 
-There are 2 kinds of script blocks, `Condition` and `Effect`.  These blocks support multiple statements using the hyphen notation.  `Condition` should start with the lua keyword `return` followed by a boolean expression (true or false).  `Effect` blocks do not return anything but instead trigger things to happen in the world (run dialogue, spawn items etc)
+In several recipes there are scripting sections.  These are written in [Lua] (everything else is in [yaml]).  There are 2 kinds of script blocks, `Condition` and `Effect`.  These blocks support multiple statements using the hyphen notation.  `Condition` should start with the lua keyword `return` followed by a boolean expression (true or false).  `Effect` blocks do not return anything but instead trigger things to happen in the world (run dialogue, spawn items etc)
 
 For scripts the following global variables are available
 
 | Variable        | Description |
-| ------------- |:-------------:|
+| ------------- |-------------|
 | [World]      |  root variable for the game world |
 | AggressorIfAny ([Actor]) |  The player or Npc that is triggering the action/event.  This can be null for actions/events that are not instigated by an [Actor]|
 | Recipient | [Actor], [Room], [Item] etc which is the target of the action/event (e.g. for Dialogue this would be the person being talked too)|
 | [Room] | Where the action/event is tacking place (Can be null for some events e.g. RoundEnding) |
 | [UserInterface] | root variable for the graphical user interface (required argument for many methods) |
 | Round | Unique identifier for the current round (required argument for many methods) |
+| [Action] | Only aplies to action related events e.g. OnPush, references the action being performed |
+| [Behaviour] | Only applies to behaviour events (OnPush, OnRoundEnding etc).  References the behaviour object (which will be attached to a specific Owner) |
 
 ## Room Recipes
 
@@ -347,3 +349,7 @@ If we want to only apply the behaviour the first time the Player enters the room
 [Room]: ./src/Rooms/IRoom.cs
 [Item]: ./src/Items/IItem.cs
 [UserInterface]: ./src/IUserInterface.cs
+[Action]: ./src/Actions/IAction.cs
+[Behaviour]: ./src/Behaviours/IBehaviour.cs
+[Lua]: https://www.lua.org/about.html
+[yaml]: https://yaml.org/
