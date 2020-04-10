@@ -2,7 +2,22 @@
 
 This page contains simple recipes for common level building tasks.
 
-## Script Blocks
+## Contents
+
+- [Foreword: Script Blocks](#foreword-script-blocks)
+- [Room Recipes](#room-recipes)
+  - [Starting room](#starting-room)
+  - [Add same item to many rooms](#add-same-item-to-many-rooms)
+  - [Random room items](#random-room-items)
+- [Item Recipes](#item-recipes)
+  - [Equippable weapon](#equippable-weapon)
+  - [Grenade](#grenade)
+  - [Ammo](#ammo)
+- [Dialogue Recipes](#dialogue-recipes)
+  - [OnEnter room dialogue](#onenter-room-dialogue)
+  - [Remark about injury](#remark-about-injury)
+
+## Foreword Script Blocks
 
 There are 2 kinds of script blocks, `Condition` and `Effect`.  These blocks support multiple statements using the hyphen notation.  `Condition` should start with the lua keyword `return` followed by a boolean expression (true or false).  `Effect` blocks do not return anything but instead trigger things to happen in the world (run dialogue, spawn items etc)
 
@@ -16,20 +31,6 @@ For scripts the following global variables are available
 | [Room] | Where the action/event is tacking place (Can be null for some events e.g. RoundEnding) |
 | [UserInterface] | root variable for the graphical user interface (required argument for many methods) |
 | Round | Unique identifier for the current round (required argument for many methods) |
-
-## Contents
-
-- [Room Recipes](#room-recipes)
-  - [Starting room](#starting-room)
-  - [Add same item to many rooms](#add-same-item-to-many-rooms)
-  - [Random room items](#random-room-items)
-- [Item Recipes](#item-recipes)
-  - [Equippable weapon](#equippable-weapon)
-  - [Grenade](#grenade)
-  - [Ammo](#ammo)
-- [Dialogue Recipes](#dialogue-recipes)
-  - [OnEnter room dialogue](#onenter-room-dialogue)
-  - [Remark about injury](#remark-about-injury)
 
 ## Room Recipes
 
