@@ -22,9 +22,6 @@ Technical Goals:
 2. [Super thin interface layer](./src/IUserinterface.cs)
 3. [Maximum Test coverage](https://codecov.io/gh/tznind/Wanderer)
 
-![Screenshot of gameplay showing map][screenshot1]
-![Screenshot of gameplay showing map][screenshot2]
-
 ## Contributing
 
 Creating content is designed to be as simple as possible (see below):
