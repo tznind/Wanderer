@@ -1,6 +1,6 @@
 # Cookbook
 
-This page contains simple recipes for common level building tasks.
+This page contains simple recipes for common level building tasks.  To test a recipe for yourself you should create file(s) in a new directory (using the names provided under the code blocks).  A full walkthrough of this process is included in the [resources tutorial page](./Resources.md).
 
 ## Contents
 
