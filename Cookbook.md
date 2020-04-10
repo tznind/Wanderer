@@ -8,9 +8,14 @@ There are 2 kinds of script blocks, `Condition` and `Effect`.  These blocks supp
 
 For scripts the following global variables are available
 
-| Variable        | Description | Can be null  |
-| ------------- |:-------------:| -----:|
-| World      |  root variable for the game world | false |
+| Variable        | Description |
+| ------------- |:-------------:|
+| [World]      |  root variable for the game world |
+| AggressorIfAny ([Actor]) |  The player or Npc that is triggering the action/event.  This can be null for actions/events that are not instigated by an [Actor]|
+| Recipient | [Actor], [Room], [Item] etc which is the target of the action/event (e.g. for Dialogue this would be the person being talked too)|
+| [Room] | Where the action/event is tacking place (Can be null for some events e.g. RoundEnding) |
+| [UserInterface] | root variable for the graphical user interface (required argument for many methods) |
+| Round | Unique identifier for the current round (required argument for many methods) |
 
 ## Contents
 
@@ -336,3 +341,8 @@ If we want to only apply the behaviour the first time the Player enters the room
 [DialogueNode]: ./src/Dialogues/DialogueNode.cs
 [Player]: ./src/Actors/You.cs
 [Main.lua]: ./src/Resources/Main.lua
+[World]: ./src/IWorld.cs
+[Actor]: ./src/Actors/IActor.cs
+[Room]: ./src/Rooms/IRoom.cs
+[Item]: ./src/Items/IItem.cs
+[UserInterface]: ./src/IUserInterface.cs
