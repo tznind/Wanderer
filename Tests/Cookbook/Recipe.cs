@@ -77,9 +77,12 @@ namespace Tests.Cookbook
 
         protected void GoWest(IWorld world)
         {
-            world.RunRound(GetUI(Direction.West),new LeaveAction(world.Player));
+            GoWest(world, out _);
         }
-        
+        protected void GoWest(IWorld world, out FixedChoiceUI ui)
+        {
+            world.RunRound(ui = GetUI(Direction.West),new LeaveAction(world.Player));
+        }
         protected string RunDialogue(IWorld world)
         {
             var ui = GetUI();

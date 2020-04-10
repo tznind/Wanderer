@@ -19,6 +19,7 @@ This page contains simple recipes for common level building tasks.
   - [Grenade](#grenade)
   - [Ammo](#ammo)
 - [Dialogue Recipes](#dialogue-recipes)
+  - [OnEnter room dialogue](#onenter-room-dialogue)
   - [Remark about injury](#remark-about-injury)
 
 ## Room Recipes
@@ -273,6 +274,57 @@ Each [DialogueNode] is made up of 1 or more blocks of text.  You can apply condi
 <sup>./dialogue.yaml</sup>
 
 If you have multiple injury systems e.g. fire, cold, tissue damage etc and want to restrict your condition to only one of them then you can pass the injury system Guid instead e.g. return `AggressorIfAny:Has('7cc7a784-949b-4c26-9b99-c1ea7834619e')`
+
+### OnEnter room dialogue
+<sup>[[View Test]](./Tests/Cookbook/OnEnterRoomDialogue.cs)</sup>
+
+Say we want to run the room dialogue as soon as the player enters the room.  Heres how we can do that.  Create a new behaviour:
+
+```yaml
+- Name: DialogueOnEnter
+  Identifier: 5ae55edf-36d0-4878-bbfd-dbbb23d42b88
+  OnEnter: 
+   Condition: 
+     - return AggressorIfAny == World.Player
+     - return Room == Behaviour.Owner
+     - return Room.Dialogue.Next ~= nil
+   Effect: 
+     - World.Dialogue:Apply(SystemArgs(World,UserInterface,0,AggressorIfAny,Room,Round))
+```
+<sup>./behaviours.yaml</sup>
+
+The effect applies only when the Player is the one doing the entering (so Npc wandering into the Room won't trigger it).  We also check that the Room being entered is the behaviour owner and that they have Dialogue to run.
+
+To use the new behaviour on a Room we just have to reference it (and set up suitable dialogue)
+
+```yaml
+- Name: Dank Cellar
+  Behaviours:
+    - Ref: 5ae55edf-36d0-4878-bbfd-dbbb23d42b88
+  Dialogue:
+    Next: 6da41741-dada-4a52-85d5-a019cd9d38f7
+```
+<sup>./rooms.yaml</sup>
+
+`-Ref:` allows us to reference the behaviour from as many rooms as we want.
+
+```yaml
+- Identifier: 6da41741-dada-4a52-85d5-a019cd9d38f7
+  Body: 
+   - Text: Goblins fill the room from floor to ceiling
+```
+<sup>./dialogue.yaml</sup>
+
+If we want to only apply the behaviour the first time the Player enters the room we can add a second Effect to the behaviour that clears the room dialogue.
+
+
+```yaml
+   [...]
+   Effect: 
+     - World.Dialogue:Apply(SystemArgs(World,UserInterface,0,AggressorIfAny,Room,Round))
+     - Room.Dialogue.Next = null
+```
+<sup>./behaviours.yaml</sup>
 
 
 [InjurySystem]: ./src/Systems/InjurySystem.cs
