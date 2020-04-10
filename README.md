@@ -8,6 +8,8 @@ Stalk the abandoned corridors and burned out machine rooms of a city sized stars
 
 ![Screenshot of gameplay showing dialogue][screenshot3]
 
+![Video of gameplay][gameplay]
+
 ## Goals
 
 1. Persuasion and Cunning should be as viable as Fighting
@@ -74,6 +76,7 @@ dotnet ./Game/bin/Debug/netcoreapp3.1/Game.dll
 [screenshot1]: ./src/Screen1.png
 [screenshot2]: ./src/Screen2.png
 [screenshot3]: ./src/Screen3.png
+[gameplay]: ./src/gameplay.gif
 [coding]: ./WandererCoding.gif
 [Cookbook]: ./Cookbook.md
 [Tutorial]: ./Resources.md
