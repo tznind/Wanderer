@@ -27,6 +27,17 @@ namespace Wanderer.Factories.Blueprints
         
 
         /// <summary>
+        /// The maximum number of <see cref="OptionalActors"/> to spawn
+        /// </summary>
+        public int? OptionalActorsMax {get;set;}
+
+
+        /// <summary>
+        /// The minimum number of <see cref="OptionalActors"/> to spawn
+        /// </summary>
+        public int? OptionalActorsMin {get;set;}
+
+        /// <summary>
         /// Leave null for the default (horizontal movement).  Specify explicit directions to allow
         /// only those directions of movement out of the room
         /// </summary>
@@ -41,6 +52,18 @@ namespace Wanderer.Factories.Blueprints
         /// Special thematic actors that fit the room that random actors can be chosen from
         /// </summary>
         public ItemBlueprint[] OptionalItems { get; set; } = new ItemBlueprint[0];
+
+
+        /// <summary>
+        /// The maximum number of <see cref="OptionalItems"/> to spawn
+        /// </summary>
+        public int? OptionalItemsMax {get;set;}
+
+
+        /// <summary>
+        /// The minimum number of <see cref="OptionalItems"/> to spawn
+        /// </summary>
+        public int? OptionalItemsMin {get;set;}
 
     }
 }

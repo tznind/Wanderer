@@ -1,0 +1,80 @@
+- Identifier: 581e4df0-c69d-4583-a24f-966f6dacf014
+  Body:
+  - Text: A slumped form lies shivering in the corner, the gentle jangling of chains acompanies every movement.  Black flesh ribbed with muscle contrast with the glinting chrome of a thousand tiny chains.  A single throbbing red light blinks in what once might have passed for a head.
+  Options:
+  - Text: Inspect it up close
+    Destination: 7b534582-88e0-4784-a224-668a5c7971f9
+  - Text: Canem Subsisto
+    SingleUse: true
+    Destination: 8a55e839-6bdc-4e37-bd3b-dbd6da88ac7a
+  - Text: Throw a rock at it
+    Destination: 85ce2c42-f3df-4d75-b772-27831b54a304
+- Identifier: 7b534582-88e0-4784-a224-668a5c7971f9
+  Body:
+  - Text: As you approach the shivering speeds up and a panting growl begins to eminate from the beast
+  Options:
+  - Text: Continue
+    Destination: a0ea2046-3de3-4897-8592-1f33d5f6484c
+  - Text: Step back
+
+  # Beast Gets Angry 
+- Identifier: a0ea2046-3de3-4897-8592-1f33d5f6484c
+  Body:
+  - Text: The beast lunges forwards towards you in a whirl of hooks and chains
+  Options:
+    - Text: Ok
+      Effect: 
+        - Recipient.Dialogue.Next = null
+      Attitude: -100
+
+
+- Identifier: 8a55e839-6bdc-4e37-bd3b-dbd6da88ac7a
+  Body:
+  - Text: Your arcane words still the beast and it sinks down onto it's haunches
+  Options:
+  - Text: Inspect it up close
+    Destination: e96e2822-dc7a-421e-a7c7-43c28add9f6a
+    Effect:
+       # now that it is docile, start new dialogues at detailed inspection
+      - Recipient.Dialogue.Next = Guid('e96e2822-dc7a-421e-a7c7-43c28add9f6a')
+    Attitude: 10
+
+#After rendering docile
+- Identifier: e96e2822-dc7a-421e-a7c7-43c28add9f6a
+  Body:
+  - Text: Beneath the chains the wretched creature is crawling with parasites.  Tiny black beetles scuttle back and forth while others suckle greedily.
+  Options:
+  - Text: Use Fire
+    Condition:
+      - return AggressorIfAny:Has('Flame Projector')
+    Attitude: 100
+#    Effect:
+ #     - Recipient:SpawnBehaviour('FollowPlayer')
+  - Text: Use Medic
+    Condition:
+      - return AggressorIfAny:Has('Medic')
+    Attitude: 100
+#    Effect:
+#      - Recipient:SpawnBehaviour('FollowPlayer')
+    
+  - Text: Put the creature out of it's misery
+    Effect:
+      - Recipient:Kill(UserInterface,Round,'mercy killing')
+  - Text: Leave
+
+  # Throw a stone
+- Identifier: 85ce2c42-f3df-4d75-b772-27831b54a304
+  Body:
+  - Text: You pick a piece of rubble from the floor and throw it towards the creature
+  - Text: scoring a direct hit.  The beast lets out a mewling hiss and lunges towards you
+    Condition:
+      - return Recipient.BaseStats[Fight] >= 20
+  - Text: missing by inches.  Despite your miss the beast lets out a mewling hiss and lunges towards you
+    Condition:
+      - return Recipient.BaseStats[Fight] < 20
+  Options:
+    - Text: Ok
+      Effect: 
+        - Recipient.Dialogue.Next = null
+      Attitude: -100
+      

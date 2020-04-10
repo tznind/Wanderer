@@ -1,0 +1,13 @@
+- Identifier: 5328efe6-bc8e-43f4-988c-90486d0f5127
+  Body:
+    - Text: The room is filled with a thousand rusted chains dangling from the unseen roof far above.  A foreboding blue light with no clear source casts eerie reflections upon the stonework of the floor.
+    - Text: In the darkness something moves. 
+      Condition:
+        - return Room:Has('b16d1441-28ea-4ab4-a388-b425aefd044e')
+  Options:
+    - Text: Approach
+      Transition: b16d1441-28ea-4ab4-a388-b425aefd044e
+    - Text: Back away
+      Condition:
+        - return Room:Has('b16d1441-28ea-4ab4-a388-b425aefd044e')
+

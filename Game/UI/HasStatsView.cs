@@ -5,6 +5,8 @@ using Wanderer;
 using Wanderer.Actors;
 using Wanderer.Relationships;
 using Terminal.Gui;
+using System.Text;
+using Wanderer.Stats;
 
 namespace Game.UI
 {
@@ -41,15 +43,44 @@ namespace Game.UI
             //output stats
             var finalStats = o.GetFinalStats(asActor ?? observer);
 
+            var sbStatLine1 = new StringBuilder();
+            var sbStatLine2 = new StringBuilder();
+            var sbStatLine3 = new StringBuilder();
+
             foreach (var baseStat in o.BaseStats)
             {
-                string line = baseStat.Key + ":" + baseStat.Value;
+                if(baseStat.Key == Stat.Initiative || baseStat.Key == Stat.None || baseStat.Key == Stat.Value)
+                    continue;
+
+                string stat = baseStat.Key.ToString().Substring(0,2);
+                string val = baseStat.Value.ToString();
+                string valFinal = "";
 
                 if (Math.Abs(baseStat.Value - finalStats[baseStat.Key]) > 0.0001)
-                    line += " (" + finalStats[baseStat.Key] + ")";
+                    valFinal = $"({finalStats[baseStat.Key]:N0})";
 
-                lines.Add(line);
+                int maxWidth = Math.Max(3,Math.Max(val.Length,valFinal.Length));
+
+                stat = stat.PadRight(maxWidth);
+                val = val.PadRight(maxWidth);
+                valFinal = valFinal.PadRight(maxWidth);
+
+                sbStatLine1.Append(stat);
+                sbStatLine2.Append(val);
+                sbStatLine3.Append(valFinal);
             }
+
+            lines.Add(sbStatLine1.ToString());
+            lines.Add(sbStatLine2.ToString());
+            lines.Add(sbStatLine3.ToString());
+
+            if(o.BaseActions.Count > 0)
+            {
+                lines.Add("Actions:");
+                foreach(var action in o.BaseActions)
+                    lines.Add(action.ToString());
+            }
+
 
             if (asActor != null)
             {
@@ -107,9 +138,9 @@ namespace Game.UI
 
                 //sometimes they are the same
                 if(Math.Abs(total - relationship.Attitude) < 0.001)
-                    yield return $"{relationship}";
+                    yield return $"To {relationship.Observed} {relationship.Attitude}";
                 else
-                    yield return $"{relationship} ({total})";
+                    yield return $"To {relationship.Observed} {relationship.Attitude} ({total:N0})";
             }
         }
     }

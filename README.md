@@ -8,6 +8,8 @@ Stalk the abandoned corridors and burned out machine rooms of a city sized stars
 
 ![Screenshot of gameplay showing dialogue][screenshot3]
 
+![Video of gameplay][gameplay]
+
 ## Goals
 
 1. Persuasion and Cunning should be as viable as Fighting
@@ -19,9 +21,6 @@ Technical Goals:
 1. Simple yaml/lua game files (See [Cookbook] and [Tutorial])
 2. [Super thin interface layer](./src/IUserinterface.cs)
 3. [Maximum Test coverage](https://codecov.io/gh/tznind/Wanderer)
-
-![Screenshot of gameplay showing map][screenshot1]
-![Screenshot of gameplay showing map][screenshot2]
 
 ## Contributing
 
@@ -74,6 +73,7 @@ dotnet ./Game/bin/Debug/netcoreapp3.1/Game.dll
 [screenshot1]: ./src/Screen1.png
 [screenshot2]: ./src/Screen2.png
 [screenshot3]: ./src/Screen3.png
+[gameplay]: ./src/gameplay.gif
 [coding]: ./WandererCoding.gif
 [Cookbook]: ./Cookbook.md
 [Tutorial]: ./Resources.md

@@ -1,24 +1,38 @@
 # Cookbook
 
-This page contains simple recipes for common level building tasks.
-
-> TODO:
-
-> AggressorIfAny should probably be Initiator
-
-> Move every code block to use SystemArgs if possible? (for consistency of script blocks)
+This page contains simple recipes for common level building tasks.  To test a recipe for yourself you should create file(s) in a new directory (using the names provided under the code blocks).  A full walkthrough of this process is included in the [resources tutorial page](./Resources.md).
 
 ## Contents
 
+- [Foreword: Script Blocks](#foreword-script-blocks)
 - [Room Recipes](#room-recipes)
   - [Starting room](#starting-room)
   - [Add same item to many rooms](#add-same-item-to-many-rooms)
+  - [Random room items](#random-room-items)
 - [Item Recipes](#item-recipes)
   - [Equippable weapon](#equippable-weapon)
   - [Grenade](#grenade)
   - [Ammo](#ammo)
 - [Dialogue Recipes](#dialogue-recipes)
+  - [OnEnter room dialogue](#onenter-room-dialogue)
   - [Remark about injury](#remark-about-injury)
+
+## Foreword Script Blocks
+
+In several recipes there are scripting sections.  These are written in [Lua] (everything else is in [yaml]).  There are 2 kinds of script blocks, `Condition` and `Effect`.  These blocks support multiple statements using the hyphen notation.  `Condition` should start with the lua keyword `return` followed code that evaluates to true or false.  `Effect` blocks do not return anything but instead trigger things to happen in the world (run dialogue, spawn items etc).
+
+In scripts the following global variables are available:
+
+| Variable        | Description |
+| ------------- |-------------|
+| [World]      |  root variable for the game world |
+| AggressorIfAny ([Actor]) |  The player or Npc that is triggering the action/event.  This can be null for actions/events that are not instigated by an [Actor]|
+| Recipient | [Actor], [Room], [Item] etc which is the target of the action/event (e.g. for Dialogue this would be the person being talked too)|
+| [Room] | Where the action/event is tacking place (Can be null for some events e.g. RoundEnding) |
+| [UserInterface] | root variable for the graphical user interface (required argument for many methods) |
+| Round | Unique identifier for the current round (required argument for many methods) |
+| [Action] | Only aplies to action related events e.g. OnPush, references the action being performed |
+| [Behaviour] | Only applies to behaviour events (OnPush, OnRoundEnding etc).  References the behaviour object (which will be attached to a specific Owner) |
 
 ## Room Recipes
 
@@ -31,6 +45,7 @@ The [Player] always starts at 0,0,0.  The following recipy creates a unique star
 - Name: Somewhere Cool
   FixedLocation: 0,0,0
   Unique: true
+  Identifier: b1aa5ce4-213a-46b5-aa57-63831376b81d
 ```
 <sup>./rooms.yaml</sup>
 
@@ -57,6 +72,41 @@ Then create the base item:
 ```
 <sup>./items.yaml</sup>
 
+### Random Room Items
+<sup>[[View Test]](./Tests/Cookbook/RandomRoomItems.cs)</sup>
+
+Assuming an empty Resources directory, the first room you create will contain no items:
+
+```yaml
+- Name: Chamber of Horrors
+```
+<sup>./rooms.yaml</sup>
+
+Creating an items.yaml file will result in a random number of items spawning (including the possibility for duplicates)
+
+```yaml
+- Name: Rose
+- Name: Egg
+```
+<sup>./items.yaml</sup>
+
+You can control the maximum / minimum number of these items per room with the following settings:
+
+
+```yaml
+- Name: Chamber of Horrors
+  OptionalItemsMin: 4
+  OptionalItemsMax: 10
+```
+<sup>./rooms.yaml</sup>
+
+You can create a room with no random items by setting the max to 0:
+
+```yaml
+- Name: Chamber of Horrors
+  OptionalItemsMax: 0
+```
+<sup>./rooms.yaml</sup>
 
 ## Item Recipes
 
@@ -237,9 +287,69 @@ Each [DialogueNode] is made up of 1 or more blocks of text.  You can apply condi
 
 If you have multiple injury systems e.g. fire, cold, tissue damage etc and want to restrict your condition to only one of them then you can pass the injury system Guid instead e.g. return `AggressorIfAny:Has('7cc7a784-949b-4c26-9b99-c1ea7834619e')`
 
+### OnEnter room dialogue
+<sup>[[View Test]](./Tests/Cookbook/OnEnterRoomDialogue.cs)</sup>
+
+Say we want to run the room dialogue as soon as the player enters the room.  Heres how we can do that.  Create a new behaviour:
+
+```yaml
+- Name: DialogueOnEnter
+  Identifier: 5ae55edf-36d0-4878-bbfd-dbbb23d42b88
+  OnEnter: 
+   Condition: 
+     - return AggressorIfAny == World.Player
+     - return Room == Behaviour.Owner
+     - return Room.Dialogue.Next ~= nil
+   Effect: 
+     - World.Dialogue:Apply(SystemArgs(World,UserInterface,0,AggressorIfAny,Room,Round))
+```
+<sup>./behaviours.yaml</sup>
+
+The effect applies only when the Player is the one doing the entering (so Npc wandering into the Room won't trigger it).  We also check that the Room being entered is the behaviour owner and that they have Dialogue to run.
+
+To use the new behaviour on a Room we just have to reference it (and set up suitable dialogue)
+
+```yaml
+- Name: Dank Cellar
+  Behaviours:
+    - Ref: 5ae55edf-36d0-4878-bbfd-dbbb23d42b88
+  Dialogue:
+    Next: 6da41741-dada-4a52-85d5-a019cd9d38f7
+```
+<sup>./rooms.yaml</sup>
+
+`-Ref:` allows us to reference the behaviour from as many rooms as we want.
+
+```yaml
+- Identifier: 6da41741-dada-4a52-85d5-a019cd9d38f7
+  Body: 
+   - Text: Goblins fill the room from floor to ceiling
+```
+<sup>./dialogue.yaml</sup>
+
+If we want to only apply the behaviour the first time the Player enters the room we can add a second Effect to the behaviour that clears the room dialogue.
+
+
+```yaml
+   [...]
+   Effect: 
+     - World.Dialogue:Apply(SystemArgs(World,UserInterface,0,AggressorIfAny,Room,Round))
+     - Room.Dialogue.Next = null
+```
+<sup>./behaviours.yaml</sup>
+
 
 [InjurySystem]: ./src/Systems/InjurySystem.cs
 [RelationshipSystem]: ./src/Systems/RelationshipSystem.cs
 [DialogueNode]: ./src/Dialogues/DialogueNode.cs
 [Player]: ./src/Actors/You.cs
 [Main.lua]: ./src/Resources/Main.lua
+[World]: ./src/IWorld.cs
+[Actor]: ./src/Actors/IActor.cs
+[Room]: ./src/Rooms/IRoom.cs
+[Item]: ./src/Items/IItem.cs
+[UserInterface]: ./src/IUserInterface.cs
+[Action]: ./src/Actions/IAction.cs
+[Behaviour]: ./src/Behaviours/IBehaviour.cs
+[Lua]: https://www.lua.org/about.html
+[yaml]: https://yaml.org/

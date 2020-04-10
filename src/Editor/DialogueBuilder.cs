@@ -156,7 +156,7 @@ namespace Wanderer.Editor
                 throw new NotSupportedException("File should be proto dialogue e.g. txt not yaml");
 
             string outPath = Path.Combine(f.DirectoryName,
-            Path.GetFileNameWithoutExtension(f.Name)) + ".yaml";
+            Path.GetFileNameWithoutExtension(f.Name)) + ".dialogue.yaml";
 
             if(File.Exists(outPath))
                 throw new Exception("Output file path already exists " + outPath);
@@ -190,6 +190,7 @@ namespace Wanderer.Editor
                 foreach(var o in n.Options)
                 {
                     o.Effect = null;
+                    o.Condition = null;
                 }
 
                 if(!n.Options.Any())

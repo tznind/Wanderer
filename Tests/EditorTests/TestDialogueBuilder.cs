@@ -129,7 +129,7 @@ Where you from stranger?
             var input = new FileInfo(Path.Combine(TestContext.CurrentContext.WorkDirectory, "troll.z"));
             File.WriteAllText(input.FullName, "#emptyfile");
 
-            var expectedOut = Path.Combine(TestContext.CurrentContext.WorkDirectory, "troll.yaml");
+            var expectedOut = Path.Combine(TestContext.CurrentContext.WorkDirectory, "troll.dialogue.yaml");
             if (File.Exists(expectedOut))
                 File.Delete(expectedOut);
 
@@ -147,7 +147,7 @@ Where you from stranger?
             var input = new FileInfo(Path.Combine(TestContext.CurrentContext.WorkDirectory, "troll.z"));
             File.WriteAllText(input.FullName, "#emptyfile");
 
-            var expectedOut = Path.Combine(TestContext.CurrentContext.WorkDirectory, "troll.yaml");
+            var expectedOut = Path.Combine(TestContext.CurrentContext.WorkDirectory, "troll.dialogue.yaml");
             if (File.Exists(expectedOut))
                 File.Delete(expectedOut);
             File.WriteAllText(expectedOut, "blahblah");
@@ -165,7 +165,7 @@ Where you from stranger?
             var input = new FileInfo(Path.Combine(TestContext.CurrentContext.WorkDirectory, "troll.z"));
             File.WriteAllText(input.FullName, "hey there wanderer");
 
-            var expectedOut = Path.Combine(TestContext.CurrentContext.WorkDirectory, "troll.yaml");
+            var expectedOut = Path.Combine(TestContext.CurrentContext.WorkDirectory, "troll.dialogue.yaml");
             if (File.Exists(expectedOut))
                 File.Delete(expectedOut);
 

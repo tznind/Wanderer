@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Wanderer.Actors;
 using Wanderer.Behaviours;
@@ -38,6 +37,8 @@ namespace Wanderer.Actions
             var newPoint = oldPoint.Offset(f.LeaveDirection,1);
             
             IRoom goingTo;
+            
+            List<IBehaviour> newRoomBehaviours = new List<IBehaviour>();
 
             if (world.Map.ContainsKey(newPoint))
                 goingTo = world.Map[newPoint];
@@ -50,11 +51,18 @@ namespace Wanderer.Actions
 
                 world.Map.Add(newPoint,newRoom);
                 goingTo = newRoom;
+
+                newRoomBehaviours.AddRange(newRoom.GetFinalBehaviours(frame.PerformedBy));
             }
 
             frame.PerformedBy.Move(goingTo);
 
             ui.Log.Info(new LogEntry($"{frame.PerformedBy} moved {f.LeaveDirection} to {goingTo}",stack.Round,oldPoint));
+
+            //fire all on enter events
+            foreach (var behaviour in 
+                stack.Behaviours.Union(newRoomBehaviours).ToArray())
+                behaviour.OnEnter(world, ui, stack.Round, frame.PerformedBy, goingTo);
         }
 
         public override bool HasTargets(IActor performer)

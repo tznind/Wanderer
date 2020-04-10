@@ -59,23 +59,8 @@ namespace Wanderer.Factories
             //get some actors for the room
             world.ActorFactory.Create(world, room, faction,blueprint);
 
-            //create some random items
-            var items = world.R.Next(3);
-            for (int i = 0; i < items; i++)
-            {
-                var suitable = world.ItemFactory.Blueprints.Where(b => b.SuitsFaction(faction)).ToList();
-
-                if (blueprint.OptionalItems != null)
-                    suitable = suitable.Union(blueprint.OptionalItems).ToList();
-
-                var item = suitable.GetRandom(world.R);
-
-                //could be no blueprints
-                if(item != null)
-                    room.SpawnItem(item);
-            }
-                
-        
+            //get some items for the room
+            world.ItemFactory.Create(world, room, faction,blueprint);
 
             foreach(var a in blueprint.MandatoryActors)
                 world.ActorFactory.Create(world, room, room.ControllingFaction, a,blueprint);

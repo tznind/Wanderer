@@ -7,6 +7,6 @@ namespace Wanderer.Factories.Blueprints
         public BehaviourEventHandler OnPush {get;set;}
         public BehaviourEventHandler OnPop {get;set;}
         public BehaviourEventHandler OnRoundEnding {get;set;}
-
+        public BehaviourEventHandler OnEnter { get; set; }
     }
 }

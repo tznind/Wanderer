@@ -499,7 +499,14 @@ namespace Game.UI
                     {
                         _actionManager.PrimeCommandWithTarget(chosen,target);
 
-                        World.RunRound(this, chosen);
+                        try
+                        {
+                            World.RunRound(this, chosen);
+                        }
+                        catch (Exception e)
+                        {
+                            ShowException("Error During Round",e);
+                        }
                         Refresh();
 
                         SetFocus(_roomContents);

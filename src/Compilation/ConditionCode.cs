@@ -14,7 +14,19 @@ namespace Wanderer.Compilation
             try
             {
                 using(var lua = Factory.Create(world,forObject))
-                    return (bool)lua.DoString(Script)[0];
+                {
+                    var result = lua.DoString(Script);
+
+                    if(result == null || result.Length == 0 || result[0] == null)
+                    {
+                        if(Script.TrimStart().StartsWith("return"))
+                            throw new Exception("Script returned null");
+                        else
+                            throw new Exception("Script returned null, possibly you are missing starting keyword 'return' on your Condition?");
+                    }
+
+                    return (bool)result[0];
+                }
             }
             catch(LuaScriptException ex)
             {

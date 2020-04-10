@@ -14,7 +14,7 @@ using Wanderer.Relationships;
 
 namespace Tests.Actors
 {
-    class YamlRoomFactoryTests : UnitTest
+    class RoomFactoryTests : UnitTest
     {
         [Test]
         public void TestCreatingRoomFromBlueprint_WithDialogue()
@@ -189,6 +189,101 @@ namespace Tests.Actors
             you.SpawnItem("Grenade Pin");
 
             Assert.AreEqual("Grenade Pin",you.Items.Single().Name);
+        }
+
+        [Test]
+        public void TestOptionalActorsMax_High()
+        {
+            var blue = new RoomBlueprint()
+            {
+                OptionalActorsMin = 10,
+                OptionalActorsMax = 10,
+                OptionalActors = new []{new ActorBlueprint(){Name="Tribble"}}
+            };
+            var w = new World();
+
+            var room = w.RoomFactory.Create(w,blue);
+            w.Map.Add(new Point3(0,0,0),room);
+
+            Assert.AreEqual(room.Actors.Count(),10);
+        }
+
+        [Test]
+        public void TestOptionalActorsMax_Zero()
+        {
+            var blue = new RoomBlueprint()
+            {
+                OptionalActorsMax = 0,
+                OptionalActors = new []{new ActorBlueprint(){Name="Q"}}
+            };
+            var w = new World();
+
+            var room = w.RoomFactory.Create(w,blue);
+            w.Map.Add(new Point3(0,0,0),room);
+
+            Assert.IsEmpty(room.Actors.ToArray());
+        }
+
+        [Test]
+        public void TestOptionalActorsMax_BadRange()
+        {
+            var blue = new RoomBlueprint()
+            {
+                OptionalActorsMax = 10,
+                OptionalActorsMin = 16,
+                OptionalActors = new []{new ActorBlueprint(){Name="Q"}}
+            };
+            var w = new World();
+
+            Assert.Throws<ArgumentOutOfRangeException>(()=>w.RoomFactory.Create(w,blue));
+        }
+
+
+        [Test]
+        public void TestOptionalItemsMax_High()
+        {
+            var blue = new RoomBlueprint()
+            {
+                OptionalItemsMin = 10,
+                OptionalItemsMax = 10,
+                OptionalItems = new []{new ItemBlueprint(){Name="Spade"}}
+            };
+            var w = new World();
+
+            var room = w.RoomFactory.Create(w,blue);
+            w.Map.Add(new Point3(0,0,0),room);
+
+            Assert.AreEqual(room.Items.Count(),10);
+        }
+
+        [Test]
+        public void TestOptionalItemsMax_Zero()
+        {
+            var blue = new RoomBlueprint()
+            {
+                OptionalItemsMax = 0,
+                OptionalItems = new []{new ItemBlueprint(){Name="Spade"}}
+            };
+            var w = new World();
+
+            var room = w.RoomFactory.Create(w,blue);
+            w.Map.Add(new Point3(0,0,0),room);
+
+            Assert.IsEmpty(room.Items.ToArray());
+        }
+
+        [Test]
+        public void TestOptionalItemsMax_BadRange()
+        {
+            var blue = new RoomBlueprint()
+            {
+                OptionalItemsMax = 10,
+                OptionalItemsMin = 16,
+                OptionalItems = new []{new ItemBlueprint(){Name="Spade"}}
+            };
+            var w = new World();
+
+            Assert.Throws<ArgumentOutOfRangeException>(()=>w.RoomFactory.Create(w,blue));
         }
     }
 }
