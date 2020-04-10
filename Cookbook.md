@@ -2,6 +2,16 @@
 
 This page contains simple recipes for common level building tasks.
 
+## Script Blocks
+
+There are 2 kinds of script blocks, `Condition` and `Effect`.  These blocks support multiple statements using the hyphen notation.  `Condition` should start with the lua keyword `return` followed by a boolean expression (true or false).  `Effect` blocks do not return anything but instead trigger things to happen in the world (run dialogue, spawn items etc)
+
+For scripts the following global variables are available
+
+| Variable        | Description | Can be null  |
+| ------------- |:-------------:| -----:|
+| World      |  root variable for the game world | false |
+
 ## Contents
 
 - [Room Recipes](#room-recipes)
