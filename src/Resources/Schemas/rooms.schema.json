@@ -669,6 +669,16 @@
               "$ref": "#/definitions/BehaviourEventHandler"
             }
           ]
+        },
+        "OnEnter": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/BehaviourEventHandler"
+            }
+          ]
         }
       }
     },

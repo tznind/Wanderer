@@ -13,6 +13,7 @@ namespace Wanderer
     public class ActionStack : Stack<Frame>
     {
         public Guid Round { get; }= Guid.NewGuid();
+        public IBehaviour[] Behaviours { get; private set; } = new IBehaviour[0];
 
         /// <summary>
         /// Runs the <paramref name="firstAction"/> and evaluates all responders.
@@ -27,10 +28,12 @@ namespace Wanderer
         /// <param name="responders">All valid responders</param>
         public bool RunStack(IWorld world,IUserinterface ui, IAction firstAction,IActor performer, IEnumerable<IBehaviour> responders)
         {
+            Behaviours = responders?.ToArray() ?? new IBehaviour[0];
+
             //and run push event on the action
             firstAction.Push(world,ui,this,performer);
 
-            return RunStack(world, ui, performer, responders);
+            return RunStack(world, ui);
         }
         
         /// <summary>
@@ -39,25 +42,24 @@ namespace Wanderer
         /// <param name="world">Where the action is happening</param>
         /// <param name="ui">When decisions require user input, this handles it</param>
         /// <param name="frameToRun">The initial action frame (to go on bottom of stack)</param>
-        /// <param name="performer">Who is attempting <paramref name="frameToRun"/></param>
         /// <param name="responders">All valid responders</param>
-        public bool RunStack(IWorld world,IUserinterface ui, Frame frameToRun,IActor performer, IEnumerable<IBehaviour> responders)
+        public bool RunStack(IWorld world,IUserinterface ui, Frame frameToRun, IEnumerable<IBehaviour> responders)
         {
+            Behaviours = responders?.ToArray() ?? new IBehaviour[0];
+
             Push(frameToRun);
 
-            return RunStack(world, ui, performer, responders);
+            return RunStack(world, ui);
         }
 
-        private bool RunStack(IWorld world,IUserinterface ui,IActor performer, IEnumerable<IBehaviour> responders)
+        private bool RunStack(IWorld world,IUserinterface ui)
         {
-            responders = responders?.ToArray() ?? new IBehaviour[0];
-            
             //If the action decided not to push after all (e.g. UI cancel or decision not to push)
             if (this.Count == 0)
                 return false; //initial action was aborted
 
             //check all behaviours to see if they want to respond (by pushing actions etc)
-            foreach (IBehaviour responder in responders.ToArray())  //ToArray needed because they can self destruct at this time!
+            foreach (IBehaviour responder in Behaviours.ToArray())  //ToArray needed because they can self destruct at this time!
                 responder.OnPush(world,ui, this,Peek());
             
             //run all tasks that are not pending cancellation
@@ -66,7 +68,7 @@ namespace Wanderer
                 {
                     current.Action.Pop(world,ui,this, current);
 
-                    foreach (IBehaviour responder in responders.ToArray())
+                    foreach (IBehaviour responder in Behaviours.ToArray())
                         responder.OnPop(world,ui, this,current);
                 }
             

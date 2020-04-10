@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Wanderer.Actors;
-using Wanderer.Behaviours;
 using Wanderer.Rooms;
 
 namespace Wanderer.Actions
@@ -55,6 +53,10 @@ namespace Wanderer.Actions
             frame.PerformedBy.Move(goingTo);
 
             ui.Log.Info(new LogEntry($"{frame.PerformedBy} moved {f.LeaveDirection} to {goingTo}",stack.Round,oldPoint));
+
+            //fire all on enter events
+            foreach (var behaviour in stack.Behaviours.ToArray())
+                behaviour.OnEnter(world, ui, stack.Round, frame.PerformedBy, goingTo);
         }
 
         public override bool HasTargets(IActor performer)

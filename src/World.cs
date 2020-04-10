@@ -96,7 +96,7 @@ namespace Wanderer
                     //if the Npc has decided what to do
                     if (npc.Plan != null)
                     {
-                        stack.RunStack(this,ui,npc.Plan,npc,Population.SelectMany(p=>p.GetFinalBehaviours()));
+                        stack.RunStack(this,ui,npc.Plan,Population.SelectMany(p=>p.GetFinalBehaviours()));
                         continue;
                     }
 

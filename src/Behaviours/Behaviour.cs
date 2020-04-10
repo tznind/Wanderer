@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using Wanderer.Actors;
+using Wanderer.Rooms;
 using Wanderer.Systems;
 
 namespace Wanderer.Behaviours
@@ -15,6 +17,9 @@ namespace Wanderer.Behaviours
         public BehaviourEventHandler OnPopHandler {get;set;}
 
         public BehaviourEventHandler OnRoundEndingHandler {get;set;}
+
+        public BehaviourEventHandler OnEnterHandler {get;set;}
+
 
         [JsonConstructor]
         protected Behaviour()
@@ -39,6 +44,11 @@ namespace Wanderer.Behaviours
         public virtual void OnRoundEnding(IWorld world,IUserinterface ui, Guid round)
         {
             OnRoundEndingHandler?.Fire(new EventSystemArgs(this,world,ui,null,Owner,round));
+        }
+
+        public void OnEnter(IWorld world, IUserinterface ui, Guid round, IActor actor, IRoom room)
+        {
+            OnEnterHandler?.Fire(new EventSystemArgs(this,world,ui,actor,room,round));
         }
     }
 }

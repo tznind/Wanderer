@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Text;
 using Wanderer.Actions;
+using Wanderer.Actors;
+using Wanderer.Rooms;
 
 namespace Wanderer.Behaviours
 {
@@ -29,5 +31,15 @@ namespace Wanderer.Behaviours
         void OnPop(IWorld world, IUserinterface ui, ActionStack stack, Frame frame);
 
         void OnRoundEnding(IWorld world,IUserinterface ui,Guid round);
+
+        /// <summary>
+        /// Called when any actor enters a <paramref name="room"/>
+        /// </summary>
+        /// <param name="world"></param>
+        /// <param name="ui"></param>
+        /// <param name="round"></param>
+        /// <param name="actor"></param>
+        /// <param name="room"></param>
+        void OnEnter(IWorld world,IUserinterface ui,Guid round, IActor actor, IRoom room);
     }
 }
