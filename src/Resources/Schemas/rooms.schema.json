@@ -1,4 +1,4 @@
-﻿{
+{
   "$schema": "http://json-schema.org/draft-04/schema#",
   "title": "ListOfRoomBlueprint",
   "type": "array",
@@ -15,8 +15,7 @@
             "null",
             "string"
           ],
-          "description": "Inherit all properties from another blueprint of the same type",
-          "format": "guid"
+          "description": "Inherit all properties from another blueprint of the same type.  This must either exactly match the Name of the other blueprint or match the Identifier guid"
         },
         "Identifier": {
           "type": [
@@ -352,8 +351,7 @@
             "null",
             "string"
           ],
-          "description": "Inherit all properties from another blueprint of the same type",
-          "format": "guid"
+          "description": "Inherit all properties from another blueprint of the same type.  This must either exactly match the Name of the other blueprint or match the Identifier guid"
         },
         "Identifier": {
           "type": [
@@ -524,8 +522,7 @@
             "null",
             "string"
           ],
-          "description": "Inherit all properties from another blueprint of the same type",
-          "format": "guid"
+          "description": "Inherit all properties from another blueprint of the same type.  This must either exactly match the Name of the other blueprint or match the Identifier guid"
         },
         "Identifier": {
           "type": [
@@ -720,8 +717,7 @@
             "null",
             "string"
           ],
-          "description": "Inherit all properties from another blueprint of the same type",
-          "format": "guid"
+          "description": "Inherit all properties from another blueprint of the same type.  This must either exactly match the Name of the other blueprint or match the Identifier guid"
         },
         "Identifier": {
           "type": [
@@ -889,8 +885,7 @@
             "null",
             "string"
           ],
-          "description": "Inherit all properties from another blueprint of the same type",
-          "format": "guid"
+          "description": "Inherit all properties from another blueprint of the same type.  This must either exactly match the Name of the other blueprint or match the Identifier guid"
         },
         "Identifier": {
           "type": [

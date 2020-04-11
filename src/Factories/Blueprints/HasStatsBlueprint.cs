@@ -13,9 +13,9 @@ namespace Wanderer.Factories.Blueprints
     public abstract class HasStatsBlueprint
     {
         /// <summary>
-        /// Inherit all properties from another blueprint of the same type
+        /// Inherit all properties from another blueprint of the same type.  This must either exactly match the <see cref="Name"/> of the other blueprint or match the <see cref="Identifier"/> guid
         /// </summary>
-        public Guid? Ref { get; set; }
+        public string Ref { get; set; }
 
         /// <summary>
         /// Uniquely identifies instances created from this blueprint

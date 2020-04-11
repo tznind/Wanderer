@@ -48,13 +48,13 @@ namespace Tests.BehaviourTests
 
             var ref2 = new ItemBlueprint()
             {
-                Ref = g
+                Ref = g.ToString()
             };
 
 
             var ref1 = new ItemBlueprint()
             {
-                Ref = g
+                Ref = g.ToString()
             };
 
             world.ItemFactory.Blueprints.Add(master);

@@ -139,9 +139,9 @@ namespace Wanderer.Factories
         {
             if (blueprint.Ref != null)
             {
-                var baseBlue = GetBlueprint(blueprint.Ref.Value);
+                var baseBlue = GetBlueprint(blueprint.Ref);
 
-                if(baseBlue.Ref.HasValue)
+                if(!string.IsNullOrWhiteSpace(baseBlue.Ref))
                     throw new NotSupportedException($"Ref blueprints cannot have their own base blueprint (maximum inheritance depth is 1).  Bad base blueprint was '{baseBlue}'");
                 
                 //copy properties from the base blueprint
