@@ -184,7 +184,6 @@ namespace Wanderer.Systems.Validation
                 }
             }
             
-
             try
             {
                 if(plan.Do == null )
@@ -266,6 +265,15 @@ namespace Wanderer.Systems.Validation
             catch (Exception e)
             {
                 AddWarning($"Error testing OnRoundEnding of Behaviour {behaviour} of on '{owner}' in room '{room.Name}' with test actor '{actor}'", e);
+            }
+
+            try
+            {
+                behaviour.OnEnter(world,_ui,Guid.NewGuid(),actor,room);
+            }
+            catch (Exception e)
+            {
+                AddWarning($"Error testing OnEnter of Behaviour {behaviour} of on '{owner}' in room '{room.Name}' with test actor '{actor}'", e);
             }
         }
         public void ValidateAction(IWorld world, IHasStats owner, IAction action, IRoom room)
