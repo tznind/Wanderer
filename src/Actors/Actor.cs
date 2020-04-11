@@ -328,6 +328,19 @@ namespace Wanderer.Actors
             return SpawnItem(CurrentLocation.World.ItemFactory.Create(CurrentLocation.World,name));
         }
         
+        public IAction SpawnAction(ActionBlueprint blue)
+        {
+            return CurrentLocation.World.ActionFactory.Create(CurrentLocation.World,this,blue);
+        }
+        public IAction SpawnAction(Guid g)
+        {
+            return CurrentLocation.World.ActionFactory.Create(CurrentLocation.World,this,g);
+        }
+        public IAction SpawnAction(string name)
+        {
+            return CurrentLocation.World.ActionFactory.Create(CurrentLocation.World,this,name);
+        }
+
         protected virtual IItem SpawnItem(IItem item)
         {
             Items.Add(item);

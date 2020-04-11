@@ -48,13 +48,15 @@
     Condition:
       - return AggressorIfAny:Has('Flame Projector')
     Attitude: 100
-#    Effect:
+    Effect:
+       - Recipient:SpawnAction('Leave')
  #     - Recipient:SpawnBehaviour('FollowPlayer')
   - Text: Use Medic
     Condition:
       - return AggressorIfAny:Has('Medic')
     Attitude: 100
-#    Effect:
+    Effect:
+       - Recipient:SpawnAction('Leave')
 #      - Recipient:SpawnBehaviour('FollowPlayer')
     
   - Text: Put the creature out of it's misery
