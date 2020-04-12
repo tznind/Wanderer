@@ -72,6 +72,31 @@ namespace Tests.CompilerTests
                 Assert.AreEqual("Файл", res);
             }
         }
+
+
+        [Test]
+        public void TestLua_Circular()
+        {
+            using (Lua lua = new Lua())
+            {
+                lua.LoadCLRPackage();
+                lua.DoString(@$"import ('{typeof(One).Assembly.GetName().Name}', '{typeof(One).Namespace}')");
+                
+                var one = new One();
+                one.two.three.four.one = one;
+
+                lua["one"] = one;
+                Assert.AreEqual(1,lua.Globals.Count());
+
+                Assert.IsTrue(ReferenceEquals(one,lua.DoString("return one")[0]));
+                Assert.IsInstanceOf<Two>(lua.DoString("return one.two")[0]);
+                Assert.IsInstanceOf<Three>(lua.DoString("return one.two.three")[0]);
+                Assert.IsInstanceOf<Four>(lua.DoString("return one.two.three.four")[0]);
+                Assert.IsInstanceOf<One>(lua.DoString("return one.two.three.four.one")[0]);
+                Assert.IsInstanceOf<One>(lua.DoString("return one.two.three.four.one.two.three.four.one.two.three.four.one")[0]);
+            }
+        }
+
         [Test]
         public void TestLua_HasStat()
         {
@@ -294,4 +319,9 @@ import ('Wanderer','Wanderer.Rooms')
             }
         }
     }
+    
+    public class One { public Two two { get; set;} = new Two();}
+    public class Two { public Three three { get; set;} = new Three();}
+    public class Three { public Four four { get; set;} = new Four();}
+    public class Four { public One one { get; set;} }
 }
