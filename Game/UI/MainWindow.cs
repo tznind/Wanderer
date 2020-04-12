@@ -219,69 +219,9 @@ namespace Game.UI
 
         bool RunDialog<T>(string title, string message,out T chosen, params T[] options)
         {
-            var result = default(T);
-            bool optionChosen = false;
+            var dlg = new PickOneDialog<T>(title, message, DlgWidth, DlgHeight,DlgBoundary,options);
 
-            var dlg = new Dialog(title, DlgWidth, DlgHeight);
-            
-            var line = DlgHeight - (DlgBoundary)*2 - options.Length;
-
-            if (!string.IsNullOrWhiteSpace(message))
-            {
-                int width = DlgWidth - (DlgBoundary * 2);
-
-                var msg = Wrap(message, width-1).TrimEnd();
-
-                var text = new Label(0, 0, msg)
-                {
-                    Height = line - 1, Width = width
-                };
-
-                //if it is too long a message
-                int newlines = msg.Count(c => c == '\n');
-                if (newlines > line - 1)
-                {
-                    var view = new ScrollView(new Rect(0, 0, width, line - 1))
-                    {
-                        ContentSize = new Size(width, newlines + 1),
-                        ContentOffset = new Point(0, 0),
-                        ShowVerticalScrollIndicator = true,
-                        ShowHorizontalScrollIndicator = false
-                    };
-                    view.Add(text);
-                    dlg.Add(view);
-                }
-                else
-                    dlg.Add(text);
-            }
-            
-            foreach (var value in options)
-            {
-                T v1 = value;
-
-                string name = value.ToString();
-
-                var btn = new Button(0, line++, name)
-                {
-                    Clicked = () =>
-                    {
-                        result = v1;
-                        dlg.Running = false;
-                        optionChosen = true;
-                    }
-                };
-
-
-                dlg.Add(btn);
-
-                if(options.Length == 1)
-                    dlg.FocusFirst();
-            }
-
-            Application.Run(dlg);
-
-            chosen = result;
-            return optionChosen;
+            return dlg.Show(out chosen);
         }
 
         public void ShowStats(IHasStats of)
@@ -579,10 +519,5 @@ namespace Game.UI
                 Add(_mapView);
         }
 
-        public string Wrap(string s, int width)
-        {
-            var r = new Regex(@"(?:((?>.{1," + width + @"}(?:(?<=[^\S\r\n])[^\S\r\n]?|(?=\r?\n)|$|[^\S\r\n]))|.{1,16})(?:\r?\n)?|(?:\r?\n|$))");
-            return r.Replace(s, "$1\n");
-        }
     }
 }
