@@ -485,9 +485,11 @@ namespace Game.UI
         {
             if (keyEvent.Key == Key.Enter && _roomContents != null)
             {
+                //enter pressed on right hand content pane, show context menu for selected room object
                 if(_roomContents.SelectedItem < _roomContentsObjects.Count)
                 {
                     var target = _roomContentsObjects[_roomContents.SelectedItem];
+                    var oldIdx = _roomContents.SelectedItem;
 
                     var options = World.Player.GetFinalActions()
                     .Where(a=> a.Owner == target ||
@@ -509,8 +511,8 @@ namespace Game.UI
                         }
                         Refresh();
 
-                        SetFocus(_roomContents);
-                        _roomContents.SelectedItem = 0;
+                        _roomContents.EnsureFocus();
+                        _roomContents.SelectedItem = Math.Min(oldIdx , _roomContentsObjects.Count-1);
                     }
                 }
             }
