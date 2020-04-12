@@ -10,9 +10,14 @@
     - Name: Hooded Figure
       Dialogue:
         Next: a25c08a2-c4a6-4c6a-a6ee-c11744938349
+      SkipDefaultActions: true
+      Actions:
+        - Type: FightAction
+        - Ref: 39014d98-d679-4458-9b38-7dbb58a178db
     - Name: Carlos Darkmeer
       Dialogue:
         Next: fa7e55d3-b086-4e35-b816-c2d79fe66ac2
+      SkipDefaultActions: true
       Actions:
         - Type: FightAction
         - Ref: 39014d98-d679-4458-9b38-7dbb58a178db
