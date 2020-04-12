@@ -32,7 +32,7 @@ namespace Tests.BehaviourTests
         [Test]
         public void TestMerging_StacksWithActions()
         {
-            var you = YouInARoom(out IWorld world);
+            YouInARoom(out IWorld world);
 
             Guid g = Guid.NewGuid();
 

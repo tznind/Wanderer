@@ -21,6 +21,7 @@ namespace Tests
             world = wf.Create();
             world.Population.Clear();
             world.Relationships.Clear();
+            world.Factions.Clear();
             world.RoomFactory.Blueprints.Clear();
             world.ItemFactory.Blueprints.Clear();
             world.ActorFactory.Blueprints.Clear();

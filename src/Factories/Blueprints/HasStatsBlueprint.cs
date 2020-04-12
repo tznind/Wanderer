@@ -23,9 +23,15 @@ namespace Wanderer.Factories.Blueprints
         public Guid? Identifier { get; set; }
         
         /// <summary>
-        /// Null if the object thematically fits any faction, otherwise the <see cref="IHasStats.Identifier"/> of the faction
+        /// <para>Null if the object thematically fits any faction, otherwise the <see cref="IHasStats.Identifier"/> of the faction.</para>
+        /// <para>If null and there are multiple factions, a random faction will be chosen for this blueprint unless <see cref="Unaligned"/> flag is set</para>
         /// </summary>
         public Guid? Faction { get; set; }
+        
+        /// <summary>
+        /// Ensures that the room has no <see cref="Faction"/>.  This flag overrides <see cref="Faction"/> and suppresses any random faction assignment processes.
+        /// </summary>
+        public bool Unaligned { get; set; }
 
         /// <summary>
         /// True to only ever generate one of this thing

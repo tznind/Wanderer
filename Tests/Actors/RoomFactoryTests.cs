@@ -194,7 +194,7 @@ namespace Tests.Actors
         [Test]
         public void SpawnAction_BasicType()
         {
-            var you = YouInARoom(out IWorld w);
+            var you = YouInARoom(out _);
             
             var fightOrig = you.BaseActions.OfType<FightAction>().Single();
             Assert.AreEqual("Fight",fightOrig.Name);

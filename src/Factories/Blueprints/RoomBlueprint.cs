@@ -64,6 +64,5 @@ namespace Wanderer.Factories.Blueprints
         /// The minimum number of <see cref="OptionalItems"/> to spawn
         /// </summary>
         public int? OptionalItemsMin {get;set;}
-
     }
 }

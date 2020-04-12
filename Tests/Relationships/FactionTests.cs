@@ -147,5 +147,66 @@ namespace Tests.Relationships
                     Assert.True(room.Actors.All(a=>a.Name.Equals("Fisticuff Joe")),"Expected only Faction appropriate members to appear in faction aligned rooms");
             }
         }
+        
+        [Test]
+        public void TestUnaligned_OnRoom()
+        {
+            InARoom(out IWorld world);
+            
+            world.ActorFactory.Blueprints.Add(new ActorBlueprint(){Name = "Hedgehog"});
+
+
+            Assert.IsEmpty(world.Factions);
+            var room = world.RoomFactory.Create(world, new RoomBlueprint() {Name = "Dangerous Pit"});
+            Assert.IsNull(room.ControllingFaction,"When there are no factions in the world rooms have no faction");
+            Assert.IsFalse(room.Actors.First().FactionMembership.Any());
+
+            world.Factions.Add(new Faction("Cultists",FactionRole.Opposition));
+            var room2 = world.RoomFactory.Create(world, new RoomBlueprint() {Name = "Dangerous Pit"});
+
+            Assert.AreEqual(world.Factions.Single(),room2.ControllingFaction,"When there are factions in the world, rooms get assigned to random factions");
+            Assert.IsTrue(room2.Actors.First().FactionMembership.Contains(world.Factions.Single()));
+
+            var room3 = world.RoomFactory.Create(world, new RoomBlueprint()
+            {
+                Name = "Dangerous Pit",
+                Unaligned = true
+            });
+
+            Assert.IsNull(room3.ControllingFaction,"Unaligned rooms should not have a faction");
+            Assert.IsFalse(room3.Actors.First().FactionMembership.Any());
+        }
+        [TestCase(true)]
+        [TestCase(false)]
+        public void TestUnaligned_OnActor(bool unaligned)
+        {
+            InARoom(out IWorld world);
+            var f = new Faction("Cultists", FactionRole.Opposition)
+            {
+                Identifier  = new Guid("25d4a44c-ea41-48a6-aa0a-2bfcac2cf173")
+            };
+
+            world.ActorFactory.Blueprints.Add(new ActorBlueprint()
+            {
+                Name = "Hedgehog",
+                Unaligned = unaligned,
+                Faction = f.Identifier
+            });
+
+            world.Factions.Add(f);
+            
+            var room = world.RoomFactory.Create(world, new RoomBlueprint()
+            {
+                Name = "Dangerous Pit"
+            });
+
+            //room should have faction but actor is unaligned so shouldn't
+            Assert.AreEqual(world.Factions.Single(),room.ControllingFaction);
+
+            if(unaligned)
+                Assert.IsEmpty(room.Actors.First().FactionMembership.ToArray());
+            else
+                Assert.AreEqual(world.Factions.Single(),room.Actors.First().FactionMembership.Single());
+        }
     }
 }

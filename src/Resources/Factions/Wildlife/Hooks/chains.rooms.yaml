@@ -1,5 +1,6 @@
 - Name: Hall of Chains
   Unique: true
+  Unaligned: true
   Identifier: e48cb6a4-c8e1-4216-91d5-6e4ad5992e70
 
   #TODO: remove after testing
