@@ -93,7 +93,7 @@
       Destination: 05aad471-e8dc-421b-b468-a369bd5f5656
     - Text: Whatever
       Destination: 05aad471-e8dc-421b-b468-a369bd5f5656
-    - Text: Let me put you out of my misery
+    - Text: Let me put you out of my misery [Attack]
       Attitude: -100
 
 - Identifier: b31b2182-c16e-484e-9715-41c8c1b411df
@@ -102,7 +102,7 @@
   Options:   
     - Text: Whatever
       Destination: 05aad471-e8dc-421b-b468-a369bd5f5656
-    - Text: How about I stop bother you and start burrying you!
+    - Text: How about I stop bother you and start burrying you! [Attack]
       Attitude: -100
 
 - Identifier: 05aad471-e8dc-421b-b468-a369bd5f5656
@@ -116,4 +116,8 @@
     - Text: One day this ship and everyone in it will be mine
       Effect: 
         - AggressorIfAny.BaseStats:Increase(Coerce,20)
+        - Recipient.Dialogue.Next = null
+    - Text: I will know every secret and uncover every lie
+      Effect: 
+        - AggressorIfAny.BaseStats:Increase(Savvy,20)
         - Recipient.Dialogue.Next = null
