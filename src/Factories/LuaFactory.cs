@@ -1,5 +1,8 @@
 using System;
+using System.Diagnostics;
 using System.IO;
+using System.Reflection;
+using NLog;
 using NLua;
 using Wanderer.Stats;
 
@@ -7,8 +10,10 @@ namespace Wanderer.Factories
 {
     public class LuaFactory
     {
+        private static readonly Stopwatch sw = new Stopwatch();
         public Lua Create(IWorld world,object o)
         {
+            sw.Start();
             var lua = Create();
 
             lua["this"] = o;
@@ -31,6 +36,10 @@ namespace Wanderer.Factories
                 lua.DoFile(main);
 
             ApplyGuidConstructorFix(lua);
+            
+            sw.Stop();
+
+            LogManager.GetCurrentClassLogger().Log(LogLevel.Trace, "Cumulative lua create time:" + sw.ElapsedMilliseconds.ToString("N0"));
 
             return lua;
         }
