@@ -10,13 +10,24 @@ namespace Wanderer.Factories
 {
     public class LuaFactory
     {
+        private FieldInfo _translatorField;
+        private MethodInfo _pushMethod;
+
         private static readonly Stopwatch sw = new Stopwatch();
+
+        public LuaFactory()
+        {
+            _translatorField = typeof(Lua).GetField("_translator", BindingFlags.NonPublic |  BindingFlags.Instance);
+            _pushMethod = typeof(ObjectTranslator).GetMethod("Push",BindingFlags.NonPublic |  BindingFlags.Instance);
+
+        }
         public Lua Create(IWorld world,object o)
         {
             sw.Start();
             var lua = Create();
-
-            lua["this"] = o;
+            
+            SetGlobalFast(lua,"this",o);
+            //lua["this"] = o;
 
             if (o != null)
             {
@@ -24,8 +35,12 @@ namespace Wanderer.Factories
                 {
                     var val = prop.GetValue(o);
 
-                    if(val != null)
-                        lua[prop.Name] = val;
+                    if (val != null)
+                    {
+                        SetGlobalFast(lua,prop.Name,val);
+                        //lua[prop.Name] = val;
+                    }
+                        
                 }
             }
                 
@@ -42,6 +57,17 @@ namespace Wanderer.Factories
             LogManager.GetCurrentClassLogger().Log(LogLevel.Trace, "Cumulative lua create time:" + sw.ElapsedMilliseconds.ToString("N0"));
 
             return lua;
+        }
+
+        private void SetGlobalFast(Lua lua,string propName, object val)
+        {
+            int oldTop = lua.State.GetTop();
+
+            var translator = (ObjectTranslator) _translatorField.GetValue(lua);
+            _pushMethod.Invoke(translator, new object[]{lua.State, val});
+            lua.State.SetGlobal(propName);
+                
+            lua.State.SetTop(oldTop);
         }
 
         protected Lua Create()
