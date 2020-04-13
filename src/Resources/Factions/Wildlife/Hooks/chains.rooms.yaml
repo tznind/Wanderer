@@ -14,6 +14,8 @@
   MandatoryActors:
     - Name: Hook Horror
       Identifier: b16d1441-28ea-4ab4-a388-b425aefd044e
+      Stats:
+        Fight: 30
       Dialogue:
         Next: 581e4df0-c69d-4583-a24f-966f6dacf014
         Verb: Approach
