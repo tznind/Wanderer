@@ -13,19 +13,27 @@ namespace Wanderer.Compilation
         {
             try
             {
-                using(var lua = Factory.Create(args.World,args))
-                    return (Frame)lua.DoString(Script)[0];
+                using (var lua = Factory.Create(args.World, args))
+                {
+                    Stopwatch.Start();
+                    return (Frame) lua.DoString(Script)[0];
+                }
+
             }
-            catch(LuaScriptException ex)
+            catch (LuaScriptException ex)
             {
-                if(ex.IsNetException)
-                    throw new Exception(GetThrowMsg(args),ex.GetBaseException());
-                
-                throw new Exception(GetThrowMsg(args),ex);
+                if (ex.IsNetException)
+                    throw new Exception(GetThrowMsg(args), ex.GetBaseException());
+
+                throw new Exception(GetThrowMsg(args), ex);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                throw new Exception(GetThrowMsg(args),ex);
+                throw new Exception(GetThrowMsg(args), ex);
+            }
+            finally
+            {
+                Stopwatch.Stop();
             }
         }
 

@@ -15,19 +15,27 @@ namespace Wanderer.Actions
         {
             try
             {
-                using(var lua = Factory.Create(args.World,args))
-                    return (IEnumerable<IHasStats>)lua.DoString(Script)[0];
+                using (var lua = Factory.Create(args.World, args))
+                {
+                    Stopwatch.Start();
+                    return (IEnumerable<IHasStats>) lua.DoString(Script)[0];
+                }
+
             }
-            catch(LuaScriptException ex)
+            catch (LuaScriptException ex)
             {
-                if(ex.IsNetException)
-                    throw new Exception(GetThrowMsg(args),ex.GetBaseException());
-                
-                throw new Exception(GetThrowMsg(args),ex);
+                if (ex.IsNetException)
+                    throw new Exception(GetThrowMsg(args), ex.GetBaseException());
+
+                throw new Exception(GetThrowMsg(args), ex);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                throw new Exception(GetThrowMsg(args),ex);
+                throw new Exception(GetThrowMsg(args), ex);
+            }
+            finally
+            {
+                Stopwatch.Stop();
             }
         }
 

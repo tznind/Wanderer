@@ -13,31 +13,37 @@ namespace Wanderer.Compilation
         {
             try
             {
-                using(var lua = Factory.Create(world,forObject))
+                using (var lua = Factory.Create(world, forObject))
                 {
+                    Stopwatch.Start();
                     var result = lua.DoString(Script);
 
-                    if(result == null || result.Length == 0 || result[0] == null)
+                    if (result == null || result.Length == 0 || result[0] == null)
                     {
-                        if(Script.TrimStart().StartsWith("return"))
+                        if (Script.TrimStart().StartsWith("return"))
                             throw new Exception("Script returned null");
                         else
-                            throw new Exception("Script returned null, possibly you are missing starting keyword 'return' on your Condition?");
+                            throw new Exception(
+                                "Script returned null, possibly you are missing starting keyword 'return' on your Condition?");
                     }
 
-                    return (bool)result[0];
+                    return (bool) result[0];
                 }
             }
-            catch(LuaScriptException ex)
+            catch (LuaScriptException ex)
             {
-                if(ex.IsNetException)
-                    throw new Exception(GetThrowMsg(forObject),ex.GetBaseException());
-                
-                throw new Exception(GetThrowMsg(forObject),ex);
+                if (ex.IsNetException)
+                    throw new Exception(GetThrowMsg(forObject), ex.GetBaseException());
+
+                throw new Exception(GetThrowMsg(forObject), ex);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                throw new Exception(GetThrowMsg(forObject),ex);
+                throw new Exception(GetThrowMsg(forObject), ex);
+            }
+            finally
+            {
+                Stopwatch.Stop();
             }
         }
 

@@ -6,11 +6,13 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
+using NLog;
 using Wanderer;
 using Wanderer.Actors;
 using Wanderer.Factories;
 using Terminal.Gui;
 using Wanderer.Actions;
+using Wanderer.Compilation;
 using Wanderer.Items;
 
 namespace Game.UI
@@ -351,6 +353,7 @@ namespace Game.UI
             if (GetChoice("Action", null, out IAction chosen, instances.ToArray())) 
                 World.RunRound(this, chosen);
 
+            LogManager.GetCurrentClassLogger().Trace("Cumulative Script Execution Time:" + Code.Stopwatch.ElapsedMilliseconds.ToString("N0"));
 
             this.Refresh();
         }
