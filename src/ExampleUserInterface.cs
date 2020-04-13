@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Wanderer;
 using Wanderer.Actors;
 using Wanderer.Rooms;
 
-namespace Game.UI
+namespace Wanderer
 {
+    /// <summary>
+    /// Example implementation of <see cref="IUserinterface"/> based on <see cref="Console.WriteLine()"/> and <see cref="Console.ReadLine"/>
+    /// </summary>
     public class ExampleUserInterface : IUserinterface
     {
         public virtual EventLog Log { get; set; } = new EventLog();
