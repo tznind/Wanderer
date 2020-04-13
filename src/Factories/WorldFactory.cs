@@ -22,14 +22,32 @@ namespace Wanderer.Factories
 
         public const string DefaultActorBehavioursFile = "default.actor.behaviours.yaml";
 
+        /// <summary>
+        /// Path to yaml files read during <see cref="Create"/>
+        /// </summary>
         public string ResourcesDirectory { get; set; }
 
         private readonly Logger _log;
 
+        /// <summary>
+        /// Create a new world using the default Resources directory path (which must exist)
+        /// </summary>
         public WorldFactory()
         {
             ResourcesDirectory = Compiler.GetDefaultResourcesDirectory();
             _log = LogManager.GetCurrentClassLogger();
+        }
+
+
+        /// <summary>
+        /// Create a new world using the Resources in the provided <paramref name="resourcesDirectory"/>.  If directory is empty then a basic world full of empty rooms will still be created
+        /// </summary>
+        /// <param name="resourcesDirectory"></param>
+        public WorldFactory(string resourcesDirectory)
+        {
+            ResourcesDirectory = resourcesDirectory;
+            _log = LogManager.GetCurrentClassLogger();
+
         }
 
         SlotCollection _defaultSlots;

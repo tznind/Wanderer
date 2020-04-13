@@ -41,7 +41,7 @@ namespace Wanderer
             if(toLog.Round != Guid.Empty)
                 RoundResults.Add(toLog);
 
-            _log.Info(toLog.Message);
+            _log?.Info(toLog.Message);
         }
 
         /// <summary>
