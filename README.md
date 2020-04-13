@@ -89,6 +89,49 @@ dotnet new console
 dotnet add package Wanderer
 ```
 
+Open Program.cs and add the following to main:
+
+```csharp
+var factory = new WorldFactory(Environment.CurrentDirectory);
+var world = factory.Create();
+var ui = new ExampleUserInterface();
+
+while (!world.Player.Dead)
+{
+    // get user to pick an action
+    ui.GetChoice("Pick Action", null, out IAction chosen, world.Player.GetFinalActions().ToArray());
+    Console.Clear();
+
+    // run the chosen action in the world
+    world.RunRound(ui,chosen);   
+
+    // tell player what happened
+    ui.ShowMessage("Results", string.Join(Environment.NewLine,ui.Log.RoundResults));
+}
+```
+
+Create a new file "rooms.yaml" and mark it as Content, Copy to output directory (this should update your csproj file with):
+
+```xml
+<ItemGroup>
+  <Content Include="rooms.yaml">
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </Content>
+</ItemGroup>
+```
+
+In "rooms.yaml" add exactly the following (including hyphens and whitespace):
+
+```yaml
+- Name: Endless Plains
+  MandatoryActors:
+    - Name: Girafe
+```
+
+Now when you run the game you should have a companion in your lonely world.  Add more content by following the [Tutorial] then take a look at the [Cookbook] for more recipes.
+
+[IUserInterface] is a very simple interface to implement so building a more advanced user interface is easy, you could even create a full GUI in GTK, WinForms etc.
+
 ## Class Diagram
 
 ![Overview of classes in game][classDiagram]
@@ -102,3 +145,4 @@ dotnet add package Wanderer
 [Cookbook]: ./Cookbook.md
 [Tutorial]: ./Resources.md
 [Splash]: ./src/splash.png
+[IUserInterface]: ./src/IUserInterface.cs
