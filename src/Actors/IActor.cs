@@ -166,6 +166,30 @@ namespace Wanderer.Actors
         
         
         /// <summary>
+        /// Spawn a new action for the object
+        /// </summary>
+        /// <param name="blue"></param>
+        /// <returns></returns>
+        IAction SpawnAction(ActionBlueprint blue);
+
+        
+        /// <summary>
+        /// Spawn a new action for the object
+        /// </summary>
+        /// <param name="g"></param>
+        /// <exception cref="GuidNotFoundException"></exception>
+        /// <returns></returns>
+        IAction SpawnAction(Guid g);
+        
+        /// <summary>
+        /// Spawn a new action onto the object
+        /// </summary>
+        /// <param name="name"></param>
+        ///  <exception cref="NamedObjectNotFoundException"></exception>
+        /// <returns></returns>
+        IAction SpawnAction(string name);
+
+        /// <summary>
         /// Adds a new <see cref="IBehaviour"/> onto <see cref="IHasStats.BaseBehaviours"/>
         /// </summary>
         /// <param name="name">Name of <see cref="BehaviourBlueprint"/></param>

@@ -1,5 +1,6 @@
 - Name: Hall of Chains
   Unique: true
+  Unaligned: true
   Identifier: e48cb6a4-c8e1-4216-91d5-6e4ad5992e70
 
   #TODO: remove after testing
@@ -9,7 +10,7 @@
   OptionalActorsMax: 0
   OptionalItemsMax: 0
   Behaviours:
-    - Ref: 6ac0f722-2c2d-4e14-8c36-21b249d657d0
+    - Ref: DialogueOnEnterOnce
   MandatoryActors:
     - Name: Hook Horror
       Identifier: b16d1441-28ea-4ab4-a388-b425aefd044e

@@ -14,6 +14,16 @@ namespace Wanderer.Factories
         public ActionFactory()
         {
             _types = Compiler.Instance.TypeFactory.Create<IAction>();
+
+            //add the basic Type blueprints
+            foreach (var type in _types)
+            {
+                Blueprints.Add(new ActionBlueprint()
+                {
+                    Name = type.Name.Replace("Action", ""),
+                    Type = type.Name
+                });
+            }
         }
 
         public IAction Create(IWorld world, IHasStats onto, ActionBlueprint blueprint)

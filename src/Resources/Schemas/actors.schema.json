@@ -1,4 +1,4 @@
-﻿{
+{
   "$schema": "http://json-schema.org/draft-04/schema#",
   "title": "ListOfActorBlueprint",
   "type": "array",
@@ -15,8 +15,7 @@
             "null",
             "string"
           ],
-          "description": "Inherit all properties from another blueprint of the same type",
-          "format": "guid"
+          "description": "Inherit all properties from another blueprint of the same type.  This must either exactly match the Name of the other blueprint or match the Identifier guid"
         },
         "Identifier": {
           "type": [
@@ -31,8 +30,12 @@
             "null",
             "string"
           ],
-          "description": "Null if the object thematically fits any faction, otherwise the Identifier of the faction",
+          "description": "Null if the object thematically fits any faction, otherwise the  of the faction.\nIf null and there are multiple factions, a random faction will be chosen for this blueprint unless  flag is set",
           "format": "guid"
+        },
+        "Unaligned": {
+          "type": "boolean",
+          "description": "Ensures that the room has no Faction.  This flag overrides Faction and suppresses any random faction assignment processes."
         },
         "Unique": {
           "type": "boolean",
@@ -297,8 +300,7 @@
             "null",
             "string"
           ],
-          "description": "Inherit all properties from another blueprint of the same type",
-          "format": "guid"
+          "description": "Inherit all properties from another blueprint of the same type.  This must either exactly match the Name of the other blueprint or match the Identifier guid"
         },
         "Identifier": {
           "type": [
@@ -313,8 +315,12 @@
             "null",
             "string"
           ],
-          "description": "Null if the object thematically fits any faction, otherwise the Identifier of the faction",
+          "description": "Null if the object thematically fits any faction, otherwise the  of the faction.\nIf null and there are multiple factions, a random faction will be chosen for this blueprint unless  flag is set",
           "format": "guid"
+        },
+        "Unaligned": {
+          "type": "boolean",
+          "description": "Ensures that the room has no Faction.  This flag overrides Faction and suppresses any random faction assignment processes."
         },
         "Unique": {
           "type": "boolean",
@@ -469,8 +475,7 @@
             "null",
             "string"
           ],
-          "description": "Inherit all properties from another blueprint of the same type",
-          "format": "guid"
+          "description": "Inherit all properties from another blueprint of the same type.  This must either exactly match the Name of the other blueprint or match the Identifier guid"
         },
         "Identifier": {
           "type": [
@@ -485,8 +490,12 @@
             "null",
             "string"
           ],
-          "description": "Null if the object thematically fits any faction, otherwise the Identifier of the faction",
+          "description": "Null if the object thematically fits any faction, otherwise the  of the faction.\nIf null and there are multiple factions, a random faction will be chosen for this blueprint unless  flag is set",
           "format": "guid"
+        },
+        "Unaligned": {
+          "type": "boolean",
+          "description": "Ensures that the room has no Faction.  This flag overrides Faction and suppresses any random faction assignment processes."
         },
         "Unique": {
           "type": "boolean",
@@ -669,8 +678,7 @@
             "null",
             "string"
           ],
-          "description": "Inherit all properties from another blueprint of the same type",
-          "format": "guid"
+          "description": "Inherit all properties from another blueprint of the same type.  This must either exactly match the Name of the other blueprint or match the Identifier guid"
         },
         "Identifier": {
           "type": [
@@ -685,8 +693,12 @@
             "null",
             "string"
           ],
-          "description": "Null if the object thematically fits any faction, otherwise the Identifier of the faction",
+          "description": "Null if the object thematically fits any faction, otherwise the  of the faction.\nIf null and there are multiple factions, a random faction will be chosen for this blueprint unless  flag is set",
           "format": "guid"
+        },
+        "Unaligned": {
+          "type": "boolean",
+          "description": "Ensures that the room has no Faction.  This flag overrides Faction and suppresses any random faction assignment processes."
         },
         "Unique": {
           "type": "boolean",

@@ -190,7 +190,25 @@ namespace Tests.Actors
 
             Assert.AreEqual("Grenade Pin",you.Items.Single().Name);
         }
+        
+        [Test]
+        public void SpawnAction_BasicType()
+        {
+            var you = YouInARoom(out _);
+            
+            var fightOrig = you.BaseActions.OfType<FightAction>().Single();
+            Assert.AreEqual("Fight",fightOrig.Name);
+            Assert.AreEqual('f',fightOrig.HotKey);
+            
+            you.BaseActions.Clear();
+            Assert.AreEqual(0, you.BaseActions.OfType<FightAction>().Count());
+            you.SpawnAction("Fight");
+            
+            var fight = you.BaseActions.OfType<FightAction>().Single();
+            Assert.AreEqual("Fight",fight.Name);
+            Assert.AreEqual('f',fight.HotKey);
 
+        }
         [Test]
         public void TestOptionalActorsMax_High()
         {

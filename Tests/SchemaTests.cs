@@ -86,12 +86,14 @@ namespace Tests
             var schema = _generator.Generate(typeof(T));
             string schemaJson = schema.ToJson();
             
-            TestContext.Out.WriteLine(schemaJson);
+            var fnew = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources/NewSchemas", filename));
+            fnew.Directory.Create();
+            File.WriteAllText(fnew.FullName,schemaJson);
 
             Assert.IsTrue(
                 schemaJson.Trim().Replace("\r","").Replace('\n',' ')
                     .Equals(File.ReadAllText(f).Trim().Replace("\r","").Replace('\n',' '),
-                        StringComparison.CurrentCultureIgnoreCase),"schema is out of date for '" + filename +"'");
+                        StringComparison.CurrentCultureIgnoreCase),$"schema is out of date for '{ filename }'.  New schema generated in {fnew.Directory.FullName}");
         }
         private static JsonSchema StatsDictionary(JsonSchemaGenerator arg1, JsonSchemaResolver arg2)
         {

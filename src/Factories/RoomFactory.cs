@@ -32,17 +32,21 @@ namespace Wanderer.Factories
                 return new Room("Empty Room",world,'e');
             
             HandleInheritance(blueprint);
+            
+            IFaction faction = null;
 
-            //pick blueprint faction (or random one if it isn't themed to a specific faction)
-            IFaction faction;
-
-            if (blueprint.Faction != null)
+            //if not unaligned
+            if (!blueprint.Unaligned)
             {
-                var match = world.Factions.SingleOrDefault(f => f.Identifier == blueprint.Faction);
-                faction = match ?? throw new Exception($"Could not find Faction {blueprint.Faction} listed by blueprint {blueprint}");
+                //pick blueprint faction (or random one if it isn't themed to a specific faction)
+                if (blueprint.Faction != null)
+                {
+                    var match = world.Factions.SingleOrDefault(f => f.Identifier == blueprint.Faction);
+                    faction = match ?? throw new Exception($"Could not find Faction {blueprint.Faction} listed by blueprint {blueprint}");
+                }
+                else
+                    faction = world.Factions.GetRandomFaction(world.R);
             }
-            else 
-                faction = world.Factions.GetRandomFaction(world.R);
             
             var room = new Room(blueprint.Name, world, blueprint.Tile) {ControllingFaction = faction};
 

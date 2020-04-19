@@ -32,7 +32,7 @@ namespace Tests.BehaviourTests
         [Test]
         public void TestMerging_StacksWithActions()
         {
-            var you = YouInARoom(out IWorld world);
+            YouInARoom(out IWorld world);
 
             Guid g = Guid.NewGuid();
 
@@ -48,13 +48,13 @@ namespace Tests.BehaviourTests
 
             var ref2 = new ItemBlueprint()
             {
-                Ref = g
+                Ref = g.ToString()
             };
 
 
             var ref1 = new ItemBlueprint()
             {
-                Ref = g
+                Ref = g.ToString()
             };
 
             world.ItemFactory.Blueprints.Add(master);

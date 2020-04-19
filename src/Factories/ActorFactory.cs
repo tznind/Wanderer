@@ -48,7 +48,7 @@ namespace Wanderer.Factories
             AddBasicProperties(world,npc, blueprint,"talk");
             world.AdjectiveFactory.AddAdjectives(world,npc, blueprint);
 
-            if (faction != null)
+            if (faction != null && !blueprint.Unaligned)
                 npc.FactionMembership.Add(faction);
             
             if(string.IsNullOrWhiteSpace(npc.Name))
