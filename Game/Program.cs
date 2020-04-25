@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Game.UI;
+using Wanderer.TerminalGui;
 using Wanderer;
 using Wanderer.Factories;
 using Terminal.Gui;

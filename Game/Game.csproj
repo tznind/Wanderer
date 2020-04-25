@@ -30,5 +30,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\src\Wanderer.csproj" />
+    <ProjectReference Include="..\TerminalGui\Wanderer.TerminalGui.csproj" />
   </ItemGroup>
 </Project>
