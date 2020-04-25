@@ -62,7 +62,7 @@ namespace Tests
             w.Dialogue.AllDialogues.Clear();
             v.Validate(w);
 
-            Assert.GreaterOrEqual(v.ErrorCount,10);
+            Assert.GreaterOrEqual(v.ErrorCount,2);
             
             StringAssert.Contains("Could not find Dialogue",v.Errors.ToString());
         }
