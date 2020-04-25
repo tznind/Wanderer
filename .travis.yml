@@ -9,8 +9,14 @@ script:
 - dotnet test
 - dotnet publish -r win-x64
 - dotnet publish -r linux-x64
+
+# Pack the core engine package
 - cd src && dotnet pack -p:Version=$(fgrep Version ../SharedAssemblyInfo.cs|cut -d'"' -f2|head -n1) -c Release --include-symbols --include-source
 - if [ ! -z "$TRAVIS_TAG" ]; then dotnet nuget push bin/Release/Wanderer.$TRAVIS_TAG.nupkg -s https://api.nuget.org/v3/index.json -k $NUGET_KEY; fi
+
+# Pack the gui
+- cd TerminalGui && dotnet pack -p:Version=$(fgrep Version ../SharedAssemblyInfo.cs|cut -d'"' -f2|head -n1) -c Release --include-symbols --include-source
+- if [ ! -z "$TRAVIS_TAG" ]; then dotnet nuget push bin/Release/Wanderer.TerminalGui.$TRAVIS_TAG.nupkg -s https://api.nuget.org/v3/index.json -k $NUGET_KEY; fi
 
 after_success:
 - if [ -z "$TRAVIS_TAG" ]; then travis_terminate 0; fi

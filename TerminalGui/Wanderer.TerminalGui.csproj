@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+	  <LangVersion>latest</LangVersion>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <DebugType>full</DebugType>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+     <NoWarn>CS1591</NoWarn>
+    <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
+    <AssemblyTitle>Wanderer.TerminalGui</AssemblyTitle>
+    <Product>Wanderer.TerminalGui</Product>
+    <Copyright>Copyright ©  2019-2020</Copyright>
+    <PackOnBuild>true</PackOnBuild>
+    <PackageId>Wanderer.TerminalGui</PackageId>
+    <PackageVersion>$(version)</PackageVersion>
+    <Authors>Thomas Nind</Authors>
+    <Owners>Thomas Nind</Owners>
+    <PackageProjectUrl>https://github.com/tznind/Wanderer</PackageProjectUrl>
+    <PackageTags>Game,Engine,Console,rpg,Yaml,Lua,dialogue</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Title>Wanderer.TerminalGui</Title>
+    <Description>Advanced console gui for the Wanderer engine</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs" Link="SharedAssemblyInfo.cs" />
+    <Content Include="Resources\**\*" Pack="False">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Terminal.Gui" Version="0.65.0" />
+    <PackageReference Include="Wanderer" Version="0.0.13" />
+  </ItemGroup>
+</Project>
