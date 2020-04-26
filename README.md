@@ -113,9 +113,30 @@ Finally update `rooms.yaml` to associate the dialogue with the Girafe
 
 Add more content by following the [Tutorial] then take a look at the [Cookbook] for more recipes.
 
-[IUserInterface] is a very simple interface to implement so building a more advanced user interface is easy, you could even create a full GUI in GTK, WinForms etc.
+## Creating your own UI
 
+The above example uses the `Wanderer.TerminalGui` package (and `MainWindow` class) for the game user interface.  The engine itself is written in dotnet standard so is not tied to the Console.  It can run as a Blazor web app, WinForms, ETO etc.
 
+[IUserInterface] is a very simple interface to implement so building a more advanced user interface is easy.  The best way to start is to run the game with the bare bones `ExampleUserInterface` (see below) then swap in your own implementation of [IUserInterface].
+
+```csharp
+var factory = new WorldFactory(Environment.CurrentDirectory);
+var world = factory.Create();
+var ui = new ExampleUserInterface();
+
+while (!world.Player.Dead)
+{
+    // get user to pick an action
+    ui.GetChoice("Pick Action", null, out IAction chosen, world.Player.GetFinalActions().ToArray());
+    Console.Clear();
+
+    // run the chosen action in the world
+    world.RunRound(ui,chosen);   
+
+    // tell player what happened
+    ui.ShowMessage("Results", string.Join(Environment.NewLine,ui.Log.RoundResults));
+}
+```
 
 ## Auto-Complete
 
