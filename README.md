@@ -1,5 +1,7 @@
 [![Nuget](https://img.shields.io/nuget/v/Wanderer)](https://www.nuget.org/packages/Wanderer/) [![Build Status](https://travis-ci.com/tznind/Wanderer.svg?branch=master)](https://travis-ci.org/tznind/Wanderer) [![codecov](https://codecov.io/gh/tznind/Wanderer/branch/master/graph/badge.svg)](https://codecov.io/gh/tznind/Wanderer) [![Coverage Status](https://coveralls.io/repos/github/tznind/Wanderer/badge.svg?branch=master)](https://coveralls.io/github/tznind/Wanderer?branch=master) [![Total alerts](https://img.shields.io/lgtm/alerts/g/tznind/Wanderer.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/tznind/Wanderer/alerts/)
 
+# Wanderer
+
 Wanderer is a game engine for developing dialogue rich scene based exploration games.
 
 ![Screenshot of development autocomple][coding]
@@ -140,7 +142,52 @@ while (!world.Player.Dead)
 
 ## Auto-Complete
 
-Autocomplete is supported via yaml schemas.  The easiest way to get this working is to use Visual Studio Code and install the [Redhat YAML plugin](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml).  When you open the [workspace](./Wanderer.code-workspace) autocomplete and hover comments should automatically appear.
+Yaml autocomplete is supported via schemas.  The easiest way to get this working is to use Visual Studio Code and install the [Redhat YAML plugin](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml).  Download the [latest schemas](./src/Resources/Schemas) and reference them from your [workspace](./Wanderer.code-workspace).
+
+```json
+"settings": {
+
+		"yaml.schemas": {
+			"./src/Resources/Schemas/injury.schema.json": [ "/**/*injury.yaml" ],
+			"./src/Resources/Schemas/dialogue.schema.json": [ "/**/*dialogue.yaml" ],
+			"./src/Resources/Schemas/adjectives.schema.json": [ "/**/*adjectives.yaml" ],
+			"./src/Resources/Schemas/actions.schema.json": [ "/**/*actions.yaml" ],
+			"./src/Resources/Schemas/items.schema.json": [ "/**/*items.yaml" ],
+			"./src/Resources/Schemas/rooms.schema.json": [ "/**/*rooms.yaml" ],
+			"./src/Resources/Schemas/actors.schema.json": [ "/**/*actors.yaml" ]
+		}
+    }
+```
+
+## Validation
+
+You can validate your resource files using the `WorldValidator` class.  This tests not only that the yaml files can be deserialized but also that there are no missing references (e.g. dialogue) and that conditions, effects and behaviours have valid Lua code which can be executed.
+
+For example:
+
+```csharp
+var worldFactory = new WorldFactory();
+                            
+var validator = new WorldValidator();
+validator.IncludeStackTraces = true;
+validator.Validate(worldFactory);
+
+if(validator.Warnings.Length > 0)
+{
+    Console.WriteLine("WARNINGS:");
+    Console.WriteLine(validator.Warnings);
+}
+
+if(validator.Errors.Length > 0)
+{
+    Console.WriteLine("ERRORS:");
+    Console.WriteLine(validator.Errors);
+}
+
+Console.WriteLine("Finished Validation:");
+Console.WriteLine(validator.ErrorCount + " Errors");
+Console.WriteLine(validator.WarningCount + " Warnings");
+```
 
 ## Building
 
