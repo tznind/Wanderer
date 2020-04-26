@@ -1,21 +1,6 @@
 ![Nuget](https://img.shields.io/nuget/v/Wanderer) [![Build Status](https://travis-ci.com/tznind/Wanderer.svg?branch=master)](https://travis-ci.org/tznind/Wanderer) [![codecov](https://codecov.io/gh/tznind/Wanderer/branch/master/graph/badge.svg)](https://codecov.io/gh/tznind/Wanderer) [![Coverage Status](https://coveralls.io/repos/github/tznind/Wanderer/badge.svg?branch=master)](https://coveralls.io/github/tznind/Wanderer?branch=master) [![Total alerts](https://img.shields.io/lgtm/alerts/g/tznind/Wanderer.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/tznind/Wanderer/alerts/)
 
-![Black and white drawing of a wastelander looking at a distant spire][splash]
-
-Wanderer is a game built upon the __most powerful graphics engine in the world: your imagination!__
-
-Stalk the abandoned corridors and burned out machine rooms of a city sized starship.  Kill, sneak or talk your way through problems as you forge your own story.  Will you turn each room into a killing field; gather a loyal band of allies or unite a faction in rebellion against the status quo?
-
-Would you like to know more?
-
-- [Tell me more](#goals)
-- [Play the game](#download)
-- [Contribute/create content for the game](#contributing)
-- [Use the nuget package to create your own game](#nuget)
-
-## Example Gameplay
-
-![Video of gameplay][gameplay]
+Wanderer is a game engine for developing dialogue rich scene based exploration games.
 
 ## Goals
 
@@ -41,44 +26,14 @@ You can validate your new content by running the [validator script](./validate.s
 
 A good place to start is the [Tutorial] and/or [Cookbook].
 
-## Download
-
-You can [download the compiled binaries in GitHub Releases section](https://github.com/tznind/Wanderer/releases) for both windows and linux console.  
-
-Run Game.exe to start playing.  Alternatively you can clone the repo and [build it yourself](#building)
-
-**The game is in very early development and not really ready for playing.  Open issues for suggestions or if you like the idea and what to get involved.**
-
 ## Building
 
 Build and publish with the `dotnet` command (requires installing [Dot Net 3.1 SDK](https://dotnet.microsoft.com/download/dotnet-core/3.1))
 
 ```bash
 dotnet build
-dotnet publish -r win-x64
+dotnet test
 ```
-__Substitute win-x64 for linux-x64 etc depending on your OS__
-
-Alternatively you can build and run the game with the dotnet command
-
-```bash
-dotnet build
-dotnet ./Game/bin/Debug/netcoreapp3.1/Game.dll
-```
-
-Finally for linux there are two shell scripts included:
-
-- [play.sh](./play.sh)
-- [validate.sh](./validate.sh) (validates yaml resource files)
-
-
-## Dependencies
-
-- [Terminal.Gui](https://github.com/migueldeicaza/gui.cs) - Only the most awesome console gui ever!
-- [CommandLineParser](https://github.com/commandlineparser/commandline) - For parsing CLI args
-- [YamlDotNet](https://github.com/aaubry/YamlDotNet) - Markup language parser
-- [JSON.Net](https://github.com/JamesNK/Newtonsoft.Json) - For saving/loading
-- [NLua](https://github.com/NLua/NLua) - For script files
 
 ## Nuget
 
