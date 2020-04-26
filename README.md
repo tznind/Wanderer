@@ -111,7 +111,7 @@ Finally update `rooms.yaml` to associate the dialogue with the Girafe
 ```
 
 
-Add more content by following the [Tutorial] then take a look at the [Cookbook] for more recipes.
+Add more content by following the recipes in the [Cookbook].
 
 ## Creating your own UI
 
