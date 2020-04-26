@@ -1,8 +1,0 @@
-﻿- Name: Crumpled Pamphlet
-  Dialogue: 
-    Verb: read
-    Next: e088ff6e-60de-4a59-a9d8-b9406a2aed7c
-- Name: Torn Pamphlet
-  Dialogue: 
-    Verb: read
-    Next: f1909b20-80c3-4af4-b098-b6bf22bf5ca8

@@ -31,10 +31,9 @@ namespace Tests
                 ResourcesDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory,"Resources")
             }.Create();
 
-            var faction = world1.Factions.First();
             var actorFactory = world1.ActorFactory;
             var npc = 
-                actorFactory.Create(world1,world1.Player.CurrentLocation,faction,
+                actorFactory.Create(world1,world1.Player.CurrentLocation,null,
                     new ActorBlueprint()
                     {
                         Name = "omg",
