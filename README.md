@@ -74,7 +74,7 @@ Now create a Resources folder in your project directory and add a new file "room
 
 To talk to the Girafe we can create some dialogue.  Create a file in the Resources directory called `dialogue.yaml`.
 
-Fill it with some dialogue using the [online dialogue editor](https://tznind.github.io/WandererTools/counter) or just use the following:
+Fill it with some dialogue using the [online dialogue editor](https://tznind.github.io/WandererTools/) or just use the following:
 
 ```
 - Identifier: b270c715-84e1-49b6-90df-91ea9e34075c
