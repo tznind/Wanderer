@@ -14,45 +14,57 @@ Technical Goals:
 
 ## Getting Started
 
-Create a new C# console application (e.g. dotnet core 3.1):
+Create a new C# console application (requires [dotnet 3.1 sdk](https://dotnet.microsoft.com/download)):
 
 ```bash
 dotnet new console
 dotnet add package Wanderer
+dotnet add package Wanderer.TerminalGui
 ```
 
 Open Program.cs and add the following to main:
 
 ```csharp
-var factory = new WorldFactory(Environment.CurrentDirectory);
-var world = factory.Create();
-var ui = new ExampleUserInterface();
+using Terminal.Gui;
+using Wanderer.Factories;
+using Wanderer.TerminalGui;
 
-while (!world.Player.Dead)
+namespace TestWandererInstructions
 {
-    // get user to pick an action
-    ui.GetChoice("Pick Action", null, out IAction chosen, world.Player.GetFinalActions().ToArray());
-    Console.Clear();
-
-    // run the chosen action in the world
-    world.RunRound(ui,chosen);   
-
-    // tell player what happened
-    ui.ShowMessage("Results", string.Join(Environment.NewLine,ui.Log.RoundResults));
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var worldFactory = new WorldFactory();
+            
+            Application.Init();
+                            
+            var ui = new MainWindow(worldFactory);
+            Application.Top.Add(ui);
+            Application.Run();             
+        }
+    }
 }
 ```
 
-Create a new file "rooms.yaml" and mark it as Content, Copy to output directory (this should update your csproj file with):
+Run the game (Use the dll name of your project):
 
-```xml
-<ItemGroup>
-  <Content Include="rooms.yaml">
-    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-  </Content>
-</ItemGroup>
+```bash
+dotnet build
+dotnet ./bin/Debug/netcoreapp3.1/TestWandererInstructions.dll
 ```
 
-In "rooms.yaml" add exactly the following (including hyphens and whitespace):
+At this point starting a new game should give an error about a missing Resources directory.  Edit your csproj file and add the following (this will mark all files under Resources as copy to bin directory).
+
+```xml
+  <ItemGroup>
+    <Content Include="Resources\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+```
+
+Now create a Resources folder in your project directory and add a new file "rooms.yaml".  Add exactly the following (including hyphens and whitespace):
 
 ```yaml
 - Name: Endless Plains
