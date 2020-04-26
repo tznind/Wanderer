@@ -151,6 +151,10 @@ dotnet build
 dotnet test
 ```
 
+## Games built with Wanderer
+
+- [Starship Wanderer](https://github.com/tznind/StarshipWanderer/)
+
 ## Class Diagram
 
 ![Overview of classes in game][classDiagram]
