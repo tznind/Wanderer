@@ -72,7 +72,46 @@ Now create a Resources folder in your project directory and add a new file "room
     - Name: Girafe
 ```
 
-Now when you run the game you should have a companion in your lonely world.  Add more content by following the [Tutorial] then take a look at the [Cookbook] for more recipes.
+To talk to the Girafe we can create some dialogue.  Create a file in the Resources directory called `dialogue.yaml`.
+
+Fill it with some dialogue using the [online dialogue editor](https://tznind.github.io/WandererTools/counter) or just use the following:
+
+```
+- Identifier: b270c715-84e1-49b6-90df-91ea9e34075c
+  Body:
+  - Text: Hello there
+  Options:
+  - Text: hello yourself
+    Destination: 8cd356a8-13e4-4ebe-9fb5-0f8d9899ff26
+  - Text: that's enough of that!
+- Identifier: 8cd356a8-13e4-4ebe-9fb5-0f8d9899ff26
+  Body:
+  - Text: How are you this fine morning?
+  Options:
+  - Text: Good
+    Destination: 88d3f46a-69ef-4fd5-b7a6-98486d8cacea
+  - Text: Bad
+    Destination: 1101116d-34c4-48c5-a76b-353aa138dafa
+- Identifier: 88d3f46a-69ef-4fd5-b7a6-98486d8cacea
+  Body:
+  - Text: Me too
+- Identifier: 1101116d-34c4-48c5-a76b-353aa138dafa
+  Body:
+  - Text: Sorry to hear that
+```
+
+Finally update `rooms.yaml` to associate the dialogue with the Girafe
+
+```yaml
+- Name: Endless Plains
+  MandatoryActors:
+    - Name: Girafe
+      Dialogue:
+         Next: b270c715-84e1-49b6-90df-91ea9e34075c
+```
+
+
+Add more content by following the [Tutorial] then take a look at the [Cookbook] for more recipes.
 
 [IUserInterface] is a very simple interface to implement so building a more advanced user interface is easy, you could even create a full GUI in GTK, WinForms etc.
 
