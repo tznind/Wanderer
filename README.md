@@ -8,7 +8,7 @@ Wanderer is a game engine for developing dialogue rich scene based exploration g
 
 Technical Goals:
 
-1. Simple yaml/lua game files (See [Cookbook] and [Tutorial])
+1. Simple yaml/lua game files (See [Cookbook])
 2. [Super thin interface layer](./src/IUserinterface.cs)
 3. [Maximum Test coverage](https://codecov.io/gh/tznind/Wanderer)
 
@@ -142,8 +142,6 @@ while (!world.Player.Dead)
 
 Autocomplete is supported via yaml schemas.  The easiest way to get this working is to use Visual Studio Code and install the [Redhat YAML plugin](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml).  When you open the [workspace](./Wanderer.code-workspace) autocomplete and hover comments should automatically appear.
 
-A good place to start is the [Tutorial] and/or [Cookbook].
-
 ## Building
 
 Build and publish with the `dotnet` command (requires installing [Dot Net 3.1 SDK](https://dotnet.microsoft.com/download/dotnet-core/3.1))
@@ -164,6 +162,5 @@ dotnet test
 [gameplay]: ./src/gameplay.gif
 [coding]: ./WandererCoding.gif
 [Cookbook]: ./Cookbook.md
-[Tutorial]: ./Resources.md
 [Splash]: ./src/splash.png
 [IUserInterface]: ./src/IUserInterface.cs
