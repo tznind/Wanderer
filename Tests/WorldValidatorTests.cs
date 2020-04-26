@@ -56,13 +56,20 @@ namespace Tests
             {
                 ResourcesDirectory = NormalResourcesDirectory
             };
-
+            
             var w = f.Create();
 
             w.Dialogue.AllDialogues.Clear();
+            w.RoomFactory.Blueprints.Add(new RoomBlueprint()
+            {
+                Dialogue = new DialogueInitiation()
+                {
+                    Next = Guid.NewGuid()
+                }
+            });
             v.Validate(w);
 
-            Assert.GreaterOrEqual(v.ErrorCount,10);
+            Assert.AreEqual(v.ErrorCount,1);
             
             StringAssert.Contains("Could not find Dialogue",v.Errors.ToString());
         }
