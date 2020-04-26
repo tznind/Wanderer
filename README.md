@@ -4,10 +4,6 @@ Wanderer is a game engine for developing dialogue rich scene based exploration g
 
 ## Goals
 
-1. Persuasion and Cunning should be as viable as Fighting
-2. No dice rolls for actions
-3. Actions should have consequences (for relationships, long term injuries etc).
-
 Technical Goals:
 
 1. Simple yaml/lua game files (See [Cookbook] and [Tutorial])
@@ -18,11 +14,9 @@ Technical Goals:
 
 Creating content is designed to be as simple as possible (see below):
 
-![Screenshot of gameplay showing map][coding]
+![Screenshot of development autocomple][coding]
 
 Autocomplete is supported via yaml schemas.  The easiest way to get this working is to use Visual Studio Code and install the [Redhat YAML plugin](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml).  When you open the [workspace](./Wanderer.code-workspace) autocomplete and hover comments should automatically appear.
-
-You can validate your new content by running the [validator script](./validate.sh) (or by running the unit tests).
 
 A good place to start is the [Tutorial] and/or [Cookbook].
 
@@ -35,7 +29,7 @@ dotnet build
 dotnet test
 ```
 
-## Nuget
+## Getting Started
 
 Create a new C# console application (e.g. dotnet core 3.1):
 
