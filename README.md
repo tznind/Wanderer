@@ -11,7 +11,7 @@ Wanderer is a game engine for developing dialogue rich scene based exploration g
 1. Simple yaml/lua game files (See [Cookbook])
 2. [Super thin interface layer](./src/IUserinterface.cs)
 3. [Maximum Test coverage](https://codecov.io/gh/tznind/Wanderer)
-4. All the systems (with simple interfaces to replace / inject your own)
+4. All the systems (with simple class interfaces to replace / inject your own)
    1. Injury systems (model fire, [hunger](./src/Resources/InjurySystems/Hunger.injury.yaml), [slashing / piercing](./src/Resources/InjurySystems/TissueInjury.injury.yaml) etc all directly from yaml)
    2. Negotiation system (coerce npcs to do perform actions)
    3. Relationship system (build love/hate with npc based on actions/dialogue)
