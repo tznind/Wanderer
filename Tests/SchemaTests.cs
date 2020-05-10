@@ -93,6 +93,10 @@ namespace Tests
             string schemaJson = schema.ToJson();
             
             var fnew = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources/NewSchemas", filename));
+            
+            if(fnew.Exists)
+                fnew.Delete();
+
             fnew.Directory.Create();
             File.WriteAllText(fnew.FullName,schemaJson);
 
