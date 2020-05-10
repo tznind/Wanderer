@@ -1,4 +1,6 @@
-﻿using Wanderer.Actors;
+﻿using System;
+using System.Linq;
+using Wanderer.Actors;
 using Wanderer.Factories;
 using YamlDotNet.Serialization;
 
@@ -8,8 +10,9 @@ namespace Wanderer.Relationships
     {
         public FactionRole Role { get; set; }
 
-        [YamlIgnore]
-        public INameFactory NameFactory { get; set; }
+        
+        public string[] Forenames { get; set; }
+        public string[] Surnames { get; set; }
 
         public SlotCollection DefaultSlots { get; set; } = new SlotCollection();
 
@@ -28,6 +31,17 @@ namespace Wanderer.Relationships
         public override string ToString()
         {
             return Name;
+        }
+        
+        public string GenerateName(Random r)
+        {
+            return 
+                (
+                    (Forenames.Any() ? Forenames[r.Next(Forenames.Length)] : "") 
+                    + " " +
+                    (Surnames.Any()? Surnames[r.Next(Surnames.Length)]: "")
+                )
+                .Trim();
         }
     }
 }

@@ -343,56 +343,22 @@ namespace Wanderer.Factories
         /// <param name="world"></param>
         protected virtual void GenerateFactions(World world)
         {
-            var factionsDir = Path.Combine(ResourcesDirectory, FactionsDirectory);
-
-            if (!Directory.Exists(factionsDir))
-                return;
-
-            var dirs = Directory.GetDirectories(factionsDir);
-
-            foreach (var directory in dirs)
+            foreach (var r in GetResources("*faction.yaml"))
             {
                 Faction f;
-                var factionFile = Path.Combine(directory, "faction.yaml");
-                var factionSlotsFile = Path.Combine(directory, "slots.yaml");
-
                 try
                 {
-                    f= Compiler.Instance.Deserializer.Deserialize<Faction>(File.ReadAllText(factionFile));
+                    f= Compiler.Instance.Deserializer.Deserialize<Faction>(r.Content);
                 }
                 catch (Exception e)
                 {
-                    throw new Exception($"Error Deserializing file {factionFile}",e);
+                    throw new Exception($"Error Deserializing file {r.Location}",e);
                 }
-
-
-                try
-                {
-                    string slotsYaml = null;
-
-                    if (File.Exists(factionSlotsFile))
-                        slotsYaml = File.ReadAllText(factionSlotsFile);
-
-                    //if there are no faction specific slots use the defaults
-                    if (string.IsNullOrWhiteSpace(slotsYaml))
-                        f.DefaultSlots = _defaultSlots.Clone();
-                }
-                catch (Exception e)
-                {
-                    throw new Exception($"Error Deserializing faction actors/slots file in dir '{directory}'",e);
-                }
-                
-                var forenames = new FileInfo(Path.Combine(directory,"forenames.txt"));
-                var surnames = new FileInfo(Path.Combine(directory, "surnames.txt"));
-
-                f.NameFactory = new NameFactory(forenames.Exists ? File.ReadAllLines(forenames.FullName) : new string[0],
-                    surnames.Exists ? File.ReadAllLines(surnames.FullName) : new string[0]);
 
                 //TODO: Really all factions just are mates with thier faction buddies and can't control that from yaml?
                 world.Relationships.Add(new IntraFactionRelationship(f,5));
                 
-                //TODO: change to normal resource
-                _factionDirs.Add(new WorldFactoryFileResource(new FileInfo(factionFile)), f);
+                _factionDirs.Add(r ,f);
                 world.Factions.Add(f);
             }
 

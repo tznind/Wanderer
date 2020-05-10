@@ -12,7 +12,7 @@ namespace Wanderer.Relationships
         /// <summary>
         /// Creates names for people in this faction
         /// </summary>
-        public INameFactory NameFactory { get; set; }
+        public string GenerateName(Random r);
 
         /// <summary>
         /// Custom slots for the faction e.g. 1 tail 8 legs for the Spider Kingdom
