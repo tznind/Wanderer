@@ -14,6 +14,9 @@ using Wanderer.Systems;
 
 namespace Wanderer.Factories
 {
+    /// <summary>
+    /// Creates <see cref="IWorld"/> instances by deserializing yaml resource files.
+    /// </summary>
     public class WorldFactory : IWorldFactory
     {
         //These are the types of directories/yaml files we expect to find
@@ -231,37 +234,38 @@ namespace Wanderer.Factories
         /// </summary>
         /// <param name="searchPattern"></param>
         /// <returns></returns>
-        protected virtual Dictionary<string, string> GetFilesWithContent(string searchPattern)
+        protected virtual IEnumerable<WorldFactoryResource> GetResources(string searchPattern)
         {
             return
                 Directory.GetFiles(ResourcesDirectory, searchPattern, SearchOption.AllDirectories)
-                    .ToDictionary(k => k, File.ReadAllText);
+                    .Select(k => new WorldFactoryResource(k,File.ReadAllText(k)));
         }
 
 
-        protected virtual Tuple<string, string> GetFileWithContent(string name)
+        protected virtual WorldFactoryResource GetResource(string name)
         {
             var file = Path.Combine(ResourcesDirectory, name);
-            return File.Exists(file) ? Tuple.Create(file, File.ReadAllText(file)) : null;
+            return File.Exists(file) ? new WorldFactoryResource(file, File.ReadAllText(file)) : null;
         }
 
         public virtual IList<IInjurySystem> GetInjurySystems()
         {
             var toReturn = new List<IInjurySystem>();
 
-            foreach (var kvp in GetFilesWithContent("*injury.yaml"))
+            foreach (var r in GetResources("*injury.yaml"))
             {
-                try
-                {
-                    if(string.IsNullOrWhiteSpace(kvp.Value))
-                        continue;
+                if(r != null)
+                    try
+                    {
+                        if(string.IsNullOrWhiteSpace(r.Content))
+                            continue;
 
-                    toReturn.Add(Compiler.Instance.Deserializer.Deserialize<InjurySystem>(kvp.Value));
-                }
-                catch (Exception e)
-                {
-                    throw new Exception($"Error building InjurySystem from '{kvp.Key}'",e);
-                }
+                        toReturn.Add(Compiler.Instance.Deserializer.Deserialize<InjurySystem>(r.Content));
+                    }
+                    catch (Exception e)
+                    {
+                        throw new Exception($"Error building InjurySystem from '{r.Location}'",e);
+                    }
             }
             
             return toReturn;
@@ -270,19 +274,19 @@ namespace Wanderer.Factories
 
         public virtual PlanningSystem GetPlanningSystem(IWorld world)
         {
-            var defaultPlan = GetFileWithContent("plans.yaml");
+            var defaultPlan = GetResource("plans.yaml");
             var planning = new PlanningSystem();
 
             if (defaultPlan != null)
             {
                 try
                 {
-                    planning.Plans.AddRange(Compiler.Instance.Deserializer.Deserialize<Plan[]>(defaultPlan.Item2));
+                    planning.Plans.AddRange(Compiler.Instance.Deserializer.Deserialize<Plan[]>(defaultPlan.Content));
                     
                 }
                 catch (Exception e)
                 {
-                    throw new Exception("Error deserializing " + defaultPlan.Item1,e);
+                    throw new Exception("Error deserializing " + defaultPlan.Location,e);
                 }
             }
 
@@ -292,17 +296,17 @@ namespace Wanderer.Factories
 
         protected virtual SlotCollection GetDefaultSlots()
         {
-            var defaultSlots = GetFileWithContent( "slots.yaml");
+            var defaultSlots = GetResource( "slots.yaml");
 
             if (defaultSlots != null)
             {
                 try
                 {
-                    return Compiler.Instance.Deserializer.Deserialize<SlotCollection>(defaultSlots.Item2);
+                    return Compiler.Instance.Deserializer.Deserialize<SlotCollection>(defaultSlots.Content);
                 }
                 catch (Exception e)
                 {
-                    throw new Exception("Error deserializing " + defaultSlots.Item1,e);
+                    throw new Exception("Error deserializing " + defaultSlots.Location,e);
                 }
             }
 
