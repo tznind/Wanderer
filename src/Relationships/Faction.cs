@@ -37,9 +37,9 @@ namespace Wanderer.Relationships
         {
             return 
                 (
-                    (Forenames.Any() ? Forenames[r.Next(Forenames.Length)] : "") 
+                    (Forenames != null && Forenames.Any() ? Forenames[r.Next(Forenames.Length)] : "") 
                     + " " +
-                    (Surnames.Any()? Surnames[r.Next(Surnames.Length)]: "")
+                    (Surnames != null && Surnames.Any() ? Surnames[r.Next(Surnames.Length)]: "")
                 )
                 .Trim();
         }

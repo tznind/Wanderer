@@ -24,14 +24,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Resources\Names\**" />
-    <EmbeddedResource Remove="Resources\Names\**" />
-    <None Remove="Resources\Names\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Include="..\SharedAssemblyInfo.cs" Link="SharedAssemblyInfo.cs" />
-    <Content Include="Resources\**\*" Pack="False">
+    <Content Include="Resources\**\*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

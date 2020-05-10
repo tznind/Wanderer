@@ -10,6 +10,7 @@ using Wanderer.Actors;
 using Wanderer.Compilation;
 using Wanderer.Dialogues;
 using Wanderer.Factories.Blueprints;
+using Wanderer.Relationships;
 using Wanderer.Stats;
 using Wanderer.Systems;
 
@@ -65,7 +66,12 @@ namespace Tests
         {
             CheckSchema<List<RoomBlueprint>>("rooms.schema.json");
         }
-
+        
+        [Test]
+        public void FactionBlueprintSchema()
+        {
+            CheckSchema<Faction>("faction.schema.json");
+        }
         [Test]
         public void DialogueSchema()
         {
