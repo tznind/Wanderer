@@ -74,7 +74,7 @@ namespace Wanderer.Factories
 
             _defaultSlots = GetDefaultSlots();
 
-            world.PlanningSystem = GeneratePlans(world);
+            world.PlanningSystem = GetPlanningSystem(world);
 
             GenerateFactions(world);
 
@@ -224,46 +224,65 @@ namespace Wanderer.Factories
             return fi.Name.EndsWith("dialogue.yaml",StringComparison.CurrentCultureIgnoreCase);
         }
 
+        /// <summary>
+        /// Returns all resources that matching the <paramref name="searchPattern"/>.  Default implementation is a recursive
+        /// file search of the <see cref="ResourcesDirectory"/>.  Override this method to load resources from a remote API or
+        /// zip file etc.
+        /// </summary>
+        /// <param name="searchPattern"></param>
+        /// <returns></returns>
+        protected virtual Dictionary<string, string> GetFilesWithContent(string searchPattern)
+        {
+            return
+                Directory.GetFiles(ResourcesDirectory, searchPattern, SearchOption.AllDirectories)
+                    .ToDictionary(k => k, File.ReadAllText);
+        }
+
+
+        protected virtual Tuple<string, string> GetFileWithContent(string name)
+        {
+            var file = Path.Combine(ResourcesDirectory, name);
+            return File.Exists(file) ? Tuple.Create(file, File.ReadAllText(file)) : null;
+        }
+
         public virtual IList<IInjurySystem> GetInjurySystems()
         {
             var toReturn = new List<IInjurySystem>();
-            
-            foreach (var file in Directory.GetFiles(ResourcesDirectory,"*injury.yaml",SearchOption.AllDirectories))
+
+            foreach (var kvp in GetFilesWithContent("*injury.yaml"))
             {
                 try
                 {
-                    var yaml = File.ReadAllText(file);
-                    
-                    if(string.IsNullOrWhiteSpace(yaml))
+                    if(string.IsNullOrWhiteSpace(kvp.Value))
                         continue;
 
-                    toReturn.Add(Compiler.Instance.Deserializer.Deserialize<InjurySystem>(yaml));
+                    toReturn.Add(Compiler.Instance.Deserializer.Deserialize<InjurySystem>(kvp.Value));
                 }
                 catch (Exception e)
                 {
-                    throw new Exception($"Error building InjurySystem from file '{file}'",e);
+                    throw new Exception($"Error building InjurySystem from '{kvp.Key}'",e);
                 }
             }
-
+            
             return toReturn;
         }
 
 
-        public PlanningSystem GeneratePlans(IWorld world)
+        public virtual PlanningSystem GetPlanningSystem(IWorld world)
         {
-            string defaultPlans = Path.Combine(ResourcesDirectory, "plans.yaml");
+            var defaultPlan = GetFileWithContent("plans.yaml");
             var planning = new PlanningSystem();
 
-            if (File.Exists(defaultPlans))
+            if (defaultPlan != null)
             {
                 try
                 {
-                    planning.Plans.AddRange(Compiler.Instance.Deserializer.Deserialize<Plan[]>(File.ReadAllText(defaultPlans)));
+                    planning.Plans.AddRange(Compiler.Instance.Deserializer.Deserialize<Plan[]>(defaultPlan.Item2));
                     
                 }
                 catch (Exception e)
                 {
-                    throw new Exception("Error deserializing " + defaultPlans,e);
+                    throw new Exception("Error deserializing " + defaultPlan.Item1,e);
                 }
             }
 
@@ -273,17 +292,17 @@ namespace Wanderer.Factories
 
         protected virtual SlotCollection GetDefaultSlots()
         {
-            string defaultSlots = Path.Combine(ResourcesDirectory, "slots.yaml");
+            var defaultSlots = GetFileWithContent( "slots.yaml");
 
-            if (File.Exists(defaultSlots))
+            if (defaultSlots != null)
             {
                 try
                 {
-                    return Compiler.Instance.Deserializer.Deserialize<SlotCollection>(File.ReadAllText(defaultSlots));
+                    return Compiler.Instance.Deserializer.Deserialize<SlotCollection>(defaultSlots.Item2);
                 }
                 catch (Exception e)
                 {
-                    throw new Exception("Error deserializing " + defaultSlots,e);
+                    throw new Exception("Error deserializing " + defaultSlots.Item1,e);
                 }
             }
 
