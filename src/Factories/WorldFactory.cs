@@ -106,15 +106,8 @@ namespace Wanderer.Factories
 
                 //is a faction dir
                 var dirs = fi.Directory.FullName.Split(Path.DirectorySeparatorChar);
-                IFaction faction = null;
-
-                var factionDir = _factionDirs.Keys.FirstOrDefault(k =>
-                    
-                fi.Directory.FullName.StartsWith(k.FullName, StringComparison.CurrentCultureIgnoreCase));
-
-                if (factionDir != null)
-                    faction = _factionDirs[factionDir];
-
+                IFaction faction = GetImplicitFactionFor(fi);
+                
                 if(!SkipContent && IsRoomsFile(fi,dirs))
                     world.RoomFactory.Blueprints.AddRange(AssignFaction(GetBlueprints<RoomBlueprint>(fi),faction));
 
@@ -161,6 +154,24 @@ namespace Wanderer.Factories
             AddDefaults(world,player);
             
             return world;
+        }
+
+        /// <summary>
+        /// Returns whether the given resource is declared with a hierarchy that exists below
+        /// a given <see cref="IFaction"/> therefore the resource should be considered part of that
+        /// faction.
+        /// </summary>
+        /// <param name="fi"></param>
+        /// <returns></returns>
+        protected virtual IFaction GetImplicitFactionFor(FileInfo fi)
+        {
+            var factionDir = _factionDirs.Keys.FirstOrDefault(k =>
+                fi.Directory.FullName.StartsWith(k.FullName, StringComparison.CurrentCultureIgnoreCase));
+
+            if (factionDir != null)
+                return  _factionDirs[factionDir];
+
+            return null;
         }
 
         public static void AddDefaults(IWorld world, IActor actor)
