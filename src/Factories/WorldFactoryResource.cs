@@ -1,18 +1,27 @@
-﻿namespace Wanderer.Factories
+﻿using System;
+
+namespace Wanderer.Factories
 {
     /// <summary>
     /// Describes a piece of yaml text that will be loaded by <see cref="WorldFactory"/>
     /// during world creation
     /// </summary>
-    public abstract class WorldFactoryResource
+    public class WorldFactoryResource
     {
         public string Location { get; set; }
         public string Content { get; set; }
 
-        protected WorldFactoryResource(string location, string content)
+        public WorldFactoryResource(string location, string content)
         {
             Location = location;
             Content = content;
+        }
+
+        private string GetPath()
+        {
+            var idx = Location.LastIndexOfAny(new[] {'/', '\\'});
+
+            return Location.Substring(0, idx + 1);
         }
 
         /// <summary>
@@ -21,6 +30,9 @@
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public abstract bool SharesPath(WorldFactoryResource other);
+        public virtual bool SharesPath(WorldFactoryResource other)
+        {
+            return GetPath().Contains(other.GetPath(),StringComparison.CurrentCultureIgnoreCase);
+        }
     }
 }

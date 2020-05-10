@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Newtonsoft.Json.Linq;
 using NJsonSchema;
 using NUnit.Framework;
 using NJsonSchema.Generation;
@@ -94,16 +95,11 @@ namespace Tests
             
             var fnew = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources/NewSchemas", filename));
             
-            if(fnew.Exists)
-                fnew.Delete();
-
             fnew.Directory.Create();
             File.WriteAllText(fnew.FullName,schemaJson);
 
-            Assert.IsTrue(
-                schemaJson.Trim().Replace("\r","").Replace('\n',' ')
-                    .Equals(File.ReadAllText(f).Trim().Replace("\r","").Replace('\n',' '),
-                        StringComparison.CurrentCultureIgnoreCase),$"schema is out of date for '{ filename }'.  New schema generated in {fnew.Directory.FullName}");
+            Assert.IsTrue(JToken.DeepEquals(schemaJson, File.ReadAllText(f)),
+                        $"schema is out of date for '{ filename }'.  New schema generated in {fnew.Directory.FullName}");
         }
         private static JsonSchema StatsDictionary(JsonSchemaGenerator arg1, JsonSchemaResolver arg2)
         {

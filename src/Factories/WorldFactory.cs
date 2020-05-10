@@ -69,11 +69,11 @@ namespace Wanderer.Factories
         public virtual IWorld Create()
         {
             var world = new World();
-            world.ResourcesDirectory = ResourcesDirectory;
 
             _log.Info($"Resources Directory Is: {ResourcesDirectory}");
 
             world.InjurySystems = GetInjurySystems();
+            world.MainLua = GetResource("Main.lua")?.Content;
 
             _defaultSlots = GetDefaultSlots();
 
@@ -93,16 +93,10 @@ namespace Wanderer.Factories
             world.ActionFactory = new ActionFactory();
             world.BehaviourFactory = new BehaviourFactory();
 
-
-            if(!Directory.Exists(ResourcesDirectory))
-                throw new DirectoryNotFoundException($"Resources directory did not exist '{ResourcesDirectory}'");
-
             //Get every yaml file under the resources dir
             foreach(var fi in GetResources("*.yaml"))
             {
-                var dir = new DirectoryInfo(ResourcesDirectory);
-
-                _log.Info($"Loading ./{fi.Location.Substring(dir.FullName.Length)}");
+                _log.Info($"Loading {fi.Location}");
 
                 //is a faction dir
                 IFaction faction = GetImplicitFactionFor(fi);
@@ -248,14 +242,14 @@ namespace Wanderer.Factories
         {
             return
                 Directory.GetFiles(ResourcesDirectory, searchPattern, SearchOption.AllDirectories)
-                    .Select(k => new WorldFactoryFileResource(new FileInfo(k)));
+                    .Select(k => new WorldFactoryResource(new FileInfo(k).FullName,File.ReadAllText(k)));
         }
 
 
         protected virtual WorldFactoryResource GetResource(string name)
         {
             var file = Path.Combine(ResourcesDirectory, name);
-            return File.Exists(file) ? new WorldFactoryFileResource(new FileInfo(file)) : null;
+            return File.Exists(file) ? new WorldFactoryResource(new FileInfo(file).FullName,File.ReadAllText(file)) : null;
         }
 
         public virtual IList<IInjurySystem> GetInjurySystems()

@@ -1,4 +1,4 @@
-﻿{
+{
   "$schema": "http://json-schema.org/draft-04/schema#",
   "title": "Faction",
   "type": "object",
@@ -173,36 +173,6 @@
       "x-abstract": true,
       "additionalProperties": false,
       "properties": {
-        "Adjectives": {
-          "type": [
-            "array",
-            "null"
-          ],
-          "description": "Human readable words that describe the current state of the object",
-          "items": {
-            "$ref": "#/definitions/IAdjective"
-          }
-        },
-        "BaseBehaviours": {
-          "type": [
-            "array",
-            "null"
-          ],
-          "description": "Determines how the object responds  before applying any external child objects (gear, location etc.)",
-          "items": {
-            "$ref": "#/definitions/IBehaviour"
-          }
-        },
-        "BaseActions": {
-          "type": [
-            "array",
-            "null"
-          ],
-          "description": "The IAction that the object can undertake regardless of any child objects (gear, location etc.)",
-          "items": {
-            "$ref": "#/definitions/IAction"
-          }
-        },
         "Identifier": {
           "type": [
             "null",
@@ -221,6 +191,14 @@
             "string"
           ],
           "description": "Human readable name "
+        },
+        "Color": {
+          "description": "Black=0\nDarkBlue=1\nDarkGreen=2\nDarkCyan=3\nDarkRed=4\nDarkMagenta= 5\nDarkYellow=6\nGray=7\nDarkGray=8\nBlue=9\nGreen=10\nCyan=11\nRed=12\nMagenta=13 \nYellow=14\nWhite=15",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/ConsoleColor"
+            }
+          ]
         },
         "InjurySystem": {
           "description": "The injury system of your innate weapons e.g. fists, claws\nflaming breath etc.  Does not include items wielded by you",
@@ -244,13 +222,25 @@
             }
           ]
         },
-        "Color": {
-          "description": "Black=0\nDarkBlue=1\nDarkGreen=2\nDarkCyan=3\nDarkRed=4\nDarkMagenta= 5\nDarkYellow=6\nGray=7\nDarkGray=8\nBlue=9\nGreen=10\nCyan=11\nRed=12\nMagenta=13 \nYellow=14\nWhite=15",
-          "oneOf": [
-            {
-              "$ref": "#/definitions/ConsoleColor"
-            }
-          ]
+        "Adjectives": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "Human readable words that describe the current state of the object",
+          "items": {
+            "$ref": "#/definitions/IAdjective"
+          }
+        },
+        "BaseActions": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "The IAction that the object can undertake regardless of any child objects (gear, location etc.)",
+          "items": {
+            "$ref": "#/definitions/IAction"
+          }
         },
         "BaseStats": {
           "description": "Stats (or modifiers) before applying any external child objects (gear, location etc.)",
@@ -262,6 +252,16 @@
               "$ref": "#/definitions/StatsCollection"
             }
           ]
+        },
+        "BaseBehaviours": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "Determines how the object responds  before applying any external child objects (gear, location etc.)",
+          "items": {
+            "$ref": "#/definitions/IBehaviour"
+          }
         },
         "V": {
           "description": "Custom variables for user scripts and tracking counts",
@@ -276,75 +276,45 @@
         }
       }
     },
-    "IBehaviour": {
-      "type": "object",
-      "x-abstract": true,
-      "additionalProperties": false,
-      "properties": {
-        "Owner": {
-          "oneOf": [
-            {
-              "type": "null"
-            },
-            {
-              "$ref": "#/definitions/IHasStats"
-            }
-          ]
-        }
-      }
-    },
-    "IAction": {
-      "type": "object",
-      "x-abstract": true,
-      "additionalProperties": false,
-      "properties": {
-        "Owner": {
-          "description": "The person or object granting the action",
-          "oneOf": [
-            {
-              "type": "null"
-            },
-            {
-              "$ref": "#/definitions/IHasStats"
-            }
-          ]
-        },
-        "HotKey": {
-          "type": "string",
-          "description": "The hotkey for the action, should be a letter in the Name"
-        },
-        "Effect": {
-          "type": [
-            "array",
-            "null"
-          ],
-          "items": {
-            "type": "string"
-          }
-        },
-        "Targets": {
-          "type": [
-            "array",
-            "null"
-          ],
-          "description": "What can be targeted by the action.  If an action has no targets then\nit is assumed to always be available",
-          "items": {
-            "$ref": "#/definitions/IActionTarget"
-          }
-        },
-        "TargetPrompt": {
-          "type": [
-            "null",
-            "string"
-          ],
-          "description": "If there are Targets configured then this\nis the message to show when prompting to pick them"
-        }
-      }
-    },
-    "IActionTarget": {
-      "type": "object",
-      "x-abstract": true,
-      "additionalProperties": false
+    "ConsoleColor": {
+      "type": "integer",
+      "description": "0 = Black\n1 = DarkBlue\n2 = DarkGreen\n3 = DarkCyan\n4 = DarkRed\n5 = DarkMagenta\n6 = DarkYellow\n7 = Gray\n8 = DarkGray\n9 = Blue\n10 = Green\n11 = Cyan\n12 = Red\n13 = Magenta\n14 = Yellow\n15 = White",
+      "x-enumNames": [
+        "Black",
+        "DarkBlue",
+        "DarkGreen",
+        "DarkCyan",
+        "DarkRed",
+        "DarkMagenta",
+        "DarkYellow",
+        "Gray",
+        "DarkGray",
+        "Blue",
+        "Green",
+        "Cyan",
+        "Red",
+        "Magenta",
+        "Yellow",
+        "White"
+      ],
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ]
     },
     "IInjurySystem": {
       "type": "object",
@@ -451,45 +421,58 @@
         }
       }
     },
-    "ConsoleColor": {
-      "type": "integer",
-      "description": "0 = Black\n1 = DarkBlue\n2 = DarkGreen\n3 = DarkCyan\n4 = DarkRed\n5 = DarkMagenta\n6 = DarkYellow\n7 = Gray\n8 = DarkGray\n9 = Blue\n10 = Green\n11 = Cyan\n12 = Red\n13 = Magenta\n14 = Yellow\n15 = White",
-      "x-enumNames": [
-        "Black",
-        "DarkBlue",
-        "DarkGreen",
-        "DarkCyan",
-        "DarkRed",
-        "DarkMagenta",
-        "DarkYellow",
-        "Gray",
-        "DarkGray",
-        "Blue",
-        "Green",
-        "Cyan",
-        "Red",
-        "Magenta",
-        "Yellow",
-        "White"
-      ],
-      "enum": [
-        0,
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        10,
-        11,
-        12,
-        13,
-        14,
-        15
-      ]
+    "IAction": {
+      "type": "object",
+      "x-abstract": true,
+      "additionalProperties": false,
+      "properties": {
+        "Owner": {
+          "description": "The person or object granting the action",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/IHasStats"
+            }
+          ]
+        },
+        "HotKey": {
+          "type": "string",
+          "description": "The hotkey for the action, should be a letter in the Name"
+        },
+        "Effect": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "Targets": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "What can be targeted by the action.  If an action has no targets then\nit is assumed to always be available",
+          "items": {
+            "$ref": "#/definitions/IActionTarget"
+          }
+        },
+        "TargetPrompt": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "If there are Targets configured then this\nis the message to show when prompting to pick them"
+        }
+      }
+    },
+    "IActionTarget": {
+      "type": "object",
+      "x-abstract": true,
+      "additionalProperties": false
     },
     "StatsCollection": {
       "title": "DictionaryOfStatAndDouble",
@@ -528,6 +511,23 @@
             7,
             8,
             9
+          ]
+        }
+      }
+    },
+    "IBehaviour": {
+      "type": "object",
+      "x-abstract": true,
+      "additionalProperties": false,
+      "properties": {
+        "Owner": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/IHasStats"
+            }
           ]
         }
       }

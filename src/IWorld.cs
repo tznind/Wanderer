@@ -15,12 +15,7 @@ using Wanderer.Systems;
 namespace Wanderer
 {
     public interface IWorld
-    {
-        /// <summary>
-        /// Location of the Resources folder on disk used to create this <see cref="IWorld"/>
-        /// </summary>
-        string ResourcesDirectory { get; set; }
-
+    { 
         Random R { get; set; }
 
         You Player { get; }
@@ -85,6 +80,11 @@ namespace Wanderer
         /// System for helping <see cref="Npc"/> make sensible decisions
         /// </summary>
         PlanningSystem PlanningSystem { get; set; }
+
+        /// <summary>
+        /// Lua code to execute before every script element, e.g. to declare global functions
+        /// </summary>
+        string MainLua { get; set; }
 
         /// <summary>
         /// Returns all the behaviours that should respond to events in the world
