@@ -352,7 +352,11 @@ namespace Wanderer.Factories
                 //TODO: Really all factions just are mates with thier faction buddies and can't control that from yaml?
                 world.Relationships.Add(new IntraFactionRelationship(f,5));
                 
-                _factionDirs.Add(r ,f);
+                if(!_factionDirs.ContainsKey(r))
+                    _factionDirs.Add(r,f);
+                else
+                    _factionDirs[r] = f;
+
                 world.Factions.Add(f);
             }
 

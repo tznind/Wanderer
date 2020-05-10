@@ -14,7 +14,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 		Cookbook.md = Cookbook.md
 		README.md = README.md
 		src\Resources\README.md = src\Resources\README.md
-		Resources.md = Resources.md
 		Wanderer.code-workspace = Wanderer.code-workspace
 	EndProjectSection
 EndProject

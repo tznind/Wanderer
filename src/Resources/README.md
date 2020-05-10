@@ -15,16 +15,13 @@ This file describes the relationship between classes and resource files.  The fi
 
 ## Factions directory
 
-The `/Factions` directory is special.  Any folder under this directory should contain a `faction.yaml` which describes the faction (name, role in game etc).  All yaml files under this directory (including subdirectories) are automatically assigned to thematically fit the parent Faction.  For example creating `cultists.rooms.yaml` in a subdirectory of `/Factions/Cult` would associate the rooms declared inside with the Cult faction (assuming `/Factions/Cult/faction.yaml` exists).
+Any resource in the same directory (or subdirectory below) a `faction.yaml` is automatically associated with that faction (unless they have a specific other faction listed on the blueprint).  For example creating `cultists.rooms.yaml` in a subdirectory of `/Factions/Cult/` would associate the rooms declared inside with the Cult faction (assuming `/Factions/Cult/cult.faction.yaml` exists).
 
-Being associated with a specific Faction ensures that NPC appear in places thematically appropriate to them (e.g. wild monsters don't appear in the middle of towns - unless you want them to!)
+Being associated with a specific Faction ensures that NPC appear in places thematically appropriate to them (e.g. wild monsters don't appear in the middle of towns - unless you want them to!).  It also ensures that faction specific slots (like tails for wildlife etc) are applied using the faction settings.
 
 |   Yaml File      |  Class           |   Notes                   |
 |------------------|------------------|---------------------------|
-| /Factions/X/faction.yaml | `Faction` | Contains description of the faction (name, role etc) |
-| /Factions/X/forenames.txt | `NameFactory` | If present then unamed Npc generated in this faction have random selections from this list |
-| /Factions/X/surnames.txt | `NameFactory` | As above but for surnames |
-| /Factions/X/slots.yaml | `SlotCollection` | Overrides the default system wide item slots for the specific faction (used where the actor blueprint doesn't explicitly list it's own slots)|
+| *faction.yaml | `Faction` | Contains description of the faction (name, role etc) |
 
 ## Subdirectories
 
