@@ -32,7 +32,7 @@ namespace Wanderer.Factories
         /// <returns></returns>
         public virtual bool SharesPath(WorldFactoryResource other)
         {
-            return GetPath().Contains(other.GetPath(),StringComparison.CurrentCultureIgnoreCase);
+            return other.GetPath().StartsWith(GetPath(),StringComparison.CurrentCultureIgnoreCase);
         }
     }
 }
