@@ -38,7 +38,7 @@ namespace Tests.Systems
             for (int i = 0; i < 11; i++)
             {
                 var stack = new ActionStack();
-                stack.RunStack(world,GetUI(typeof(object)), new LoadGunsAction(you), a, a.GetFinalBehaviours());
+                stack.RunStack(world,GetUI(typeof(object)), new DoNothingAction(you), a, a.GetFinalBehaviours());
 
                 //after 9 round you should still be injured                
                 if(i <10)
@@ -71,7 +71,7 @@ namespace Tests.Systems
             for (int i = 0; i < 10; i++)
             {
                 var stack = new ActionStack();
-                stack.RunStack(world,GetUI(typeof(object)), new LoadGunsAction(you), you, you.GetFinalBehaviours());
+                stack.RunStack(world,GetUI(typeof(object)), new DoNothingAction(you), you, you.GetFinalBehaviours());
 
                 //after 2 rounds (0 and 1) you should still be injured                
                 if(i == 0 )
@@ -317,13 +317,13 @@ namespace Tests.Systems
         public void TestTooManyInjuries_IsFatal()
         {
             var you = YouInARoom(out IWorld w);
-            you.With(new LoadGunsAction(you));
+            you.With(new DoNothingAction(you));
 
             //give them an injury
             var injury = new Injured("Cut Lip", you, 20, InjuryRegion.Leg,w.InjurySystems.First(i=>i.IsDefault));
             you.Adjectives.Add(injury);
 
-            w.RunRound(new FixedChoiceUI(),you.GetFinalActions().OfType<LoadGunsAction>().Single());
+            w.RunRound(new FixedChoiceUI(),you.GetFinalActions().OfType<DoNothingAction>().Single());
 
             Assert.IsFalse(you.Dead,"Did not expect you to die from light injuries");
             
@@ -332,7 +332,7 @@ namespace Tests.Systems
 
             Assert.IsFalse(you.Dead,"Expected death check to be at the end of the round");
 
-            w.RunRound(new FixedChoiceUI(),you.GetFinalActions().OfType<LoadGunsAction>().Single());
+            w.RunRound(new FixedChoiceUI(),you.GetFinalActions().OfType<DoNothingAction>().Single());
 
             Assert.IsTrue(you.Dead,"Expected you to die at the end of the round");
 

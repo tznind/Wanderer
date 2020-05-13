@@ -34,7 +34,7 @@ namespace Tests.Plans
             world.PlanningSystem.Plans.Add(ifHungryEatPlan);
             
             //let a round pass
-            world.RunRound(GetUI(),new LoadGunsAction(you));
+            world.RunRound(GetUI(),new DoNothingAction(you));
 
             //they should have no plans
             Assert.IsNull(((Npc)them).Plan);
@@ -52,7 +52,7 @@ namespace Tests.Plans
             Assert.AreEqual(1,them.Adjectives.OfType<IInjured>().Count());
 
             //let a round pass
-            world.RunRound(GetUI(),new LoadGunsAction(you));
+            world.RunRound(GetUI(),new DoNothingAction(you));
 
             //they cannot eat yet so will still be hungry with no plan
             Assert.IsNull(((Npc)them).Plan);
@@ -62,7 +62,7 @@ namespace Tests.Plans
             world.ActionFactory.Create(world, them, "Eat");
             
             //let a round pass
-            world.RunRound(GetUI(),new LoadGunsAction(you));
+            world.RunRound(GetUI(),new DoNothingAction(you));
 
             //they should no longer be hungry
             Assert.AreEqual(0,them.Adjectives.OfType<IInjured>().Count());
@@ -107,7 +107,7 @@ namespace Tests.Plans
 
             //kill some time
             var ui = GetUI();
-            world.RunRound(ui,new LoadGunsAction(you));
+            world.RunRound(ui,new DoNothingAction(you));
             
             //they should follow you
             Assert.AreEqual(you.CurrentLocation,them.CurrentLocation);

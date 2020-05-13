@@ -75,6 +75,8 @@ namespace Tests.Actors
       Stats:
         Value: 10";
 
+            Stat.GetOrAdd("Loyalty");
+            
             var room = InARoom(out IWorld w);
             var actorFactory = new ActorFactory{Blueprints = Compiler.Instance.Deserializer.Deserialize<List<ActorBlueprint>>(yaml)};
             var servitor = actorFactory.Create(w, room, null,actorFactory.Blueprints.Single(),null);

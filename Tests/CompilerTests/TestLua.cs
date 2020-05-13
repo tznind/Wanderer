@@ -88,12 +88,14 @@ import ('Wanderer','Wanderer.Stats')
 "
                     );
 
-                lua.DoString("result = you:GetFinalStats(you)[Stat.Corruption] > 50");
+                lua["Corruption"] = Stat.GetOrAdd("Corruption");
+
+                lua.DoString("result = you:GetFinalStats(you)[Corruption] > 50");
                 Assert.IsFalse((bool)lua["result"]);
 
-                you.BaseStats[Stat.Corruption] = 6000;
+                you.BaseStats[Stat.Get("Corruption")] = 6000;
                 
-                lua.DoString("result = you:GetFinalStats(you)[Stat.Corruption] > 50");
+                lua.DoString("result = you:GetFinalStats(you)[Corruption] > 50");
                 Assert.IsTrue((bool)lua["result"]);
             }
         }
@@ -166,12 +168,14 @@ import ('Wanderer','Wanderer.Rooms')
 "
                 );
 
-                lua.DoString("result = location:GetFinalStats(you)[Stat.Corruption] > 50");
+                lua["Corruption"] = Stat.GetOrAdd("Corruption");
+                
+                lua.DoString("result = location:GetFinalStats(you)[Corruption] > 50");
                 Assert.IsFalse((bool) lua["result"]);
 
-                you.CurrentLocation.BaseStats[Stat.Corruption] = 6000;
+                you.CurrentLocation.BaseStats[Stat.GetOrAdd("Corruption")] = 6000;
 
-                lua.DoString("result = you.CurrentLocation:GetFinalStats(you)[Stat.Corruption] > 50");
+                lua.DoString("result = you.CurrentLocation:GetFinalStats(you)[Corruption] > 50");
                 Assert.IsTrue((bool) lua["result"]);
             }
         }

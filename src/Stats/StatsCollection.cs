@@ -1,11 +1,34 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Wanderer.Stats
 {
-    public class StatsCollection: Dictionary<Stat,double>, IAreIdentical
+    public class StatsCollection: IAreIdentical, IDictionary<Stat, double>
     {
+                //for Json Serialization
+        public Dictionary<Stat,double> BaseDictionary = new Dictionary<Stat, double>();
+
+        public int Count => BaseDictionary.Count;
+
+        public ICollection<Stat> Keys => BaseDictionary.Keys;
+
+        public ICollection<double> Values => BaseDictionary.Values;
+
+        public bool IsReadOnly => false;
+
+        public double this[Stat index]
+        {
+            get { return BaseDictionary.TryGetValue(index, out double val) ? val : 0; }
+            set {
+                if(BaseDictionary.ContainsKey(index))
+                    BaseDictionary[index] = value;
+                else
+                    BaseDictionary.Add(index,value);
+            }
+        }
+
         /// <summary>
         /// Creates a new stat collection with all stats initialized to 0
         /// </summary>
@@ -22,6 +45,12 @@ namespace Wanderer.Stats
             foreach (Stat stat in Stat.GetAll())
                     Add(stat, startingValue);
         }
+
+        public void Add(Stat stat, double startingValue)
+        {
+            BaseDictionary.Add(stat,startingValue);
+        }
+
         /// <summary>
         /// Creates a new copy with the same values
         /// </summary>
@@ -148,6 +177,56 @@ namespace Wanderer.Stats
             }
 
             return this;
+        }
+
+        public bool ContainsKey(Stat key)
+        {
+            return BaseDictionary.ContainsKey(key);
+        }
+
+        public bool Remove(Stat key)
+        {
+            return BaseDictionary.Remove(key);
+        }
+
+        public bool TryGetValue(Stat key, out double value)
+        {
+            return BaseDictionary.TryGetValue(key,out value);
+        }
+
+        public void Add(KeyValuePair<Stat, double> item)
+        {
+            throw new NotSupportedException();
+        }
+
+        public void Clear()
+        {
+            BaseDictionary.Clear();
+        }
+
+        public bool Contains(KeyValuePair<Stat, double> item)
+        {
+            return BaseDictionary.Contains(item);
+        }
+
+        public void CopyTo(KeyValuePair<Stat, double>[] array, int arrayIndex)
+        {
+            throw new NotSupportedException();
+        }
+
+        public bool Remove(KeyValuePair<Stat, double> item)
+        {
+            throw new NotSupportedException();
+        }
+
+        public IEnumerator<KeyValuePair<Stat, double>> GetEnumerator()
+        {
+            return BaseDictionary.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return BaseDictionary.GetEnumerator();
         }
     }
 }

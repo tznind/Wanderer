@@ -53,7 +53,7 @@ namespace Tests.Actions
 
             var ui = GetUI();
             
-            w.RunRound(ui,new LoadGunsAction(you));
+            w.RunRound(ui,new DoNothingAction(you));
 
             Assert.IsTrue(ui.MessagesShown.Any(m=>m.Contains("a fought Test Wanderer")));
             Assert.IsTrue(ui.MessagesShown.Any(m=>m.Contains("b fought Test Wanderer")));
@@ -62,7 +62,7 @@ namespace Tests.Actions
 
             a.Kill(ui,Guid.Empty,"Meteor");
             b.Kill(ui,Guid.Empty,"Meteor");
-            w.RunRound(GetUI(),new LoadGunsAction(you));
+            w.RunRound(GetUI(),new DoNothingAction(you));
             
             //should have worn off
             Assert.IsEmpty(you.Adjectives.Where(a=>a.Name.Equals("Tired")).ToArray());

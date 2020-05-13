@@ -6,9 +6,9 @@ using Wanderer.Stats;
 
 namespace Wanderer.Actions
 {
-    public class LoadGunsAction : Action
+    public class DoNothingAction : Action
     {
-        public LoadGunsAction(IHasStats owner):base(owner)
+        public DoNothingAction(IHasStats owner):base(owner)
         {
             HotKey = 'n';
         }
@@ -22,10 +22,10 @@ namespace Wanderer.Actions
         {
             var narrative = new Narrative(frame.PerformedBy,"Load Guns","You spend several hours pushing overloaded gun carriages in the sweat and smoke filled confines of the loading bay.",null,stack.Round);
 
-            if (frame.PerformedBy.BaseStats[Stat.Loyalty] > 0 && frame.PerformedBy.BaseStats[Stat.Loyalty] < 30)
+            if (frame.PerformedBy.BaseStats[Stat.Coerce] > 0 && frame.PerformedBy.BaseStats[Stat.Coerce] < 30)
             {
-                frame.PerformedBy.BaseStats[Stat.Loyalty]++;
-                narrative.Changed("The Emperor's grace fills your heart",Stat.Loyalty, 1);
+                frame.PerformedBy.BaseStats[Stat.Coerce]++;
+                narrative.Changed("The Emperor's grace fills your heart",Stat.Coerce, 1);
             }
 
             if (frame.PerformedBy.BaseStats[Stat.Fight] > 20)

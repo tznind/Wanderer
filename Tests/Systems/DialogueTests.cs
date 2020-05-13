@@ -223,24 +223,26 @@ namespace Tests.Systems
     - Text: The denizens of this degenerate bar 
     - Text: make you nervous
       Condition: 
-        - return AggressorIfAny:GetFinalStats()[Stat.Corruption] <= 5
+        - return AggressorIfAny:GetFinalStats()[Corruption] <= 5
     - Text: seem like your kind of people
       Condition: 
-        - return AggressorIfAny:GetFinalStats()[Stat.Corruption] > 5";
+        - return AggressorIfAny:GetFinalStats()[Corruption] > 5";
 
             var system = new DialogueSystem{AllDialogues = Compiler.Instance.Deserializer.Deserialize<List<DialogueNode>>(yaml)};
             Assert.IsNotNull(system);
 
             var ui = GetUI();
 
+            var corruption = Stat.GetOrAdd("Corruption");
+
             var you = YouInARoom(out IWorld world);
-            you.BaseStats[Stat.Corruption] = 0;
+            you.BaseStats[corruption] = 0;
 
             system.Run(new SystemArgs(world,ui,0,you,you.CurrentLocation, Guid.NewGuid()),system.AllDialogues.Single());
 
             Assert.Contains("The denizens of this degenerate bar make you nervous",ui.MessagesShown);
 
-            you.BaseStats[Stat.Corruption] = 10;
+            you.BaseStats[corruption] = 10;
             
             system.Run(new SystemArgs(world,ui,0,you,you.CurrentLocation, Guid.NewGuid()),system.AllDialogues.Single());
 

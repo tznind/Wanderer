@@ -32,7 +32,6 @@ namespace Wanderer.Actors
         /// <param name="currentLocation"></param>
         public You(string name, IRoom currentLocation):base( name,currentLocation)
         {
-            BaseStats[Stat.Loyalty] = 10;
             BaseStats[Stat.Fight] = 20;
             BaseStats[Stat.Coerce] = 10;
             BaseStats[Stat.Savvy] = 20;
