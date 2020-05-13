@@ -28,15 +28,11 @@
       "description": "Describes how the injuries inflicted by this system are healed e.g. \"healed\", \"put out\", \"solved by eating\""
     },
     "HealerStat": {
-      "description": "If set then actors with this stat can attempt to heal",
-      "oneOf": [
-        {
-          "type": "null"
-        },
-        {
-          "$ref": "#/definitions/Stat"
-        }
-      ]
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "If set then actors with this stat can attempt to heal"
     },
     "HealerStatMultiplier": {
       "type": "number",
@@ -156,18 +152,6 @@
     }
   },
   "definitions": {
-    "Stat": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "Name": {
-          "type": [
-            "null",
-            "string"
-          ]
-        }
-      }
-    },
     "Resistances": {
       "type": "object",
       "additionalProperties": false,
