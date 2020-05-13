@@ -218,4 +218,4 @@ dotnet test
 [coding]: ./WandererCoding.gif
 [Cookbook]: ./Cookbook.md
 [Splash]: ./src/splash.png
-[IUserInterface]: ./src/IUserInterface.cs
+[IUserInterface]: ./src/IUserinterface.cs
