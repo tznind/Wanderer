@@ -20,6 +20,8 @@ Wanderer is a game engine for developing dialogue rich scene based exploration g
 
 ## Getting Started
 
+If you have trouble with this section you can refer to the [Wanderer Template Repository](https://github.com/tznind/WandererTemplate) which was produced by following this tutorial.
+
 Create a new C# console application (requires [dotnet 3.1 sdk](https://dotnet.microsoft.com/download)):
 
 ```bash
