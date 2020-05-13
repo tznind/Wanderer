@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Newtonsoft.Json.Linq;
 using NJsonSchema;
 using NUnit.Framework;
 using NJsonSchema.Generation;
@@ -10,6 +11,7 @@ using Wanderer.Actors;
 using Wanderer.Compilation;
 using Wanderer.Dialogues;
 using Wanderer.Factories.Blueprints;
+using Wanderer.Relationships;
 using Wanderer.Stats;
 using Wanderer.Systems;
 
@@ -65,7 +67,12 @@ namespace Tests
         {
             CheckSchema<List<RoomBlueprint>>("rooms.schema.json");
         }
-
+        
+        [Test]
+        public void FactionBlueprintSchema()
+        {
+            CheckSchema<Faction>("faction.schema.json");
+        }
         [Test]
         public void DialogueSchema()
         {
@@ -87,13 +94,12 @@ namespace Tests
             string schemaJson = schema.ToJson();
             
             var fnew = new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources/NewSchemas", filename));
+            
             fnew.Directory.Create();
             File.WriteAllText(fnew.FullName,schemaJson);
 
-            Assert.IsTrue(
-                schemaJson.Trim().Replace("\r","").Replace('\n',' ')
-                    .Equals(File.ReadAllText(f).Trim().Replace("\r","").Replace('\n',' '),
-                        StringComparison.CurrentCultureIgnoreCase),$"schema is out of date for '{ filename }'.  New schema generated in {fnew.Directory.FullName}");
+            Assert.IsTrue(JToken.DeepEquals(schemaJson, File.ReadAllText(f)),
+                        $"schema is out of date for '{ filename }'.  New schema generated in {fnew.Directory.FullName}");
         }
         private static JsonSchema StatsDictionary(JsonSchemaGenerator arg1, JsonSchemaResolver arg2)
         {

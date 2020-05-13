@@ -8,33 +8,30 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
      <NoWarn>CS1591</NoWarn>
     <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
-    <AssemblyTitle>Wanderer</AssemblyTitle>
-    <Product>Wanderer</Product>
+    <AssemblyTitle>Wanderer.TerminalGui</AssemblyTitle>
+    <Product>Wanderer.TerminalGui</Product>
     <Copyright>Copyright ©  2019-2020</Copyright>
     <PackOnBuild>true</PackOnBuild>
-    <PackageId>Wanderer</PackageId>
+    <PackageId>Wanderer.TerminalGui</PackageId>
     <PackageVersion>$(version)</PackageVersion>
     <Authors>Thomas Nind</Authors>
     <Owners>Thomas Nind</Owners>
     <PackageProjectUrl>https://github.com/tznind/Wanderer</PackageProjectUrl>
     <PackageTags>Game,Engine,Console,rpg,Yaml,Lua,dialogue</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Title>Wanderer</Title>
-    <Description>Yaml and Lua based C# game engine for building room based RPGs with rich dialogue</Description>
+    <Title>Wanderer.TerminalGui</Title>
+    <Description>Advanced console gui for the Wanderer engine</Description>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Include="..\SharedAssemblyInfo.cs" Link="SharedAssemblyInfo.cs" />
-    <Content Include="Resources\**\*">
+    <Content Include="Resources\**\*" Pack="False">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-
+  
   <ItemGroup>
-    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="NLog" Version="4.6.8" />
-    <PackageReference Include="NLua" Version="1.4.29" />
-    <PackageReference Include="YamlDotNet" Version="8.0.0" />
+    <PackageReference Include="Terminal.Gui" Version="0.65.0" />
+    <PackageReference Include="Wanderer" Version="0.0.13" />
   </ItemGroup>
 </Project>

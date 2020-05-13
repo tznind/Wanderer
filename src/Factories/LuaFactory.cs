@@ -44,11 +44,8 @@ namespace Wanderer.Factories
                 }
             }
                 
-
-
-            var main = Path.Combine(world.ResourcesDirectory, "Main.lua");
-            if (File.Exists(main)) 
-                lua.DoFile(main);
+            if (world.MainLua != null) 
+                lua.DoString(world.MainLua);
 
             ApplyGuidConstructorFix(lua);
             

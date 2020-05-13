@@ -52,7 +52,7 @@ namespace Wanderer.Factories
                 npc.FactionMembership.Add(faction);
             
             if(string.IsNullOrWhiteSpace(npc.Name))
-                npc.Name = faction?.NameFactory?.GenerateName(world.R) ?? "Unnamed Npc";
+                npc.Name = faction?.GenerateName(world.R) ?? "Unnamed Npc";
 
             foreach (var blue in blueprint.MandatoryItems) 
                 npc.Equip(npc.SpawnItem(blue));

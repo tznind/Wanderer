@@ -26,6 +26,7 @@ namespace Wanderer
         public Map Map { get; set;} = new Map();
 
         public PlanningSystem PlanningSystem { get; set; } = new PlanningSystem();
+        public string MainLua { get; set; }
 
         public HashSet<IActor> Population { get; set; } =  new HashSet<IActor>();
         public IRelationshipSystem Relationships { get; set; } = new RelationshipSystem();
@@ -53,9 +54,7 @@ namespace Wanderer
         }
 
         public IFList<IAction> Factions { get; set; } = new FList<IAction>();
-
-        public string ResourcesDirectory { get; set; } = Compiler.GetDefaultResourcesDirectory();
-
+        
         /// <summary>
         /// Returns settings suitable for loading/saving worlds
         /// </summary>

@@ -50,20 +50,12 @@ namespace Tests.Cookbook
         }
         protected IWorld Setup(params string[] pairs)
         {
-            var dir = Path.Combine(TestContext.CurrentContext.WorkDirectory, Path.GetRandomFileName());
-            Directory.CreateDirectory(dir);
+            List<WorldFactoryResource> resources = new List<WorldFactoryResource>();
 
             for(int i=0;i<pairs.Length;i+=2) 
-            {
-                var fi = new FileInfo(Path.Combine(dir, pairs[i]));
+                resources.Add(new WorldFactoryResource(pairs[i], pairs[i + 1] ));
 
-                if(!fi.Directory.Exists)
-                    fi.Directory.Create();
-
-                File.WriteAllText(fi.FullName, pairs[i + 1]);
-            }
-
-            var wf = new WorldFactory() {ResourcesDirectory = dir};
+            var wf = new CookBookWorldFactory(resources);
 
             //make sure that the directory setup passes validation
             var validator = new WorldValidator();

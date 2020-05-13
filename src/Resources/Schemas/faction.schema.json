@@ -1,0 +1,606 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Faction",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "Adjectives": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/definitions/IAdjective"
+      }
+    },
+    "BaseBehaviours": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/definitions/IBehaviour"
+      }
+    },
+    "BaseActions": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/definitions/IAction"
+      }
+    },
+    "Identifier": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "format": "guid"
+    },
+    "Unique": {
+      "type": "boolean"
+    },
+    "Name": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "InjurySystem": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/definitions/IInjurySystem"
+        }
+      ]
+    },
+    "Dialogue": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/definitions/DialogueInitiation"
+        }
+      ]
+    },
+    "Color": {
+      "$ref": "#/definitions/ConsoleColor"
+    },
+    "BaseStats": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/definitions/StatsCollection"
+        }
+      ]
+    },
+    "V": {
+      "description": "Custom variables for user scripts and tracking counts",
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/definitions/DynamicDictionary"
+        }
+      ]
+    },
+    "Role": {
+      "$ref": "#/definitions/FactionRole"
+    },
+    "Forenames": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "description": "Forenames which should be picked from (if any) when an ActorBlueprint has no name",
+      "items": {
+        "type": "string"
+      }
+    },
+    "Surnames": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "description": "Surnames which should be picked from (if any) when an ActorBlueprint has no name",
+      "items": {
+        "type": "string"
+      }
+    },
+    "DefaultSlots": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/definitions/SlotCollection"
+        }
+      ]
+    }
+  },
+  "definitions": {
+    "IAdjective": {
+      "type": "object",
+      "x-abstract": true,
+      "additionalProperties": false,
+      "properties": {
+        "Owner": {
+          "description": "The object to which the adjective is attached",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/IHasStats"
+            }
+          ]
+        },
+        "IsPrefix": {
+          "type": "boolean",
+          "description": "True if the Name should form part of the name of the object (e.g. \"Dark Room\")"
+        },
+        "StatsRatio": {
+          "description": "Multiplicative modifiers to the decorated object.  e.g. Value 2 would\nmultiply the Value of any object the adjective is on by 2",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/StatsCollection"
+            }
+          ]
+        },
+        "Resist": {
+          "description": "Describes effects which reduce, eliminate or amplify the impact of this\neffect",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/Resistances"
+            }
+          ]
+        }
+      }
+    },
+    "IHasStats": {
+      "type": "object",
+      "x-abstract": true,
+      "additionalProperties": false,
+      "properties": {
+        "Identifier": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The guid for this type of object.  If the object was\ncreated from a blueprint then this guid is shared\nwith other instances stamped out by the blueprint",
+          "format": "guid"
+        },
+        "Unique": {
+          "type": "boolean",
+          "description": "True to only ever generate one of this thing"
+        },
+        "Name": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Human readable name "
+        },
+        "Color": {
+          "description": "Black=0\nDarkBlue=1\nDarkGreen=2\nDarkCyan=3\nDarkRed=4\nDarkMagenta= 5\nDarkYellow=6\nGray=7\nDarkGray=8\nBlue=9\nGreen=10\nCyan=11\nRed=12\nMagenta=13 \nYellow=14\nWhite=15",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/ConsoleColor"
+            }
+          ]
+        },
+        "InjurySystem": {
+          "description": "The injury system of your innate weapons e.g. fists, claws\nflaming breath etc.  Does not include items wielded by you",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/IInjurySystem"
+            }
+          ]
+        },
+        "Dialogue": {
+          "description": "What the thing does when you try to interact with it in a narrative manner e.g. talk, read",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/DialogueInitiation"
+            }
+          ]
+        },
+        "Adjectives": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "Human readable words that describe the current state of the object",
+          "items": {
+            "$ref": "#/definitions/IAdjective"
+          }
+        },
+        "BaseActions": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "The IAction that the object can undertake regardless of any child objects (gear, location etc.)",
+          "items": {
+            "$ref": "#/definitions/IAction"
+          }
+        },
+        "BaseStats": {
+          "description": "Stats (or modifiers) before applying any external child objects (gear, location etc.)",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/StatsCollection"
+            }
+          ]
+        },
+        "BaseBehaviours": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "Determines how the object responds  before applying any external child objects (gear, location etc.)",
+          "items": {
+            "$ref": "#/definitions/IBehaviour"
+          }
+        },
+        "V": {
+          "description": "Custom variables for user scripts and tracking counts",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/DynamicDictionary"
+            }
+          ]
+        }
+      }
+    },
+    "ConsoleColor": {
+      "type": "integer",
+      "description": "0 = Black\n1 = DarkBlue\n2 = DarkGreen\n3 = DarkCyan\n4 = DarkRed\n5 = DarkMagenta\n6 = DarkYellow\n7 = Gray\n8 = DarkGray\n9 = Blue\n10 = Green\n11 = Cyan\n12 = Red\n13 = Magenta\n14 = Yellow\n15 = White",
+      "x-enumNames": [
+        "Black",
+        "DarkBlue",
+        "DarkGreen",
+        "DarkCyan",
+        "DarkRed",
+        "DarkMagenta",
+        "DarkYellow",
+        "Gray",
+        "DarkGray",
+        "Blue",
+        "Green",
+        "Cyan",
+        "Red",
+        "Magenta",
+        "Yellow",
+        "White"
+      ],
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ]
+    },
+    "IInjurySystem": {
+      "type": "object",
+      "x-abstract": true,
+      "additionalProperties": false,
+      "properties": {
+        "IsDefault": {
+          "type": "boolean",
+          "description": "True if the injury system should be the default e.g. for Fight"
+        },
+        "Injuries": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/InjuryBlueprint"
+          }
+        }
+      }
+    },
+    "InjuryBlueprint": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Region": {
+          "$ref": "#/definitions/InjuryRegion"
+        },
+        "Name": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "Severity": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
+    "InjuryRegion": {
+      "type": "integer",
+      "description": "0 = None\n1 = Head\n2 = Eye\n3 = Jaw\n4 = Neck\n5 = Ribs\n6 = Arm\n7 = Hand\n8 = OffHand\n9 = Leg\n10 = Foot",
+      "x-enumNames": [
+        "None",
+        "Head",
+        "Eye",
+        "Jaw",
+        "Neck",
+        "Ribs",
+        "Arm",
+        "Hand",
+        "OffHand",
+        "Leg",
+        "Foot"
+      ],
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    "DialogueInitiation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Verb": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The doing word that describes what starts the dialogue e.g. \"talk\" or \"read\""
+        },
+        "Next": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "The unique identifier of the next bit of text that should be presented",
+          "format": "guid"
+        },
+        "Banter": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "Dialogues to run if there's nothing better to say (i.e. Next is null)",
+          "items": {
+            "type": "string",
+            "format": "guid"
+          }
+        },
+        "IsEmpty": {
+          "type": "boolean",
+          "description": "Returns true if there is nothing to show for this thing"
+        }
+      }
+    },
+    "IAction": {
+      "type": "object",
+      "x-abstract": true,
+      "additionalProperties": false,
+      "properties": {
+        "Owner": {
+          "description": "The person or object granting the action",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/IHasStats"
+            }
+          ]
+        },
+        "HotKey": {
+          "type": "string",
+          "description": "The hotkey for the action, should be a letter in the Name"
+        },
+        "Effect": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "Targets": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "What can be targeted by the action.  If an action has no targets then\nit is assumed to always be available",
+          "items": {
+            "$ref": "#/definitions/IActionTarget"
+          }
+        },
+        "TargetPrompt": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "If there are Targets configured then this\nis the message to show when prompting to pick them"
+        }
+      }
+    },
+    "IActionTarget": {
+      "type": "object",
+      "x-abstract": true,
+      "additionalProperties": false
+    },
+    "StatsCollection": {
+      "title": "DictionaryOfStatAndDouble",
+      "type": "object",
+      "x-dictionaryKey": {
+        "$ref": "#/definitions/StatsCollection/definitions/Stat"
+      },
+      "additionalProperties": {
+        "type": "number",
+        "format": "double"
+      },
+      "definitions": {
+        "Stat": {
+          "type": "integer",
+          "description": "0 = None\n1 = Loyalty\n2 = Corruption\n3 = Fight\n4 = Coerce\n5 = Savvy\n6 = Suave\n7 = Leadership\n8 = Initiative\n9 = Value",
+          "x-enumNames": [
+            "None",
+            "Loyalty",
+            "Corruption",
+            "Fight",
+            "Coerce",
+            "Savvy",
+            "Suave",
+            "Leadership",
+            "Initiative",
+            "Value"
+          ],
+          "enum": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        }
+      }
+    },
+    "IBehaviour": {
+      "type": "object",
+      "x-abstract": true,
+      "additionalProperties": false,
+      "properties": {
+        "Owner": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/IHasStats"
+            }
+          ]
+        }
+      }
+    },
+    "DynamicDictionary": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "BaseDictionary": {
+          "type": [
+            "null",
+            "object"
+          ],
+          "additionalProperties": {}
+        }
+      }
+    },
+    "Resistances": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Vulnerable": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "Resist": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "Immune": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "FactionRole": {
+      "type": "integer",
+      "description": "0 = None\n1 = Civilian\n2 = Establishment\n3 = Wildlife\n4 = Opposition",
+      "x-enumNames": [
+        "None",
+        "Civilian",
+        "Establishment",
+        "Wildlife",
+        "Opposition"
+      ],
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    "SlotCollection": {
+      "type": "object",
+      "additionalProperties": false
+    }
+  }
+}
