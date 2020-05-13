@@ -50,8 +50,7 @@ import ('Wanderer','Wanderer.Items')
 ");
 
             //setup Fight as alias for Stat.Fight etc
-            foreach(Stat val in Enum.GetValues(typeof(Stat)))
-                if(val != Stat.None)
+            foreach(Stat val in Stat.GetAll())
                     lua[val.ToString()] = val;
 
             return lua;
