@@ -25,7 +25,7 @@ namespace Wanderer.Systems
         /// <summary>
         /// If set then actors with this stat can attempt to heal
         /// </summary>
-        public Stat? HealerStat { get; set; }
+        public Stat HealerStat { get; set; }
 
         /// <summary>
         /// How much <see cref="HealerStat"/> is required for each point of Injury Severity
@@ -193,7 +193,7 @@ namespace Wanderer.Systems
 
         public virtual bool IsHealableBy(IActor actor, IInjured injured, out string reason)
         {
-            if (!HealerStat.HasValue)
+            if (HealerStat == null)
             {
                 reason = "cannot be " + HealVerb;
                 return false;
@@ -217,7 +217,7 @@ namespace Wanderer.Systems
             //vulnerable to healing makes you easier to heal.  ResistInflict healing makes you harder to heal
             requiredStat *= 1/result;
             
-            if (actor.GetFinalStats()[HealerStat.Value] > requiredStat)
+            if (actor.GetFinalStats()[HealerStat] > requiredStat)
             {
                 reason = null;
                 return true;

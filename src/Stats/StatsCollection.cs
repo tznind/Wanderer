@@ -19,8 +19,7 @@ namespace Wanderer.Stats
         /// </summary>
         public StatsCollection(double startingValue)
         {
-            foreach (Stat stat in Enum.GetValues(typeof(Stat))) 
-                if(stat != Stat.None)
+            foreach (Stat stat in Stat.GetAll())
                     Add(stat, startingValue);
         }
         /// <summary>
@@ -30,8 +29,7 @@ namespace Wanderer.Stats
         public StatsCollection Clone()
         {
             var clone = new StatsCollection();
-            foreach (Stat s in Enum.GetValues(typeof(Stat)))
-                if(s != Stat.None)
+            foreach (Stat s in Stat.GetAll())
                     clone[s] = this[s];
 
             return clone;
@@ -44,9 +42,8 @@ namespace Wanderer.Stats
         /// <param name="other"></param>
         public StatsCollection Increase(StatsCollection other)
         {
-            foreach (Stat s in Enum.GetValues(typeof(Stat)))
-                if(s != Stat.None)
-                    this[s] += other[s];
+            foreach (Stat s in Stat.GetAll())
+                this[s] += other[s];
 
             return this;
         }
@@ -78,9 +75,8 @@ namespace Wanderer.Stats
         /// <param name="other"></param>
         public StatsCollection Decrease(StatsCollection other)
         {
-            foreach (Stat s in Enum.GetValues(typeof(Stat)))
-                if(s != Stat.None)
-                    this[s] -= other[s];
+            foreach (Stat s in Stat.GetAll())
+                this[s] -= other[s];
 
             return this;
         }
@@ -91,9 +87,8 @@ namespace Wanderer.Stats
         /// <returns></returns>
         public StatsCollection SetAll(Func<double,double> modify)
         {   
-            foreach (Stat s in Enum.GetValues(typeof(Stat)))
-                if(s != Stat.None)
-                    this[s] = modify(this[s]);
+            foreach (Stat s in Stat.GetAll())
+                this[s] = modify(this[s]);
 
             return this;
         }
@@ -104,9 +99,8 @@ namespace Wanderer.Stats
         /// <returns></returns>
         public StatsCollection SetAll(Func<Stat,double,double> modify)
         {   
-            foreach (Stat s in Enum.GetValues(typeof(Stat)))
-                if(s != Stat.None)
-                    this[s] = modify(s,this[s]);
+            foreach (Stat s in Stat.GetAll())
+                this[s] = modify(s,this[s]);
 
             return this;
         }
@@ -121,10 +115,9 @@ namespace Wanderer.Stats
                 if (otherSc.Count != Count)
                     return false;
 
-                foreach (Stat s in Enum.GetValues(typeof(Stat)))
-                    if (s != Stat.None)
-                        if (Math.Abs(this[s] - otherSc[s]) > 0.001)
-                            return false;
+                foreach (Stat s in Stat.GetAll())
+                    if (Math.Abs(this[s] - otherSc[s]) > 0.001)
+                        return false;
 
                 return true;
             }

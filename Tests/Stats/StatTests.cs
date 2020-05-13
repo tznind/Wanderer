@@ -10,13 +10,6 @@ namespace Tests.Stats
     class StatTests
     {
         [Test]
-        public void TestStats_AllDescribed()
-        {
-            foreach (Stat stat in Enum.GetValues(typeof(Stat)))
-                Assert.IsFalse(string.IsNullOrEmpty(stat.Describe()));
-        }
-
-        [Test]
         public void TestStats_AreIdentical()
         {
             var s1 = new StatsCollection();

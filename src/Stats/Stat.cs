@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Newtonsoft.Json;
 
 namespace Wanderer.Stats
 {
@@ -16,6 +19,7 @@ namespace Wanderer.Stats
         public static Stat Initiative = new Stat("Initiative");
         public static Stat Value = new Stat("Value");
 
+        [JsonConstructor]
         private Stat(string name)
         {
             Name = name;
@@ -37,6 +41,13 @@ namespace Wanderer.Stats
             yield return Leadership;
             yield return Initiative;
             yield return Value;
+        }
+
+        internal static Stat Get(string name)
+        {
+            return 
+                GetAll().FirstOrDefault(s=>s.Name.Equals(name,StringComparison.CurrentCultureIgnoreCase))
+                ?? throw new ArgumentException($"Unknown stat '{name}'");
         }
     }
 }
