@@ -160,7 +160,8 @@ Yaml autocomplete is supported via schemas.  The easiest way to get this working
 			"./src/Resources/Schemas/actions.schema.json": [ "/**/*actions.yaml" ],
 			"./src/Resources/Schemas/items.schema.json": [ "/**/*items.yaml" ],
 			"./src/Resources/Schemas/rooms.schema.json": [ "/**/*rooms.yaml" ],
-			"./src/Resources/Schemas/actors.schema.json": [ "/**/*actors.yaml" ]
+			"./src/Resources/Schemas/actors.schema.json": [ "/**/*actors.yaml" ],
+			"./src/Resources/Schemas/faction.schema.json": [ "/**/*faction.yaml" ]
 		}
     }
 ```
