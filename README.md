@@ -123,7 +123,7 @@ Add more content by following the recipes in the [Cookbook].
 
 The above example uses the `Wanderer.TerminalGui` package (and `MainWindow` class) for the game user interface.  The engine itself is written in dotnet standard so is not tied to the Console.  It can run as a Blazor web app, WinForms, ETO etc.
 
-[IUserInterface] is a very simple interface to implement so building a more advanced user interface is easy.  The best way to start is to run the game with the bare bones `ExampleUserInterface` (see below) then swap in your own implementation of [IUserInterface].
+[IUserInterface] is a very simple interface to implement so building a more advanced user interface is easy.  The best way to start is to run the game with the bare bones [ExampleUserInterface] (see below) then swap in your own implementation of [IUserInterface].
 
 ```csharp
 var factory = new WorldFactory(Environment.CurrentDirectory);
@@ -219,3 +219,4 @@ dotnet test
 [Cookbook]: ./Cookbook.md
 [Splash]: ./src/splash.png
 [IUserInterface]: ./src/IUserinterface.cs
+[ExampleUserInterface]: ./src/ExampleUserInterface.cs
