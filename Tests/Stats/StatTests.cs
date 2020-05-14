@@ -102,9 +102,9 @@ namespace Tests.Stats
             var sc1 = new StatsCollection(10);
             var sc2 = new StatsCollection(12);
 
-            sc1.Increase(sc2);
+            sc1.Decrease(sc2);
 
-            Assert.AreEqual(22,sc1[Stat.Fight]);
+            Assert.AreEqual(-2,sc1[Stat.Fight]);
         }
     }
 }
