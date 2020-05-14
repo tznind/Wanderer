@@ -14,10 +14,7 @@ namespace Wanderer.Stats
 
         public static Stat Fight = new Stat("Fight");
         public static Stat Coerce = new Stat("Coerce");
-
         public static Stat Savvy = new Stat("Savvy");
-        public static Stat Suave = new Stat("Suave");
-        public static Stat Leadership = new Stat("Leadership");
         public static Stat Initiative = new Stat("Initiative");
         public static Stat Value = new Stat("Value");
 
@@ -41,8 +38,6 @@ namespace Wanderer.Stats
             yield return Fight;
             yield return Coerce;
             yield return Savvy;
-            yield return Suave;
-            yield return Leadership;
             yield return Initiative;
             yield return Value;
 
@@ -68,6 +63,25 @@ namespace Wanderer.Stats
             }
 
             return existing;
+        }
+
+
+        protected bool Equals(Stat other)
+        {
+            return Name == other.Name;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((Stat) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (Name != null ? Name.GetHashCode() : 0);
         }
     }
 }
