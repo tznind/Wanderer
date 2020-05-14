@@ -85,5 +85,26 @@ namespace Tests.Stats
             Assert.AreEqual(10,s1[Stat.Fight]);
             Assert.AreEqual(5,s1[Stat.Savvy]);
         }
+
+        [Test]
+        public void TestStats_IncreaseByStartingValue()
+        {
+            var sc1 = new StatsCollection(10);
+            var sc2 = new StatsCollection(12);
+
+            sc1.Increase(sc2);
+
+            Assert.AreEqual(22,sc1[Stat.Fight]);
+        }
+        [Test]
+        public void TestStats_DecreaseByStartingValue()
+        {
+            var sc1 = new StatsCollection(10);
+            var sc2 = new StatsCollection(12);
+
+            sc1.Increase(sc2);
+
+            Assert.AreEqual(22,sc1[Stat.Fight]);
+        }
     }
 }

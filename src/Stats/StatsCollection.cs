@@ -83,6 +83,8 @@ namespace Wanderer.Stats
             foreach (Stat s in Keys.ToArray().Union(other.Keys.ToArray()))
                 this[s] += other[s];
 
+            this._startingValue += other._startingValue;
+
             return this;
         }
 
@@ -115,6 +117,8 @@ namespace Wanderer.Stats
         {
             foreach (Stat s in Keys.ToArray().Union(other.Keys.ToArray()))
                 this[s] -= other[s];
+            
+            this._startingValue -= other._startingValue;
 
             return this;
         }
