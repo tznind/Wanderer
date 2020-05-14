@@ -88,12 +88,12 @@ import ('Wanderer','Wanderer.Stats')
 "
                     );
 
-                lua["Corruption"] = Stat.GetOrAdd("Corruption");
+                lua["Corruption"] = world.AllStats.GetOrAdd("Corruption");
 
                 lua.DoString("result = you:GetFinalStats(you)[Corruption] > 50");
                 Assert.IsFalse((bool)lua["result"]);
 
-                you.BaseStats[Stat.Get("Corruption")] = 6000;
+                you.BaseStats[world.AllStats.GetOrAdd("Corruption")] = 6000;
                 
                 lua.DoString("result = you:GetFinalStats(you)[Corruption] > 50");
                 Assert.IsTrue((bool)lua["result"]);
@@ -168,12 +168,12 @@ import ('Wanderer','Wanderer.Rooms')
 "
                 );
 
-                lua["Corruption"] = Stat.GetOrAdd("Corruption");
+                lua["Corruption"] = world.AllStats.GetOrAdd("Corruption");
                 
                 lua.DoString("result = location:GetFinalStats(you)[Corruption] > 50");
                 Assert.IsFalse((bool) lua["result"]);
 
-                you.CurrentLocation.BaseStats[Stat.GetOrAdd("Corruption")] = 6000;
+                you.CurrentLocation.BaseStats[world.AllStats.GetOrAdd("Corruption")] = 6000;
 
                 lua.DoString("result = you.CurrentLocation:GetFinalStats(you)[Corruption] > 50");
                 Assert.IsTrue((bool) lua["result"]);
@@ -184,6 +184,7 @@ import ('Wanderer','Wanderer.Rooms')
         public void TestLua_SystemArgsCondition()
         {
             var you = YouInARoom(out IWorld world);
+            world.AllStats.GetOrAdd("Corruption");
 
             var code = new ConditionCode<SystemArgs>("return Room:GetFinalStats(AggressorIfAny)[Corruption] > 50");
 

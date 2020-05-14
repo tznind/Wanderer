@@ -27,6 +27,7 @@ namespace Wanderer
 
         public PlanningSystem PlanningSystem { get; set; } = new PlanningSystem();
         public string MainLua { get; set; }
+        public StatDefinitions AllStats { get; set; } = new StatDefinitions();
 
         public HashSet<IActor> Population { get; set; } =  new HashSet<IActor>();
         public IRelationshipSystem Relationships { get; set; } = new RelationshipSystem();

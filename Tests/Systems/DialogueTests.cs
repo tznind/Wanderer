@@ -232,10 +232,10 @@ namespace Tests.Systems
             Assert.IsNotNull(system);
 
             var ui = GetUI();
-
-            var corruption = Stat.GetOrAdd("Corruption");
-
+            
             var you = YouInARoom(out IWorld world);
+            var corruption = world.AllStats.GetOrAdd("Corruption");
+
             you.BaseStats[corruption] = 0;
 
             system.Run(new SystemArgs(world,ui,0,you,you.CurrentLocation, Guid.NewGuid()),system.AllDialogues.Single());

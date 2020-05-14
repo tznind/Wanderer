@@ -47,7 +47,7 @@ namespace Wanderer.Compilation
                 return new FrameSourceCode(scalar);
 
             if(typeof(T) == typeof(Stat))
-                return Stat.Get(scalar);
+                return new Stat(scalar);
             
             var found = _classesOfTypeT.FirstOrDefault(t => t.Name.Equals(scalar));
 

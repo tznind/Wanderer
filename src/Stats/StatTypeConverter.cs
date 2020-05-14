@@ -9,9 +9,9 @@ namespace Wanderer.Stats
             return sourceType == typeof(string);
         }
 
-        public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value) 
+        public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
         {
-            return Stat.GetOrAdd(((string)value));            
+            return new Stat((string) value);
         }
 
     }

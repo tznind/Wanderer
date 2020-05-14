@@ -7,7 +7,9 @@ namespace Wanderer.Stats
 {
     public class StatsCollection: IAreIdentical, IDictionary<Stat, double>
     {
-                //for Json Serialization
+        private double _startingValue = 0;
+
+        //for Json Serialization
         public Dictionary<Stat,double> BaseDictionary = new Dictionary<Stat, double>();
 
         public int Count => BaseDictionary.Count;
@@ -20,7 +22,15 @@ namespace Wanderer.Stats
 
         public double this[Stat index]
         {
-            get { return BaseDictionary.TryGetValue(index, out double val) ? val : 0; }
+            get
+            {
+                if(BaseDictionary.TryGetValue(index, out double val))
+                    return val;
+                
+                BaseDictionary.Add(index,_startingValue);
+
+                return _startingValue;
+            }
             set {
                 if(BaseDictionary.ContainsKey(index))
                     BaseDictionary[index] = value;
@@ -42,8 +52,7 @@ namespace Wanderer.Stats
         /// </summary>
         public StatsCollection(double startingValue)
         {
-            foreach (Stat stat in Stat.GetAll())
-                    Add(stat, startingValue);
+            _startingValue = startingValue;
         }
 
         public void Add(Stat stat, double startingValue)
@@ -57,8 +66,8 @@ namespace Wanderer.Stats
         /// <returns></returns>
         public StatsCollection Clone()
         {
-            var clone = new StatsCollection();
-            foreach (Stat s in Stat.GetAll())
+            var clone = new StatsCollection(_startingValue);
+            foreach (Stat s in Keys.ToArray())
                     clone[s] = this[s];
 
             return clone;
@@ -71,7 +80,7 @@ namespace Wanderer.Stats
         /// <param name="other"></param>
         public StatsCollection Increase(StatsCollection other)
         {
-            foreach (Stat s in Stat.GetAll())
+            foreach (Stat s in Keys.ToArray().Union(other.Keys.ToArray()))
                 this[s] += other[s];
 
             return this;
@@ -104,7 +113,7 @@ namespace Wanderer.Stats
         /// <param name="other"></param>
         public StatsCollection Decrease(StatsCollection other)
         {
-            foreach (Stat s in Stat.GetAll())
+            foreach (Stat s in Keys.ToArray().Union(other.Keys.ToArray()))
                 this[s] -= other[s];
 
             return this;
@@ -116,7 +125,7 @@ namespace Wanderer.Stats
         /// <returns></returns>
         public StatsCollection SetAll(Func<double,double> modify)
         {   
-            foreach (Stat s in Stat.GetAll())
+            foreach (Stat s in Keys.ToArray())
                 this[s] = modify(this[s]);
 
             return this;
@@ -128,7 +137,7 @@ namespace Wanderer.Stats
         /// <returns></returns>
         public StatsCollection SetAll(Func<Stat,double,double> modify)
         {   
-            foreach (Stat s in Stat.GetAll())
+            foreach (Stat s in Keys.ToArray())
                 this[s] = modify(s,this[s]);
 
             return this;
@@ -144,7 +153,7 @@ namespace Wanderer.Stats
                 if (otherSc.Count != Count)
                     return false;
 
-                foreach (Stat s in Stat.GetAll())
+                foreach (Stat s in Keys.ToArray().Union(otherSc.Keys.ToArray()))
                     if (Math.Abs(this[s] - otherSc[s]) > 0.001)
                         return false;
 
@@ -168,12 +177,12 @@ namespace Wanderer.Stats
         /// <returns></returns>
         public StatsCollection Multiply(StatsCollection ratios,bool invertForNegatives)
         {
-            foreach (var s in ratios)
+            foreach (var s in Keys.ToArray().Union(ratios.Keys))
             {
-                if(invertForNegatives && this[s.Key] < 0)
-                    this[s.Key] *= 1/s.Value;
+                if(invertForNegatives && this[s] < 0)
+                    this[s] *= 1/ratios[s];
                 else
-                    this[s.Key] *= s.Value;
+                    this[s] *= ratios[s];
             }
 
             return this;

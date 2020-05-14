@@ -10,6 +10,7 @@ using Wanderer.Factories.Blueprints;
 using Wanderer.Rooms;
 using Wanderer.Plans;
 using Wanderer.Relationships;
+using Wanderer.Stats;
 using Wanderer.Systems;
 
 namespace Wanderer.Factories
@@ -71,6 +72,8 @@ namespace Wanderer.Factories
             var world = new World();
 
             _log.Info($"Resources Directory Is: {ResourcesDirectory}");
+
+            LoadCustomStats(world);
 
             world.InjurySystems = GetInjurySystems();
             world.MainLua = GetResource("Main.lua")?.Content;
@@ -147,6 +150,27 @@ namespace Wanderer.Factories
             AddDefaults(world,player);
             
             return world;
+        }
+
+        /// <summary>
+        /// Load all custom named <see cref="Stat"/> for the game into <see cref="IWorld.AllStats"/>
+        /// </summary>
+        /// <param name="world"></param>
+        protected virtual void LoadCustomStats(IWorld world)
+        {
+            var customStats = GetResource("stats.yaml");
+            if (customStats != null)
+            {
+                try
+                {
+                    foreach (var stat in Compiler.Instance.Deserializer.Deserialize<List<Stat>>(customStats.Content)) 
+                        world.AllStats.All.Add(stat);
+                }
+                catch (Exception e)
+                {
+                    throw new Exception($"Failed to load custom stats from file {customStats}",e);
+                }
+            }
         }
 
         /// <summary>

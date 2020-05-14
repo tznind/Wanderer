@@ -10,6 +10,7 @@ using Wanderer.Items;
 using Wanderer.Rooms;
 using Wanderer.Plans;
 using Wanderer.Relationships;
+using Wanderer.Stats;
 using Wanderer.Systems;
 
 namespace Wanderer
@@ -85,6 +86,11 @@ namespace Wanderer
         /// Lua code to execute before every script element, e.g. to declare global functions
         /// </summary>
         string MainLua { get; set; }
+
+        /// <summary>
+        /// All the stats supported by the game
+        /// </summary>
+        StatDefinitions AllStats { get; set; }
 
         /// <summary>
         /// Returns all the behaviours that should respond to events in the world
