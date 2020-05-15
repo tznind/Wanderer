@@ -70,7 +70,7 @@ The [Stat] class considers equality only on `Name`.
 Assert.AreEqual(new Stat("Trouble"),new Stat("Trouble"));
 ```
 
-The [StatCollection] class dynamically defines stats as you ask for them (in the below example Dangerous and Wild are completely new stats never before seen and not even declared in stats.yaml) e.g.
+The [StatsCollection] class dynamically defines stats as you ask for them (in the below example Dangerous and Wild are completely new stats never before seen and not even declared in stats.yaml) e.g.
 
 ```csharp
   // Create a new collection where all stats are 0
