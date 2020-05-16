@@ -54,8 +54,8 @@ namespace Tests.Actions
             Assert.IsFalse(new CoerceAction(you).HasTargets(you));
 
             //create two npcs that can both fight
-            var a = new Npc("A",you.CurrentLocation).With(Stat.Initiative,10);
-            var b = new Npc("B",you.CurrentLocation).With(Stat.Initiative,0);
+            var a = new Npc("A",you.CurrentLocation);
+            var b = new Npc("B",you.CurrentLocation);
             
             Assert.IsTrue(new CoerceAction(you).HasTargets(you));
             Assert.IsFalse(b.Has("Injured",false));
@@ -68,9 +68,6 @@ namespace Tests.Actions
             Assert.IsTrue(b.Has("Injured",false));
 
             Assert.Contains("Test Wanderer coerced A to perform Fight", ui.Log.RoundResults.Select(r=>r.Message).ToArray());
-            
-            //initiative should have been boosted to do the coerce then reset at end of round
-            Assert.AreEqual(10,a.GetFinalStats()[Stat.Initiative]);
         }
 
         [Test]
@@ -116,10 +113,10 @@ namespace Tests.Actions
             //when you coerce them to give you something expensive it doesn't work
             Assert.IsFalse(you.Items.Contains(platinum),"Expected them to refuse to give you the platinum");
             Assert.IsTrue(them.Items.Contains(platinum));
-            Assert.Contains("Test Wanderer failed to coerce Chaos Sam - Insufficient persuasion (Needed 110, Had 10)",givePlatinum.Log.RoundResults.Select(m=>m.Message).ToArray());
+            Assert.Contains("Test Wanderer failed to coerce Chaos Sam - Insufficient persuasion (Needed 110, Had 0)",givePlatinum.Log.RoundResults.Select(m=>m.Message).ToArray());
 
             //they love you!
-            w.Relationships.Add(new PersonalRelationship(them,you){Attitude=110});
+            w.Relationships.Add(new PersonalRelationship(them,you){Attitude=120});
 
             //try now
             givePlatinum = GetUI(them, "Give [Platinum Coin]", you);

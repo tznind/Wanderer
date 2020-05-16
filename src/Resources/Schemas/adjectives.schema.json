@@ -54,7 +54,7 @@
             "null",
             "string"
           ],
-          "description": "Explicit name for this object.  For actors this can be left null to generate a random name from the faction NameFactory"
+          "description": "Explicit name for this object.  For actors this can be left null to generate a random name from the faction"
         },
         "InjurySystem": {
           "type": [
@@ -241,42 +241,9 @@
     "StatsCollection": {
       "title": "DictionaryOfStatAndDouble",
       "type": "object",
-      "x-dictionaryKey": {
-        "$ref": "#/definitions/StatsCollection/definitions/Stat"
-      },
       "additionalProperties": {
         "type": "number",
         "format": "double"
-      },
-      "definitions": {
-        "Stat": {
-          "type": "integer",
-          "description": "0 = None\n1 = Loyalty\n2 = Corruption\n3 = Fight\n4 = Coerce\n5 = Savvy\n6 = Suave\n7 = Leadership\n8 = Initiative\n9 = Value",
-          "x-enumNames": [
-            "None",
-            "Loyalty",
-            "Corruption",
-            "Fight",
-            "Coerce",
-            "Savvy",
-            "Suave",
-            "Leadership",
-            "Initiative",
-            "Value"
-          ],
-          "enum": [
-            0,
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9
-          ]
-        }
       }
     },
     "ActionBlueprint": {
@@ -327,7 +294,7 @@
             "null",
             "string"
           ],
-          "description": "Explicit name for this object.  For actors this can be left null to generate a random name from the faction NameFactory"
+          "description": "Explicit name for this object.  For actors this can be left null to generate a random name from the faction"
         },
         "InjurySystem": {
           "type": [
@@ -502,7 +469,7 @@
             "null",
             "string"
           ],
-          "description": "Explicit name for this object.  For actors this can be left null to generate a random name from the faction NameFactory"
+          "description": "Explicit name for this object.  For actors this can be left null to generate a random name from the faction"
         },
         "InjurySystem": {
           "type": [

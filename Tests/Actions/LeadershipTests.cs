@@ -44,7 +44,7 @@ namespace Tests.Actions
             TwoInARoomWithRelationship(10,false,out You you, out IActor them,out IWorld world);
 
             // they must have the actions for the plans to be viable
-            them.BaseActions.Add(new LoadGunsAction(them));
+            them.BaseActions.Add(new DoNothingAction(them));
             them.BaseActions.Add(new InspectAction(them));
 
             var plan1 = new Plan()
@@ -55,7 +55,7 @@ namespace Tests.Actions
             var plan2 = new Plan()
                 {
                     Weight = 0,
-                    Do = Mock.Of<IFrameSource>(f=>f.GetFrame(It.IsAny<SystemArgs>()) == new Frame(them,new LoadGunsAction(you),0))
+                    Do = Mock.Of<IFrameSource>(f=>f.GetFrame(It.IsAny<SystemArgs>()) == new Frame(them,new DoNothingAction(you),0))
                 };
 
                 Assert.IsNull(((Npc)them).Plan);
@@ -79,7 +79,7 @@ namespace Tests.Actions
             world.PlanningSystem.Apply(new SystemArgs(world,GetUI(),0,null,them,Guid.Empty));
 
             //they should now be picking your plan instead
-            Assert.IsInstanceOf(typeof(LoadGunsAction),((Npc)them).Plan.Action);
+            Assert.IsInstanceOf(typeof(DoNothingAction),((Npc)them).Plan.Action);
 
         }
 

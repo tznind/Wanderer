@@ -25,7 +25,7 @@ namespace Tests.BehaviourTests
             Assert.AreEqual(1,you.BaseBehaviours.Count(b => b.Name.Equals("GetsHungry")));
 
             for(int i=0;i<6;i++)
-                world.RunRound(GetUI(),new LoadGunsAction(you));
+                world.RunRound(GetUI(),new DoNothingAction(you));
 
             Assert.AreEqual("Peckish",you.Adjectives.OfType<IInjured>().Single().Name);
 
@@ -45,7 +45,7 @@ namespace Tests.BehaviourTests
                 if(you.Dead)
                     break;
                 else
-                    world.RunRound(GetUI(),new LoadGunsAction(you));
+                    world.RunRound(GetUI(),new DoNothingAction(you));
 
             Assert.IsTrue(you.Dead);
 
@@ -61,7 +61,7 @@ namespace Tests.BehaviourTests
             var you = YouInARoom(out IWorld world);
             
             for(int i=0;i<6;i++)
-                world.RunRound(GetUI(),new LoadGunsAction(you));
+                world.RunRound(GetUI(),new DoNothingAction(you));
 
             Assert.AreEqual("Peckish",you.Adjectives.OfType<IInjured>().Single().Name);
 

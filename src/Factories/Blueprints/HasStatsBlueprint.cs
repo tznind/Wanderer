@@ -59,7 +59,7 @@ namespace Wanderer.Factories.Blueprints
         public ConsoleColor Color { get; set; } = ConsoleColor.White;
 
         /// <summary>
-        /// Explicit name for this object.  For actors this can be left null to generate a random name from the faction <see cref="NameFactory"/>
+        /// Explicit name for this object.  For actors this can be left null to generate a random name from the faction
         /// </summary>
         public string Name { get; set; }
         

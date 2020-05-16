@@ -98,7 +98,9 @@ namespace Tests
             fnew.Directory.Create();
             File.WriteAllText(fnew.FullName,schemaJson);
 
-            Assert.IsTrue(JToken.DeepEquals(schemaJson, File.ReadAllText(f)),
+            var newSchema = schemaJson.Replace("\r\n","\n");
+            var oldSchema = File.ReadAllText(f).Replace("\r\n","\n");
+            Assert.IsTrue(JToken.DeepEquals(newSchema,oldSchema),
                         $"schema is out of date for '{ filename }'.  New schema generated in {fnew.Directory.FullName}");
         }
         private static JsonSchema StatsDictionary(JsonSchemaGenerator arg1, JsonSchemaResolver arg2)

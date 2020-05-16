@@ -10,6 +10,10 @@ namespace Wanderer.Factories
         public Lua Create(IWorld world,object o)
         {
             var lua = Create();
+            
+            //setup Fight as alias for Stat.Fight etc
+            foreach(Stat val in world.AllStats.All)
+                lua[val.ToString()] = val;
 
             lua["this"] = o;
 
@@ -49,10 +53,6 @@ import ('Wanderer','Wanderer.Items')
 
 ");
 
-            //setup Fight as alias for Stat.Fight etc
-            foreach(Stat val in Enum.GetValues(typeof(Stat)))
-                if(val != Stat.None)
-                    lua[val.ToString()] = val;
 
             return lua;
         }

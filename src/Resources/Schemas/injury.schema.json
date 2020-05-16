@@ -28,15 +28,11 @@
       "description": "Describes how the injuries inflicted by this system are healed e.g. \"healed\", \"put out\", \"solved by eating\""
     },
     "HealerStat": {
-      "description": "If set then actors with this stat can attempt to heal",
-      "oneOf": [
-        {
-          "type": "null"
-        },
-        {
-          "$ref": "#/definitions/Stat"
-        }
-      ]
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "If set then actors with this stat can attempt to heal"
     },
     "HealerStatMultiplier": {
       "type": "number",
@@ -156,34 +152,6 @@
     }
   },
   "definitions": {
-    "Stat": {
-      "type": "integer",
-      "description": "0 = None\n1 = Loyalty\n2 = Corruption\n3 = Fight\n4 = Coerce\n5 = Savvy\n6 = Suave\n7 = Leadership\n8 = Initiative\n9 = Value",
-      "x-enumNames": [
-        "None",
-        "Loyalty",
-        "Corruption",
-        "Fight",
-        "Coerce",
-        "Savvy",
-        "Suave",
-        "Leadership",
-        "Initiative",
-        "Value"
-      ],
-      "enum": [
-        0,
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9
-      ]
-    },
     "Resistances": {
       "type": "object",
       "additionalProperties": false,

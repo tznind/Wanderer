@@ -38,7 +38,7 @@ namespace Tests.Systems
             for (int i = 0; i < 11; i++)
             {
                 var stack = new ActionStack();
-                stack.RunStack(world,GetUI(typeof(object)), new LoadGunsAction(you), a, a.GetFinalBehaviours());
+                stack.RunStack(world,GetUI(typeof(object)), new DoNothingAction(you), a, a.GetFinalBehaviours());
 
                 //after 9 round you should still be injured                
                 if(i <10)
@@ -71,7 +71,7 @@ namespace Tests.Systems
             for (int i = 0; i < 10; i++)
             {
                 var stack = new ActionStack();
-                stack.RunStack(world,GetUI(typeof(object)), new LoadGunsAction(you), you, you.GetFinalBehaviours());
+                stack.RunStack(world,GetUI(typeof(object)), new DoNothingAction(you), you, you.GetFinalBehaviours());
 
                 //after 2 rounds (0 and 1) you should still be injured                
                 if(i == 0 )
@@ -129,6 +129,8 @@ namespace Tests.Systems
 
             var stack = new ActionStack();
 
+            you.BaseStats["Savvy"] = 20;
+
             Assert.Contains(injury,you.Adjectives.ToArray());
             stack.RunStack(world,new FixedChoiceUI(you,injury), you.GetFinalActions().OfType<HealAction>().Single(), you, you.GetFinalBehaviours());
             Assert.IsFalse(you.Adjectives.Contains(injury));
@@ -145,7 +147,7 @@ namespace Tests.Systems
             medic.BaseActions.Add(new HealAction(you));
             you.Adjectives.Add(medic);
 
-            you.BaseStats[Stat.Savvy] = 20;
+            you.BaseStats["Savvy"] = 20;
 
             //give them an injury
             var injury = new Injured("Cut Lip", you, 2, InjuryRegion.Leg,world.InjurySystems.First(i=>i.IsDefault));
@@ -169,7 +171,7 @@ namespace Tests.Systems
             Assert.Contains("Test Wanderer was unable to heal Test Wanderer's Cut Lip because Savvy was too low (required 40)",
                 ui.Log.RoundResults.Select(l=>l.ToString()).ToArray());
 
-            you.BaseStats[Stat.Savvy] = 100;
+            you.BaseStats["Savvy"] = 100;
 
             Assert.IsTrue(stack.RunStack(world,new FixedChoiceUI(you, badInjury),
                 you.GetFinalActions().OfType<HealAction>().Single(), you, you.GetFinalBehaviours()));
@@ -186,7 +188,7 @@ namespace Tests.Systems
             medic.BaseActions.Add(new HealAction(medic));
             you.Adjectives.Add(medic);
 
-            you.BaseStats[Stat.Savvy] = 50;
+            you.BaseStats["Savvy"] = 50;
             you.With(world,world.AdjectiveFactory, "Giant");
             
 
@@ -221,7 +223,7 @@ namespace Tests.Systems
         public void Test_HealingAnInjury_WithSingleUseItem()
         {
             var you = YouInARoom(out IWorld world);
-            you.BaseStats[Stat.Savvy] = 50;
+            you.BaseStats["Savvy"] = 50;
             
             //you cannot heal as a base action
             Assert.IsFalse(you.GetFinalActions().OfType<HealAction>().Any());
@@ -260,7 +262,7 @@ namespace Tests.Systems
         public void Test_HealingAnInjury_WithSingleUseItemStack()
         {
             var you = YouInARoom(out IWorld world);
-            you.BaseStats[Stat.Savvy] = 50;
+            you.BaseStats["Savvy"] = 50;
             var kitStack = (ItemStack)world.ItemFactory.Create(world, new ItemBlueprint {Name = "Kit", Stack = 2})
                 .With(world,world.AdjectiveFactory, "SingleUse", "Medic");
             you.Items.Add(kitStack);
@@ -317,13 +319,13 @@ namespace Tests.Systems
         public void TestTooManyInjuries_IsFatal()
         {
             var you = YouInARoom(out IWorld w);
-            you.With(new LoadGunsAction(you));
+            you.With(new DoNothingAction(you));
 
             //give them an injury
             var injury = new Injured("Cut Lip", you, 20, InjuryRegion.Leg,w.InjurySystems.First(i=>i.IsDefault));
             you.Adjectives.Add(injury);
 
-            w.RunRound(new FixedChoiceUI(),you.GetFinalActions().OfType<LoadGunsAction>().Single());
+            w.RunRound(new FixedChoiceUI(),you.GetFinalActions().OfType<DoNothingAction>().Single());
 
             Assert.IsFalse(you.Dead,"Did not expect you to die from light injuries");
             
@@ -332,7 +334,7 @@ namespace Tests.Systems
 
             Assert.IsFalse(you.Dead,"Expected death check to be at the end of the round");
 
-            w.RunRound(new FixedChoiceUI(),you.GetFinalActions().OfType<LoadGunsAction>().Single());
+            w.RunRound(new FixedChoiceUI(),you.GetFinalActions().OfType<DoNothingAction>().Single());
 
             Assert.IsTrue(you.Dead,"Expected you to die at the end of the round");
 

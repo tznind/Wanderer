@@ -1,11 +1,44 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Wanderer.Stats
 {
-    public class StatsCollection: Dictionary<Stat,double>, IAreIdentical
+    public class StatsCollection: IAreIdentical, IDictionary<Stat, double>
     {
+        private double _startingValue = 0;
+
+        //for Json Serialization
+        public Dictionary<Stat,double> BaseDictionary = new Dictionary<Stat, double>();
+
+        public int Count => BaseDictionary.Count;
+
+        public ICollection<Stat> Keys => BaseDictionary.Keys;
+
+        public ICollection<double> Values => BaseDictionary.Values;
+
+        public bool IsReadOnly => false;
+
+        public double this[Stat index]
+        {
+            get
+            {
+                if(BaseDictionary.TryGetValue(index, out double val))
+                    return val;
+                
+                BaseDictionary.Add(index,_startingValue);
+
+                return _startingValue;
+            }
+            set {
+                if(BaseDictionary.ContainsKey(index))
+                    BaseDictionary[index] = value;
+                else
+                    BaseDictionary.Add(index,value);
+            }
+        }
+
         /// <summary>
         /// Creates a new stat collection with all stats initialized to 0
         /// </summary>
@@ -19,19 +52,22 @@ namespace Wanderer.Stats
         /// </summary>
         public StatsCollection(double startingValue)
         {
-            foreach (Stat stat in Enum.GetValues(typeof(Stat))) 
-                if(stat != Stat.None)
-                    Add(stat, startingValue);
+            _startingValue = startingValue;
         }
+
+        public void Add(Stat stat, double startingValue)
+        {
+            BaseDictionary.Add(stat,startingValue);
+        }
+
         /// <summary>
         /// Creates a new copy with the same values
         /// </summary>
         /// <returns></returns>
         public StatsCollection Clone()
         {
-            var clone = new StatsCollection();
-            foreach (Stat s in Enum.GetValues(typeof(Stat)))
-                if(s != Stat.None)
+            var clone = new StatsCollection(_startingValue);
+            foreach (Stat s in Keys.ToArray())
                     clone[s] = this[s];
 
             return clone;
@@ -44,9 +80,10 @@ namespace Wanderer.Stats
         /// <param name="other"></param>
         public StatsCollection Increase(StatsCollection other)
         {
-            foreach (Stat s in Enum.GetValues(typeof(Stat)))
-                if(s != Stat.None)
-                    this[s] += other[s];
+            foreach (Stat s in Keys.ToArray().Union(other.Keys.ToArray()))
+                this[s] += other[s];
+
+            this._startingValue += other._startingValue;
 
             return this;
         }
@@ -78,9 +115,10 @@ namespace Wanderer.Stats
         /// <param name="other"></param>
         public StatsCollection Decrease(StatsCollection other)
         {
-            foreach (Stat s in Enum.GetValues(typeof(Stat)))
-                if(s != Stat.None)
-                    this[s] -= other[s];
+            foreach (Stat s in Keys.ToArray().Union(other.Keys.ToArray()))
+                this[s] -= other[s];
+            
+            this._startingValue -= other._startingValue;
 
             return this;
         }
@@ -91,9 +129,8 @@ namespace Wanderer.Stats
         /// <returns></returns>
         public StatsCollection SetAll(Func<double,double> modify)
         {   
-            foreach (Stat s in Enum.GetValues(typeof(Stat)))
-                if(s != Stat.None)
-                    this[s] = modify(this[s]);
+            foreach (Stat s in Keys.ToArray())
+                this[s] = modify(this[s]);
 
             return this;
         }
@@ -104,9 +141,8 @@ namespace Wanderer.Stats
         /// <returns></returns>
         public StatsCollection SetAll(Func<Stat,double,double> modify)
         {   
-            foreach (Stat s in Enum.GetValues(typeof(Stat)))
-                if(s != Stat.None)
-                    this[s] = modify(s,this[s]);
+            foreach (Stat s in Keys.ToArray())
+                this[s] = modify(s,this[s]);
 
             return this;
         }
@@ -121,10 +157,9 @@ namespace Wanderer.Stats
                 if (otherSc.Count != Count)
                     return false;
 
-                foreach (Stat s in Enum.GetValues(typeof(Stat)))
-                    if (s != Stat.None)
-                        if (Math.Abs(this[s] - otherSc[s]) > 0.001)
-                            return false;
+                foreach (Stat s in Keys.ToArray().Union(otherSc.Keys.ToArray()))
+                    if (Math.Abs(this[s] - otherSc[s]) > 0.001)
+                        return false;
 
                 return true;
             }
@@ -146,15 +181,65 @@ namespace Wanderer.Stats
         /// <returns></returns>
         public StatsCollection Multiply(StatsCollection ratios,bool invertForNegatives)
         {
-            foreach (var s in ratios)
+            foreach (var s in Keys.ToArray().Union(ratios.Keys))
             {
-                if(invertForNegatives && this[s.Key] < 0)
-                    this[s.Key] *= 1/s.Value;
+                if(invertForNegatives && this[s] < 0)
+                    this[s] *= 1/ratios[s];
                 else
-                    this[s.Key] *= s.Value;
+                    this[s] *= ratios[s];
             }
 
             return this;
+        }
+
+        public bool ContainsKey(Stat key)
+        {
+            return BaseDictionary.ContainsKey(key);
+        }
+
+        public bool Remove(Stat key)
+        {
+            return BaseDictionary.Remove(key);
+        }
+
+        public bool TryGetValue(Stat key, out double value)
+        {
+            return BaseDictionary.TryGetValue(key,out value);
+        }
+
+        public void Add(KeyValuePair<Stat, double> item)
+        {
+            throw new NotSupportedException();
+        }
+
+        public void Clear()
+        {
+            BaseDictionary.Clear();
+        }
+
+        public bool Contains(KeyValuePair<Stat, double> item)
+        {
+            return BaseDictionary.Contains(item);
+        }
+
+        public void CopyTo(KeyValuePair<Stat, double>[] array, int arrayIndex)
+        {
+            throw new NotSupportedException();
+        }
+
+        public bool Remove(KeyValuePair<Stat, double> item)
+        {
+            throw new NotSupportedException();
+        }
+
+        public IEnumerator<KeyValuePair<Stat, double>> GetEnumerator()
+        {
+            return BaseDictionary.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return BaseDictionary.GetEnumerator();
         }
     }
 }

@@ -29,11 +29,11 @@ namespace Tests.ConditionTests
             var item = itemFactory.Create(new World(), itemFactory.Blueprints.Single());
 
             var you = YouInARoom(out _);
-            you.BaseStats[Stat.Savvy] = 0;
+            you.BaseStats["Savvy"] = 0;
 
-            Assert.AreEqual(0,item.GetFinalStats(you)[Stat.Savvy]);
+            Assert.AreEqual(0,item.GetFinalStats(you)["Savvy"]);
             item.Require.Clear();
-            Assert.AreEqual(10,item.GetFinalStats(you)[Stat.Savvy]);
+            Assert.AreEqual(10,item.GetFinalStats(you)["Savvy"]);
 
         }
 

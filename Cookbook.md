@@ -5,6 +5,7 @@ This page contains simple recipes for common level building tasks.  To test a re
 ## Contents
 
 - [Foreword: Script Blocks](#foreword-script-blocks)
+- [Custom Stats](#custom-stats)
 - [Room Recipes](#room-recipes)
   - [Starting room](#starting-room)
   - [Add same item to many rooms](#add-same-item-to-many-rooms)
@@ -34,6 +35,55 @@ In scripts the following global variables are available:
 | [Action] | Only aplies to action related events e.g. OnPush, references the action being performed |
 | [Behaviour] | Only applies to behaviour events (OnPush, OnRoundEnding etc).  References the behaviour object (which will be attached to a specific Owner) |
 
+## Custom Stats
+
+<sup>[[View Test]](./Tests/Cookbook/CustomStats.cs)</sup>
+
+You can define new stats by declaring a stats.yaml file:
+
+```yaml
+- Sanity
+- Seduction
+```
+<sup>./stats.yaml</sup>
+
+Stats can immediately be used e.g. on rooms, items etc:
+
+```
+- Name: Relaxing Bar
+  Stats:
+    Seduction: 10
+  MandatoryItems:
+    - Name: Helmet of Madness
+      Require:
+        - return BaseStats[Seduction] <= 0
+      Stats:
+        Sanity: -500
+```
+<sup>./rooms.yaml</sup>
+
+In C# code there are a number of default static stats e.g. `Stat.Fight`.  But for a full collection including custom stats use `IWorld.AllStats`.
+
+The [Stat] class considers equality only on `Name`.  
+
+```csharp
+Assert.AreEqual(new Stat("Trouble"),new Stat("Trouble"));
+```
+
+The [StatsCollection] class dynamically defines stats as you ask for them (in the below example Dangerous and Wild are completely new stats never before seen and not even declared in stats.yaml) e.g.
+
+```csharp
+  // Create a new collection where all stats are 0
+  var collection = new StatsCollection(0);
+  Assert.AreEqual(0,collection[new Stat("Dangerous")]);
+
+  // Invent a new stat and set it to 10
+  collection[new Stat("Wild")] = 10;           
+  Assert.AreEqual(10,collection[new Stat("Wild")]);
+```
+
+**NOTE: You should always ensure that `World.AllStats` has all the stats that your game uses to ensure that script blocks operate correctly etc.  The easiest way to do that is to set them in `stats.yaml`**
+
 ## Room Recipes
 
 ### Starting room
@@ -48,7 +98,6 @@ The [Player] always starts at 0,0,0.  The following recipy creates a unique star
   Identifier: b1aa5ce4-213a-46b5-aa57-63831376b81d
 ```
 <sup>./rooms.yaml</sup>
-
 
 ### Add same item to many rooms
 <sup>[[View Test]](./Tests/Cookbook/SameItemToManyRooms.cs)</sup>
@@ -353,3 +402,5 @@ If we want to only apply the behaviour the first time the Player enters the room
 [Behaviour]: ./src/Behaviours/IBehaviour.cs
 [Lua]: https://www.lua.org/about.html
 [yaml]: https://yaml.org/
+[Stat]: ./src/Stats/Stat.cs
+[StatsCollection]: ./src/Stats/StatsCollection.cs

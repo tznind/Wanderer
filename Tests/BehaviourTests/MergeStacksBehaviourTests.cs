@@ -22,7 +22,7 @@ namespace Tests.BehaviourTests
             you.Items.Add(new ItemStack("toy cars", 3));
             Assert.AreEqual(2,you.Items.Count);
 
-            world.RunRound(GetUI(),new LoadGunsAction(you));
+            world.RunRound(GetUI(),new DoNothingAction(you));
 
             Assert.AreEqual(1,you.Items.Count);
             Assert.AreEqual(4,((IItemStack)you.Items.Single()).StackSize);
@@ -77,7 +77,7 @@ namespace Tests.BehaviourTests
             you.Items.Add(b);
             Assert.AreEqual(2,you.Items.Count);
 
-            world.RunRound(GetUI(),new LoadGunsAction(you));
+            world.RunRound(GetUI(),new DoNothingAction(you));
 
             Assert.AreEqual(2,you.Items.Count);
             Assert.AreEqual(1,((IItemStack)you.Items.First()).StackSize);

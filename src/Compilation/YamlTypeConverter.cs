@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Wanderer.Stats;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
@@ -44,6 +45,9 @@ namespace Wanderer.Compilation
 
             if(typeof(T) == typeof(IFrameSource))
                 return new FrameSourceCode(scalar);
+
+            if(typeof(T) == typeof(Stat))
+                return new Stat(scalar);
             
             var found = _classesOfTypeT.FirstOrDefault(t => t.Name.Equals(scalar));
 

@@ -10,13 +10,6 @@ namespace Tests.Stats
     class StatTests
     {
         [Test]
-        public void TestStats_AllDescribed()
-        {
-            foreach (Stat stat in Enum.GetValues(typeof(Stat)))
-                Assert.IsFalse(string.IsNullOrEmpty(stat.Describe()));
-        }
-
-        [Test]
         public void TestStats_AreIdentical()
         {
             var s1 = new StatsCollection();
@@ -86,11 +79,32 @@ namespace Tests.Stats
         {
             var s1 = new StatsCollection(5);
             Assert.AreEqual(5,s1[Stat.Fight]);
-            Assert.AreEqual(5,s1[Stat.Savvy]);
+            Assert.AreEqual(5,s1["Savvy"]);
 
             s1.SetAll((s,v)=> v * (s == Stat.Fight ? 2 : 1));
             Assert.AreEqual(10,s1[Stat.Fight]);
-            Assert.AreEqual(5,s1[Stat.Savvy]);
+            Assert.AreEqual(5,s1["Savvy"]);
+        }
+
+        [Test]
+        public void TestStats_IncreaseByStartingValue()
+        {
+            var sc1 = new StatsCollection(10);
+            var sc2 = new StatsCollection(12);
+
+            sc1.Increase(sc2);
+
+            Assert.AreEqual(22,sc1[Stat.Fight]);
+        }
+        [Test]
+        public void TestStats_DecreaseByStartingValue()
+        {
+            var sc1 = new StatsCollection(10);
+            var sc2 = new StatsCollection(12);
+
+            sc1.Decrease(sc2);
+
+            Assert.AreEqual(-2,sc1[Stat.Fight]);
         }
     }
 }

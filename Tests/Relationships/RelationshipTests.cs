@@ -60,7 +60,7 @@ namespace Tests.Relationships
             world.Relationships.Add(new PersonalRelationship(them, you){Attitude = 500});
 
             var ui = GetUI();
-            world.RunRound(ui, new LoadGunsAction(you));
+            world.RunRound(ui, new DoNothingAction(you));
 
             Assert.IsNull(ui.Log.RoundResults.FirstOrDefault(r => r.Message.Contains("fought")),"Did not expect bob to fight you because they have a good relationship");
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Wanderer.Actions;
+using Wanderer.Stats;
 using YamlDotNet.Serialization;
 
 namespace Wanderer.Compilation
@@ -30,6 +31,7 @@ namespace Wanderer.Compilation
                 .WithTypeConverter(new YamlTypeConverter<ICondition>())
                 .WithTypeConverter(new YamlTypeConverter<IEffect>())
                 .WithTypeConverter(new YamlTypeConverter<IFrameSource>())
+                .WithTypeConverter(new YamlTypeConverter<Stat>())
                 .Build();
 
         private Compiler()
