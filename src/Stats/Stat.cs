@@ -13,7 +13,7 @@ namespace Wanderer.Stats
 
         public static Stat Fight = new Stat("Fight");
         public static Stat Coerce = new Stat("Coerce");
-        public static Stat Savvy = new Stat("Savvy");
+
         public static Stat Initiative = new Stat("Initiative");
         public static Stat Value = new Stat("Value");
 
@@ -45,5 +45,7 @@ namespace Wanderer.Stats
         {
             return (Name != null ? Name.GetHashCode() : 0);
         }
+
+         public static implicit operator Stat(string s) => new Stat(s);
     }
 }

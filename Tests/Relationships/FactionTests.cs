@@ -39,16 +39,16 @@ namespace Tests.Relationships
 
             var f = new Faction();
             f.Name = "Geniuses";
-            f.BaseStats[Stat.Savvy] = 50;
+            f.BaseStats["Savvy"] = 50;
             
-            var before = you.GetFinalStats()[Stat.Savvy];
+            var before = you.GetFinalStats()["Savvy"];
 
             you.FactionMembership.Add(f);
 
-            Assert.AreEqual(before + 50, you.GetFinalStats()[Stat.Savvy]);
+            Assert.AreEqual(before + 50, you.GetFinalStats()["Savvy"]);
             you.FactionMembership.Clear();
             
-            Assert.AreEqual(before, you.GetFinalStats()[Stat.Savvy]);
+            Assert.AreEqual(before, you.GetFinalStats()["Savvy"]);
 
         }
 
@@ -56,7 +56,7 @@ namespace Tests.Relationships
         public void BeingInFactionGrantsAdjectives()
         {
             var you = YouInARoom(out IWorld _);
-            you.BaseStats[Stat.Savvy] = 50; //allows use of medic skill
+            you.BaseStats["Savvy"] = 50; //allows use of medic skill
 
             var f = new Faction();
             f.Name = "Medical Corp";

@@ -117,6 +117,8 @@ namespace Tests.Items
 ";
 
                 var you = YouInARoom(out IWorld w);
+                you.BaseStats[Stat.Fight] = 20;
+
                 you.AvailableSlots.Add("Chest",1);
 
                 var itemFactory = new ItemFactory{Blueprints = Compiler.Instance.Deserializer.Deserialize<List<ItemBlueprint>>(yaml)};

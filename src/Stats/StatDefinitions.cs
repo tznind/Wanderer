@@ -26,7 +26,6 @@ namespace Wanderer.Stats
 
             All.Add(Stat.Fight);
             All.Add(Stat.Coerce);
-            All.Add(Stat.Savvy);
             All.Add(Stat.Initiative);
             All.Add(Stat.Value);
             

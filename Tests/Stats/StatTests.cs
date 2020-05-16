@@ -79,11 +79,11 @@ namespace Tests.Stats
         {
             var s1 = new StatsCollection(5);
             Assert.AreEqual(5,s1[Stat.Fight]);
-            Assert.AreEqual(5,s1[Stat.Savvy]);
+            Assert.AreEqual(5,s1["Savvy"]);
 
             s1.SetAll((s,v)=> v * (s == Stat.Fight ? 2 : 1));
             Assert.AreEqual(10,s1[Stat.Fight]);
-            Assert.AreEqual(5,s1[Stat.Savvy]);
+            Assert.AreEqual(5,s1["Savvy"]);
         }
 
         [Test]

@@ -32,10 +32,6 @@ namespace Wanderer.Actors
         /// <param name="currentLocation"></param>
         public You(string name, IRoom currentLocation):base( name,currentLocation)
         {
-            BaseStats[Stat.Fight] = 20;
-            BaseStats[Stat.Coerce] = 10;
-            BaseStats[Stat.Savvy] = 20;
-
             //player can coerce Npc
             BaseActions.Add(new CoerceAction(this));
 

@@ -116,10 +116,10 @@ namespace Tests.Actions
             //when you coerce them to give you something expensive it doesn't work
             Assert.IsFalse(you.Items.Contains(platinum),"Expected them to refuse to give you the platinum");
             Assert.IsTrue(them.Items.Contains(platinum));
-            Assert.Contains("Test Wanderer failed to coerce Chaos Sam - Insufficient persuasion (Needed 110, Had 10)",givePlatinum.Log.RoundResults.Select(m=>m.Message).ToArray());
+            Assert.Contains("Test Wanderer failed to coerce Chaos Sam - Insufficient persuasion (Needed 110, Had 0)",givePlatinum.Log.RoundResults.Select(m=>m.Message).ToArray());
 
             //they love you!
-            w.Relationships.Add(new PersonalRelationship(them,you){Attitude=110});
+            w.Relationships.Add(new PersonalRelationship(them,you){Attitude=120});
 
             //try now
             givePlatinum = GetUI(them, "Give [Platinum Coin]", you);
