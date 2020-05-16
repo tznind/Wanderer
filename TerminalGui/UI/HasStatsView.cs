@@ -24,6 +24,8 @@ namespace Wanderer.TerminalGui
         /// <param name="height"></param>
         public void InitializeComponent(IActor observer,IHasStats o, int width, int height)
         {
+            var stats = observer.CurrentLocation.World.AllStats.All;
+
             List<string> lines = new List<string>();
             int maxLines = height - 6;
 
@@ -47,17 +49,17 @@ namespace Wanderer.TerminalGui
             var sbStatLine2 = new StringBuilder();
             var sbStatLine3 = new StringBuilder();
 
-            foreach (var baseStat in o.BaseStats)
+            foreach (var s in stats)
             {
-                if(baseStat.Key == Stat.Initiative || baseStat.Key == Stat.None || baseStat.Key == Stat.Value)
+                if(s == Stat.Value)
                     continue;
 
-                string stat = baseStat.Key.ToString().Substring(0,2);
-                string val = baseStat.Value.ToString();
+                string stat = s.ToString().Substring(0,2);
+                string val = o.BaseStats[s].ToString();
                 string valFinal = "";
 
-                if (Math.Abs(baseStat.Value - finalStats[baseStat.Key]) > 0.0001)
-                    valFinal = $"({finalStats[baseStat.Key]:N0})";
+                if (Math.Abs(o.BaseStats[s] - finalStats[s]) > 0.0001)
+                    valFinal = $"({finalStats[s]:N0})";
 
                 int maxWidth = Math.Max(3,Math.Max(val.Length,valFinal.Length));
 
