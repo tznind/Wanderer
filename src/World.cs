@@ -18,6 +18,7 @@ using Wanderer.Plans;
 using Wanderer.Relationships;
 using Wanderer.Stats;
 using Wanderer.Systems;
+using Wanderer.Actions.Coercion;
 
 namespace Wanderer
 {
@@ -77,7 +78,7 @@ namespace Wanderer
         private void RunNpcActions(ActionStack stack,IUserinterface ui)
         {
             //use ToArray because people might blow up rooms or kill one another
-            foreach (var npc in Population.OfType<Npc>().OrderByDescending(a=>a.GetFinalStats()[Stat.Initiative]).ToArray())
+            foreach (var npc in Population.OfType<Npc>().OrderByDescending(NpcOrder).ToArray())
             {
                 //if occupant was killed by a previous action
                 if(!Population.Contains(npc))
@@ -106,6 +107,19 @@ namespace Wanderer
                 if(npc.Decide(ui, "Pick Action", null, out IAction chosen, npc.GetFinalActions().ToArray(), 0))
                     stack.RunStack(this,ui,chosen,npc,Population.SelectMany(p=>p.GetFinalBehaviours()));
             }
+        }
+
+        ///<summary>
+        /// Determines the action order of Npcs, higher numbers act first
+        ///</summary>
+
+        protected virtual int NpcOrder(Npc npc)
+        {
+            // Coerced Npcs act first
+            if(npc.Has(nameof(Coerced),false))
+                return 100;
+
+            return 0;
         }
 
         /// <summary>

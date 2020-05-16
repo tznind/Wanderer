@@ -14,7 +14,6 @@ namespace Wanderer.Stats
         public static Stat Fight = new Stat("Fight");
         public static Stat Coerce = new Stat("Coerce");
 
-        public static Stat Initiative = new Stat("Initiative");
         public static Stat Value = new Stat("Value");
 
         public Stat(string name)

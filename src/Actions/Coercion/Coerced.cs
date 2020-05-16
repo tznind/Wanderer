@@ -13,7 +13,6 @@ namespace Wanderer.Actions.Coercion
             CoercedFrame = frame;
             //don't show this Adjective in it's name
             IsPrefix = false;
-            BaseStats[Stat.Initiative] = 10000;
             BaseBehaviours.Add(new CoercedBehaviour(this));
         }
     }
