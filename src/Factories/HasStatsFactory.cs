@@ -6,6 +6,7 @@ using Wanderer.Actions;
 using Wanderer.Actors;
 using Wanderer.Behaviours;
 using Wanderer.Factories.Blueprints;
+using Wanderer.Stats;
 using Wanderer.Systems;
 
 namespace Wanderer.Factories
@@ -60,6 +61,11 @@ namespace Wanderer.Factories
             
             if (blueprint.Stats != null)
                 onto.BaseStats.Increase(blueprint.Stats.Clone());
+
+            //make sure the stats listed on blueprints actually exist
+            foreach(Stat s in onto.BaseStats.Keys)
+                if(!world.AllStats.Contains(s))
+                    throw new Exception($"Unrecognized stat '{s}' on blueprint '{onto}'.  Add the stat to stats.yaml or IWorld.AllStats");
 
             if (blueprint.Dialogue != null)
             {

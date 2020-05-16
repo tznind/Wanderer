@@ -26,7 +26,10 @@ namespace Tests.ConditionTests
 
             
             var itemFactory = new ItemFactory{Blueprints = Compiler.Instance.Deserializer.Deserialize<List<ItemBlueprint>>(yaml)};
-            var item = itemFactory.Create(new World(), itemFactory.Blueprints.Single());
+            var w = new World();
+            w.AllStats.GetOrAdd("Savvy");
+            
+            var item = itemFactory.Create(w, itemFactory.Blueprints.Single());
 
             var you = YouInARoom(out _);
             you.BaseStats["Savvy"] = 0;

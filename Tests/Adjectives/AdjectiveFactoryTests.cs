@@ -15,14 +15,14 @@ namespace Tests.Adjectives
         public void TestCreate_AdjectiveBlueprint(string typeName)
         {
             var you = YouInARoom(out IWorld w);
-            Assert.IsNotNull(w.AdjectiveFactory.Create(Mock.Of<IWorld>(),you,typeName));
+            Assert.IsNotNull(w.AdjectiveFactory.Create(w,you,typeName));
         }
 
         [TestCase("Dark")]
         public void TestCreateRoomOnly_AdjectiveBlueprint(string typeName)
         {
             var room = InARoom(out IWorld w);
-            Assert.IsNotNull(w.AdjectiveFactory.Create(Mock.Of<IWorld>(),room,"Dark"));
+            Assert.IsNotNull(w.AdjectiveFactory.Create(w,room,"Dark"));
         }
     }
 }

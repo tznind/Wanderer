@@ -49,6 +49,9 @@ namespace Wanderer.Stats
 
             return existing;
         }
-
+        public bool Contains(Stat s)
+        {
+            return All.Contains(s);
+        }
     }
 }
