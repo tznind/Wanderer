@@ -168,7 +168,7 @@ namespace Wanderer.Factories
                 }
                 catch (Exception e)
                 {
-                    throw new Exception($"Failed to load custom stats from file {customStats}",e);
+                    throw new Exception($"Failed to load custom stats from file {customStats.Location}",e);
                 }
             }
         }
