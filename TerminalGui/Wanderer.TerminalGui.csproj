@@ -32,6 +32,6 @@
   
   <ItemGroup>
     <PackageReference Include="Terminal.Gui" Version="0.65.0" />
-    <PackageReference Include="Wanderer" Version="0.0.13" />
+    <PackageReference Include="Wanderer" Version="0.0.16" />
   </ItemGroup>
 </Project>

@@ -472,40 +472,47 @@ namespace Wanderer.TerminalGui
 
         private void UpdateDetailPane()
         {
-            if(_roomContents == null)
-                return;
+            try
+            {
+                if(_roomContents == null)
+                    return;
 
-            var selected = _roomContents.SelectedItem;
-            
-            if(_detail != null)
-                Remove(_detail);
-
-            if(_mapView != null)
-                Remove(_mapView);
+                var selected = _roomContents.SelectedItem;
                 
-            if (_roomContents.HasFocus)
-            {
-                _detail = new HasStatsView()
+                if(_detail != null)
+                    Remove(_detail);
+
+                if(_mapView != null)
+                    Remove(_mapView);
+                    
+                if (_roomContents.HasFocus)
                 {
-                    AllowScrolling = false
-                };
+                    _detail = new HasStatsView()
+                    {
+                        AllowScrolling = false
+                    };
 
-                var o = _roomContentsObjects[selected];
+                    var o = _roomContentsObjects[selected];
 
-                _detail.InitializeComponent(o as IActor ?? World.Player,o,Bounds.Width,Bounds.Height-3);
-                _detail.X = 1;
-                _detail.Y = 1;
-                _detail.Width = Dim.Percent(70);
-                _detail.Height = Dim.Fill() - 5;
+                    _detail.InitializeComponent(o as IActor ?? World.Player,o,Bounds.Width,Bounds.Height-3);
+                    _detail.X = 1;
+                    _detail.Y = 1;
+                    _detail.Width = Dim.Percent(70);
+                    _detail.Height = Dim.Fill() - 5;
 
-                Add(_detail);
+                    Add(_detail);
+                }
+                else
+                {
+                    HideDetailPane();
+                }
+
+                TriggerTerminalResized();
             }
-            else
+            catch(Exception ex)
             {
-                HideDetailPane();
+                ShowException("Error updating Detail Pane",ex);
             }
-
-            TriggerTerminalResized();
         }
 
         private void HideDetailPane()
