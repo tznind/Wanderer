@@ -113,7 +113,7 @@ namespace Tests.Items
     Name: Chest
     NumberRequired: 1
   Require: 
-    - return BaseStats[Stat.Fight] <= 10
+    - Lua: BaseStats[Stat.Fight] <= 10
 ";
 
                 var you = YouInARoom(out IWorld w);

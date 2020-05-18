@@ -94,7 +94,7 @@ namespace Tests
             },w.Player.CurrentLocation );
             
             StringAssert.Contains("Error testing dialogue condition on '1cf15faf-837b-4629-84c5-bdfa7631a905'",v.Warnings.ToString());
-            StringAssert.Contains("syntax error near 'oll'",v.Warnings.ToString());
+            StringAssert.Contains("<eof> expected near 'oll'",v.Warnings.ToString());
         }
 
         [Test]
@@ -240,7 +240,7 @@ namespace Tests
 
             v.Validate(Mock.Of<IWorld>(),plan, Mock.Of<IActor>());
 
-            StringAssert.Contains("Error executing 'ConditionCode`1' script code 'this is bat country'.",v.Warnings.ToString());
+            StringAssert.Contains("Error executing 'ConditionCode`1' script code 'return this is bat country'.",v.Warnings.ToString());
         }
 
 

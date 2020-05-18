@@ -71,7 +71,7 @@ namespace Tests.Actors
   Dialogue: 
     Next: e088ff6e-60de-4a59-a9d8-b9406a2aed7c
   Require: 
-    - return BaseStats[Savvy] > 50
+    - Lua: BaseStats[Savvy] > 50
 ";
             var you = YouInARoom(out IWorld w);
             w.AllStats.GetOrAdd("Savvy");

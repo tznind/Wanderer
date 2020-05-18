@@ -782,7 +782,7 @@
           ],
           "description": "A condition that must be met before the item can be used",
           "items": {
-            "$ref": "#/definitions/IConditionOfIHasStats"
+            "$ref": "#/definitions/ConditionBlueprint"
           }
         },
         "Stack": {
@@ -850,10 +850,17 @@
         10
       ]
     },
-    "IConditionOfIHasStats": {
+    "ConditionBlueprint": {
       "type": "object",
-      "x-abstract": true,
-      "additionalProperties": false
+      "additionalProperties": false,
+      "properties": {
+        "Lua": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
     }
   }
 }

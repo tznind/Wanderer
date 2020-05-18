@@ -15,7 +15,7 @@ namespace Wanderer.Factories.Blueprints
         /// <summary>
         /// A condition that must be met before the item can be used
         /// </summary>
-        public List<ICondition<IHasStats>> Require { get; set; }
+        public List<ConditionBlueprint> Require { get; set; }
 
         /// <summary>
         /// Null for an item that cannot be stacked, 1+ for a <see cref="IItemStack"/> of the given size

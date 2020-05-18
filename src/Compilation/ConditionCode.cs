@@ -8,6 +8,10 @@ namespace Wanderer.Compilation
 
         public ConditionCode(string script):base(script)
         {
+            Script = Script.TrimStart();
+
+            if (!Script.StartsWith("return"))
+                Script = "return " + Script;
         }
         public bool IsMet(IWorld world,T forObject)
         {

@@ -56,7 +56,7 @@ Stats can immediately be used e.g. on rooms, items etc:
   MandatoryItems:
     - Name: Helmet of Madness
       Require:
-        - return BaseStats[Seduction] <= 0
+        - Lua: BaseStats[Seduction] <= 0
       Stats:
         Sanity: -500
 ```
@@ -304,7 +304,7 @@ Hand: 2
       Stats: 
          Fight: 20
   Require:
-    - return this:Has('LaserPowered')
+    - Lua: this:Has('LaserPowered')
 
 - Name: Laser Pistol
   Slot:

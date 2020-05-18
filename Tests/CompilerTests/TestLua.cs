@@ -199,7 +199,7 @@ import ('Wanderer','Wanderer.Rooms')
             var you = YouInARoom(out IWorld world);
 
             Assert.AreEqual("TestRoom",you.CurrentLocation.Name);
-            var code = new ConditionCode<SystemArgs>("Room.Name = 'fish'");
+            var code = new EffectCode("Room.Name = 'fish'");
 
             var args = new SystemArgs(world,GetUI(),0,null,you,Guid.Empty);
 

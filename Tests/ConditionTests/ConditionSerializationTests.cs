@@ -24,12 +24,12 @@ namespace Tests.ConditionTests
                 @$"
 - Name: MedKit
   Require: 
-    - {condition}
+    - Lua: {condition}
 ";
             var itemFactory = new ItemFactory{Blueprints = Compiler.Instance.Deserializer.Deserialize<List<ItemBlueprint>>(yaml)};
-            var createdInstance = itemFactory.Blueprints.Single().Require.Single();
+            var createdInstance = itemFactory.Create(new World(), itemFactory.Blueprints.Single());
 
-            Assert.AreEqual(condition == "return true", createdInstance.IsMet(new World(),Mock.Of<IActor>()));
+            Assert.AreEqual(condition == "return true", createdInstance.Require.Single().IsMet(new World(),Mock.Of<IActor>()));
 
         }
     }
