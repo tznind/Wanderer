@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Wanderer.Factories.Blueprints.ActionBlueprint" Collapsed="true">
+    <Position X="0.5" Y="2.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAgAAAAAAAAAAAAAAgAAAEAAAQAABAAAAAA=</HashCode>
+      <FileName>Factories\Blueprints\ActionBlueprint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wanderer.Factories.Blueprints.ActorBlueprint" Collapsed="true">
+    <Position X="5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAAAAEAAAgAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Factories\Blueprints\ActorBlueprint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wanderer.Factories.Blueprints.AdjectiveBlueprint" Collapsed="true">
+    <Position X="7.25" Y="2.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAAAAAEAAAAAAQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Factories\Blueprints\AdjectiveBlueprint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wanderer.Factories.Blueprints.BehaviourBlueprint" Collapsed="true">
+    <Position X="5.75" Y="3.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAIAAEAACAAA=</HashCode>
+      <FileName>Factories\Blueprints\BehaviourBlueprint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wanderer.Factories.Blueprints.ConditionBlueprint">
+    <Position X="13" Y="4" Width="2" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Factories\Blueprints\ConditionBlueprint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wanderer.Factories.Blueprints.FrameSourceBlueprint">
+    <Position X="13" Y="7" Width="2" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Factories\Blueprints\FrameSourceBlueprint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wanderer.Factories.Blueprints.HasStatsBlueprint" Collapsed="true">
+    <Position X="6" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAYAAAEgAEAAiAACQAoAQAAAACQAAAwAAAAAA=</HashCode>
+      <FileName>Factories\Blueprints\HasStatsBlueprint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wanderer.Factories.Blueprints.InjuryBlueprint" Collapsed="true">
+    <Position X="14.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAAAAAAAAAAAAQAAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>Factories\Blueprints\InjuryBlueprint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wanderer.Factories.Blueprints.ItemBlueprint">
+    <Position X="2.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAABAAAAAAAgA=</HashCode>
+      <FileName>Factories\Blueprints\ItemBlueprint.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Require" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Wanderer.Factories.Blueprints.PlanBlueprint">
+    <Position X="9" Y="5.5" Width="1.5" />
+    <AssociationLine Name="Condition" Type="Wanderer.Factories.Blueprints.ConditionBlueprint" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="10.5" Y="6.244" />
+        <Point X="13.875" Y="6.244" />
+        <Point X="13.875" Y="5.555" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAAAAAQACCAAAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>Factories\Blueprints\PlanBlueprint.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Do" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Condition" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Wanderer.Factories.Blueprints.RoomBlueprint" Collapsed="true">
+    <Position X="9.75" Y="2.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEQAAAAKCAAgAAAoAAAAAAAAAAAgAAAIQA=</HashCode>
+      <FileName>Factories\Blueprints\RoomBlueprint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

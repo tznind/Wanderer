@@ -5,7 +5,7 @@ namespace Wanderer.Factories.Blueprints
 {
     public class FrameSourceBlueprint
     {
-        string Lua {get;set;}
+        public string Lua {get;set;}
 
         internal IFrameSource Create()
         {
