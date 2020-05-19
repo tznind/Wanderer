@@ -31,7 +31,7 @@
   <Class Name="Wanderer.Factories.Blueprints.ConditionBlueprint">
     <Position X="13" Y="4" Width="2" />
     <TypeIdentifier>
-      <HashCode>gAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <HashCode>gAAAAAAAAAACAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
       <FileName>Factories\Blueprints\ConditionBlueprint.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -72,7 +72,7 @@
       <Path>
         <Point X="10.5" Y="6.244" />
         <Point X="13.875" Y="6.244" />
-        <Point X="13.875" Y="5.555" />
+        <Point X="13.875" Y="5.747" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>

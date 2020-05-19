@@ -1,7 +1,8 @@
 - Name: Eat if hungry
   Condition:
-    - Lua: return Recipient:Has('89c18233-5250-4445-8799-faa9a888fb7f')
-    - Lua: return Recipient:Has('Eat')
+    # Has Food and can perform Eat Action
+    - Has: 89c18233-5250-4445-8799-faa9a888fb7f
+    - Has: Eat
 
   Do: 
     Lua: |
