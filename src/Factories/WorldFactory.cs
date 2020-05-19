@@ -309,7 +309,11 @@ namespace Wanderer.Factories
             {
                 try
                 {
-                    planning.Plans.AddRange(Compiler.Instance.Deserializer.Deserialize<Plan[]>(defaultPlan.Content));
+                    var blueprints = Compiler.Instance.Deserializer.Deserialize<PlanBlueprint[]>(defaultPlan.Content);
+                    var planFactory = new PlanFactory();
+
+                    foreach(var blue in blueprints)
+                        planning.Plans.Add(planFactory.Create(blue));
                     
                 }
                 catch (Exception e)
