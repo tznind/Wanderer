@@ -686,7 +686,15 @@
           "type": [
             "null",
             "string"
-          ]
+          ],
+          "description": "Lua code that returns true or false"
+        },
+        "Has": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Pass a Guid or Name of something they might have, if they have it then the condition is met"
         }
       }
     }
