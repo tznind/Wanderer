@@ -191,12 +191,15 @@ namespace Tests.Systems
     - Text: This room is
     - Text: Pitch Black
       Condition: 
-        - return Room:Has('Light') == false
+        - Lua: return Room:Has('Light') == false
     - Text: Dimly Illuminated
       Condition: 
-        - return Room:Has('Light')";
+        - Lua: return Room:Has('Light')";
 
-            var system = new DialogueSystem{AllDialogues = Compiler.Instance.Deserializer.Deserialize<List<DialogueNode>>(yaml)};
+            var nodes = Compiler.Instance.Deserializer.Deserialize<List<DialogueNodeBlueprint>>(yaml);
+            var factory = new DialogueNodeFactory();
+
+            var system = new DialogueSystem{AllDialogues = nodes.Select(factory.Create).ToList()};
             Assert.IsNotNull(system);
 
             var ui = GetUI();

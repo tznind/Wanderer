@@ -213,7 +213,7 @@ Next we need to create the item.  We will make it SingleUse and give it a custom
          Fight: 30
       Effect:
         #Injury everyone in the room
-        - World:GetSystem('7ccafc68-d51f-4408-861c-f1d7e4e6351a'):ApplyToAll(Room.Actors,SystemArgs(World,UserInterface,20,AggressorIfAny,null,Round))
+        - Lua: World:GetSystem('7ccafc68-d51f-4408-861c-f1d7e4e6351a'):ApplyToAll(Room.Actors,SystemArgs(World,UserInterface,20,AggressorIfAny,null,Round))
 ```
 <sup>./items.yaml</sup>
 
@@ -221,7 +221,7 @@ Getting hit by a stray grenade blast should probably make other NPCs angry.  Add
 
 ```yaml
         #And make them all angry at you
-        - World.Relationships:ApplyToAll(Room.Actors,SystemArgs(World,UserInterface,-10,AggressorIfAny,null,Round))
+        - Lua: World.Relationships:ApplyToAll(Room.Actors,SystemArgs(World,UserInterface,-10,AggressorIfAny,null,Round))
 ```
 <sup>./items.yaml</sup>
 
@@ -252,7 +252,7 @@ This lets you call it from any item with any amount of damage with a single Effe
       Stats: 
          Fight: 30
       Effect:
-        - SplashDamage(Action.InjurySystem,20,true)
+        - Lua: SplashDamage(Action.InjurySystem,20,true)
 ```
 <sup>./items.yaml</sup>
 
@@ -330,7 +330,7 @@ Each [DialogueNode] is made up of 1 or more blocks of text.  You can apply condi
    - Text: Greetings berk
    - Text: that's a nasty looking cut you got there
      Condition: 
-       - return AggressorIfAny:Has('Injured')
+       - Has: Injured
 ```
 <sup>./dialogue.yaml</sup>
 
@@ -346,11 +346,11 @@ Say we want to run the room dialogue as soon as the player enters the room.  Her
   Identifier: 5ae55edf-36d0-4878-bbfd-dbbb23d42b88
   OnEnter: 
    Condition: 
-     - return AggressorIfAny == World.Player
-     - return Room == Behaviour.Owner
-     - return Room.Dialogue.Next ~= nil
+     - Lua: AggressorIfAny == World.Player
+     - Lua: Room == Behaviour.Owner
+     - Lua: Room.Dialogue.Next ~= nil
    Effect: 
-     - World.Dialogue:Apply(SystemArgs(World,UserInterface,0,AggressorIfAny,Room,Round))
+     - Lua: World.Dialogue:Apply(SystemArgs(World,UserInterface,0,AggressorIfAny,Room,Round))
 ```
 <sup>./behaviours.yaml</sup>
 

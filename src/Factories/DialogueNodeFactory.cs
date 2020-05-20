@@ -30,7 +30,7 @@ namespace Wanderer.Factories
 
         }
 
-        private TextBlock Create(TextBlockBlueprint blueprint)
+        public TextBlock Create(TextBlockBlueprint blueprint)
         {
             var body = new TextBlock
             {

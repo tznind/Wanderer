@@ -16,7 +16,7 @@ namespace Tests.Cookbook
    - Text: Greetings berk
    - Text: that's a nasty looking cut you got there
      Condition: 
-       - return AggressorIfAny:Has('Injured')
+       - Has: Injured
 ";
 
         [Test]

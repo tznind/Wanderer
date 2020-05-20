@@ -8,6 +8,7 @@ using Wanderer.Actions;
 using Wanderer.Actors;
 using Wanderer.Adjectives;
 using Wanderer.Compilation;
+using Wanderer.Factories.Blueprints;
 using Wanderer.Items;
 using Wanderer.Plans;
 using Wanderer.Systems;
@@ -77,11 +78,12 @@ namespace Tests.Plans
             string yaml = @"
 - Name: Eat if hungry
   Condition:
-    - return true
-  Do: return nil
+    - Lua: true
+  Do: 
+    Lua: return nil
   ";
 
-            var plans = Compiler.Instance.Deserializer.Deserialize<Plan[]>(yaml);
+            var plans = Compiler.Instance.Deserializer.Deserialize<PlanBlueprint[]>(yaml);
 
             Assert.AreEqual(1,plans.Length);
             Assert.AreEqual("Eat if hungry",plans[0].Name);

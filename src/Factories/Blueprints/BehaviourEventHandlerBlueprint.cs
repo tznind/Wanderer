@@ -15,8 +15,10 @@ namespace Wanderer.Factories.Blueprints
         {
             var handler = new BehaviourEventHandler();
             
-            handler.Condition.AddRange(Condition.SelectMany(c=>c.Create<SystemArgs>()));
-            handler.Effect.AddRange(Effect.SelectMany(e=>e.Create()));
+            if(Condition != null)
+                handler.Condition.AddRange(Condition.SelectMany(c=>c.Create<SystemArgs>()));
+            if(Effect != null)
+                handler.Effect.AddRange(Effect.SelectMany(e=>e.Create()));
 
             return handler;
         }

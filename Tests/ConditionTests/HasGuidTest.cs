@@ -5,6 +5,8 @@ using Wanderer;
 using Wanderer.Actors;
 using Wanderer.Compilation;
 using Wanderer.Dialogues;
+using Wanderer.Factories;
+using Wanderer.Factories.Blueprints;
 using Wanderer.Relationships;
 using Wanderer.Systems;
 
@@ -20,10 +22,12 @@ namespace Tests.ConditionTests
             string yaml = @$"
 Text: You have a jolly glo globe.
 Condition:
-  - return AggressorIfAny.CurrentLocation:Has(Guid('6fa349e4-aefe-4ebc-9922-e3476ea1dba7')) {(useNot?" == false":"")}";
+  - Lua: return AggressorIfAny.CurrentLocation:Has(Guid('6fa349e4-aefe-4ebc-9922-e3476ea1dba7')) {(useNot?" == false":"")}";
 
-            var block = Compiler.Instance.Deserializer.Deserialize<TextBlock>(yaml);
+            var blockBlueprint = Compiler.Instance.Deserializer.Deserialize<TextBlockBlueprint>(yaml);
 
+            var f = new DialogueNodeFactory();
+            var block = f.Create(blockBlueprint);
 
             var you = YouInARoom(out IWorld world);
 

@@ -8,6 +8,8 @@ using Wanderer;
 using Wanderer.Actors;
 using Wanderer.Compilation;
 using Wanderer.Dialogues;
+using Wanderer.Factories;
+using Wanderer.Factories.Blueprints;
 using Wanderer.Stats;
 using Wanderer.Systems;
 
@@ -27,9 +29,11 @@ Body:
 Options:   
     - Text: Yes Please!
       Effect: 
-        - AggressorIfAny.BaseStats:Increase(Fight , 20)
+        - Lua: AggressorIfAny.BaseStats:Increase(Fight , 20)
 ";
-            var n = Compiler.Instance.Deserializer.Deserialize<DialogueNode>(yaml);
+            var blue = Compiler.Instance.Deserializer.Deserialize<DialogueNodeBlueprint>(yaml);
+            var factory = new DialogueNodeFactory();
+            var n = factory.Create(blue);
 
             var d = new DialogueSystem();
             d.AllDialogues.Add(n);
@@ -59,9 +63,11 @@ Body:
 Options:   
     - Text: Hey yourself
       Effect: 
-        - Recipient.Dialogue.Next = {(setNull ? "null": $"Guid('{Guid.NewGuid()}')")}
+        - Lua: Recipient.Dialogue.Next = {(setNull ? "null": $"Guid('{Guid.NewGuid()}')")}
 ";
-            var n = Compiler.Instance.Deserializer.Deserialize<DialogueNode>(yaml);
+            var blue = Compiler.Instance.Deserializer.Deserialize<DialogueNodeBlueprint>(yaml);
+            var factory = new DialogueNodeFactory();
+            var n = factory.Create(blue);
 
             var d = new DialogueSystem();
             d.AllDialogues.Add(n);

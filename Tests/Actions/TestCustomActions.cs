@@ -18,7 +18,7 @@ namespace Tests.Actions
             var blue = new ActionBlueprint()
             {
                 Name = "Drink",
-                Effect = new List<EffectBlueprint>(new[] {new EffectBlueprint{Lua = "Recipient:Kill(UserInterface,Round,'Poison'"}})
+                Effect = new List<EffectBlueprint>(new[] {new EffectBlueprint{Lua = "Recipient:Kill(UserInterface,Round,'Poison')"}})
             };
 
             var you = YouInARoom(out IWorld world);

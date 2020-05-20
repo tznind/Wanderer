@@ -11,12 +11,12 @@ namespace Tests.Cookbook
   Identifier: 5ae55edf-36d0-4878-bbfd-dbbb23d42b88
   OnEnter: 
    Condition: 
-     - return AggressorIfAny == World.Player
-     - return Room == Behaviour.Owner
-     - return Room.Dialogue.Next ~= nil
+     - Lua: AggressorIfAny == World.Player
+     - Lua: Room == Behaviour.Owner
+     - Lua: Room.Dialogue.Next ~= nil
    Effect: 
-     - World.Dialogue:Apply(SystemArgs(World,UserInterface,0,AggressorIfAny,Room,Round))
-     - Room.Dialogue.Next = null
+     - Lua: World.Dialogue:Apply(SystemArgs(World,UserInterface,0,AggressorIfAny,Room,Round))
+     - Lua: Room.Dialogue.Next = null
 ";
 
         string room =

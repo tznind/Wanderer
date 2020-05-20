@@ -622,7 +622,7 @@
               "type": "null"
             },
             {
-              "$ref": "#/definitions/BehaviourEventHandler"
+              "$ref": "#/definitions/BehaviourEventHandlerBlueprint"
             }
           ]
         },
@@ -632,7 +632,7 @@
               "type": "null"
             },
             {
-              "$ref": "#/definitions/BehaviourEventHandler"
+              "$ref": "#/definitions/BehaviourEventHandlerBlueprint"
             }
           ]
         },
@@ -642,7 +642,7 @@
               "type": "null"
             },
             {
-              "$ref": "#/definitions/BehaviourEventHandler"
+              "$ref": "#/definitions/BehaviourEventHandlerBlueprint"
             }
           ]
         },
@@ -652,13 +652,13 @@
               "type": "null"
             },
             {
-              "$ref": "#/definitions/BehaviourEventHandler"
+              "$ref": "#/definitions/BehaviourEventHandlerBlueprint"
             }
           ]
         }
       }
     },
-    "BehaviourEventHandler": {
+    "BehaviourEventHandlerBlueprint": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -668,7 +668,7 @@
             "null"
           ],
           "items": {
-            "$ref": "#/definitions/IConditionOfSystemArgs"
+            "$ref": "#/definitions/ConditionBlueprint"
           }
         },
         "Effect": {
@@ -677,25 +677,30 @@
             "null"
           ],
           "items": {
-            "$ref": "#/definitions/IEffect"
+            "$ref": "#/definitions/EffectBlueprint"
           }
         }
       }
     },
-    "IConditionOfSystemArgs": {
+    "ConditionBlueprint": {
       "type": "object",
-      "x-abstract": true,
-      "additionalProperties": false
-    },
-    "IEffect": {
-      "type": "object",
-      "x-abstract": true,
-      "additionalProperties": false
-    },
-    "IActionTarget": {
-      "type": "object",
-      "x-abstract": true,
-      "additionalProperties": false
+      "additionalProperties": false,
+      "properties": {
+        "Lua": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Lua code that returns true or false"
+        },
+        "Has": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Pass a Guid or Name of something they might have, if they have it then the condition is met"
+        }
+      }
     },
     "EffectBlueprint": {
       "type": "object",
@@ -708,6 +713,11 @@
           ]
         }
       }
+    },
+    "IActionTarget": {
+      "type": "object",
+      "x-abstract": true,
+      "additionalProperties": false
     },
     "ActorBlueprint": {
       "type": "object",
@@ -1094,26 +1104,6 @@
         9,
         10
       ]
-    },
-    "ConditionBlueprint": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "Lua": {
-          "type": [
-            "null",
-            "string"
-          ],
-          "description": "Lua code that returns true or false"
-        },
-        "Has": {
-          "type": [
-            "null",
-            "string"
-          ],
-          "description": "Pass a Guid or Name of something they might have, if they have it then the condition is met"
-        }
-      }
     },
     "Direction": {
       "type": "integer",
