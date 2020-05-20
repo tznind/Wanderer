@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Wanderer.Dialogues;
 using Wanderer.Factories.Blueprints;
@@ -12,9 +13,11 @@ namespace Wanderer.Factories
         {
             var node = new DialogueNode
             {
-                Body = blueprint.Body,
                 Identifier = blueprint.Identifier
             };
+
+
+            node.Body = blueprint.Body.Select(Create).ToList();
 
             node.Condition.AddRange(blueprint.Condition.SelectMany(c=>c.Create<SystemArgs>()));
 
@@ -25,6 +28,17 @@ namespace Wanderer.Factories
 
             return node;
 
+        }
+
+        private TextBlock Create(TextBlockBlueprint blueprint)
+        {
+            var body = new TextBlock
+            {
+                Text = blueprint.Text
+            };
+
+            body.Condition.AddRange(blueprint.Condition.SelectMany(b=>b.Create<SystemArgs>()));
+            return body;
         }
 
         public DialogueOption Create(DialogueOptionBlueprint blueprint)

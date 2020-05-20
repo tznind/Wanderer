@@ -10,6 +10,8 @@ using Wanderer.Adjectives;
 using Wanderer.Behaviours;
 using Wanderer.Compilation;
 using Wanderer.Dialogues;
+using Wanderer.Factories;
+using Wanderer.Factories.Blueprints;
 using Wanderer.Relationships;
 using Wanderer.Stats;
 using Wanderer.Systems;
@@ -159,15 +161,17 @@ namespace Tests.Systems
   Body: 
     - Text: Screeeee (this creature seems friendly)
       Condition: 
-        - return Recipient:AttitudeTo(AggressorIfAny) > 0
+        - Lua: return Recipient:AttitudeTo(AggressorIfAny) > 0
     - Text: Screeeee (this creature seems hostile)
       Condition: 
-        - return Recipient:AttitudeTo(AggressorIfAny)  < 0
+        - Lua: return Recipient:AttitudeTo(AggressorIfAny)  < 0
     - Text: Screeeee (this creature seems indifferent)
       Condition: 
-        - return Recipient:AttitudeTo(AggressorIfAny) == 0";
+        - Lua: return Recipient:AttitudeTo(AggressorIfAny) == 0";
             
-            var dlg = new DialogueSystem{AllDialogues = Compiler.Instance.Deserializer.Deserialize<List<DialogueNode>>(yaml)};
+            var blueprints = Compiler.Instance.Deserializer.Deserialize<List<DialogueNodeBlueprint>>(yaml);
+            var dialogueFactory = new DialogueNodeFactory();
+            var dlg = new DialogueSystem{AllDialogues = blueprints.Select(b=>dialogueFactory.Create(b)).ToList()};
 
             var ui = GetUI();
             dlg.Apply(new SystemArgs(world,ui,0,you,them,Guid.Empty));
@@ -223,12 +227,15 @@ namespace Tests.Systems
     - Text: The denizens of this degenerate bar 
     - Text: make you nervous
       Condition: 
-        - return AggressorIfAny:GetFinalStats()[Corruption] <= 5
+        - Lua: return AggressorIfAny:GetFinalStats()[Corruption] <= 5
     - Text: seem like your kind of people
       Condition: 
-        - return AggressorIfAny:GetFinalStats()[Corruption] > 5";
+        - Lua: return AggressorIfAny:GetFinalStats()[Corruption] > 5";
 
-            var system = new DialogueSystem{AllDialogues = Compiler.Instance.Deserializer.Deserialize<List<DialogueNode>>(yaml)};
+            var blueprints = Compiler.Instance.Deserializer.Deserialize<List<DialogueNodeBlueprint>>(yaml);
+            var f = new DialogueNodeFactory();
+
+            var system = new DialogueSystem{AllDialogues = blueprints.Select(b=>f.Create(b)).ToList()};
             Assert.IsNotNull(system);
 
             var ui = GetUI();
