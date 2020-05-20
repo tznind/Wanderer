@@ -33,6 +33,6 @@ namespace Wanderer.Factories.Blueprints
         /// <summary>
         /// What happens when the action is performed.
         /// </summary>
-        public List<IEffect> Effect { get; set; } = new List<IEffect>();
+        public List<EffectBlueprint> Effect { get; set; } = new List<EffectBlueprint>();
     }
 }

@@ -316,9 +316,9 @@ namespace Tests
                     {
                         new BehaviourBlueprint()
                         {
-                            OnPush = new BehaviourEventHandler()
+                            OnPush = new BehaviourEventHandlerBlueprint()
                             {
-                                Effect = new List<IEffect>{new EffectCode("aa + bb + cc")}
+                                Effect = new List<EffectBlueprint>{new EffectBlueprint{Lua = "aa + bb + cc"}}
                             }
                         }
                     }

@@ -416,7 +416,7 @@
           ],
           "description": "What happens when the action is performed.",
           "items": {
-            "type": "string"
+            "$ref": "#/definitions/EffectBlueprint"
           }
         }
       }
@@ -601,7 +601,7 @@
             "null"
           ],
           "items": {
-            "type": "string"
+            "$ref": "#/definitions/IConditionOfSystemArgs"
           }
         },
         "Effect": {
@@ -610,15 +610,37 @@
             "null"
           ],
           "items": {
-            "type": "string"
+            "$ref": "#/definitions/IEffect"
           }
         }
       }
+    },
+    "IConditionOfSystemArgs": {
+      "type": "object",
+      "x-abstract": true,
+      "additionalProperties": false
+    },
+    "IEffect": {
+      "type": "object",
+      "x-abstract": true,
+      "additionalProperties": false
     },
     "IActionTarget": {
       "type": "object",
       "x-abstract": true,
       "additionalProperties": false
+    },
+    "EffectBlueprint": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Lua": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
     },
     "Resistances": {
       "type": "object",
