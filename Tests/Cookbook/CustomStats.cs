@@ -18,7 +18,7 @@ namespace Tests.Cookbook
   MandatoryItems:
     - Name: Helmet of Madness
       Require:
-        - Lua: BaseStats[Seduction] <= 0
+        - Stat: Seduction <= 0
       Stats:
         Sanity: -500
 ";

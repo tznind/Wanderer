@@ -11,10 +11,12 @@ namespace Wanderer.Compilation
         {
             {"==", (a,b) => Math.Abs(a - b) <= 0.000001},
             {"!=", (a,b) => Math.Abs(a - b) >= 0.000001},
-            {"=", (a,b) => Math.Abs(a - b) <= 0.000001},
 
             {">=", (a,b) => a >= b},
             {"<=", (a,b) => a <= b},
+            
+            {"=", (a,b) => Math.Abs(a - b) <= 0.000001},
+
             {">", (a,b) => a < b},
             {"<", (a,b) => a > b},
 

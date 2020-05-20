@@ -56,7 +56,7 @@ Stats can immediately be used e.g. on rooms, items etc:
   MandatoryItems:
     - Name: Helmet of Madness
       Require:
-        - Lua: BaseStats[Seduction] <= 0
+        - Stat: Seduction <= 0
       Stats:
         Sanity: -500
 ```
