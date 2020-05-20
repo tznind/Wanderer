@@ -425,7 +425,11 @@ namespace Wanderer.Factories
         {
                 try
                 {
-                    return Compiler.Instance.Deserializer.Deserialize<DialogueNode[]>(fi.Content);
+                    var factory = new DialogueNodeFactory();
+
+                    var blueprints = Compiler.Instance.Deserializer.Deserialize<DialogueNodeBlueprint[]>(fi.Content);
+
+                    return blueprints.Select(b=>factory.Create(b));
                 }
                 catch (Exception e)
                 {

@@ -4,6 +4,7 @@ using Wanderer.Systems;
 
 namespace Wanderer.Factories
 {
+
     public class PlanFactory
     {
         public Plan Create(PlanBlueprint blueprint)
