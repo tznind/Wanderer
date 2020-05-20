@@ -20,6 +20,11 @@ namespace Wanderer.Factories.Blueprints
         /// Pass a Guid or Name of something.  As long as they don't have it this condition is true
         /// </summary>
         public string HasNot {get;set;}
+
+        /// <summary>
+        /// Arithmetic expression for a required stat they must have e.g. "Fight > 50"
+        /// </summary>
+        public string Stat {get;set;}
         
         public IEnumerable<ICondition<T>> Create<T>()
         {
@@ -29,14 +34,14 @@ namespace Wanderer.Factories.Blueprints
             if (!string.IsNullOrWhiteSpace(Has))
                 yield return new HasCondition<T>(Has);
 
-
             if (!string.IsNullOrWhiteSpace(HasNot))
                 yield return new HasCondition<T>(HasNot)
                 {
                     InvertLogic = true
                 };
 
-            //TODO: build other conditions here
+            if(!string.IsNullOrWhiteSpace(Stat))
+                yield return new StatCondition<T>(Stat);
         }
     }
 }

@@ -635,6 +635,20 @@
             "string"
           ],
           "description": "Pass a Guid or Name of something they might have, if they have it then the condition is met"
+        },
+        "HasNot": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Pass a Guid or Name of something.  As long as they don't have it this condition is true"
+        },
+        "Stat": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Arithmetic expression for a required stat they must have e.g. \"Fight &gt; 50\""
         }
       }
     },
