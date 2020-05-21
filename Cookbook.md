@@ -46,28 +46,6 @@ Stats can immediately be used e.g. on rooms, items etc:
 ```
 <sup>./rooms.yaml</sup>
 
-In C# code there are a number of default static stats e.g. `Stat.Fight`.  But for a full collection including custom stats use `IWorld.AllStats`.
-
-The [Stat] class considers equality only on `Name`.  
-
-```csharp
-Assert.AreEqual(new Stat("Trouble"),new Stat("Trouble"));
-```
-
-The [StatsCollection] class dynamically defines stats as you ask for them (in the below example Dangerous and Wild are completely new stats never before seen and not even declared in stats.yaml) e.g.
-
-```csharp
-  // Create a new collection where all stats are 0
-  var collection = new StatsCollection(0);
-  Assert.AreEqual(0,collection[new Stat("Dangerous")]);
-
-  // Invent a new stat and set it to 10
-  collection[new Stat("Wild")] = 10;           
-  Assert.AreEqual(10,collection[new Stat("Wild")]);
-```
-
-**NOTE: You should always ensure that `World.AllStats` has all the stats that your game uses to ensure that script blocks operate correctly etc.  The easiest way to do that is to set them in `stats.yaml`**
-
 ## Room Recipes
 
 ### Starting room
@@ -385,7 +363,7 @@ However for some advanced use cases you might need to write a [Lua] script inste
 
 ```yaml
 Require:
- - Lua: this.BaseStats[Fight] > 20 && this:Has('Sword')
+ - Lua: AggressorIfAny.BaseStats[Fight] > 20 && AggressorIfAny:Has('Sword')
 ```
 
 When using Lua for a `Condition`, the script expression must evaluate to true or false.
@@ -394,7 +372,7 @@ In scripts the following global variables are available:
 
 | Variable        | Description |
 | ------------- |-------------|
-| [this]      |  Input parameter for the condition / effect.  E.g. for dialogue this is a [SystemArgs] describing who is talking to who|
+| [this]      |  Input parameter of Type [SystemArgs] for the condition / effect.  E.g. for dialogue this describes who is talking to who|
 | [World]      |  root variable for the game world |
 | AggressorIfAny ([Actor]) |  The player or Npc that is triggering the action/event.  This can be null for actions/events that are not instigated by an [Actor]|
 | Recipient | [Actor], [Room], [Item] etc which is the target of the action/event (e.g. for Dialogue this would be the person being talked too)|
