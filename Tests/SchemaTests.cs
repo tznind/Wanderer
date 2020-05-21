@@ -85,7 +85,7 @@ namespace Tests
         [Test]
         public void PlanBlueprintSchema()
         {
-            CheckSchema<PlanBlueprint>("plans.schema.json");
+            CheckSchema<List<PlanBlueprint>>("plans.schema.json");
         }
 
         private void CheckSchema<T>(string filename)

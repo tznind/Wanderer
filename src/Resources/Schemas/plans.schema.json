@@ -1,53 +1,59 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "PlanBlueprint",
-  "type": "object",
-  "description": "Describes how to create instances of Plan (AI routine to undertake a given IAction under a given set of Condition)",
-  "additionalProperties": false,
-  "properties": {
-    "Name": {
-      "type": [
-        "null",
-        "string"
-      ],
-      "description": "Human readable description of the plan"
-    },
-    "Identifier": {
-      "type": [
-        "null",
-        "string"
-      ],
-      "description": "Unique identifier for the plan for referencing in scripts",
-      "format": "guid"
-    },
-    "Condition": {
-      "type": [
-        "array",
-        "null"
-      ],
-      "description": "Conditions which all must be met for the Plan to be considered viable",
-      "items": {
-        "$ref": "#/definitions/ConditionBlueprint"
-      }
-    },
-    "Do": {
-      "description": "Describes the action and targets that should be picked in order to carry out the Plan",
-      "oneOf": [
-        {
-          "type": "null"
-        },
-        {
-          "$ref": "#/definitions/FrameSourceBlueprint"
-        }
-      ]
-    },
-    "Weight": {
-      "type": "number",
-      "description": "How popular the plan is relative to other plans",
-      "format": "double"
-    }
+  "title": "ListOfPlanBlueprint",
+  "type": "array",
+  "items": {
+    "$ref": "#/definitions/PlanBlueprint"
   },
   "definitions": {
+    "PlanBlueprint": {
+      "type": "object",
+      "description": "Describes how to create instances of Plan (AI routine to undertake a given IAction under a given set of Condition)",
+      "additionalProperties": false,
+      "properties": {
+        "Name": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Human readable description of the plan"
+        },
+        "Identifier": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Unique identifier for the plan for referencing in scripts",
+          "format": "guid"
+        },
+        "Condition": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "Conditions which all must be met for the Plan to be considered viable",
+          "items": {
+            "$ref": "#/definitions/ConditionBlueprint"
+          }
+        },
+        "Do": {
+          "description": "Describes the action and targets that should be picked in order to carry out the Plan",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/FrameSourceBlueprint"
+            }
+          ]
+        },
+        "Weight": {
+          "type": "number",
+          "description": "How popular the plan is relative to other plans",
+          "format": "double"
+        }
+      }
+    },
     "ConditionBlueprint": {
       "type": "object",
       "description": "Blueprint that describes how to build one or more ICondition",
