@@ -4,7 +4,6 @@ This page contains simple recipes for common level building tasks.  To test a re
 
 ## Contents
 
-- [Foreword: Script Blocks](#foreword-script-blocks)
 - [Custom Stats](#custom-stats)
 - [Room Recipes](#room-recipes)
   - [Starting room](#starting-room)
@@ -17,23 +16,8 @@ This page contains simple recipes for common level building tasks.  To test a re
 - [Dialogue Recipes](#dialogue-recipes)
   - [OnEnter room dialogue](#onenter-room-dialogue)
   - [Remark about injury](#remark-about-injury)
+- [Script Blocks](#script-blocks)
 
-## Foreword Script Blocks
-
-In several recipes there are scripting sections.  These are written in [Lua] (everything else is in [yaml]).  There are 2 kinds of script blocks, `Condition` and `Effect`.  These blocks support multiple statements using the hyphen notation.  `Condition` should start with the lua keyword `return` followed code that evaluates to true or false.  `Effect` blocks do not return anything but instead trigger things to happen in the world (run dialogue, spawn items etc).
-
-In scripts the following global variables are available:
-
-| Variable        | Description |
-| ------------- |-------------|
-| [World]      |  root variable for the game world |
-| AggressorIfAny ([Actor]) |  The player or Npc that is triggering the action/event.  This can be null for actions/events that are not instigated by an [Actor]|
-| Recipient | [Actor], [Room], [Item] etc which is the target of the action/event (e.g. for Dialogue this would be the person being talked too)|
-| [Room] | Where the action/event is tacking place (Can be null for some events e.g. RoundEnding) |
-| [UserInterface] | root variable for the graphical user interface (required argument for many methods) |
-| Round | Unique identifier for the current round (required argument for many methods) |
-| [Action] | Only aplies to action related events e.g. OnPush, references the action being performed |
-| [Behaviour] | Only applies to behaviour events (OnPush, OnRoundEnding etc).  References the behaviour object (which will be attached to a specific Owner) |
 
 ## Custom Stats
 
@@ -360,7 +344,7 @@ To use the new behaviour on a Room we just have to reference it (and set up suit
 
 ```yaml
 - Name: Dank Cellar
-  Behaviours:
+    Behaviours:
     - Ref: 5ae55edf-36d0-4878-bbfd-dbbb23d42b88
   Dialogue:
     Next: 6da41741-dada-4a52-85d5-a019cd9d38f7
@@ -388,6 +372,38 @@ If we want to only apply the behaviour the first time the Player enters the room
 <sup>./behaviours.yaml</sup>
 
 
+## Script Blocks
+
+Most [Conditions] and [Effects] can be expressed using yaml alone e.g.
+
+```yaml
+Require:
+ - Stat: Fight > 20
+   Has: Sword
+```
+However for some advanced use cases you might need to write a [Lua] script instead:
+
+```yaml
+Require:
+ - Lua: this.BaseStats[Fight] > 20 && this:Has('Sword')
+```
+
+When using Lua for a `Condition`, the script expression must evaluate to true or false.
+
+In scripts the following global variables are available:
+
+| Variable        | Description |
+| ------------- |-------------|
+| [this]      |  Input parameter for the condition / effect.  E.g. for dialogue this is a [SystemArgs] describing who is talking to who|
+| [World]      |  root variable for the game world |
+| AggressorIfAny ([Actor]) |  The player or Npc that is triggering the action/event.  This can be null for actions/events that are not instigated by an [Actor]|
+| Recipient | [Actor], [Room], [Item] etc which is the target of the action/event (e.g. for Dialogue this would be the person being talked too)|
+| [Room] | Where the action/event is tacking place (Can be null for some events e.g. RoundEnding) |
+| [UserInterface] | root variable for the graphical user interface (required argument for many methods) |
+| Round | Unique identifier for the current round (required argument for many methods) |
+| [Action] | Only aplies to action related events e.g. OnPush, references the action being performed |
+| [Behaviour] | Only applies to behaviour events (OnPush, OnRoundEnding etc).  References the behaviour object (which will be attached to a specific Owner) |
+
 [InjurySystem]: ./src/Systems/InjurySystem.cs
 [RelationshipSystem]: ./src/Systems/RelationshipSystem.cs
 [DialogueNode]: ./src/Dialogues/DialogueNode.cs
@@ -404,3 +420,6 @@ If we want to only apply the behaviour the first time the Player enters the room
 [yaml]: https://yaml.org/
 [Stat]: ./src/Stats/Stat.cs
 [StatsCollection]: ./src/Stats/StatsCollection.cs
+[Conditions]: ./src/Compilation/ICondition.cs
+[Effects]: ./src/Compilation/IEffect.cs
+[SystemArgs]: ./src/Systems/SystemArgs.cs

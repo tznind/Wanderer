@@ -20,7 +20,7 @@ namespace Wanderer.Compilation
 
         protected override bool IsMetImpl(IWorld world, IHasStats o)
         {
-            return Expression.Calculate((s)=>o.BaseStats[s]);
+            return Expression.Calculate((s)=>o.BaseStats[world.AllStats.Get(s)]);
         }
     }
 }
