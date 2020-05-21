@@ -28,9 +28,6 @@ namespace Wanderer.Compilation
         public TypeCollectionFactory TypeFactory { get; set; } = new TypeCollectionFactory(typeof(Compiler).Assembly);
         public IDeserializer Deserializer =>
             new DeserializerBuilder()
-                .WithTypeConverter(new YamlTypeConverter<ICondition>())
-                .WithTypeConverter(new YamlTypeConverter<IEffect>())
-                .WithTypeConverter(new YamlTypeConverter<IFrameSource>())
                 .WithTypeConverter(new YamlTypeConverter<Stat>())
                 .Build();
 

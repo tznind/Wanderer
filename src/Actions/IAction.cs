@@ -64,13 +64,7 @@ namespace Wanderer.Actions
         /// <param name="performer"></param>
         /// <returns></returns>
         IEnumerable<IHasStats> GetTargets(IActor performer);
-
-        /// <summary>
-        /// Creates a new copy of this action
-        /// </summary>
-        /// <returns></returns>
-        IAction Clone();
-
+        
         /// <summary>
         /// Returns the shared user understandable common description of all instances
         /// of this action.  E.g. each FightAction is separate but they share the same

@@ -12,7 +12,14 @@ namespace Wanderer
     /// </summary>
     public class ActionStack : Stack<Frame>
     {
+        /// <summary>
+        /// The round that is being run
+        /// </summary>
         public Guid Round { get; }= Guid.NewGuid();
+
+        /// <summary>
+        /// All behaviours that can respond to events taking place during the round
+        /// </summary>
         public IBehaviour[] Behaviours { get; private set; } = new IBehaviour[0];
 
         /// <summary>

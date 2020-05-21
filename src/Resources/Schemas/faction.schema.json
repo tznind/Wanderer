@@ -340,19 +340,27 @@
     },
     "InjuryBlueprint": {
       "type": "object",
+      "description": "Describes an injury that can be sustained.  This blueprint can be manifested as Injured adjective instances",
       "additionalProperties": false,
       "properties": {
         "Region": {
-          "$ref": "#/definitions/InjuryRegion"
+          "description": "The body part that the injury applies to or None (default)",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/InjuryRegion"
+            }
+          ]
         },
         "Name": {
           "type": [
             "null",
             "string"
-          ]
+          ],
+          "description": "Player understandable description of the injury e.g. Burnt Arm"
         },
         "Severity": {
           "type": "number",
+          "description": "How severe the injury is, relates to FatalThreshold etc",
           "format": "double"
         }
       }
@@ -449,7 +457,7 @@
             "null"
           ],
           "items": {
-            "type": "string"
+            "$ref": "#/definitions/IEffect"
           }
         },
         "Targets": {
@@ -470,6 +478,11 @@
           "description": "If there are Targets configured then this\nis the message to show when prompting to pick them"
         }
       }
+    },
+    "IEffect": {
+      "type": "object",
+      "x-abstract": true,
+      "additionalProperties": false
     },
     "IActionTarget": {
       "type": "object",

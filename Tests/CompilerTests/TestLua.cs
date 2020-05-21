@@ -186,7 +186,7 @@ import ('Wanderer','Wanderer.Rooms')
             var you = YouInARoom(out IWorld world);
             world.AllStats.GetOrAdd("Corruption");
 
-            var code = new ConditionCode<SystemArgs>("return Room:GetFinalStats(AggressorIfAny)[Corruption] > 50");
+            var code = new ConditionCode("return Room:GetFinalStats(AggressorIfAny)[Corruption] > 50");
 
             var args = new SystemArgs(world,GetUI(),0,null,you,Guid.Empty);
 
@@ -199,7 +199,7 @@ import ('Wanderer','Wanderer.Rooms')
             var you = YouInARoom(out IWorld world);
 
             Assert.AreEqual("TestRoom",you.CurrentLocation.Name);
-            var code = new ConditionCode<SystemArgs>("Room.Name = 'fish'");
+            var code = new EffectCode("Room.Name = 'fish'");
 
             var args = new SystemArgs(world,GetUI(),0,null,you,Guid.Empty);
 

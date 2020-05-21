@@ -40,16 +40,16 @@ sb.AppendLine(@"
             if(condition.Value)
                 sb.AppendLine(@"
     Condition:
-      - return true");
+      - Lua: return true");
             else
                 sb.AppendLine(@"
     Condition:
-      - return false");
+      - Lua: return false");
 
 sb.Append(
 @"
     Effect:
-      - Recipient:Kill(UserInterface,Round,'doom')
+      - Lua: Recipient:Kill(UserInterface,Round,'doom')
 ");
 
             var w = Setup("behaviours.yaml",sb.ToString());

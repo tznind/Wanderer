@@ -26,9 +26,6 @@ namespace Tests
                 GenerateEnumMappingDescription = true,
                 TypeMappers =
                 {
-                    new PrimitiveTypeMapper(typeof(ICondition<IActor>), s => s.Type = JsonObjectType.String),
-                    new PrimitiveTypeMapper(typeof(ICondition<SystemArgs>), s => s.Type = JsonObjectType.String),
-                    new PrimitiveTypeMapper(typeof(IEffect), s => s.Type = JsonObjectType.String),
                     new ObjectTypeMapper(typeof(StatsCollection),StatsDictionary)
                 }
             });
@@ -76,13 +73,19 @@ namespace Tests
         [Test]
         public void DialogueSchema()
         {
-            CheckSchema<List<DialogueNode>>("dialogue.schema.json");
+            CheckSchema<List<DialogueNodeBlueprint>>("dialogue.schema.json");
         }
 
         [Test]
         public void InjurySystemSchema()
         {
             CheckSchema<InjurySystem>("injury.schema.json");
+        }
+
+        [Test]
+        public void PlanBlueprintSchema()
+        {
+            CheckSchema<PlanBlueprint>("plans.schema.json");
         }
 
         private void CheckSchema<T>(string filename)

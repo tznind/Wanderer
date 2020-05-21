@@ -20,13 +20,13 @@ namespace Wanderer.Factories
 
             // events
             if(blueprint.OnPop != null)
-                instance.OnPopHandler = blueprint.OnPop;
+                instance.OnPopHandler = blueprint.OnPop.Create();
             if(blueprint.OnPush != null)
-                instance.OnPushHandler = blueprint.OnPush;
+                instance.OnPushHandler = blueprint.OnPush.Create();
             if(blueprint.OnRoundEnding != null)
-                instance.OnRoundEndingHandler = blueprint.OnRoundEnding;
+                instance.OnRoundEndingHandler = blueprint.OnRoundEnding.Create();
             if(blueprint.OnEnter != null)
-                instance.OnEnterHandler = blueprint.OnEnter;
+                instance.OnEnterHandler = blueprint.OnEnter.Create();
 
             onto.BaseBehaviours.Add(instance);
 

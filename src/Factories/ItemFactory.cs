@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Wanderer.Compilation;
 using Wanderer.Extensions;
 using Wanderer.Factories.Blueprints;
 using Wanderer.Items;
@@ -23,8 +24,9 @@ namespace Wanderer.Factories
             world.AdjectiveFactory.AddAdjectives(world,item, blueprint);
 
             if(blueprint.Require != null)
-                item.Require = blueprint.Require;
-
+                foreach (var conditionBlueprint in blueprint.Require)
+                    item.Require.AddRange(conditionBlueprint.Create());
+                
             if (blueprint.Slot != null)
                 item.Slot = blueprint.Slot;
 

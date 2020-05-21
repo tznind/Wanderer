@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Wanderer.Factories.Blueprints.ActionBlueprint">
+    <Position X="0.5" Y="3" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAgAAAAAAAAAAAAAAgAAAEAAAQAABAAAAAA=</HashCode>
+      <FileName>Factories\Blueprints\ActionBlueprint.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Effect" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Wanderer.Factories.Blueprints.ActorBlueprint">
+    <Position X="5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAAAAEAAAgAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Factories\Blueprints\ActorBlueprint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wanderer.Factories.Blueprints.AdjectiveBlueprint">
+    <Position X="7.25" Y="2.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAAAAAEAAAAAAQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Factories\Blueprints\AdjectiveBlueprint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wanderer.Factories.Blueprints.BehaviourBlueprint">
+    <Position X="0.75" Y="6.25" Width="2" />
+    <AssociationLine Name="OnEnter" Type="Wanderer.Factories.Blueprints.BehaviourEventHandlerBlueprint">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.335" Y="0.338" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="OnPop" Type="Wanderer.Factories.Blueprints.BehaviourEventHandlerBlueprint" FixedToPoint="true">
+      <Path>
+        <Point X="2.562" Y="7.247" />
+        <Point X="2.562" Y="8.5" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.465" Y="0.347" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="OnPush" Type="Wanderer.Factories.Blueprints.BehaviourEventHandlerBlueprint">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.213" Y="0.575" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="OnRoundEnding" Type="Wanderer.Factories.Blueprints.BehaviourEventHandlerBlueprint">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.752" Y="0.623" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAIAAEAACAAA=</HashCode>
+      <FileName>Factories\Blueprints\BehaviourBlueprint.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="OnEnter" />
+      <Property Name="OnPop" />
+      <Property Name="OnPush" />
+      <Property Name="OnRoundEnding" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Wanderer.Factories.Blueprints.ConditionBlueprint">
+    <Position X="10.75" Y="4.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAACAAAAAAAAAAAAAAAAAEAEAAIAAAAAAAA=</HashCode>
+      <FileName>Factories\Blueprints\ConditionBlueprint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wanderer.Factories.Blueprints.FrameSourceBlueprint">
+    <Position X="16" Y="4.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Factories\Blueprints\FrameSourceBlueprint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wanderer.Factories.Blueprints.HasStatsBlueprint" Collapsed="true">
+    <Position X="1" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAYAAAEgAEAAiAACQAoAQAAAACQAAAwAAAAAA=</HashCode>
+      <FileName>Factories\Blueprints\HasStatsBlueprint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wanderer.Factories.Blueprints.InjuryBlueprint">
+    <Position X="12.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAAAAAAAAAAAAQAAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>Factories\Blueprints\InjuryBlueprint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wanderer.Factories.Blueprints.ItemBlueprint">
+    <Position X="3" Y="2" Width="1.5" />
+    <AssociationLine Name="Require" Type="Wanderer.Factories.Blueprints.ConditionBlueprint" ManuallyRouted="true">
+      <Path>
+        <Point X="3.766" Y="3.425" />
+        <Point X="3.766" Y="4.14" />
+        <Point X="6.132" Y="4.14" />
+        <Point X="6.132" Y="4.844" />
+        <Point X="10.75" Y="4.844" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAABAAAAAAAgA=</HashCode>
+      <FileName>Factories\Blueprints\ItemBlueprint.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Require" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Wanderer.Factories.Blueprints.PlanBlueprint">
+    <Position X="14.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAAAAAQACCAAAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>Factories\Blueprints\PlanBlueprint.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Do" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Condition" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Wanderer.Factories.Blueprints.RoomBlueprint">
+    <Position X="10" Y="1" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEQAAAAKCAAgAAAoAAAAAAAAAAAgAAAIQA=</HashCode>
+      <FileName>Factories\Blueprints\RoomBlueprint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wanderer.Factories.EffectBlueprint">
+    <Position X="4.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Factories\EffectBlueprint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Wanderer.Factories.Blueprints.BehaviourEventHandlerBlueprint">
+    <Position X="0.5" Y="8.5" Width="2.75" />
+    <AssociationLine Name="Condition" Type="Wanderer.Factories.Blueprints.ConditionBlueprint" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="3.25" Y="8.938" />
+        <Point X="4.024" Y="8.938" />
+        <Point X="4.024" Y="7.22" />
+        <Point X="5.417" Y="7.22" Type="JumpStart" />
+        <Point X="5.583" Y="7.22" Type="JumpEnd" />
+        <Point X="8.417" Y="7.22" Type="JumpStart" />
+        <Point X="8.583" Y="7.22" Type="JumpEnd" />
+        <Point X="10.018" Y="7.22" />
+        <Point X="10.018" Y="6.75" />
+        <Point X="10.75" Y="6.75" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAiAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Factories\Blueprints\BehaviourEventHandlerBlueprint.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Condition" />
+      <Property Name="Effect" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Wanderer.Factories.Blueprints.DialogueNodeBlueprint">
+    <Position X="10.75" Y="7.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAABAAAAAAAAAAAAAAAAQABAAAA=</HashCode>
+      <FileName>Factories\Blueprints\DialogueNodeBlueprint.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="Options" />
+      <Property Name="Body" />
+      <Property Name="Condition" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Wanderer.Factories.Blueprints.TextBlockBlueprint">
+    <Position X="7.5" Y="7.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAAAAAAAAAAAAEAAAAAACAAAAAA=</HashCode>
+      <FileName>Factories\Blueprints\TextBlockBlueprint.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Condition" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Wanderer.Factories.DialogueOptionBlueprint">
+    <Position X="7.5" Y="9.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAiAAAAAAAAAAAAAACBAAAAEAAAACAAAAAA=</HashCode>
+      <FileName>Factories\Blueprints\DialogueOptionBlueprint.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="Effect" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

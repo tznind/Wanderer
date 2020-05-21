@@ -8,6 +8,7 @@
   "definitions": {
     "BehaviourBlueprint": {
       "type": "object",
+      "description": "Describes how  to build a Behaviour",
       "additionalProperties": false,
       "properties": {
         "Ref": {
@@ -135,42 +136,46 @@
           }
         },
         "OnPush": {
+          "description": "Event handler to trigger on the the behaviour whenever an action is put on the stack",
           "oneOf": [
             {
               "type": "null"
             },
             {
-              "$ref": "#/definitions/BehaviourEventHandler"
+              "$ref": "#/definitions/BehaviourEventHandlerBlueprint"
             }
           ]
         },
         "OnPop": {
+          "description": "Event handler to trigger on the the behaviour whenever an action begins successful resolution (the action stack was pushed and nobody removed it from the stack before resolution)",
           "oneOf": [
             {
               "type": "null"
             },
             {
-              "$ref": "#/definitions/BehaviourEventHandler"
+              "$ref": "#/definitions/BehaviourEventHandlerBlueprint"
             }
           ]
         },
         "OnRoundEnding": {
+          "description": "Event handler to call after the player has taken an action and all other world actors have responded and the round is ending",
           "oneOf": [
             {
               "type": "null"
             },
             {
-              "$ref": "#/definitions/BehaviourEventHandler"
+              "$ref": "#/definitions/BehaviourEventHandlerBlueprint"
             }
           ]
         },
         "OnEnter": {
+          "description": "Event handler to call when any actor performs the LeaveAction and successfully enters a new room.  Note that this gets called for every person in the worlds population that moves not just the behaviour's owner",
           "oneOf": [
             {
               "type": "null"
             },
             {
-              "$ref": "#/definitions/BehaviourEventHandler"
+              "$ref": "#/definitions/BehaviourEventHandlerBlueprint"
             }
           ]
         }
@@ -262,6 +267,7 @@
     },
     "ActionBlueprint": {
       "type": "object",
+      "description": "Describes an activity a player or npc can perform",
       "additionalProperties": false,
       "properties": {
         "Ref": {
@@ -392,7 +398,8 @@
           "type": [
             "null",
             "string"
-          ]
+          ],
+          "description": "The hotkey the user should be able to press (assuming UI support) to activate this action"
         },
         "Type": {
           "type": [
@@ -430,7 +437,7 @@
           ],
           "description": "What happens when the action is performed.",
           "items": {
-            "type": "string"
+            "$ref": "#/definitions/EffectBlueprint"
           }
         }
       }
@@ -440,8 +447,21 @@
       "x-abstract": true,
       "additionalProperties": false
     },
-    "BehaviourEventHandler": {
+    "EffectBlueprint": {
       "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Lua": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    },
+    "BehaviourEventHandlerBlueprint": {
+      "type": "object",
+      "description": "Describes how to build a BehaviourEventHandler for a given event on a Behaviour e.g. IRoom)",
       "additionalProperties": false,
       "properties": {
         "Condition": {
@@ -449,8 +469,9 @@
             "array",
             "null"
           ],
+          "description": "Pre conditions to check when the event occurs before launching off the Effect.  If multiple conditions are specified then all must be met",
           "items": {
-            "type": "string"
+            "$ref": "#/definitions/ConditionBlueprint"
           }
         },
         "Effect": {
@@ -458,9 +479,45 @@
             "array",
             "null"
           ],
+          "description": "Things that should happen when the event handler occurs and the Condition are met e.g. cause damage to someone, launch some dialogue etc",
           "items": {
-            "type": "string"
+            "$ref": "#/definitions/EffectBlueprint"
           }
+        }
+      }
+    },
+    "ConditionBlueprint": {
+      "type": "object",
+      "description": "Blueprint that describes how to build one or more ICondition",
+      "additionalProperties": false,
+      "properties": {
+        "Lua": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Lua code that returns true or false"
+        },
+        "Has": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Pass a Guid or Name of something they might have, if they have it then the condition is met"
+        },
+        "HasNot": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Pass a Guid or Name of something.  As long as they don't have it this condition is true"
+        },
+        "Stat": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Arithmetic expression for a required stat they must have e.g. \"Fight &gt; 50\""
         }
       }
     }

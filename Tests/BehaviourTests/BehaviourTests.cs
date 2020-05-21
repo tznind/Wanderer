@@ -15,7 +15,7 @@ namespace Tests.BehaviourTests
         [Test]
         public void TestBehaviours_AreIdentical()
         {
-            var b1 = new ForbidBehaviour<LeaveAction>(new ConditionCode<Frame>("true"), Mock.Of<IActor>());
+            var b1 = new ForbidBehaviour<LeaveAction>(new ConditionCode("true"), Mock.Of<IActor>());
             var b2 = new ExpiryBehaviour(new Adjective(Mock.Of<IActor>()){Name = "Medic"}, 4);
             var b3 =new ExpiryBehaviour(new Adjective(Mock.Of<IActor>()){Name = "Medic"}, 3);
 

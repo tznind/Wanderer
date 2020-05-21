@@ -5,6 +5,9 @@ using Wanderer.Items;
 
 namespace Wanderer.Factories.Blueprints
 {
+    /// <summary>
+    /// Describes how to create instances of <see cref="IItem"/> and <see cref="IItemStack"/>
+    /// </summary>
     public class ItemBlueprint : HasStatsBlueprint
     {
         /// <summary>
@@ -15,7 +18,7 @@ namespace Wanderer.Factories.Blueprints
         /// <summary>
         /// A condition that must be met before the item can be used
         /// </summary>
-        public List<ICondition<IHasStats>> Require { get; set; }
+        public List<ConditionBlueprint> Require { get; set; }
 
         /// <summary>
         /// Null for an item that cannot be stacked, 1+ for a <see cref="IItemStack"/> of the given size

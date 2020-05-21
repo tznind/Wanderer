@@ -5,6 +5,9 @@ using Wanderer.Systems;
 
 namespace Wanderer.Factories.Blueprints
 {
+    /// <summary>
+    /// Describes how to build an <see cref="IActor"/>
+    /// </summary>
     public class ActorBlueprint : HasStatsBlueprint
     {
         /// <summary>

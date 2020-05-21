@@ -1,13 +1,14 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "ListOfDialogueNode",
+  "title": "ListOfDialogueNodeBlueprint",
   "type": "array",
   "items": {
-    "$ref": "#/definitions/DialogueNode"
+    "$ref": "#/definitions/DialogueNodeBlueprint"
   },
   "definitions": {
-    "DialogueNode": {
+    "DialogueNodeBlueprint": {
       "type": "object",
+      "description": "Blueprint for creating a DialogueNode",
       "additionalProperties": false,
       "properties": {
         "Options": {
@@ -17,7 +18,7 @@
           ],
           "description": "Responses that can be picked, can include conditional options (e.g. only available if a stat is above a threshold)",
           "items": {
-            "$ref": "#/definitions/DialogueOption"
+            "$ref": "#/definitions/DialogueOptionBlueprint"
           }
         },
         "Identifier": {
@@ -32,7 +33,7 @@
           ],
           "description": "Collection of  which will be concatenated to create a single piece of text  that gets displayed for this node (includes support for conditional bits of text).",
           "items": {
-            "$ref": "#/definitions/TextBlock"
+            "$ref": "#/definitions/TextBlockBlueprint"
           }
         },
         "Condition": {
@@ -42,13 +43,14 @@
           ],
           "description": "Conditions which should be true before this tree will be run.  Only applies to the Root  of a dialogue tree (i.e. initiating Dialogue).  To control conditional navigation set conditions on the Options instead",
           "items": {
-            "type": "string"
+            "$ref": "#/definitions/ConditionBlueprint"
           }
         }
       }
     },
-    "DialogueOption": {
+    "DialogueOptionBlueprint": {
       "type": "object",
+      "description": "Blueprint for creating a DialogueOption",
       "additionalProperties": false,
       "properties": {
         "Effect": {
@@ -56,9 +58,9 @@
             "array",
             "null"
           ],
-          "description": "Lua code effects which happen if this dialogue option is picked (spawn items etc)",
+          "description": "Effects which happen if this dialogue option is picked (spawn items etc)",
           "items": {
-            "type": "string"
+            "$ref": "#/definitions/EffectBlueprint"
           }
         },
         "Destination": {
@@ -89,18 +91,14 @@
             "array",
             "null"
           ],
-          "description": "Lua code that determines if the option should be presented to the user or not.  Should start with  \"return \".  If multiple then they are combined with AND.  If none then option will always be presented\nreturn AggressorIfAny:Has('Pistol')",
+          "description": "Conditions which must all be true before the Effect are fired.  If multiple then they are combined with AND.  If none then option will always be presented",
           "items": {
-            "type": "string"
+            "$ref": "#/definitions/ConditionBlueprint"
           }
         },
         "SingleUse": {
           "type": "boolean",
           "description": "Set to true to allow user to select this option only once"
-        },
-        "Exhausted": {
-          "type": "boolean",
-          "description": "Set to true to indicate that the option shouldn't be offered again\n(e.g. for SingleUse options)"
         },
         "Transition": {
           "type": [
@@ -112,8 +110,56 @@
         }
       }
     },
-    "TextBlock": {
+    "EffectBlueprint": {
       "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Lua": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    },
+    "ConditionBlueprint": {
+      "type": "object",
+      "description": "Blueprint that describes how to build one or more ICondition",
+      "additionalProperties": false,
+      "properties": {
+        "Lua": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Lua code that returns true or false"
+        },
+        "Has": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Pass a Guid or Name of something they might have, if they have it then the condition is met"
+        },
+        "HasNot": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Pass a Guid or Name of something.  As long as they don't have it this condition is true"
+        },
+        "Stat": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Arithmetic expression for a required stat they must have e.g. \"Fight &gt; 50\""
+        }
+      }
+    },
+    "TextBlockBlueprint": {
+      "type": "object",
+      "description": "Describes how to create instances of TextBlock",
       "additionalProperties": false,
       "properties": {
         "Condition": {
@@ -121,15 +167,17 @@
             "array",
             "null"
           ],
+          "description": "List of conditions that must be true before this sentence or paragraph should be included in the displayed text of a DialogueNode.  If no conditions then it is automatically included",
           "items": {
-            "type": "string"
+            "$ref": "#/definitions/ConditionBlueprint"
           }
         },
         "Text": {
           "type": [
             "null",
             "string"
-          ]
+          ],
+          "description": "The dialogue text to display to the user"
         }
       }
     }

@@ -5,6 +5,7 @@ using System.Text;
 using NUnit.Framework;
 using Wanderer;
 using Wanderer.Compilation;
+using Wanderer.Factories;
 using Wanderer.Factories.Blueprints;
 
 namespace Tests.Actions
@@ -17,7 +18,7 @@ namespace Tests.Actions
             var blue = new ActionBlueprint()
             {
                 Name = "Drink",
-                Effect = new List<IEffect>(new[] {new EffectCode("Recipient:Kill(UserInterface,Round,'Poison')")})
+                Effect = new List<EffectBlueprint>(new[] {new EffectBlueprint{Lua = "Recipient:Kill(UserInterface,Round,'Poison')"}})
             };
 
             var you = YouInARoom(out IWorld world);

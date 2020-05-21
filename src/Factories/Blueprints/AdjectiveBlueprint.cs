@@ -4,6 +4,9 @@ using Wanderer.Systems;
 
 namespace Wanderer.Factories.Blueprints
 {
+    /// <summary>
+    /// Describes how to build a <see cref="IAdjective"/>
+    /// </summary>
     public class AdjectiveBlueprint : HasStatsBlueprint
     {
         /// <summary>

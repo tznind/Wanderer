@@ -22,7 +22,7 @@ namespace Tests.ConditionTests
   Stats:
     Savvy: 10
   Require:
-    - return false";  //<- sunglasses are about to be in fashion but not yet
+    - Lua: false";  //<- sunglasses are about to be in fashion but not yet
 
             
             var itemFactory = new ItemFactory{Blueprints = Compiler.Instance.Deserializer.Deserialize<List<ItemBlueprint>>(yaml)};
