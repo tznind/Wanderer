@@ -26,22 +26,22 @@ namespace Wanderer.Factories.Blueprints
         /// </summary>
         public string Stat {get;set;}
         
-        public IEnumerable<ICondition<T>> Create<T>()
+        public IEnumerable<ICondition> Create()
         {
             if(!string.IsNullOrWhiteSpace(Lua))
-                yield return new ConditionCode<T>(Lua);
+                yield return new ConditionCode(Lua);
 
             if (!string.IsNullOrWhiteSpace(Has))
-                yield return new HasCondition<T>(Has);
+                yield return new HasCondition(Has);
 
             if (!string.IsNullOrWhiteSpace(HasNot))
-                yield return new HasCondition<T>(HasNot)
+                yield return new HasCondition(HasNot)
                 {
                     InvertLogic = true
                 };
 
             if(!string.IsNullOrWhiteSpace(Stat))
-                yield return new StatCondition<T>(Stat);
+                yield return new StatCondition(Stat);
         }
     }
 }

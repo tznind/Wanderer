@@ -1,5 +1,8 @@
 ﻿namespace Wanderer.Behaviours
 {
+    /// <summary>
+    /// SystemArgs describing an action being performed on the <see cref="ActionStack"/>
+    /// </summary>
     public class ActionFrameSystemArgs : EventSystemArgs
     {
         public ActionStack Stack {get;set;}

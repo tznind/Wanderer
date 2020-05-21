@@ -25,5 +25,17 @@ namespace Tests.CompilerTests
             Assert.IsTrue(expr.Calculate((o)=>6));
             Assert.IsFalse(expr.Calculate((o)=>5));
         }
+
+
+        [Test]
+        public void ABGreater()
+        {
+            var expr = new ArithmeticComparisonExpression("a > 5");
+            Assert.AreEqual("a",expr.OperandA);
+            Assert.AreEqual(">",expr.Comparator);
+            Assert.AreEqual("5",expr.OperandB);
+            Assert.IsTrue(expr.Calculate((o)=>6));
+            Assert.IsFalse(expr.Calculate((o)=>5));
+        }
     }
 }

@@ -17,7 +17,7 @@ namespace Wanderer.Dialogues
             Text = text;
         }
 
-        public List<ICondition<SystemArgs>> Condition { get; set; } = new List<ICondition<SystemArgs>>();
+        public List<ICondition> Condition { get; set; } = new List<ICondition>();
 
         public string Text { get; set; }
         

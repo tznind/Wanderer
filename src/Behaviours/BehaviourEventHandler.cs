@@ -7,7 +7,7 @@ namespace Wanderer.Behaviours
 {
     public class BehaviourEventHandler
     {
-        public List<ICondition<SystemArgs>> Condition {get;set;} = new List<ICondition<SystemArgs>>();
+        public List<ICondition> Condition {get;set;} = new List<ICondition>();
 
         public List<IEffect> Effect {get;set;} = new List<IEffect>();
 

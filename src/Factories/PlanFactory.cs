@@ -17,7 +17,7 @@ namespace Wanderer.Factories
             };
 
             foreach (var blue in blueprint.Condition)
-                plan.Condition.AddRange(blue.Create<SystemArgs>());
+                plan.Condition.AddRange(blue.Create());
             
             plan.Do = blueprint.Do.Create();
 

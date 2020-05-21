@@ -28,7 +28,7 @@ namespace Tests.Plans
                     @"return Frame(Recipient,FirstOrDefault(Recipient:Get('Eat')),0)"),
                 Condition =
                 {
-                    new ConditionCode<SystemArgs>("return Recipient:Has(Guid('89c18233-5250-4445-8799-faa9a888fb7f'))")
+                    new ConditionCode("return Recipient:Has(Guid('89c18233-5250-4445-8799-faa9a888fb7f'))")
                 }
             };
 

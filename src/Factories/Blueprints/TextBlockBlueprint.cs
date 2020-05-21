@@ -18,7 +18,7 @@ namespace Wanderer.Factories.Blueprints
                 Text = Text
             };
 
-            tb.Condition.AddRange(Condition.SelectMany(b=>b.Create<SystemArgs>()));
+            tb.Condition.AddRange(Condition.SelectMany(b=>b.Create()));
 
             return tb;
 

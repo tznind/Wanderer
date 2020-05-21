@@ -25,7 +25,7 @@ namespace Wanderer.Factories
 
             if(blueprint.Require != null)
                 foreach (var conditionBlueprint in blueprint.Require)
-                    item.Require.AddRange(conditionBlueprint.Create<IHasStats>());
+                    item.Require.AddRange(conditionBlueprint.Create());
                 
             if (blueprint.Slot != null)
                 item.Slot = blueprint.Slot;

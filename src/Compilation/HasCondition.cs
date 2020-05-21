@@ -6,7 +6,7 @@ namespace Wanderer.Compilation
     /// <summary>
     /// Condition which checks for whether something has a give other thing (by Name, Identifier etc).  E.g. a Gun might Has Rusty
     /// </summary>
-    public class HasCondition<T> : SimpleCondition<T>
+    public class HasCondition : ICondition
     {
         
         /// <summary>
@@ -24,9 +24,9 @@ namespace Wanderer.Compilation
             Requirement = required;
         }
 
-        protected override bool IsMetImpl(IWorld world, IHasStats o)
+        public bool IsMet(IWorld world, SystemArgs o)
         {
-            return o.Has(Requirement) == !InvertLogic;
+            return (o.AggressorIfAny ?? o.Recipient).Has(Requirement) == !InvertLogic;
         }
     }
 }

@@ -24,7 +24,7 @@ Hand: 2
       Stats: 
          Fight: 20
   Require:
-    - Lua: this:Has('LaserPowered')
+    - Has: LaserPowered
 
 - Name: Laser Pistol
   Slot:

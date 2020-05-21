@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Wanderer.Systems;
 
 namespace Wanderer.Compilation
 {
     /// <summary>
     /// Condition which checks for a given stat being higher/lower etc than a threshold
     /// </summary>
-    public class StatCondition<T> : SimpleCondition<T>
+    public class StatCondition : ICondition
     {
 
         ArithmeticComparisonExpression Expression {get;set;}
@@ -18,9 +19,15 @@ namespace Wanderer.Compilation
 
         }
 
-        protected override bool IsMetImpl(IWorld world, IHasStats o)
+        public bool IsMet(IWorld world, SystemArgs args)
         {
+            var o = args.AggressorIfAny ?? args.Recipient;
             return Expression.Calculate((s)=>o.BaseStats[world.AllStats.Get(s)]);
+        }
+
+        public override string ToString()
+        {
+            return Expression.Expression;
         }
     }
 }

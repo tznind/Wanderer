@@ -150,7 +150,7 @@ namespace Tests.Actions
         {
             var room = YouInARoom(out IWorld world).CurrentLocation;
             var guard = new Npc("Guard",room);
-            guard.BaseBehaviours.Add(new ForbidBehaviour<LeaveAction>(new ConditionCode<Frame>("return true"),guard));
+            guard.BaseBehaviours.Add(new ForbidBehaviour<LeaveAction>(new ConditionCode("return true"),guard));
             
             var leave = new LeaveAction(world.Player);
 

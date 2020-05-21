@@ -113,7 +113,7 @@ namespace Tests.Items
     Name: Chest
     NumberRequired: 1
   Require: 
-    - Lua: BaseStats[Stat.Fight] <= 10
+    - Lua: AggressorIfAny.BaseStats[Stat.Fight] <= 10
 ";
 
                 var you = YouInARoom(out IWorld w);
@@ -132,7 +132,7 @@ namespace Tests.Items
 
                 Assert.IsFalse(shirt.IsEquipped);
 
-                Assert.Contains(@"Item requirements not met:return BaseStats[Stat.Fight] <= 10",ui.MessagesShown);
+                Assert.Contains(@"Item requirements not met:return AggressorIfAny.BaseStats[Stat.Fight] <= 10",ui.MessagesShown);
 
                 you.BaseStats[Stat.Fight] = 10;
             

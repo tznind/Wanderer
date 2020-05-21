@@ -71,7 +71,7 @@ namespace Tests.Actors
   Dialogue: 
     Next: e088ff6e-60de-4a59-a9d8-b9406a2aed7c
   Require: 
-    - Lua: BaseStats[Savvy] > 50
+    - Stat: Savvy > 50
 ";
             var you = YouInARoom(out IWorld w);
             w.AllStats.GetOrAdd("Savvy");
@@ -88,11 +88,14 @@ namespace Tests.Actors
             var itemFactory = new ItemFactory{Blueprints = Compiler.Instance.Deserializer.Deserialize<List<ItemBlueprint>>(yaml)};
 
             you.Items.Add(itemFactory.Create(w, itemFactory.Blueprints.Single()));
+
+            Assert.IsFalse(you.Items.Single().CanUse(you,out _));
+
             var ui = GetUI("read:Encrypted Manual");
 
             w.RunRound(ui,new DialogueAction(you.Items.First()));
 
-            Assert.Contains(@"Item requirements not met:return BaseStats[Savvy] > 50",ui.MessagesShown);
+            Assert.Contains(@"Item requirements not met:Savvy > 50",ui.MessagesShown);
 
             you.BaseStats["Savvy"] = 51;
 

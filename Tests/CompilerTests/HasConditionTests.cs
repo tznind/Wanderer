@@ -12,21 +12,27 @@ namespace Tests.CompilerTests
 {
     class HasConditionTests : UnitTest
     {
+
+        private SystemArgs GetSystemArgs(IActor forActor)
+        {
+            return new SystemArgs(forActor.CurrentLocation.World,null,0,forActor,forActor,Guid.Empty);
+        }
+
         [Test]
         public void TestHasCondition_Actor()
         {
             YouInARoom(out IWorld world);
 
-            var condition = new HasCondition<IActor>("fff");
+            var condition = new HasCondition("fff");
 
-            Assert.IsFalse(condition.IsMet(world,world.Player));
+            Assert.IsFalse(condition.IsMet(world,GetSystemArgs(world.Player)));
 
             world.Player.BaseActions.Add(new TestAction(world.Player)
             {
                 Name = "fff"
             });
 
-            Assert.IsTrue(condition.IsMet(world,world.Player));
+            Assert.IsTrue(condition.IsMet(world,GetSystemArgs(world.Player)));
         }
 
         [Test]
@@ -34,7 +40,7 @@ namespace Tests.CompilerTests
         {
             TwoInARoom(out You you, out IActor them,out IWorld world);
 
-            var condition = new HasCondition<SystemArgs>("fff");
+            var condition = new HasCondition("fff");
 
             //nobody meets the condition
             Assert.IsFalse(condition.IsMet(world,new SystemArgs(world, new FixedChoiceUI(),0,you,them,Guid.Empty)));
@@ -60,7 +66,7 @@ namespace Tests.CompilerTests
         {
             TwoInARoom(out You you, out IActor them,out IWorld world);
 
-            var condition = new HasCondition<SystemArgs>("fff"){InvertLogic = true};
+            var condition = new HasCondition("fff"){InvertLogic = true};
 
             //everyone meets condition
             Assert.IsTrue(condition.IsMet(world,new SystemArgs(world, new FixedChoiceUI(),0,you,them,Guid.Empty)));
@@ -79,26 +85,6 @@ namespace Tests.CompilerTests
             // When args only have a Recipient then the condition tests the Recipient
             Assert.IsTrue(condition.IsMet(world,new SystemArgs(world, new FixedChoiceUI(),0,null,them,Guid.Empty)));
             Assert.IsFalse(condition.IsMet(world,new SystemArgs(world, new FixedChoiceUI(),0,null,you,Guid.Empty)));
-        }
-
-        [Test]
-        public void TestHasCondition_UnknownType()
-        {
-            InARoom(out IWorld world);
-
-            var condition = new HasCondition<bool>("fff");
-            var ex = Assert.Throws<NotSupportedException>(() => condition.IsMet(world, true));
-
-            Assert.AreEqual("Unknown T type System.Boolean",ex.Message);
-        }
-
-        [Test]
-        public void TestHasCondition_Null()
-        {
-            InARoom(out IWorld world);
-
-            var condition = new HasCondition<bool?>("fff");
-            Assert.Throws<ArgumentNullException>(() => condition.IsMet(world, null));
         }
     }
 }

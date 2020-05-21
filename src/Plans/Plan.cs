@@ -20,7 +20,7 @@ namespace Wanderer.Plans
         /// <summary>
         /// Conditions which all must be met for the Plan to be considered viable
         /// </summary>
-        public List<ICondition<SystemArgs>> Condition { get; set; } = new List<ICondition<SystemArgs>>();
+        public List<ICondition> Condition { get; set; } = new List<ICondition>();
 
         /// <summary>
         /// Describes the action and targets that should be picked in order to carry out the Plan

@@ -75,14 +75,14 @@ namespace Tests
             }.Create();
 
             var omg = new Npc("omgz",world1.Player.CurrentLocation);
-            omg.BaseBehaviours.Add(new ForbidBehaviour<LeaveAction>(new ConditionCode<Frame>("return LeaveDirection == Direction.Down"), omg));
+            omg.BaseBehaviours.Add(new ForbidBehaviour<LeaveAction>(new ConditionCode("return Frame.LeaveDirection == Direction.Down"), omg));
             
             var behaviour = omg.GetFinalBehaviours().OfType<ForbidBehaviour<LeaveAction>>().Single();
 
             //we don't forbid going north
-            Assert.IsFalse(behaviour.Condition.IsMet(world1,new LeaveFrame(omg,new LeaveAction(omg),Direction.North,0)));
+            Assert.IsFalse(behaviour.Condition.IsMet(world1,GetArgs(world1.Player,world1,new LeaveFrame(omg,new LeaveAction(omg),Direction.North,0))));
             //we DO forbid going down
-            Assert.IsTrue(behaviour.Condition.IsMet(world1,new LeaveFrame(omg,new LeaveAction(omg),Direction.Down,0)));
+            Assert.IsTrue(behaviour.Condition.IsMet(world1,GetArgs(world1.Player,world1,new LeaveFrame(omg,new LeaveAction(omg),Direction.Down,0))));
             
             var config = World.GetJsonSerializerSettings();
 
@@ -93,11 +93,18 @@ namespace Tests
             var behaviour2 = omg2.GetFinalBehaviours().OfType<ForbidBehaviour<LeaveAction>>().Single();
 
             //we don't forbid going north
-            Assert.IsFalse(behaviour2.Condition.IsMet(world1,new LeaveFrame(omg,new LeaveAction(omg),Direction.North,0)));
+            Assert.IsFalse(behaviour2.Condition.IsMet(world1,GetArgs(world1.Player,world1,new LeaveFrame(omg,new LeaveAction(omg),Direction.North,0))));
             //we DO forbid going down
-            Assert.IsTrue(behaviour2.Condition.IsMet(world1,new LeaveFrame(omg,new LeaveAction(omg),Direction.Down,0)));
+            Assert.IsTrue(behaviour2.Condition.IsMet(world1,GetArgs(world1.Player,world1,new LeaveFrame(omg,new LeaveAction(omg),Direction.Down,0))));
 
         }
+
+        private SystemArgs GetArgs(IActor a, IWorld w,LeaveFrame leaveFrame)
+        {
+            var stackA = new ActionStack();
+            return new ActionFrameSystemArgs(a,w,null,stackA,leaveFrame);
+        }
+
         [Test]
         public void Test_Serialization_OfExpire()
         {

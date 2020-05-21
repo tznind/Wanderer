@@ -19,7 +19,7 @@ namespace Wanderer.Factories
 
             node.Body = blueprint.Body.Select(Create).ToList();
 
-            node.Condition.AddRange(blueprint.Condition.SelectMany(c=>c.Create<SystemArgs>()));
+            node.Condition.AddRange(blueprint.Condition.SelectMany(c=>c.Create()));
 
             foreach(var optionBlueprint in blueprint.Options)
             {
@@ -37,7 +37,7 @@ namespace Wanderer.Factories
                 Text = blueprint.Text
             };
 
-            body.Condition.AddRange(blueprint.Condition.SelectMany(b=>b.Create<SystemArgs>()));
+            body.Condition.AddRange(blueprint.Condition.SelectMany(b=>b.Create()));
             return body;
         }
 
@@ -53,7 +53,7 @@ namespace Wanderer.Factories
             };
 
 
-            option.Condition.AddRange(blueprint.Condition.SelectMany(c=>c.Create<SystemArgs>()));
+            option.Condition.AddRange(blueprint.Condition.SelectMany(c=>c.Create()));
 
             option.Effect.AddRange(blueprint.Effect.SelectMany(c=>c.Create()));
             
