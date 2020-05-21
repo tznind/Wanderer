@@ -89,5 +89,11 @@ namespace Wanderer.Systems
                 return new IItem[0];
             }
         }
+
+
+        public override string ToString()
+        {
+            return $"{GetType().Name}:AggressorIfAny={AggressorIfAny?.ToString() ?? "Null"},Recipient={Recipient?.ToString() ?? "Null"}";
+        }
     }
 }
