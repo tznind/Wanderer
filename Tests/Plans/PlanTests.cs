@@ -8,6 +8,7 @@ using Wanderer.Actions;
 using Wanderer.Actors;
 using Wanderer.Adjectives;
 using Wanderer.Compilation;
+using Wanderer.Factories.Blueprints;
 using Wanderer.Items;
 using Wanderer.Plans;
 using Wanderer.Systems;
@@ -27,7 +28,7 @@ namespace Tests.Plans
                     @"return Frame(Recipient,FirstOrDefault(Recipient:Get('Eat')),0)"),
                 Condition =
                 {
-                    new ConditionCode<SystemArgs>("return Recipient:Has(Guid('89c18233-5250-4445-8799-faa9a888fb7f'))")
+                    new ConditionCode("return Recipient:Has(Guid('89c18233-5250-4445-8799-faa9a888fb7f'))")
                 }
             };
 
@@ -77,11 +78,12 @@ namespace Tests.Plans
             string yaml = @"
 - Name: Eat if hungry
   Condition:
-    - return true
-  Do: return nil
+    - Lua: true
+  Do: 
+    Lua: return nil
   ";
 
-            var plans = Compiler.Instance.Deserializer.Deserialize<Plan[]>(yaml);
+            var plans = Compiler.Instance.Deserializer.Deserialize<PlanBlueprint[]>(yaml);
 
             Assert.AreEqual(1,plans.Length);
             Assert.AreEqual("Eat if hungry",plans[0].Name);

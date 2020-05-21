@@ -449,7 +449,7 @@
             "null"
           ],
           "items": {
-            "type": "string"
+            "$ref": "#/definitions/IEffect"
           }
         },
         "Targets": {
@@ -470,6 +470,11 @@
           "description": "If there are Targets configured then this\nis the message to show when prompting to pick them"
         }
       }
+    },
+    "IEffect": {
+      "type": "object",
+      "x-abstract": true,
+      "additionalProperties": false
     },
     "IActionTarget": {
       "type": "object",

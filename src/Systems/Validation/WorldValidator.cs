@@ -338,7 +338,7 @@ namespace Wanderer.Systems.Validation
             if(node.Body == null || node.Body.Count == 0 || node.Body.All(b=>string.IsNullOrWhiteSpace(b.Text)))
                 AddError($"Dialogue '{node.Identifier}' has no Body Text");
                 
-            foreach (ICondition<SystemArgs> condition in node.Condition)
+            foreach (ICondition condition in node.Condition)
             {
                 try
                 {
@@ -351,7 +351,7 @@ namespace Wanderer.Systems.Validation
             }
 
             if(node.Body != null)
-                foreach (ICondition<SystemArgs> condition in node.Body.SelectMany(b => b.Condition))
+                foreach (ICondition condition in node.Body.SelectMany(b => b.Condition))
                 {
                     try
                     {
@@ -383,7 +383,7 @@ namespace Wanderer.Systems.Validation
                 }
             }
 
-            foreach (ICondition<SystemArgs> condition in option.Condition)
+            foreach (ICondition condition in option.Condition)
             {
                 try
                 {

@@ -1,0 +1,97 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "PlanBlueprint",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "Name": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "Human readable description of the plan"
+    },
+    "Identifier": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "Unique identifier for the plan for referencing in scripts",
+      "format": "guid"
+    },
+    "Condition": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "description": "Conditions which all must be met for the Plan to be considered viable",
+      "items": {
+        "$ref": "#/definitions/ConditionBlueprint"
+      }
+    },
+    "Do": {
+      "description": "Describes the action and targets that should be picked in order to carry out the Plan",
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/definitions/FrameSourceBlueprint"
+        }
+      ]
+    },
+    "Weight": {
+      "type": "number",
+      "description": "How popular the plan is relative to other plans",
+      "format": "double"
+    }
+  },
+  "definitions": {
+    "ConditionBlueprint": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Lua": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Lua code that returns true or false"
+        },
+        "Has": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Pass a Guid or Name of something they might have, if they have it then the condition is met"
+        },
+        "HasNot": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Pass a Guid or Name of something.  As long as they don't have it this condition is true"
+        },
+        "Stat": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Arithmetic expression for a required stat they must have e.g. \"Fight &gt; 50\""
+        }
+      }
+    },
+    "FrameSourceBlueprint": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Lua": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    }
+  }
+}

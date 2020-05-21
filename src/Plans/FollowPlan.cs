@@ -10,7 +10,7 @@ using Wanderer.Systems;
 
 namespace Wanderer.Plans
 {
-    public class FollowPlan : Plan, IFrameSource, ICondition<SystemArgs>
+    public class FollowPlan : Plan, IFrameSource, ICondition
     {
         public IActor ToFollow { get; set; }
 
@@ -24,7 +24,7 @@ namespace Wanderer.Plans
         {
             ToFollow = toFollow;
             Do = this;
-            Condition = new List<ICondition<SystemArgs>> {this};
+            Condition = new List<ICondition> {this};
         }
 
 

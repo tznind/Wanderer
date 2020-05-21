@@ -4,7 +4,6 @@ This page contains simple recipes for common level building tasks.  To test a re
 
 ## Contents
 
-- [Foreword: Script Blocks](#foreword-script-blocks)
 - [Custom Stats](#custom-stats)
 - [Room Recipes](#room-recipes)
   - [Starting room](#starting-room)
@@ -17,23 +16,8 @@ This page contains simple recipes for common level building tasks.  To test a re
 - [Dialogue Recipes](#dialogue-recipes)
   - [OnEnter room dialogue](#onenter-room-dialogue)
   - [Remark about injury](#remark-about-injury)
+- [Script Blocks](#script-blocks)
 
-## Foreword Script Blocks
-
-In several recipes there are scripting sections.  These are written in [Lua] (everything else is in [yaml]).  There are 2 kinds of script blocks, `Condition` and `Effect`.  These blocks support multiple statements using the hyphen notation.  `Condition` should start with the lua keyword `return` followed code that evaluates to true or false.  `Effect` blocks do not return anything but instead trigger things to happen in the world (run dialogue, spawn items etc).
-
-In scripts the following global variables are available:
-
-| Variable        | Description |
-| ------------- |-------------|
-| [World]      |  root variable for the game world |
-| AggressorIfAny ([Actor]) |  The player or Npc that is triggering the action/event.  This can be null for actions/events that are not instigated by an [Actor]|
-| Recipient | [Actor], [Room], [Item] etc which is the target of the action/event (e.g. for Dialogue this would be the person being talked too)|
-| [Room] | Where the action/event is tacking place (Can be null for some events e.g. RoundEnding) |
-| [UserInterface] | root variable for the graphical user interface (required argument for many methods) |
-| Round | Unique identifier for the current round (required argument for many methods) |
-| [Action] | Only aplies to action related events e.g. OnPush, references the action being performed |
-| [Behaviour] | Only applies to behaviour events (OnPush, OnRoundEnding etc).  References the behaviour object (which will be attached to a specific Owner) |
 
 ## Custom Stats
 
@@ -56,33 +40,11 @@ Stats can immediately be used e.g. on rooms, items etc:
   MandatoryItems:
     - Name: Helmet of Madness
       Require:
-        - return BaseStats[Seduction] <= 0
+        - Stat: Seduction <= 0
       Stats:
         Sanity: -500
 ```
 <sup>./rooms.yaml</sup>
-
-In C# code there are a number of default static stats e.g. `Stat.Fight`.  But for a full collection including custom stats use `IWorld.AllStats`.
-
-The [Stat] class considers equality only on `Name`.  
-
-```csharp
-Assert.AreEqual(new Stat("Trouble"),new Stat("Trouble"));
-```
-
-The [StatsCollection] class dynamically defines stats as you ask for them (in the below example Dangerous and Wild are completely new stats never before seen and not even declared in stats.yaml) e.g.
-
-```csharp
-  // Create a new collection where all stats are 0
-  var collection = new StatsCollection(0);
-  Assert.AreEqual(0,collection[new Stat("Dangerous")]);
-
-  // Invent a new stat and set it to 10
-  collection[new Stat("Wild")] = 10;           
-  Assert.AreEqual(10,collection[new Stat("Wild")]);
-```
-
-**NOTE: You should always ensure that `World.AllStats` has all the stats that your game uses to ensure that script blocks operate correctly etc.  The easiest way to do that is to set them in `stats.yaml`**
 
 ## Room Recipes
 
@@ -213,7 +175,7 @@ Next we need to create the item.  We will make it SingleUse and give it a custom
          Fight: 30
       Effect:
         #Injury everyone in the room
-        - World:GetSystem('7ccafc68-d51f-4408-861c-f1d7e4e6351a'):ApplyToAll(Room.Actors,SystemArgs(World,UserInterface,20,AggressorIfAny,null,Round))
+        - Lua: World:GetSystem('7ccafc68-d51f-4408-861c-f1d7e4e6351a'):ApplyToAll(Room.Actors,SystemArgs(World,UserInterface,20,AggressorIfAny,null,Round))
 ```
 <sup>./items.yaml</sup>
 
@@ -221,7 +183,7 @@ Getting hit by a stray grenade blast should probably make other NPCs angry.  Add
 
 ```yaml
         #And make them all angry at you
-        - World.Relationships:ApplyToAll(Room.Actors,SystemArgs(World,UserInterface,-10,AggressorIfAny,null,Round))
+        - Lua: World.Relationships:ApplyToAll(Room.Actors,SystemArgs(World,UserInterface,-10,AggressorIfAny,null,Round))
 ```
 <sup>./items.yaml</sup>
 
@@ -252,7 +214,7 @@ This lets you call it from any item with any amount of damage with a single Effe
       Stats: 
          Fight: 30
       Effect:
-        - SplashDamage(Action.InjurySystem,20,true)
+        - Lua: SplashDamage(Action.InjurySystem,20,true)
 ```
 <sup>./items.yaml</sup>
 
@@ -304,7 +266,7 @@ Hand: 2
       Stats: 
          Fight: 20
   Require:
-    - return this:Has('LaserPowered')
+    - Has: LaserPowered
 
 - Name: Laser Pistol
   Slot:
@@ -330,7 +292,7 @@ Each [DialogueNode] is made up of 1 or more blocks of text.  You can apply condi
    - Text: Greetings berk
    - Text: that's a nasty looking cut you got there
      Condition: 
-       - return AggressorIfAny:Has('Injured')
+       - Has: Injured
 ```
 <sup>./dialogue.yaml</sup>
 
@@ -346,11 +308,11 @@ Say we want to run the room dialogue as soon as the player enters the room.  Her
   Identifier: 5ae55edf-36d0-4878-bbfd-dbbb23d42b88
   OnEnter: 
    Condition: 
-     - return AggressorIfAny == World.Player
-     - return Room == Behaviour.Owner
-     - return Room.Dialogue.Next ~= nil
+     - Lua: AggressorIfAny == World.Player
+     - Lua: Room == Behaviour.Owner
+     - Lua: Room.Dialogue.Next ~= nil
    Effect: 
-     - World.Dialogue:Apply(SystemArgs(World,UserInterface,0,AggressorIfAny,Room,Round))
+     - Lua: World.Dialogue:Apply(SystemArgs(World,UserInterface,0,AggressorIfAny,Room,Round))
 ```
 <sup>./behaviours.yaml</sup>
 
@@ -360,7 +322,7 @@ To use the new behaviour on a Room we just have to reference it (and set up suit
 
 ```yaml
 - Name: Dank Cellar
-  Behaviours:
+    Behaviours:
     - Ref: 5ae55edf-36d0-4878-bbfd-dbbb23d42b88
   Dialogue:
     Next: 6da41741-dada-4a52-85d5-a019cd9d38f7
@@ -388,6 +350,38 @@ If we want to only apply the behaviour the first time the Player enters the room
 <sup>./behaviours.yaml</sup>
 
 
+## Script Blocks
+
+Most [Conditions] and [Effects] can be expressed using yaml alone e.g.
+
+```yaml
+Require:
+ - Stat: Fight > 20
+   Has: Sword
+```
+However for some advanced use cases you might need to write a [Lua] script instead:
+
+```yaml
+Require:
+ - Lua: AggressorIfAny.BaseStats[Fight] > 20 && AggressorIfAny:Has('Sword')
+```
+
+When using Lua for a `Condition`, the script expression must evaluate to true or false.
+
+In scripts the following global variables are available:
+
+| Variable        | Description |
+| ------------- |-------------|
+| [this]      |  Input parameter of Type [SystemArgs] for the condition / effect.  E.g. for dialogue this describes who is talking to who|
+| [World]      |  root variable for the game world |
+| AggressorIfAny ([Actor]) |  The player or Npc that is triggering the action/event.  This can be null for actions/events that are not instigated by an [Actor]|
+| Recipient | [Actor], [Room], [Item] etc which is the target of the action/event (e.g. for Dialogue this would be the person being talked too)|
+| [Room] | Where the action/event is tacking place (Can be null for some events e.g. RoundEnding) |
+| [UserInterface] | root variable for the graphical user interface (required argument for many methods) |
+| Round | Unique identifier for the current round (required argument for many methods) |
+| [Action] | Only aplies to action related events e.g. OnPush, references the action being performed |
+| [Behaviour] | Only applies to behaviour events (OnPush, OnRoundEnding etc).  References the behaviour object (which will be attached to a specific Owner) |
+
 [InjurySystem]: ./src/Systems/InjurySystem.cs
 [RelationshipSystem]: ./src/Systems/RelationshipSystem.cs
 [DialogueNode]: ./src/Dialogues/DialogueNode.cs
@@ -404,3 +398,6 @@ If we want to only apply the behaviour the first time the Player enters the room
 [yaml]: https://yaml.org/
 [Stat]: ./src/Stats/Stat.cs
 [StatsCollection]: ./src/Stats/StatsCollection.cs
+[Conditions]: ./src/Compilation/ICondition.cs
+[Effects]: ./src/Compilation/IEffect.cs
+[SystemArgs]: ./src/Systems/SystemArgs.cs

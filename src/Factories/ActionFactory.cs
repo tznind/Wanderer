@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Wanderer.Actions;
 using Wanderer.Compilation;
 using Wanderer.Factories.Blueprints;
@@ -54,7 +55,7 @@ namespace Wanderer.Factories
             if(blueprint.HotKey.HasValue)
                 action.HotKey = blueprint.HotKey.Value;
 
-            action.Effect = blueprint.Effect;
+            action.Effect.AddRange(blueprint.Effect.SelectMany(e=>e.Create()));
             
             if(blueprint.Targets != null)
                 action.Targets = blueprint.Targets;

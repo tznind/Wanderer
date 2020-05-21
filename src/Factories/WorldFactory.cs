@@ -309,7 +309,11 @@ namespace Wanderer.Factories
             {
                 try
                 {
-                    planning.Plans.AddRange(Compiler.Instance.Deserializer.Deserialize<Plan[]>(defaultPlan.Content));
+                    var blueprints = Compiler.Instance.Deserializer.Deserialize<PlanBlueprint[]>(defaultPlan.Content);
+                    var planFactory = new PlanFactory();
+
+                    foreach(var blue in blueprints)
+                        planning.Plans.Add(planFactory.Create(blue));
                     
                 }
                 catch (Exception e)
@@ -421,7 +425,11 @@ namespace Wanderer.Factories
         {
                 try
                 {
-                    return Compiler.Instance.Deserializer.Deserialize<DialogueNode[]>(fi.Content);
+                    var factory = new DialogueNodeFactory();
+
+                    var blueprints = Compiler.Instance.Deserializer.Deserialize<DialogueNodeBlueprint[]>(fi.Content);
+
+                    return blueprints.Select(b=>factory.Create(b));
                 }
                 catch (Exception e)
                 {

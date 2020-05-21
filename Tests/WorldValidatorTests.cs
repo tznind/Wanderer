@@ -83,7 +83,7 @@ namespace Tests
             var d = new DialogueNode()
             {
                 Identifier = new Guid("1cf15faf-837b-4629-84c5-bdfa7631a905"),
-                Condition = {new ConditionCode<SystemArgs>("Tr oll oll = 1")}
+                Condition = {new ConditionCode("Tr oll oll = 1")}
             };
             w.Dialogue.AllDialogues.Add(d);
 
@@ -94,7 +94,7 @@ namespace Tests
             },w.Player.CurrentLocation );
             
             StringAssert.Contains("Error testing dialogue condition on '1cf15faf-837b-4629-84c5-bdfa7631a905'",v.Warnings.ToString());
-            StringAssert.Contains("syntax error near 'oll'",v.Warnings.ToString());
+            StringAssert.Contains("<eof> expected near 'oll'",v.Warnings.ToString());
         }
 
         [Test]
@@ -234,13 +234,13 @@ namespace Tests
             {
                 Condition = 
                 {
-                    new ConditionCode<SystemArgs>("this is bat country")
+                    new ConditionCode("this is bat country")
                 }
             };
 
             v.Validate(Mock.Of<IWorld>(),plan, Mock.Of<IActor>());
 
-            StringAssert.Contains("Error executing 'ConditionCode`1' script code 'this is bat country'.",v.Warnings.ToString());
+            StringAssert.Contains("Error executing 'ConditionCode' script code 'return this is bat country'.",v.Warnings.ToString());
         }
 
 
@@ -254,7 +254,7 @@ namespace Tests
                 Name = "Do something nefarious",
                 Condition = 
                 {
-                    new ConditionCode<SystemArgs>("true")
+                    new ConditionCode("true")
                 }
             };
 
@@ -275,7 +275,7 @@ namespace Tests
                 Name = "Do something nefarious",
                 Condition = 
                 {
-                    new ConditionCode<SystemArgs>("true")
+                    new ConditionCode("true")
                 },
                 Do = new FrameSourceCode("fffff")
             };
@@ -316,9 +316,9 @@ namespace Tests
                     {
                         new BehaviourBlueprint()
                         {
-                            OnPush = new BehaviourEventHandler()
+                            OnPush = new BehaviourEventHandlerBlueprint()
                             {
-                                Effect = new List<IEffect>{new EffectCode("aa + bb + cc")}
+                                Effect = new List<EffectBlueprint>{new EffectBlueprint{Lua = "aa + bb + cc"}}
                             }
                         }
                     }

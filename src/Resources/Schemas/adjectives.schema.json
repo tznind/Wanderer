@@ -416,7 +416,7 @@
           ],
           "description": "What happens when the action is performed.",
           "items": {
-            "type": "string"
+            "$ref": "#/definitions/EffectBlueprint"
           }
         }
       }
@@ -555,7 +555,7 @@
               "type": "null"
             },
             {
-              "$ref": "#/definitions/BehaviourEventHandler"
+              "$ref": "#/definitions/BehaviourEventHandlerBlueprint"
             }
           ]
         },
@@ -565,7 +565,7 @@
               "type": "null"
             },
             {
-              "$ref": "#/definitions/BehaviourEventHandler"
+              "$ref": "#/definitions/BehaviourEventHandlerBlueprint"
             }
           ]
         },
@@ -575,7 +575,7 @@
               "type": "null"
             },
             {
-              "$ref": "#/definitions/BehaviourEventHandler"
+              "$ref": "#/definitions/BehaviourEventHandlerBlueprint"
             }
           ]
         },
@@ -585,13 +585,13 @@
               "type": "null"
             },
             {
-              "$ref": "#/definitions/BehaviourEventHandler"
+              "$ref": "#/definitions/BehaviourEventHandlerBlueprint"
             }
           ]
         }
       }
     },
-    "BehaviourEventHandler": {
+    "BehaviourEventHandlerBlueprint": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -601,7 +601,7 @@
             "null"
           ],
           "items": {
-            "type": "string"
+            "$ref": "#/definitions/ConditionBlueprint"
           }
         },
         "Effect": {
@@ -610,8 +610,54 @@
             "null"
           ],
           "items": {
-            "type": "string"
+            "$ref": "#/definitions/EffectBlueprint"
           }
+        }
+      }
+    },
+    "ConditionBlueprint": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Lua": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Lua code that returns true or false"
+        },
+        "Has": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Pass a Guid or Name of something they might have, if they have it then the condition is met"
+        },
+        "HasNot": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Pass a Guid or Name of something.  As long as they don't have it this condition is true"
+        },
+        "Stat": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Arithmetic expression for a required stat they must have e.g. \"Fight &gt; 50\""
+        }
+      }
+    },
+    "EffectBlueprint": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Lua": {
+          "type": [
+            "null",
+            "string"
+          ]
         }
       }
     },

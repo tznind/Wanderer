@@ -32,20 +32,6 @@ namespace Wanderer.Compilation
             if (string.IsNullOrWhiteSpace(scalar))
                 return null;
 
-            if (typeof(T) == typeof(ICondition))
-            {
-                var conditionCodeType = typeof(ConditionCode<>).MakeGenericType(
-                    type.GenericTypeArguments.Single());
-
-                return Activator.CreateInstance(conditionCodeType, scalar);
-            }
-
-            if(typeof(T) == typeof(IEffect))
-                return new EffectCode(scalar);
-
-            if(typeof(T) == typeof(IFrameSource))
-                return new FrameSourceCode(scalar);
-
             if(typeof(T) == typeof(Stat))
                 return new Stat(scalar);
             

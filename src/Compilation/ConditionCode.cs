@@ -1,16 +1,24 @@
 ﻿using System;
 using NLua.Exceptions;
+using Wanderer.Systems;
 
 namespace Wanderer.Compilation
 {
-    public class ConditionCode<T> : Code, ICondition<T>
+    public class ConditionCode : Code, ICondition
     {
 
         public ConditionCode(string script):base(script)
         {
+            Script = Script.TrimStart();
+
+            if (!Script.StartsWith("return"))
+                Script = "return " + Script;
         }
-        public bool IsMet(IWorld world,T forObject)
+        public bool IsMet(IWorld world,SystemArgs forObject)
         {
+            if(forObject == null)
+                throw new ArgumentNullException(nameof(forObject));
+
             try
             {
                 using(var lua = Factory.Create(world,forObject))
@@ -41,9 +49,9 @@ namespace Wanderer.Compilation
             }
         }
 
-        private string GetThrowMsg(T forObject)
+        private string GetThrowMsg(SystemArgs forObject)
         {
-            return $"Error executing '{GetType().Name}' script code '{Script}'.  Arg was Type '{typeof(T).Name}' and had value '{forObject}'";
+            return $"Error executing '{GetType().Name}' script code '{Script}'.  Arg was Type '{forObject.GetType().Name}' and had value '{forObject}'";
         }
     }
 }

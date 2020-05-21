@@ -13,7 +13,8 @@
 			"./src/Resources/Schemas/actions.schema.json": [ "/**/*actions.yaml" ],
 			"./src/Resources/Schemas/items.schema.json": [ "/**/*items.yaml" ],
 			"./src/Resources/Schemas/rooms.schema.json": [ "/**/*rooms.yaml" ],
-			"./src/Resources/Schemas/actors.schema.json": [ "/**/*actors.yaml" ]
+			"./src/Resources/Schemas/actors.schema.json": [ "/**/*actors.yaml" ],
+			"./src/Resources/Schemas/plans.schema.json": [ "/**/*plans.yaml" ]
 
 		}
     }

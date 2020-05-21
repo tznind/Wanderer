@@ -29,7 +29,7 @@ namespace Wanderer.Items
         public bool IsErased { get; set; } = false;
 
 
-        public List<ICondition<IHasStats>> Require { get; set; } = new List<ICondition<IHasStats>>();
+        public List<ICondition> Require { get; set; } = new List<ICondition>();
         
         /// <summary>
         /// Do not use, internal constructor for JSON serialization
@@ -68,7 +68,7 @@ namespace Wanderer.Items
                 return false;
             }
             
-            if(!Require.All(c => c.IsMet(actor.CurrentLocation.World,actor)))
+            if(!Require.All(c => c.IsMet(actor.CurrentLocation.World,GetSystemArgs(actor))))
             {
                 reason = "Item requirements not met:" + string.Join(Environment.NewLine,Require.Select(r=>r.ToString()));
                 return false;
@@ -99,8 +99,14 @@ namespace Wanderer.Items
                 return false;
 
             //it has unique conditions that are not met yet
-            return Require.All(r => r.IsMet(forActor.CurrentLocation.World,forActor));
+            return Require.All(r => r.IsMet(forActor.CurrentLocation.World,GetSystemArgs(forActor)));
         }
+
+        private SystemArgs GetSystemArgs(IActor forActor)
+        {
+            return new SystemArgs(forActor.CurrentLocation.World,null,0,forActor,forActor,Guid.Empty);
+        }
+
         public override StatsCollection GetFinalStats(IActor forActor)
         {
             if(new StackTrace().FrameCount > 1000)

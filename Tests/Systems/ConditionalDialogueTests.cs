@@ -30,9 +30,9 @@ namespace Tests.Systems
             {
                 Identifier = g1,
                 Body = new List<TextBlock>{new TextBlock("Hey I want to give you all the space bucks!") },
-                Condition = new List<ICondition<SystemArgs>>()
+                Condition = new List<ICondition>()
                 {
-                    new ConditionCode<SystemArgs>("return Recipient:AttitudeTo(AggressorIfAny) > 5")
+                    new ConditionCode("return Recipient:AttitudeTo(AggressorIfAny) > 5")
                 } 
             };
 

@@ -21,7 +21,7 @@ namespace Wanderer.Dialogues
         /// <summary>
         /// Conditions which should be true before this tree will be run.  Only applies to the Root  of a dialogue tree (i.e. initiating Dialogue).  To control conditional navigation set conditions on the <see cref="Options"/> instead
         /// </summary>
-        public List<ICondition<SystemArgs>> Condition { get; set; } = new List<ICondition<SystemArgs>>();
+        public List<ICondition> Condition { get; set; } = new List<ICondition>();
 
         /// <summary>
         /// Responses that can be picked, can include conditional options (e.g. only available if a stat is above a threshold)

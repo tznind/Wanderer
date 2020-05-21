@@ -4,12 +4,12 @@
   OnRoundEnding:
     Condition: 
         # If they are not hungry yet
-      - "return Behaviour.Owner:Has('89c18233-5250-4445-8799-faa9a888fb7f') == false"
+      - Lua: "Behaviour.Owner:Has('89c18233-5250-4445-8799-faa9a888fb7f') == false"
     Effect:
         # Record how long since they last got hungry
-      - "Behaviour.V['Count'] = Behaviour.V['Count'] +1"
+      - Lua: "Behaviour.V['Count'] = Behaviour.V['Count'] +1"
         # Inflict hunger if it has been a while
-      - |
+      - Lua: |
           if Behaviour.V['Count'] > 5 then
             World:GetSystem('89c18233-5250-4445-8799-faa9a888fb7f'):Apply(SystemArgs(World,UserInterface,10,null,Behaviour.Owner,Round))
             Behaviour.V['Count'] = 0

@@ -32,7 +32,7 @@ namespace Wanderer.Dialogues
         /// Lua code that determines if the option should be presented to the user or not.  Should start with  "return ".  If multiple then they are combined with AND.  If none then option will always be presented
         /// <example>return AggressorIfAny:Has('Pistol')</example>
         /// </summary>
-        public List<ICondition<SystemArgs>> Condition { get; set; } = new List<ICondition<SystemArgs>>();
+        public List<ICondition> Condition { get; set; } = new List<ICondition>();
 
         /// <summary>
         /// Set to true to allow user to select this option only once
