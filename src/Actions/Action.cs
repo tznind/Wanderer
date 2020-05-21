@@ -6,14 +6,24 @@ using Wanderer.Actors;
 using Wanderer.Behaviours;
 using Wanderer.Compilation;
 using Wanderer.Factories.Blueprints;
+using Wanderer.Rooms;
 using Wanderer.Systems;
 
 namespace Wanderer.Actions
 {
+    /// <summary>
+    /// An action that an <see cref="IActor"/> can perform 
+    /// </summary>
     public class Action : HasStats,IAction
     {
+        /// <summary>
+        /// Single key that should allow the player to activate this action (assuming support in a suitable UI)
+        /// </summary>
         public char HotKey {get; set;}
         
+        /// <summary>
+        /// Where the action comes from, could be an <see cref="IActor"/> but could equally be owned by a <see cref="IRoom"/> (e.g. 'push the red button')
+        /// </summary>
         public IHasStats Owner { get; set; }
 
 
@@ -26,9 +36,12 @@ namespace Wanderer.Actions
         /// What can be targetted by the action
         /// </summary>
         public List<IActionTarget>  Targets {get;set;} = new List<IActionTarget>();
-        
+
+        /// <inheritdoc />
         public string TargetPrompt { get; set; }
 
+
+        /// <inheritdoc />
         public List<IEffect> Effect {get;set;} = new List<IEffect>();
         
         /// <summary>
@@ -90,11 +103,19 @@ namespace Wanderer.Actions
             PopImpl(world, ui, stack, frame);
         }
 
+        /// <summary>
+        /// Override to unpack your pushed <paramref name="frame"/> and make changes to the world to reflect what your action should have done.  This method is called after invoking all <see cref="Effect"/>
+        /// </summary>
+        /// <param name="world"></param>
+        /// <param name="ui"></param>
+        /// <param name="stack"></param>
+        /// <param name="frame"></param>
         protected virtual void PopImpl(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
         {
             
         }
 
+        /// <inheritdoc />
         public virtual bool HasTargets(IActor performer)
         {
             if (!Targets.Any())
@@ -102,7 +123,8 @@ namespace Wanderer.Actions
 
             return GetTargets(performer).Any();
         }
-        
+
+        /// <inheritdoc />
         public virtual IEnumerable<IHasStats> GetTargets(IActor performer)
         {
             if(Targets.Any())
@@ -114,17 +136,29 @@ namespace Wanderer.Actions
             return new IHasStats[0];
         }
 
+        /// <summary>
+        /// Creates a new copy, if your action does not have a default constructor then you will have to override this method
+        /// </summary>
+        /// <returns></returns>
         public virtual IAction Clone()
         {
-            //TODO preserve Owner
-            return (IAction) Activator.CreateInstance(GetType(),true);
+            var a = (IAction) Activator.CreateInstance(GetType(), true);
+            a.Owner = Owner;
+            return a;
         }
 
+
+        /// <inheritdoc />
         public virtual ActionDescription ToActionDescription()
         {
             return new ActionDescription(){HotKey = HotKey, Name = Name};
         }
 
+        /// <summary>
+        /// True if the user would consider this and the <paramref name="other"/> the same (even if they have different <see cref="Owner"/>)
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public bool AreIdentical(IAction other)
         {
             if (other == null)
@@ -133,12 +167,22 @@ namespace Wanderer.Actions
             return this.Name == other.Name;
         }
 
+        /// <inheritdoc />
         public override string ToString()
         {
             return $"{Name} [{Owner}]";
         }
 
         
+        /// <summary>
+        /// Creates a new <see cref="Narrative"/> (non dialogue story piece) and runs it in the <paramref name="ui"/>
+        /// </summary>
+        /// <param name="ui"></param>
+        /// <param name="actor"></param>
+        /// <param name="title"></param>
+        /// <param name="fluff">How to describe what is happening as a story description e.g. "The liquid tastes sweet and makes you feel strong"</param>
+        /// <param name="technical">How to describe what is happening in logs e.g. "+10 Strength"</param>
+        /// <param name="round"></param>
         protected void ShowNarrative(IUserinterface ui,IActor actor,string title, string fluff, string technical,Guid round)
         {
             var narrative = new Narrative(actor, title, fluff, technical,round);

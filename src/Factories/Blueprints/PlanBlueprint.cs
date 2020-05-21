@@ -1,8 +1,13 @@
 using System;
 using System.Collections.Generic;
+using Wanderer.Actions;
+using Wanderer.Plans;
 
 namespace Wanderer.Factories.Blueprints
 {
+    /// <summary>
+    /// Describes how to create instances of <see cref="Plan"/> (AI routine to undertake a given <see cref="IAction"/> under a given set of <see cref="Condition"/>)
+    /// </summary>
     public class PlanBlueprint
     {
         

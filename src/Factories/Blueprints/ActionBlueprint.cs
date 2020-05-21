@@ -4,9 +4,14 @@ using Wanderer.Compilation;
 
 namespace Wanderer.Factories.Blueprints
 {
-
+    /// <summary>
+    /// Describes an activity a player or npc can perform
+    /// </summary>
     public class ActionBlueprint : HasStatsBlueprint
     {
+        /// <summary>
+        /// The hotkey the user should be able to press (assuming UI support) to activate this action
+        /// </summary>
         public char? HotKey {get;set;}
 
         /// <summary>

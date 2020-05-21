@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 using Wanderer.Dialogues;
-using Wanderer.Factories.Blueprints;
 
-namespace Wanderer.Factories
+namespace Wanderer.Factories.Blueprints
 {
+    /// <summary>
+    /// Blueprint for creating a <see cref="DialogueOption"/>
+    /// </summary>
     public class DialogueOptionBlueprint
     {
         /// <summary>
@@ -23,13 +25,12 @@ namespace Wanderer.Factories
         public string Text { get; set; }
 
         /// <summary>
-        /// Lua code effects which happen if this dialogue option is picked (spawn items etc)
+        /// Effects which happen if this dialogue option is picked (spawn items etc)
         /// </summary>
         public List<EffectBlueprint> Effect = new List<EffectBlueprint>();
 
         /// <summary>
-        /// Lua code that determines if the option should be presented to the user or not.  Should start with  "return ".  If multiple then they are combined with AND.  If none then option will always be presented
-        /// <example>return AggressorIfAny:Has('Pistol')</example>
+        /// Conditions which must all be true before the <see cref="Effect"/> are fired.  If multiple then they are combined with AND.  If none then option will always be presented
         /// </summary>
         public List<ConditionBlueprint> Condition { get; set; } = new List<ConditionBlueprint>();
 

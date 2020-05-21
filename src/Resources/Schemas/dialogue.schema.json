@@ -8,6 +8,7 @@
   "definitions": {
     "DialogueNodeBlueprint": {
       "type": "object",
+      "description": "Blueprint for creating a DialogueNode",
       "additionalProperties": false,
       "properties": {
         "Options": {
@@ -49,6 +50,7 @@
     },
     "DialogueOptionBlueprint": {
       "type": "object",
+      "description": "Blueprint for creating a DialogueOption",
       "additionalProperties": false,
       "properties": {
         "Effect": {
@@ -56,7 +58,7 @@
             "array",
             "null"
           ],
-          "description": "Lua code effects which happen if this dialogue option is picked (spawn items etc)",
+          "description": "Effects which happen if this dialogue option is picked (spawn items etc)",
           "items": {
             "$ref": "#/definitions/EffectBlueprint"
           }
@@ -89,7 +91,7 @@
             "array",
             "null"
           ],
-          "description": "Lua code that determines if the option should be presented to the user or not.  Should start with  \"return \".  If multiple then they are combined with AND.  If none then option will always be presented\nreturn AggressorIfAny:Has('Pistol')",
+          "description": "Conditions which must all be true before the Effect are fired.  If multiple then they are combined with AND.  If none then option will always be presented",
           "items": {
             "$ref": "#/definitions/ConditionBlueprint"
           }
@@ -122,6 +124,7 @@
     },
     "ConditionBlueprint": {
       "type": "object",
+      "description": "Blueprint that describes how to build one or more ICondition",
       "additionalProperties": false,
       "properties": {
         "Lua": {
@@ -156,6 +159,7 @@
     },
     "TextBlockBlueprint": {
       "type": "object",
+      "description": "Describes how to create instances of TextBlock",
       "additionalProperties": false,
       "properties": {
         "Condition": {
@@ -163,6 +167,7 @@
             "array",
             "null"
           ],
+          "description": "List of conditions that must be true before this sentence or paragraph should be included in the displayed text of a DialogueNode.  If no conditions then it is automatically included",
           "items": {
             "$ref": "#/definitions/ConditionBlueprint"
           }
@@ -171,7 +176,8 @@
           "type": [
             "null",
             "string"
-          ]
+          ],
+          "description": "The dialogue text to display to the user"
         }
       }
     }

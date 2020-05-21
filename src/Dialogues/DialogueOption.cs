@@ -22,15 +22,14 @@ namespace Wanderer.Dialogues
         /// The human readable text for the option
         /// </summary>
         public string Text { get; set; }
-
+        
         /// <summary>
-        /// Lua code effects which happen if this dialogue option is picked (spawn items etc)
+        /// Effects which happen if this dialogue option is picked (spawn items etc)
         /// </summary>
         public List<IEffect> Effect = new List<IEffect>();
-
+        
         /// <summary>
-        /// Lua code that determines if the option should be presented to the user or not.  Should start with  "return ".  If multiple then they are combined with AND.  If none then option will always be presented
-        /// <example>return AggressorIfAny:Has('Pistol')</example>
+        /// Conditions which must all be true before the <see cref="Effect"/> are fired.  If multiple then they are combined with AND.  If none then option will always be presented
         /// </summary>
         public List<ICondition> Condition { get; set; } = new List<ICondition>();
 

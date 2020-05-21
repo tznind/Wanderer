@@ -5,6 +5,9 @@ using Wanderer.Items;
 
 namespace Wanderer.Factories.Blueprints
 {
+    /// <summary>
+    /// Describes how to create instances of <see cref="IItem"/> and <see cref="IItemStack"/>
+    /// </summary>
     public class ItemBlueprint : HasStatsBlueprint
     {
         /// <summary>

@@ -4,6 +4,9 @@ using Wanderer.Compilation;
 
 namespace Wanderer.Factories.Blueprints
 {
+    /// <summary>
+    /// Blueprint that describes how to build one or more <see cref="ICondition"/>
+    /// </summary>
     public class ConditionBlueprint
     {
         /// <summary>
@@ -26,6 +29,10 @@ namespace Wanderer.Factories.Blueprints
         /// </summary>
         public string Stat {get;set;}
         
+        /// <summary>
+        /// Creates one <see cref="ICondition"/> for each configured blueprint option e.g. <see cref="Lua"/> creates a <see cref="ConditionCode"/>
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<ICondition> Create()
         {
             if(!string.IsNullOrWhiteSpace(Lua))

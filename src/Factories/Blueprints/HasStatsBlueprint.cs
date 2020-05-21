@@ -10,6 +10,9 @@ using Wanderer.Systems;
 
 namespace Wanderer.Factories.Blueprints
 {
+    /// <summary>
+    /// Base class for all blueprints for <see cref="IHasStats"/> objects
+    /// </summary>
     public abstract class HasStatsBlueprint
     {
         /// <summary>
@@ -132,7 +135,10 @@ namespace Wanderer.Factories.Blueprints
         }
 
         
-
+        /// <summary>
+        /// Returns the blueprint name, identifier or failing that the Type of the blueprint
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return Name ?? Identifier?.ToString() ?? "Unamed " + GetType().Name;

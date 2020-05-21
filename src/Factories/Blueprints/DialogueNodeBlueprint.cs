@@ -4,6 +4,9 @@ using Wanderer.Dialogues;
 
 namespace Wanderer.Factories.Blueprints
 {
+    /// <summary>
+    /// Blueprint for creating a <see cref="DialogueNode"/>
+    /// </summary>
     public class DialogueNodeBlueprint
     {
         /// <summary>

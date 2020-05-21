@@ -2,6 +2,7 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "title": "PlanBlueprint",
   "type": "object",
+  "description": "Describes how to create instances of Plan (AI routine to undertake a given IAction under a given set of Condition)",
   "additionalProperties": false,
   "properties": {
     "Name": {
@@ -49,6 +50,7 @@
   "definitions": {
     "ConditionBlueprint": {
       "type": "object",
+      "description": "Blueprint that describes how to build one or more ICondition",
       "additionalProperties": false,
       "properties": {
         "Lua": {
@@ -83,13 +85,15 @@
     },
     "FrameSourceBlueprint": {
       "type": "object",
+      "description": "Describes how to create an IFrameSource",
       "additionalProperties": false,
       "properties": {
         "Lua": {
           "type": [
             "null",
             "string"
-          ]
+          ],
+          "description": "Lua code to construct a new Frame.  This is the action that should be performed if the plan is selected by the AI.  A Frame includes both the action and the selected targets"
         }
       }
     }

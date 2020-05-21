@@ -1,8 +1,12 @@
 ﻿using System;
 using Wanderer.Relationships;
+using Wanderer.Rooms;
 
 namespace Wanderer.Factories.Blueprints
 {
+    /// <summary>
+    /// Describes how to create instances of <see cref="IRoom"/>
+    /// </summary>
     public class RoomBlueprint : HasStatsBlueprint
     {
         /// <summary>
