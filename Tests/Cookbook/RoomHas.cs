@@ -32,7 +32,7 @@ Arm: 2
       Require:
          - RoomHas: Medical
 - Name: Med Bay
-  FixedLocation: 0,-1,0
+  FixedLocation: -1,0,0
   MandatoryAdjectives:
     - Medical
 ";
@@ -59,10 +59,16 @@ Arm: 2
             GoWest(world);
             
             Assert.AreEqual("Med Bay",world.Player.CurrentLocation.Name);
+            
+            Assert.AreEqual(0,world.Player.GetFinalStats()[Stat.Fight]);
 
             RunRound(world,"Equipment [Wanderer]","PutOn","Bionic Arm");
             
             Assert.IsTrue(world.Player.Items.Single().IsEquipped);
+            Assert.AreEqual(20,world.Player.GetFinalStats()[Stat.Fight]);
+            
+            GoEast(world);
+            Assert.AreEqual(20,world.Player.GetFinalStats()[Stat.Fight]);
         }
     }
 }
