@@ -33,10 +33,11 @@ namespace Wanderer.Compilation
         /// <inheritdoc />
         public bool IsMet(IWorld world, SystemArgs o)
         {
+            var toCheck = (o.AggressorIfAny ?? o.Recipient);
             if (CheckRoom)
-                return o.Room?.Has(Requirement) ?? throw new Exception($"Room was null for RoomHas condition '{Requirement}'");
+                toCheck = o.Room ?? throw new Exception($"Room was null for RoomHas condition '{Requirement}'");
 
-            return (o.AggressorIfAny ?? o.Recipient).Has(Requirement) == !InvertLogic;
+            return toCheck.Has(Requirement) == !InvertLogic;
         }
 
         public override string ToString()

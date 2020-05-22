@@ -85,7 +85,14 @@
             "null",
             "string"
           ],
-          "description": "Pass a Guid or Name of something that might be in the room they in"
+          "description": "Pass a Guid or Name of something that might be in the room they in.  Condition is true as long as the room or anyone in it (or their items) has this"
+        },
+        "RoomHasNot": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Pass a Guid or Name of something that might be in the room they in.  Condition is true as long as the room or anyone in it (or their items) DOES NOT have this"
         },
         "Stat": {
           "type": [
