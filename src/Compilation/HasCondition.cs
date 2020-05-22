@@ -1,4 +1,5 @@
 ﻿using System;
+using Wanderer.Rooms;
 using Wanderer.Systems;
 
 namespace Wanderer.Compilation
@@ -19,6 +20,11 @@ namespace Wanderer.Compilation
         /// </summary>
         public bool InvertLogic {get;set;}
 
+        /// <summary>
+        /// True to check the <see cref="IRoom"/> they are in instead of them
+        /// </summary>
+        public bool CheckRoom { get; set; }
+
         public HasCondition(string required)
         {
             Requirement = required;
@@ -27,7 +33,18 @@ namespace Wanderer.Compilation
         /// <inheritdoc />
         public bool IsMet(IWorld world, SystemArgs o)
         {
+            if (CheckRoom)
+                return o.Room?.Has(Requirement) ?? throw new Exception($"Room was null for RoomHas condition '{Requirement}'");
+
             return (o.AggressorIfAny ?? o.Recipient).Has(Requirement) == !InvertLogic;
+        }
+
+        public override string ToString()
+        {
+            if (CheckRoom)
+                return "RoomHas: " + Requirement;
+
+            return Requirement;
         }
     }
 }

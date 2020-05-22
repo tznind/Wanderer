@@ -9,6 +9,7 @@ This page contains simple recipes for common level building tasks.  To test a re
   - [Starting room](#starting-room)
   - [Add same item to many rooms](#add-same-item-to-many-rooms)
   - [Random room items](#random-room-items)
+  - [RoomHas](#room-has)
 - [Item Recipes](#item-recipes)
   - [Equippable weapon](#equippable-weapon)
   - [Grenade](#grenade)
@@ -118,6 +119,10 @@ You can create a room with no random items by setting the max to 0:
   OptionalItemsMax: 0
 ```
 <sup>./rooms.yaml</sup>
+
+### RoomHas
+<sup>[[View Test]](./Tests/Cookbook/RoomHas.cs)</sup>
+
 
 ## Item Recipes
 

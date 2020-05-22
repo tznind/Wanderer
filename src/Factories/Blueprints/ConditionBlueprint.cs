@@ -25,6 +25,11 @@ namespace Wanderer.Factories.Blueprints
         public string HasNot {get;set;}
 
         /// <summary>
+        /// Pass a Guid or Name of something that might be in the room they in
+        /// </summary>
+        public string RoomHas { get; set; }
+
+        /// <summary>
         /// Arithmetic expression for a required stat they must have e.g. "Fight > 50"
         /// </summary>
         public string Stat {get;set;}
@@ -42,10 +47,10 @@ namespace Wanderer.Factories.Blueprints
                 yield return new HasCondition(Has);
 
             if (!string.IsNullOrWhiteSpace(HasNot))
-                yield return new HasCondition(HasNot)
-                {
-                    InvertLogic = true
-                };
+                yield return new HasCondition(HasNot) { InvertLogic = true};
+
+            if(!string.IsNullOrWhiteSpace(RoomHas))
+                yield return new HasCondition(RoomHas){CheckRoom = true};
 
             if(!string.IsNullOrWhiteSpace(Stat))
                 yield return new StatCondition(Stat);
