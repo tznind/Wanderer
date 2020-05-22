@@ -27,7 +27,7 @@ namespace Wanderer.Compilation
 
 
         /// <summary>
-        /// True to cuse <see cref="IHasStats.Is(string)"/> instead of <see cref="IHasStats.Has(string)"/>.  Default is false
+        /// True to use <see cref="IHasStats.Is(string)"/> instead of <see cref="IHasStats.Has(string)"/>.  Default is false
         /// </summary>
         public bool UseIs { get; internal set; } 
 

@@ -5,7 +5,14 @@
     /// </summary>
     public class ActionFrameSystemArgs : EventSystemArgs
     {
+        /// <summary>
+        /// The current stack of actions that have been pushed
+        /// </summary>
         public ActionStack Stack {get;set;}
+
+        /// <summary>
+        /// The packaged command that is currently being considered, including targets
+        /// </summary>
         public Frame Frame {get;set;}
 
         public ActionFrameSystemArgs(IHasStats source,IWorld world, IUserinterface ui,ActionStack stack, Frame frame ): 
