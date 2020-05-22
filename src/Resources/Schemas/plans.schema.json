@@ -73,12 +73,26 @@
           ],
           "description": "Pass a Guid or Name of something they might have, if they have it then the condition is met"
         },
+        "Is": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Pass a Guid or Name, condition is true if the object is it.  This does not include things they have e.g. items, adjectives etc (see Has for that)"
+        },
         "HasNot": {
           "type": [
             "null",
             "string"
           ],
           "description": "Pass a Guid or Name of something.  As long as they don't have it this condition is true"
+        },
+        "IsNot": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Pass a Guid or Name, condition is true as long as the object is NOT it.  This does not include things they have e.g. items, adjectives etc  (see Has for that)"
         },
         "RoomHas": {
           "type": [
@@ -93,6 +107,20 @@
             "string"
           ],
           "description": "Pass a Guid or Name of something that might be in the room they in.  Condition is true as long as the room or anyone in it (or their items) DOES NOT have this"
+        },
+        "RoomIs": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Pass a Guid or Name of a room.  Condition is true if the room fits it.  This does not include adjectives or occupants, see RoomHas for that."
+        },
+        "RoomIsNot": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Pass a Guid or Name of a room.  Condition is true as long as the room is NOT it.  This does not include adjectives or occupants, see RoomHasNot for that."
         },
         "Stat": {
           "type": [

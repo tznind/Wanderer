@@ -5,6 +5,7 @@ using System.Text;
 using NUnit.Framework;
 using Wanderer;
 using Wanderer.Actors;
+using Wanderer.Adjectives;
 using Wanderer.Factories.Blueprints;
 using Wanderer.Systems;
 
@@ -37,5 +38,37 @@ namespace Tests.Factories.Blueprints
             you.CurrentLocation.Name = "Fish";
             Assert.IsFalse(condition.IsMet(world, GetSystemArgs(you)));
         }
+        
+        [Test]
+        public void TestCondition_RoomIs_PassBecauseRoomIsName()
+        {
+            var you = YouInARoom(out IWorld world);
+            var condition = new ConditionBlueprint() {RoomIs = "Fish"}.Create().Single();
+            
+            Assert.IsFalse(condition.IsMet(world, GetSystemArgs(you)));
+
+            you.CurrentLocation.Adjectives.Add(new Adjective(you.CurrentLocation){Name= "Fish"});
+            Assert.IsFalse(condition.IsMet(world, GetSystemArgs(you)), "Is should not consider adjectives");
+
+            you.CurrentLocation.Name = "Fish";
+            Assert.IsTrue(condition.IsMet(world, GetSystemArgs(you)), "Now Room has the Name to match, it should be considered 'Is'");
+        }
+
+        [Test]
+        public void TestCondition_RoomIsNot_PassBecauseRoomIsName()
+        {
+            var you = YouInARoom(out IWorld world);
+            var condition = new ConditionBlueprint() {RoomIsNot = "Fish"}.Create().Single();
+            
+            Assert.IsTrue(condition.IsMet(world, GetSystemArgs(you)));
+
+            you.CurrentLocation.Adjectives.Add(new Adjective(you.CurrentLocation){Name= "Fish"});
+            Assert.IsTrue(condition.IsMet(world, GetSystemArgs(you)));
+
+            you.CurrentLocation.Name = "Fish";
+            Assert.IsFalse(condition.IsMet(world, GetSystemArgs(you)), "Now Room has the Name to match, it should be considered 'Is' therefore Not should make this codition true");
+        }
+
+        
     }
 }

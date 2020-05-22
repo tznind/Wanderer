@@ -25,6 +25,12 @@ namespace Wanderer.Compilation
         /// </summary>
         public bool CheckRoom { get; set; }
 
+
+        /// <summary>
+        /// True to cuse <see cref="IHasStats.Is(string)"/> instead of <see cref="IHasStats.Has(string)"/>.  Default is false
+        /// </summary>
+        public bool UseIs { get; internal set; } 
+
         public HasCondition(string required)
         {
             Requirement = required;
@@ -37,7 +43,7 @@ namespace Wanderer.Compilation
             if (CheckRoom)
                 toCheck = o.Room ?? throw new Exception($"Room was null for RoomHas condition '{Requirement}'");
 
-            return toCheck.Has(Requirement) == !InvertLogic;
+            return (UseIs ? toCheck.Is(Requirement) :toCheck.Has(Requirement)) == !InvertLogic;
         }
 
         public override string ToString()
