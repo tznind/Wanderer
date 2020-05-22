@@ -742,6 +742,20 @@
             "null",
             "string"
           ]
+        },
+        "Kill": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Kill the primary actor triggering the effect (text indicates cause of death e.g. \"poison\").  In dialogue it is the speaker (e.g. player), for action it is the action performer"
+        },
+        "KillRecipient": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Kill the secondary (targetted) actor of the effect (text indicates cause of death e.g. \"poison\").  In dialogue it is the person being spoken to, for action it is the targetted individual.  For events involving only one subject acts the same as Kill"
         }
       }
     },

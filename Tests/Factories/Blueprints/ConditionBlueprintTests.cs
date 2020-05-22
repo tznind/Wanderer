@@ -11,11 +11,12 @@ using Wanderer.Systems;
 
 namespace Tests.Factories.Blueprints
 {
+
     class ConditionBlueprintTests : UnitTest
     {
         private SystemArgs GetSystemArgs(IActor forActor)
         {
-            return new SystemArgs(forActor.CurrentLocation.World,null,0,forActor,forActor,Guid.Empty);
+            return new SystemArgs(forActor.CurrentLocation.World,null/*Leave null, conditions shouldnt really trigger UI events*/,0,forActor,forActor,Guid.Empty);
         }
 
         [Test]
