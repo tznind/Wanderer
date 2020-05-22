@@ -560,6 +560,7 @@
     },
     "IActionTarget": {
       "type": "object",
+      "description": "Function for fetching available targets for a custom IAction",
       "x-abstract": true,
       "additionalProperties": false
     }
