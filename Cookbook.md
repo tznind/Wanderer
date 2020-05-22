@@ -9,7 +9,7 @@ This page contains simple recipes for common level building tasks.  To test a re
   - [Starting room](#starting-room)
   - [Add same item to many rooms](#add-same-item-to-many-rooms)
   - [Random room items](#random-room-items)
-  - [RoomHas](#room-has)
+  - [RoomHas](#roomhas)
 - [Item Recipes](#item-recipes)
   - [Equippable weapon](#equippable-weapon)
   - [Grenade](#grenade)
