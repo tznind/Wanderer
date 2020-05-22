@@ -69,6 +69,59 @@ namespace Tests.Factories.Blueprints
             Assert.IsFalse(condition.IsMet(world, GetSystemArgs(you)), "Now Room has the Name to match, it should be considered 'Is' therefore Not should make this codition true");
         }
 
-        
+
+
+        #region Actor Tests
+        [Test]
+        public void TestCondition_Has_PassBecauseHasAdjective()
+        {
+            var you = YouInARoom(out IWorld world);
+            var condition = new ConditionBlueprint() {Has = "Fish"}.Create().Single();
+            
+            Assert.IsFalse(condition.IsMet(world, GetSystemArgs(you)));
+            you.Adjectives.Add(new Adjective(you){Name = "Fish"});
+
+            Assert.IsTrue(condition.IsMet(world, GetSystemArgs(you)));
+        }
+        [Test]
+        public void TestCondition_HasNot_PassBecauseHasAdjective()
+        {
+            var you = YouInARoom(out IWorld world);
+            var condition = new ConditionBlueprint() {HasNot = "Fish"}.Create().Single();
+            
+            Assert.IsTrue(condition.IsMet(world, GetSystemArgs(you)));
+            you.Adjectives.Add(new Adjective(you){Name = "Fish"});
+
+            Assert.IsFalse(condition.IsMet(world, GetSystemArgs(you)));
+        }
+
+        [Test]
+        public void TestCondition_Is_PassBecauseIsType()
+        {
+            var you = YouInARoom(out IWorld world);
+            var condition = new ConditionBlueprint() {Is = "Fish"}.Create().Single();
+            
+            Assert.IsFalse(condition.IsMet(world, GetSystemArgs(you)));
+            you.Adjectives.Add(new Adjective(you){Name = "Fish"});
+
+            condition = new ConditionBlueprint() {Is = "You"}.Create().Single();
+            Assert.IsTrue(condition.IsMet(world, GetSystemArgs(you)),"Should be true because Is matches on Type name 'You'");
+        }
+
+
+        [Test]
+        public void TestCondition_IsNot_PassBecauseIsType()
+        {
+            var you = YouInARoom(out IWorld world);
+            var condition = new ConditionBlueprint() {IsNot = "Fish"}.Create().Single();
+            
+            Assert.IsTrue(condition.IsMet(world, GetSystemArgs(you)));
+            you.Adjectives.Add(new Adjective(you){Name = "Fish"});
+
+            condition = new ConditionBlueprint() {IsNot = "You"}.Create().Single();
+            Assert.IsFalse(condition.IsMet(world, GetSystemArgs(you)),"Should be false because Is matches on Type name 'You' and condition is 'Not'");
+        }
+        #endregion
+
     }
 }

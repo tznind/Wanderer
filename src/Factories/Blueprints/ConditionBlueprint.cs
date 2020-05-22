@@ -76,7 +76,7 @@ namespace Wanderer.Factories.Blueprints
                 yield return new HasCondition(HasNot) { InvertLogic = true};
 
             if (!string.IsNullOrWhiteSpace(Is))
-                yield return new HasCondition(Has){UseIs = true};
+                yield return new HasCondition(Is){UseIs = true};
 
             if (!string.IsNullOrWhiteSpace(IsNot))
                 yield return new HasCondition(IsNot){InvertLogic = true, UseIs = true};
