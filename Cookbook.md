@@ -123,17 +123,23 @@ You can create a room with no random items by setting the max to 0:
 ### RoomHas
 <sup>[[View Test]](./Tests/Cookbook/RoomHas.cs)</sup>
 
-If you want to check for something in the [Room] an actor is in rather than the [Actor] themselves you can use the `RoomHas` condition.  For example we could create a Bionic arm that requires a medical bay to install:
+If you want to check for something in the [Room] an [Actor] is in rather than the [Actor] themselves you can use the `RoomHas` condition.  For example we could create a 'Bionic Arm' that requires a medical bay to install.
+
+Create the adjective Medical:
 
 ```
 - Name: Medical
 ```
 <sup>./adjectives.yaml</sup>
 
+Define that all Actors have by default 2 arms (including the Player):
+
 ```
 Arm: 2
 ```
 <sup>./slots.yaml</sup>
+
+Create a couple of rooms, one with the arm and one that is a medical bay:
 
 ```
 - Name: Warehouse
