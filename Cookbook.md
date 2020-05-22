@@ -125,6 +125,8 @@ You can create a room with no random items by setting the max to 0:
 
 If you want to check for something in the [Room] an [Actor] is in rather than the [Actor] themselves you can use the `RoomHas` condition.  For example we could create a 'Bionic Arm' that requires a medical bay to install.
 
+**Note: RoomHas also includes anything any Actor in the room Has (or items they are carrying)**
+
 Create the adjective Medical:
 
 ```
