@@ -29,7 +29,7 @@ Arm: 2
       Slot:
         Name: Arm
         NumberRequired: 1
-      Require:
+      EquipRequire:
          - RoomHas: Medical
 - Name: Med Bay
   FixedLocation: -1,0,0

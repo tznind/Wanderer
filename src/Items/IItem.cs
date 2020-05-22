@@ -31,10 +31,23 @@ namespace Wanderer.Items
         bool IsErased { get; set; }
         
         /// <summary>
-        /// Conditions the wielder must meet before being able to interact with
-        /// this object
+        /// Conditions the wielder must meet before being able to interact with this item
         /// </summary>
         List<ICondition> Require { get; set; }
+
+
+        /// <summary>
+        /// Conditions the wielder must meet before equiping the item
+        /// this object
+        /// </summary>
+        List<ICondition> EquipRequire { get; set; }
+
+
+        /// <summary>
+        /// Conditions the wielder must meet before unequiping the item
+        /// this object
+        /// </summary>
+         List<ICondition> UnEquipRequire { get; set; }
 
         /// <summary>
         /// Returns true if the item requirements are met.  This includes all
@@ -61,11 +74,29 @@ namespace Wanderer.Items
         /// <returns></returns>
         bool CanUse(IActor actor, out string reason);
 
+
+        /// <summary>
+        /// Returns true if the <paramref name="actor"/> can equip this item
+        /// </summary>
+        /// <param name="actor"></param>
+        /// <param name="reason"></param>
+        /// <returns></returns>
+        bool CanEquip(IActor actor, out string reason);
+
+        /// <summary>
+        /// Returns true if the <paramref name="actor"/> can unequip this item
+        /// </summary>
+        /// <param name="actor"></param>
+        /// <param name="reason"></param>
+        /// <returns></returns>
+        bool CanUnEquip(IActor actor, out string reason);
+
         /// <summary>
         /// Returns the injury system of the item, or any <see cref="FightAction"/> it grants or null 
         /// </summary>
         /// <param name="forActor"></param>
         /// <returns></returns>
         IInjurySystem GetBestInjurySystem(IActor forActor);
+        
     }
 }

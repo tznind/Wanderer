@@ -30,7 +30,13 @@ namespace Wanderer.Items
 
 
         public List<ICondition> Require { get; set; } = new List<ICondition>();
-        
+
+
+        public List<ICondition> EquipRequire { get; set; } = new List<ICondition>();
+
+
+        public List<ICondition> UnEquipRequire { get; set; } = new List<ICondition>();
+
         /// <summary>
         /// Do not use, internal constructor for JSON serialization
         /// </summary>
@@ -74,6 +80,64 @@ namespace Wanderer.Items
                 return false;
             }
 
+            reason = null;
+            return true;
+        }
+
+        public bool CanEquip(IActor actor, out string reason)
+        {
+            //already equipped, dead etc
+            if (IsEquipped)
+            {
+                reason = "Already equipped";
+                return false;
+            }
+
+            if (Slot == null)
+            {
+                reason = "Item cannot be equipped";
+                return false;
+            }
+
+            if (!actor.AvailableSlots.ContainsKey(Slot.Name))
+            {
+                reason = $"You do not have a {Slot.Name} slot";
+                return false;
+            }
+
+            // Does the actor already have too many filled slots
+            var alreadyWearing = actor.Items.Where(i => i.IsEquipped && i.Slot != null && i.Slot.Name == Slot.Name);
+            var alreadyWearingCount = alreadyWearing.Sum(i => i.Slot.NumberRequired);
+
+            if (actor.AvailableSlots[Slot.Name] < Slot.NumberRequired + alreadyWearingCount)
+            {
+                reason = $"You do not have enough free {Slot.Name} slots";
+                return false;
+            }
+            
+            if(!EquipRequire.All(c => c.IsMet(actor.CurrentLocation.World,GetSystemArgs(actor))))
+            {
+                reason = "Item requirements not met:" + string.Join(Environment.NewLine,EquipRequire.Select(r=>r.ToString()));
+                return false;
+            }
+
+            reason = null;
+            return true;
+        }
+        public bool CanUnEquip(IActor actor, out string reason)
+        {
+            //already not even equiped!
+            if (!IsEquipped)
+            {
+                reason = "Already not equiped";
+                return false;
+            }
+            
+            if(!UnEquipRequire.All(c => c.IsMet(actor.CurrentLocation.World,GetSystemArgs(actor))))
+            {
+                reason = "Item requirements not met:" + string.Join(Environment.NewLine,UnEquipRequire.Select(r=>r.ToString()));
+                return false;
+            }
 
             reason = null;
             return true;

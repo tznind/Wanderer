@@ -156,6 +156,26 @@
             "$ref": "#/definitions/ConditionBlueprint"
           }
         },
+        "EquipRequire": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "A condition that must be met before the item can be equipped",
+          "items": {
+            "$ref": "#/definitions/ConditionBlueprint"
+          }
+        },
+        "UnEquipRequire": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "A condition that must be met before the item can be taken off",
+          "items": {
+            "$ref": "#/definitions/ConditionBlueprint"
+          }
+        },
         "Stack": {
           "type": [
             "integer",
@@ -654,6 +674,13 @@
             "string"
           ],
           "description": "Pass a Guid or Name of something.  As long as they don't have it this condition is true"
+        },
+        "RoomHas": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Pass a Guid or Name of something that might be in the room they in"
         },
         "Stat": {
           "type": [
