@@ -59,6 +59,12 @@ namespace Wanderer.Factories.Blueprints
         /// Arithmetic expression for a required stat they must have e.g. "Fight > 50"
         /// </summary>
         public string Stat {get;set;}
+
+
+        /// <summary>
+        /// Arithmetic expression for a required custom variable e.g. "MyCounter > 50" (See <see cref="IHasStats.V"/>)
+        /// </summary>
+        public string Variable {get;set;}
         
         /// <summary>
         /// Creates one <see cref="ICondition"/> for each configured blueprint option e.g. <see cref="Lua"/> creates a <see cref="ConditionCode"/>
@@ -95,6 +101,11 @@ namespace Wanderer.Factories.Blueprints
 
             if(!string.IsNullOrWhiteSpace(Stat))
                 yield return new StatCondition(Stat);
+
+            if(!string.IsNullOrWhiteSpace(Variable))
+                yield return new VariableCondition(Variable);
+
+                
         }
     }
 }

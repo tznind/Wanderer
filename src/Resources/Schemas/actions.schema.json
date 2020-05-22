@@ -543,6 +543,13 @@
             "string"
           ],
           "description": "Arithmetic expression for a required stat they must have e.g. \"Fight &gt; 50\""
+        },
+        "Variable": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Arithmetic expression for a required custom variable e.g. \"MyCounter &gt; 50\" (See V)"
         }
       }
     },

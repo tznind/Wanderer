@@ -123,5 +123,26 @@ namespace Tests.Factories.Blueprints
         }
         #endregion
 
+        [Test]
+        public void TestCondition_Variable_NotEqual()
+        {
+            var you = YouInARoom(out IWorld world);
+            var condition = new ConditionBlueprint() {Variable = "Counter != 5"}.Create().Single();
+            
+            Assert.IsTrue(condition.IsMet(world, GetSystemArgs(you)));
+
+            you.V["Counter"] = 3;
+
+            Assert.IsTrue(condition.IsMet(world, GetSystemArgs(you)));
+
+            you.V["Counter"] = 5;
+
+            Assert.IsFalse(condition.IsMet(world, GetSystemArgs(you)));
+
+            you.V["Counter"] = 7;
+
+            Assert.IsTrue(condition.IsMet(world, GetSystemArgs(you)));
+
+        }
     }
 }
