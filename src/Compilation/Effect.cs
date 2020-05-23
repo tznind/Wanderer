@@ -8,9 +8,9 @@ namespace Wanderer.Compilation
         public SystemArgsTarget Target { get; }
         public abstract void Apply(SystemArgs args);
 
-        public Effect(SystemArgsTarget check)
+        public Effect(SystemArgsTarget target)
         {
-            Target = check;
+            Target = target;
         }
     }
 }

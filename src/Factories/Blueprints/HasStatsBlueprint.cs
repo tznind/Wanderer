@@ -121,6 +121,20 @@ namespace Wanderer.Factories.Blueprints
             return SuitsFaction(f?.Identifier);
         }
 
+        public bool Is(string name)
+        {
+            //if the user passed a string that was actually a Guid
+            if (Guid.TryParse(name, out Guid g))
+                return Is(g);
+
+            return string.Equals(Name, name, StringComparison.CurrentCultureIgnoreCase);
+        }
+
+        internal bool Is(Guid guid)
+        {
+            return Identifier == guid;
+        }
+
         /// <summary>
         /// <para>Returns true if the blueprint is appropriate for the supplied <paramref name="factionIdentifier"/>.  Generic objects are always suitable for any faction but faction specific items only suit when their specific <paramref name="factionIdentifier"/> is supplied.</para>
         /// 

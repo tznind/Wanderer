@@ -20,7 +20,12 @@ namespace Wanderer
         Random R { get; set; }
 
         You Player { get; }
-        
+
+        /// <summary>
+        /// Returns the named factory blueprint (by Name or Identifier)
+        /// </summary>
+        HasStatsBlueprint GetBlueprint(string toSpawn);
+
         /// <summary>
         /// Creates <see cref="IRoom"/>
         /// </summary>
