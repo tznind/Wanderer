@@ -678,47 +678,12 @@
           ],
           "description": "Pass a Guid or Name, condition is true as long as the object is NOT it.  This does not include things they have e.g. items, adjectives etc  (see Has for that)"
         },
-        "RoomHas": {
-          "type": [
-            "null",
-            "string"
-          ],
-          "description": "Pass a Guid or Name of something that might be in the room they in.  Condition is true as long as the room or anyone in it (or their items) has this"
-        },
-        "RoomHasNot": {
-          "type": [
-            "null",
-            "string"
-          ],
-          "description": "Pass a Guid or Name of something that might be in the room they in.  Condition is true as long as the room or anyone in it (or their items) DOES NOT have this"
-        },
-        "RoomIs": {
-          "type": [
-            "null",
-            "string"
-          ],
-          "description": "Pass a Guid or Name of a room.  Condition is true if the room fits it.  This does not include adjectives or occupants, see RoomHas for that."
-        },
-        "RoomIsNot": {
-          "type": [
-            "null",
-            "string"
-          ],
-          "description": "Pass a Guid or Name of a room.  Condition is true as long as the room is NOT it.  This does not include adjectives or occupants, see RoomHasNot for that."
-        },
         "Stat": {
           "type": [
             "null",
             "string"
           ],
           "description": "Arithmetic expression for a required stat they must have e.g. \"Fight &gt; 50\""
-        },
-        "StatRecipient": {
-          "type": [
-            "null",
-            "string"
-          ],
-          "description": "Arithmetic expression for a required stat the secondary object must have e.g. \"Fight &gt; 50\".  Secondary object in dialogue is who you are talking to, for an action it is the target of the action etc."
         },
         "Variable": {
           "type": [
@@ -727,14 +692,31 @@
           ],
           "description": "Arithmetic expression for a required custom variable e.g. \"MyCounter &gt; 50\" (See V)"
         },
-        "VariableRecipient": {
-          "type": [
-            "null",
-            "string"
-          ],
-          "description": "Arithmetic expression for a required custom variable the secondary object must have e.g. \"MyCounter &gt; 50\".  Secondary object in dialogue is who you are talking to, for an action it is the target of the action etc."
+        "Check": {
+          "description": "Apply the check (Has, Is, Stat etc) to the given object (default is Aggressor - the acting thing).  Options include Room (where room the event is taking place), Recipient (who you are talking to) etc",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/SystemArgsTarget"
+            }
+          ]
         }
       }
+    },
+    "SystemArgsTarget": {
+      "type": "integer",
+      "description": "0 = Aggressor\n1 = Recipient\n2 = Room\n3 = Owner",
+      "x-enumNames": [
+        "Aggressor",
+        "Recipient",
+        "Room",
+        "Owner"
+      ],
+      "enum": [
+        0,
+        1,
+        2,
+        3
+      ]
     },
     "EffectBlueprint": {
       "type": "object",
@@ -753,12 +735,13 @@
           ],
           "description": "Kill the primary actor triggering the effect (text indicates cause of death e.g. \"poison\").  In dialogue it is the speaker (e.g. player), for action it is the action performer"
         },
-        "KillRecipient": {
-          "type": [
-            "null",
-            "string"
-          ],
-          "description": "Kill the secondary (targetted) actor of the effect (text indicates cause of death e.g. \"poison\").  In dialogue it is the person being spoken to, for action it is the targetted individual.  For events involving only one subject acts the same as Kill"
+        "Target": {
+          "description": "Apply the effect (Kill, Set etc) to the given object (default is Aggressor - the acting thing).  Options include Room (where room the event is taking place), Recipient (who you are talking to) etc",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/SystemArgsTarget"
+            }
+          ]
         },
         "Set": {
           "type": [
@@ -766,13 +749,6 @@
             "string"
           ],
           "description": "Sets a stat or variable to a given value e.g. \"MyCounter += 5\".  If a Stat exists in AllStats then Set will apply to that stat otherwise a variable will be assigned"
-        },
-        "SetRecipient": {
-          "type": [
-            "null",
-            "string"
-          ],
-          "description": "Sets a stat or variable on the secondary (targeted object) to a given value e.g. \"MyCounter += 5\".  If a Stat exists in AllStats then Set will apply to that stat otherwise a variable will be assigned"
         }
       }
     },

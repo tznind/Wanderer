@@ -1,22 +1,21 @@
 using Wanderer.Actors;
+using Wanderer.Factories.Blueprints;
 using Wanderer.Systems;
 
 namespace Wanderer.Compilation
 {
-    public class KillEffect : IEffect
+    public class KillEffect : Effect
     {
         public string Reason { get; }
 
-        public bool RecipientOnly {get;set;}
-
-        public KillEffect(string reason)
+        public KillEffect(string reason, SystemArgsTarget target) : base(target)
         {
             Reason = reason;
         }
 
-        public void Apply(SystemArgs args)
+        public override void Apply(SystemArgs args)
         {
-            var o = RecipientOnly ? args.Recipient : args.AggressorIfAny ?? args.Recipient;
+            var o = args.GetTarget(Target);
             
             if(o is IActor a)
                 a.Kill(args.UserInterface,args.Round,Reason);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using Wanderer.Actors;
+using Wanderer.Factories.Blueprints;
 using Wanderer.Items;
 using Wanderer.Rooms;
 
@@ -89,7 +90,28 @@ namespace Wanderer.Systems
                 return new IItem[0];
             }
         }
-
+        
+        /// <summary>
+        /// Returns a reference to the <paramref name="target"/>
+        /// </summary>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public IHasStats GetTarget(SystemArgsTarget target)
+        {
+            switch (target)
+            {
+                case SystemArgsTarget.Aggressor:
+                    return AggressorIfAny ?? Recipient;
+                case SystemArgsTarget.Recipient:
+                    return Recipient;
+                case SystemArgsTarget.Room:
+                    return Room;
+                case SystemArgsTarget.Owner:
+                    return null;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
 
         public override string ToString()
         {

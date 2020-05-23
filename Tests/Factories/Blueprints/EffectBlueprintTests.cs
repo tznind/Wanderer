@@ -4,6 +4,7 @@ using NUnit.Framework;
 using Wanderer;
 using Wanderer.Actors;
 using Wanderer.Factories;
+using Wanderer.Factories.Blueprints;
 using Wanderer.Rooms;
 using Wanderer.Systems;
 
@@ -37,7 +38,11 @@ namespace Tests.Factories.Blueprints
         {
             TwoInARoom(out You you, out IActor them,out IWorld world);
 
-            var effect = new EffectBlueprint() {KillRecipient = "Nukes"}.Create().Single();
+            var effect = new EffectBlueprint() 
+            {
+                Kill = "Nukes",
+                Target = SystemArgsTarget.Recipient
+            }.Create().Single();
             
             Assert.IsFalse(you.Dead);
             Assert.IsFalse(them.Dead);

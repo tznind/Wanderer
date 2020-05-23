@@ -1,3 +1,4 @@
+using Wanderer.Factories.Blueprints;
 using Wanderer.Systems;
 
 namespace Wanderer.Compilation
@@ -5,20 +6,18 @@ namespace Wanderer.Compilation
     /// <summary>
     /// Condition which checks for a given stat being higher/lower etc than a threshold
     /// </summary>
-    public class StatCondition : ICondition
+    public class StatCondition : Condition
     {
         ArithmeticComparisonExpression Expression {get;set;}
-
-        public bool RecipientOnly { get; set; }
-
-        public StatCondition(string expression)
+        
+        public StatCondition(string expression, SystemArgsTarget check):base(check)
         {
             Expression = new ArithmeticComparisonExpression(expression);
         }
 
-        public bool IsMet(IWorld world, SystemArgs args)
+        public override bool IsMet(IWorld world, SystemArgs args)
         {
-            var o =  RecipientOnly ? args.Recipient : args.AggressorIfAny ?? args.Recipient;
+            var o = args.GetTarget(Check);
             return Expression.Calculate((s)=>o.BaseStats[world.AllStats.Get(s)]);
         }
 

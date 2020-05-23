@@ -30,7 +30,9 @@ Arm: 2
         Name: Arm
         NumberRequired: 1
       EquipRequire:
-         - RoomHas: Medical
+         - Check: Room
+           Has: Medical
+
 - Name: Med Bay
   FixedLocation: -1,0,0
   MandatoryAdjectives:

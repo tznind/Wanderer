@@ -23,7 +23,12 @@ namespace Tests.Factories.Blueprints
         public void TestCondition_RoomHas_PassBecauseRoomHasName()
         {
             var you = YouInARoom(out IWorld world);
-            var condition = new ConditionBlueprint() {RoomHas = "Fish"}.Create().Single();
+            var condition = new ConditionBlueprint()
+            {
+                Has = "Fish",
+                Check = SystemArgsTarget.Room
+
+            }.Create().Single();
             
             Assert.IsFalse(condition.IsMet(world, GetSystemArgs(you)));
             you.CurrentLocation.Name = "Fish";
@@ -33,7 +38,11 @@ namespace Tests.Factories.Blueprints
         public void TestCondition_RoomNotHas_PassBecauseRoomHasName()
         {
             var you = YouInARoom(out IWorld world);
-            var condition = new ConditionBlueprint() {RoomHasNot = "Fish"}.Create().Single();
+            var condition = new ConditionBlueprint() {
+                HasNot = "Fish",
+                Check = SystemArgsTarget.Room
+
+            }.Create().Single();
             
             Assert.IsTrue(condition.IsMet(world, GetSystemArgs(you)));
             you.CurrentLocation.Name = "Fish";
@@ -44,7 +53,11 @@ namespace Tests.Factories.Blueprints
         public void TestCondition_RoomIs_PassBecauseRoomIsName()
         {
             var you = YouInARoom(out IWorld world);
-            var condition = new ConditionBlueprint() {RoomIs = "Fish"}.Create().Single();
+            var condition = new ConditionBlueprint()
+            {
+                Is = "Fish",
+                Check = SystemArgsTarget.Room
+            }.Create().Single();
             
             Assert.IsFalse(condition.IsMet(world, GetSystemArgs(you)));
 
@@ -59,7 +72,12 @@ namespace Tests.Factories.Blueprints
         public void TestCondition_RoomIsNot_PassBecauseRoomIsName()
         {
             var you = YouInARoom(out IWorld world);
-            var condition = new ConditionBlueprint() {RoomIsNot = "Fish"}.Create().Single();
+            var condition = new ConditionBlueprint()
+            {
+                IsNot = "Fish",
+                Check = SystemArgsTarget.Room
+
+            }.Create().Single();
             
             Assert.IsTrue(condition.IsMet(world, GetSystemArgs(you)));
 

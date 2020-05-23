@@ -1,21 +1,20 @@
+using Wanderer.Factories.Blueprints;
 using Wanderer.Systems;
 
 namespace Wanderer.Compilation
 {
-    public class SetEffect : IEffect
+    public class SetEffect : Effect
     {
         AssignmentExpression Expression {get;set;}
-
-        public bool RecipientOnly { get; set; }
-
-        public SetEffect(string expression)
+        
+        public SetEffect(string expression, SystemArgsTarget target):base(target)
         {
             Expression = new AssignmentExpression(expression);
         }
 
-        public void Apply(SystemArgs args)
+        public override void Apply(SystemArgs args)
         {
-            var o = RecipientOnly ? args.Recipient : args.AggressorIfAny ?? args.Recipient;
+            var o = args.GetTarget(Target);
             var val = Expression.Calculate(f=>GetOperand(args,o,f));
 
             //if LHS is a stat
