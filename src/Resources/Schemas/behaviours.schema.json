@@ -479,6 +479,20 @@
             "string"
           ],
           "description": "Sets a stat or variable to a given value e.g. \"MyCounter += 5\".  If a Stat exists in AllStats then Set will apply to that stat otherwise a variable will be assigned"
+        },
+        "Reveal": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Marks the given point on the map as visible.  Combine with Room FixedLocation to help the player find interesting rooms"
+        },
+        "Spawn": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Spawns the referenced object (Item, Actor, Adjective etc).  Target property dictates what to spawn the object into/onto. Must uniquely identify a single object blueprint"
         }
       }
     },
