@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using Wanderer.Systems;
 
 namespace Wanderer.Compilation
@@ -10,18 +7,18 @@ namespace Wanderer.Compilation
     /// </summary>
     public class StatCondition : ICondition
     {
-
         ArithmeticComparisonExpression Expression {get;set;}
+
+        public bool RecipientOnly { get; set; }
 
         public StatCondition(string expression)
         {
             Expression = new ArithmeticComparisonExpression(expression);
-
         }
 
         public bool IsMet(IWorld world, SystemArgs args)
         {
-            var o = args.AggressorIfAny ?? args.Recipient;
+            var o =  RecipientOnly ? args.Recipient : args.AggressorIfAny ?? args.Recipient;
             return Expression.Calculate((s)=>o.BaseStats[world.AllStats.Get(s)]);
         }
 

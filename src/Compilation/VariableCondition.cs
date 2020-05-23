@@ -9,6 +9,7 @@ namespace Wanderer.Compilation
     {
 
         ArithmeticComparisonExpression Expression {get;set;}
+        public bool RecipientOnly { get; set; }
 
         public VariableCondition(string expression)
         {
@@ -18,7 +19,7 @@ namespace Wanderer.Compilation
 
         public bool IsMet(IWorld world, SystemArgs args)
         {
-            var o = args.AggressorIfAny ?? args.Recipient;
+            var o = RecipientOnly ? args.Recipient : args.AggressorIfAny ?? args.Recipient;
             return Expression.Calculate((s)=>o.V[s]);
         }
 

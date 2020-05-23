@@ -713,12 +713,26 @@
           ],
           "description": "Arithmetic expression for a required stat they must have e.g. \"Fight &gt; 50\""
         },
+        "StatRecipient": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Arithmetic expression for a required stat the secondary object must have e.g. \"Fight &gt; 50\".  Secondary object in dialogue is who you are talking to, for an action it is the target of the action etc."
+        },
         "Variable": {
           "type": [
             "null",
             "string"
           ],
           "description": "Arithmetic expression for a required custom variable e.g. \"MyCounter &gt; 50\" (See V)"
+        },
+        "VariableRecipient": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Arithmetic expression for a required custom variable the secondary object must have e.g. \"MyCounter &gt; 50\".  Secondary object in dialogue is who you are talking to, for an action it is the target of the action etc."
         }
       }
     },
@@ -745,6 +759,20 @@
             "string"
           ],
           "description": "Kill the secondary (targetted) actor of the effect (text indicates cause of death e.g. \"poison\").  In dialogue it is the person being spoken to, for action it is the targetted individual.  For events involving only one subject acts the same as Kill"
+        },
+        "Set": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Sets a stat or variable to a given value e.g. \"MyCounter += 5\".  If a Stat exists in AllStats then Set will apply to that stat otherwise a variable will be assigned"
+        },
+        "SetRecipient": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Sets a stat or variable on the secondary (targeted object) to a given value e.g. \"MyCounter += 5\".  If a Stat exists in AllStats then Set will apply to that stat otherwise a variable will be assigned"
         }
       }
     },

@@ -18,6 +18,18 @@ namespace Wanderer.Factories
         /// </summary> 
         public string KillRecipient {get;set;}
 
+        /// <summary>
+        /// Sets a stat or variable to a given value e.g. "MyCounter += 5".  If a Stat exists in <see cref="IWorld.AllStats"/> then Set will apply to that stat otherwise a variable will be assigned
+        /// </summary>
+        public string Set { get; set; }
+
+        /// <summary>
+        /// Sets a stat or variable on the secondary (targeted object) to a given value e.g. "MyCounter += 5".  If a Stat exists in <see cref="IWorld.AllStats"/> then Set will apply to that stat otherwise a variable will be assigned
+        /// </summary>
+        public string SetRecipient { get; set; }
+
+
+
         public IEnumerable<IEffect> Create()
         {
             if(!string.IsNullOrWhiteSpace(Lua))
@@ -28,6 +40,14 @@ namespace Wanderer.Factories
 
             if(!string.IsNullOrWhiteSpace(KillRecipient))
                 yield return new KillEffect(KillRecipient){RecipientOnly = true};
+
+            if (!string.IsNullOrWhiteSpace(Set))
+                yield return new SetEffect(Set);
+
+            if (!string.IsNullOrWhiteSpace(SetRecipient))
+                yield return new SetEffect(SetRecipient){RecipientOnly = true};
+
+            
         }
     }
 }

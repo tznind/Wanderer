@@ -60,11 +60,21 @@ namespace Wanderer.Factories.Blueprints
         /// </summary>
         public string Stat {get;set;}
 
+        /// <summary>
+        /// Arithmetic expression for a required stat the secondary object must have e.g. "Fight > 50".  Secondary object in dialogue is who you are talking to, for an action it is the target of the action etc.
+        /// </summary>
+        public string StatRecipient { get; set; }
 
         /// <summary>
         /// Arithmetic expression for a required custom variable e.g. "MyCounter > 50" (See <see cref="IHasStats.V"/>)
         /// </summary>
         public string Variable {get;set;}
+
+        
+        /// <summary>
+        /// Arithmetic expression for a required custom variable the secondary object must have e.g. "MyCounter > 50".  Secondary object in dialogue is who you are talking to, for an action it is the target of the action etc.
+        /// </summary>
+        public string VariableRecipient { get; set; }
         
         /// <summary>
         /// Creates one <see cref="ICondition"/> for each configured blueprint option e.g. <see cref="Lua"/> creates a <see cref="ConditionCode"/>
@@ -102,9 +112,15 @@ namespace Wanderer.Factories.Blueprints
             if(!string.IsNullOrWhiteSpace(Stat))
                 yield return new StatCondition(Stat);
 
+            if(!string.IsNullOrWhiteSpace(StatRecipient))
+                yield return new StatCondition(StatRecipient){RecipientOnly = true};
+            
             if(!string.IsNullOrWhiteSpace(Variable))
                 yield return new VariableCondition(Variable);
 
+            if(!string.IsNullOrWhiteSpace(VariableRecipient))
+                yield return new VariableCondition(VariableRecipient){RecipientOnly = true};
+            
                 
         }
     }

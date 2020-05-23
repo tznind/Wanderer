@@ -129,12 +129,26 @@
           ],
           "description": "Arithmetic expression for a required stat they must have e.g. \"Fight &gt; 50\""
         },
+        "StatRecipient": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Arithmetic expression for a required stat the secondary object must have e.g. \"Fight &gt; 50\".  Secondary object in dialogue is who you are talking to, for an action it is the target of the action etc."
+        },
         "Variable": {
           "type": [
             "null",
             "string"
           ],
           "description": "Arithmetic expression for a required custom variable e.g. \"MyCounter &gt; 50\" (See V)"
+        },
+        "VariableRecipient": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Arithmetic expression for a required custom variable the secondary object must have e.g. \"MyCounter &gt; 50\".  Secondary object in dialogue is who you are talking to, for an action it is the target of the action etc."
         }
       }
     },
