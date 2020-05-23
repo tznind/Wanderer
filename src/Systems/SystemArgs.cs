@@ -96,7 +96,7 @@ namespace Wanderer.Systems
         /// </summary>
         /// <param name="target"></param>
         /// <returns></returns>
-        public IHasStats GetTarget(SystemArgsTarget target)
+        public virtual IHasStats GetTarget(SystemArgsTarget target)
         {
             switch (target)
             {
