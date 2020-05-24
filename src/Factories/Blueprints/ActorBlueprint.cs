@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Wanderer.Actors;
 using Wanderer.Systems;
 
@@ -32,5 +33,15 @@ namespace Wanderer.Factories.Blueprints
         /// </summary>
         public ItemBlueprint[] OptionalItems { get; set;} = new ItemBlueprint[0];
 
+
+        /// <summary>
+        /// Returns the named blueprint if it is this one or exists amongst the <see cref="OptionalItems"/>, <see cref="MandatoryItems"/> etc
+        /// </summary>
+        public override HasStatsBlueprint TryGetBlueprint(string name)
+        {
+            return base.TryGetBlueprint(name) ??
+            MandatoryItems.Select(a=>a.TryGetBlueprint(name)).FirstOrDefault(b=>b != null) ??
+            (HasStatsBlueprint)OptionalItems.Select(a=>a.TryGetBlueprint(name)).FirstOrDefault(b=>b != null);
+        }
     }
 }

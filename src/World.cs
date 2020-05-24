@@ -148,7 +148,7 @@ namespace Wanderer
         /// <inheritdoc/>
         public HasStatsBlueprint GetBlueprint(string name)
         {
-            return RoomFactory.Blueprints.FirstOrDefault(b=>b.Is(name)) ??
+            return RoomFactory.TryGetBlueprint(name) ??
             ActorFactory.Blueprints.FirstOrDefault(b=>b.Is(name)) ??
             ItemFactory.Blueprints.FirstOrDefault(b=>b.Is(name)) ??
             AdjectiveFactory.Blueprints.FirstOrDefault(b=>b.Is(name)) ??

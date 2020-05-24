@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Wanderer.Actions;
 using Wanderer.Actors;
 using Wanderer.Adjectives;
@@ -70,6 +71,20 @@ namespace Wanderer.Factories.Blueprints
         /// Injury system of any <see cref="FightAction"/> the blueprint spawns (and for <see cref="IActor"/> the innate weapons of the actor (leave null to use the <see cref="IInjurySystem.IsDefault"/>)
         /// </summary>
         public Guid? InjurySystem { get; set; }
+
+
+        /// <summary>
+        /// Returns the current blueprint or child blueprints (e.g. <see cref="Actions"/>)
+        /// </summary>
+        public virtual HasStatsBlueprint TryGetBlueprint(string name)
+        {
+            if(Is(name))
+                return this;
+
+            return 
+                Behaviours.Select(a=>a.TryGetBlueprint(name)).FirstOrDefault(b=>b != null)??
+                Actions.Select(a=>a.TryGetBlueprint(name)).FirstOrDefault(b=>b != null);
+        }
 
         /// <summary>
         /// Things the object has to say e.g. when a creature is talked to or a room examined

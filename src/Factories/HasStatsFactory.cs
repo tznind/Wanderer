@@ -139,6 +139,14 @@ namespace Wanderer.Factories
             return Blueprints.FirstOrDefault(b => b.Is(name)) ??
                    throw new NamedObjectNotFoundException($"Could not find {typeof(T1).Name} Named {name}", name);
         }
+        
+        /// <summary>
+        /// Returns the first blueprint that matches the name (which can be a guid).  Includes sub elements of the blueprint e.g. <see cref="RoomBlueprint.MandatoryItems"/>
+        /// </summary>
+        public HasStatsBlueprint TryGetBlueprint(string name)
+        {
+            return Blueprints.Select(b=> b.TryGetBlueprint(name)).FirstOrDefault(b=>b!= null);
+        }
 
         protected void HandleInheritance(HasStatsBlueprint blueprint)
         {
