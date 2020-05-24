@@ -157,6 +157,7 @@ Create a couple of rooms, one with the arm and one that is a medical bay:
       EquipRequire:
          - Check: Room
            Has: Medical
+
 - Name: Med Bay
   FixedLocation: -1,0,0
   MandatoryAdjectives:
@@ -208,6 +209,8 @@ Injuries:
 
 Next we need to create the item.  We will make it SingleUse and give it a custom fight action that damages everyone in the room.  For the damage Effect we will get the [InjurySystem] and apply it to everyone in the room.  Note that when calling `ApplyToAll` the Recipient can be `null` because it will be assigned for each of the passed actors.
 
+Getting hit by a stray grenade blast should probably make other NPCs angry.  Add another effect to the item.  This time we use `ApplyAll` on the [RelationshipSystem]
+
 ```yaml
 - Name: Grenade
   InjurySystem: 7ccafc68-d51f-4408-861c-f1d7e4e6351a
@@ -221,12 +224,6 @@ Next we need to create the item.  We will make it SingleUse and give it a custom
       Effect:
         #Injury everyone in the room
         - Lua: World:GetSystem('7ccafc68-d51f-4408-861c-f1d7e4e6351a'):ApplyToAll(Room.Actors,SystemArgs(World,UserInterface,20,AggressorIfAny,null,Round))
-```
-<sup>./items.yaml</sup>
-
-Getting hit by a stray grenade blast should probably make other NPCs angry.  Add another effect to the item.  This time we use `ApplyAll` on the [RelationshipSystem]
-
-```yaml
         #And make them all angry at you
         - Lua: World.Relationships:ApplyToAll(Room.Actors,SystemArgs(World,UserInterface,-10,AggressorIfAny,null,Round))
 ```
@@ -358,6 +355,7 @@ Say we want to run the room dialogue as soon as the player enters the room.  Her
      - Lua: Room.Dialogue.Next ~= nil
    Effect: 
      - Lua: World.Dialogue:Apply(SystemArgs(World,UserInterface,0,AggressorIfAny,Room,Round))
+     - Lua: Room.Dialogue.Next = null
 ```
 <sup>./behaviours.yaml</sup>
 
@@ -367,7 +365,7 @@ To use the new behaviour on a Room we just have to reference it (and set up suit
 
 ```yaml
 - Name: Dank Cellar
-    Behaviours:
+  Behaviours:
     - Ref: 5ae55edf-36d0-4878-bbfd-dbbb23d42b88
   Dialogue:
     Next: 6da41741-dada-4a52-85d5-a019cd9d38f7
