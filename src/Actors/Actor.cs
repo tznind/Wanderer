@@ -308,11 +308,11 @@ namespace Wanderer.Actors
         
         public IItem SpawnItem(Guid g)
         {
-            return SpawnItem(CurrentLocation.World.ItemFactory.Create(CurrentLocation.World,g));
+            return SpawnItem(g.ToString());
         }
         public IItem SpawnItem(string name)
         {
-            return SpawnItem(CurrentLocation.World.ItemFactory.Create(CurrentLocation.World,name));
+            return SpawnItem(CurrentLocation.World.GetBlueprint<ItemBlueprint>(name));
         }
         
         public IAction SpawnAction(ActionBlueprint blue)

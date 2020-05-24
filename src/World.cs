@@ -146,7 +146,7 @@ namespace Wanderer
 
 
         /// <inheritdoc/>
-        public HasStatsBlueprint GetBlueprint(string name)
+        public HasStatsBlueprint TryGetBlueprint(string name)
         {
             return RoomFactory.TryGetBlueprint(name) ??
             ActorFactory.Blueprints.FirstOrDefault(b=>b.Is(name)) ??
@@ -265,6 +265,22 @@ namespace Wanderer
         {
             return InjurySystems.OrderByDescending(i => i.IsDefault)
                 .FirstOrDefault();
+        }
+
+        public T GetBlueprint<T>(string name) where T : HasStatsBlueprint
+        {
+            var blue = TryGetBlueprint(name);
+
+            if(blue == null)
+                if(Guid.TryParse(name , out Guid g))
+                    throw new GuidNotFoundException($"Could not find {typeof(T).Name} blueprint '{name}'",g);
+                else
+                throw new NamedObjectNotFoundException($"Could not find {typeof(T).Name} blueprint '{name}'",name);
+            
+            if(!(blue is T t))
+                throw new Exception($"Blueprint '{name}' was not for a {typeof(T).Name} (was for a '{blue.GetType()}')");
+
+            return t;
         }
     }
 }

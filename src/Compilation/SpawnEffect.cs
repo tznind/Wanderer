@@ -19,7 +19,7 @@ namespace Wanderer.Compilation
         public override void Apply(SystemArgs args)
         {
             var onto = args.GetTarget(Target);
-            var blue = args.World.GetBlueprint(ToSpawn);
+            var blue = args.World.TryGetBlueprint(ToSpawn);
 
             if(blue == null)
                 throw new NamedObjectNotFoundException($"Could not find Blueprint {ToSpawn}",ToSpawn);

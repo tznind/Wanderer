@@ -68,11 +68,12 @@ namespace Wanderer.Rooms
 
         public IItem SpawnItem(Guid g)
         {
-            return SpawnItem(World.ItemFactory.Create(World,g));
+            // TODO: Build overloads all the way down to avoid ToString
+            return SpawnItem(World.GetBlueprint<ItemBlueprint>(g.ToString()));
         }
         public IItem SpawnItem(string name)
         {
-            return SpawnItem(World.ItemFactory.Create(World,name));
+            return SpawnItem(World.GetBlueprint<ItemBlueprint>(name));
         }
         
         protected virtual IItem SpawnItem(IItem item)
