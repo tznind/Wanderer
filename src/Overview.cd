@@ -4,33 +4,33 @@
     <Position X="6.115" Y="0.5" Height="0.312" Width="3.46" />
   </Comment>
   <Comment CommentText="Things in the World">
-    <Position X="11.844" Y="0.5" Height="0.312" Width="5.325" />
+    <Position X="11.844" Y="0.5" Height="0.312" Width="4.856" />
   </Comment>
   <Comment CommentText="Factories">
     <Position X="6.302" Y="5.854" Height="0.291" Width="1.377" />
   </Comment>
-  <Comment CommentText="Conditions and Effects scriptable through Lua">
-    <Position X="16.969" Y="7.823" Height="0.365" Width="3.034" />
+  <Comment CommentText="Conditions and Effects scriptable through YAML or Lua">
+    <Position X="17.427" Y="7.75" Height="0.719" Width="1.909" />
   </Comment>
   <Class Name="Wanderer.Stats.StatsCollection" Collapsed="true">
-    <Position X="17.5" Y="2" Width="2" />
+    <Position X="17.5" Y="2" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>BABAEAAgAAABAAAAAAABAAAAAAAAAAAAAAAAAAAAABA=</HashCode>
+      <HashCode>DAJAEAAgAAAFCBAQCAABBAQAgAAAAAAEAAAgAABQIBA=</HashCode>
       <FileName>Stats\StatsCollection.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Wanderer.ActionStack" Collapsed="true">
-    <Position X="13.75" Y="6" Width="1.5" />
+    <Position X="13.5" Y="5.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAIAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAACAAAAABAAAAAAAAAAAAAIAAAA=</HashCode>
       <FileName>ActionStack.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Wanderer.Frame">
-    <Position X="19.5" Y="5.25" Width="1.5" />
+  <Class Name="Wanderer.Frame" Collapsed="true">
+    <Position X="13.5" Y="6.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAIAAgAAACAAAAAAAAAAACAAAAAAAAAAAAAIAAAAAAQ=</HashCode>
+      <HashCode>AAIAAgAAACAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
       <FileName>Frame.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -45,7 +45,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Wanderer.Dialogues.DialogueOption">
-    <Position X="17" Y="8.25" Width="1.5" />
+    <Position X="15.75" Y="8" Width="1.5" />
     <Compartments>
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
@@ -66,38 +66,46 @@
     <ShowAsCollectionAssociation>
       <Field Name="Options" />
       <Property Name="Body" />
+      <Property Name="Condition" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Wanderer.Factories.Blueprints.RoomBlueprint" Collapsed="true">
     <Position X="8.75" Y="6.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAEQAAAAKAAAAAAAgAAAAAAAAAAAAAAAIQA=</HashCode>
+      <HashCode>AAAAAAAAAAEQAAAAKCAAgAAAoAEAAAAAAAAAgAAAIQA=</HashCode>
       <FileName>Factories\Blueprints\RoomBlueprint.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Wanderer.Factories.Blueprints.ActorBlueprint" Collapsed="true">
     <Position X="8.75" Y="7" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAQAAAAAAAAEAAAgAAAAAAAAAAAAAEAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAQAAAAAAAAEAAAgAEAAAAAAAAAAAEAAAA=</HashCode>
       <FileName>Factories\Blueprints\ActorBlueprint.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Wanderer.Factories.Blueprints.ItemBlueprint" Collapsed="true">
     <Position X="8.75" Y="7.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAABAAAAAAAgA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAABAAAAQBAgA=</HashCode>
       <FileName>Factories\Blueprints\ItemBlueprint.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Wanderer.Dialogues.TextBlock" Collapsed="true">
-    <Position X="14.75" Y="9" Width="1.5" />
+    <Position X="14" Y="9" Width="1.5" />
+    <AssociationLine Name="Condition" Type="Wanderer.Compilation.ICondition" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="14.25" Y="9" />
+        <Point X="14.25" Y="7.281" />
+        <Point X="13.5" Y="7.281" />
+      </Path>
+    </AssociationLine>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
       <FileName>Dialogues\TextBlock.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
+    <ShowAsCollectionAssociation>
       <Property Name="Condition" />
-    </ShowAsAssociation>
+    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Wanderer.Dialogues.DialogueInitiation">
     <Position X="17.75" Y="5.5" Width="1.5" />
@@ -116,7 +124,7 @@
   <Class Name="Wanderer.Factories.Blueprints.BehaviourBlueprint" Collapsed="true">
     <Position X="8.75" Y="9.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAIAAEAACAAA=</HashCode>
       <FileName>Factories\Blueprints\BehaviourBlueprint.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -126,14 +134,14 @@
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAAAABAQBAgAAQIBAAAAEAIDgAoAAAAQgKAIQKAAQA=</HashCode>
+      <HashCode>AAAAAABCQBAggAQIBAAAAEAIDgEoAAAAQgKAAQKAAQQ=</HashCode>
       <FileName>IWorld.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="Wanderer.Actors.IActor" Collapsed="true">
     <Position X="12.25" Y="2.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAMQaCgCEAIAAIBiAIAAAIAAgAAQACBEUAAA=</HashCode>
+      <HashCode>AAAAAAAAAMQaKACEAIACIBiAJAAAIAAgAAQACBEUAAA=</HashCode>
       <FileName>Actors\IActor.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -148,9 +156,9 @@
     </TypeIdentifier>
   </Interface>
   <Interface Name="Wanderer.Actions.IAction">
-    <Position X="15.25" Y="5" Width="1.5" />
+    <Position X="15.25" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAACAAAgABACAAAAAAAAAAgCAAEgAAAAABAAACBA=</HashCode>
+      <HashCode>AAAAAACAAAgABACAAAAAAAAAAgCAAEgAAAAABAAACAA=</HashCode>
       <FileName>Actions\IAction.cs</FileName>
     </TypeIdentifier>
   </Interface>
@@ -162,9 +170,16 @@
     </TypeIdentifier>
   </Interface>
   <Interface Name="Wanderer.Behaviours.IBehaviour" Collapsed="true">
-    <Position X="18.75" Y="0.75" Width="1.5" />
+    <Position X="18" Y="0.75" Width="1.5" />
+    <InheritanceLine Type="Wanderer.IHasStats" FixedToPoint="true">
+      <Path>
+        <Point X="15.75" Y="1.25" />
+        <Point X="15.75" Y="1.062" />
+        <Point X="18" Y="1.062" />
+      </Path>
+    </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAAAACQAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAACAAA=</HashCode>
+      <HashCode>AAAAAACQAAAAAAAAAAAAAAAAAAAAAAAAAIAAEAACAAA=</HashCode>
       <FileName>Behaviours\IBehaviour.cs</FileName>
     </TypeIdentifier>
   </Interface>
@@ -175,19 +190,18 @@
       <FileName>Systems\IRelationshipSystem.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="Wanderer.Relationships.IFaction">
+  <Interface Name="Wanderer.Relationships.IFaction" Collapsed="true">
     <Position X="12.25" Y="3.75" Width="1.5" />
     <InheritanceLine Type="Wanderer.IHasStats" FixedFromPoint="true">
       <Path>
         <Point X="15" Y="3.137" />
-        <Point X="14.846" Y="3.137" />
-        <Point X="14.846" Y="3.596" />
-        <Point X="13" Y="3.596" />
-        <Point X="13" Y="3.75" />
+        <Point X="14.625" Y="3.137" />
+        <Point X="14.625" Y="4.096" />
+        <Point X="13.75" Y="4.096" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAYAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAQAAAAIAAAAAACEAABAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Relationships\IFaction.cs</FileName>
     </TypeIdentifier>
   </Interface>
@@ -211,8 +225,15 @@
         <Point X="17.75" Y="6.34" />
       </Path>
     </AssociationLine>
+    <AssociationLine Name="BaseBehaviours" Type="Wanderer.Behaviours.IBehaviour" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="15.438" Y="1.25" />
+        <Point X="15.438" Y="0.875" />
+        <Point X="18" Y="0.875" />
+      </Path>
+    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAIEAAARAASAABAAAEAAASAgABAAAAAAgQAwAAAAAA=</HashCode>
+      <HashCode>AAAIEAAARAASAgBAAAEAAASAgABAAAAAAgQAwAAQAAA=</HashCode>
       <FileName>IHasStats.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -225,23 +246,23 @@
       <Property Name="BaseBehaviours" />
     </ShowAsCollectionAssociation>
   </Interface>
-  <Interface Name="Wanderer.Items.IItem">
-    <Position X="12" Y="5.75" Width="1.5" />
+  <Interface Name="Wanderer.Items.IItem" Collapsed="true">
+    <Position X="12.25" Y="4.75" Width="1.5" />
     <Compartments>
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
-    <InheritanceLine Type="Wanderer.IHasStats" ManuallyRouted="true">
+    <InheritanceLine Type="Wanderer.IHasStats" ManuallyRouted="true" FixedFromPoint="true">
       <Path>
-        <Point X="15.75" Y="3.319" />
-        <Point X="15.75" Y="4.653" />
-        <Point X="15.122" Y="4.653" />
-        <Point X="15.122" Y="5.558" />
-        <Point X="12.75" Y="5.558" />
-        <Point X="12.75" Y="5.75" />
+        <Point X="15.125" Y="3.704" />
+        <Point X="15.125" Y="3.998" />
+        <Point X="15.122" Y="3.998" />
+        <Point X="15.122" Y="4.596" />
+        <Point X="13" Y="4.596" />
+        <Point X="13" Y="4.75" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAQIAAEAAAAAAAAAABAAAAAABAAAQAAAgA=</HashCode>
+      <HashCode>AAAAAAAAAAAYIAAEAIAAAAAAAABAAAAAABAAAQQBAgA=</HashCode>
       <FileName>Items\IItem.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
@@ -251,7 +272,7 @@
   <Interface Name="Wanderer.Systems.IInjurySystem" Collapsed="true">
     <Position X="6.25" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>ABAAAQAAAEAFAACAAAAAAAQCAAAAAAQAAAAAAAAAgAA=</HashCode>
+      <HashCode>ABAAAQAAAEAFAACAAAAAAAACAAAAAAQAAAAAAAAAgAA=</HashCode>
       <FileName>Systems\IInjurySystem.cs</FileName>
     </TypeIdentifier>
   </Interface>
@@ -262,8 +283,8 @@
         <Point X="9.25" Y="5.191" />
         <Point X="9.25" Y="6.072" />
         <Point X="10.552" Y="6.072" />
-        <Point X="10.552" Y="9.316" />
-        <Point X="11.75" Y="9.316" />
+        <Point X="10.552" Y="9.22" />
+        <Point X="11.75" Y="9.22" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
@@ -284,7 +305,7 @@
   <Interface Name="Wanderer.Factories.IRoomFactory" Collapsed="true">
     <Position X="6.25" Y="6.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAgAAAAAQAAAAEAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAgAAAAAQAEAAEAAAAAAAAAAAAA=</HashCode>
       <FileName>Factories\IRoomFactory.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
@@ -321,7 +342,7 @@
   <Interface Name="Wanderer.Systems.ISystem" Collapsed="true">
     <Position X="6.75" Y="1" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAA=</HashCode>
+      <HashCode>ABAAAAAAABAAAAAAAAAAAAQAAAAAAAAAAAAAQAAAAAA=</HashCode>
       <FileName>Systems\ISystem.cs</FileName>
     </TypeIdentifier>
   </Interface>
@@ -332,15 +353,15 @@
       <FileName>Systems\INegotiationSystem.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="Wanderer.Compilation.ICondition&lt;T&gt;" Collapsed="true">
-    <Position X="13.5" Y="7.75" Width="1.5" />
+  <Interface Name="Wanderer.Compilation.ICondition" Collapsed="true">
+    <Position X="12" Y="7" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAA=</HashCode>
       <FileName>Compilation\ICondition.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="Wanderer.Compilation.IEffect">
-    <Position X="19.5" Y="8.75" Width="1.5" />
+    <Position X="18" Y="8.75" Width="1.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Compilation\IEffect.cs</FileName>
@@ -366,12 +387,5 @@
       <Property Name="Blueprints" />
     </ShowAsCollectionAssociation>
   </Interface>
-  <Enum Name="Wanderer.Stats.Stat">
-    <Position X="19.5" Y="2" Width="1.25" />
-    <TypeIdentifier>
-      <HashCode>AAAAAACAAAALgAAAEAAAAAAAAAAAAAAAAACgAAEAAgA=</HashCode>
-      <FileName>Stats\Stat.cs</FileName>
-    </TypeIdentifier>
-  </Enum>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
