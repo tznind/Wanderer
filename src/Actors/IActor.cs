@@ -112,13 +112,21 @@ namespace Wanderer.Actors
         bool IsAwareOf(IActor other);
 
         /// <summary>
-        /// Return true if the item is one you can equip (have enough slots, are not
-        /// already equipping!)
+        /// Return true if the item is one you can equip (have enough slots, are not already equipping it and meet the equip conditions)
         /// </summary>
         /// <param name="item"></param>
         /// <param name="reason">Reason that you cannot equip it</param>
         /// <returns></returns>
         bool CanEquip(IItem item, out string reason);
+
+
+        /// <summary>
+        /// Return true if the item can be taken off
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="reason">Reason that you cannot equip it</param>
+        /// <returns></returns>
+        bool CanUnEquip(IItem item, out string reason);
         
         /// <summary>
         /// Returns this actors perception of <paramref name="other"/> (bear in mind you

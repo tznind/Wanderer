@@ -1,9 +1,8 @@
 ﻿using System;
 using Wanderer.Actions;
 using Wanderer.Actors;
-using Wanderer.Items;
+using Wanderer.Factories.Blueprints;
 using Wanderer.Systems;
-using Action = Wanderer.Actions.Action;
 
 namespace Wanderer.Behaviours
 {
@@ -18,6 +17,14 @@ namespace Wanderer.Behaviours
         {
             Behaviour = source as IBehaviour;
             Action = source as IAction;
+        }
+
+        public override IHasStats GetTarget(SystemArgsTarget target)
+        {
+            if (target == SystemArgsTarget.Owner)
+                return Behaviour.Owner;
+
+            return base.GetTarget(target);
         }
     }
 }

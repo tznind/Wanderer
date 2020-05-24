@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Wanderer.Actions;
 using Wanderer.Actors;
 using Wanderer.Adjectives;
@@ -71,6 +72,20 @@ namespace Wanderer.Factories.Blueprints
         /// </summary>
         public Guid? InjurySystem { get; set; }
 
+
+        /// <summary>
+        /// Returns the current blueprint or child blueprints (e.g. <see cref="Actions"/>)
+        /// </summary>
+        public virtual HasStatsBlueprint TryGetBlueprint(string name)
+        {
+            if(Is(name))
+                return this;
+
+            return 
+                Behaviours.Select(a=>a.TryGetBlueprint(name)).FirstOrDefault(b=>b != null)??
+                Actions.Select(a=>a.TryGetBlueprint(name)).FirstOrDefault(b=>b != null);
+        }
+
         /// <summary>
         /// Things the object has to say e.g. when a creature is talked to or a room examined
         /// </summary>
@@ -119,6 +134,20 @@ namespace Wanderer.Factories.Blueprints
         public bool SuitsFaction(IFaction f)
         {
             return SuitsFaction(f?.Identifier);
+        }
+
+        public bool Is(string name)
+        {
+            //if the user passed a string that was actually a Guid
+            if (Guid.TryParse(name, out Guid g))
+                return Is(g);
+
+            return string.Equals(Name, name, StringComparison.CurrentCultureIgnoreCase);
+        }
+
+        internal bool Is(Guid guid)
+        {
+            return Identifier == guid;
         }
 
         /// <summary>

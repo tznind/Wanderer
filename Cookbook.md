@@ -9,6 +9,7 @@ This page contains simple recipes for common level building tasks.  To test a re
   - [Starting room](#starting-room)
   - [Add same item to many rooms](#add-same-item-to-many-rooms)
   - [Random room items](#random-room-items)
+  - [RoomHas](#roomhas)
 - [Item Recipes](#item-recipes)
   - [Equippable weapon](#equippable-weapon)
   - [Grenade](#grenade)
@@ -16,6 +17,7 @@ This page contains simple recipes for common level building tasks.  To test a re
 - [Dialogue Recipes](#dialogue-recipes)
   - [OnEnter room dialogue](#onenter-room-dialogue)
   - [Remark about injury](#remark-about-injury)
+  - [Give Item](#give-item)
 - [Script Blocks](#script-blocks)
 
 
@@ -116,6 +118,49 @@ You can create a room with no random items by setting the max to 0:
 ```yaml
 - Name: Chamber of Horrors
   OptionalItemsMax: 0
+```
+<sup>./rooms.yaml</sup>
+
+### RoomHas
+<sup>[[View Test]](./Tests/Cookbook/RoomHas.cs)</sup>
+
+If you want to check for something in the [Room] an [Actor] is in rather than the [Actor] themselves you can use the `Check: Room` condition.  For example we could create a 'Bionic Arm' that requires a medical bay to install.
+
+**Note: RoomHas also includes anything any Actor in the room Has (or items they are carrying)**
+
+Create the adjective Medical:
+
+```
+- Name: Medical
+```
+<sup>./adjectives.yaml</sup>
+
+Define that all Actors have by default 2 arms (including the Player):
+
+```
+Arm: 2
+```
+<sup>./slots.yaml</sup>
+
+Create a couple of rooms, one with the arm and one that is a medical bay:
+
+```
+- Name: Warehouse
+  FixedLocation: 0,0,0
+  MandatoryItems:
+    - Name: Bionic Arm
+      Stats:
+        Fight: 20
+      Slot:
+        Name: Arm
+        NumberRequired: 1
+      EquipRequire:
+         - Check: Room
+           Has: Medical
+- Name: Med Bay
+  FixedLocation: -1,0,0
+  MandatoryAdjectives:
+    - Medical
 ```
 <sup>./rooms.yaml</sup>
 
@@ -349,6 +394,43 @@ If we want to only apply the behaviour the first time the Player enters the room
 ```
 <sup>./behaviours.yaml</sup>
 
+### Give Item
+<sup>[[View Test]](./Tests/Cookbook/SpawnItem.cs)</sup>
+
+We can give or sell an item to the player with the `Spawn:` effect.  First lets create a goblin shopkeeper:
+
+```yaml
+- Name: Shop
+  MandatoryActors:
+    - Name: Goblin Shopkeeper
+      # Don't let her wander off
+      SkipDefaultActions: true
+      Dialogue: 
+        Verb: Shopping
+        Next: 66e99df7-efd9-46cc-97a1-9fed851e0d8f
+      MandatoryItems:
+         - Name: Shiny Pebble
+```
+<sup>./rooms.yaml</sup>
+
+```yaml
+- Identifier: 66e99df7-efd9-46cc-97a1-9fed851e0d8f
+  Body:
+    - Text: Here burk, want to buy this painted rock?
+  Options:
+     - Text: Yes please, heres 20 gold!
+       Condition: 
+          - Variable: Gold >= 20
+       Effect:
+          - Spawn: Shiny Pebble
+          - Set: Gold -= 20
+     - Text: Lend us some gold will you?
+       SingleUse: true
+       Effect:
+          - Set: Gold += 20
+     - Text: No thanks... my days of chasing shine are long behind me
+```
+<sup>./dialogue.yaml</sup>
 
 ## Script Blocks
 

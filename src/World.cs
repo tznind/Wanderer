@@ -19,6 +19,7 @@ using Wanderer.Relationships;
 using Wanderer.Stats;
 using Wanderer.Systems;
 using Wanderer.Actions.Coercion;
+using Wanderer.Factories.Blueprints;
 
 namespace Wanderer
 {
@@ -141,6 +142,18 @@ namespace Wanderer
         public IEnumerable<IBehaviour> GetAllBehaviours()
         {
             return Population.SelectMany(a => a.GetFinalBehaviours()).ToArray();
+        }
+
+
+        /// <inheritdoc/>
+        public HasStatsBlueprint GetBlueprint(string name)
+        {
+            return RoomFactory.TryGetBlueprint(name) ??
+            ActorFactory.Blueprints.FirstOrDefault(b=>b.Is(name)) ??
+            ItemFactory.Blueprints.FirstOrDefault(b=>b.Is(name)) ??
+            AdjectiveFactory.Blueprints.FirstOrDefault(b=>b.Is(name)) ??
+            BehaviourFactory.Blueprints.FirstOrDefault(b=>b.Is(name)) ??
+            (HasStatsBlueprint) ActionFactory.Blueprints.FirstOrDefault(b=>b.Is(name));
         }
 
         /// <inheritdoc/>

@@ -20,6 +20,18 @@ namespace Wanderer.Factories.Blueprints
         /// </summary>
         public List<ConditionBlueprint> Require { get; set; }
 
+
+        /// <summary>
+        /// A condition that must be met before the item can be equipped
+        /// </summary>
+        public List<ConditionBlueprint> EquipRequire { get; set; }
+
+
+        /// <summary>
+        /// A condition that must be met before the item can be taken off
+        /// </summary>
+        public List<ConditionBlueprint> UnEquipRequire { get; set; }
+
         /// <summary>
         /// Null for an item that cannot be stacked, 1+ for a <see cref="IItemStack"/> of the given size
         /// </summary>

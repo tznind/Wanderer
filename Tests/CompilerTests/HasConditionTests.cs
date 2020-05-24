@@ -6,6 +6,7 @@ using Tests.Actions;
 using Wanderer;
 using Wanderer.Actors;
 using Wanderer.Compilation;
+using Wanderer.Factories.Blueprints;
 using Wanderer.Systems;
 
 namespace Tests.CompilerTests
@@ -23,7 +24,7 @@ namespace Tests.CompilerTests
         {
             YouInARoom(out IWorld world);
 
-            var condition = new HasCondition("fff");
+            var condition = new HasCondition("fff",SystemArgsTarget.Aggressor);
 
             Assert.IsFalse(condition.IsMet(world,GetSystemArgs(world.Player)));
 
@@ -40,7 +41,7 @@ namespace Tests.CompilerTests
         {
             TwoInARoom(out You you, out IActor them,out IWorld world);
 
-            var condition = new HasCondition("fff");
+            var condition = new HasCondition("fff",SystemArgsTarget.Aggressor);
 
             //nobody meets the condition
             Assert.IsFalse(condition.IsMet(world,new SystemArgs(world, new FixedChoiceUI(),0,you,them,Guid.Empty)));
@@ -66,7 +67,7 @@ namespace Tests.CompilerTests
         {
             TwoInARoom(out You you, out IActor them,out IWorld world);
 
-            var condition = new HasCondition("fff"){InvertLogic = true};
+            var condition = new HasCondition("fff",SystemArgsTarget.Aggressor){InvertLogic = true};
 
             //everyone meets condition
             Assert.IsTrue(condition.IsMet(world,new SystemArgs(world, new FixedChoiceUI(),0,you,them,Guid.Empty)));

@@ -13,5 +13,6 @@ namespace Wanderer.Factories
         List<RoomBlueprint> Blueprints { get; set; }
 
         bool Spawnable(HasStatsBlueprint b);
+        HasStatsBlueprint TryGetBlueprint(string name);
     }
 }

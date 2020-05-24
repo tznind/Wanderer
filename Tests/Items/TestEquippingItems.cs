@@ -112,7 +112,7 @@ namespace Tests.Items
   Slot: 
     Name: Chest
     NumberRequired: 1
-  Require: 
+  EquipRequire: 
     - Lua: AggressorIfAny.BaseStats[Stat.Fight] <= 10
 ";
 

@@ -4,6 +4,9 @@ using Wanderer.Systems;
 
 namespace Wanderer.Actions
 {
+    /// <summary>
+    /// Picks viable targets for an <see cref="IAction"/> by invoking a provided Func
+    /// </summary>
     class FuncTarget: IActionTarget
     {
         private readonly Func<SystemArgs, IEnumerable<IHasStats>> _func;

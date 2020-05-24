@@ -657,6 +657,13 @@
           ],
           "description": "Pass a Guid or Name of something they might have, if they have it then the condition is met"
         },
+        "Is": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Pass a Guid or Name, condition is true if the object is it.  This does not include things they have e.g. items, adjectives etc (see Has for that)"
+        },
         "HasNot": {
           "type": [
             "null",
@@ -664,14 +671,52 @@
           ],
           "description": "Pass a Guid or Name of something.  As long as they don't have it this condition is true"
         },
+        "IsNot": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Pass a Guid or Name, condition is true as long as the object is NOT it.  This does not include things they have e.g. items, adjectives etc  (see Has for that)"
+        },
         "Stat": {
           "type": [
             "null",
             "string"
           ],
           "description": "Arithmetic expression for a required stat they must have e.g. \"Fight &gt; 50\""
+        },
+        "Variable": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Arithmetic expression for a required custom variable e.g. \"MyCounter &gt; 50\" (See V)"
+        },
+        "Check": {
+          "description": "Apply the check (Has, Is, Stat etc) to the given object (default is Aggressor - the acting thing).  Options include Room (where room the event is taking place), Recipient (who you are talking to) etc",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/SystemArgsTarget"
+            }
+          ]
         }
       }
+    },
+    "SystemArgsTarget": {
+      "type": "integer",
+      "description": "0 = Aggressor\n1 = Recipient\n2 = Room\n3 = Owner",
+      "x-enumNames": [
+        "Aggressor",
+        "Recipient",
+        "Room",
+        "Owner"
+      ],
+      "enum": [
+        0,
+        1,
+        2,
+        3
+      ]
     },
     "EffectBlueprint": {
       "type": "object",
@@ -682,11 +727,48 @@
             "null",
             "string"
           ]
+        },
+        "Kill": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Kill the primary actor triggering the effect (text indicates cause of death e.g. \"poison\").  In dialogue it is the speaker (e.g. player), for action it is the action performer"
+        },
+        "Target": {
+          "description": "Apply the effect (Kill, Set etc) to the given object (default is Aggressor - the acting thing).  Options include Room (where room the event is taking place), Recipient (who you are talking to) etc",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/SystemArgsTarget"
+            }
+          ]
+        },
+        "Set": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Sets a stat or variable to a given value e.g. \"MyCounter += 5\".  If a Stat exists in AllStats then Set will apply to that stat otherwise a variable will be assigned"
+        },
+        "Reveal": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Marks the given point on the map as visible.  Combine with Room FixedLocation to help the player find interesting rooms"
+        },
+        "Spawn": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Spawns the referenced object (Item, Actor, Adjective etc).  Target property dictates what to spawn the object into/onto. Must uniquely identify a single object blueprint"
         }
       }
     },
     "IActionTarget": {
       "type": "object",
+      "description": "Function for fetching available targets for a custom IAction",
       "x-abstract": true,
       "additionalProperties": false
     },
@@ -840,6 +922,26 @@
             "null"
           ],
           "description": "A condition that must be met before the item can be used",
+          "items": {
+            "$ref": "#/definitions/ConditionBlueprint"
+          }
+        },
+        "EquipRequire": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "A condition that must be met before the item can be equipped",
+          "items": {
+            "$ref": "#/definitions/ConditionBlueprint"
+          }
+        },
+        "UnEquipRequire": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "A condition that must be met before the item can be taken off",
           "items": {
             "$ref": "#/definitions/ConditionBlueprint"
           }
