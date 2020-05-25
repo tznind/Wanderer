@@ -88,6 +88,12 @@ namespace Tests
             CheckSchema<List<PlanBlueprint>>("plans.schema.json");
         }
 
+        [Test]
+        public void SlotsSchema()
+        {
+            CheckSchema<SlotCollection>("slots.schema.json");
+        }
+
         private void CheckSchema<T>(string filename)
         {
             var f = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources/Schemas", filename);

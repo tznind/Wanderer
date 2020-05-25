@@ -15,7 +15,9 @@
 			"./src/Resources/Schemas/rooms.schema.json": [ "/**/*rooms.yaml" ],
 			"./src/Resources/Schemas/actors.schema.json": [ "/**/*actors.yaml" ],
 			"./src/Resources/Schemas/faction.schema.json": [ "/**/*faction.yaml" ],
-			"./src/Resources/Schemas/plans.schema.json": [ "/**/*plans.yaml" ]
+			"./src/Resources/Schemas/plans.schema.json": [ "/**/*plans.yaml" ],
+			"./src/Resources/Schemas/slots.schema.json": [ "/**/*slots.yaml" ],
+			
 		}
     }
 }
