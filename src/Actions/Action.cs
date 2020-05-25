@@ -129,6 +129,7 @@ namespace Wanderer.Actions
         {
             if(Targets.Any())
             {
+                //Describes who is performing the action and what is granting the action (Owner)
                 var args = new SystemArgs(performer.CurrentLocation.World,null,0,performer,Owner,Guid.Empty);
                 return Targets.SelectMany(t=>t.Get(args)).Distinct();
             }

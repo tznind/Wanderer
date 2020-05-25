@@ -126,7 +126,7 @@ namespace Wanderer.Factories
 
         protected virtual T1 GetBlueprint(Guid guid)
         {
-            return Blueprints.FirstOrDefault(b => b.Identifier == guid) ??
+            return Blueprints.FirstOrDefault(b => b.Is(guid)) ??
                    throw new GuidNotFoundException($"Could not find {typeof(T1).Name} with Guid {guid}",guid);
         }
 
@@ -136,9 +136,16 @@ namespace Wanderer.Factories
             if (Guid.TryParse(name, out Guid g))
                 return GetBlueprint(g);
 
-            return Blueprints.FirstOrDefault(
-                       b => string.Equals(b.Name, name, StringComparison.CurrentCultureIgnoreCase)) ??
+            return Blueprints.FirstOrDefault(b => b.Is(name)) ??
                    throw new NamedObjectNotFoundException($"Could not find {typeof(T1).Name} Named {name}", name);
+        }
+        
+        /// <summary>
+        /// Returns the first blueprint that matches the name (which can be a guid).  Includes sub elements of the blueprint e.g. <see cref="RoomBlueprint.MandatoryItems"/>
+        /// </summary>
+        public HasStatsBlueprint TryGetBlueprint(string name)
+        {
+            return Blueprints.Select(b=> b.TryGetBlueprint(name)).FirstOrDefault(b=>b!= null);
         }
 
         protected void HandleInheritance(HasStatsBlueprint blueprint)

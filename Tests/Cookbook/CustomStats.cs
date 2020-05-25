@@ -3,6 +3,7 @@ using Wanderer.Stats;
 
 namespace Tests.Cookbook
 {
+
     class CustomStats : Recipe
     {
         private string statsYaml = 

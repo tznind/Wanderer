@@ -1,53 +1,59 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "PlanBlueprint",
-  "type": "object",
-  "description": "Describes how to create instances of Plan (AI routine to undertake a given IAction under a given set of Condition)",
-  "additionalProperties": false,
-  "properties": {
-    "Name": {
-      "type": [
-        "null",
-        "string"
-      ],
-      "description": "Human readable description of the plan"
-    },
-    "Identifier": {
-      "type": [
-        "null",
-        "string"
-      ],
-      "description": "Unique identifier for the plan for referencing in scripts",
-      "format": "guid"
-    },
-    "Condition": {
-      "type": [
-        "array",
-        "null"
-      ],
-      "description": "Conditions which all must be met for the Plan to be considered viable",
-      "items": {
-        "$ref": "#/definitions/ConditionBlueprint"
-      }
-    },
-    "Do": {
-      "description": "Describes the action and targets that should be picked in order to carry out the Plan",
-      "oneOf": [
-        {
-          "type": "null"
-        },
-        {
-          "$ref": "#/definitions/FrameSourceBlueprint"
-        }
-      ]
-    },
-    "Weight": {
-      "type": "number",
-      "description": "How popular the plan is relative to other plans",
-      "format": "double"
-    }
+  "title": "ListOfPlanBlueprint",
+  "type": "array",
+  "items": {
+    "$ref": "#/definitions/PlanBlueprint"
   },
   "definitions": {
+    "PlanBlueprint": {
+      "type": "object",
+      "description": "Describes how to create instances of Plan (AI routine to undertake a given IAction under a given set of Condition)",
+      "additionalProperties": false,
+      "properties": {
+        "Name": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Human readable description of the plan"
+        },
+        "Identifier": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Unique identifier for the plan for referencing in scripts",
+          "format": "guid"
+        },
+        "Condition": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "Conditions which all must be met for the Plan to be considered viable",
+          "items": {
+            "$ref": "#/definitions/ConditionBlueprint"
+          }
+        },
+        "Do": {
+          "description": "Describes the action and targets that should be picked in order to carry out the Plan",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/FrameSourceBlueprint"
+            }
+          ]
+        },
+        "Weight": {
+          "type": "number",
+          "description": "How popular the plan is relative to other plans",
+          "format": "double"
+        }
+      }
+    },
     "ConditionBlueprint": {
       "type": "object",
       "description": "Blueprint that describes how to build one or more ICondition",
@@ -67,6 +73,13 @@
           ],
           "description": "Pass a Guid or Name of something they might have, if they have it then the condition is met"
         },
+        "Is": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Pass a Guid or Name, condition is true if the object is it.  This does not include things they have e.g. items, adjectives etc (see Has for that)"
+        },
         "HasNot": {
           "type": [
             "null",
@@ -74,14 +87,52 @@
           ],
           "description": "Pass a Guid or Name of something.  As long as they don't have it this condition is true"
         },
+        "IsNot": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Pass a Guid or Name, condition is true as long as the object is NOT it.  This does not include things they have e.g. items, adjectives etc  (see Has for that)"
+        },
         "Stat": {
           "type": [
             "null",
             "string"
           ],
           "description": "Arithmetic expression for a required stat they must have e.g. \"Fight &gt; 50\""
+        },
+        "Variable": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Arithmetic expression for a required custom variable e.g. \"MyCounter &gt; 50\" (See V)"
+        },
+        "Check": {
+          "description": "Apply the check (Has, Is, Stat etc) to the given object (default is Aggressor - the acting thing).  Options include Room (where room the event is taking place), Recipient (who you are talking to) etc",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/SystemArgsTarget"
+            }
+          ]
         }
       }
+    },
+    "SystemArgsTarget": {
+      "type": "integer",
+      "description": "0 = Aggressor\n1 = Recipient\n2 = Room\n3 = Owner",
+      "x-enumNames": [
+        "Aggressor",
+        "Recipient",
+        "Room",
+        "Owner"
+      ],
+      "enum": [
+        0,
+        1,
+        2,
+        3
+      ]
     },
     "FrameSourceBlueprint": {
       "type": "object",

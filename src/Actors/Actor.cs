@@ -214,35 +214,22 @@ namespace Wanderer.Actors
 
         public virtual bool CanEquip(IItem item,out string reason)
         {
+
+            return item.CanEquip(this,out reason);
+        }
+
+
+        public bool CanUnEquip(IItem item, out string reason)
+        {
             //already equipped, dead etc
-            if (item.IsEquipped)
+            if (!item.IsEquipped)
             {
-                reason = "Already equipped";
+                reason = "Not Equipped";
                 return false;
             }
 
-            if (item.Slot == null)
-            {
-                reason = "Item cannot be equipped";
-                return false;
-            }
-
-            if (!AvailableSlots.ContainsKey(item.Slot.Name))
-            {
-                reason = $"You do not have a {item.Slot.Name} slot";
-                return false;
-            }
-
-            var alreadyWearing = Items.Where(i => i.IsEquipped && i.Slot != null && i.Slot.Name == item.Slot.Name);
-            var alreadyWearingCount = alreadyWearing.Sum(i => i.Slot.NumberRequired);
-
-            if (AvailableSlots[item.Slot.Name] < item.Slot.NumberRequired + alreadyWearingCount)
-            {
-                reason = $"You do not have enough free {item.Slot.Name} slots";
-                return false;
-            }
-
-            if (!item.CanUse(this,out reason))
+            
+            if (!item.CanUnEquip(this,out reason))
                 return false;
 
             reason = null;
@@ -321,11 +308,11 @@ namespace Wanderer.Actors
         
         public IItem SpawnItem(Guid g)
         {
-            return SpawnItem(CurrentLocation.World.ItemFactory.Create(CurrentLocation.World,g));
+            return SpawnItem(g.ToString());
         }
         public IItem SpawnItem(string name)
         {
-            return SpawnItem(CurrentLocation.World.ItemFactory.Create(CurrentLocation.World,name));
+            return SpawnItem(CurrentLocation.World.GetBlueprint<ItemBlueprint>(name));
         }
         
         public IAction SpawnAction(ActionBlueprint blue)

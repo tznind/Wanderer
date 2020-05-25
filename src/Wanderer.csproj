@@ -6,7 +6,7 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <DebugType>full</DebugType>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-     <NoWarn>CS1591</NoWarn>
+    <NoWarn>CS1591</NoWarn>
     <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
     <AssemblyTitle>Wanderer</AssemblyTitle>
     <Product>Wanderer</Product>

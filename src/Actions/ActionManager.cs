@@ -20,16 +20,29 @@ namespace Wanderer.Actions
                 .Select(a=>a.ToActionDescription())
                 .Distinct().ToList();
         }
-        public List<IAction> GetInstances(IActor aggressor,ActionDescription type, bool mustHaveTargets)
+
+        /// <summary>
+        /// Returns all <see cref="IAction"/> which match the <paramref name="actionDescription"/> which the <paramref name="aggressor"/> can undertake.
+        /// </summary>
+        /// <param name="aggressor"></param>
+        /// <param name="actionDescription"></param>
+        /// <param name="mustHaveTargets">True to only return actions where there is a viable target</param>
+        /// <returns></returns>
+        public List<IAction> GetInstances(IActor aggressor,ActionDescription actionDescription, bool mustHaveTargets)
         {
-            if(type == null)
+            if(actionDescription == null)
                 return new List<IAction>();
 
             return aggressor.GetFinalActions(aggressor)
                 .Where(a=>!mustHaveTargets || a.HasTargets(aggressor))
-                .Where(type.Matches).ToList();
+                .Where(actionDescription.Matches).ToList();
         }
 
+        /// <summary>
+        /// Modifies the <paramref name="chosen"/> action setting it's choice of target to <paramref name="target"/>
+        /// </summary>
+        /// <param name="chosen"></param>
+        /// <param name="target"></param>
         public void PrimeCommandWithTarget(IAction chosen, IHasStats target)
         {
             if(chosen is FightAction f)

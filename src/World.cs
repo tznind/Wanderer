@@ -19,6 +19,7 @@ using Wanderer.Relationships;
 using Wanderer.Stats;
 using Wanderer.Systems;
 using Wanderer.Actions.Coercion;
+using Wanderer.Factories.Blueprints;
 
 namespace Wanderer
 {
@@ -143,6 +144,18 @@ namespace Wanderer
             return Population.SelectMany(a => a.GetFinalBehaviours()).ToArray();
         }
 
+
+        /// <inheritdoc/>
+        public HasStatsBlueprint TryGetBlueprint(string name)
+        {
+            return RoomFactory.TryGetBlueprint(name) ??
+            ActorFactory.Blueprints.FirstOrDefault(b=>b.Is(name)) ??
+            ItemFactory.Blueprints.FirstOrDefault(b=>b.Is(name)) ??
+            AdjectiveFactory.Blueprints.FirstOrDefault(b=>b.Is(name)) ??
+            BehaviourFactory.Blueprints.FirstOrDefault(b=>b.Is(name)) ??
+            (HasStatsBlueprint) ActionFactory.Blueprints.FirstOrDefault(b=>b.Is(name));
+        }
+
         /// <inheritdoc/>
         public void RunRound(IUserinterface ui, IAction playerAction)
         {
@@ -252,6 +265,22 @@ namespace Wanderer
         {
             return InjurySystems.OrderByDescending(i => i.IsDefault)
                 .FirstOrDefault();
+        }
+
+        public T GetBlueprint<T>(string name) where T : HasStatsBlueprint
+        {
+            var blue = TryGetBlueprint(name);
+
+            if(blue == null)
+                if(Guid.TryParse(name , out Guid g))
+                    throw new GuidNotFoundException($"Could not find {typeof(T).Name} blueprint '{name}'",g);
+                else
+                throw new NamedObjectNotFoundException($"Could not find {typeof(T).Name} blueprint '{name}'",name);
+            
+            if(!(blue is T t))
+                throw new Exception($"Blueprint '{name}' was not for a {typeof(T).Name} (was for a '{blue.GetType()}')");
+
+            return t;
         }
     }
 }

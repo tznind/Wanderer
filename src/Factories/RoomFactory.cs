@@ -74,5 +74,6 @@ namespace Wanderer.Factories
 
             return room;
         }
+
     }
 }

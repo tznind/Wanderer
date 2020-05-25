@@ -4,13 +4,13 @@ using Wanderer.Systems;
 namespace Wanderer.Compilation
 {
     /// <summary>
-    /// Condition which checks for a given stat being higher/lower etc than a threshold
+    /// Condition which checks for a variable being higher/lower etc than a threshold (see <see cref="IHasStats.V"/>)
     /// </summary>
-    public class StatCondition : Condition
+    public class VariableCondition : Condition
     {
         ArithmeticComparisonExpression Expression {get;set;}
-        
-        public StatCondition(string expression, SystemArgsTarget check):base(check)
+
+        public VariableCondition(string expression, SystemArgsTarget check):base(check)
         {
             Expression = new ArithmeticComparisonExpression(expression);
         }
@@ -18,7 +18,7 @@ namespace Wanderer.Compilation
         public override bool IsMet(IWorld world, SystemArgs args)
         {
             var o = args.GetTarget(Check);
-            return Expression.Calculate((s)=>o.BaseStats[world.AllStats.Get(s)]);
+            return Expression.Calculate((s)=>o.V[s]);
         }
 
         public override string ToString()

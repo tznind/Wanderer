@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Wanderer.Relationships;
 using Wanderer.Rooms;
 
@@ -68,5 +69,17 @@ namespace Wanderer.Factories.Blueprints
         /// The minimum number of <see cref="OptionalItems"/> to spawn
         /// </summary>
         public int? OptionalItemsMin {get;set;}
+
+        /// <summary>
+        /// Returns the named blueprint if it is this one or exists amongst the <see cref="MandatoryActors"/>, <see cref="MandatoryItems"/> etc
+        /// </summary>
+        public override HasStatsBlueprint TryGetBlueprint(string name)
+        {
+            return base.TryGetBlueprint(name) ??
+            MandatoryActors.Select(a=>a.TryGetBlueprint(name)).FirstOrDefault(b=>b != null) ??
+            MandatoryItems.Select(a=>a.TryGetBlueprint(name)).FirstOrDefault(b=>b != null) ??
+            OptionalActors.Select(a=>a.TryGetBlueprint(name)).FirstOrDefault(b=>b != null)??
+            (HasStatsBlueprint)OptionalItems.Select(a=>a.TryGetBlueprint(name)).FirstOrDefault(b=>b != null);
+        }
     }
 }
