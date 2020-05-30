@@ -54,7 +54,7 @@ string dialogue = @"
     Destination:  b16df095-43b5-4664-9ba5-f11fd4f9b677
 - Identifier: b16df095-43b5-4664-9ba5-f11fd4f9b677
   Body:
-  - Text: Yes! well... its a game engine you can program entirely in lua! good eh? with autocomplete schemas and systems for everything and and and!!! its just so exciting!!
+  - Text: Yes! well... its a game engine you can program entirely in YAML! In fact the code your reading makes a valid world, good eh?... with autocomplete schemas and systems for everything and and and!!! its just so exciting!!
   Options:
   - Text: Yes!!!! I've alway wanted to program in the most whitespace aware and annoying markup language ever!
     Effect:
