@@ -33,6 +33,11 @@ namespace Wanderer.Factories
         /// Spawns the referenced object (Item, Actor, Adjective etc).  Target property dictates what to spawn the object into/onto. Must uniquely identify a single object blueprint
         /// </summary>
         public string Spawn {get;set;}
+
+        /// <summary> 
+        /// Applies a system to one or more targets e.g. inflict an injury, begin a spreading disease etc
+        /// </summary>
+        public ApplySystemBlueprint Apply {get;set;}
         
         public IEnumerable<IEffect> Create()
         {
@@ -50,6 +55,9 @@ namespace Wanderer.Factories
 
             if(!string.IsNullOrWhiteSpace(Spawn))
                 yield return new SpawnEffect(Spawn,Target);
+
+            if(Apply != null && (Apply.Name != null || Apply.Identifier != null))
+                yield return new ApplyEffect(Apply,Target);
         }
     }
 }

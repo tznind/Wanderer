@@ -774,6 +774,47 @@
             "string"
           ],
           "description": "Spawns the referenced object (Item, Actor, Adjective etc).  Target property dictates what to spawn the object into/onto. Must uniquely identify a single object blueprint"
+        },
+        "Apply": {
+          "description": "           Applies a system to one or more targets e.g. inflict an injury, begin a spreading disease etc\n           ",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/ApplySystemBlueprint"
+            }
+          ]
+        }
+      }
+    },
+    "ApplySystemBlueprint": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Identifier": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Indicates which system should be applied.async  You must supply either Identifier or Name",
+          "format": "guid"
+        },
+        "Intensity": {
+          "type": "number",
+          "description": "How strongly to apply the given system (if supported by the system).  Typically should be a value between 0 and 100 but varies by system.",
+          "format": "double"
+        },
+        "Name": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Indicates which system should be applied.async  You must supply either Identifier or Name"
+        },
+        "All": {
+          "type": "boolean",
+          "description": "Apply the system to everyone not just the target of the effect (e.g. to model splash damage)"
         }
       }
     },
