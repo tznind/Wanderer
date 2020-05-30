@@ -5,6 +5,9 @@ using Wanderer.Actors;
 
 namespace Wanderer
 {
+    /// <summary>
+    /// Describes an <see cref="IAction"/> and the player (or NPC) selected targets made immediately before it was pushed onto the <see cref="ActionStack"/>
+    /// </summary>
     public class Frame
     {
         /// <summary>

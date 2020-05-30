@@ -1,5 +1,8 @@
 ﻿namespace Wanderer
 {
+    /// <summary>
+    /// Interface for comparing two separate game objects to see if the user would consider them the same (e.g. 2 gold coins).  Helps with merging stacks, deduplication etc
+    /// </summary>
     public interface IAreIdentical
     {
         /// <summary>

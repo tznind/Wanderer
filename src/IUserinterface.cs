@@ -3,10 +3,20 @@ using Wanderer.Actors;
 
 namespace Wanderer
 {
+    /// <summary>
+    /// Interface for the application GUI that is handling obtaining user decisions (e.g. picking a dialogue option)
+    /// </summary>
     public interface IUserinterface
     {
+        /// <summary>
+        /// Record of all events taking place in the world subdivided by round
+        /// </summary>
         EventLog Log {get;}
 
+        /// <summary>
+        /// When implemented in a derived class, should present to the user the stats of the given object
+        /// </summary>
+        /// <param name="of"></param>
         void ShowStats(IHasStats of);
 
         /// <summary>

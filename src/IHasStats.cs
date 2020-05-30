@@ -11,6 +11,9 @@ using Wanderer.Systems;
 
 namespace Wanderer
 {
+    /// <summary>
+    /// Base Interface for <see cref="HasStats"/>.  Describes an object in the Wanderer World (Actor, Room, Item, Adjective etc)
+    /// </summary>
     public interface IHasStats : IAreIdentical
     {
         /// <summary>

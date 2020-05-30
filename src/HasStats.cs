@@ -7,23 +7,36 @@ using Wanderer.Adjectives;
 using Wanderer.Behaviours;
 using Wanderer.Compilation;
 using Wanderer.Dialogues;
+using Wanderer.Items;
+using Wanderer.Rooms;
 using Wanderer.Stats;
 using Wanderer.Systems;
 
 namespace Wanderer
 {
+    /// <summary>
+    /// Abstract base class for all 'things' in the Wanderer world (includes <see cref="Actor"/> and <see cref="Item"/> but also <see cref="Room"/> and even <see cref="Adjective"/> and <see cref="Behaviour"/>
+    /// </summary>
     public abstract class HasStats : IHasStats
     {
+        /// <inheritdoc />
         public List<IAdjective> Adjectives { get; set; } = new List<IAdjective>();
+        /// <inheritdoc />
         public List<IBehaviour> BaseBehaviours { get; set; } = new List<IBehaviour>();
+        /// <inheritdoc />
         public List<IAction> BaseActions { get; set; } = new List<IAction>();
+        /// <inheritdoc />
         public Guid? Identifier { get; set; }
+        /// <inheritdoc />
         public bool Unique { get; set; }
+        /// <inheritdoc />
         public string Name { get; set; }
+        /// <inheritdoc />
         public IInjurySystem InjurySystem { get; set; }
-
+        /// <inheritdoc />
         public DialogueInitiation Dialogue { get; set; } = new DialogueInitiation();
 
+        /// <inheritdoc />
         public virtual ConsoleColor Color { get; set; } = DefaultColor;
 
         /// <summary>

@@ -10,8 +10,10 @@ namespace Wanderer
     /// </summary>
     public class ExampleUserInterface : IUserinterface
     {
+        /// <inheritdoc />
         public virtual EventLog Log { get; set; } = new EventLog();
 
+        /// <inheritdoc />
         public virtual void ShowStats(IHasStats of)
         {
             Console.WriteLine(of.ToString());

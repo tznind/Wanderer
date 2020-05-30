@@ -6,11 +6,17 @@ using NLog.Targets;
 
 namespace Wanderer
 {
+    /// <summary>
+    /// Stores messages generated during the game.  Supports reporting to NLog as well as capturing discrete rounds for reporting to the UI etc.  Also supports location based messages e.g. to prevent the player knowing something has happened
+    /// </summary>
     public class EventLog
     {
         public MemoryTarget Target;
         private Logger _log;
 
+        /// <summary>
+        /// Sets up the log using your current NLog configuration (if any) and initializes the in memory <see cref="Target"/>
+        /// </summary>
         public void Register()
         {
             var config = LogManager.Configuration ?? new NLog.Config.LoggingConfiguration();
@@ -29,6 +35,10 @@ namespace Wanderer
         public List<LogEntry> RoundResults { get; } = new List<LogEntry>();
         private Guid _currentRound;
         
+        /// <summary>
+        /// Record an event in the world
+        /// </summary>
+        /// <param name="toLog"></param>
         public void Info(LogEntry toLog)
         {
             //if a new round has begun clear last rounds log and start again

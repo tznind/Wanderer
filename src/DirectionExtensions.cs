@@ -2,8 +2,16 @@
 
 namespace Wanderer
 {
+    /// <summary>
+    /// static Extension methods for the <see cref="Direction"/> enum
+    /// </summary>
     public static class DirectionExtensions
     {
+        /// <summary>
+        /// Returns the opposite direction to <paramref name="dir"/> e.g. for East it returns West.  Note opposite of None is None
+        /// </summary>
+        /// <param name="dir"></param>
+        /// <returns></returns>
         public static Direction Opposite(this Direction dir)
         {
             return dir switch

@@ -23,6 +23,9 @@ using Wanderer.Factories.Blueprints;
 
 namespace Wanderer
 {
+    /// <summary>
+    /// The game world in which everything is contained.  Create worlds easily using the <see cref="WorldFactory"/>. You can have multiple separate worlds if you wanted to (e.g. during tests)
+    /// </summary>
     public class World : IWorld
     {
         public Map Map { get; set;} = new Map();
