@@ -803,7 +803,7 @@
         },
         "All": {
           "type": "boolean",
-          "description": "Apply the system to everyone not just the target of the effect (e.g. to model splash damage)"
+          "description": "Apply the system to everyone in the current room not just the Target (e.g. to model splash damage)"
         }
       }
     },
