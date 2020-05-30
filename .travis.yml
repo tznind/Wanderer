@@ -7,8 +7,6 @@ install:
 script:
 - dotnet build
 - dotnet test
-- dotnet publish -r win-x64
-- dotnet publish -r linux-x64
 
 # Pack the core engine package
 - cd src
