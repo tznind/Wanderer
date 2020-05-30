@@ -209,7 +209,7 @@ namespace Wanderer.Editor
 
         private bool IsBlankOrComment(string line)
         {
-            return string.IsNullOrWhiteSpace(line) || line.Trim().StartsWith('#');
+            return string.IsNullOrWhiteSpace(line) || line.Trim().StartsWith("#");
         }
     }
     public class SortedTypeInspector : TypeInspectorSkeleton

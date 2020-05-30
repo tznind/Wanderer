@@ -53,10 +53,10 @@ namespace Wanderer
         {
             //output the fluff to the ui if you are the actor
             if(forceShowMessage || Actor is You)
-                ui.ShowMessage(_title,string.Join('\n',_text.Where(t=>t.Item2).Select(t=>t.Item1)));
+                ui.ShowMessage(_title,string.Join("\n",_text.Where(t=>t.Item2).Select(t=>t.Item1)));
 
             //log the technical stuff
-            var technical = string.Join('\n', _text.Where(t => !t.Item2).Select(t => t.Item1));
+            var technical = string.Join("\n", _text.Where(t => !t.Item2).Select(t => t.Item1));
 
             if(!string.IsNullOrWhiteSpace(technical))
                 ui.Log.Info(new LogEntry(technical,Round,Actor));

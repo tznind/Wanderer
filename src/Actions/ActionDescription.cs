@@ -41,7 +41,10 @@ namespace Wanderer.Actions
         /// </summary>
         public override int GetHashCode()
         {
-            return HashCode.Combine(HotKey, Name);
+            unchecked
+            {
+                return (HotKey.GetHashCode() * 397) ^ (Name != null ? StringComparer.InvariantCultureIgnoreCase.GetHashCode(Name) : 0);
+            }
         }
 
         /// <summary>

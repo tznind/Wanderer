@@ -214,7 +214,7 @@ namespace Wanderer.Systems.Validation
                 var slots = GetAllSlots(world);
 
                 if(!slots.Contains(item.Slot.Name))
-                    AddWarning($"Item {item} lists Slot named {item.Slot.Name} but no Actors or Default slots are listed with that name (Slots seen were '{string.Join(',',slots)}')");
+                    AddWarning($"Item {item} lists Slot named {item.Slot.Name} but no Actors or Default slots are listed with that name (Slots seen were '{string.Join(",",slots)}')");
             }
 
             foreach (var behaviour in item.BaseBehaviours) 

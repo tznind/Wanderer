@@ -70,7 +70,10 @@ namespace Wanderer
                 responder.OnPush(world,ui, this,Peek());
             
             //run all tasks that are not pending cancellation
-            while(TryPop(out Frame current))
+            while (Count > 0)
+            {
+                Frame current = Pop();
+
                 if (!current.Cancelled)
                 {
                     current.Action.Pop(world,ui,this, current);
@@ -78,6 +81,7 @@ namespace Wanderer
                     foreach (IBehaviour responder in Behaviours.ToArray())
                         responder.OnPop(world,ui, this,current);
                 }
+            }
             
             Clear();
 
