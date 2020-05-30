@@ -13,6 +13,7 @@ This page contains simple recipes for common level building tasks.  To test a re
 - [Item Recipes](#item-recipes)
   - [Equippable weapon](#equippable-weapon)
   - [Grenade](#grenade)
+  - [Grenade (No Lua)](#grenade-no-lua)
   - [Ammo](#ammo)
 - [Dialogue Recipes](#dialogue-recipes)
   - [OnEnter room dialogue](#onenter-room-dialogue)
@@ -257,6 +258,50 @@ This lets you call it from any item with any amount of damage with a single Effe
          Fight: 30
       Effect:
         - Lua: SplashDamage(Action.InjurySystem,20,true)
+```
+<sup>./items.yaml</sup>
+
+### Grenade (No Lua)
+<sup>[[View Test]](./Tests/Cookbook/Grenade2.cs)</sup>
+
+If we want to make a Grenade without using Lua scripting we can take advantage of the `Apply` effect.  Declare the injury system as above:
+
+
+```yaml
+Identifier: 7ccafc68-d51f-4408-861c-f1d7e4e6351a
+Name: Blast Damage
+FatalThreshold: 100
+FatalVerb: injuries
+
+Injuries:
+- Name: Wounded
+  Severity: 10
+```
+<sup>./blast.injury.yaml</sup>
+
+In the weapon effects use `Apply` effect to fetch and appy the injury system to all.  And we can fetch the [default relationship system](./src/Systems/RelationshipSystem.cs) ('Relationship') and apply that too.
+
+```yaml
+- Name: Grenade
+  InjurySystem: 7ccafc68-d51f-4408-861c-f1d7e4e6351a
+  Stack: 1
+  MandatoryAdjectives:
+   - SingleUse
+  Actions:
+    - Type: FightAction
+      Stats: 
+         Fight: 30
+      Effect:
+        - Apply:
+            Identifier: 7ccafc68-d51f-4408-861c-f1d7e4e6351a
+            #Name: Blast Damage <- You could also use this
+            Intensity: 20
+            All: true
+        - Apply: 
+            #Identifier: 8cfad1e6-39f9-4993-831f-57234290f558 <- You could also use this 
+            Name: Relationship
+            Intensity: -10
+            All: true
 ```
 <sup>./items.yaml</sup>
 
