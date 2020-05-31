@@ -33,13 +33,8 @@ namespace Wanderer.Factories
             }
         }
 
-        /// <summary>
-        /// Creates a new <see cref="IAction"/> based on the <paramref name="blueprint"/> and adds it as a <see cref="IHasStats.BaseActions"/>
-        /// </summary>
-        /// <param name="world"></param>
-        /// <param name="onto"></param>
-        /// <param name="blueprint"></param>
-        /// <returns></returns>
+
+        /// <inheritdoc />
         public IAction Create(IWorld world, IHasStats onto, ActionBlueprint blueprint)
         {
             HandleInheritance(blueprint);

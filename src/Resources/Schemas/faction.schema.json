@@ -447,6 +447,7 @@
     },
     "IAction": {
       "type": "object",
+      "description": "An activity that an IActor can perform.  May or may not take a full round to complete.  Action execution involves picking targets and then pushing the resulting selection as a Frame onto an ActionStack where it may be resolved later or cancelled.  Both player and NPC alike pick IAction.",
       "x-abstract": true,
       "additionalProperties": false,
       "properties": {
