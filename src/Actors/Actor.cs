@@ -308,7 +308,7 @@ namespace Wanderer.Actors
         
         public IItem SpawnItem(Guid g)
         {
-            return SpawnItem(g.ToString());
+            return SpawnItem(CurrentLocation.World.GetBlueprint<ItemBlueprint>(g));
         }
         public IItem SpawnItem(string name)
         {

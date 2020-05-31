@@ -1278,7 +1278,7 @@
     },
     "Direction": {
       "type": "integer",
-      "description": "0 = None\n1 = Up\n2 = Down\n3 = North\n4 = South\n5 = East\n6 = West",
+      "description": "A direction of movement in the 3D coordinate space of a Wanderer Map\n\n0 = None\n1 = Up\n2 = Down\n3 = North\n4 = South\n5 = East\n6 = West",
       "x-enumNames": [
         "None",
         "Up",

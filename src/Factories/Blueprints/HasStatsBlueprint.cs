@@ -87,6 +87,19 @@ namespace Wanderer.Factories.Blueprints
         }
 
         /// <summary>
+        /// Returns the current blueprint or child blueprints (e.g. <see cref="Actions"/>)
+        /// </summary>
+        public virtual HasStatsBlueprint TryGetBlueprint(Guid g)
+        {
+            if(Is(g))
+                return this;
+
+            return 
+                Behaviours.Select(a=>a.TryGetBlueprint(g)).FirstOrDefault(b=>b != null)??
+                Actions.Select(a=>a.TryGetBlueprint(g)).FirstOrDefault(b=>b != null);
+        }
+
+        /// <summary>
         /// Things the object has to say e.g. when a creature is talked to or a room examined
         /// </summary>
         public DialogueInitiation Dialogue { get; set; }

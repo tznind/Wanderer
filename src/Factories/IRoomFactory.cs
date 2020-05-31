@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Wanderer.Factories.Blueprints;
 using Wanderer.Rooms;
 
@@ -13,6 +14,8 @@ namespace Wanderer.Factories
         List<RoomBlueprint> Blueprints { get; set; }
 
         bool Spawnable(HasStatsBlueprint b);
+
         HasStatsBlueprint TryGetBlueprint(string name);
+        HasStatsBlueprint TryGetBlueprint(Guid g);
     }
 }

@@ -9,6 +9,7 @@
         "array",
         "null"
       ],
+      "description": "Human readable words that describe the current state of the object",
       "items": {
         "$ref": "#/definitions/IAdjective"
       }
@@ -18,6 +19,7 @@
         "array",
         "null"
       ],
+      "description": "Determines how the object responds  before applying any external child objects (gear, location etc.)",
       "items": {
         "$ref": "#/definitions/IBehaviour"
       }
@@ -27,6 +29,7 @@
         "array",
         "null"
       ],
+      "description": "The IAction that the object can undertake regardless of any child objects (gear, location etc.)",
       "items": {
         "$ref": "#/definitions/IAction"
       }
@@ -36,18 +39,22 @@
         "null",
         "string"
       ],
+      "description": "The guid for this type of object.  If the object was\ncreated from a blueprint then this guid is shared\nwith other instances stamped out by the blueprint",
       "format": "guid"
     },
     "Unique": {
-      "type": "boolean"
+      "type": "boolean",
+      "description": "True to only ever generate one of this thing"
     },
     "Name": {
       "type": [
         "null",
         "string"
-      ]
+      ],
+      "description": "Human readable name "
     },
     "InjurySystem": {
+      "description": "The injury system of your innate weapons e.g. fists, claws\nflaming breath etc.  Does not include items wielded by you",
       "oneOf": [
         {
           "type": "null"
@@ -58,6 +65,7 @@
       ]
     },
     "Dialogue": {
+      "description": "What the thing does when you try to interact with it in a narrative manner e.g. talk, read",
       "oneOf": [
         {
           "type": "null"
@@ -68,7 +76,12 @@
       ]
     },
     "Color": {
-      "$ref": "#/definitions/ConsoleColor"
+      "description": "Black=0\nDarkBlue=1\nDarkGreen=2\nDarkCyan=3\nDarkRed=4\nDarkMagenta= 5\nDarkYellow=6\nGray=7\nDarkGray=8\nBlue=9\nGreen=10\nCyan=11\nRed=12\nMagenta=13 \nYellow=14\nWhite=15",
+      "oneOf": [
+        {
+          "$ref": "#/definitions/ConsoleColor"
+        }
+      ]
     },
     "BaseStats": {
       "oneOf": [
@@ -172,6 +185,7 @@
     },
     "IHasStats": {
       "type": "object",
+      "description": "Base Interface for HasStats.  Describes an object in the Wanderer World (Actor, Room, Item, Adjective etc)",
       "x-abstract": true,
       "additionalProperties": false,
       "properties": {
@@ -517,6 +531,7 @@
     },
     "DynamicDictionary": {
       "type": "object",
+      "description": "Dictionary of strings to objects which dynamically creates keys as you ask for them e.g. mydict[\"fish\"] &gt; 10 creates a new key entry fish (if one does not already exist) and returns 0 (default for int).  This class simplifies variable assignment/creation in scripts.",
       "additionalProperties": false,
       "properties": {
         "BaseDictionary": {
@@ -524,6 +539,7 @@
             "null",
             "object"
           ],
+          "description": "The underlying currently stored dictionary values.  Primarily for JSON serialization",
           "additionalProperties": {}
         }
       }

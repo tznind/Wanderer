@@ -143,9 +143,20 @@ namespace Wanderer.Factories
         /// <summary>
         /// Returns the first blueprint that matches the name (which can be a guid).  Includes sub elements of the blueprint e.g. <see cref="RoomBlueprint.MandatoryItems"/>
         /// </summary>
-        public HasStatsBlueprint TryGetBlueprint(string name)
+        public virtual HasStatsBlueprint TryGetBlueprint(string name)
         {
+            if(Guid.TryParse(name,out Guid g))
+                return TryGetBlueprint(g);
+
             return Blueprints.Select(b=> b.TryGetBlueprint(name)).FirstOrDefault(b=>b!= null);
+        }
+
+        /// <summary>
+        /// Returns the first blueprint that matches <paramref name="g"/>.  Includes sub elements of the blueprint e.g. <see cref="RoomBlueprint.MandatoryItems"/>
+        /// </summary>
+        public virtual HasStatsBlueprint TryGetBlueprint(Guid g)
+        {
+            return Blueprints.Select(b=> b.TryGetBlueprint(g)).FirstOrDefault(b=>b!= null);
         }
 
         protected void HandleInheritance(HasStatsBlueprint blueprint)

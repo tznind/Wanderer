@@ -22,11 +22,6 @@ namespace Wanderer
         You Player { get; }
 
         /// <summary>
-        /// Returns the named factory blueprint (by Name or Identifier)
-        /// </summary>
-        HasStatsBlueprint TryGetBlueprint(string toSpawn);
-
-        /// <summary>
         /// Creates <see cref="IRoom"/>
         /// </summary>
         IRoomFactory RoomFactory { get; set; }
@@ -83,6 +78,11 @@ namespace Wanderer
         IList<INegotiationSystem> NegotiationSystems { get; set; }
         
         /// <summary>
+        /// Stores any custom Systems the API user has developed and wants to invoke e.g. from <see cref="Compilation.ApplyEffect"/> blocks
+        /// </summary>
+        IList<ISystem> CustomSystems {get;set;}
+
+        /// <summary>
         /// System for helping <see cref="Npc"/> make sensible decisions
         /// </summary>
         PlanningSystem PlanningSystem { get; set; }
@@ -133,7 +133,15 @@ namespace Wanderer
         /// <returns></returns>
         IRoom Reveal(Point3 location);
 
+        /// <summary>
+        /// Returns the first system where the <see cref="ISystem.Identifier"/> matches <paramref name="g"/>.  Searches in <see cref="InjurySystems"/>, <see cref="Relationships"/>, <see cref="CustomSystems"/> etc
+        /// </summary>
         ISystem GetSystem(Guid g);
+
+
+        /// <summary>
+        /// Returns the first system where the <see cref="ISystem.Name"/> matches <paramref name="name"/>.  Searches in <see cref="InjurySystems"/>, <see cref="Relationships"/>, <see cref="CustomSystems"/> etc
+        /// </summary>
         ISystem GetSystem(string name);
 
         /// <summary>
@@ -143,7 +151,31 @@ namespace Wanderer
         /// </summary>
         /// <returns></returns>
         IInjurySystem GetDefaultInjurySystem();
-        
+
+        /// <summary>
+        /// Returns the first <see cref="HasStatsBlueprint"/> where the <see cref="HasStatsBlueprint.Name"/> matches <paramref name="name"/>.  Includes  a deep search of all Factories ( <see cref="ActorFactory"/>, <see cref="AdjectiveFactory"/> etc)
+        /// </summary>
+        /// <param name="name"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>        
         T GetBlueprint<T>(string name)  where T : HasStatsBlueprint;
+
+        /// <summary>
+        /// Returns the named factory blueprint (by Name or Identifier).  Returns null if the blueprint could not be found
+        /// </summary>
+        HasStatsBlueprint TryGetBlueprint(string toSpawn);
+
+        /// <summary>
+        /// Returns the first <see cref="HasStatsBlueprint"/> where the <see cref="HasStatsBlueprint.Identifier"/> matches <paramref name="g"/>.  Includes  a deep search of all Factories ( <see cref="ActorFactory"/>, <see cref="AdjectiveFactory"/> etc)
+        /// </summary>
+        /// <param name="g"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>        
+        T GetBlueprint<T>(Guid g)  where T : HasStatsBlueprint;
+
+        /// <summary>
+        /// Returns the named factory blueprint (by Identifier).  Returns null if the blueprint could not be found
+        /// </summary>
+        HasStatsBlueprint TryGetBlueprint(Guid g);
     }
 }

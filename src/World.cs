@@ -40,6 +40,8 @@ namespace Wanderer
         public IList<IInjurySystem> InjurySystems { get; set; } = new List<IInjurySystem>();
         public IList<INegotiationSystem> NegotiationSystems { get; set; } = new List<INegotiationSystem>(new []{new NegotiationSystem()});
 
+        public IList<ISystem> CustomSystems {get;set;} = new List<ISystem>();
+
         public IRoomFactory RoomFactory { get; set; } = new RoomFactory();
 
         public IActorFactory ActorFactory { get; set; } = new ActorFactory();
@@ -147,18 +149,6 @@ namespace Wanderer
             return Population.SelectMany(a => a.GetFinalBehaviours()).ToArray();
         }
 
-
-        /// <inheritdoc/>
-        public HasStatsBlueprint TryGetBlueprint(string name)
-        {
-            return RoomFactory.TryGetBlueprint(name) ??
-            ActorFactory.Blueprints.FirstOrDefault(b=>b.Is(name)) ??
-            ItemFactory.Blueprints.FirstOrDefault(b=>b.Is(name)) ??
-            AdjectiveFactory.Blueprints.FirstOrDefault(b=>b.Is(name)) ??
-            BehaviourFactory.Blueprints.FirstOrDefault(b=>b.Is(name)) ??
-            (HasStatsBlueprint) ActionFactory.Blueprints.FirstOrDefault(b=>b.Is(name));
-        }
-
         /// <inheritdoc/>
         public void RunRound(IUserinterface ui, IAction playerAction)
         {
@@ -262,6 +252,10 @@ namespace Wanderer
 
             foreach (var s in NegotiationSystems)
                 yield return s;
+
+            foreach (var s in CustomSystems)
+                yield return s;
+        
         }
 
         public IInjurySystem GetDefaultInjurySystem()
@@ -270,18 +264,52 @@ namespace Wanderer
                 .FirstOrDefault();
         }
 
+        /// <inheritdoc/>
+        public HasStatsBlueprint TryGetBlueprint(string name)
+        {
+            
+            return RoomFactory.TryGetBlueprint(name) ?? TryGetNonRoomBlueprint(b=>b.Is(name));
+        }
+        /// <inheritdoc/>
+        public HasStatsBlueprint TryGetBlueprint(Guid g)
+        {
+            return RoomFactory.TryGetBlueprint(g) ?? TryGetNonRoomBlueprint(b=>b.Is(g));
+        }
+        protected HasStatsBlueprint TryGetNonRoomBlueprint(Func<HasStatsBlueprint,bool> func)
+        {
+           return ActorFactory.Blueprints.FirstOrDefault(func) ??
+           ItemFactory.Blueprints.FirstOrDefault(func) ??
+           AdjectiveFactory.Blueprints.FirstOrDefault(func) ??
+           BehaviourFactory.Blueprints.FirstOrDefault(func) ??
+           (HasStatsBlueprint) ActionFactory.Blueprints.FirstOrDefault(func);
+        }
+         
+        /// <inheritdoc/>
         public T GetBlueprint<T>(string name) where T : HasStatsBlueprint
         {
+            if(Guid.TryParse(name, out Guid g))
+                return GetBlueprint<T>(g);
+                
             var blue = TryGetBlueprint(name);
 
             if(blue == null)
-                if(Guid.TryParse(name , out Guid g))
-                    throw new GuidNotFoundException($"Could not find {typeof(T).Name} blueprint '{name}'",g);
-                else
                 throw new NamedObjectNotFoundException($"Could not find {typeof(T).Name} blueprint '{name}'",name);
             
             if(!(blue is T t))
                 throw new Exception($"Blueprint '{name}' was not for a {typeof(T).Name} (was for a '{blue.GetType()}')");
+
+            return t;
+        }
+        /// <inheritdoc/>
+        public T GetBlueprint<T>(Guid g) where T : HasStatsBlueprint
+        {
+            var blue = TryGetBlueprint(g);
+
+            if(blue == null)
+                throw new GuidNotFoundException($"Could not find {typeof(T).Name} blueprint '{g}'",g);
+            
+            if(!(blue is T t))
+                throw new Exception($"Blueprint '{g}' was not for a {typeof(T).Name} (was for a '{blue.GetType()}')");
 
             return t;
         }

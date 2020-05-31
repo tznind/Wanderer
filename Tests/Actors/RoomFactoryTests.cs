@@ -135,60 +135,112 @@ namespace Tests.Actors
             Assert.AreEqual(1,rooms.Count(r=>r.Name.Equals("BossRoom")));
         }
 
-        [Test]
-        public void SpawnItem_NotFoundGuid()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void SpawnItem_NotFoundGuid(bool passAsString)
         {
-            var you = YouInARoom(out IWorld w);
-
-            Assert.IsEmpty(w.ItemFactory.Blueprints);
-
             var g = Guid.NewGuid();
-            var ex = Assert.Throws<GuidNotFoundException>(()=>you.SpawnItem(g));
+
+            GuidNotFoundException ex;
+
+            if(passAsString)
+                 ex = Assert.Throws<GuidNotFoundException>(()=>YouInARoom(out _).SpawnItem(g.ToString()));
+            else
+                 ex = Assert.Throws<GuidNotFoundException>(()=>YouInARoom(out _).SpawnItem(g));
+
             Assert.AreEqual(g,ex.Guid);
         }
-        [Test]
-        public void SpawnItem_FoundGuid()
-        {
-            var you = YouInARoom(out IWorld w);
-            Assert.IsEmpty(you.Items);
-            
-            var g = Guid.NewGuid();
-            w.ItemFactory.Blueprints.Add(new ItemBlueprint()
-            {
-                Name = "Grenade Pin",
-                Identifier = g
-            });
 
-            you.SpawnItem(g);
+        [TestCase(true)]
+        [TestCase(false)]
+        public void SpawnItemInRoom_NotFoundGuid(bool passAsString)
+        {
+            var g = Guid.NewGuid();
+
+            GuidNotFoundException ex;
+
+            if(passAsString)
+                 ex = Assert.Throws<GuidNotFoundException>(()=>InARoom(out _).SpawnItem(g.ToString()));
+            else
+                 ex = Assert.Throws<GuidNotFoundException>(()=>InARoom(out _).SpawnItem(g));
+
+            Assert.AreEqual(g,ex.Guid);
+        }
+        [TestCase(true)]
+        [TestCase(false)]
+        public void SpawnItem_FoundGuid(bool passAsString)
+        {
+            var you = SetupSpawnItem(out Guid g);
+
+            if(passAsString)
+                you.SpawnItem( g.ToString());
+            else
+                you.SpawnItem(g);
 
             Assert.AreEqual("Grenade Pin",you.Items.Single().Name);
             Assert.AreEqual(g,you.Items.Single().Identifier);
         }
 
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public void SpawnItemInRoom_FoundGuid(bool passAsString)
+        {
+            var you = SetupSpawnItem(out Guid g);
+
+            if(passAsString)
+                you.CurrentLocation.SpawnItem( g.ToString());
+            else
+                you.CurrentLocation.SpawnItem(g);
+
+            Assert.AreEqual("Grenade Pin",you.CurrentLocation.Items.Single().Name);
+            Assert.AreEqual(g,you.CurrentLocation.Items.Single().Identifier);
+        }
+
         [Test]
         public void SpawnItem_NotFoundName()
         {
-            var you = YouInARoom(out IWorld w);
-
-            Assert.IsEmpty(w.ItemFactory.Blueprints);
-
-            var ex = Assert.Throws<NamedObjectNotFoundException>(()=>you.SpawnItem("Knife"));
+            var ex = Assert.Throws<NamedObjectNotFoundException>(()=>YouInARoom(out _).SpawnItem("Knife"));
             Assert.AreEqual("Knife",ex.Name);
         }
         [Test]
+        public void SpawnItemInRoom_NotFoundName()
+        {
+            var ex = Assert.Throws<NamedObjectNotFoundException>(()=>InARoom(out _).SpawnItem("Knife"));
+            Assert.AreEqual("Knife",ex.Name);
+        }
+
+        [Test]
         public void SpawnItem_FoundName()
+        {
+            var you = SetupSpawnItem(out _);
+            you.SpawnItem("Grenade Pin");
+            Assert.AreEqual("Grenade Pin",you.Items.Single().Name);
+        }
+
+        [Test]
+        public void SpawnItemInRoom_FoundName()
+        {
+            var you = SetupSpawnItem(out _);
+            you.CurrentLocation.SpawnItem("Grenade Pin");
+            Assert.AreEqual("Grenade Pin",you.CurrentLocation.Items.Single().Name);
+        }
+
+        private You SetupSpawnItem(out Guid g)
         {
             var you = YouInARoom(out IWorld w);
             Assert.IsEmpty(you.Items);
             
+            g = Guid.NewGuid();
+
             w.ItemFactory.Blueprints.Add(new ItemBlueprint()
             {
-                Name = "Grenade Pin"
+                Name = "Grenade Pin",
+                Identifier = g
+                
             });
 
-            you.SpawnItem("Grenade Pin");
-
-            Assert.AreEqual("Grenade Pin",you.Items.Single().Name);
+            return you;
         }
         
         [Test]
