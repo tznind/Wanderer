@@ -219,6 +219,7 @@ namespace Wanderer.Actors
         }
 
 
+        /// <inheritdoc />
         public bool CanUnEquip(IItem item, out string reason)
         {
             //already equipped, dead etc
@@ -236,16 +237,25 @@ namespace Wanderer.Actors
             return true;
         }
 
+        /// <inheritdoc />
         public double AttitudeTo(IActor other)
         {
             return this.CurrentLocation.World.Relationships.SumBetween(this,other);
         }
 
+        /// <summary>
+        /// Returns <see cref="HasStats.Name"/> with a prefix of "Dead" if the <see cref="Actor"/> is dead.
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return (Dead ? "Dead ":"") + Name;
         }
 
+        /// <summary>
+        /// Returns all 'haves' (sub objects), this includes <see cref="Items"/>, Adjectives, <see cref="FactionMembership"/> etc and all 'haves' of those too (recursively).  Does not include equipable items that are not currently equiped.
+        /// </summary>
+        /// <returns></returns>
         public override IEnumerable<IHasStats> GetAllHaves()
         {
             if(Dead)
@@ -260,7 +270,6 @@ namespace Wanderer.Actors
 
         private bool IncludeInHaves(IItem item)
         {
-
             //if it requires equipping
             return item.Slot == null || item.IsEquipped;
 
@@ -268,6 +277,7 @@ namespace Wanderer.Actors
             //rapidly run into stack overflows e.g. where requirement is that player Has something!
         }
 
+        /// <inheritdoc />
         public double DistanceTo(IActor actor)
         {
             var world = CurrentLocation.World;
@@ -275,6 +285,7 @@ namespace Wanderer.Actors
             return world.Map.GetPoint(CurrentLocation).Distance(world.Map.GetPoint(actor.CurrentLocation));
         }
 
+        /// <inheritdoc />
         public IActor BestFriend(bool inSameLocation, double threshold)
         {
             var world = CurrentLocation.World;
@@ -288,6 +299,7 @@ namespace Wanderer.Actors
                             .FirstOrDefault();
         }
 
+        /// <inheritdoc />
         public IActor WorstEnemy(bool inSameLocation, double threshold)
         {
             var world = CurrentLocation.World;
@@ -301,53 +313,71 @@ namespace Wanderer.Actors
                             .FirstOrDefault();
         }
 
+        /// <inheritdoc />
         public IItem SpawnItem(ItemBlueprint blue)
         {
             return SpawnItem(CurrentLocation.World.ItemFactory.Create(CurrentLocation.World,blue));
         }
-        
+
+        /// <inheritdoc />
         public IItem SpawnItem(Guid g)
         {
             return SpawnItem(CurrentLocation.World.GetBlueprint<ItemBlueprint>(g));
         }
+
+        /// <inheritdoc />
         public IItem SpawnItem(string name)
         {
             return SpawnItem(CurrentLocation.World.GetBlueprint<ItemBlueprint>(name));
         }
-        
+
+        /// <inheritdoc />
         public IAction SpawnAction(ActionBlueprint blue)
         {
             return CurrentLocation.World.ActionFactory.Create(CurrentLocation.World,this,blue);
         }
+
+        /// <inheritdoc />
         public IAction SpawnAction(Guid g)
         {
             return CurrentLocation.World.ActionFactory.Create(CurrentLocation.World,this,g);
         }
+
+        /// <inheritdoc />
         public IAction SpawnAction(string name)
         {
             return CurrentLocation.World.ActionFactory.Create(CurrentLocation.World,this,name);
         }
 
+        /// <summary>
+        /// Adds the item to the <see cref="Items"/> inventory of the actor
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         protected virtual IItem SpawnItem(IItem item)
         {
             Items.Add(item);
             return item;
         }
-        
+
+        /// <inheritdoc />
         public IBehaviour SpawnBehaviour(string name)
         {
             return CurrentLocation.World.BehaviourFactory.Create(CurrentLocation.World,this,name);
         }
+        /// <inheritdoc />
         public IBehaviour SpawnBehaviour(Guid g)
         {
             return CurrentLocation.World.BehaviourFactory.Create(CurrentLocation.World,this,g);
         }
+        /// <inheritdoc />
         public void Equip(IItem item)
         {
             if (CanEquip(item, out _))
                 item.IsEquipped = true;
         }
-
+        
+        /// <inheritdoc />
         public IInjurySystem GetBestInjurySystem()
         {
             var weaponInjurysystem = Items.Where(i => i.IsEquipped)
@@ -363,6 +393,7 @@ namespace Wanderer.Actors
                 CurrentLocation.World.GetDefaultInjurySystem();
         }
 
+        /// <inheritdoc />
         public void Heal(IUserinterface ui, Guid round,string s)
         {
             Adjectives.OfType<IInjured>().FirstOrDefault(i=>i.Is(s))?.Heal(ui,round);

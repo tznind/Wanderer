@@ -5,6 +5,9 @@ using Wanderer.Compilation;
 
 namespace Wanderer.Actions
 {
+    /// <summary>
+    /// An activity that an <see cref="IActor"/> can perform.  May or may not take a full round to complete.  Action execution involves picking targets and then pushing the resulting selection as a <see cref="Frame"/> onto an <see cref="ActionStack"/> where it may be resolved later or cancelled.  Both player and NPC alike pick <see cref="IAction"/>.
+    /// </summary>
     public interface IAction : IHasStats
     {
         /// <summary>

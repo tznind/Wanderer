@@ -15,6 +15,14 @@
         /// </summary>
         public Frame Frame {get;set;}
 
+        /// <summary>
+        /// Creates a new <see cref="EventSystemArgs"/> describing an action on the stack including the targets chosen for that action (see <see cref="Frame"/>)
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="world"></param>
+        /// <param name="ui"></param>
+        /// <param name="stack"></param>
+        /// <param name="frame"></param>
         public ActionFrameSystemArgs(IHasStats source,IWorld world, IUserinterface ui,ActionStack stack, Frame frame ): 
             base(source,world,ui,frame.PerformedBy,frame.TargetIfAny ?? frame.PerformedBy,stack.Round)
         {

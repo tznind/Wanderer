@@ -136,15 +136,29 @@ namespace Wanderer.Actors
         /// <returns></returns>
         double AttitudeTo(IActor other);
 
-
+        
         /// <summary>
-        /// Returns the distance to the other <paramref name="actor"/> 
+        /// Returns the distance between the current actor and <paramref name="actor"/> in a straight line (i.e. not a path or zigzag)
         /// </summary>
         /// <param name="actor"></param>
         /// <returns></returns>
         double DistanceTo(IActor actor);
 
+        /// <summary>
+        /// Returns the actor which this actor has the strongest relationship to (the feeling might not be mutual)
+        /// </summary>
+        /// <param name="inSameLocation">Restrict the answer to only those actors in the same room</param>
+        /// <param name="threshold">The relationship must be at least this strong</param>
+        /// <returns></returns>
         IActor BestFriend(bool inSameLocation, double threshold);
+
+        
+        /// <summary>
+        /// Returns the actor which this actor has the most negative relationship to (the feeling might not be mutual)
+        /// </summary>
+        /// <param name="inSameLocation">Restrict the answer to only those actors in the same room</param>
+        /// <param name="threshold">The relationship must be at least this strong</param>
+        /// <returns></returns>
         IActor WorstEnemy(bool inSameLocation, double threshold);
 
 
@@ -202,14 +216,14 @@ namespace Wanderer.Actors
         /// </summary>
         /// <param name="name">Name of <see cref="BehaviourBlueprint"/></param>
         /// <returns></returns>
-        public IBehaviour SpawnBehaviour(string name);
+        IBehaviour SpawnBehaviour(string name);
         
         /// <summary>
         /// Adds a new <see cref="IBehaviour"/> onto <see cref="IHasStats.BaseBehaviours"/>
         /// </summary>
         /// <param name="g">Guid of <see cref="HasStatsBlueprint.Identifier"/></param>
         /// <returns></returns>
-        public IBehaviour SpawnBehaviour(Guid g);
+        IBehaviour SpawnBehaviour(Guid g);
 
         /// <summary>
         /// Automatically equips the given <paramref name="item"/> if possible
@@ -220,8 +234,7 @@ namespace Wanderer.Actors
 
 
         /// <summary>
-        /// Returns the injury system of your currently held weapon
-        /// or innate action (i.e. <see cref="InjurySystem"/>)
+        /// Returns the injury system of your currently held weapon or innate form (i.e. <see cref="InjurySystem"/>)
         /// </summary>
         /// <returns></returns>
         IInjurySystem GetBestInjurySystem();
@@ -232,6 +245,6 @@ namespace Wanderer.Actors
         /// <param name="ui"></param>
         /// <param name="round"></param>
         /// <param name="s"></param>
-        public void Heal(IUserinterface ui, Guid round, string s);
+        void Heal(IUserinterface ui, Guid round, string s);
     }
 }

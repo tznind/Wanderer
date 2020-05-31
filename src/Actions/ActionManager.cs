@@ -13,6 +13,12 @@ namespace Wanderer.Actions
     /// </summary>
     public class ActionManager
     {
+        /// <summary>
+        /// Returns human readable descriptions for all valid actions the <paramref name="aggressor"/> could undertake
+        /// </summary>
+        /// <param name="aggressor"></param>
+        /// <param name="mustHaveTargets"></param>
+        /// <returns></returns>
         public IEnumerable<ActionDescription> GetTypes(IActor aggressor,bool mustHaveTargets)
         {
             return aggressor.GetFinalActions(aggressor)
