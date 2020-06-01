@@ -96,11 +96,22 @@ namespace Wanderer.Actors
         /// <returns></returns>
         bool Has(string name, bool includeItems);
 
+        /// <summary>
+        /// Returns the actors <see cref="IHasStats.BaseStats"/> adjusted for current equipment, adjectives (e.g. sick) and room (e.g. dark)
+        /// </summary>
+        /// <returns></returns>
         StatsCollection GetFinalStats();
 
+        /// <summary>
+        /// Returns all actions that the actor can perform.  This includes actions granted by the room they are in or items they have
+        /// </summary>
+        /// <returns></returns>
         IEnumerable<IAction> GetFinalActions();
 
-
+        /// <summary>
+        /// Returns all <see cref="IBehaviour"/> for this actor including any granted by items they are holding or rooms they are in etc
+        /// </summary>
+        /// <returns></returns>
         IEnumerable<IBehaviour> GetFinalBehaviours();
 
         /// <summary>

@@ -26,7 +26,7 @@ namespace Wanderer
         /// <summary>
         /// True to only ever generate one of this thing
         /// </summary>
-        public bool Unique { get; set; }
+        bool Unique { get; set; }
 
         /// <summary>
         /// Human readable name 
@@ -87,7 +87,7 @@ namespace Wanderer
         /// <summary>
         /// Custom variables for user scripts and tracking counts
         /// </summary>
-        public DynamicDictionary V {get;set;}
+        DynamicDictionary V {get;set;}
 
         /// <summary>
         /// Returns the <see cref="BaseStats"/> plus any modifiers for child objects (e.g. gear, <see cref="Adjectives"/> etc)

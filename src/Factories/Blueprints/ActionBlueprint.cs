@@ -36,7 +36,7 @@ namespace Wanderer.Factories.Blueprints
         public string TargetPrompt { get; set; }
 
         /// <summary>
-        /// What happens when the action is performed.
+        /// Effects that happen when the action is performed.  These only fire if the action successfully resolves (i.e. is not cancelled).  Effects are applied before any normal parts of the action are resolved (e.g. exchanging damage during a <see cref="FightAction"/>)
         /// </summary>
         public List<EffectBlueprint> Effect { get; set; } = new List<EffectBlueprint>();
     }

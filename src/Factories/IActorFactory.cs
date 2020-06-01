@@ -6,6 +6,9 @@ using System.Collections.Generic;
 
 namespace Wanderer.Factories
 {
+    /// <summary>
+    /// Factory for creating <see cref="IActor"/> instances based on <see cref="ActorBlueprint"/>.  Typically these are <see cref="Npc"/> (i.e. not the player)
+    /// </summary>
     public interface IActorFactory : IHasStatsFactory
     {
         /// <summary>

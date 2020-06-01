@@ -20,6 +20,9 @@ namespace Wanderer.Actions
         /// </summary>
         char HotKey {get; set;}
 
+        /// <summary>
+        /// Effects that happen when the action is performed.  These only fire if the action successfully resolves (i.e. is not cancelled).  Effects are applied before any normal parts of the action are resolved (e.g. exchanging damage during a <see cref="FightAction"/>)
+        /// </summary>
         List<IEffect> Effect {get;set;}
 
         /// <summary>

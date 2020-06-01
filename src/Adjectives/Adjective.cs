@@ -11,10 +11,13 @@ namespace Wanderer.Adjectives
 {
     public class Adjective : HasStats,IAdjective
     {
+        /// <inheritdoc />
         public IHasStats Owner { get; set; }
-
+        
+        /// <inheritdoc />
         public bool IsPrefix { get; set; }
-
+        
+        /// <inheritdoc />
         public StatsCollection StatsRatio { get; set; } = new StatsCollection(1);
 
         /// <summary>
@@ -38,7 +41,8 @@ namespace Wanderer.Adjectives
             Name = GetType().Name;
         }
 
-
+        
+        /// <inheritdoc />
         public override StatsCollection GetFinalStats(IActor forActor)
         {
             var effect = Resist?.Calculate(forActor) ?? 1;
@@ -46,17 +50,21 @@ namespace Wanderer.Adjectives
             return base.GetFinalStats(forActor).Clone().SetAll(v=>v*effect);
         }
 
+        
+        /// <inheritdoc cref="IAreIdentical.AreIdentical"/>
         public bool AreIdentical(IAdjective other)
         {
             return this.AreIdentical((IHasStats)other);
         }
 
         
+        /// <inheritdoc />
         public StatsCollection Modify(StatsCollection stats)
         {
             return stats.Clone().Multiply(StatsRatio,true);
         }
-
+        
+        /// <inheritdoc />
         public IAdjective WithExpiry(int duration)
         {
             //add the expiry behaviour to the original owner

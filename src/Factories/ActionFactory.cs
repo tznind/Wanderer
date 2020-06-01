@@ -77,26 +77,13 @@ namespace Wanderer.Factories
             return action;
         }
 
-        /// <summary>
-        /// Overload that creates the named blueprint
-        /// </summary>
-        /// <param name="world"></param>
-        /// <param name="onto"></param>
-        /// <param name="name"></param>
-        /// <returns></returns>
+        /// <inheritdoc />
         public IAction Create(IWorld world, IHasStats onto, string name)
         {
             return Create(world, onto, GetBlueprint(name));
         }
-
-
-        /// <summary>
-        /// Overload that creates the referenced blueprint
-        /// </summary>
-        /// <param name="world"></param>
-        /// <param name="onto"></param>
-        /// <param name="g"></param>
-        /// <returns></returns>
+        
+        /// <inheritdoc />
         public IAction Create(IWorld world, IHasStats onto, Guid g)
         {
             return Create(world, onto, GetBlueprint(g));

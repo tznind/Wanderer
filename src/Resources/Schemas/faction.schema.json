@@ -141,6 +141,7 @@
   "definitions": {
     "IAdjective": {
       "type": "object",
+      "description": "A state or modifier that applies to an object e.g. a gun could have the adjective 'Rusty'.  An adjective can modify the stats of the thing it is applied to as well as grant new actions, behaviours etc",
       "x-abstract": true,
       "additionalProperties": false,
       "properties": {
@@ -471,6 +472,7 @@
             "array",
             "null"
           ],
+          "description": "Effects that happen when the action is performed.  These only fire if the action successfully resolves (i.e. is not cancelled).  Effects are applied before any normal parts of the action are resolved (e.g. exchanging damage during a FightAction)",
           "items": {
             "$ref": "#/definitions/IEffect"
           }

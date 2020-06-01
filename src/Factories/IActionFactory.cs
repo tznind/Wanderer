@@ -24,7 +24,25 @@ namespace Wanderer.Factories
         /// <param name="blueprint"></param>
         /// <returns></returns>
         IAction Create(IWorld world, IHasStats onto, ActionBlueprint blueprint);
+
+        /// <summary>
+        /// Overload that takes the name of a <see cref="ActionBlueprint"/> (which must exist)
+        /// </summary>
+        /// <param name="world"></param>
+        /// <param name="onto"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        /// <exception cref="NamedObjectNotFoundException"></exception>
         IAction Create(IWorld world, IHasStats onto, string name);
+
+        /// <summary>
+        /// Overload that takes the <see cref="HasStatsBlueprint.Identifier"/>  (which must exist)
+        /// </summary>
+        /// <param name="world"></param>
+        /// <param name="onto"></param>
+        /// <param name="g"></param>
+        /// <returns></returns>
+        /// <exception cref="GuidNotFoundException"></exception>
         IAction Create(IWorld world, IHasStats onto, Guid g);
     }
 }
