@@ -57,6 +57,9 @@ namespace Wanderer
             var clone = BaseStats.Clone();
             foreach (var adjective in Adjectives) 
                 clone.Increase(adjective.GetFinalStats(forActor));
+            
+            foreach(var adjective in Adjectives)
+                clone = adjective.Modify(clone);
 
             return clone;
         }

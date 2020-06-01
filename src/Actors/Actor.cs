@@ -176,17 +176,25 @@ namespace Wanderer.Actors
         {
             var clone = BaseStats.Clone();
 
+            // Add your base stats plus any bonuses from adjectives you have attached to you
             foreach (var adjective in Adjectives) 
                 clone.Increase(adjective.GetFinalStats(forActor));
 
+            // Then modify your stats by the StatsRatio for any adjectives attached to you (e.g. Rusty makes your stats worse but does not affect items you are holding or room based modifiers)
+            foreach(var adjective in Adjectives)
+                clone = adjective.Modify(clone);
+
+            // Add modifiers for the room you are in (e.g. dark room)
             clone.Increase(CurrentLocation.GetFinalStats(forActor));
 
+            // Add modifiers for your faction(s) (e.g. being Police might increase Authority)
             foreach (var faction in FactionMembership) 
                 clone.Increase(faction.GetFinalStats(forActor));
 
+            // Add modifiers for items in inventory
             foreach (var item in Items) 
                 clone.Increase(item.GetFinalStats(forActor));
-
+            
             return clone;
         }
         
