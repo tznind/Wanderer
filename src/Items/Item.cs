@@ -19,6 +19,7 @@ namespace Wanderer.Items
         /// <inheritdoc/>
         public IItemSlot Slot { get; set; }
 
+        /// <inheritdoc />
         public bool IsEquipped { get; set; }
 
         /// <summary>
@@ -51,6 +52,7 @@ namespace Wanderer.Items
             Name = name;
         }
 
+        /// <inheritdoc />
         public void Drop(IUserinterface ui, IActor owner, Guid round)
         {
             //remove us from the owner
@@ -65,7 +67,8 @@ namespace Wanderer.Items
             ui.Log.Info(new LogEntry($"{owner} dropped {this}", round,owner));
         }
 
-        
+
+        /// <inheritdoc />
         public bool CanUse(IActor actor,out string reason)
         {
             if (IsErased)
@@ -84,6 +87,7 @@ namespace Wanderer.Items
             return true;
         }
 
+        /// <inheritdoc />
         public bool CanEquip(IActor actor, out string reason)
         {
             //already equipped, dead etc
@@ -190,8 +194,8 @@ namespace Wanderer.Items
             return clone;
         }
 
-        
 
+        /// <inheritdoc />
         public override List<IAction> GetFinalActions(IActor forActor)
         {
             

@@ -18,23 +18,35 @@ namespace Wanderer.Actors
     /// <inheritdoc cref="IActor"/>
     public abstract class Actor : HasStats,IActor
     {
+        /// <inheritdoc />
         public bool Dead { get; set; }
+
+        /// <inheritdoc />
         public string FightVerb { get; set; } = "Fists";
         
         /// <inheritdoc/>
         public IRoom CurrentLocation { get; set; }
         
         public List<IItem> Items { get; set; } = new List<IItem>();
+
+        /// <inheritdoc />
         public HashSet<IFaction> FactionMembership { get; set; } = new HashSet<IFaction>();
 
+        /// <inheritdoc />
         public SlotCollection AvailableSlots { get; set; } = new SlotCollection();
         
         private ConsoleColor _explicitColor = DefaultColor;
 
 
+        /// <inheritdoc />
         public bool CanInitiateDialogue {get;set;}
+
+        /// <inheritdoc />
         public bool CanInspect {get;set;}
 
+        /// <summary>
+        /// Explicitly set the recommended color to use when rendering (requires UI to support it).  If not set then returns a Color based on <see cref="IFaction"/> (<see cref="FactionMembership"/>) or the default color which is white (assuming white text on black background)
+        /// </summary>
         public override ConsoleColor Color
         {
             //use the faction color unless we have an explicit room color set
@@ -159,6 +171,7 @@ namespace Wanderer.Actors
             return Is(name) || Adjectives.Any(a => a.Is(name)) || FactionMembership.Any(f=>f.Has(name));
         }
 
+        /// <inheritdoc />
         public override List<IBehaviour> GetFinalBehaviours(IActor forActor)
         {
             //the dead have no behaviours
@@ -172,6 +185,7 @@ namespace Wanderer.Actors
                 .Union(Items.SelectMany(i=>i.GetFinalBehaviours(forActor))));
         }
 
+        /// <inheritdoc />
         public override StatsCollection GetFinalStats(IActor forActor)
         {
             var clone = BaseStats.Clone();
@@ -197,7 +211,8 @@ namespace Wanderer.Actors
             
             return clone;
         }
-        
+
+        /// <inheritdoc />
         public StatsCollection GetFinalStats()
         {
             return GetFinalStats(this);
@@ -209,17 +224,20 @@ namespace Wanderer.Actors
             return GetFinalActions(this);
         }
 
-        
+
+        /// <inheritdoc />
         public IEnumerable<IBehaviour> GetFinalBehaviours()
         {
             return GetFinalBehaviours(this);
         }
 
+        /// <inheritdoc />
         public bool IsAwareOf(IActor other)
         {
-            return CurrentLocation.GetPoint() == other.CurrentLocation.GetPoint();
+            return Equals(CurrentLocation.GetPoint(), other.CurrentLocation.GetPoint());
         }
 
+        /// <inheritdoc />
         public virtual bool CanEquip(IItem item,out string reason)
         {
 

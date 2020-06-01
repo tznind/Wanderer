@@ -19,6 +19,8 @@ namespace Wanderer.Actions
         public ActionTargetCode(string script):base(script)
         {
         }
+
+        /// <inheritdoc />
         public IEnumerable<IHasStats> Get(SystemArgs args)
         {
             try

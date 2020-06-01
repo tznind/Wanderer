@@ -29,6 +29,15 @@ namespace Wanderer.Actors
         /// </summary>
         string FightVerb { get; set; }
 
+        /// <summary>
+        /// True if they can perform the <see cref="DialogueAction"/> i.e. enter the dialogue system and start talking to people (typically true for the player but false for <see cref="Npc"/>)
+        /// </summary>
+        bool CanInitiateDialogue {get;set;}
+        
+        /// <summary>
+        /// True if they can perform the <see cref="InspectAction"/> (typically true for the player but false for <see cref="Npc"/>)
+        /// </summary>
+        bool CanInspect {get;set;}
 
         /// <summary>
         /// Where the <see cref="Actor"/> currently is
@@ -115,8 +124,7 @@ namespace Wanderer.Actors
         IEnumerable<IBehaviour> GetFinalBehaviours();
 
         /// <summary>
-        /// Returns true if the current actor is able to observe freely the
-        /// actions of <paramref name="other"/>
+        /// Returns true if the current actor is able to observe freely the actions of <paramref name="other"/> (typically requires them to be in the same <see cref="Room"/>)
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>

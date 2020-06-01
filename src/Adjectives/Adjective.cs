@@ -9,6 +9,7 @@ using Wanderer.Systems;
 
 namespace Wanderer.Adjectives
 {
+    /// <inheritdoc cref="IAdjective"/>
     public class Adjective : HasStats,IAdjective
     {
         /// <inheritdoc />

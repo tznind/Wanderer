@@ -9,9 +9,9 @@ using System.Collections.Generic;
 
 namespace Wanderer.Factories
 {
+    /// <inheritdoc cref = "IActorFactory"/>
     public class ActorFactory : HasStatsFactory<ActorBlueprint,IActor>,IActorFactory
     {
-        
         public SlotCollection DefaultSlots { get; set; } = new SlotCollection();
         
 

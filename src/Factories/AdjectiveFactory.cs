@@ -8,14 +8,20 @@ using Wanderer.Items;
 
 namespace Wanderer.Factories
 {
+    /// <inheritdoc cref="IAdjectiveFactory"/>
     public class AdjectiveFactory : HasStatsFactory<AdjectiveBlueprint,IAdjective>,IAdjectiveFactory
     {
         private readonly TypeCollection _adjectiveTypes;
 
+        /// <summary>
+        /// Creates a new instance with no blueprints, note that if you want to create adjectives based on custom Types in your assembly make sure to set <see cref="Compiler.TypeFactory"/> to include your assembly before calling this constructor
+        /// </summary>
         public AdjectiveFactory()
         {
             _adjectiveTypes = Compiler.Instance.TypeFactory.Create<IAdjective>();
         }
+        
+        /// <inheritdoc />
         public IAdjective Create(IWorld world,IHasStats s, AdjectiveBlueprint blueprint)
         {
             HandleInheritance(blueprint);

@@ -4,6 +4,9 @@ using Wanderer.Factories.Blueprints;
 
 namespace Wanderer.Factories
 {
+    /// <summary>
+    /// Base interface for all factories which create <see cref="IHasStats"/> instances based on <see cref="HasStatsBlueprint"/> derived blueprints
+    /// </summary>
     public interface IHasStatsFactory
     {
         /// <summary>
