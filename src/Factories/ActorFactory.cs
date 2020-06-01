@@ -12,9 +12,11 @@ namespace Wanderer.Factories
     /// <inheritdoc cref = "IActorFactory"/>
     public class ActorFactory : HasStatsFactory<ActorBlueprint,IActor>,IActorFactory
     {
+        /// <inheritdoc />
         public SlotCollection DefaultSlots { get; set; } = new SlotCollection();
-        
 
+
+        /// <inheritdoc />
         public virtual void Create(IWorld world, IRoom room, IFaction faction, RoomBlueprint roomBlueprintIfAny)
         {
             var max = roomBlueprintIfAny?.OptionalActorsMax ?? 5;

@@ -147,14 +147,17 @@ namespace Wanderer.Actors
             return toReturn.Where(a=>a!=null);
         }
 
+        /// <inheritdoc />
         public abstract bool Decide<T>(IUserinterface ui, string title, string body, out T chosen, T[] options,
             double attitude);
 
+        /// <inheritdoc />
         public virtual void Move(IRoom newLocation)
         {
             CurrentLocation = newLocation;
         }
 
+        /// <inheritdoc />
         public abstract void Kill(IUserinterface ui, Guid round, string reason);
 
         /// <inheritdoc/>
@@ -162,7 +165,8 @@ namespace Wanderer.Actors
         {
             return CurrentLocation.World.Population.Where(o => o.CurrentLocation == CurrentLocation && o != this && (!o.Dead || includeDead)).ToArray();
         }
-        
+
+        /// <inheritdoc />
         public bool Has(string name, bool includeItems)
         {
             if (includeItems)
@@ -218,7 +222,8 @@ namespace Wanderer.Actors
             return GetFinalStats(this);
         }
 
-        
+
+        /// <inheritdoc />
         public IEnumerable<IAction> GetFinalActions()
         {
             return GetFinalActions(this);

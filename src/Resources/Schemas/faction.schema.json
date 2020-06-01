@@ -498,6 +498,7 @@
     },
     "IEffect": {
       "type": "object",
+      "description": "Describes an operation to perform in the world typically as a result of an action, dialogue choice etc",
       "x-abstract": true,
       "additionalProperties": false
     },

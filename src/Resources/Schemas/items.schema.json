@@ -737,7 +737,8 @@
           "type": [
             "null",
             "string"
-          ]
+          ],
+          "description": "Lua code to execute, can do anything.  Global variables include 'World', 'Recipient' etc (see github Cookbook for more info: https://github.com/tznind/Wanderer/blob/master/Cookbook.md)"
         },
         "Kill": {
           "type": [
@@ -790,6 +791,7 @@
     },
     "ApplySystemBlueprint": {
       "type": "object",
+      "description": "Describes how to find and apply an ISystem of a given Intensity to a given target(s) e.g. inflicting a given injury system on everyone in a Room",
       "additionalProperties": false,
       "properties": {
         "Identifier": {

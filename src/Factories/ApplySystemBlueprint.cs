@@ -1,7 +1,11 @@
 using System;
+using Wanderer.Systems;
 
 namespace Wanderer.Factories
 {
+    /// <summary>
+    /// Describes how to find and apply an <see cref="ISystem"/> of a given Intensity to a given target(s) e.g. inflicting a given injury system on everyone in a Room
+    /// </summary>
     public class ApplySystemBlueprint
     {
         /// <summary>

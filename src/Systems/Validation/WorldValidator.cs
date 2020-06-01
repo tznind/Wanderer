@@ -17,6 +17,9 @@ using Action = Wanderer.Actions.Action;
 
 namespace Wanderer.Systems.Validation
 {
+    /// <summary>
+    /// Validates an <see cref="IWorld"/> or <see cref="IWorldFactory"/>.  This process involves testing creating rooms and testing effects / dialogue paths as well as ensuring that resources deserialize correctly etc.
+    /// </summary>
     public class WorldValidator
     {
         public int ErrorCount {get;set;} = 0;
@@ -34,6 +37,10 @@ namespace Wanderer.Systems.Validation
         private IUserinterface _ui = new ValidatorUI();
         private readonly Logger _log = LogManager.GetCurrentClassLogger();
         
+        /// <summary>
+        /// Validates a <paramref name="worldFactory"/> by creating an <see cref="IWorld"/> and then validating that world.  This process ensures that the factory does not encounter deserialization errors processing it's <see cref="WorldFactoryResource"/> (e.g. yaml files) and detects missing references as well as testing out dialogue paths etc.
+        /// </summary>
+        /// <param name="worldFactory"></param>
         public void Validate(WorldFactory worldFactory)
         {
             IWorld w;
@@ -50,6 +57,10 @@ namespace Wanderer.Systems.Validation
             Validate(w);
         }
 
+        /// <summary>
+        /// Validates a <paramref name="world"/>, the world should not be used after calling this method as it will be full of test actors and test rooms etc.
+        /// </summary>
+        /// <param name="world"></param>
         public void Validate(IWorld world)
         {
 
@@ -60,6 +71,11 @@ namespace Wanderer.Systems.Validation
             Validate(world,world.ItemFactory, "World ItemFactory");
         }
 
+        /// <summary>
+        /// Creates a new npc in the <paramref name="room"/> for testing effects, items in the room etc.
+        /// </summary>
+        /// <param name="room"></param>
+        /// <returns></returns>
         protected virtual Npc GetTestActor(IRoom room)
         {
             return new Npc("test actor",room);
@@ -103,6 +119,13 @@ namespace Wanderer.Systems.Validation
 
             return sb.ToString();
         }
+
+        /// <summary>
+        /// Validates the <paramref name="roomFactory"/> by stamping out all blueprints into room instances and testing the contents of those rooms
+        /// </summary>
+        /// <param name="world"></param>
+        /// <param name="roomFactory"></param>
+        /// <param name="title">Describes the factory e.g. the path to the resources it was built from</param>
         public void Validate(IWorld world,IRoomFactory roomFactory,string title)
         {
 
@@ -117,10 +140,17 @@ namespace Wanderer.Systems.Validation
                 }
                 catch (Exception e)
                 {
-                    AddError($"Error creating RoomBlueprint for RoomFactory '{title}'.  Error was in {blue.Identifier?.ToString() ?? "Unamed Blueprint"}"  ,e);
+                    AddError($"Error creating RoomBlueprint for RoomFactory '{title}'.  Error was in {blue}"  ,e);
                 }
             }
         }
+
+        /// <summary>
+        /// Validates the <paramref name="itemFactory"/> by stamping out the blueprints and testing any dialogue paths (e.g. read book) etc
+        /// </summary>
+        /// <param name="world"></param>
+        /// <param name="itemFactory"></param>
+        /// <param name="title">Describes the factory e.g. the path to the resources it was built from</param>
         public void Validate(IWorld world,IItemFactory itemFactory,string title)
         {
 
@@ -141,6 +171,11 @@ namespace Wanderer.Systems.Validation
             }
         }
 
+        /// <summary>
+        /// Validates the <paramref name="room"/> and the items and actors in it
+        /// </summary>
+        /// <param name="world"></param>
+        /// <param name="room"></param>
         public void ValidateRoom(IWorld world, IRoom room)
         {
             if(room.Unique && room.Identifier == null)
@@ -170,6 +205,12 @@ namespace Wanderer.Systems.Validation
             _log?.Info($"Validated {room}");
         }
 
+        /// <summary>
+        /// Validates the AI <paramref name="plan"/> when considered by the given <paramref name="actor"/>.  Ensures that the <see cref="Plan.Condition"/> can be executed as well <see cref="Plan.Do"/> producing a valid <see cref="Frame"/>
+        /// </summary>
+        /// <param name="world"></param>
+        /// <param name="plan"></param>
+        /// <param name="actor"></param>
         public void Validate(IWorld world, Plan plan, IActor actor)
         {
             foreach(var condition in plan.Condition)
@@ -202,6 +243,12 @@ namespace Wanderer.Systems.Validation
             }
         }
 
+        /// <summary>
+        /// Validates the <paramref name="item"/>.  This ensures that if the item has <see cref="ItemSlot"/> then that exists in the world, validates any dialogue (e.g. 'read book') and that any <see cref="IItem.Require"/> execute without exception
+        /// </summary>
+        /// <param name="world"></param>
+        /// <param name="item"></param>
+        /// <param name="room"></param>
         public void ValidateItem(IWorld world, IItem item, IRoom room)
         {
             if (item.Dialogue != null)
@@ -233,6 +280,13 @@ namespace Wanderer.Systems.Validation
             }
         }
 
+        /// <summary>
+        /// Validates the event callbacks in the given <paramref name="behaviour"/> to ensure they execute without Exception (e.g. <see cref="IBehaviour.OnRoundEnding"/>
+        /// </summary>
+        /// <param name="world"></param>
+        /// <param name="owner"></param>
+        /// <param name="behaviour"></param>
+        /// <param name="room"></param>
         public void ValidateBehaviour(IWorld world, IHasStats owner, IBehaviour behaviour, IRoom room)
         {
             var actor = owner as IActor ?? GetTestActor(room);
@@ -276,6 +330,14 @@ namespace Wanderer.Systems.Validation
                 AddWarning($"Error testing OnEnter of Behaviour {behaviour} of on '{owner}' in room '{room.Name}' with test actor '{actor}'", e);
             }
         }
+
+        /// <summary>
+        /// Validates the <paramref name="action"/> when performed by the <paramref name="owner"/>
+        /// </summary>
+        /// <param name="world"></param>
+        /// <param name="owner">Explicit owner or null to use a test actor</param>
+        /// <param name="action">The action to test</param>
+        /// <param name="room"></param>
         public void ValidateAction(IWorld world, IHasStats owner, IAction action, IRoom room)
         {
             var actor = owner as IActor ?? GetTestActor(room);
@@ -302,6 +364,13 @@ namespace Wanderer.Systems.Validation
             return slots.Distinct().ToList();
         }
 
+        /// <summary>
+        /// Validates the <see cref="DialogueInitiation"/> references resolve to existing <see cref="DialogueNode"/> and that then validates those
+        /// </summary>
+        /// <param name="world"></param>
+        /// <param name="recipient"></param>
+        /// <param name="dialogue"></param>
+        /// <param name="room"></param>
         public void ValidateDialogue(IWorld world, IHasStats recipient, DialogueInitiation dialogue, IRoom room)
         {
             if (dialogue.Next.HasValue)
@@ -326,7 +395,14 @@ namespace Wanderer.Systems.Validation
                 }
         }
 
-
+        /// <summary>
+        /// Validates the specific <paramref name="node"/> of dialogue.  Checks that <see cref="DialogueNode.Condition"/> do not crash and then validates <see cref="DialogueNode.Options"/>
+        /// </summary>
+        /// <param name="world"></param>
+        /// <param name="recipient"></param>
+        /// <param name="dialogue"></param>
+        /// <param name="node"></param>
+        /// <param name="room"></param>
         public void ValidateDialogue(IWorld world, IHasStats recipient,DialogueInitiation dialogue, DialogueNode node, IRoom room)
         {
             if(_alreadyValidated.Contains(node.Identifier))
@@ -366,6 +442,16 @@ namespace Wanderer.Systems.Validation
             foreach(var option in node.Options)
                 Validate(world,recipient,dialogue,room,node,option);
         }
+
+        /// <summary>
+        /// Validates the specific <see cref="DialogueOption"/> <paramref name="option"/>.  Checks that any <see cref="DialogueOption.Condition"/> and <see cref="DialogueOption.Effect"/> execute without Exception and that the option has text etc
+        /// </summary>
+        /// <param name="world"></param>
+        /// <param name="recipient"></param>
+        /// <param name="initiation"></param>
+        /// <param name="room"></param>
+        /// <param name="dialogue"></param>
+        /// <param name="option"></param>
         public void Validate(IWorld world, IHasStats recipient, DialogueInitiation initiation, IRoom room,DialogueNode dialogue, DialogueOption option)
         {
             if(string.IsNullOrWhiteSpace(option.Text))

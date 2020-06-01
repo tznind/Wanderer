@@ -5,6 +5,7 @@ using Wanderer.Systems;
 
 namespace Wanderer.Compilation
 {
+    /// <inheritdoc cref="ApplySystemBlueprint"/>
     public class ApplyEffect : Effect
     {
         /// <inheritdoc cref="ApplySystemBlueprint.Identifier"/>

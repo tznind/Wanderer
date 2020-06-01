@@ -5,8 +5,12 @@ using Wanderer.Factories.Blueprints;
 
 namespace Wanderer.Factories
 {
+    /// <inheritdoc cref="IEffect"/>
     public class EffectBlueprint
     {
+        /// <summary>
+        /// Lua code to execute, can do anything.  Global variables include 'World', 'Recipient' etc (see github Cookbook for more info: https://github.com/tznind/Wanderer/blob/master/Cookbook.md)
+        /// </summary>
         public string Lua {get; set;}
 
         /// <summary>
@@ -39,6 +43,10 @@ namespace Wanderer.Factories
         /// </summary>
         public ApplySystemBlueprint Apply {get;set;}
         
+        /// <summary>
+        /// Turns the blueprint into effect(s).  A blueprint can describe more than 1 effect e.g. if <see cref="Lua"/> is set but also <see cref="Kill"/> has a value
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<IEffect> Create()
         {
             if(!string.IsNullOrWhiteSpace(Lua))

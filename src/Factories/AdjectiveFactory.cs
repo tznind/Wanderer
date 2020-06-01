@@ -45,6 +45,7 @@ namespace Wanderer.Factories
             return adj;
         }
 
+        /// <inheritdoc />
         public IAdjective Create(IHasStats s, Type adjectiveType)
         {
             if(!typeof(IAdjective).IsAssignableFrom(adjectiveType))
@@ -66,6 +67,7 @@ namespace Wanderer.Factories
             throw new ArgumentException("Could not find a valid constructor for IAdjective Type " + adjectiveType);
         }
 
+        /// <inheritdoc />
         public void AddAdjectives(IWorld world,IHasStats owner, HasStatsBlueprint ownerBlueprint)
         {
             
@@ -79,11 +81,13 @@ namespace Wanderer.Factories
                 Create(world,owner, ownerBlueprint.OptionalAdjectives.GetRandom(world.R));
         }
 
+        /// <inheritdoc />
         public IAdjective Create(IWorld world,IHasStats s, Guid guid)
         {
             return Create(world,s, GetBlueprint(guid));
         }
 
+        /// <inheritdoc />
         public IAdjective Create(IWorld world,IHasStats s, string name)
         {
             //when creating by name allow type names too

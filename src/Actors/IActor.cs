@@ -65,7 +65,7 @@ namespace Wanderer.Actors
         /// the act is 0 neutral (won't hurt anyone), high numbers are friendly, negative
         /// numbers are hostile actions.
         /// 
-        /// <para>Returning default(T) indicates no desire to make a decision</para>
+        /// <para>Returning false indicates no desire to make a decision in which circumstances <paramref name="chosen"/> should be default(T) </para>
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="ui"></param>
