@@ -2,14 +2,19 @@
 
 # Wanderer
 
-Wanderer is a game engine for developing dialogue rich scene based exploration games.
+Wanderer is a game engine for developing dialogue rich scene based exploration games.  Games can be created using only YAML.
 
 ![Screenshot of development autocomple][coding]
 
 ## Goals
 
-1. Simple yaml/lua game files (See [Cookbook])
-2. [Super thin interface layer](./src/IUserinterface.cs)
+1. Simple YAML game files (See [Cookbook])
+   1. Basic systems/triggers/effects in YAML
+   2. Advanced systems/triggers/effects in lua
+   3. Support for developing new systems in C#
+2. Complete separation between engine and user interface
+   1. Console user interface available as a [nuget package](https://www.nuget.org/packages/Wanderer.TerminalGui/)
+   2. [Super thin interface layer](./src/IUserinterface.cs) for new implementations
 3. [Maximum Test coverage](https://codecov.io/gh/tznind/Wanderer)
 4. All the systems (with simple class interfaces to replace / inject your own)
    1. Injury systems (model fire, [hunger](./src/Resources/InjurySystems/Hunger.injury.yaml), [slashing / piercing](./src/Resources/InjurySystems/TissueInjury.injury.yaml) etc all directly from yaml)
