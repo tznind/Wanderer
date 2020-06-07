@@ -12,5 +12,15 @@ namespace Wanderer.Actions
             TargetIfAny = fightTarget;
             InjurySystem = injurySystem;
         }
+
+        ActionTarget ToFight {get;set;}
+
+        public override ActionTarget GetNextRequiredTarget()
+        {
+            if(ToFight == null)
+                return ToFight = new ActionTarget(PerformedBy.GetCurrentLocationSiblings(false),"Target to fight",-20);
+
+            return null;
+        }
     }
 }

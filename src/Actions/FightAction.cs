@@ -22,6 +22,8 @@ namespace Wanderer.Actions
 
             IActor toFight = PrimeWithTarget;
 
+
+            // TODO: DNRY
             //explicit injury system of this fight action or your current best
             var system = InjurySystem ?? actor.GetBestInjurySystem();
 
@@ -84,11 +86,28 @@ namespace Wanderer.Actions
             return GetTargets(performer).Any();
         }
 
+        // TODO: Delete this
         public override IEnumerable<IHasStats> GetTargets(IActor performer)
         {
             return performer.GetCurrentLocationSiblings(false);
         }
 
+        /// <summary>
+        /// Creates a new <see cref="Frame"/> which describes the targetting requirements and current target selection status for this action
+        /// </summary>
+        /// <returns></returns>
+        public Frame GetNewFrame(IActor performer)
+        {
+            //explicit injury system of this fight action or your current best
+            var system = InjurySystem ?? performer.GetBestInjurySystem();
+
+            //does the world support injuries
+            if(system == null)
+                throw new Exception("No Injury Systems defined for FightAction " + this);
+
+            return new FightFrame(performer,null,this,system,Attitude);
+        }
+        
         public override string ToString()
         {
             if(Owner is IActor a)

@@ -101,5 +101,23 @@ namespace Tests.Actions
                 (b.Adjectives.OfType<IInjured>().Single()).Severity);
 
         }
+
+        [Test]
+        public void Test_TargetSelection()
+        {
+            TwoInARoom(out You you, out IActor them,out IWorld world);
+
+            //TODO: 
+            var fa = new FightAction(you);
+
+            var f  = fa.GetNewFrame(you);
+
+            Assert.IsNotNull(f.GetNextRequiredTarget());
+            Assert.IsNull(f.GetNextRequiredTarget());
+
+            f  = fa.GetNewFrame(you);
+            var target = f.GetNextRequiredTarget();
+            Assert.AreEqual(them,target.Eligible.Single());
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Wanderer.Actions;
 using Wanderer.Actors;
@@ -20,11 +21,14 @@ namespace Wanderer
         /// </summary>
         public IActor PerformedBy { get; set; }
 
+        // TODO: Remove TargetIfAny
+
         /// <summary>
         /// If the <see cref="Action"/> has a single or primary
         /// target, this is what was targeted
         /// </summary>
         public IHasStats TargetIfAny { get; set; }
+
 
         /// <summary>
         /// The action being <see cref="PerformedBy"/> someone.  Note that the Owner of the action may be an item or room while the <see cref="PerformedBy"/> is someone else
@@ -47,6 +51,24 @@ namespace Wanderer
             PerformedBy = performedBy;
             Action = action;
             Attitude = attitude;
+        }
+
+        /// <summary>
+        /// Returns the next target selection which must be made or null if the action is ready to go.  You must call <see cref="ConfirmTarget(ActionTarget)"/> after this method after the actor has decided who to target
+        /// </summary>
+        /// <returns></returns>
+        public virtual ActionTarget GetNextRequiredTarget()
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Call after each call to <see cref="GetNextRequiredTarget"/> when the actor (or user) has chosen a valid target
+        /// </summary>
+        /// <param name="target"></param>
+        public virtual void ConfirmTarget(ActionTarget target)
+        {
+            
         }
     }
 }
