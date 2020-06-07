@@ -51,8 +51,6 @@ namespace Wanderer.Actions
         /// <param name="target"></param>
         public void PrimeCommandWithTarget(IAction chosen, IHasStats target)
         {
-            if(chosen is FightAction f)
-                f.PrimeWithTarget = target as IActor;
             if (chosen is PickUpAction p)
                 p.PrimeWithTarget = target as IItem;
             if (chosen is CoerceAction c)

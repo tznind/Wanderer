@@ -109,9 +109,27 @@ namespace Wanderer
 
                 }
 
-                
+                // Pick an action
                 if(npc.Decide(ui, "Pick Action", null, out IAction chosen, npc.GetFinalActions().ToArray(), 0))
-                    stack.RunStack(this,ui,chosen,npc,Population.SelectMany(p=>p.GetFinalBehaviours()));
+                {
+                    // Get a targetting frame
+                    var frame = chosen.GetNewFrame(npc);
+                    ActionTarget toPick = null;
+
+                    // Pick targets for each required target
+                    while( (toPick = frame.GetNextRequiredTarget()) != null)
+                    {
+                        if(npc.Decide(ui,toPick.Description,null,out IHasStats pick, toPick.Eligible.ToArray(),toPick.Attitude))
+                            {
+                                toPick.Confirmed = pick;
+                                frame.ConfirmTarget(toPick);
+                            }   
+                            else
+                                continue;
+                    }
+
+                    stack.RunStack(this,ui,frame,Population.SelectMany(p=>p.GetFinalBehaviours()));
+                }
             }
         }
 
@@ -150,7 +168,7 @@ namespace Wanderer
         }
 
         /// <inheritdoc/>
-        public void RunRound(IUserinterface ui, IAction playerAction)
+        public void RunRound(IUserinterface ui, Frame frameToRun)
         {
             if (Player.Dead)
             {
@@ -162,7 +180,7 @@ namespace Wanderer
             ui.Log.RoundResults.Clear();
 
             var stack = new ActionStack();
-            var actionRun = stack.RunStack(this,ui, playerAction, Player,GetAllBehaviours());
+            var actionRun = stack.RunStack(this,ui, frameToRun, GetAllBehaviours());
 
             if (actionRun)
             {

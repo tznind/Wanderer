@@ -21,27 +21,6 @@ namespace Wanderer
         /// All behaviours that can respond to events taking place during the round
         /// </summary>
         public IBehaviour[] Behaviours { get; private set; } = new IBehaviour[0];
-
-        /// <summary>
-        /// Runs the <paramref name="firstAction"/> and evaluates all responders.
-        /// This overload shortcuts decision making and allows arbitrary action frames
-        /// to run even when the <paramref name="performer"/> could not normally pick them
-        /// (so be careful using it).
-        /// </summary>
-        /// <param name="world">Where the action is happening</param>
-        /// <param name="ui">When decisions require user input, this handles it</param>
-        /// <param name="firstAction">The initial action (to go on bottom of stack)</param>
-        /// <param name="performer">Who is attempting <paramref name="firstAction"/></param>
-        /// <param name="responders">All valid responders</param>
-        public bool RunStack(IWorld world,IUserinterface ui, IAction firstAction,IActor performer, IEnumerable<IBehaviour> responders)
-        {
-            Behaviours = responders?.ToArray() ?? new IBehaviour[0];
-
-            //and run push event on the action
-            firstAction.Push(world,ui,this,performer);
-
-            return RunStack(world, ui);
-        }
         
         /// <summary>
         /// Runs the <paramref name="frameToRun"/> and evaluates all responders

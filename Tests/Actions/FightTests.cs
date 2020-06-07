@@ -107,7 +107,6 @@ namespace Tests.Actions
         {
             TwoInARoom(out You you, out IActor them,out IWorld world);
 
-            //TODO: 
             var fa = new FightAction(you);
 
             var f  = fa.GetNewFrame(you);

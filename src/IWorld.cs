@@ -104,12 +104,12 @@ namespace Wanderer
         IEnumerable<IBehaviour> GetAllBehaviours();
 
         /// <summary>
-        /// Runs the supplied <paramref name="playerAction"/> and then all Npc actions
+        /// Runs the supplied <paramref name="frameToRun"/> and then all Npc actions
         /// (including event notifications player feedback etc).
         /// </summary>
         /// <param name="ui"></param>
-        /// <param name="playerAction"></param>
-        void RunRound(IUserinterface ui, IAction playerAction);
+        /// <param name="frameToRun"></param>
+        void RunRound(IUserinterface ui, Frame frameToRun);
 
 
         /// <summary>

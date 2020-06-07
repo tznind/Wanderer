@@ -13,32 +13,10 @@ namespace Wanderer.Actions
         {
             HotKey = 'f';
         }
-        
-        public IActor PrimeWithTarget {get;set;}
-
-        public override void Push(IWorld world,IUserinterface ui, ActionStack stack,IActor actor)
-        {
-            const int fightAttitude = -20;
-
-            IActor toFight = PrimeWithTarget;
-
-
-            // TODO: DNRY
-            //explicit injury system of this fight action or your current best
-            var system = InjurySystem ?? actor.GetBestInjurySystem();
-
-            //does the world support injuries
-            if(system == null)
-                throw new Exception("No Injury Systems defined for FightAction " + this);
-
-            if (toFight != null || actor.Decide(ui,"Fight", null, out toFight, GetTargets(actor).Cast<IActor>().ToArray(),fightAttitude)) 
-                stack.Push(new FightFrame(actor, toFight, this,system,fightAttitude));
-        }
 
         protected override void PopImpl(IWorld world, IUserinterface ui, ActionStack stack, Frame frame)
         {
             var f = (FightFrame) frame;
-            PrimeWithTarget = null;
 
             if (f.InjurySystem == null)
                 f.InjurySystem = f.PerformedBy.GetBestInjurySystem();
@@ -86,17 +64,8 @@ namespace Wanderer.Actions
             return GetTargets(performer).Any();
         }
 
-        // TODO: Delete this
-        public override IEnumerable<IHasStats> GetTargets(IActor performer)
-        {
-            return performer.GetCurrentLocationSiblings(false);
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="Frame"/> which describes the targetting requirements and current target selection status for this action
-        /// </summary>
-        /// <returns></returns>
-        public Frame GetNewFrame(IActor performer)
+        /// <inheritdoc/>
+        public override Frame GetNewFrame(IActor performer)
         {
             //explicit injury system of this fight action or your current best
             var system = InjurySystem ?? performer.GetBestInjurySystem();

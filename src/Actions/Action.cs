@@ -200,5 +200,11 @@ namespace Wanderer.Actions
             return Enum.GetValues(typeof(T)).Cast<T>()
                 .Where(t => !string.Equals(t.ToString(), "None", StringComparison.CurrentCultureIgnoreCase)).ToArray();
         }
+
+        /// <inheritdoc/>
+        public virtual Frame GetNewFrame(IActor performer)
+        {
+            return new Frame(performer,this,Attitude);
+        }
     }
 }
